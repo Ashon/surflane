@@ -223,7 +223,7 @@ export function AsyncJobExample() {
           in this preview.
         </Field.Description>
       </Field.Root>
-      <label className='example-stack'>
+      <label className='example-field'>
         Next run result
         <NativeSelect
           value={scenario}

@@ -157,29 +157,32 @@ export function AppShellExample({
           </Checkbox.Root>
           Long workspace content
         </label>
+        {responsive && (
+          <>
+            <label className='pui-choice-label'>
+              <Checkbox.Root
+                checked={longLabels}
+                onCheckedChange={setLongLabels}
+              >
+                <Checkbox.Indicator />
+              </Checkbox.Root>
+              Long navigation labels
+            </label>
+            <label className='pui-choice-label'>
+              <Checkbox.Root
+                checked={readOnly}
+                onCheckedChange={(checked) => {
+                  setReadOnly(checked)
+                  if (checked && view === 'Settings') setView('Overview')
+                }}
+              >
+                <Checkbox.Indicator />
+              </Checkbox.Root>
+              Read-only navigation
+            </label>
+          </>
+        )}
       </div>
-      {responsive && (
-        <div className='actions app-shell-responsive-options'>
-          <label className='pui-choice-label'>
-            <Checkbox.Root checked={longLabels} onCheckedChange={setLongLabels}>
-              <Checkbox.Indicator />
-            </Checkbox.Root>
-            Long navigation labels
-          </label>
-          <label className='pui-choice-label'>
-            <Checkbox.Root
-              checked={readOnly}
-              onCheckedChange={(checked) => {
-                setReadOnly(checked)
-                if (checked && view === 'Settings') setView('Overview')
-              }}
-            >
-              <Checkbox.Indicator />
-            </Checkbox.Root>
-            Read-only navigation
-          </label>
-        </div>
-      )}
       <div
         className='catalog-example-frame'
         data-kind='pattern'
@@ -263,9 +266,11 @@ export function AppShellExample({
             aria-label='Example workspace sidebar'
           >
             <div className='app-shell-brand' data-blueprint-guide>
-              <Icon name='monitor' decorative />
-              <AppShell.Label>
-                <strong>{profile}</strong>
+              <span className='app-shell-brand-mark'>
+                <span className='catalog-brand-mark' aria-hidden='true' />
+              </span>
+              <AppShell.Label className='app-shell-brand-name' title={profile}>
+                {profile}
               </AppShell.Label>
             </div>
             <Button

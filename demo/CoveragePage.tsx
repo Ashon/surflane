@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Grid, Table, Select } from '@surflane/ui'
+import { Table, Select } from '@surflane/ui'
 import { catalog, stageLabels, itemHref, referenceSources } from './catalog'
 import { StageLabel } from './StageLabel'
 import { Link } from './router'
@@ -104,45 +104,43 @@ export function CoveragePage() {
             />
           </label>
         </div>
-        <Grid columns={1} gap={0} bleed={4}>
-          <Table.Container
-            className='catalog-table-wrap'
-            label='Coverage inventory table'
-            orientation='horizontal'
-          >
-            <Table.Root>
-              <Table.Caption>{shown.length} coverage items</Table.Caption>
-              <Table.Head>
-                <Table.Row>
-                  <Table.HeaderCell scope='col'>Item</Table.HeaderCell>
-                  <Table.HeaderCell scope='col'>
-                    Layer / category
+        <Table.Container
+          className='catalog-table-wrap'
+          label='Coverage inventory table'
+          orientation='horizontal'
+        >
+          <Table.Root>
+            <Table.Caption>{shown.length} coverage items</Table.Caption>
+            <Table.Head>
+              <Table.Row>
+                <Table.HeaderCell scope='col'>Item</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>
+                  Layer / category
+                </Table.HeaderCell>
+                <Table.HeaderCell scope='col'>Basis</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>Wave</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>Stage</Table.HeaderCell>
+              </Table.Row>
+            </Table.Head>
+            <Table.Body>
+              {shown.map((i) => (
+                <Table.Row key={i.kind + i.id}>
+                  <Table.HeaderCell scope='row'>
+                    <Link href={itemHref(i)}>{i.name}</Link>
                   </Table.HeaderCell>
-                  <Table.HeaderCell scope='col'>Basis</Table.HeaderCell>
-                  <Table.HeaderCell scope='col'>Wave</Table.HeaderCell>
-                  <Table.HeaderCell scope='col'>Stage</Table.HeaderCell>
+                  <Table.Cell>
+                    {i.kind} / {i.group}
+                  </Table.Cell>
+                  <Table.Cell>{i.basis}</Table.Cell>
+                  <Table.Cell>{i.phase}</Table.Cell>
+                  <Table.Cell>
+                    <StageLabel item={i} />
+                  </Table.Cell>
                 </Table.Row>
-              </Table.Head>
-              <Table.Body>
-                {shown.map((i) => (
-                  <Table.Row key={i.kind + i.id}>
-                    <Table.HeaderCell scope='row'>
-                      <Link href={itemHref(i)}>{i.name}</Link>
-                    </Table.HeaderCell>
-                    <Table.Cell>
-                      {i.kind} / {i.group}
-                    </Table.Cell>
-                    <Table.Cell>{i.basis}</Table.Cell>
-                    <Table.Cell>{i.phase}</Table.Cell>
-                    <Table.Cell>
-                      <StageLabel item={i} />
-                    </Table.Cell>
-                  </Table.Row>
-                ))}
-              </Table.Body>
-            </Table.Root>
-          </Table.Container>
-        </Grid>
+              ))}
+            </Table.Body>
+          </Table.Root>
+        </Table.Container>
       </section>
       <section id='coverage-ready'>
         <h2>Definition of ready</h2>

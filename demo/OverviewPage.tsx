@@ -36,10 +36,14 @@ export function Overview() {
           re-exports are marked Primitive only.
         </p>
         <div className='actions'>
-          <Link className='pui-button' href='/components'>
+          <Link
+            className='pui-button'
+            data-variant='outline'
+            href='/components'
+          >
             Browse components
           </Link>
-          <Link className='pui-button' href='/coverage'>
+          <Link className='pui-button' data-variant='outline' href='/coverage'>
             Review coverage
           </Link>
         </div>

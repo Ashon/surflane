@@ -17,10 +17,33 @@ test('global rail stays separate from the document and shares its content column
       const hero = (await page.locator('.landing-hero').boundingBox())!
       expect(hero.y).toBeGreaterThanOrEqual(rail.y + rail.height)
       expect(sheet.y).toBeGreaterThanOrEqual(hero.y + hero.height)
-    } else expect(sheet.y).toBe(rail.y + rail.height + 12)
+    } else {
+      // One 12px frame gap: window to the rail's items, those items to the sheet.
+      const tab = (await page
+        .locator('.catalog-primary a[aria-current]')
+        .boundingBox())!
+      expect(sheet.y).toBe(rail.y + rail.height)
+      expect(tab.y).toBe(12)
+      expect(sheet.y - tab.y - tab.height).toBe(12)
+    }
     expect(brand.x).toBe(sidebar.x)
-    expect(sheet.x - sidebar.x - sidebar.width).toBe(24)
+    expect(sheet.x - sidebar.x - sidebar.width).toBe(12)
   }
+})
+test('the mobile rail keeps one 18px step around the mark and the tabs', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/foundations')
+  await waitForCatalogReady(page)
+  const mark = (await page
+      .locator('.catalog-toprail .catalog-brand-mark')
+      .boundingBox())!,
+    tabs = (await page.locator('.catalog-primary').boundingBox())!,
+    sheet = (await page.getByRole('main').boundingBox())!
+  expect(mark.y).toBe(18)
+  expect(tabs.y - mark.y - mark.height).toBe(18)
+  expect(sheet.y - tabs.y - tabs.height).toBe(18)
 })
 test('section paragraphs fill UI content width and long copy wraps naturally across page families', async ({
   page,

@@ -101,8 +101,8 @@ test('sample code copy uses translated announcements and long code stays in its 
     .getByRole('button', { name: 'Copy sample configuration', exact: true })
     .click()
   await expect(
-    page.locator('.documentation-article .pui-code-result'),
-  ).toHaveText('Sample configuration copied.')
+    page.locator('.documentation-article .pui-code-copy'),
+  ).toHaveText('Copied')
   expect(await page.evaluate(() => (window as any).copiedGuide)).toContain(
     "mode: 'read-only'",
   )

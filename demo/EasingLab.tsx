@@ -161,7 +161,7 @@ export function EasingLab() {
         </Field.Root>
       </div>
       <p>
-        <code data-easing-value>{easing}</code> ,{' '}
+        <code data-easing-value>{easing}</code>,{' '}
         {reduced ? 'Reduced motion: static preview' : 'Motion preview enabled'}
       </p>
       <div className='easing-visuals'>

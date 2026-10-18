@@ -358,15 +358,15 @@ export function LayersFoundation() {
           References:{' '}
           <a href='https://www.w3.org/TR/CSS22/zindex.html'>
             W3C stacking order
-          </a>{' '}
+          </a>
           ,{' '}
           <a href='https://react.dev/reference/react-dom/createPortal'>
             React createPortal
-          </a>{' '}
+          </a>
           ,{' '}
           <a href='https://www.w3.org/TR/css-position-4/#top-layer'>
             W3C positioned layout / top layer
-          </a>{' '}
+          </a>
           ,{' '}
           <a href='https://base-ui.com/react/components/dialog'>
             Base UI Dialog

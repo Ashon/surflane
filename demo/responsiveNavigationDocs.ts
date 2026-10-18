@@ -70,7 +70,7 @@ const navigation = destinations
       ],
       [
         'Breakpoint',
-        'desktop Sidebar hidden and mobile trigger shown at <=760px',
+        'desktop Sidebar hidden and mobile trigger shown at ≤760px',
         'AppShell CSS contract',
       ],
       [

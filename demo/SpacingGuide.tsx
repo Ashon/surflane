@@ -141,13 +141,28 @@ export function SpacingGuide() {
         forms as a fraction of viewport height.
       </p>
       <p>
+        A full-width divider turns sections into panels. Like a card, a panel
+        keeps the same inset on all four sides, so use the container's inset on
+        both sides of the divider; the 32–48px section spacing applies when
+        whitespace alone separates sections. A card grid inside a panel then
+        sits as evenly as a paragraph.
+      </p>
+      <p>
         Related tokens:{' '}
-        <Link href='/tokens?q=--layout-gutter'>--layout-gutter</Link> (24px),{' '}
-        <Link href='/tokens?q=--layout-section-gap'>--layout-section-gap</Link>{' '}
+        <Link href='/tokens?q=--layout-gutter'>
+          <code>--layout-gutter</code>
+        </Link>{' '}
+        (24px),{' '}
+        <Link href='/tokens?q=--layout-section-gap'>
+          <code>--layout-section-gap</code>
+        </Link>{' '}
         (48px),{' '}
-        <Link href='/tokens?q=--layout-page-inset'>--layout-page-inset</Link>{' '}
-        (32px). The responsive spacing of the catalog's own sheet and sidebar is
-        an explicit exception in each layout.
+        <Link href='/tokens?q=--layout-page-inset'>
+          <code>--layout-page-inset</code>
+        </Link>{' '}
+        (32px). The catalog's own sheet is an explicit exception: one 40px inset
+        (24px at 960px and below) on every side, including above the page title,
+        and on both sides of each section divider.
       </p>
     </section>
   )

@@ -81,7 +81,10 @@ export function InteractionLab({ toggleTheme }: { toggleTheme: () => void }) {
         <h2>Overlays and focus</h2>
         <div className='actions'>
           <Popover.Root>
-            <Popover.Trigger className='pui-button' aria-label='Open account'>
+            <Popover.Trigger
+              render={<Button variant='outline' />}
+              aria-label='Open account'
+            >
               Account
             </Popover.Trigger>
             <Popover.Portal>
@@ -95,7 +98,9 @@ export function InteractionLab({ toggleTheme }: { toggleTheme: () => void }) {
             </Popover.Portal>
           </Popover.Root>
           <Menu.Root>
-            <Menu.Trigger className='pui-button'>Actions</Menu.Trigger>
+            <Menu.Trigger render={<Button variant='outline' />}>
+              Actions
+            </Menu.Trigger>
             <Menu.Portal>
               <Menu.Content>
                 <Menu.Item className='pui-select-item'>Inspect</Menu.Item>
@@ -104,7 +109,9 @@ export function InteractionLab({ toggleTheme }: { toggleTheme: () => void }) {
             </Menu.Portal>
           </Menu.Root>
           <Dialog.Root>
-            <Dialog.Trigger className='pui-button'>Open dialog</Dialog.Trigger>
+            <Dialog.Trigger render={<Button variant='outline' />}>
+              Open dialog
+            </Dialog.Trigger>
             <Dialog.Content
               className='demo-dialog'
               closeLabel='Dismiss deployment plan'
@@ -126,7 +133,9 @@ export function InteractionLab({ toggleTheme }: { toggleTheme: () => void }) {
                 </label>
               </Dialog.Body>
               <Dialog.Footer>
-                <Dialog.Close className='pui-button'>Close dialog</Dialog.Close>
+                <Dialog.Close render={<Button variant='outline' />}>
+                  Close dialog
+                </Dialog.Close>
               </Dialog.Footer>
             </Dialog.Content>
           </Dialog.Root>

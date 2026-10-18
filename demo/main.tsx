@@ -100,6 +100,7 @@ function App() {
   const [documentScrolled, setDocumentScrolled] = useState(false)
   const navigationTrigger = useRef<HTMLButtonElement>(null)
   const navigationDestination = useRef<string | null>(null)
+  const primaryViewport = useRef<HTMLDivElement>(null)
   const [mobileNavigation, setMobileNavigation] = useState(
     () => matchMedia('(max-width: 960px)').matches,
   )
@@ -293,6 +294,19 @@ function App() {
     observer.observe(scroller)
     return () => observer.disconnect()
   }, [route, area, navigationOpen])
+  // On small screens the primary sections scroll; keep the current one clear of the edge fade.
+  useEffect(() => {
+    const viewport = primaryViewport.current
+    const current = viewport?.querySelector<HTMLElement>('[aria-current]')
+    if (!viewport || !current) return
+    const view = viewport.getBoundingClientRect(),
+      item = current.getBoundingClientRect(),
+      inset = 24
+    if (item.left < view.left + inset)
+      viewport.scrollLeft -= view.left + inset - item.left
+    else if (item.right > view.right - inset)
+      viewport.scrollLeft += item.right - (view.right - inset)
+  }, [area])
   const navLink = (href: string, label: string) => (
     <Link
       key={href}
@@ -429,17 +443,24 @@ function App() {
       <a className='catalog-skip' href='#main-content'>
         Skip to content
       </a>
-      <div className='catalog-app'>
+      {/* Ambient guide probes drift over the whole catalog; see PointerBlueprint. */}
+      <div className='catalog-app' data-blueprint-ambient='running'>
         <header
           className='catalog-toprail'
           data-scrolled={documentScrolled || undefined}
         >
           <div className='catalog-toprail-inner'>
-            <Link className='catalog-brand' href='/' aria-label='Surflane home'>
+            <Link
+              className='catalog-brand'
+              href='/'
+              aria-label='Surflane home'
+              data-blueprint-ambient-anchor
+            >
               <span className='catalog-brand-mark' aria-hidden='true' />
               <span className='catalog-brand-name'>Surflane</span>
             </Link>
             <ScrollArea
+              ref={primaryViewport}
               orientation='horizontal'
               label='Primary sections'
               rootClassName='catalog-primary-scroll'
@@ -548,14 +569,7 @@ function App() {
                 {!mobileNavigation && catalogNavigation}
               </div>
             </aside>
-            <main
-              id='main-content'
-              className='sheet'
-              tabIndex={-1}
-              data-header-layout={
-                route === '/' || route === '/coverage' ? 'title' : 'breadcrumb'
-              }
-            >
+            <main id='main-content' className='sheet' tabIndex={-1}>
               {route !== '/' && (
                 <PageHeader
                   as='header'

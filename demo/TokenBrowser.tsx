@@ -36,7 +36,14 @@ export function TokenBrowser({ initialQuery = '' }: { initialQuery?: string }) {
   const [query, setQuery] = useState(initialQuery),
     [category, setCategory] = useState('all'),
     [limit, setLimit] = useState(24),
-    [message, setMessage] = useState('')
+    // The copy result shows in the token's own button, then returns to the action.
+    [copied, setCopied] = useState<{ name: string; ok: boolean } | null>(null),
+    [used, setUsed] = useState(false)
+  useEffect(() => {
+    if (!copied) return
+    const timer = setTimeout(() => setCopied(null), 2000)
+    return () => clearTimeout(timer)
+  }, [copied])
   useEffect(() => {
     setQuery(initialQuery)
     setCategory('all')
@@ -54,7 +61,7 @@ export function TokenBrowser({ initialQuery = '' }: { initialQuery?: string }) {
   const changeQuery = (value: string) => {
     setQuery(value)
     setLimit(24)
-    setMessage('')
+    setCopied(null)
   }
   return (
     <section aria-labelledby='tokens-title' id='tokens'>
@@ -82,7 +89,7 @@ export function TokenBrowser({ initialQuery = '' }: { initialQuery?: string }) {
             onValueChange={(value) => {
               setCategory(value)
               setLimit(24)
-              setMessage('')
+              setCopied(null)
             }}
             options={[
               { value: 'all', label: 'All categories' },
@@ -167,19 +174,39 @@ export function TokenBrowser({ initialQuery = '' }: { initialQuery?: string }) {
             <Button
               variant='outline'
               size='sm'
+              className='token-copy'
+              data-copy-used={used || undefined}
               aria-label={`Copy ${token.name}`}
+              data-copy-state={
+                copied?.name === token.name
+                  ? copied.ok
+                    ? 'copied'
+                    : 'failed'
+                  : undefined
+              }
               onClick={async () => {
+                let ok = true
                 try {
                   await navigator.clipboard.writeText(`var(${token.name})`)
-                  setMessage(`Copied ${token.name}`)
                 } catch {
-                  setMessage(
-                    `Clipboard unavailable. Copy this reference: var(${token.name})`,
-                  )
+                  ok = false
                 }
+                setUsed(true)
+                setCopied({ name: token.name, ok })
               }}
             >
-              Copy
+              <span aria-live='polite'>
+                <span
+                  key={copied?.name === token.name ? String(copied.ok) : 'idle'}
+                  className='pui-code-copy-label'
+                >
+                  {copied?.name !== token.name
+                    ? 'Copy'
+                    : copied.ok
+                      ? 'Copied'
+                      : 'Unavailable'}
+                </span>
+              </span>
             </Button>
           </article>
         ))}
@@ -194,9 +221,6 @@ export function TokenBrowser({ initialQuery = '' }: { initialQuery?: string }) {
           Show more tokens
         </Button>
       )}
-      <p className='token-feedback' role='status'>
-        {message}
-      </p>
       <Text variant='caption' color='muted'>
         Don't copy raw values into product code; reference them with{' '}
         <code>var(--token-name)</code>. Use semantic tokens for color and

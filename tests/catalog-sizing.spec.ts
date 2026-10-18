@@ -9,7 +9,7 @@ test('Foundations fills the viewport while keeping its two-column index near the
   await page.goto('/foundations')
   await waitForCatalogReady(page)
   const sheet = await page.getByRole('main').boundingBox()
-  expect(sheet!.y).toBe(76)
+  expect(sheet!.y).toBe(64)
   expect(sheet!.width).toBe(1100)
   // The sheet fills the viewport down to the site footer, which ends at the 12px inset.
   const footer = (await page.locator('.catalog-site-footer').boundingBox())!

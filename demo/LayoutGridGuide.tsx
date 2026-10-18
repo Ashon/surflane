@@ -34,7 +34,12 @@ export function LayoutGridGuide() {
           </Table.Head>
           <Table.Body>
             {[
-              ['Above 1100px', '12', '24px / space-6', '3 columns'],
+              [
+                'Above 1100px',
+                '12',
+                '24px / space-6',
+                '3 columns (Foundations index: 2)',
+              ],
               ['761–1100px', '6', '24px / space-6', '2 columns'],
               ['Up to 760px', '4', '16px / space-4', '1 column'],
             ].map(([viewport, tracks, gutter, cards]) => (
@@ -91,7 +96,7 @@ export function LayoutGridGuide() {
         >
           <Text variant='label'>Full-width results</Text>
           <Text color='secondary'>
-            12 / 6 / 4 tracks ,
+            12 / 6 / 4 tracks,
             long-resource-identifiers-for-staging-deployments-also-wrap
           </Text>
         </GridItem>
@@ -150,11 +155,19 @@ export function LayoutGridGuide() {
       </p>
       <p>
         Tokens used:{' '}
-        <Link href='/tokens?q=--layout-columns'>--layout-columns</Link>,{' '}
-        <Link href='/tokens?q=--layout-gutter'>--layout-gutter</Link>,{' '}
-        <Link href='/tokens?q=--layout-workspace'>--layout-workspace</Link>. See{' '}
-        <Link href='/components'>All components</Link> for a real list that uses
-        the same card grid.
+        <Link href='/tokens?q=--layout-columns'>
+          <code>--layout-columns</code>
+        </Link>
+        ,{' '}
+        <Link href='/tokens?q=--layout-gutter'>
+          <code>--layout-gutter</code>
+        </Link>
+        ,{' '}
+        <Link href='/tokens?q=--layout-workspace'>
+          <code>--layout-workspace</code>
+        </Link>
+        . See <Link href='/components'>All components</Link> for a real list
+        that uses the same card grid.
       </p>
     </section>
   )

@@ -7,13 +7,14 @@ import {
   Heading,
   Icon,
   PageHeader,
+  SizeProvider,
   StatusBadge,
   Table,
   Text,
   type IconName,
   type StatusTone,
 } from '@surflane/ui'
-import { Link } from './router'
+import { Link, withBase } from './router'
 
 const destinations: [string, IconName][] = [
   ['Overview', 'monitor'],
@@ -67,11 +68,7 @@ export function LandingHero() {
           label='Install'
           code='npm i @surflane/ui @surflane/design-tokens'
           copyLabel='Copy install command'
-          copiedLabel='Install command copied.'
         />
-        <Text variant='caption' color='muted'>
-          React 19 · Server Components · MIT OR Apache-2.0
-        </Text>
       </div>
       <div
         className='landing-console'
@@ -79,78 +76,104 @@ export function LandingHero() {
         inert
         data-blueprint-decorative
       >
-        <AppShell.Root layout='workspace'>
-          <AppShell.Sidebar data-blueprint-guide>
-            <div className='landing-console-brand' data-blueprint-guide>
-              <Avatar.Root size='sm' data-blueprint-guide>
-                <Avatar.Fallback>PC</Avatar.Fallback>
-              </Avatar.Root>
-              <AppShell.Label data-blueprint-guide>
-                platform-core
-              </AppShell.Label>
-            </div>
-            <nav className='landing-console-nav'>
-              {destinations.map(([label, icon]) => (
-                <AppShell.Link
-                  key={label}
-                  href='#'
-                  label={label}
-                  icon={<Icon name={icon} decorative />}
-                  aria-current={label === 'Deployments' ? 'page' : undefined}
-                />
-              ))}
-            </nav>
-            <AppShell.Footer>
-              <div className='landing-console-account' data-blueprint-guide>
-                <Avatar.Root size='sm' data-blueprint-guide>
-                  <Avatar.Fallback>AS</Avatar.Fallback>
-                </Avatar.Root>
-                <AppShell.Label data-blueprint-guide>ashon</AppShell.Label>
+        {/* A product screen shown at reduced scale: compact controls, a page-size title. */}
+        <SizeProvider size='small'>
+          <AppShell.Root layout='workspace'>
+            <AppShell.Sidebar data-blueprint-guide>
+              {/* A fictional product: Acme is the customary placeholder company. */}
+              <div className='landing-console-brand' data-blueprint-guide>
+                <svg
+                  className='landing-console-logo'
+                  viewBox='0 0 24 24'
+                  aria-hidden='true'
+                  data-blueprint-guide
+                >
+                  <rect width='24' height='24' rx='6' />
+                  <path d='m6.5 9.5 5.5-3 5.5 3-5.5 3z' />
+                  <path d='m6.5 12.75 5.5 3 5.5-3' />
+                  <path d='m6.5 15.75 5.5 3 5.5-3' />
+                </svg>
+                <span className='app-shell-brand-text'>
+                  <AppShell.Label
+                    className='app-shell-brand-name'
+                    title='Acme Platform'
+                    data-blueprint-guide
+                  >
+                    Acme Platform
+                  </AppShell.Label>
+                  <span className='app-shell-brand-workspace'>
+                    platform-core
+                  </span>
+                </span>
               </div>
-            </AppShell.Footer>
-          </AppShell.Sidebar>
-          <AppShell.Content>
-            <div className='landing-console-sheet' data-blueprint-guide>
-              <PageHeader
-                size='workspace'
-                level={2}
-                title='Deployments'
-                description='Services across production, staging and development.'
-                actions={
-                  <Button variant='primary' size='small'>
-                    New deployment
-                  </Button>
-                }
-              />
-              <Table.Container label='Recent deployments'>
-                <Table.Root>
-                  <Table.Head>
-                    <Table.Row>
-                      <Table.HeaderCell scope='col'>Service</Table.HeaderCell>
-                      <Table.HeaderCell scope='col'>
-                        Environment
-                      </Table.HeaderCell>
-                      <Table.HeaderCell scope='col'>Status</Table.HeaderCell>
-                    </Table.Row>
-                  </Table.Head>
-                  <Table.Body>
-                    {deployments.map(([service, env, tone, status]) => (
-                      <Table.Row key={service}>
-                        <Table.Cell>
-                          <code>{service}</code>
-                        </Table.Cell>
-                        <Table.Cell>{env}</Table.Cell>
-                        <Table.Cell>
-                          <StatusBadge tone={tone}>{status}</StatusBadge>
-                        </Table.Cell>
+              <nav className='landing-console-nav'>
+                {destinations.map(([label, icon]) => (
+                  <AppShell.Link
+                    key={label}
+                    href='#'
+                    label={label}
+                    icon={<Icon name={icon} decorative />}
+                    aria-current={label === 'Deployments' ? 'page' : undefined}
+                  />
+                ))}
+              </nav>
+              <AppShell.Footer>
+                <div className='landing-console-account' data-blueprint-guide>
+                  <Avatar.Root size='sm' data-blueprint-guide>
+                    <Avatar.Image
+                      alt=''
+                      src={withBase('/avatar-preview.svg')}
+                    />
+                    <Avatar.Fallback>U</Avatar.Fallback>
+                    <Avatar.Status />
+                  </Avatar.Root>
+                  <AppShell.Label data-blueprint-guide>user</AppShell.Label>
+                </div>
+              </AppShell.Footer>
+            </AppShell.Sidebar>
+            <AppShell.Content>
+              <div className='landing-console-sheet' data-blueprint-guide>
+                <PageHeader
+                  size='page'
+                  level={2}
+                  title='Deployments'
+                  description='Services across production, staging and development.'
+                  actions={
+                    <Button variant='primary' size='small'>
+                      New deployment
+                    </Button>
+                  }
+                />
+                <Table.Container label='Recent deployments'>
+                  <Table.Root>
+                    <Table.Head>
+                      <Table.Row>
+                        <Table.HeaderCell scope='col'>Service</Table.HeaderCell>
+                        <Table.HeaderCell scope='col'>
+                          Environment
+                        </Table.HeaderCell>
+                        <Table.HeaderCell scope='col'>Status</Table.HeaderCell>
                       </Table.Row>
-                    ))}
-                  </Table.Body>
-                </Table.Root>
-              </Table.Container>
-            </div>
-          </AppShell.Content>
-        </AppShell.Root>
+                    </Table.Head>
+                    <Table.Body>
+                      {deployments.map(([service, env, tone, status]) => (
+                        <Table.Row key={service}>
+                          <Table.Cell>
+                            <code>{service}</code>
+                          </Table.Cell>
+                          <Table.Cell>{env}</Table.Cell>
+                          <Table.Cell>
+                            <StatusBadge tone={tone}>{status}</StatusBadge>
+                          </Table.Cell>
+                        </Table.Row>
+                      ))}
+                    </Table.Body>
+                  </Table.Root>
+                </Table.Container>
+              </div>
+            </AppShell.Content>
+          </AppShell.Root>
+        </SizeProvider>
       </div>
     </section>
   )

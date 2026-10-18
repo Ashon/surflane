@@ -267,7 +267,11 @@ export function ErrorRecoveryExample() {
             retrying this address.
           </EmptyState.Description>
           <EmptyState.Actions>
-            <Link className='pui-button' href='/patterns/resource-list'>
+            <Link
+              className='pui-button'
+              data-variant='outline'
+              href='/patterns/resource-list'
+            >
               Browse resource examples
             </Link>
           </EmptyState.Actions>

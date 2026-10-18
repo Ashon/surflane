@@ -192,6 +192,10 @@ test('individual line ends fade smoothly and the layer fades away on pointer exi
   await page.emulateMedia({ reducedMotion: 'no-preference' })
   await page.goto('/')
   await waitForCatalogReady(page)
+  // Pause the catalog's ambient probes so only the pointer layer paints.
+  await page
+    .locator('.catalog-app')
+    .evaluate((el) => el.setAttribute('data-blueprint-ambient', 'paused'))
   const brand = page.getByRole('link', {
     name: 'Surflane home',
     exact: true,
@@ -540,6 +544,8 @@ test('the decorative landing console still shows construction guides, unless an 
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 1000 })
+  // Reduced motion keeps the ambient probes off, so only the pointer paints.
+  await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/')
   await waitForCatalogReady(page)
   const console = page.locator('.landing-console')
@@ -563,4 +569,98 @@ test('the decorative landing console still shows construction guides, unless an 
     .evaluate((hero) => hero.setAttribute('inert', ''))
   await page.mouse.move(box.x + box.width / 2 + 1, box.y + box.height / 2)
   await expect.poll(() => alphaInside(page, '.landing-console-sheet')).toBe(0)
+})
+
+test('ambient probes drift over the whole catalog, circle the brand mark, ignore the pointer and pause', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await page.goto('/components/button')
+  await waitForCatalogReady(page)
+  const canvas = page.locator('.pointer-blueprint'),
+    app = page.locator('.catalog-app')
+  // After idle, at the pointer layer's strength at most (0.3 alpha).
+  await expect
+    .poll(async () => (await pixels(canvas)).count, { timeout: 5000 })
+    .toBeGreaterThan(100)
+  expect((await pixels(canvas)).maximum).toBeLessThanOrEqual(80)
+  // One probe stays around the brand mark in the top-left corner.
+  await expect
+    .poll(() => alphaInside(page, '[data-blueprint-ambient-anchor]'), {
+      timeout: 5000,
+    })
+    .toBeGreaterThan(4)
+  // The probes drift on their own: a moving pointer adds its guides, it never stops them.
+  const title = (await page.locator('#page-title').boundingBox())!
+  const point = { x: title.x + 20, y: title.y + 10 }
+  for (const offset of [0, 40, 80]) {
+    await page.mouse.move(point.x + offset, point.y)
+    await page.waitForTimeout(250)
+  }
+  await expect
+    .poll(
+      async () =>
+        (await pixels(canvas, { x: point.x + 80, y: point.y })).distant,
+    )
+    .toBeGreaterThan(0)
+  // A paused area stops every ambient frame, and resumes when running again.
+  await page.dispatchEvent('body', 'pointerout', {
+    pointerType: 'mouse',
+    relatedTarget: null,
+  })
+  await app.evaluate((el) =>
+    el.setAttribute('data-blueprint-ambient', 'paused'),
+  )
+  await expect.poll(async () => (await pixels(canvas)).count).toBe(0)
+  await page.waitForTimeout(1000)
+  expect((await pixels(canvas)).count).toBe(0)
+  await app.evaluate((el) =>
+    el.setAttribute('data-blueprint-ambient', 'running'),
+  )
+  await expect
+    .poll(async () => (await pixels(canvas)).count, { timeout: 5000 })
+    .toBeGreaterThan(0)
+})
+
+test('reduced motion keeps the ambient probes off', async ({ browser }) => {
+  const context = await browser.newContext({
+    viewport: { width: 1440, height: 1000 },
+    reducedMotion: 'reduce',
+  })
+  try {
+    const page = await context.newPage()
+    await page.goto('http://127.0.0.1:8066/')
+    await waitForCatalogReady(page)
+    await page.waitForTimeout(2500)
+    expect((await pixels(page.locator('.pointer-blueprint'))).count).toBe(0)
+  } finally {
+    await context.close()
+  }
+})
+
+test('touch screens show the ambient probes at the pointer layer strength', async ({
+  browser,
+}) => {
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    deviceScaleFactor: 3,
+    hasTouch: true,
+    isMobile: true,
+  })
+  try {
+    const page = await context.newPage()
+    await page.goto('http://127.0.0.1:8066/')
+    await waitForCatalogReady(page)
+    await expect
+      .poll(
+        async () => (await pixels(page.locator('.pointer-blueprint'))).maximum,
+        {
+          timeout: 5000,
+        },
+      )
+      .toBeGreaterThan(24)
+  } finally {
+    await context.close()
+  }
 })

@@ -24,7 +24,6 @@ function CodeBlock({
       code={code}
       label='Example code'
       copyLabel='Copy example'
-      copyErrorLabel='Copy unavailable. Select the code below and copy it manually.'
     />
   )
 }

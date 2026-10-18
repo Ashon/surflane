@@ -41,11 +41,13 @@ p {
   color: var(--ink-body);
 }
 .sheet {
+  /* One inset for the sheet edge and both sides of every section divider: a section
+   * is a square panel, so a card grid sits as evenly in it as a paragraph. */
   --catalog-inset: var(--space-10);
-  --catalog-section-inset: var(--space-8);
+  --catalog-section-inset: var(--catalog-inset);
   max-width: 1100px;
   margin: auto;
-  padding: var(--space-8) var(--catalog-inset) var(--space-10);
+  padding: var(--catalog-inset);
   background: var(--canvas);
   border-radius: var(--radius-sheet);
   box-shadow: var(--shadow-sheet);
@@ -78,12 +80,14 @@ header {
 .note {
   margin-top: 24px;
 }
-.catalog-page-body > section {
-  margin-bottom: var(--catalog-section-inset);
-}
+/* The inset sits on both sides of each divider, so the last section adds nothing below. */
 .catalog-page-body > section + section {
   position: relative;
+  margin-top: var(--catalog-section-inset);
   padding-top: var(--catalog-section-inset);
+}
+.catalog-page-body > section > :last-child {
+  margin-bottom: 0;
 }
 .catalog-page-body > section > h2 {
   margin-bottom: var(--space-4);
@@ -128,6 +132,12 @@ table {
   border-collapse: collapse;
   text-align: left;
 }
+/* Manrope's common ligature joins "--" into one dash, which misreads token names and
+ * CLI flags in body text; the catalog keeps both hyphens. */
+body,
+:is(input, textarea, .pui-input, .pui-textarea) {
+  font-variant-ligatures: no-common-ligatures;
+}
 /* Reference and example tables in the document keep a readable minimum and scroll horizontally. */
 .catalog-shell table {
   min-width: 800px;
@@ -158,11 +168,6 @@ footer {
   font-size: 12px;
 }
 @media (max-width: 760px) {
-  .sheet {
-    --catalog-inset: 18px;
-    --catalog-section-inset: var(--space-6);
-    padding: 24px var(--catalog-inset);
-  }
   .grid {
     grid-template-columns: 1fr;
   }
@@ -253,9 +258,11 @@ footer {
   outline: 2px solid var(--interaction-focus);
   outline-offset: 2px;
 }
+/* Labelled fields and choices share the control line: align them on the bottom edge. */
 .foundation-controls {
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  align-items: end;
   gap: var(--space-4);
   margin-block: var(--space-6);
 }
@@ -361,10 +368,23 @@ footer {
   font: inherit;
   overflow-wrap: anywhere;
 }
-.token-feedback {
-  min-height: 1.5em;
-  font-size: 12px;
-  color: var(--ink-body);
+/* Room for the longest result, so the button never changes width. */
+.token-copy.pui-button {
+  min-inline-size: 7rem;
+}
+.token-copy[data-copy-state='copied'] {
+  color: var(--status-success-fg);
+}
+.token-copy[data-copy-state='failed'] {
+  color: var(--status-danger-fg);
+}
+.token-copy[data-copy-used] .pui-code-copy-label {
+  animation: pui-copy-fade var(--duration-base) var(--ease-out);
+}
+@media (prefers-reduced-motion: reduce) {
+  .token-copy[data-copy-used] .pui-code-copy-label {
+    animation: none;
+  }
 }
 @media (max-width: 760px) {
   .foundation-controls,
@@ -592,7 +612,7 @@ footer {
 }
 .catalog-categories {
   display: grid;
-  gap: var(--space-8);
+  gap: calc(2 * var(--catalog-section-inset));
 }
 .catalog-categories > section {
   min-inline-size: 0;
@@ -605,7 +625,7 @@ footer {
   content: '';
   position: absolute;
   inset-inline: calc(-1 * var(--catalog-inset));
-  inset-block-start: calc(-0.5 * var(--space-8));
+  inset-block-start: calc(-1 * var(--catalog-section-inset));
   border-block-start: 1px solid var(--chrome);
   pointer-events: none;
 }
@@ -674,8 +694,16 @@ footer {
   color: var(--ink-muted);
   font-size: 12px;
 }
+/* Borderless previews start and end at their content, so the text above and the
+ * divider below keep the section's square inset. */
 .component-example {
-  padding-block: var(--space-4);
+  padding-block: 0;
+}
+.catalog-example-frame[data-kind='component']
+  :is(.component-example, .example-stack)
+  > :last-child,
+.catalog-example-frame[data-kind='component'] p:last-child {
+  margin-bottom: 0;
 }
 .example-controls {
   max-width: 100%;
@@ -691,6 +719,15 @@ footer {
   display: grid;
   gap: var(--space-5);
 }
+/* A grid stretches its items; a lone button keeps its label width. */
+.example-stack > .pui-button {
+  justify-self: start;
+}
+/* A native label around a control, spaced like Field's label and control. */
+.example-field {
+  display: grid;
+  gap: var(--space-2);
+}
 .example-stack .actions {
   margin: 0;
 }
@@ -702,6 +739,15 @@ footer {
   overflow-wrap: anywhere;
   font-family: var(--font-code);
   font-size: 12px;
+}
+/* Document tables hang their cell padding into the gutter, like card grids, so the
+ * caption and cell text start on the page text line. Example frames keep components
+ * as they render in a product. */
+.catalog-page-body
+  .pui-scroll-root:has(> .pui-scroll-viewport .pui-table):not(
+    .catalog-example-frame *
+  ) {
+  margin-inline: calc(-1 * var(--space-4));
 }
 .catalog-table-wrap {
   overflow: auto;
@@ -741,7 +787,7 @@ footer {
   display: flex;
   justify-content: space-between;
   gap: var(--space-6);
-  margin-top: var(--space-8);
+  margin-top: var(--catalog-section-inset);
   font-size: 12px;
 }
 .component-pagination a {
@@ -1432,10 +1478,6 @@ body,
   }
 }
 
-/* Title-only roots share the brand text origin; breadcrumb pages align to the mark. */
-.catalog-shell .sheet[data-header-layout='title'] {
-  padding-block-start: var(--space-6);
-}
 .catalog-page-header .pui-page-header-description {
   max-inline-size: none;
   max-width: none;
@@ -1493,7 +1535,8 @@ body,
 .catalog-app {
   --catalog-sidebar-width: 192px;
   --catalog-content-max: 1100px;
-  --catalog-column-gap: var(--space-6);
+  /* One 12px frame gap: window to rail items, rail items to the sheet, sheet to window. */
+  --catalog-column-gap: var(--space-3);
   --catalog-frame-max: calc(
     var(--catalog-sidebar-width) + var(--catalog-column-gap) +
       var(--catalog-content-max)
@@ -1518,7 +1561,7 @@ body,
   margin-inline: auto;
   display: grid;
   grid-template-columns: var(--catalog-sidebar-width) minmax(0, 1fr) 40px;
-  gap: 24px;
+  gap: var(--catalog-column-gap);
   align-items: center;
 }
 .catalog-toprail .catalog-brand {
@@ -1566,7 +1609,7 @@ body,
 }
 .catalog-app .catalog-shell {
   min-block-size: calc(
-    100dvh - var(--catalog-rail-height) - 24px - var(--catalog-footer-height)
+    100dvh - var(--catalog-rail-height) - 12px - var(--catalog-footer-height)
   );
 }
 /* One site footer for every route: the shell shrinks by its height, so a short page ends exactly at it. */
@@ -1609,12 +1652,27 @@ body,
 .catalog-site-footer a {
   color: inherit;
 }
+/* Small screens: brand and copyright, then the links, aligned with the top bar's mark. */
+@media (max-width: 760px) {
+  .catalog-app {
+    --catalog-footer-height: calc(84px + env(safe-area-inset-bottom, 0px));
+  }
+  .catalog-site-footer-inner {
+    align-content: center;
+    gap: var(--space-2) var(--space-4);
+    padding: 0 16px env(safe-area-inset-bottom, 0px);
+  }
+  .catalog-site-footer nav {
+    flex-basis: 100%;
+    margin-inline-start: 0;
+  }
+}
 .catalog-app .catalog-sidebar {
   block-size: calc(
-    100dvh - var(--catalog-rail-height) - 24px - var(--catalog-footer-height)
+    100dvh - var(--catalog-rail-height) - 12px - var(--catalog-footer-height)
   );
   max-block-size: calc(
-    100dvh - var(--catalog-rail-height) - 24px - var(--catalog-footer-height)
+    100dvh - var(--catalog-rail-height) - 12px - var(--catalog-footer-height)
   );
 }
 .catalog-page-body section[id] {
@@ -1722,8 +1780,9 @@ body,
 
 /* Let document content pass behind the rail so the backdrop has real pixels to blur. */
 .catalog-app .catalog-document-scroll {
-  padding-block-start: calc(var(--catalog-rail-height) + 12px);
-  scroll-padding-block-start: calc(var(--catalog-rail-height) + 12px);
+  /* The rail's own 12px below its items is the gap above the sheet. */
+  padding-block-start: var(--catalog-rail-height);
+  scroll-padding-block-start: var(--catalog-rail-height);
 }
 .catalog-app .catalog-sidebar {
   top: 0;
@@ -1772,6 +1831,32 @@ body,
   gap: var(--space-2);
   min-inline-size: 0;
   overflow-wrap: anywhere;
+}
+/* Product brand in an app shell sidebar: a 24px mark centred on the navigation icon
+ * column and the name in the subsection role (Manrope 500, 16/24, --ink, default
+ * tracking) on one line, starting on the navigation label line. */
+/* An optional second line names the workspace in the caption role. */
+.app-shell-brand-text {
+  display: grid;
+  min-inline-size: 0;
+}
+.app-shell-brand-workspace {
+  overflow: hidden;
+  color: var(--ink-muted);
+  font: var(--weight-regular) var(--type-caption-size) /
+    var(--type-caption-leading) var(--font-body);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.app-shell-brand-name {
+  min-inline-size: 0;
+  overflow: hidden;
+  color: var(--ink);
+  font: var(--weight-medium) var(--type-subsection-size) /
+    var(--type-subsection-leading) var(--font-body);
+  letter-spacing: var(--tracking);
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .app-shell-menu-scroll {
   flex: 1;
@@ -1889,9 +1974,6 @@ body,
     padding-block: clamp(32px, 12dvh, 160px);
   }
 }
-.app-shell-responsive-options {
-  margin-block-end: var(--space-4);
-}
 
 /* Index and overview destinations share the same quiet card interaction. */
 .catalog-item,
@@ -1941,7 +2023,7 @@ body,
 }
 .documentation-settings {
   margin-block-end: var(--space-6);
-  align-items: center;
+  align-items: end;
 }
 .documentation-settings > label:first-child {
   display: grid;
@@ -2097,8 +2179,18 @@ body,
   overflow: hidden;
   white-space: nowrap;
 }
-.app-shell-preview .app-shell-brand > svg {
+/* The mark fills the 40px icon column; the name starts where link labels start. */
+.app-shell-preview .app-shell-brand {
+  gap: 0;
+}
+.app-shell-preview .app-shell-brand-mark {
   flex: 0 0 40px;
+  display: grid;
+  place-items: center;
+}
+.app-shell-preview .app-shell-brand-mark .catalog-brand-mark {
+  inline-size: 24px;
+  block-size: 24px;
 }
 .app-shell-preview[data-sidebar='collapsed'] .app-shell-brand {
   visibility: hidden;
@@ -2655,12 +2747,15 @@ body,
   display: none;
 }
 @media (max-width: 960px) {
+  /* One 18px step sets the rail's rhythm: above the 22px mark, between the
+     mark and the 44px tabs, and below the tabs to the sheet: 3 × 18 + 22 + 44 = 120. */
   .catalog-app {
-    --catalog-rail-height: 112px;
+    --catalog-rail-height: 120px;
   }
   .catalog-toprail-inner {
     grid-template-columns: minmax(0, 1fr) 44px 44px;
-    grid-template-rows: 56px 48px;
+    grid-template-rows: 58px 44px;
+    align-content: start;
     gap: 0 4px;
   }
   .catalog-toprail .catalog-brand {
@@ -2730,11 +2825,12 @@ body,
   }
   .catalog-app .catalog-shell {
     min-block-size: calc(
-      100dvh - var(--catalog-rail-height) - 12px - var(--catalog-footer-height)
+      100dvh - var(--catalog-rail-height) - var(--catalog-footer-height)
     );
   }
   .catalog-app .catalog-shell .sheet {
-    --catalog-inset: clamp(16px, 4vw, 24px);
+    /* Card faces bleed 16px; 24px keeps 8px between them and the window edge. */
+    --catalog-inset: var(--space-6);
     --catalog-surface-bleed: 0px;
   }
   .catalog-app .catalog-shell .sheet::after {
@@ -2818,10 +2914,12 @@ body,
 }
 
 /* Landing hero prototype: Surflane components on the catalog frame. */
+/* The hero shares the brand link's 12px inset, so its text starts under the logo mark. */
 .landing-hero {
+  box-sizing: border-box;
   max-inline-size: var(--catalog-frame-max);
   margin-inline: auto;
-  padding-block: var(--space-12) var(--space-8);
+  padding: var(--space-12) var(--space-3) var(--space-8);
   display: grid;
   grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
   gap: var(--space-12);
@@ -2837,6 +2935,14 @@ body,
   align-self: stretch;
   max-inline-size: 30rem;
 }
+/* On a phone the scaled-down console reads as a cropped table; the decorative mock
+ * steps aside and the hero keeps its message, actions and install command. */
+@media (max-width: 760px) {
+  .landing-console {
+    display: none;
+  }
+}
+
 /* Same boundary as catalog example frames: 20px radius, 1px line, 3px inset. */
 .landing-console {
   box-sizing: border-box;
@@ -2852,12 +2958,39 @@ body,
   border-radius: 16px;
   overflow: hidden;
 }
+/* The logo and the avatar sit on the navigation's icon column (24px marks centred on
+ * the 16px icons) and their names start on the navigation label line. */
 .landing-console-brand,
 .landing-console-account {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-4);
+  gap: var(--space-2);
+  padding-block: var(--space-4);
+}
+.landing-console-brand {
+  padding-inline: var(--space-6) var(--space-4);
+}
+.landing-console-account {
+  padding-inline: var(--space-2) 0;
+}
+/* A dummy logomark: stacked layers for a platform, on the brand tile. */
+.landing-console-logo {
+  flex: none;
+  inline-size: 24px;
+  block-size: 24px;
+}
+.landing-console-logo rect {
+  fill: var(--brand);
+}
+.landing-console-logo path {
+  fill: none;
+  stroke: var(--on-brand);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.landing-console-logo path:first-of-type {
+  fill: var(--on-brand);
 }
 .landing-console-nav {
   display: flex;
@@ -2876,6 +3009,44 @@ body,
   overflow: hidden;
   background: var(--canvas);
   border-radius: var(--radius-md);
+}
+/* The console's table keeps each row on one line, like a real console. When its
+ * content area narrows, the environment column steps aside and long service
+ * names truncate, rather than words breaking mid-letter. */
+.landing-console .pui-app-shell-content {
+  container: landing-content / inline-size;
+}
+.landing-console-sheet :is(th, td) {
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+@container landing-content (max-width: 520px) {
+  .landing-console-sheet {
+    padding: var(--space-4);
+    gap: var(--space-4);
+  }
+  .landing-console-sheet table {
+    table-layout: fixed;
+    inline-size: 100%;
+  }
+  .landing-console-sheet :is(th, td):nth-child(2) {
+    display: none;
+  }
+  .landing-console-sheet :is(th, td):first-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .landing-console-sheet :is(th, td):last-child {
+    inline-size: 8.5rem;
+  }
+}
+@container landing-content (max-width: 320px) {
+  .landing-console-sheet :is(th, td) {
+    padding-inline: var(--space-2);
+  }
+  .landing-console-sheet :is(th, td):last-child {
+    inline-size: 7rem;
+  }
 }
 @media (max-width: 960px) {
   .landing-hero {

@@ -215,7 +215,7 @@ export function FoundationDemo({
                 <Heading level={3} size='display'>
                   Platform engineering
                   <br />
-                  플랫폼 개발의 공통 언어
+                  <span lang='ko'>플랫폼 개발의 공통 언어</span>
                 </Heading>
                 <Text variant='caption'>40/48 → 32/38.4px</Text>
               </Stack>
@@ -262,7 +262,7 @@ export function FoundationDemo({
                   <span>{name}</span>
                   <span>{size}</span>
                 </Text>
-                <Heading level={3} size={variant as 'title'}>
+                <Heading level={3} size={variant as 'title'} lang='ko'>
                   플랫폼 서비스 / Platform services
                 </Heading>
               </div>
@@ -288,6 +288,11 @@ export function FoundationDemo({
                 <Text
                   id={variant === 'mono' ? 'specimen-code' : undefined}
                   variant={variant as 'body'}
+                  lang={
+                    variant === 'mono' || variant === 'metric'
+                      ? undefined
+                      : 'ko'
+                  }
                 >
                   {variant === 'metric'
                     ? '128 / 256'

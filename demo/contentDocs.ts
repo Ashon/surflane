@@ -37,9 +37,9 @@ export const contentDocs: Record<string, ComponentDoc> = {
     avoid:
       "Don't let language-specific syntax highlighting be mistaken for syntax validation or execution results. Don't inject code as HTML or execute it. Don't treat a rejected clipboard write as success.",
     anatomy:
-      'Root → toolbar(label + language + copy action) + labelled ScrollArea(pre/code) + copy status',
+      'Root → toolbar(label + language + copy action, which also shows the result) + labelled ScrollArea(pre/code)',
     keyboard:
-      "Tab reaches the copy button and the scroll area, and Enter/Space copies. Copy failures are announced with role=status, and the original text remains selectable. When the source changes, the previous result is cleared, and late responses don't overwrite the new source's state.",
+      "Tab reaches the copy button and the scroll area, and Enter/Space copies. The result replaces the button's label in place, so nothing else moves: Copied, or Copy unavailable with the source selected for the keyboard copy shortcut. The label is a polite live region and returns to the action after two seconds. When the source changes, the previous result is cleared, and late responses don't overwrite the new source's state.",
     tokens: [
       '--code-bg',
       '--font-code',
@@ -70,8 +70,8 @@ export const contentDocs: Record<string, ComponentDoc> = {
       ],
       [
         'copyLabel / copiedLabel / copyErrorLabel',
-        'localized action and outcome strings',
-        'Copy code / Code copied. / manual-copy guidance',
+        'localized action and short in-button outcome strings',
+        'Copy code / Copied / Copy unavailable',
       ],
     ],
   },

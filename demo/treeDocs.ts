@@ -45,7 +45,7 @@ const nodes: TreeNode[] = [
 
 // Keep IDs unique and data immutable. Validate selected IDs in the product.
 // Selection does not imply navigation or authorization.
-// Fixed rowHeight defaults to44px; custom heights must fit their content.`,
+// Fixed rowHeight defaults to 44px; custom heights must fit their content.`,
     props: [
       [
         'nodes / label',
