@@ -9,6 +9,9 @@
 /* ------------------------------------------------------------ Dark */
 :root,
 [data-theme] {
+  /* Native scrollbars, form controls and date pickers render in the theme too,
+     including inside a scoped data-theme region. */
+  color-scheme: dark;
   /* Surfaces: chrome -> sheet -> recessed surface */
   --chrome: oklch(
     0.2368845 0.00973297 248.23792711
@@ -73,6 +76,7 @@
 /* ---------------------------------------------------------- Light */
 :root[data-theme='light'],
 [data-theme='light'] {
+  color-scheme: light;
   --chrome: oklch(0.9781762 0.0034179 247.8580546); /* Gray 10 */
   --canvas: oklch(1 0 0); /* White */
   --surface: oklch(0.9781762 0.0034179 247.8580546); /* Gray 10 */
@@ -331,6 +335,7 @@
 
 @media (prefers-color-scheme: light) {
   :root:not([data-theme]) {
+    color-scheme: light;
     --chrome: oklch(0.9781762 0.0034179 247.8580546); /* Gray 10 */
     --canvas: oklch(1 0 0); /* White */
     --surface: oklch(0.9781762 0.0034179 247.8580546); /* Gray 10 */

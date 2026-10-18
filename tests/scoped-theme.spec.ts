@@ -35,4 +35,12 @@ test('data-theme on any element re-themes its subtree, including alias tokens', 
   // The alias resolves inside the scope instead of inheriting the page's resolved value.
   expect(scopedDark[3]).toBe(scopedDark[2])
   expect(scopedDark[3]).not.toBe(pageLight[3])
+  // Native scrollbars and form controls follow the theme, scoped regions included.
+  const schemes = await page.evaluate(() =>
+    ['html', '#scoped-dark .probe', '#scoped-light .probe'].map(
+      (selector) =>
+        getComputedStyle(document.querySelector(selector)!).colorScheme,
+    ),
+  )
+  expect(schemes).toEqual(['dark', 'dark', 'light'])
 })
