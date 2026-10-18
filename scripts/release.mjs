@@ -12,7 +12,8 @@ const usage = `Usage:
   node scripts/release.mjs version <x.y.z[-pre]>  set both package versions
   node scripts/release.mjs verify <vX.Y.Z>          check tag, manifests and changelog
   node scripts/release.mjs notes <vX.Y.Z>           print the changelog section
-  node scripts/release.mjs publish [--dry-run]      publish unpublished packages`;
+  node scripts/release.mjs publish [--dry-run] [--otp=<code>]
+                                                    publish unpublished packages`;
 
 function changelogSection(version) {
   const text = readFileSync(resolve(root, "CHANGELOG.md"), "utf8");
@@ -90,8 +91,13 @@ if (command === "version") {
   }
 } else if (command === "publish") {
   const flags = [arg, ...rest].filter(Boolean);
-  if (flags.some((flag) => flag !== "--dry-run")) throw new Error(usage);
+  // A manual publish from an account with 2FA passes its one-time code through to npm.
+  if (
+    flags.some((flag) => flag !== "--dry-run" && !/^--otp=\d{6,8}$/.test(flag))
+  )
+    throw new Error(usage);
   const dryRun = flags.includes("--dry-run");
+  const otp = flags.filter((flag) => flag.startsWith("--otp="));
   // Tokens first: the UI package declares it as a peer dependency.
   for (const name of names) {
     const pkg = read(name);
@@ -114,6 +120,7 @@ if (command === "version") {
         "--tag",
         tag,
         ...(dryRun ? ["--dry-run"] : []),
+        ...otp,
       ],
       { cwd: resolve(root, "packages", name), stdio: "inherit" },
     );

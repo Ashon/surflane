@@ -37,7 +37,7 @@ npm may not accept a trusted publisher for a package that does not exist yet. Fo
 
 1. Run `npm login` with an account that can publish to the `surflane` organization.
 2. Run `npm run release:publish -- --dry-run` and review both file lists.
-3. Run `npm run release:publish`. It builds through `prepack`, publishes `@surflane/design-tokens` and then `@surflane/ui`, and skips versions that are already published.
+3. Run `npm run release:publish -- --otp=<code>`. npm requires two-factor authentication to publish, so enable it for authorization and writes first and pass the current one-time code. The script builds through `prepack`, publishes `@surflane/design-tokens` and then `@surflane/ui`, and skips versions that are already published.
 4. For each package, add a trusted publisher on npmjs.com (package settings → Trusted publishing) or with `npm trust github <package> --repo Ashon/surflane --file release.yml --env npm`. Use owner `Ashon`, repository `surflane`, workflow `release.yml` and environment `npm`.
 5. Optionally require 2FA and disallow token publishing in the package settings, so only the workflow can publish.
 
