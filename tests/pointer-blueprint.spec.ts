@@ -513,3 +513,56 @@ test("Command modal input and result options paint above the portal and keep key
   ).toBeFocused();
   expect(await canvas.count()).toBe(1);
 });
+
+// Maximum guide alpha painted inside an element's box.
+async function alphaInside(
+  page: import("@playwright/test").Page,
+  selector: string,
+) {
+  const box = (await page.locator(selector).boundingBox())!;
+  return page.locator(".pointer-blueprint").evaluate((node, box) => {
+    const c = node as HTMLCanvasElement;
+    const dpr = devicePixelRatio;
+    const data = c
+      .getContext("2d")!
+      .getImageData(
+        Math.floor(box.x * dpr),
+        Math.floor(box.y * dpr),
+        Math.ceil(box.width * dpr),
+        Math.ceil(box.height * dpr),
+      ).data;
+    let maximum = 0;
+    for (let i = 3; i < data.length; i += 4)
+      maximum = Math.max(maximum, data[i]);
+    return maximum;
+  }, box);
+}
+
+test("the decorative landing console still shows construction guides, unless an outer layer is inert", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto("/");
+  await waitForCatalogReady(page);
+  const console = page.locator(".landing-console");
+  await expect(console).toHaveAttribute("inert", "");
+  const box = (await page
+    .locator(".landing-console-sheet thead")
+    .boundingBox())!;
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await expect
+    .poll(() => alphaInside(page, ".landing-console-sheet"))
+    .toBeGreaterThan(60);
+  // Brand and account rows are plain containers; they opt in with data-blueprint-guide.
+  for (const row of [".landing-console-brand", ".landing-console-account"]) {
+    const area = (await page.locator(row).boundingBox())!;
+    await page.mouse.move(area.x + area.width / 2, area.y + area.height / 2);
+    await expect.poll(() => alphaInside(page, row)).toBeGreaterThan(60);
+  }
+  // Content behind a modal is inert at a higher level; the opt-in must not override it.
+  await page
+    .locator(".landing-hero")
+    .evaluate((hero) => hero.setAttribute("inert", ""));
+  await page.mouse.move(box.x + box.width / 2 + 1, box.y + box.height / 2);
+  await expect.poll(() => alphaInside(page, ".landing-console-sheet")).toBe(0);
+});

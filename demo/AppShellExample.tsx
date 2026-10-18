@@ -242,7 +242,7 @@ export function AppShellExample({
             ref={sidebar}
             aria-label="Example workspace sidebar"
           >
-            <div className="app-shell-brand">
+            <div className="app-shell-brand" data-blueprint-guide>
               <Icon name="monitor" decorative />
               <AppShell.Label>
                 <strong>{profile}</strong>

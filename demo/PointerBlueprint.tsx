@@ -68,6 +68,15 @@ const intersect = (a: Bounds, b: Bounds): Bounds => ({
   right: Math.min(a.right, b.right),
   bottom: Math.min(a.bottom, b.bottom),
 });
+const concealed = '[hidden], [aria-hidden="true"], [inert]';
+// A decorative preview (aria-hidden + inert, marked data-blueprint-decorative) still shows its
+// construction lines; any other hidden or inert ancestor, such as content behind a modal, hides them.
+const hiddenFromGuides = (element: Element) => {
+  let ancestor = element.closest(concealed);
+  while (ancestor?.matches("[data-blueprint-decorative]"))
+    ancestor = ancestor.parentElement?.closest(concealed) ?? null;
+  return ancestor !== null;
+};
 const radius = 220;
 const extension = 96;
 const crosshair = 12;
@@ -125,8 +134,7 @@ export function PointerBlueprint() {
       if (scope instanceof HTMLElement && scope.matches(targets))
         elements.unshift(scope);
       for (const element of elements) {
-        if (element.closest('[hidden], [aria-hidden="true"], [inert]'))
-          continue;
+        if (hiddenFromGuides(element)) continue;
         current.add(element);
         if (!observed.has(element)) resize.observe(element);
         const bounds = element.getBoundingClientRect();

@@ -73,14 +73,21 @@ export function LandingHero() {
           React 19 · Server Components · MIT OR Apache-2.0
         </Text>
       </div>
-      <div className="landing-console" aria-hidden="true" inert>
+      <div
+        className="landing-console"
+        aria-hidden="true"
+        inert
+        data-blueprint-decorative
+      >
         <AppShell.Root layout="workspace">
-          <AppShell.Sidebar>
-            <div className="landing-console-brand">
-              <Avatar.Root size="sm">
+          <AppShell.Sidebar data-blueprint-guide>
+            <div className="landing-console-brand" data-blueprint-guide>
+              <Avatar.Root size="sm" data-blueprint-guide>
                 <Avatar.Fallback>PC</Avatar.Fallback>
               </Avatar.Root>
-              <AppShell.Label>platform-core</AppShell.Label>
+              <AppShell.Label data-blueprint-guide>
+                platform-core
+              </AppShell.Label>
             </div>
             <nav className="landing-console-nav">
               {destinations.map(([label, icon]) => (
@@ -94,16 +101,16 @@ export function LandingHero() {
               ))}
             </nav>
             <AppShell.Footer>
-              <div className="landing-console-account">
-                <Avatar.Root size="sm">
+              <div className="landing-console-account" data-blueprint-guide>
+                <Avatar.Root size="sm" data-blueprint-guide>
                   <Avatar.Fallback>AS</Avatar.Fallback>
                 </Avatar.Root>
-                <AppShell.Label>ashon</AppShell.Label>
+                <AppShell.Label data-blueprint-guide>ashon</AppShell.Label>
               </div>
             </AppShell.Footer>
           </AppShell.Sidebar>
           <AppShell.Content>
-            <div className="landing-console-sheet">
+            <div className="landing-console-sheet" data-blueprint-guide>
               <PageHeader
                 size="workspace"
                 level={2}
