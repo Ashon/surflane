@@ -23,7 +23,7 @@ for (const width of [1440, 320])
         await page.getByRole('button', { name: 'Toggle theme' }).click()
       await expect(page.locator('[data-color-measured]')).toHaveCount(1)
       const rows = page.locator('[data-color-row]')
-      await expect(rows).toHaveCount(48)
+      await expect(rows).toHaveCount(49)
       await expect
         .poll(async () =>
           (await page.locator('[data-color-verdict]').allTextContents()).every(
@@ -77,7 +77,7 @@ test('forced colors suppresses token certification and retains readable document
     page.getByRole('status').filter({ hasText: 'Forced colors' }),
   ).toContainText('Forced colors')
   await expect(page.locator('[data-color-verdict]')).toHaveText(
-    Array(48).fill('Not evaluated'),
+    Array(49).fill('Not evaluated'),
   )
   await page.emulateMedia({ forcedColors: 'none' })
   await expect
@@ -103,8 +103,67 @@ test('system theme refreshes all measured pairs when the OS scheme changes', asy
   await page.emulateMedia({ colorScheme: 'dark' })
   await expect(ratio).not.toHaveText(before)
   await expect(page.locator('[data-color-verdict]')).toHaveText(
-    Array(48).fill('Meets threshold'),
+    Array(49).fill('Meets threshold'),
   )
   await page.emulateMedia({ colorScheme: 'light' })
   await expect(ratio).toHaveText(before)
 })
+
+for (const theme of ['light', 'dark'])
+  test(`surface steps stay distinguishable from what they sit on in ${theme}`, async ({
+    page,
+    context,
+  }) => {
+    await context.addCookies([
+      { name: 'surflane-theme', value: theme, url: 'http://127.0.0.1:8066' },
+    ])
+    await page.goto('/foundations/color')
+    await waitForCatalogReady(page)
+    const colors = await page.evaluate(
+      (tokens) => {
+        const context = document
+          .createElement('canvas')
+          .getContext('2d', { willReadFrequently: true })!
+        return Object.fromEntries(
+          tokens.map((token) => {
+            const probe = document.createElement('i')
+            probe.style.color = `var(${token})`
+            document.body.append(probe)
+            const value = getComputedStyle(probe).color
+            probe.remove()
+            context.clearRect(0, 0, 1, 1)
+            context.fillStyle = value
+            context.fillRect(0, 0, 1, 1)
+            return [
+              token,
+              [...context.getImageData(0, 0, 1, 1).data.slice(0, 3)],
+            ]
+          }),
+        )
+      },
+      [
+        '--chrome',
+        '--canvas',
+        '--surface',
+        '--code-bg',
+        '--hover',
+        '--selected',
+      ],
+    )
+    for (const [layer, base] of [
+      ['--canvas', '--chrome'],
+      ['--surface', '--canvas'],
+      ['--code-bg', '--canvas'],
+      ['--code-bg', '--chrome'],
+      ['--hover', '--canvas'],
+      ['--hover', '--chrome'],
+      ['--selected', '--hover'],
+    ])
+      expect(
+        contrastRatio(
+          colors[layer] as [number, number, number],
+          colors[base] as [number, number, number],
+        ),
+        `${theme}: ${layer} on ${base}`,
+      ).toBeGreaterThanOrEqual(1.05)
+  })

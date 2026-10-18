@@ -20,11 +20,11 @@
     0.2368845 0.00973297 248.23792711
   ); /* Gray 90. Recessed surface inside the sheet: code, callouts, cards, diagrams */
   --code-bg: oklch(
-    0.2368845 0.00973297 248.23792711
-  ); /* Gray 90. Inline code */
+    0.2050126 0.00860311 247.9381172
+  ); /* Gray 95. Code well, recessed below both the chrome and the sheet */
   --hover: oklch(
-    0.27850211 0.01320057 253.03643104
-  ); /* Gray 80. Hovering an item on chrome */
+    0.31355761 0.01463569 251.36854651
+  ); /* Gray 75. Hovering an item on the chrome or the sheet */
   --selected: oklch(
     0.37866351 0.01730498 248.2836448
   ); /* Gray 70. Current item on chrome; hovering a recessed surface */
@@ -210,7 +210,7 @@
     from color-mix(in srgb, var(--brand) 32%, var(--canvas)) l c h / alpha
   );
   --status-danger-fg: oklch(
-    from color-mix(in srgb, var(--danger) 70%, var(--ink)) l c h / alpha
+    from color-mix(in srgb, var(--danger) 48%, var(--ink)) l c h / alpha
   );
   --status-danger-bg: oklch(
     from color-mix(in srgb, var(--danger) 10%, var(--canvas)) l c h / alpha
@@ -231,7 +231,10 @@
   --status-neutral-fg: var(--ink-muted);
   --status-neutral-bg: var(--surface);
   --status-neutral-border: var(--line);
-  --interaction-hover-bg: var(--surface);
+  /* A state layer: 8% of the element's own text color over whatever it rests on.
+     It lifts a hovered item one visible step on the sheet, the chrome or a recessed
+     bar alike, where a fixed surface color matched the bar and vanished. */
+  --interaction-hover-bg: color-mix(in srgb, currentColor 8%, transparent);
   --interaction-active-bg: var(--selected);
   --interaction-focus: var(--brand-ink);
 }

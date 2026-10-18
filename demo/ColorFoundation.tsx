@@ -25,6 +25,7 @@ const pairs: [string, string, string, number][] = [
   ['Secondary text', '--ink-muted', '--canvas', 4.5],
   ['Inset content', '--ink-body', '--surface', 4.5],
   ['Selected content', '--ink', '--selected', 4.5],
+  ['Error text on selection', '--status-danger-fg', '--selected', 4.5],
   ['Brand action', '--on-brand', '--brand', 4.5],
   ['Brand text / link', '--brand-ink', '--canvas', 4.5],
   ...['neutral', 'success', 'danger', 'caution', 'progress'].map(
@@ -202,6 +203,13 @@ export function ColorFoundation() {
           OKLCH is used to express and transition colors; contrast is calculated
           from WCAG relative luminance in linear sRGB. Changing the color model
           does not change the contrast criteria.
+        </p>
+        <p>
+          Surfaces step from the chrome to the sheet, then to recessed surfaces,
+          the code well, hover and selection. Each step stays at least 1.05:1
+          from the one it sits on, so a layer never disappears into its
+          background. Recessed surfaces belong on the sheet; on the chrome, use
+          the sheet tone.
         </p>
         <p>
           Ratios are approximations from the current theme's computed colors,
