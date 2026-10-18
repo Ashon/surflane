@@ -1,0 +1,5164 @@
+{
+  "schemaVersion": 1,
+  "sourceHash": "6a10e57516d080f0fe7b93f2fea4fbc14da6168d410e8b4280ca12d62d247966",
+  "sources": [
+    "tokens.css",
+    "foundation-tokens.css",
+    "motion.css"
+  ],
+  "categories": [
+    "Color",
+    "Typography",
+    "Layout",
+    "Spacing",
+    "Shape",
+    "Controls",
+    "Status",
+    "Motion",
+    "Layers"
+  ],
+  "tokens": [
+    {
+      "name": "--avatar-size-lg",
+      "category": "Shape",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "48px",
+          "file": "tokens.css",
+          "line": 456
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--avatar-size-md",
+      "category": "Shape",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "36px",
+          "file": "tokens.css",
+          "line": 455
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--avatar-size-sm",
+      "category": "Shape",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "24px",
+          "file": "tokens.css",
+          "line": 454
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--badge-caution-bg",
+      "category": "Status",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    from\n      color-mix(in srgb, var(--status-caution-fg) 3%, var(--status-caution-bg))\n      l c h / alpha\n  )",
+          "file": "tokens.css",
+          "line": 491
+        }
+      ],
+      "aliases": [
+        "--status-caution-fg",
+        "--status-caution-bg"
+      ]
+    },
+    {
+      "name": "--badge-danger-bg",
+      "category": "Status",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    from color-mix(in srgb, var(--status-danger-fg) 3%, var(--status-danger-bg))\n      l c h / alpha\n  )",
+          "file": "tokens.css",
+          "line": 487
+        }
+      ],
+      "aliases": [
+        "--status-danger-fg",
+        "--status-danger-bg"
+      ]
+    },
+    {
+      "name": "--badge-neutral-bg",
+      "category": "Status",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--status-neutral-bg)",
+          "file": "tokens.css",
+          "line": 481
+        }
+      ],
+      "aliases": [
+        "--status-neutral-bg"
+      ]
+    },
+    {
+      "name": "--badge-progress-bg",
+      "category": "Status",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--status-progress-bg)",
+          "file": "tokens.css",
+          "line": 496
+        }
+      ],
+      "aliases": [
+        "--status-progress-bg"
+      ]
+    },
+    {
+      "name": "--badge-success-bg",
+      "category": "Status",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    from\n      color-mix(in srgb, var(--status-success-fg) 3%, var(--status-success-bg))\n      l c h / alpha\n  )",
+          "file": "tokens.css",
+          "line": 482
+        }
+      ],
+      "aliases": [
+        "--status-success-fg",
+        "--status-success-bg"
+      ]
+    },
+    {
+      "name": "--brand",
+      "category": "Color",
+      "type": "color",
+      "description": "Surface for primary actions and limited emphasis",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    0.82 0.12 210\n  )",
+          "file": "tokens.css",
+          "line": 44
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(0.82 0.12 210)",
+          "file": "tokens.css",
+          "line": 88
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(0.82 0.12 210)",
+          "file": "tokens.css",
+          "line": 342
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--brand-ink",
+      "category": "Color",
+      "type": "color",
+      "description": "Link and brand text color with contrast against the background",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    0.82 0.12 210\n  )",
+          "file": "tokens.css",
+          "line": 47
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(\n    0.2368845 0.00973297 248.23792711\n  )",
+          "file": "tokens.css",
+          "line": 89
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(\n      0.2368845 0.00973297 248.23792711\n    )",
+          "file": "tokens.css",
+          "line": 343
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--brand-tint",
+      "category": "Color",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    0.82 0.12 210 / 0.25098039\n  )",
+          "file": "tokens.css",
+          "line": 53
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(\n    0.82 0.12 210 / 0.30196078\n  )",
+          "file": "tokens.css",
+          "line": 93
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(\n      0.82 0.12 210 / 0.30196078\n    )",
+          "file": "tokens.css",
+          "line": 347
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--canvas",
+      "category": "Color",
+      "type": "color",
+      "description": "Main content surface that holds work or documents",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    0.27850211 0.01320057 253.03643104\n  )",
+          "file": "tokens.css",
+          "line": 16
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(1 0 0)",
+          "file": "tokens.css",
+          "line": 77
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(1 0 0)",
+          "file": "tokens.css",
+          "line": 331
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--caution",
+      "category": "Color",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(0.88362398 0.17366333 93.66977695)",
+          "file": "tokens.css",
+          "line": 58
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(0.88362398 0.17366333 93.66977695)",
+          "file": "tokens.css",
+          "line": 97
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(0.88362398 0.17366333 93.66977695)",
+          "file": "tokens.css",
+          "line": 351
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--chart-series-1",
+      "category": "Color",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--brand-ink)",
+          "file": "tokens.css",
+          "line": 502
+        }
+      ],
+      "aliases": [
+        "--brand-ink"
+      ]
+    },
+    {
+      "name": "--chart-series-2",
+      "category": "Color",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--ink-body)",
+          "file": "tokens.css",
+          "line": 503
+        }
+      ],
+      "aliases": [
+        "--ink-body"
+      ]
+    },
+    {
+      "name": "--chart-series-3",
+      "category": "Color",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--ink-muted)",
+          "file": "tokens.css",
+          "line": 504
+        }
+      ],
+      "aliases": [
+        "--ink-muted"
+      ]
+    },
+    {
+      "name": "--chrome",
+      "category": "Color",
+      "type": "color",
+      "description": "Background for the header, sidebar and area outside the sheet",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    0.2368845 0.00973297 248.23792711\n  )",
+          "file": "tokens.css",
+          "line": 13
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(0.9781762 0.0034179 247.8580546)",
+          "file": "tokens.css",
+          "line": 76
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(0.9781762 0.0034179 247.8580546)",
+          "file": "tokens.css",
+          "line": 330
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--code-bg",
+      "category": "Color",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    0.2368845 0.00973297 248.23792711\n  )",
+          "file": "tokens.css",
+          "line": 22
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(0.95972296 0.00515149 247.87778139)",
+          "file": "tokens.css",
+          "line": 79
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(0.95972296 0.00515149 247.87778139)",
+          "file": "tokens.css",
+          "line": 333
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--collection-inset",
+      "category": "Layout",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--space-4)",
+          "file": "tokens.css",
+          "line": 149
+        },
+        {
+          "context": "@media (max-width: 760px) / :root",
+          "value": "var(--space-3)",
+          "file": "tokens.css",
+          "line": 324
+        }
+      ],
+      "aliases": [
+        "--space-4",
+        "--space-3"
+      ]
+    },
+    {
+      "name": "--control-background",
+      "category": "Controls",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    from color-mix(in srgb, var(--line) 30%, var(--canvas)) l c h / alpha\n  )",
+          "file": "tokens.css",
+          "line": 190
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "var(--canvas)",
+          "file": "tokens.css",
+          "line": 283
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "var(--canvas)",
+          "file": "tokens.css",
+          "line": 392
+        }
+      ],
+      "aliases": [
+        "--line",
+        "--canvas"
+      ]
+    },
+    {
+      "name": "--control-border",
+      "category": "Controls",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--control-choice-border)",
+          "file": "tokens.css",
+          "line": 189
+        }
+      ],
+      "aliases": [
+        "--control-choice-border"
+      ]
+    },
+    {
+      "name": "--control-choice-border",
+      "category": "Controls",
+      "type": "color",
+      "description": "Soft default border for checkboxes, radios and switches",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    from color-mix(in srgb, var(--ink-muted) 60%, var(--line)) l c h / alpha\n  )",
+          "file": "tokens.css",
+          "line": 425
+        }
+      ],
+      "aliases": [
+        "--ink-muted",
+        "--line"
+      ]
+    },
+    {
+      "name": "--control-choice-hover-border",
+      "category": "Controls",
+      "type": "color",
+      "description": "Stronger border for choice controls on hover",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    from color-mix(in srgb, var(--ink-muted) 75%, var(--line)) l c h / alpha\n  )",
+          "file": "tokens.css",
+          "line": 428
+        }
+      ],
+      "aliases": [
+        "--ink-muted",
+        "--line"
+      ]
+    },
+    {
+      "name": "--control-choice-radius",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "6px",
+          "file": "tokens.css",
+          "line": 424
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--control-choice-selected-bg",
+      "category": "Controls",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--brand)",
+          "file": "tokens.css",
+          "line": 431
+        }
+      ],
+      "aliases": [
+        "--brand"
+      ]
+    },
+    {
+      "name": "--control-choice-selected-border",
+      "category": "Controls",
+      "type": "color",
+      "description": "State border that matches the selected surface",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    from\n      color-mix(\n        in srgb,\n        var(--control-choice-selected-bg) 54%,\n        var(--control-choice-selected-fg)\n      )\n      l c h / alpha\n  )",
+          "file": "tokens.css",
+          "line": 437
+        }
+      ],
+      "aliases": [
+        "--control-choice-selected-bg",
+        "--control-choice-selected-fg"
+      ]
+    },
+    {
+      "name": "--control-choice-selected-fg",
+      "category": "Controls",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--on-brand)",
+          "file": "tokens.css",
+          "line": 446
+        }
+      ],
+      "aliases": [
+        "--on-brand"
+      ]
+    },
+    {
+      "name": "--control-choice-selected-hover-bg",
+      "category": "Controls",
+      "type": "color",
+      "description": "Hover surface that keeps the selected color",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "color-mix(\n    in oklch,\n    var(--brand) 90%,\n    var(--on-brand)\n  )",
+          "file": "tokens.css",
+          "line": 432
+        }
+      ],
+      "aliases": [
+        "--brand",
+        "--on-brand"
+      ]
+    },
+    {
+      "name": "--control-choice-size",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "20px",
+          "file": "tokens.css",
+          "line": 423
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--control-disabled-background",
+      "category": "Controls",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--surface)",
+          "file": "tokens.css",
+          "line": 197
+        }
+      ],
+      "aliases": [
+        "--surface"
+      ]
+    },
+    {
+      "name": "--control-disabled-opacity",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "0.55",
+          "file": "tokens.css",
+          "line": 198
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--control-focus",
+      "category": "Controls",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--interaction-focus)",
+          "file": "tokens.css",
+          "line": 195
+        }
+      ],
+      "aliases": [
+        "--interaction-focus"
+      ]
+    },
+    {
+      "name": "--control-focus-background",
+      "category": "Controls",
+      "type": "color",
+      "description": "Input surface that stays steady on hover while focused",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--control-background)",
+          "file": "tokens.css",
+          "line": 196
+        }
+      ],
+      "aliases": [
+        "--control-background"
+      ]
+    },
+    {
+      "name": "--control-focus-ring",
+      "category": "Controls",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    from color-mix(in srgb, var(--control-focus) 20%, var(--canvas)) l c h /\n      alpha\n  )",
+          "file": "tokens.css",
+          "line": 275
+        }
+      ],
+      "aliases": [
+        "--control-focus",
+        "--canvas"
+      ]
+    },
+    {
+      "name": "--control-height",
+      "category": "Controls",
+      "type": "value",
+      "description": "36px on desktop, 44px on narrow screens and touch",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "36px",
+          "file": "tokens.css",
+          "line": 184
+        },
+        {
+          "context": "@media (max-width: 760px), (pointer: coarse) / :root",
+          "value": "44px",
+          "file": "tokens.css",
+          "line": 288
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--control-hover-background",
+      "category": "Controls",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--surface)",
+          "file": "tokens.css",
+          "line": 193
+        }
+      ],
+      "aliases": [
+        "--surface"
+      ]
+    },
+    {
+      "name": "--control-hover-border",
+      "category": "Controls",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--control-choice-hover-border)",
+          "file": "tokens.css",
+          "line": 194
+        }
+      ],
+      "aliases": [
+        "--control-choice-hover-border"
+      ]
+    },
+    {
+      "name": "--control-icon-gap",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--space-2)",
+          "file": "tokens.css",
+          "line": 188
+        }
+      ],
+      "aliases": [
+        "--space-2"
+      ]
+    },
+    {
+      "name": "--control-icon-size",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "16px",
+          "file": "tokens.css",
+          "line": 187
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--control-padding-x",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "10px",
+          "file": "tokens.css",
+          "line": 186
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--control-placeholder",
+      "category": "Controls",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--ink-muted)",
+          "file": "tokens.css",
+          "line": 199
+        }
+      ],
+      "aliases": [
+        "--ink-muted"
+      ]
+    },
+    {
+      "name": "--control-radius",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "8px",
+          "file": "tokens.css",
+          "line": 185
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--control-switch-height",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "22px",
+          "file": "tokens.css",
+          "line": 448
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--control-switch-thumb",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "14px",
+          "file": "tokens.css",
+          "line": 449
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--control-switch-width",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "36px",
+          "file": "tokens.css",
+          "line": 447
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--danger",
+      "category": "Color",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(0.64886666 0.23697091 26.97276512)",
+          "file": "tokens.css",
+          "line": 59
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(0.64886666 0.23697091 26.97276512)",
+          "file": "tokens.css",
+          "line": 98
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(0.64886666 0.23697091 26.97276512)",
+          "file": "tokens.css",
+          "line": 352
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--dialog-enter-duration",
+      "category": "Motion",
+      "type": "duration",
+      "description": "Fade-and-rise duration for dialog entry",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--motion-enter)",
+          "file": "tokens.css",
+          "line": 413
+        }
+      ],
+      "aliases": [
+        "--motion-enter"
+      ]
+    },
+    {
+      "name": "--dialog-enter-offset",
+      "category": "Motion",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "8px",
+          "file": "tokens.css",
+          "line": 414
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--dialog-exit-duration",
+      "category": "Motion",
+      "type": "duration",
+      "description": "Closing completes immediately without waiting",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "0ms",
+          "file": "tokens.css",
+          "line": 415
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--duration-base",
+      "category": "Motion",
+      "type": "duration",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "200ms",
+          "file": "tokens.css",
+          "line": 174
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--duration-fast",
+      "category": "Motion",
+      "type": "duration",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "120ms",
+          "file": "tokens.css",
+          "line": 173
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--duration-slow",
+      "category": "Motion",
+      "type": "duration",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "360ms",
+          "file": "tokens.css",
+          "line": 175
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--ease-in",
+      "category": "Motion",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "cubic-bezier(0.3, 0, 1, 1)",
+          "file": "tokens.css",
+          "line": 177
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--ease-out",
+      "category": "Motion",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "cubic-bezier(0.2, 0, 0, 1)",
+          "file": "tokens.css",
+          "line": 176
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--font-body",
+      "category": "Typography",
+      "type": "typography",
+      "description": "Manrope for Latin body text → Pretendard fallback for Korean",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "\"Manrope Variable\", var(--font-hangul), -apple-system, BlinkMacSystemFont,\n    system-ui, sans-serif",
+          "file": "tokens.css",
+          "line": 121
+        }
+      ],
+      "aliases": [
+        "--font-hangul"
+      ]
+    },
+    {
+      "name": "--font-code",
+      "category": "Typography",
+      "type": "typography",
+      "description": "JetBrains Mono for identifiers and code → Korean fallback",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "\"JetBrains Mono Variable\", ui-monospace, SFMono-Regular, Menlo, Consolas,\n    var(--font-hangul), monospace",
+          "file": "tokens.css",
+          "line": 124
+        }
+      ],
+      "aliases": [
+        "--font-hangul"
+      ]
+    },
+    {
+      "name": "--font-display",
+      "category": "Typography",
+      "type": "typography",
+      "description": "Manrope for Latin headings → Pretendard fallback for Korean",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "\"Manrope Variable\", var(--font-hangul), -apple-system, system-ui, sans-serif",
+          "file": "tokens.css",
+          "line": 119
+        }
+      ],
+      "aliases": [
+        "--font-hangul"
+      ]
+    },
+    {
+      "name": "--font-hangul",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "\"Pretendard Variable\", Pretendard, \"Apple SD Gothic Neo\", \"Noto Sans KR\",\n    \"Malgun Gothic\"",
+          "file": "tokens.css",
+          "line": 115
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--font-japanese",
+      "category": "Typography",
+      "type": "typography",
+      "description": "Noto Sans JP fallback for Japanese glyphs",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "\"Noto Sans JP Variable\", \"Noto Sans JP\", sans-serif",
+          "file": "tokens.css",
+          "line": 118
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--font-mono",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--font-code)",
+          "file": "tokens.css",
+          "line": 398
+        }
+      ],
+      "aliases": [
+        "--font-code"
+      ]
+    },
+    {
+      "name": "--grid-base-opacity",
+      "category": "Layout",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "0.35",
+          "file": "tokens.css",
+          "line": 165
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--grid-cell",
+      "category": "Layout",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "24px",
+          "file": "tokens.css",
+          "line": 163
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--grid-halo",
+      "category": "Layout",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "48px",
+          "file": "tokens.css",
+          "line": 166
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--grid-major",
+      "category": "Color",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(0.37866351 0.01730498 248.2836448)",
+          "file": "tokens.css",
+          "line": 66
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(0.93531009 0.01353396 240.96010253)",
+          "file": "tokens.css",
+          "line": 101
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(0.93531009 0.01353396 240.96010253)",
+          "file": "tokens.css",
+          "line": 355
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--grid-major-cell",
+      "category": "Layout",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "96px",
+          "file": "tokens.css",
+          "line": 164
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--grid-minor",
+      "category": "Color",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(0.2368845 0.00973297 248.23792711)",
+          "file": "tokens.css",
+          "line": 65
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(0.95972296 0.00515149 247.87778139)",
+          "file": "tokens.css",
+          "line": 100
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(0.95972296 0.00515149 247.87778139)",
+          "file": "tokens.css",
+          "line": 354
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--guide",
+      "category": "Color",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(0.37866351 0.01730498 248.2836448)",
+          "file": "tokens.css",
+          "line": 67
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(0.91321146 0.017061 242.44074644)",
+          "file": "tokens.css",
+          "line": 102
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(0.91321146 0.017061 242.44074644)",
+          "file": "tokens.css",
+          "line": 356
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--hover",
+      "category": "Color",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    0.27850211 0.01320057 253.03643104\n  )",
+          "file": "tokens.css",
+          "line": 25
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(0.95972296 0.00515149 247.87778139)",
+          "file": "tokens.css",
+          "line": 80
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(0.95972296 0.00515149 247.87778139)",
+          "file": "tokens.css",
+          "line": 334
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--icon-size-lg",
+      "category": "Shape",
+      "type": "value",
+      "description": "SVG size for emphasis",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "24px",
+          "file": "foundation-tokens.css",
+          "line": 71
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--icon-size-md",
+      "category": "Shape",
+      "type": "value",
+      "description": "SVG size for general UI",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "20px",
+          "file": "foundation-tokens.css",
+          "line": 70
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--icon-size-sm",
+      "category": "Shape",
+      "type": "value",
+      "description": "Default SVG size for compact controls",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "16px",
+          "file": "foundation-tokens.css",
+          "line": 69
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--icon-stroke-width",
+      "category": "Shape",
+      "type": "value",
+      "description": "Shared stroke width within a 24×24 viewBox",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "1.7",
+          "file": "foundation-tokens.css",
+          "line": 72
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--ink",
+      "category": "Color",
+      "type": "color",
+      "description": "Headings and key information",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(0.9781762 0.0034179 247.8580546)",
+          "file": "tokens.css",
+          "line": 41
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(0.2368845 0.00973297 248.23792711)",
+          "file": "tokens.css",
+          "line": 86
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(0.2368845 0.00973297 248.23792711)",
+          "file": "tokens.css",
+          "line": 340
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--ink-body",
+      "category": "Color",
+      "type": "color",
+      "description": "Body text and descriptions",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(0.91321146 0.017061 242.44074644)",
+          "file": "tokens.css",
+          "line": 39
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(0.27850211 0.01320057 253.03643104)",
+          "file": "tokens.css",
+          "line": 85
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(0.27850211 0.01320057 253.03643104)",
+          "file": "tokens.css",
+          "line": 339
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--ink-muted",
+      "category": "Color",
+      "type": "color",
+      "description": "Captions and secondary information",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    0.81668066 0.0183769 253.3626611\n  )",
+          "file": "tokens.css",
+          "line": 36
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(0.37866351 0.01730498 248.2836448)",
+          "file": "tokens.css",
+          "line": 84
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(0.37866351 0.01730498 248.2836448)",
+          "file": "tokens.css",
+          "line": 338
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--interaction-active-bg",
+      "category": "Controls",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--selected)",
+          "file": "tokens.css",
+          "line": 235
+        }
+      ],
+      "aliases": [
+        "--selected"
+      ]
+    },
+    {
+      "name": "--interaction-focus",
+      "category": "Controls",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--brand-ink)",
+          "file": "tokens.css",
+          "line": 236
+        }
+      ],
+      "aliases": [
+        "--brand-ink"
+      ]
+    },
+    {
+      "name": "--interaction-hover-bg",
+      "category": "Controls",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--surface)",
+          "file": "tokens.css",
+          "line": 234
+        }
+      ],
+      "aliases": [
+        "--surface"
+      ]
+    },
+    {
+      "name": "--layer-backdrop",
+      "category": "Layers",
+      "type": "value",
+      "description": "Global layer for the Dialog backdrop",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "1090",
+          "file": "tokens.css",
+          "line": 403
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--layer-dialog",
+      "category": "Layers",
+      "type": "value",
+      "description": "Global layer for Dialog and Sheet/Drawer positioners",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "1100",
+          "file": "tokens.css",
+          "line": 404
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--layer-popup",
+      "category": "Layers",
+      "type": "value",
+      "description": "Global layer for select lists, menus, popovers and toasts",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "1200",
+          "file": "tokens.css",
+          "line": 405
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--layer-tooltip",
+      "category": "Layers",
+      "type": "value",
+      "description": "Global layer for non-interactive, descriptive tooltip positioners",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "1300",
+          "file": "tokens.css",
+          "line": 406
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--layout-columns",
+      "category": "Layout",
+      "type": "value",
+      "description": "Base grid: 12 → 6 → 4 columns",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "12",
+          "file": "foundation-tokens.css",
+          "line": 15
+        },
+        {
+          "context": "@media (max-width: 1100px) / :root",
+          "value": "6",
+          "file": "foundation-tokens.css",
+          "line": 52
+        },
+        {
+          "context": "@media (max-width: 760px) / :root",
+          "value": "4",
+          "file": "foundation-tokens.css",
+          "line": 58
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--layout-content",
+      "category": "Layout",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "52rem",
+          "file": "tokens.css",
+          "line": 157
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--layout-description-measure",
+      "category": "Layout",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "68ch",
+          "file": "foundation-tokens.css",
+          "line": 16
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--layout-gutter",
+      "category": "Layout",
+      "type": "value",
+      "description": "Grid gutter that responds to screen size",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--space-6)",
+          "file": "foundation-tokens.css",
+          "line": 14
+        },
+        {
+          "context": "@media (max-width: 760px) / :root",
+          "value": "var(--space-4)",
+          "file": "foundation-tokens.css",
+          "line": 61
+        }
+      ],
+      "aliases": [
+        "--space-6",
+        "--space-4"
+      ]
+    },
+    {
+      "name": "--layout-page-inset",
+      "category": "Layout",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--space-8)",
+          "file": "foundation-tokens.css",
+          "line": 12
+        },
+        {
+          "context": "@media (max-width: 760px) / :root",
+          "value": "var(--space-4)",
+          "file": "foundation-tokens.css",
+          "line": 59
+        }
+      ],
+      "aliases": [
+        "--space-8",
+        "--space-4"
+      ]
+    },
+    {
+      "name": "--layout-reading",
+      "category": "Layout",
+      "type": "value",
+      "description": "Maximum width for documentation body text",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--layout-content)",
+          "file": "foundation-tokens.css",
+          "line": 11
+        }
+      ],
+      "aliases": [
+        "--layout-content"
+      ]
+    },
+    {
+      "name": "--layout-section-gap",
+      "category": "Layout",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--space-12)",
+          "file": "foundation-tokens.css",
+          "line": 13
+        },
+        {
+          "context": "@media (max-width: 760px) / :root",
+          "value": "var(--space-8)",
+          "file": "foundation-tokens.css",
+          "line": 60
+        }
+      ],
+      "aliases": [
+        "--space-12",
+        "--space-8"
+      ]
+    },
+    {
+      "name": "--layout-sidebar",
+      "category": "Layout",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "17rem",
+          "file": "tokens.css",
+          "line": 158
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--layout-splash",
+      "category": "Layout",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "75rem",
+          "file": "tokens.css",
+          "line": 159
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--layout-wide",
+      "category": "Layout",
+      "type": "value",
+      "description": "Maximum width for dense tables and comparison screens",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "96rem",
+          "file": "foundation-tokens.css",
+          "line": 10
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--layout-workspace",
+      "category": "Layout",
+      "type": "value",
+      "description": "Default maximum content width for operational tools",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "75rem",
+          "file": "foundation-tokens.css",
+          "line": 9
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--line",
+      "category": "Color",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    0.37866351 0.01730498 248.2836448\n  )",
+          "file": "tokens.css",
+          "line": 31
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(0.93531009 0.01353396 240.96010253)",
+          "file": "tokens.css",
+          "line": 82
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(0.93531009 0.01353396 240.96010253)",
+          "file": "tokens.css",
+          "line": 336
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--logo-size",
+      "category": "Shape",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "40px",
+          "file": "tokens.css",
+          "line": 178
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--menu-background",
+      "category": "Controls",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--canvas)",
+          "file": "tokens.css",
+          "line": 271
+        }
+      ],
+      "aliases": [
+        "--canvas"
+      ]
+    },
+    {
+      "name": "--menu-border",
+      "category": "Controls",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--line)",
+          "file": "tokens.css",
+          "line": 272
+        }
+      ],
+      "aliases": [
+        "--line"
+      ]
+    },
+    {
+      "name": "--menu-hover-background",
+      "category": "Controls",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--surface)",
+          "file": "tokens.css",
+          "line": 273
+        }
+      ],
+      "aliases": [
+        "--surface"
+      ]
+    },
+    {
+      "name": "--menu-selected-background",
+      "category": "Controls",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--selected)",
+          "file": "tokens.css",
+          "line": 274
+        }
+      ],
+      "aliases": [
+        "--selected"
+      ]
+    },
+    {
+      "name": "--motion-ease",
+      "category": "Motion",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "cubic-bezier(0.2, 0, 0, 1)",
+          "file": "tokens.css",
+          "line": 299
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--motion-enter",
+      "category": "Motion",
+      "type": "duration",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "200ms",
+          "file": "tokens.css",
+          "line": 297
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--motion-exit",
+      "category": "Motion",
+      "type": "duration",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "100ms",
+          "file": "tokens.css",
+          "line": 298
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--motion-feedback",
+      "category": "Motion",
+      "type": "duration",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "120ms",
+          "file": "tokens.css",
+          "line": 295
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--motion-lift",
+      "category": "Motion",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "4px",
+          "file": "tokens.css",
+          "line": 301
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--motion-reveal",
+      "category": "Motion",
+      "type": "duration",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "160ms",
+          "file": "tokens.css",
+          "line": 296
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--motion-spatial-ease",
+      "category": "Motion",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+          "file": "tokens.css",
+          "line": 300
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--on-brand",
+      "category": "Color",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    0.2368845 0.00973297 248.23792711\n  )",
+          "file": "tokens.css",
+          "line": 50
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(0.2368845 0.00973297 248.23792711)",
+          "file": "tokens.css",
+          "line": 92
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(0.2368845 0.00973297 248.23792711)",
+          "file": "tokens.css",
+          "line": 346
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--page-header-breadcrumb-gap",
+      "category": "Layout",
+      "type": "value",
+      "description": "Spacing between the breadcrumb and the heading group",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--space-3)",
+          "file": "foundation-tokens.css",
+          "line": 47
+        }
+      ],
+      "aliases": [
+        "--space-3"
+      ]
+    },
+    {
+      "name": "--page-header-gap",
+      "category": "Layout",
+      "type": "value",
+      "description": "Spacing between the heading and description",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--space-2)",
+          "file": "foundation-tokens.css",
+          "line": 46
+        }
+      ],
+      "aliases": [
+        "--space-2"
+      ]
+    },
+    {
+      "name": "--radius-full",
+      "category": "Shape",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "999px",
+          "file": "tokens.css",
+          "line": 139
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--radius-lg",
+      "category": "Shape",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "16px",
+          "file": "tokens.css",
+          "line": 137
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--radius-md",
+      "category": "Shape",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "10px",
+          "file": "tokens.css",
+          "line": 136
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--radius-sheet",
+      "category": "Shape",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "20px",
+          "file": "tokens.css",
+          "line": 138
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--radius-sm",
+      "category": "Shape",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "6px",
+          "file": "tokens.css",
+          "line": 135
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--scrollbar-radius",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--radius-full)",
+          "file": "tokens.css",
+          "line": 313
+        }
+      ],
+      "aliases": [
+        "--radius-full"
+      ]
+    },
+    {
+      "name": "--scrollbar-size",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "8px",
+          "file": "tokens.css",
+          "line": 312
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--scrollbar-thumb",
+      "category": "Controls",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    from color-mix(in srgb, var(--ink-muted) 60%, var(--canvas)) l c h / alpha\n  )",
+          "file": "tokens.css",
+          "line": 315
+        }
+      ],
+      "aliases": [
+        "--ink-muted",
+        "--canvas"
+      ]
+    },
+    {
+      "name": "--scrollbar-thumb-hover",
+      "category": "Controls",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--ink-muted)",
+          "file": "tokens.css",
+          "line": 318
+        }
+      ],
+      "aliases": [
+        "--ink-muted"
+      ]
+    },
+    {
+      "name": "--scrollbar-track",
+      "category": "Controls",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(0 0 0 / 0)",
+          "file": "tokens.css",
+          "line": 314
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--selected",
+      "category": "Color",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    0.37866351 0.01730498 248.2836448\n  )",
+          "file": "tokens.css",
+          "line": 28
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(0.93531009 0.01353396 240.96010253)",
+          "file": "tokens.css",
+          "line": 81
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(0.93531009 0.01353396 240.96010253)",
+          "file": "tokens.css",
+          "line": 335
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--selection-background",
+      "category": "Color",
+      "type": "color",
+      "description": "Opaque text selection surface in each theme's neutral gray",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--selected)",
+          "file": "tokens.css",
+          "line": 463
+        }
+      ],
+      "aliases": [
+        "--selected"
+      ]
+    },
+    {
+      "name": "--selection-foreground",
+      "category": "Color",
+      "type": "color",
+      "description": "Text color that keeps contrast on the text selection surface",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--ink)",
+          "file": "tokens.css",
+          "line": 464
+        }
+      ],
+      "aliases": [
+        "--ink"
+      ]
+    },
+    {
+      "name": "--shadow-float",
+      "category": "Color",
+      "type": "shadow",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "0 12px 32px -8px oklch(0 0 0 / 0.5)",
+          "file": "tokens.css",
+          "line": 70
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "0 12px 32px -8px\n    oklch(0.2368845 0.00973297 248.23792711 / 0.18)",
+          "file": "tokens.css",
+          "line": 107
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "0 12px 32px -8px\n      oklch(0.2368845 0.00973297 248.23792711 / 0.18)",
+          "file": "tokens.css",
+          "line": 361
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--shadow-sheet",
+      "category": "Color",
+      "type": "shadow",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "0 1px 2px oklch(0 0 0 / 0.25)",
+          "file": "tokens.css",
+          "line": 69
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "0 1px 2px oklch(0.2368845 0.00973297 248.23792711 / 0.05),\n    0 10px 28px -14px oklch(0.2368845 0.00973297 248.23792711 / 0.14)",
+          "file": "tokens.css",
+          "line": 104
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "0 1px 2px oklch(0.2368845 0.00973297 248.23792711 / 0.05),\n      0 10px 28px -14px oklch(0.2368845 0.00973297 248.23792711 / 0.14)",
+          "file": "tokens.css",
+          "line": 358
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--sheet-inset",
+      "category": "Layout",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--space-3)",
+          "file": "tokens.css",
+          "line": 151
+        }
+      ],
+      "aliases": [
+        "--space-3"
+      ]
+    },
+    {
+      "name": "--size-avatar-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "36px",
+          "file": "foundation-tokens.css",
+          "line": 127
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-avatar-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "48px",
+          "file": "foundation-tokens.css",
+          "line": 128
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-avatar-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "24px",
+          "file": "foundation-tokens.css",
+          "line": 126
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-badge-font-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "12px",
+          "file": "foundation-tokens.css",
+          "line": 139
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-badge-font-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "13px",
+          "file": "foundation-tokens.css",
+          "line": 140
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-badge-font-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "12px",
+          "file": "foundation-tokens.css",
+          "line": 138
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-badge-padding-x-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "9px",
+          "file": "foundation-tokens.css",
+          "line": 136
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-badge-padding-x-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "12px",
+          "file": "foundation-tokens.css",
+          "line": 137
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-badge-padding-x-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "7px",
+          "file": "foundation-tokens.css",
+          "line": 135
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-badge-padding-y-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "4px",
+          "file": "foundation-tokens.css",
+          "line": 133
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-badge-padding-y-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "6px",
+          "file": "foundation-tokens.css",
+          "line": 134
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-badge-padding-y-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "2px",
+          "file": "foundation-tokens.css",
+          "line": 132
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-button-padding-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "14px",
+          "file": "foundation-tokens.css",
+          "line": 85
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-button-padding-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "18px",
+          "file": "foundation-tokens.css",
+          "line": 86
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-button-padding-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "10px",
+          "file": "foundation-tokens.css",
+          "line": 84
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-card-padding-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "24px",
+          "file": "foundation-tokens.css",
+          "line": 112
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-card-padding-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "32px",
+          "file": "foundation-tokens.css",
+          "line": 113
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-card-padding-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "16px",
+          "file": "foundation-tokens.css",
+          "line": 111
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-choice-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "20px",
+          "file": "foundation-tokens.css",
+          "line": 94
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-choice-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "24px",
+          "file": "foundation-tokens.css",
+          "line": 95
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-choice-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "16px",
+          "file": "foundation-tokens.css",
+          "line": 93
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-content-gap-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "12px",
+          "file": "foundation-tokens.css",
+          "line": 173
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-content-gap-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "16px",
+          "file": "foundation-tokens.css",
+          "line": 174
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-content-gap-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "8px",
+          "file": "foundation-tokens.css",
+          "line": 172
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-control-height-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "36px",
+          "file": "foundation-tokens.css",
+          "line": 79
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-control-height-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "44px",
+          "file": "foundation-tokens.css",
+          "line": 80
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-control-height-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "32px",
+          "file": "foundation-tokens.css",
+          "line": 78
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-control-padding-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "10px",
+          "file": "foundation-tokens.css",
+          "line": 82
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-control-padding-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "14px",
+          "file": "foundation-tokens.css",
+          "line": 83
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-control-padding-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "8px",
+          "file": "foundation-tokens.css",
+          "line": 81
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-file-padding-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "20px",
+          "file": "foundation-tokens.css",
+          "line": 170
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-file-padding-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "28px",
+          "file": "foundation-tokens.css",
+          "line": 171
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-file-padding-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "12px",
+          "file": "foundation-tokens.css",
+          "line": 169
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-font-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "14px",
+          "file": "foundation-tokens.css",
+          "line": 88
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-font-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "16px",
+          "file": "foundation-tokens.css",
+          "line": 89
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-font-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "13px",
+          "file": "foundation-tokens.css",
+          "line": 87
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-gap-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "8px",
+          "file": "foundation-tokens.css",
+          "line": 115
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-gap-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "12px",
+          "file": "foundation-tokens.css",
+          "line": 116
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-gap-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "6px",
+          "file": "foundation-tokens.css",
+          "line": 114
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-gauge-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "8px",
+          "file": "foundation-tokens.css",
+          "line": 142
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-gauge-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "10px",
+          "file": "foundation-tokens.css",
+          "line": 143
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-gauge-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "6px",
+          "file": "foundation-tokens.css",
+          "line": 141
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-icon-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "16px",
+          "file": "foundation-tokens.css",
+          "line": 106
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-icon-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "20px",
+          "file": "foundation-tokens.css",
+          "line": 107
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-icon-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "14px",
+          "file": "foundation-tokens.css",
+          "line": 105
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-leading-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "22px",
+          "file": "foundation-tokens.css",
+          "line": 91
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-leading-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "24px",
+          "file": "foundation-tokens.css",
+          "line": 92
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-leading-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "20px",
+          "file": "foundation-tokens.css",
+          "line": 90
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-otp-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "44px",
+          "file": "foundation-tokens.css",
+          "line": 148
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-otp-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "52px",
+          "file": "foundation-tokens.css",
+          "line": 149
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-otp-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "36px",
+          "file": "foundation-tokens.css",
+          "line": 147
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-row-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "36px",
+          "file": "foundation-tokens.css",
+          "line": 118
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-row-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "44px",
+          "file": "foundation-tokens.css",
+          "line": 119
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-row-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "32px",
+          "file": "foundation-tokens.css",
+          "line": 117
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-slider-thumb-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "20px",
+          "file": "foundation-tokens.css",
+          "line": 145
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-slider-thumb-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "24px",
+          "file": "foundation-tokens.css",
+          "line": 146
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-slider-thumb-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "16px",
+          "file": "foundation-tokens.css",
+          "line": 144
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-slider-track-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "6px",
+          "file": "foundation-tokens.css",
+          "line": 167
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-slider-track-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "8px",
+          "file": "foundation-tokens.css",
+          "line": 168
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-slider-track-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "4px",
+          "file": "foundation-tokens.css",
+          "line": 166
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-spinner-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "20px",
+          "file": "foundation-tokens.css",
+          "line": 130
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-spinner-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "28px",
+          "file": "foundation-tokens.css",
+          "line": 131
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-spinner-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "14px",
+          "file": "foundation-tokens.css",
+          "line": 129
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-surface-padding-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "16px",
+          "file": "foundation-tokens.css",
+          "line": 109
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-surface-padding-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "24px",
+          "file": "foundation-tokens.css",
+          "line": 110
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-surface-padding-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "12px",
+          "file": "foundation-tokens.css",
+          "line": 108
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-switch-height-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "22px",
+          "file": "foundation-tokens.css",
+          "line": 100
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-switch-height-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "26px",
+          "file": "foundation-tokens.css",
+          "line": 101
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-switch-height-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "20px",
+          "file": "foundation-tokens.css",
+          "line": 99
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-switch-thumb-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "14px",
+          "file": "foundation-tokens.css",
+          "line": 103
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-switch-thumb-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "18px",
+          "file": "foundation-tokens.css",
+          "line": 104
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-switch-thumb-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "12px",
+          "file": "foundation-tokens.css",
+          "line": 102
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-switch-width-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "36px",
+          "file": "foundation-tokens.css",
+          "line": 97
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-switch-width-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "44px",
+          "file": "foundation-tokens.css",
+          "line": 98
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-switch-width-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "32px",
+          "file": "foundation-tokens.css",
+          "line": 96
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-table-padding-x-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "16px",
+          "file": "foundation-tokens.css",
+          "line": 124
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-table-padding-x-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "20px",
+          "file": "foundation-tokens.css",
+          "line": 125
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-table-padding-x-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "12px",
+          "file": "foundation-tokens.css",
+          "line": 123
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-table-padding-y-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "12px",
+          "file": "foundation-tokens.css",
+          "line": 121
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-table-padding-y-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "16px",
+          "file": "foundation-tokens.css",
+          "line": 122
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-table-padding-y-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "8px",
+          "file": "foundation-tokens.css",
+          "line": 120
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-textarea-padding-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "12px",
+          "file": "foundation-tokens.css",
+          "line": 154
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-textarea-padding-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "16px",
+          "file": "foundation-tokens.css",
+          "line": 155
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-textarea-padding-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "8px",
+          "file": "foundation-tokens.css",
+          "line": 153
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-tooltip-padding-x-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "12px",
+          "file": "foundation-tokens.css",
+          "line": 160
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-tooltip-padding-x-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "16px",
+          "file": "foundation-tokens.css",
+          "line": 161
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-tooltip-padding-x-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "10px",
+          "file": "foundation-tokens.css",
+          "line": 159
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-tooltip-padding-y-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "8px",
+          "file": "foundation-tokens.css",
+          "line": 157
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-tooltip-padding-y-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "10px",
+          "file": "foundation-tokens.css",
+          "line": 158
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-tooltip-padding-y-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "6px",
+          "file": "foundation-tokens.css",
+          "line": 156
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-tree-row-default",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "44px",
+          "file": "foundation-tokens.css",
+          "line": 151
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-tree-row-large",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "52px",
+          "file": "foundation-tokens.css",
+          "line": 152
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-tree-row-small",
+      "category": "Controls",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "36px",
+          "file": "foundation-tokens.css",
+          "line": 150
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--skeleton-base",
+      "category": "Color",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    from color-mix(in srgb, var(--ink-muted) 14%, var(--canvas)) l c h / alpha\n  )",
+          "file": "tokens.css",
+          "line": 302
+        }
+      ],
+      "aliases": [
+        "--ink-muted",
+        "--canvas"
+      ]
+    },
+    {
+      "name": "--skeleton-highlight",
+      "category": "Color",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    from color-mix(in srgb, var(--ink-muted) 24%, var(--canvas)) l c h / alpha\n  )",
+          "file": "tokens.css",
+          "line": 305
+        }
+      ],
+      "aliases": [
+        "--ink-muted",
+        "--canvas"
+      ]
+    },
+    {
+      "name": "--space-0",
+      "category": "Spacing",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "0px",
+          "file": "foundation-tokens.css",
+          "line": 4
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--space-1",
+      "category": "Spacing",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "4px",
+          "file": "tokens.css",
+          "line": 142
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--space-10",
+      "category": "Spacing",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "40px",
+          "file": "foundation-tokens.css",
+          "line": 6
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--space-12",
+      "category": "Spacing",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "48px",
+          "file": "tokens.css",
+          "line": 148
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--space-16",
+      "category": "Spacing",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "64px",
+          "file": "foundation-tokens.css",
+          "line": 7
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--space-2",
+      "category": "Spacing",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "8px",
+          "file": "tokens.css",
+          "line": 143
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--space-20",
+      "category": "Spacing",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "80px",
+          "file": "foundation-tokens.css",
+          "line": 8
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--space-3",
+      "category": "Spacing",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "12px",
+          "file": "tokens.css",
+          "line": 144
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--space-4",
+      "category": "Spacing",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "16px",
+          "file": "tokens.css",
+          "line": 145
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--space-5",
+      "category": "Spacing",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "20px",
+          "file": "foundation-tokens.css",
+          "line": 5
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--space-6",
+      "category": "Spacing",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "24px",
+          "file": "tokens.css",
+          "line": 146
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--space-8",
+      "category": "Spacing",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "32px",
+          "file": "tokens.css",
+          "line": 147
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--status-badge-gap",
+      "category": "Status",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--space-1)",
+          "file": "tokens.css",
+          "line": 457
+        }
+      ],
+      "aliases": [
+        "--space-1"
+      ]
+    },
+    {
+      "name": "--status-caution-bg",
+      "category": "Status",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    from color-mix(in srgb, var(--caution) 9%, var(--canvas)) l c h / alpha\n  )",
+          "file": "tokens.css",
+          "line": 222
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(\n    from color-mix(in srgb, var(--caution) 12%, var(--canvas)) l c h / alpha\n  )",
+          "file": "tokens.css",
+          "line": 261
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(\n      from color-mix(in srgb, var(--caution) 12%, var(--canvas)) l c h / alpha\n    )",
+          "file": "tokens.css",
+          "line": 385
+        }
+      ],
+      "aliases": [
+        "--caution",
+        "--canvas"
+      ]
+    },
+    {
+      "name": "--status-caution-border",
+      "category": "Status",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    from color-mix(in srgb, var(--caution) 32%, var(--canvas)) l c h / alpha\n  )",
+          "file": "tokens.css",
+          "line": 225
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(\n    from color-mix(in srgb, var(--caution) 45%, var(--line)) l c h / alpha\n  )",
+          "file": "tokens.css",
+          "line": 264
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(\n      from color-mix(in srgb, var(--caution) 45%, var(--line)) l c h / alpha\n    )",
+          "file": "tokens.css",
+          "line": 388
+        }
+      ],
+      "aliases": [
+        "--caution",
+        "--canvas",
+        "--line"
+      ]
+    },
+    {
+      "name": "--status-caution-fg",
+      "category": "Status",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--caution)",
+          "file": "tokens.css",
+          "line": 221
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(\n    from color-mix(in srgb, var(--caution) 25%, var(--ink)) l c h / alpha\n  )",
+          "file": "tokens.css",
+          "line": 258
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(\n      from color-mix(in srgb, var(--caution) 25%, var(--ink)) l c h / alpha\n    )",
+          "file": "tokens.css",
+          "line": 382
+        }
+      ],
+      "aliases": [
+        "--caution",
+        "--ink"
+      ]
+    },
+    {
+      "name": "--status-danger-bg",
+      "category": "Status",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    from color-mix(in srgb, var(--danger) 10%, var(--canvas)) l c h / alpha\n  )",
+          "file": "tokens.css",
+          "line": 215
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(\n    from color-mix(in srgb, var(--danger) 5%, var(--canvas)) l c h / alpha\n  )",
+          "file": "tokens.css",
+          "line": 252
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(\n      from color-mix(in srgb, var(--danger) 5%, var(--canvas)) l c h / alpha\n    )",
+          "file": "tokens.css",
+          "line": 376
+        }
+      ],
+      "aliases": [
+        "--danger",
+        "--canvas"
+      ]
+    },
+    {
+      "name": "--status-danger-border",
+      "category": "Status",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    from color-mix(in srgb, var(--danger) 38%, var(--canvas)) l c h / alpha\n  )",
+          "file": "tokens.css",
+          "line": 218
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(\n    from color-mix(in srgb, var(--danger) 30%, var(--line)) l c h / alpha\n  )",
+          "file": "tokens.css",
+          "line": 255
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(\n      from color-mix(in srgb, var(--danger) 30%, var(--line)) l c h / alpha\n    )",
+          "file": "tokens.css",
+          "line": 379
+        }
+      ],
+      "aliases": [
+        "--danger",
+        "--canvas",
+        "--line"
+      ]
+    },
+    {
+      "name": "--status-danger-fg",
+      "category": "Status",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    from color-mix(in srgb, var(--danger) 70%, var(--ink)) l c h / alpha\n  )",
+          "file": "tokens.css",
+          "line": 212
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(\n    from color-mix(in srgb, var(--danger) 65%, var(--ink)) l c h / alpha\n  )",
+          "file": "tokens.css",
+          "line": 249
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(\n      from color-mix(in srgb, var(--danger) 65%, var(--ink)) l c h / alpha\n    )",
+          "file": "tokens.css",
+          "line": 373
+        }
+      ],
+      "aliases": [
+        "--danger",
+        "--ink"
+      ]
+    },
+    {
+      "name": "--status-neutral-bg",
+      "category": "Status",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--surface)",
+          "file": "tokens.css",
+          "line": 232
+        }
+      ],
+      "aliases": [
+        "--surface"
+      ]
+    },
+    {
+      "name": "--status-neutral-border",
+      "category": "Status",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--line)",
+          "file": "tokens.css",
+          "line": 233
+        }
+      ],
+      "aliases": [
+        "--line"
+      ]
+    },
+    {
+      "name": "--status-neutral-fg",
+      "category": "Status",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--ink-muted)",
+          "file": "tokens.css",
+          "line": 231
+        }
+      ],
+      "aliases": [
+        "--ink-muted"
+      ]
+    },
+    {
+      "name": "--status-progress-bg",
+      "category": "Status",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--selected)",
+          "file": "tokens.css",
+          "line": 229
+        }
+      ],
+      "aliases": [
+        "--selected"
+      ]
+    },
+    {
+      "name": "--status-progress-border",
+      "category": "Status",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--control-border)",
+          "file": "tokens.css",
+          "line": 230
+        }
+      ],
+      "aliases": [
+        "--control-border"
+      ]
+    },
+    {
+      "name": "--status-progress-fg",
+      "category": "Status",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--ink)",
+          "file": "tokens.css",
+          "line": 228
+        }
+      ],
+      "aliases": [
+        "--ink"
+      ]
+    },
+    {
+      "name": "--status-success-bg",
+      "category": "Status",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    from color-mix(in srgb, var(--brand) 9%, var(--canvas)) l c h / alpha\n  )",
+          "file": "tokens.css",
+          "line": 206
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(\n    from color-mix(in srgb, var(--brand) 9%, var(--canvas)) l c h / alpha\n  )",
+          "file": "tokens.css",
+          "line": 243
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(\n      from color-mix(in srgb, var(--brand) 9%, var(--canvas)) l c h / alpha\n    )",
+          "file": "tokens.css",
+          "line": 367
+        }
+      ],
+      "aliases": [
+        "--brand",
+        "--canvas"
+      ]
+    },
+    {
+      "name": "--status-success-border",
+      "category": "Status",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    from color-mix(in srgb, var(--brand) 32%, var(--canvas)) l c h / alpha\n  )",
+          "file": "tokens.css",
+          "line": 209
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(\n    from color-mix(in srgb, var(--brand) 25%, var(--line)) l c h / alpha\n  )",
+          "file": "tokens.css",
+          "line": 246
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(\n      from color-mix(in srgb, var(--brand) 25%, var(--line)) l c h / alpha\n    )",
+          "file": "tokens.css",
+          "line": 370
+        }
+      ],
+      "aliases": [
+        "--brand",
+        "--canvas",
+        "--line"
+      ]
+    },
+    {
+      "name": "--status-success-fg",
+      "category": "Status",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--brand)",
+          "file": "tokens.css",
+          "line": 205
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(\n    from color-mix(in srgb, var(--brand) 25%, var(--ink)) l c h / alpha\n  )",
+          "file": "tokens.css",
+          "line": 240
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(\n      from color-mix(in srgb, var(--brand) 25%, var(--ink)) l c h / alpha\n    )",
+          "file": "tokens.css",
+          "line": 364
+        }
+      ],
+      "aliases": [
+        "--brand",
+        "--ink"
+      ]
+    },
+    {
+      "name": "--surface",
+      "category": "Color",
+      "type": "color",
+      "description": "Secondary surface inside the sheet for code and highlighted areas",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(\n    0.2368845 0.00973297 248.23792711\n  )",
+          "file": "tokens.css",
+          "line": 19
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(0.9781762 0.0034179 247.8580546)",
+          "file": "tokens.css",
+          "line": 78
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(0.9781762 0.0034179 247.8580546)",
+          "file": "tokens.css",
+          "line": 332
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--syntax-attribute",
+      "category": "Color",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--syntax-plain)",
+          "file": "tokens.css",
+          "line": 518
+        }
+      ],
+      "aliases": [
+        "--syntax-plain"
+      ]
+    },
+    {
+      "name": "--syntax-comment",
+      "category": "Color",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(0.7 0.012 250)",
+          "file": "tokens.css",
+          "line": 512
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(0.47 0.012 250)",
+          "file": "tokens.css",
+          "line": 523
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--syntax-function",
+      "category": "Color",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(0.81 0.075 245)",
+          "file": "tokens.css",
+          "line": 516
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(0.44 0.075 245)",
+          "file": "tokens.css",
+          "line": 527
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--syntax-keyword",
+      "category": "Color",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(0.78 0.08 295)",
+          "file": "tokens.css",
+          "line": 513
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(0.43 0.08 295)",
+          "file": "tokens.css",
+          "line": 524
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--syntax-number",
+      "category": "Color",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(0.82 0.075 80)",
+          "file": "tokens.css",
+          "line": 515
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(0.43 0.075 80)",
+          "file": "tokens.css",
+          "line": 526
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--syntax-plain",
+      "category": "Color",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--ink-body)",
+          "file": "tokens.css",
+          "line": 511
+        }
+      ],
+      "aliases": [
+        "--ink-body"
+      ]
+    },
+    {
+      "name": "--syntax-punctuation",
+      "category": "Color",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--syntax-comment)",
+          "file": "tokens.css",
+          "line": 519
+        }
+      ],
+      "aliases": [
+        "--syntax-comment"
+      ]
+    },
+    {
+      "name": "--syntax-string",
+      "category": "Color",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(0.8 0.065 150)",
+          "file": "tokens.css",
+          "line": 514
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(0.43 0.065 150)",
+          "file": "tokens.css",
+          "line": 525
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--syntax-tag",
+      "category": "Color",
+      "type": "color",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--syntax-function)",
+          "file": "tokens.css",
+          "line": 517
+        }
+      ],
+      "aliases": [
+        "--syntax-function"
+      ]
+    },
+    {
+      "name": "--theme-transition-duration",
+      "category": "Motion",
+      "type": "duration",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--duration-base)",
+          "file": "motion.css",
+          "line": 3
+        }
+      ],
+      "aliases": [
+        "--duration-base"
+      ]
+    },
+    {
+      "name": "--theme-transition-ease",
+      "category": "Motion",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--ease-out)",
+          "file": "motion.css",
+          "line": 4
+        }
+      ],
+      "aliases": [
+        "--ease-out"
+      ]
+    },
+    {
+      "name": "--toast-enter-duration",
+      "category": "Motion",
+      "type": "duration",
+      "description": "Unhurried fade-and-rise duration for toast entry",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "320ms",
+          "file": "tokens.css",
+          "line": 416
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--toast-stack-duration",
+      "category": "Motion",
+      "type": "duration",
+      "description": "Duration for repositioning toasts in the stack",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "360ms",
+          "file": "tokens.css",
+          "line": 417
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--toast-stack-ease",
+      "category": "Motion",
+      "type": "value",
+      "description": "Gentle deceleration curve for adding, expanding and collapsing the toast stack",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "cubic-bezier(0.22, 0.61, 0.36, 1)",
+          "file": "tokens.css",
+          "line": 418
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--tooltip-background",
+      "category": "Color",
+      "type": "color",
+      "description": "Tooltip surface with contrast inverted from the surrounding theme",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--ink)",
+          "file": "tokens.css",
+          "line": 407
+        }
+      ],
+      "aliases": [
+        "--ink"
+      ]
+    },
+    {
+      "name": "--tooltip-foreground",
+      "category": "Color",
+      "type": "color",
+      "description": "Text color on the inverted tooltip surface",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--canvas)",
+          "file": "tokens.css",
+          "line": 408
+        }
+      ],
+      "aliases": [
+        "--canvas"
+      ]
+    },
+    {
+      "name": "--tracking",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "0",
+          "file": "tokens.css",
+          "line": 131
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--tracking-mono",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "0",
+          "file": "tokens.css",
+          "line": 132
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--type-body-leading",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "1.571429",
+          "file": "foundation-tokens.css",
+          "line": 33
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--type-body-size",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "0.875rem",
+          "file": "foundation-tokens.css",
+          "line": 32
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--type-caption-leading",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "1.5",
+          "file": "foundation-tokens.css",
+          "line": 39
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--type-caption-size",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "0.75rem",
+          "file": "foundation-tokens.css",
+          "line": 38
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--type-code-leading",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "1.538462",
+          "file": "foundation-tokens.css",
+          "line": 41
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--type-code-size",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "0.8125rem",
+          "file": "foundation-tokens.css",
+          "line": 40
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--type-display-leading",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "1.2",
+          "file": "foundation-tokens.css",
+          "line": 23
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--type-display-size",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "2.5rem",
+          "file": "foundation-tokens.css",
+          "line": 22
+        },
+        {
+          "context": "@media (max-width: 760px) / :root",
+          "value": "2rem",
+          "file": "foundation-tokens.css",
+          "line": 62
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--type-document-section-size",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "1.75rem",
+          "file": "foundation-tokens.css",
+          "line": 21
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--type-document-title-leading",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "1.25",
+          "file": "foundation-tokens.css",
+          "line": 20
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--type-document-title-size",
+      "category": "Typography",
+      "type": "typography",
+      "description": "32–40px heading for reading-focused screens",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "clamp(2rem, 1.6rem + 1.6vw, 2.5rem)",
+          "file": "foundation-tokens.css",
+          "line": 19
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--type-label-leading",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--type-body-leading)",
+          "file": "foundation-tokens.css",
+          "line": 45
+        }
+      ],
+      "aliases": [
+        "--type-body-leading"
+      ]
+    },
+    {
+      "name": "--type-label-size",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--type-body-size)",
+          "file": "foundation-tokens.css",
+          "line": 44
+        }
+      ],
+      "aliases": [
+        "--type-body-size"
+      ]
+    },
+    {
+      "name": "--type-metric-leading",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "1.166667",
+          "file": "foundation-tokens.css",
+          "line": 43
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--type-metric-size",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "1.5rem",
+          "file": "foundation-tokens.css",
+          "line": 42
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--type-page-leading",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "1.333333",
+          "file": "foundation-tokens.css",
+          "line": 27
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--type-page-size",
+      "category": "Typography",
+      "type": "typography",
+      "description": "24px heading for standard pages",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "1.5rem",
+          "file": "foundation-tokens.css",
+          "line": 26
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--type-reading-leading",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "1.75",
+          "file": "foundation-tokens.css",
+          "line": 35
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--type-reading-size",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "1rem",
+          "file": "foundation-tokens.css",
+          "line": 34
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--type-section-leading",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "1.4",
+          "file": "foundation-tokens.css",
+          "line": 29
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--type-section-size",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "1.25rem",
+          "file": "foundation-tokens.css",
+          "line": 28
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--type-subsection-leading",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "1.5",
+          "file": "foundation-tokens.css",
+          "line": 31
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--type-subsection-size",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "1rem",
+          "file": "foundation-tokens.css",
+          "line": 30
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--type-table-leading",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "1.538462",
+          "file": "foundation-tokens.css",
+          "line": 37
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--type-table-size",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "0.8125rem",
+          "file": "foundation-tokens.css",
+          "line": 36
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--type-title-leading",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "1.25",
+          "file": "foundation-tokens.css",
+          "line": 25
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--type-title-size",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "2rem",
+          "file": "foundation-tokens.css",
+          "line": 24
+        },
+        {
+          "context": "@media (max-width: 760px) / :root",
+          "value": "1.75rem",
+          "file": "foundation-tokens.css",
+          "line": 63
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--type-workspace-title-leading",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "1.15",
+          "file": "foundation-tokens.css",
+          "line": 18
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--type-workspace-title-size",
+      "category": "Typography",
+      "type": "typography",
+      "description": "Fluid 30–40px heading for primary screens",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "clamp(1.875rem, 3vw, 2.5rem)",
+          "file": "foundation-tokens.css",
+          "line": 17
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--veil-blur",
+      "category": "Layout",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--space-6)",
+          "file": "tokens.css",
+          "line": 169
+        }
+      ],
+      "aliases": [
+        "--space-6"
+      ]
+    },
+    {
+      "name": "--veil-spread",
+      "category": "Layout",
+      "type": "value",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--space-2)",
+          "file": "tokens.css",
+          "line": 168
+        }
+      ],
+      "aliases": [
+        "--space-2"
+      ]
+    },
+    {
+      "name": "--weight-medium",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "500",
+          "file": "tokens.css",
+          "line": 130
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--weight-regular",
+      "category": "Typography",
+      "type": "typography",
+      "description": "",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "400",
+          "file": "tokens.css",
+          "line": 129
+        }
+      ],
+      "aliases": []
+    }
+  ]
+}

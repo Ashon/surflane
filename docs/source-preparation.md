@@ -1,0 +1,11 @@
+# Independent source preparation
+
+The distributable source uses Surflane as the project name, @surflane as the npm package scope, and pui-* for CSS classes and data hooks. The catalog focuses on platform development, reusable UI contracts and evolving design principles. Example data is illustrative. No organization logo, private document link, real account, internal host or sibling-product deployment is part of this edition.
+
+Run `npm run check:public` before making a source copy. It scans the same allowlisted source set used by `npm run export:source`, including current uncommitted changes and new source files. The automated scan checks retired identifiers, private collaboration links, common private IPv4 ranges, absolute user paths and private-key headers; it cannot establish that all material is safe to publish.
+
+`npm run export:source` creates `artifacts/surflane-source/` and its tar.gz archive. It omits `.git`, ignored local data, dependencies, reports, screenshots, credentials, old package artifacts and build output. The exporter does not rewrite repository history. Earlier snapshots remain in the local history even when author metadata has been updated. To start a separate public repository, use the clean source directory and initialize a fresh Git repository there. Do not copy the existing `.git` directory, ignored folders or a full checkout archive. After initializing the new repository, set its local user.name and user.email to your chosen personal identity before the first commit; global Git defaults may be different.
+
+The source is dual licensed as `MIT OR Apache-2.0`. The root and each package contain `LICENSE-MIT` and `LICENSE-APACHE`, and every manifest declares the same SPDX expression. Keep the package copies identical to the root files. Third-party font and software packages retain their licenses and required notices; keep those when redistributing dependency assets. No existing third-party copyright notice is intentionally removed by this preparation.
+
+The export and package commands never publish, push, change Git history, or modify neighboring application repositories. Only `npm run release:publish` and the tag-triggered release workflow publish to npm; see [release validation](release-and-validation.md). The source export can be inspected and built locally before any public upload.

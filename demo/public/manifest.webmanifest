@@ -1,0 +1,23 @@
+{
+  "name": "Surflane",
+  "short_name": "Surflane",
+  "description": "A design system for platform development",
+  "start_url": ".",
+  "display": "browser",
+  "background_color": "#f6f8fa",
+  "theme_color": "#f6f8fa",
+  "icons": [
+    {
+      "src": "brand/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "brand/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

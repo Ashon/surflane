@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="description"
+      content="A design system for platform development: shared tokens, React components and interaction patterns, refined together."
+    />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta
+      name="theme-color"
+      content="#f6f8fa"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#1b1f23"
+      media="(prefers-color-scheme: dark)"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Surflane" />
+    <meta property="og:title" content="Surflane" />
+    <meta
+      property="og:description"
+      content="A design system for platform development: shared tokens, React components and interaction patterns, refined together."
+    />
+    <meta property="og:url" content="https://surflane.page/" />
+    <meta property="og:image" content="https://surflane.page/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Surflane, a design system for platform development"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script>
+      (() => {
+        let mode = "light";
+        try {
+          const value = document.cookie
+            .split("; ")
+            .find((entry) => entry.startsWith("surflane-theme="))
+            ?.slice("surflane-theme=".length);
+          if (["light", "dark", "system"].includes(value)) mode = value;
+        } catch {}
+        document.documentElement.dataset.themeMode = mode;
+        document.documentElement.dataset.theme =
+          mode === "system"
+            ? matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light"
+            : mode;
+      })();
+    </script>
+    <title>Surflane</title>
+  </head>
+  <body class="pui-typography">
+    <div id="root"></div>
+    <script type="module" src="/main.tsx"></script>
+  </body>
+</html>

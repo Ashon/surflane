@@ -1,0 +1,54 @@
+{
+  "name": "@surflane/design-tokens",
+  "version": "0.1.0",
+  "description": "Framework-neutral Surflane design tokens: OKLCH color roles, spacing, typography, sizing and motion as CSS custom properties.",
+  "keywords": [
+    "design-system",
+    "design-tokens",
+    "css-variables",
+    "oklch",
+    "theme",
+    "surflane"
+  ],
+  "homepage": "https://surflane.page/tokens",
+  "bugs": {
+    "url": "https://github.com/Ashon/surflane/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ashon/surflane.git",
+    "directory": "packages/tokens"
+  },
+  "license": "MIT OR Apache-2.0",
+  "author": "ashon",
+  "type": "module",
+  "files": [
+    "*.css",
+    "*.json",
+    "*.js",
+    "*.d.ts",
+    "LICENSE-MIT",
+    "LICENSE-APACHE"
+  ],
+  "exports": {
+    "./tokens.css": "./tokens.css",
+    "./controls.css": "./controls.css",
+    "./theme.json": "./theme.json",
+    "./motion.css": "./motion.css",
+    "./theme-transition": {
+      "types": "./theme-transition.d.ts",
+      "import": "./theme-transition.js"
+    },
+    "./foundations.css": "./foundations.css",
+    "./catalog.json": "./catalog.json",
+    "./presentation.css": "./presentation.css",
+    "./typography.css": "./typography.css",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "prepack": "node ../../scripts/build-tokens.mjs"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

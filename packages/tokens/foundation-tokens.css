@@ -1,0 +1,175 @@
+/* Additive foundations. Product-specific density remains an explicit choice. */
+:root,
+[data-theme] {
+  --space-0: 0px;
+  --space-5: 20px;
+  --space-10: 40px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --layout-workspace: 75rem;
+  --layout-wide: 96rem;
+  --layout-reading: var(--layout-content);
+  --layout-page-inset: var(--space-8);
+  --layout-section-gap: var(--space-12);
+  --layout-gutter: var(--space-6);
+  --layout-columns: 12;
+  --layout-description-measure: 68ch;
+  --type-workspace-title-size: clamp(1.875rem, 3vw, 2.5rem);
+  --type-workspace-title-leading: 1.15;
+  --type-document-title-size: clamp(2rem, 1.6rem + 1.6vw, 2.5rem);
+  --type-document-title-leading: 1.25;
+  --type-document-section-size: 1.75rem;
+  --type-display-size: 2.5rem;
+  --type-display-leading: 1.2;
+  --type-title-size: 2rem;
+  --type-title-leading: 1.25;
+  --type-page-size: 1.5rem;
+  --type-page-leading: 1.333333;
+  --type-section-size: 1.25rem;
+  --type-section-leading: 1.4;
+  --type-subsection-size: 1rem;
+  --type-subsection-leading: 1.5;
+  --type-body-size: 0.875rem;
+  --type-body-leading: 1.571429;
+  --type-reading-size: 1rem;
+  --type-reading-leading: 1.75;
+  --type-table-size: 0.8125rem;
+  --type-table-leading: 1.538462;
+  --type-caption-size: 0.75rem;
+  --type-caption-leading: 1.5;
+  --type-code-size: 0.8125rem;
+  --type-code-leading: 1.538462;
+  --type-metric-size: 1.5rem;
+  --type-metric-leading: 1.166667;
+  --type-label-size: var(--type-body-size);
+  --type-label-leading: var(--type-body-leading);
+  --page-header-gap: var(--space-2);
+  --page-header-breadcrumb-gap: var(--space-3);
+}
+@media (max-width: 1100px) {
+  :root,
+  [data-theme] {
+    --layout-columns: 6;
+  }
+}
+@media (max-width: 760px) {
+  :root,
+  [data-theme] {
+    --layout-columns: 4;
+    --layout-page-inset: var(--space-4);
+    --layout-section-gap: var(--space-8);
+    --layout-gutter: var(--space-4);
+    --type-display-size: 2rem;
+    --type-title-size: 1.75rem;
+  }
+}
+
+:root,
+[data-theme] {
+  --icon-size-sm: 16px;
+  --icon-size-md: 20px;
+  --icon-size-lg: 24px;
+  --icon-stroke-width: 1.7;
+}
+
+/* Three component size schemes; default preserves the existing visual scale. */
+:root,
+[data-theme] {
+  --size-control-height-small: 32px;
+  --size-control-height-default: 36px;
+  --size-control-height-large: 44px;
+  --size-control-padding-small: 8px;
+  --size-control-padding-default: 10px;
+  --size-control-padding-large: 14px;
+  --size-button-padding-small: 10px;
+  --size-button-padding-default: 14px;
+  --size-button-padding-large: 18px;
+  --size-font-small: 13px;
+  --size-font-default: 14px;
+  --size-font-large: 16px;
+  --size-leading-small: 20px;
+  --size-leading-default: 22px;
+  --size-leading-large: 24px;
+  --size-choice-small: 16px;
+  --size-choice-default: 20px;
+  --size-choice-large: 24px;
+  --size-switch-width-small: 32px;
+  --size-switch-width-default: 36px;
+  --size-switch-width-large: 44px;
+  --size-switch-height-small: 20px;
+  --size-switch-height-default: 22px;
+  --size-switch-height-large: 26px;
+  --size-switch-thumb-small: 12px;
+  --size-switch-thumb-default: 14px;
+  --size-switch-thumb-large: 18px;
+  --size-icon-small: 14px;
+  --size-icon-default: 16px;
+  --size-icon-large: 20px;
+  --size-surface-padding-small: 12px;
+  --size-surface-padding-default: 16px;
+  --size-surface-padding-large: 24px;
+  --size-card-padding-small: 16px;
+  --size-card-padding-default: 24px;
+  --size-card-padding-large: 32px;
+  --size-gap-small: 6px;
+  --size-gap-default: 8px;
+  --size-gap-large: 12px;
+  --size-row-small: 32px;
+  --size-row-default: 36px;
+  --size-row-large: 44px;
+  --size-table-padding-y-small: 8px;
+  --size-table-padding-y-default: 12px;
+  --size-table-padding-y-large: 16px;
+  --size-table-padding-x-small: 12px;
+  --size-table-padding-x-default: 16px;
+  --size-table-padding-x-large: 20px;
+  --size-avatar-small: 24px;
+  --size-avatar-default: 36px;
+  --size-avatar-large: 48px;
+  --size-spinner-small: 14px;
+  --size-spinner-default: 20px;
+  --size-spinner-large: 28px;
+  --size-badge-padding-y-small: 2px;
+  --size-badge-padding-y-default: 4px;
+  --size-badge-padding-y-large: 6px;
+  --size-badge-padding-x-small: 7px;
+  --size-badge-padding-x-default: 9px;
+  --size-badge-padding-x-large: 12px;
+  --size-badge-font-small: 12px;
+  --size-badge-font-default: 12px;
+  --size-badge-font-large: 13px;
+  --size-gauge-small: 6px;
+  --size-gauge-default: 8px;
+  --size-gauge-large: 10px;
+  --size-slider-thumb-small: 16px;
+  --size-slider-thumb-default: 20px;
+  --size-slider-thumb-large: 24px;
+  --size-otp-small: 36px;
+  --size-otp-default: 44px;
+  --size-otp-large: 52px;
+  --size-tree-row-small: 36px;
+  --size-tree-row-default: 44px;
+  --size-tree-row-large: 52px;
+  --size-textarea-padding-small: 8px;
+  --size-textarea-padding-default: 12px;
+  --size-textarea-padding-large: 16px;
+  --size-tooltip-padding-y-small: 6px;
+  --size-tooltip-padding-y-default: 8px;
+  --size-tooltip-padding-y-large: 10px;
+  --size-tooltip-padding-x-small: 10px;
+  --size-tooltip-padding-x-default: 12px;
+  --size-tooltip-padding-x-large: 16px;
+}
+
+:root,
+[data-theme] {
+  --size-slider-track-small: 4px;
+  --size-slider-track-default: 6px;
+  --size-slider-track-large: 8px;
+  --size-file-padding-small: 12px;
+  --size-file-padding-default: 20px;
+  --size-file-padding-large: 28px;
+  --size-content-gap-small: 8px;
+  --size-content-gap-default: 12px;
+  --size-content-gap-large: 16px;
+}

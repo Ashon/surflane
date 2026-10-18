@@ -1,0 +1,54 @@
+{
+  "name": "surflane-workspace",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build:tokens && npm run build --workspace @surflane/ui",
+    "pack:local": "node scripts/distribute.mjs",
+    "dev": "npm run build && vite demo --host 127.0.0.1 --port 8066",
+    "build:catalog": "npm run build && npm run check:catalog && vite build demo --manifest && npm run check:catalog-build",
+    "test": "playwright test",
+    "format": "prettier --write packages scripts demo tests examples *.json",
+    "build:tokens": "node scripts/build-tokens.mjs",
+    "check:catalog": "tsc -p demo/tsconfig.json",
+    "check:catalog-build": "node scripts/check-catalog-build.mjs",
+    "build:pages": "npm run build && npm run check:catalog && node scripts/build-pages.mjs",
+    "build:brand": "node scripts/build-brand.mjs",
+    "test:catalog-loading:prod": "npm run build:catalog && playwright test --config playwright.catalog.config.ts",
+    "pack": "node scripts/distribute.mjs --pack-only",
+    "check:package": "tsc -p tests/contracts/tsconfig.json && node scripts/check-package.mjs",
+    "check:ssr": "tsc -p tests/ssr/tsconfig.json && node scripts/check-ssr.mjs",
+    "check:examples": "node scripts/check-examples.mjs",
+    "test:browsers": "playwright test --config playwright.browsers.config.ts",
+    "check:public": "node scripts/check-public.mjs",
+    "export:source": "node scripts/export-source.mjs",
+    "release:version": "node scripts/release.mjs version",
+    "release:verify": "node scripts/release.mjs verify",
+    "release:publish": "node scripts/release.mjs publish"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.64.1",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "culori": "4.0.2",
+    "esbuild": "0.25.12",
+    "postcss": "^8.5.30",
+    "prettier": "^3.9.10",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "typescript": "^5.7.0",
+    "vite": "^6.4.4"
+  },
+  "dependencies": {
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@fontsource-variable/manrope": "^5.3.0",
+    "@fontsource-variable/noto-sans-jp": "^5.3.1",
+    "pretendard": "^1.3.9"
+  },
+  "license": "MIT OR Apache-2.0"
+}

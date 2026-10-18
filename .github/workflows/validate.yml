@@ -1,0 +1,66 @@
+name: Design system validation
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: design-system-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  package-and-browsers:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - run: npm run build:catalog
+      - run: npm run check:package
+      - run: npm run check:ssr
+      - run: npm run check:public
+      # Pack without requiring or changing sibling product repositories.
+      - run: npm run pack
+      - run: npx playwright install --with-deps chromium firefox webkit
+      - run: npm run test:browsers
+  # Packed tarballs installed into real framework apps: build, SSR, hydration.
+  examples:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        example: [vite, next, react-router, astro]
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run check:examples -- ${{ matrix.example }}
+  full-regression:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm test

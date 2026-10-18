@@ -1,0 +1,13 @@
+/* Inherited rendering hints; rasterization remains browser/OS dependent.
+ * Keep real font weights and synthetic italics available for document emphasis.
+ * Vendor smoothing properties are progressive enhancements, not sharpness guarantees.
+ */
+:root,
+[data-theme] {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-kerning: normal;
+  font-optical-sizing: auto;
+  font-synthesis-weight: none;
+}
