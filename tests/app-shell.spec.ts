@@ -306,13 +306,15 @@ test('the workspace surface grows through the scroll boundary and closes only at
       expect(sheet.y).toBeLessThan(frame.y)
       expect(sheet.y + sheet.height).toBeGreaterThan(frame.y + frame.height)
       await viewport.evaluate((el) => (el.scrollTop = el.scrollHeight))
+      // 12px closes the surface at the content end. Engines round scrollHeight to
+      // whole pixels, so the last scroll position can stop up to a pixel short.
       await expect
         .poll(async () => {
           const frame = (await viewport.boundingBox())!,
             sheet = (await surface.boundingBox())!
-          return frame.y + frame.height - sheet.y - sheet.height
+          return Math.abs(frame.y + frame.height - sheet.y - sheet.height - 12)
         })
-        .toBeCloseTo(12, 0)
+        .toBeLessThan(1)
       await expect
         .poll(() =>
           page

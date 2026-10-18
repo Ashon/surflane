@@ -216,8 +216,21 @@ for (const theme of ['light', 'dark'])
         () => document.documentElement.scrollWidth <= innerWidth,
       ),
     ).toBe(true)
-    const rect = await page.locator('.pui-otp-field').first().boundingBox()
-    expect(rect!.width).toBeLessThanOrEqual(260)
+    // The field never outgrows its container; its inputs shrink to fit instead.
+    const fit = await page
+      .locator('.pui-otp-field')
+      .first()
+      .evaluate((field) => {
+        const own = field.getBoundingClientRect(),
+          container = field.parentElement!.getBoundingClientRect()
+        return {
+          inside: own.left >= container.left && own.right <= container.right,
+          inputs: [...field.querySelectorAll('input')].every(
+            (input) => input.getBoundingClientRect().width >= 36,
+          ),
+        }
+      })
+    expect(fit).toEqual({ inside: true, inputs: true })
     await expect(inputs(page).first()).toHaveCSS('height', '44px')
   })
 test('OTP buffers composition until commit and does not execute editing keys owned by IME', async ({

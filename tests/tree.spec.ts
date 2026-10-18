@@ -67,10 +67,11 @@ test('disclosure does not select, disabled nodes remain discoverable and typeahe
 }) => {
   await open(page)
   await item(page, 'Projects').focus()
-  await page.keyboard.press('Shift+c')
-  await expect(item(page, 'Workspace')).toBeFocused()
-  await page.keyboard.press('c')
-  await expect(item(page, 'Documentation')).toBeFocused()
+  // Typeahead ignores case, and repeating a letter cycles its matches.
+  await page.keyboard.press('Shift+s')
+  await expect(item(page, 'Staging environment')).toBeFocused()
+  await page.keyboard.press('s')
+  await expect(item(page, 'Shared resources')).toBeFocused()
   await item(page, 'Staging environment')
     .getByRole('button', { name: 'Expand Staging environment', exact: true })
     .click()

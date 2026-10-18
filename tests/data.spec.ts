@@ -16,12 +16,14 @@ test('Table preserves headers and caption, sorts with keyboard, and selects thro
     .filter({ has: page.getByRole('button', { name: 'Name', exact: true }) })
   await expect(name).toHaveAttribute('scope', 'col')
   await expect(name).toHaveAttribute('aria-sort', 'ascending')
-  await expect(table.getByRole('rowheader').first()).toHaveText('Documentation')
+  await expect(table.getByRole('rowheader').first()).toHaveText('DEMO main')
   const sort = page.getByRole('button', { name: 'Name', exact: true })
   await sort.focus()
   await page.keyboard.press('Enter')
   await expect(name).toHaveAttribute('aria-sort', 'descending')
-  await expect(table.getByRole('rowheader').first()).toHaveText('DEMO main')
+  await expect(table.getByRole('rowheader').first()).toHaveText(
+    'Inventory main',
+  )
   const check = table.getByRole('checkbox', {
     name: 'Select DEMO main',
     exact: true,
