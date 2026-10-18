@@ -104,7 +104,7 @@ test('sample code copy uses translated announcements and long code stays in its 
     page.locator('.documentation-article .pui-code-result'),
   ).toHaveText('Sample configuration copied.')
   expect(await page.evaluate(() => (window as any).copiedGuide)).toContain(
-    'mode: "read-only"',
+    "mode: 'read-only'",
   )
   const code = page
     .locator('.documentation-article .pui-code-block')
