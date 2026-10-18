@@ -309,7 +309,9 @@ export const Chart = React.forwardRef<HTMLElement, ChartProps>(function Chart(
                   tickFormatter={(value) => {
                     const label =
                       byId.get(String(value))?.label ?? String(value)
-                    return label.length > 14 ? label.slice(0, 13) + '…' : label
+                    // minTickGap already drops ticks that would overlap; the cap
+                    // only keeps one very long label from crowding the axis.
+                    return label.length > 24 ? label.slice(0, 23) + '…' : label
                   }}
                   tick={{ fill: 'var(--ink-muted)', fontSize: 12 }}
                   tickLine={false}

@@ -47,16 +47,28 @@ test('Code block preserves the exact source, copies Unicode and whitespace, and 
   await page.goto('/components/code')
   await waitForCatalogReady(page)
   const block = page.locator('#preview .pui-code-block').first(),
-    code = block.locator('pre code')
+    code = block.locator('pre code'),
+    copy = block.locator('.pui-code-copy')
   const source = await code.textContent()
   expect(source).toContain('한글')
   expect(source).toContain('\n  - access.identity-control')
   expect(source!.endsWith('\n')).toBeTruthy()
-  await block.getByRole('button', { name: 'Copy code', exact: true }).click()
+  const before = (await block.boundingBox())!,
+    width = (await copy.boundingBox())!.width
+  await expect(copy).toHaveAccessibleName('Copy code')
+  await copy.click()
   expect(await page.evaluate(() => (window as any).copiedSource)).toBe(source)
-  await expect(block.getByRole('status')).toHaveText('Code copied.')
+  // The result replaces the label in place: nothing else moves or resizes.
+  await expect(copy).toHaveText('Copied')
+  await expect(copy).toHaveAttribute('data-copy-state', 'copied')
+  expect(await block.boundingBox()).toEqual(before)
+  expect((await copy.boundingBox())!.width).toBe(width)
+  await expect(block.getByRole('status')).toHaveCount(0)
+  await expect(copy).toHaveText('Copy code', { timeout: 4000 })
+  await copy.click()
+  await expect(copy).toHaveText('Copied')
   await page.getByRole('button', { name: 'Change source', exact: true }).click()
-  await expect(block.getByRole('status')).toBeEmpty()
+  await expect(copy).toHaveText('Copy code')
   await expect(code).toContainText('revision: 2')
 })
 test('Code block handles denied clipboard access without executing source text or losing the selectable source', async ({
@@ -68,8 +80,10 @@ test('Code block handles denied clipboard access without executing source text o
   await block
     .getByRole('button', { name: 'Try unavailable clipboard', exact: true })
     .click()
-  await expect(block.getByRole('status')).toHaveText(
-    'Copy unavailable. Select the code and copy it manually.',
+  await expect(block.locator('.pui-code-copy')).toHaveText('Copy unavailable')
+  // The source is selected, ready for the keyboard copy shortcut.
+  expect(await page.evaluate(() => getSelection()!.toString())).toContain(
+    '<script>Example text is never executed.</script>',
   )
   await expect(block.locator('pre code')).toContainText(
     '<script>Example text is never executed.</script>',
@@ -94,19 +108,21 @@ test('Code block ignores stale pending copy results when source changes and can 
   await page.goto('/components/code')
   await waitForCatalogReady(page)
   const block = page.locator('#preview .pui-code-block').first(),
-    button = block.getByRole('button', { name: 'Copy code', exact: true })
+    button = block.locator('.pui-code-copy')
   await button.click()
   await expect(button).toBeDisabled()
   await page.getByRole('button', { name: 'Change source', exact: true }).click()
   await expect(button).toBeEnabled()
   await page.evaluate(() => (window as any).pendingCopy.resolve())
-  await expect(block.getByRole('status')).toBeEmpty()
+  // The stale copy never reports a result for the new source.
+  await page.waitForTimeout(200)
+  await expect(button).toHaveText('Copy code')
   await button.click()
   expect(await page.evaluate(() => (window as any).pendingCopy.text)).toContain(
     'revision: 2',
   )
   await page.evaluate(() => (window as any).pendingCopy.resolve())
-  await expect(block.getByRole('status')).toHaveText('Code copied.')
+  await expect(button).toHaveText('Copied')
 })
 test('Long code scrolls inside a named region, wraps on request and keeps original text unchanged', async ({
   page,

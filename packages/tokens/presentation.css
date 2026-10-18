@@ -168,6 +168,9 @@
   border-spacing: 0 var(--space-1);
   font: inherit;
   color: var(--ink-body);
+  /* Columns size to whole words: break-word only splits a word that cannot fit,
+   * while an inherited overflow-wrap: anywhere would squeeze columns mid-word. */
+  overflow-wrap: break-word;
 }
 .pui-table-caption {
   text-align: start;
@@ -490,6 +493,7 @@
   margin: 0;
   padding: var(--space-4);
   font: 400 13px/20px var(--font-code);
+  font-variant-ligatures: none;
   white-space: pre;
   overflow-wrap: normal;
   tab-size: 2;
@@ -501,15 +505,27 @@
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
-.pui-code-result {
-  display: block;
-  margin-top: var(--space-2);
-  color: var(--ink-body);
-  font-size: 12px;
+/* Copy results stay inside the button. */
+.pui-code-copy[data-copy-state='copied'] {
+  color: var(--status-success-fg);
 }
-.pui-code-result:empty {
-  position: absolute;
-  margin: 0;
+.pui-code-copy[data-copy-state='failed'] {
+  color: var(--status-danger-fg);
+}
+/* The result fades in where the action was, and the action fades back. */
+.pui-code-copy[data-copy-used] :is(.pui-code-copy-icon, .pui-code-copy-label) {
+  animation: pui-copy-fade var(--duration-base) var(--ease-out);
+}
+@keyframes pui-copy-fade {
+  from {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pui-code-copy[data-copy-used]
+    :is(.pui-code-copy-icon, .pui-code-copy-label) {
+    animation: none;
+  }
 }
 
 .pui-code-scroll {
@@ -527,9 +543,11 @@
   .pui-pagination-list {
     display: none;
   }
+  /* "Page 1 of 3" stays on one line; the controls wrap around it instead. */
   .pui-pagination-summary {
     display: block;
-    max-width: calc(100% - 112px);
+    flex: none;
+    white-space: nowrap;
   }
   .pui-pagination > .pui-pagination-control > span {
     display: none;

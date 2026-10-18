@@ -200,8 +200,16 @@
   border-color: transparent;
   background: transparent;
 }
-.pui-button:hover:not(:disabled):not([data-disabled]) {
-  filter: brightness(0.97);
+/* Hover adds the state layer over the variant's own fill, so a primary, a
+   pressed toggle and a transparent toolbar button all step by the same amount. */
+.pui-button:hover:not(:disabled, [data-disabled], [data-variant='link']) {
+  background-image: linear-gradient(
+    var(--interaction-hover-bg),
+    var(--interaction-hover-bg)
+  );
+}
+.pui-button[data-variant='link']:hover:not(:disabled, [data-disabled]) {
+  text-decoration-thickness: 2px;
 }
 .pui-button:focus-visible {
   outline: 2px solid var(--interaction-focus);
@@ -223,6 +231,24 @@
 }
 .pui-scroll-viewport::-webkit-scrollbar {
   display: none;
+}
+/* A horizontal scroller fades the edge that hides more content, so a cut-off table
+ * or code line reads as scrollable before its scrollbar appears, on touch too. */
+.pui-scroll-root[data-overflow-x-end] > .pui-scroll-viewport {
+  mask-image: linear-gradient(to left, transparent, #000 var(--space-6));
+}
+.pui-scroll-root[data-overflow-x-start] > .pui-scroll-viewport {
+  mask-image: linear-gradient(to right, transparent, #000 var(--space-6));
+}
+.pui-scroll-root[data-overflow-x-start][data-overflow-x-end]
+  > .pui-scroll-viewport {
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 var(--space-6),
+    #000 calc(100% - var(--space-6)),
+    transparent
+  );
 }
 .pui-scrollbar {
   display: flex;
@@ -374,9 +400,6 @@
   color: var(--brand-ink);
   border-color: transparent;
   text-decoration: underline;
-}
-.pui-button[data-variant='ghost']:hover:not(:disabled) {
-  background: var(--interaction-hover-bg);
 }
 
 /* Edge panels share surfaces and layers; only Drawer adds native Base UI gestures. */
@@ -1643,10 +1666,6 @@
   border-radius: max(0px, calc(var(--radius-md) - var(--space-1)));
   text-decoration: none;
 }
-.pui-toolbar-button:hover:not([data-disabled]),
-.pui-toolbar-link:hover {
-  background: var(--interaction-hover-bg);
-}
 .pui-toolbar-input {
   width: 160px;
   max-width: 100%;
@@ -1746,9 +1765,6 @@
   overflow: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--scrollbar-thumb) transparent;
-}
-.pui-toolbar-button[data-disabled]:hover {
-  filter: none;
 }
 .pui-menu-trigger[data-disabled] {
   opacity: var(--control-disabled-opacity);
@@ -3636,9 +3652,25 @@
   background: var(--code-bg);
   border-radius: var(--radius-md);
   font: 400 13px/20px var(--font-code);
+  /* Code shows the characters as typed, like the other code text: no === or => ligatures. */
+  font-variant-ligatures: none;
   letter-spacing: 0;
   tab-size: 2;
   white-space: pre;
+}
+/* The visible box keeps its background and corners while long lines scroll inside it. */
+.pui-syntax-scroll {
+  border-radius: var(--radius-md);
+  background: var(--code-bg);
+  overflow: hidden;
+}
+.pui-syntax-scroll .pui-syntax-pre {
+  min-inline-size: max-content;
+  border-radius: 0;
+  background: none;
+}
+.pui-syntax-scroll .pui-syntax-pre[data-wrap] {
+  min-inline-size: 0;
 }
 .pui-syntax-pre[data-wrap] {
   white-space: pre-wrap;

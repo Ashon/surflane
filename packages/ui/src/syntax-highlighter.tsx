@@ -111,7 +111,11 @@ export const SyntaxHighlighter = React.forwardRef<
   return inline ? (
     element
   ) : (
-    <ScrollArea label={label} orientation='horizontal'>
+    <ScrollArea
+      label={label}
+      orientation='horizontal'
+      rootClassName='pui-syntax-scroll'
+    >
       <pre className='pui-syntax-pre' data-wrap={wrap || undefined}>
         {element}
       </pre>
