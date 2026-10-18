@@ -30,7 +30,10 @@ test('page selection excludes read-only rows, persists across filters and makes 
     }),
   ).toBeDisabled()
   await table(page)
-    .getByRole('checkbox', { name: 'Select Workspace', exact: true })
+    .getByRole('checkbox', {
+      name: 'Select Environment discovery',
+      exact: true,
+    })
     .check()
   await expect(all).toHaveAttribute('aria-checked', 'mixed')
   await page
@@ -59,7 +62,10 @@ test('page selection excludes read-only rows, persists across filters and makes 
     table(page)
       .getByRole('row')
       .filter({
-        has: page.getByRole('link', { name: 'Workspace', exact: true }),
+        has: page.getByRole('link', {
+          name: 'Environment discovery',
+          exact: true,
+        }),
       }),
   ).toContainText('Reviewed')
 })

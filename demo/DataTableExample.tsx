@@ -49,7 +49,7 @@ const resources = [
     href: '/patterns/form-workflow',
   },
   {
-    id: 'inventory',
+    id: 'inventory-review',
     name: 'Inventory review',
     product: 'Inventory',
     region: 'development',
