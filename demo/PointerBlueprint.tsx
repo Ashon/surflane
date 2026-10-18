@@ -62,12 +62,44 @@ const targets = [
 ].join(',')
 type Bounds = { left: number; top: number; right: number; bottom: number }
 type Guide = { bounds: Bounds; clip: Bounds }
+type Point = { x: number; y: number }
+// Guides paint on surfaces. The window surface is the fixed canvas over everything
+// outside scroll areas. Each scroll area gets a layer inside its own content: its guides
+// are kept relative to that layer, so they move with whatever moves the content, even
+// a rubber-band bounce or overscroll stretch that no scroll event or script can see.
+type Surface = {
+  area: HTMLElement | null
+  host: HTMLElement | null
+  canvas: HTMLCanvasElement
+  origin: Point
+  pointer: Guide[]
+  ambient: Guide[]
+  painted: boolean
+}
+const scrollArea = '.pui-scroll-viewport'
+const unbounded: Bounds = {
+  left: -Infinity,
+  top: -Infinity,
+  right: Infinity,
+  bottom: Infinity,
+}
 const intersect = (a: Bounds, b: Bounds): Bounds => ({
   left: Math.max(a.left, b.left),
   top: Math.max(a.top, b.top),
   right: Math.min(a.right, b.right),
   bottom: Math.min(a.bottom, b.bottom),
 })
+const shifted = (b: Bounds, x: number, y: number): Bounds => ({
+  left: b.left + x,
+  top: b.top + y,
+  right: b.right + x,
+  bottom: b.bottom + y,
+})
+// The layers are this component's own nodes; their changes are not page changes.
+const ours = (node: Node) =>
+  node instanceof Element &&
+  (node.matches('.pointer-blueprint') ||
+    node.closest('.pointer-blueprint-scroll') !== null)
 const concealed = '[hidden], [aria-hidden="true"], [inert]'
 // A decorative preview (aria-hidden + inert, marked data-blueprint-decorative) still shows its
 // construction lines; any other hidden or inert ancestor, such as content behind a modal, hides them.
@@ -118,22 +150,56 @@ export function PointerBlueprint() {
     let frame = 0,
       dirty = true,
       stopped = false
-    let pointer: { x: number; y: number } | null = null
-    let guides: Guide[] = [],
-      pointerMeasured = false
+    let pointer: Point | null = null
+    let pointerMeasured = false
     let opacity = 0,
       desired = 0,
       lastTime = 0
     let scope: ParentNode = document
     let resolution: MediaQueryList
     const observed = new Set<Element>()
-    // Each light source is masked on its own layer, then composited.
-    const layer = document.createElement('canvas')
+    // Each light source is masked on its own scratch square, then composited.
+    const scratch = document.createElement('canvas')
+    const fixed: Surface = {
+      area: null,
+      host: null,
+      canvas,
+      origin: { x: 0, y: 0 },
+      pointer: [],
+      ambient: [],
+      painted: false,
+    }
+    const layers = new Map<HTMLElement, Surface>()
+    const layerFor = (area: HTMLElement) => {
+      let surface = layers.get(area)
+      if (surface?.host?.parentElement === area) return surface
+      surface?.host?.remove()
+      const host = document.createElement('div')
+      host.className = 'pointer-blueprint-scroll'
+      host.setAttribute('aria-hidden', 'true')
+      const layerCanvas = document.createElement('canvas')
+      layerCanvas.className = 'pointer-blueprint-layer'
+      host.append(layerCanvas)
+      // First in the area, ahead of its content: a zero-height block that never
+      // takes space; the canvas inside is positioned over the visible part.
+      area.prepend(host)
+      surface = {
+        area,
+        host,
+        canvas: layerCanvas,
+        origin: { x: 0, y: 0 },
+        pointer: [],
+        ambient: [],
+        painted: false,
+      }
+      layers.set(area, surface)
+      return surface
+    }
+    const surfaces = () => [fixed, ...layers.values()]
     let area: HTMLElement | null = null,
       anchor: HTMLElement | null = null,
       areaVisible = false,
       ambientReady = false,
-      ambientGuides: Guide[] = [],
       ambientOpacity = 0,
       ambientFrameId = 0,
       lastAmbientPaint = 0,
@@ -173,12 +239,20 @@ export function PointerBlueprint() {
         right: innerWidth,
         bottom: innerHeight,
       }
-      const clips = new WeakMap<Element, Bounds>()
-      const clipFor = (element: Element | null): Bounds => {
+      // Clip chains run up to the window, for what is visible now, and up to the
+      // element's scroll area, whose own overflow clips that area's layer.
+      const toWindow = new WeakMap<Element, Bounds>(),
+        toArea = new WeakMap<Element, Bounds>()
+      const clipFor = (
+        element: Element | null,
+        stop: Element | null,
+        cache: WeakMap<Element, Bounds>,
+      ): Bounds => {
         if (!element || element === document.documentElement) return viewport
-        const cached = clips.get(element)
+        if (element === stop) return unbounded
+        const cached = cache.get(element)
         if (cached) return cached
-        const parent = clipFor(element.parentElement)
+        const parent = clipFor(element.parentElement, stop, cache)
         const style = getComputedStyle(element)
         const rect = element.getBoundingClientRect()
         const clip = { ...parent }
@@ -190,12 +264,19 @@ export function PointerBlueprint() {
           clip.top = Math.max(clip.top, rect.top)
           clip.bottom = Math.min(clip.bottom, rect.bottom)
         }
-        clips.set(element, clip)
+        cache.set(element, clip)
         return clip
       }
+      for (const surface of surfaces()) {
+        surface.pointer = []
+        surface.ambient = []
+        if (surface.host) {
+          const origin = surface.host.getBoundingClientRect()
+          surface.origin = { x: origin.left, y: origin.top }
+        }
+      }
       const current = new Set<Element>()
-      const collect = (root: ParentNode) => {
-        const found: Guide[] = []
+      const collect = (root: ParentNode, key: 'pointer' | 'ambient') => {
         const elements = [...root.querySelectorAll<HTMLElement>(targets)]
         if (root instanceof HTMLElement && root.matches(targets))
           elements.unshift(root)
@@ -205,22 +286,49 @@ export function PointerBlueprint() {
           if (!observed.has(element)) resize.observe(element)
           const bounds = element.getBoundingClientRect()
           if (bounds.width < 2 || bounds.height < 2) continue
-          const clip = clipFor(element.parentElement)
-          const visible = intersect(bounds, clip)
+          const visible = intersect(
+            bounds,
+            clipFor(element.parentElement, null, toWindow),
+          )
           if (visible.right <= visible.left || visible.bottom <= visible.top)
             continue
-          found.push({ bounds, clip })
+          const area =
+            element.parentElement?.closest<HTMLElement>(scrollArea) ?? null
+          if (!area) {
+            fixed[key].push({
+              bounds,
+              clip: clipFor(element.parentElement, null, toWindow),
+            })
+            continue
+          }
+          const surface = layerFor(area)
+          if (!surface.host!.isConnected) continue
+          if (!surface.pointer.length && !surface.ambient.length) {
+            const origin = surface.host!.getBoundingClientRect()
+            surface.origin = { x: origin.left, y: origin.top }
+          }
+          const { x, y } = surface.origin
+          surface[key].push({
+            bounds: shifted(bounds, -x, -y),
+            clip: shifted(clipFor(element.parentElement, area, toArea), -x, -y),
+          })
         }
-        return found
       }
       pointerMeasured = pointerActive()
-      guides = pointerMeasured ? collect(scope) : []
+      if (pointerMeasured) collect(scope, 'pointer')
       // A document-wide pointer scope already measured everything the probes need.
-      ambientGuides = !area
-        ? []
-        : pointerMeasured && scope === document
-          ? guides
-          : collect(area)
+      if (area && pointerMeasured && scope === document)
+        for (const surface of surfaces()) surface.ambient = surface.pointer
+      else if (area) collect(area, 'ambient')
+      // Areas that left the page, or hold no guides, give their layer back.
+      for (const [element, surface] of layers)
+        if (
+          !element.isConnected ||
+          (!surface.pointer.length && !surface.ambient.length)
+        ) {
+          surface.host?.remove()
+          layers.delete(element)
+        }
       for (const element of observed)
         if (!current.has(element)) resize.unobserve(element)
       observed.clear()
@@ -234,7 +342,8 @@ export function PointerBlueprint() {
       dpr: number,
       ink: string,
       list: Guide[],
-      point: { x: number; y: number },
+      shift: Point,
+      point: Point,
       reach: number,
       strength: number,
     ) => {
@@ -278,7 +387,9 @@ export function PointerBlueprint() {
         context.lineTo(clipX(x2), clipY(y2))
         context.stroke()
       }
-      for (const { bounds, clip } of list) {
+      for (const guide of list) {
+        const bounds = shifted(guide.bounds, shift.x, shift.y),
+          clip = shifted(guide.clip, shift.x, shift.y)
         const visible = intersect(bounds, clip)
         const distance = Math.hypot(
           Math.max(visible.left - point.x, 0, point.x - visible.right),
@@ -323,44 +434,79 @@ export function PointerBlueprint() {
       context.fillRect(left, top, size, size)
       context.restore()
     }
-    // Composites one spotlight through the layer, copying only its square.
+    // Composites one spotlight through a scratch canvas the size of its square.
     const layered = (
       context: CanvasRenderingContext2D,
       dpr: number,
-      point: { x: number; y: number },
+      point: Point,
       reach: number,
       draw: (target: CanvasRenderingContext2D) => void,
     ) => {
-      if (layer.width !== canvas.width) layer.width = canvas.width
-      if (layer.height !== canvas.height) layer.height = canvas.height
-      const target = layer.getContext('2d')
+      const left = Math.floor((point.x - reach) * dpr) - 1,
+        top = Math.floor((point.y - reach) * dpr) - 1,
+        size = Math.ceil(reach * 2 * dpr) + 3
+      if (scratch.width < size) scratch.width = size
+      if (scratch.height < size) scratch.height = size
+      const target = scratch.getContext('2d')
       if (!target) return
-      const left = Math.max(0, Math.floor((point.x - reach) * dpr) - 1),
-        top = Math.max(0, Math.floor((point.y - reach) * dpr) - 1),
-        right = Math.min(layer.width, Math.ceil((point.x + reach) * dpr) + 2),
-        bottom = Math.min(layer.height, Math.ceil((point.y + reach) * dpr) + 2)
-      if (right <= left || bottom <= top) return
       target.setTransform(1, 0, 0, 1, 0, 0)
-      target.clearRect(left, top, right - left, bottom - top)
-      target.setTransform(dpr, 0, 0, dpr, 0, 0)
+      target.clearRect(0, 0, size, size)
+      // A whole-device-pixel offset keeps every snapped stroke on the same grid.
+      target.setTransform(dpr, 0, 0, dpr, -left, -top)
       target.lineWidth = 1 / dpr
       target.lineCap = 'butt'
       draw(target)
+      context.save()
       context.setTransform(1, 0, 0, 1, 0, 0)
-      const width = right - left,
-        height = bottom - top
-      context.drawImage(
-        layer,
-        left,
-        top,
-        width,
-        height,
-        left,
-        top,
-        width,
-        height,
-      )
+      context.drawImage(scratch, 0, 0, size, size, left, top, size, size)
+      context.restore()
+    }
+    // Puts a layer's canvas over the visible part of its scroll area, on whole device
+    // pixels and never past it, so the layer never extends what the area can scroll.
+    const placeLayer = (surface: Surface) => {
+      const { area, host, canvas: target } = surface
+      if (!area || !host || !host.isConnected) return null
+      const dpr = window.devicePixelRatio || 1
+      const box = area.getBoundingClientRect()
+      const left = Math.ceil((box.left + area.clientLeft) * dpr),
+        top = Math.ceil((box.top + area.clientTop) * dpr),
+        right = Math.floor(
+          (box.left + area.clientLeft + area.clientWidth) * dpr,
+        ),
+        bottom = Math.floor(
+          (box.top + area.clientTop + area.clientHeight) * dpr,
+        )
+      const width = Math.max(1, right - left),
+        height = Math.max(1, bottom - top)
+      const origin = host.getBoundingClientRect()
+      const transform = `translate(${left / dpr - origin.left}px, ${top / dpr - origin.top}px)`
+      if (target.style.transform !== transform)
+        target.style.transform = transform
+      const inline = `${width / dpr}px`,
+        block = `${height / dpr}px`
+      if (target.style.inlineSize !== inline) target.style.inlineSize = inline
+      if (target.style.blockSize !== block) target.style.blockSize = block
+      if (target.width !== width) target.width = width
+      if (target.height !== height) target.height = height
+      const context = target.getContext('2d')
+      if (!context) return null
+      context.setTransform(1, 0, 0, 1, 0, 0)
+      context.clearRect(0, 0, width, height)
       context.setTransform(dpr, 0, 0, dpr, 0, 0)
+      context.lineWidth = 1 / dpr
+      context.lineCap = 'butt'
+      return {
+        context,
+        dpr,
+        frame: {
+          left: left / dpr,
+          top: top / dpr,
+          right: right / dpr,
+          bottom: bottom / dpr,
+        },
+        // Layer coordinates to canvas coordinates.
+        shift: { x: origin.left - left / dpr, y: origin.top - top / dpr },
+      }
     }
     const probePoints = (now: number) => {
       const screen = { left: 0, top: 0, right: innerWidth, bottom: innerHeight }
@@ -429,27 +575,61 @@ export function PointerBlueprint() {
       if (!prepared) return
       const pointerOn = pointer !== null && !forced.matches && opacity > 0
       const ambientOn = area !== null && ambientOpacity > 0
-      if (pointerOn || ambientOn) {
-        if (dirty) measure()
-        const { context, dpr } = prepared
-        const ink = getComputedStyle(canvas).color
-        const sources: [Guide[], { x: number; y: number }, number, number][] =
-          ambientOn
-            ? probePoints(now).map(({ reach, strength, ...point }) => [
-                ambientGuides,
-                point,
-                reach,
-                ambientStrength * strength * easeOut(ambientOpacity),
-              ])
-            : []
-        if (pointerOn) sources.push([guides, pointer!, radius, opacity])
-        for (const [list, point, reach, strength] of sources) {
-          if (sources.length === 1)
-            spotlight(context, dpr, ink, list, point, reach, strength)
-          else
-            layered(context, dpr, point, reach, (target) =>
-              spotlight(target, dpr, ink, list, point, reach, strength),
+      if ((pointerOn || ambientOn) && dirty) measure()
+      const sources: ['pointer' | 'ambient', Point, number, number][] =
+        ambientOn
+          ? probePoints(now).map(({ reach, strength, ...point }) => [
+              'ambient',
+              point,
+              reach,
+              ambientStrength * strength * easeOut(ambientOpacity),
+            ])
+          : []
+      if (pointerOn) sources.push(['pointer', pointer!, radius, opacity])
+      for (const surface of surfaces()) {
+        const active = sources.some(([key]) => surface[key].length > 0)
+        if (surface !== fixed && !active && !surface.painted) continue
+        const placed =
+          surface === fixed
+            ? {
+                ...prepared,
+                frame: {
+                  left: 0,
+                  top: 0,
+                  right: innerWidth,
+                  bottom: innerHeight,
+                },
+                shift: { x: 0, y: 0 },
+              }
+            : placeLayer(surface)
+        surface.painted = false
+        if (!placed || !active) continue
+        const { context, dpr, frame: bounds, shift } = placed
+        const ink = getComputedStyle(surface.canvas).color
+        const near = sources.filter(
+          ([key, point, reach]) =>
+            surface[key].length > 0 &&
+            point.x + reach > bounds.left &&
+            point.x - reach < bounds.right &&
+            point.y + reach > bounds.top &&
+            point.y - reach < bounds.bottom,
+        )
+        for (const [key, point, reach, strength] of near) {
+          const local = { x: point.x - bounds.left, y: point.y - bounds.top }
+          const draw = (target: CanvasRenderingContext2D) =>
+            spotlight(
+              target,
+              dpr,
+              ink,
+              surface[key],
+              shift,
+              local,
+              reach,
+              strength,
             )
+          if (near.length === 1) draw(context)
+          else layered(context, dpr, local, reach, draw)
+          surface.painted = true
         }
       }
       if (ambientOn) lastAmbientPaint = now
@@ -542,7 +722,17 @@ export function PointerBlueprint() {
       invalidate()
     }
     const mutation = new MutationObserver((records) => {
-      if (records.some((record) => record.target !== canvas)) invalidate()
+      if (
+        records.some(
+          (record) =>
+            !ours(record.target) &&
+            !(
+              record.type === 'childList' &&
+              [...record.addedNodes, ...record.removedNodes].every(ours)
+            ),
+        )
+      )
+        invalidate()
     })
     mutation.observe(document.body, {
       subtree: true,
@@ -589,6 +779,8 @@ export function PointerBlueprint() {
     }, ambientDelay)
     return () => {
       stopped = true
+      for (const surface of layers.values()) surface.host?.remove()
+      layers.clear()
       cancelAnimationFrame(frame)
       window.clearTimeout(start)
       cancelAnimationFrame(ambientFrameId)

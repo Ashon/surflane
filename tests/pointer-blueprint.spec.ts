@@ -1,6 +1,78 @@
 import { test, expect, type Locator } from '@playwright/test'
 import { waitForCatalogReady } from './catalog-ready'
 
+// Guides inside a scroll area paint on that area's own layer. Pixel reads from the
+// window canvas return what the page shows: every layer, clipped by the areas
+// around it, under the window canvas.
+function composeLayers() {
+  const read = CanvasRenderingContext2D.prototype.getImageData
+  CanvasRenderingContext2D.prototype.getImageData = function (
+    this: CanvasRenderingContext2D,
+    ...args: Parameters<typeof read>
+  ) {
+    const base = this.canvas
+    if (
+      !(base instanceof HTMLCanvasElement) ||
+      !base.classList.contains('pointer-blueprint')
+    )
+      return read.apply(this, args)
+    const composite = document.createElement('canvas')
+    composite.width = base.width
+    composite.height = base.height
+    const context = composite.getContext('2d')!
+    const dpr = devicePixelRatio,
+      origin = base.getBoundingClientRect()
+    for (const layer of document.querySelectorAll<HTMLCanvasElement>(
+      'canvas.pointer-blueprint-layer',
+    )) {
+      const rect = layer.getBoundingClientRect()
+      if (!rect.width || !rect.height) continue
+      const clip = {
+        left: rect.left,
+        top: rect.top,
+        right: rect.right,
+        bottom: rect.bottom,
+      }
+      let shown = true
+      for (let el = layer.parentElement; el; el = el.parentElement) {
+        const style = getComputedStyle(el)
+        if (style.display === 'none' || style.visibility === 'hidden')
+          shown = false
+        const box = el.getBoundingClientRect()
+        if (style.overflowX !== 'visible') {
+          clip.left = Math.max(clip.left, box.left)
+          clip.right = Math.min(clip.right, box.right)
+        }
+        if (style.overflowY !== 'visible') {
+          clip.top = Math.max(clip.top, box.top)
+          clip.bottom = Math.min(clip.bottom, box.bottom)
+        }
+      }
+      if (!shown || clip.right <= clip.left || clip.bottom <= clip.top) continue
+      context.save()
+      context.beginPath()
+      context.rect(
+        Math.round((clip.left - origin.left) * dpr),
+        Math.round((clip.top - origin.top) * dpr),
+        Math.round((clip.right - clip.left) * dpr),
+        Math.round((clip.bottom - clip.top) * dpr),
+      )
+      context.clip()
+      context.drawImage(
+        layer,
+        Math.round((rect.left - origin.left) * dpr),
+        Math.round((rect.top - origin.top) * dpr),
+      )
+      context.restore()
+    }
+    context.drawImage(base, 0, 0)
+    return read.apply(context, args)
+  }
+}
+test.beforeEach(async ({ context }) => {
+  await context.addInitScript(composeLayers)
+})
+
 async function pixels(canvas: Locator, point?: { x: number; y: number }) {
   return canvas.evaluate((node, point) => {
     const c = node as HTMLCanvasElement
@@ -37,6 +109,7 @@ for (const dpr of [1, 2, 3]) {
       deviceScaleFactor: dpr,
       reducedMotion: 'reduce',
     })
+    await context.addInitScript(composeLayers)
     try {
       const page = await context.newPage()
       await page.goto('http://127.0.0.1:8066/components/button')
@@ -165,6 +238,7 @@ test('touch and forced colors suppress decorative guides', async ({
     isMobile: true,
     reducedMotion: 'reduce',
   })
+  await context.addInitScript(composeLayers)
   try {
     const page = await context.newPage()
     await page.goto('http://127.0.0.1:8066/')
@@ -490,14 +564,20 @@ test('Command modal input and result options paint above the portal and keep key
   for (const target of [input, dialog.getByRole('option').first()]) {
     const box = (await target.boundingBox())!
     await page.mouse.move(box.x + 35, box.y + box.height / 2)
+    // The first option's top and side edges lie on its scroll area's edge, which
+    // clips the area's guide layer as it clips the content. Its bottom edge is inside.
     await expect
       .poll(() =>
         canvas.evaluate(
           (node, box) =>
             (node as HTMLCanvasElement)
               .getContext('2d')!
-              .getImageData(Math.floor(box.x + 27), Math.floor(box.y), 1, 1)
-              .data[3],
+              .getImageData(
+                Math.floor(box.x + 27),
+                Math.floor(box.y + box.height),
+                1,
+                1,
+              ).data[3],
           box,
         ),
       )
@@ -628,6 +708,7 @@ test('reduced motion keeps the ambient probes off', async ({ browser }) => {
     viewport: { width: 1440, height: 1000 },
     reducedMotion: 'reduce',
   })
+  await context.addInitScript(composeLayers)
   try {
     const page = await context.newPage()
     await page.goto('http://127.0.0.1:8066/')
@@ -648,6 +729,7 @@ test('touch screens show the ambient probes at the pointer layer strength', asyn
     hasTouch: true,
     isMobile: true,
   })
+  await context.addInitScript(composeLayers)
   try {
     const page = await context.newPage()
     await page.goto('http://127.0.0.1:8066/')
@@ -663,4 +745,77 @@ test('touch screens show the ambient probes at the pointer layer strength', asyn
   } finally {
     await context.close()
   }
+})
+
+test('guides in a scroll area paint on a layer inside its content that takes no space', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.goto('/components/table')
+  await waitForCatalogReady(page)
+  const area = page.locator('.catalog-document-scroll')
+  const extent = () =>
+    area.evaluate((el) => [
+      el.scrollWidth,
+      el.scrollHeight,
+      el.clientWidth,
+      el.querySelector('.catalog-shell')!.getBoundingClientRect().top +
+        el.scrollTop,
+    ])
+  const before = await extent()
+  const cell = page.locator('[data-preview-size] tbody td').first()
+  await cell.scrollIntoViewIfNeeded()
+  const box = (await cell.boundingBox())!
+  await page.mouse.move(box.x + 20, box.y + box.height / 2)
+  await expect
+    .poll(async () => (await pixels(page.locator('.pointer-blueprint'))).count)
+    .toBeGreaterThan(0)
+  const layers = await page.evaluate(() =>
+    [...document.querySelectorAll('.pointer-blueprint-scroll')].map((host) => {
+      const area = host.parentElement!,
+        canvas = host.querySelector('canvas')!
+      const rect = canvas.getBoundingClientRect(),
+        box = area.getBoundingClientRect()
+      return {
+        first: area.firstElementChild === host,
+        hidden: host.getAttribute('aria-hidden'),
+        height: host.getBoundingClientRect().height,
+        // The canvas covers the area's visible part and never extends it.
+        inside:
+          rect.left >= box.left - 0.5 &&
+          rect.top >= box.top - 0.5 &&
+          rect.right <= box.left + area.clientLeft + area.clientWidth + 0.5 &&
+          rect.bottom <= box.top + area.clientTop + area.clientHeight + 0.5,
+      }
+    }),
+  )
+  expect(layers.length).toBeGreaterThan(1)
+  for (const layer of layers)
+    expect(layer).toEqual({
+      first: true,
+      hidden: 'true',
+      height: 0,
+      inside: true,
+    })
+  // The cell's guides belong to the table's own layer.
+  const own = await cell.evaluate((el, box) => {
+    const canvas = el
+      .closest('.pui-scroll-viewport')!
+      .querySelector<HTMLCanvasElement>(
+        ':scope > .pointer-blueprint-scroll canvas',
+      )!
+    const rect = canvas.getBoundingClientRect(),
+      dpr = devicePixelRatio
+    return canvas
+      .getContext('2d')!
+      .getImageData(
+        Math.floor((box.x + 10 - rect.left) * dpr),
+        Math.floor((box.y - rect.top) * dpr),
+        1,
+        1,
+      ).data[3]
+  }, box)
+  expect(own).toBeGreaterThan(0)
+  expect(await extent()).toEqual(before)
 })

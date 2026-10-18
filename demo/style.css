@@ -2736,8 +2736,30 @@ body,
   user-select: none;
   color: var(--ink-muted);
 }
+/* A scroll area's guide layer: a zero-height block ahead of its content that
+   never takes space. The canvas inside covers the area's visible part and moves
+   with the content, bounce and overscroll stretch included. Layout containment
+   makes the canvas ink overflow, so it never changes what the area can scroll,
+   not even for the frame before a resize repaints it. */
+.pointer-blueprint-scroll {
+  position: relative;
+  z-index: 2147483000;
+  block-size: 0;
+  contain: layout;
+  pointer-events: none;
+}
+.pointer-blueprint-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+  pointer-events: none;
+  user-select: none;
+  color: var(--ink-muted);
+}
 @media (forced-colors: active) {
-  .pointer-blueprint {
+  .pointer-blueprint,
+  .pointer-blueprint-scroll {
     display: none;
   }
 }
