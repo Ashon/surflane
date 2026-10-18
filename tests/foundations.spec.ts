@@ -15,9 +15,14 @@ test('token inventory is generated from every source declaration without missing
       ),
     )
     ast.walkDecls(/^--/, (decl) => {
+      // The catalog reads values the same however the formatter wraps them.
+      const value = decl.value
+        .replace(/\s+/g, ' ')
+        .replace(/\( /g, '(')
+        .replace(/ \)/g, ')')
       declarations.set(decl.prop, [
         ...(declarations.get(decl.prop) ?? []),
-        decl.value,
+        value,
       ])
     })
   }
