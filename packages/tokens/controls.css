@@ -39,10 +39,20 @@
     background-color var(--duration-fast) var(--ease-out),
     color var(--duration-fast) var(--ease-out);
 }
+.pui-segment,
+.pui-icon-button,
+.pui-theme-action {
+  /* Pressed layers show touch feedback in each control's shape instead. */
+  -webkit-tap-highlight-color: transparent;
+}
 .pui-segment:hover,
 .pui-icon-button:hover {
   background: var(--interaction-hover-bg);
   color: var(--ink);
+}
+.pui-segment:active,
+.pui-icon-button:active {
+  background: var(--interaction-active-bg);
 }
 .pui-segment[aria-current='page'] {
   background: var(--selected);
@@ -76,6 +86,9 @@
 }
 .pui-theme-action:hover {
   background: var(--interaction-hover-bg);
+}
+.pui-theme-action:active {
+  background: var(--interaction-active-bg);
 }
 .pui-theme-action:focus-visible {
   outline: 2px solid var(--interaction-focus);

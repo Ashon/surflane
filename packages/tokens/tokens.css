@@ -240,7 +240,8 @@
      a fixed surface color matched the bar and vanished. One ink keeps a row's
      cells one color, whatever each cell's text color. */
   --interaction-hover-bg: oklch(from var(--ink) l c h / 0.08);
-  --interaction-active-bg: var(--selected);
+  /* Pressed: the same layer, stronger, so touch shows feedback in the item's own shape. */
+  --interaction-active-bg: oklch(from var(--ink) l c h / 0.14);
   --interaction-focus: var(--brand-ink);
 }
 :root[data-theme='light'],

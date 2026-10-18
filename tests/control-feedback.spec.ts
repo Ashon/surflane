@@ -113,7 +113,7 @@ const contrast = (a: number[], b: number[]) => {
   return (high + 0.05) / (low + 0.05)
 }
 for (const theme of ['light', 'dark']) {
-  test(`buttons, toolbar and menubar items step visibly on hover in ${theme}`, async ({
+  test(`buttons, toolbar and menubar items step visibly on hover and further when pressed in ${theme}`, async ({
     page,
   }) => {
     for (const [route, selector] of [
@@ -147,6 +147,20 @@ for (const theme of ['light', 'dark']) {
         contrast(rest, hover),
         `${theme}: ${route} ${selector}`,
       ).toBeGreaterThanOrEqual(1.1)
+      // Pressing shows a stronger layer in the control's own shape; the browser's
+      // rectangular tap highlight is off, so it never covers that shape on touch.
+      await page.mouse.down()
+      const pressed = await pixel(page, x, y)
+      await page.mouse.up()
+      expect(
+        contrast(rest, pressed),
+        `${theme}: pressed ${route} ${selector}`,
+      ).toBeGreaterThan(contrast(rest, hover) + 0.1)
+      expect(
+        await control.evaluate(
+          (el) => getComputedStyle(el).webkitTapHighlightColor,
+        ),
+      ).toBe('rgba(0, 0, 0, 0)')
     }
   })
 }

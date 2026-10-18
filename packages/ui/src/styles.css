@@ -190,6 +190,7 @@
 .pui-button:is([data-variant='default'], [data-variant='primary']) {
   /* On the brand fill the layer is its ink: light ink barely moves bright cyan. */
   --interaction-hover-bg: oklch(from var(--on-brand) l c h / 0.08);
+  --interaction-active-bg: oklch(from var(--on-brand) l c h / 0.14);
   background: var(--brand);
   border-color: transparent;
   color: var(--on-brand);
@@ -978,6 +979,9 @@
   color: var(--ink);
   background: var(--interaction-hover-bg);
 }
+.pui-tabs-tab:active:not(:disabled):not([data-disabled]) {
+  background: var(--interaction-active-bg);
+}
 .pui-tabs-tab[data-active] {
   background: var(--canvas);
   color: var(--ink);
@@ -1074,6 +1078,9 @@
 }
 .pui-disclosure-trigger:hover:not(:disabled) {
   background: var(--interaction-hover-bg);
+}
+.pui-disclosure-trigger:active:not(:disabled) {
+  background: var(--interaction-active-bg);
 }
 .pui-disclosure-trigger:focus-visible {
   outline: 2px solid var(--interaction-focus);
@@ -2486,8 +2493,11 @@
 }
 
 /* Active feedback is transient; persistent selection belongs to Toggle. */
-.pui-button:active:not(:disabled):not([data-disabled]) {
-  filter: brightness(0.94);
+.pui-button:active:not(:disabled, [data-disabled], [data-variant='link']) {
+  background-image: linear-gradient(
+    var(--interaction-active-bg),
+    var(--interaction-active-bg)
+  );
 }
 .pui-button[aria-busy='true'] {
   cursor: progress;
@@ -2497,7 +2507,7 @@
     border-color: ButtonText;
   }
   .pui-button:active {
-    filter: none;
+    background-image: none;
   }
 }
 
@@ -2615,6 +2625,9 @@
 }
 .pui-app-shell-link:hover {
   background: var(--interaction-hover-bg);
+}
+.pui-app-shell-link:active:not([aria-current='page']) {
+  background: var(--interaction-active-bg);
 }
 .pui-app-shell-link[aria-current='page'] {
   background: var(--selected);
@@ -2788,6 +2801,9 @@
 }
 .pui-tree-toggle:hover:not(:disabled) {
   background: var(--interaction-hover-bg);
+}
+.pui-tree-toggle:active:not(:disabled) {
+  background: var(--interaction-active-bg);
 }
 .pui-tree-toggle svg[data-expanded] {
   rotate: 90deg;
@@ -3138,6 +3154,9 @@
 }
 .pui-chart-legend-button:hover {
   background: var(--interaction-hover-bg);
+}
+.pui-chart-legend-button:active {
+  background: var(--interaction-active-bg);
 }
 .pui-chart-legend-button[aria-pressed='false'] span {
   text-decoration: line-through;
@@ -3739,4 +3758,42 @@
   .pui-syntax [data-syntax] {
     color: CanvasText;
   }
+}
+
+/* Touch feedback is each control's own hover and pressed layer, drawn in its own
+   shape. The browser's tap highlight is a rectangle over the box, so it is off. */
+:where(
+  .pui-button,
+  .pui-tabs-tab,
+  .pui-disclosure-trigger,
+  .pui-accordion-trigger,
+  .pui-collapsible-trigger,
+  .pui-app-shell-link,
+  .pui-tree-item,
+  .pui-tree-toggle,
+  .pui-chart-legend-button,
+  .pui-checkbox,
+  .pui-radio,
+  .pui-switch,
+  .pui-choice-label,
+  .pui-select-trigger,
+  .pui-select-item,
+  .pui-combobox-item,
+  .pui-combobox-action,
+  .pui-combobox-chip-remove,
+  .pui-menu-item,
+  .pui-navigation-trigger,
+  .pui-navigation-link,
+  .pui-link,
+  .pui-breadcrumb-item a,
+  .pui-calendar-day,
+  .pui-calendar-nav,
+  .pui-date-trigger,
+  .pui-file-trigger,
+  .pui-number-step,
+  .pui-slider-control,
+  .pui-toast-action,
+  .pui-toast-close
+) {
+  -webkit-tap-highlight-color: transparent;
 }

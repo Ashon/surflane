@@ -10,6 +10,10 @@ body {
   font-size: var(--type-body-size);
   line-height: var(--type-body-leading);
 }
+/* Touch feedback is each item's own pressed surface, in its own shape. */
+html {
+  -webkit-tap-highlight-color: transparent;
+}
 #root {
   isolation: isolate;
   padding: 12px;
@@ -494,6 +498,9 @@ footer {
   background: var(--selected);
   color: var(--ink);
   font-weight: 500;
+}
+.catalog-nav-group a:active:not([aria-current='page']) {
+  background: var(--selected);
 }
 
 .catalog-sidebar .catalog-navigation-toggle {
@@ -1597,6 +1604,9 @@ body,
   color: var(--ink);
   font-weight: 500;
 }
+.catalog-primary a:active:not([aria-current]) {
+  background: var(--selected);
+}
 .catalog-primary a:focus-visible,
 .catalog-toprail .catalog-theme-toggle:focus-visible {
   outline: 2px solid var(--control-focus);
@@ -2067,6 +2077,9 @@ body,
 }
 .documentation-toc nav a:is(:hover, :focus-visible) {
   background: var(--interaction-hover-bg);
+}
+.documentation-toc nav a:active:not([aria-current]) {
+  background: var(--interaction-active-bg);
 }
 .documentation-toc nav a[aria-current] {
   background: var(--selected);

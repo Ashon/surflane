@@ -431,6 +431,13 @@
 .pui-pagination-control:is(a, button):hover {
   background: var(--interaction-hover-bg);
 }
+/* Pressed layers show touch feedback in the control's shape instead. */
+.pui-pagination-control:is(a, button) {
+  -webkit-tap-highlight-color: transparent;
+}
+.pui-pagination-control:is(a, button):active {
+  background: var(--interaction-active-bg);
+}
 .pui-pagination-control[aria-disabled='true'] {
   opacity: var(--control-disabled-opacity);
 }
