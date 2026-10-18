@@ -77,6 +77,7 @@ import {
   useLocation,
   catalogScrollPosition,
   rememberCatalogScrollPosition,
+  withBase,
 } from './router'
 import '@surflane/design-tokens/tokens.css'
 import '@surflane/design-tokens/controls.css'
@@ -631,6 +632,8 @@ function App() {
                 Surflane
               </span>
               <span>© 2026 ashon · MIT OR Apache-2.0</span>
+              {/* Plain text docs for AI tools; the catalog itself is a single-page app. */}
+              <a href={withBase('/llms.txt')}>llms.txt</a>
               <nav aria-label='Project links'>
                 <a href='https://github.com/Ashon/surflane'>GitHub</a>
                 <a href='https://www.npmjs.com/package/@surflane/ui'>npm</a>
