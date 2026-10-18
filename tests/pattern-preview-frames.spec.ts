@@ -61,9 +61,10 @@ test('nested shell surfaces reduce radius by their inset with preview controls o
   ).toBeVisible()
   for (const width of [1440, 320]) {
     await page.setViewportSize({ width, height: 1000 })
-    await expect(frame).toHaveCSS('border-top-left-radius', '20px')
-    await expect(shell).toHaveCSS('border-top-left-radius', '16px')
-    await expect(sheet).toHaveCSS('border-top-left-radius', '4px')
+    // Inside out: a scale radius on the sheet, plus each inset on the way out.
+    await expect(sheet).toHaveCSS('border-top-left-radius', '10px')
+    await expect(shell).toHaveCSS('border-top-left-radius', '22px')
+    await expect(frame).toHaveCSS('border-top-left-radius', '26px')
     await expect(sheet).toHaveCSS('margin-right', '12px')
   }
   await shell.evaluate((el) =>

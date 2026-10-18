@@ -2169,7 +2169,7 @@ body,
   margin-block-end: var(--space-4);
 }
 .app-shell-preview[data-layout='workspace'] {
-  --app-shell-radius: var(--radius-lg);
+  --app-shell-radius: var(--workspace-shell-radius);
   block-size: 560px;
 }
 .app-shell-preview .app-shell-brand {
@@ -2269,10 +2269,6 @@ body,
   }
 }
 
-.app-shell-preview .app-shell-collapse.pui-button:hover {
-  background: var(--interaction-hover-bg);
-}
-
 .command-search-dialog.pui-dialog-content {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
@@ -2330,9 +2326,13 @@ body,
   }
 }
 
-/* A 1px border plus 3px inset makes the 20px frame concentric with the 16px app surface. */
+/* Concentric from the inside out: the workspace sheet keeps --radius-md, the
+   shell adds its 12px inset (22px) and the frame its 3px inset and 1px border
+   (26px), so each gap keeps one width around the corners. */
 .catalog-example-frame[data-kind='pattern'][data-content='workspace'] {
+  --workspace-shell-radius: calc(var(--radius-md) + var(--space-3));
   padding: calc(var(--space-1) - 1px);
+  border-radius: calc(var(--workspace-shell-radius) + var(--space-1));
 }
 
 .tree-preview-settings {
@@ -2950,12 +2950,14 @@ body,
   min-inline-size: 0;
   padding: 3px;
   border: 1px solid var(--line);
-  border-radius: 20px;
+  /* The same concentric frame as the app shell example: sheet 10, shell 22, frame 26. */
+  --workspace-shell-radius: calc(var(--radius-md) + var(--space-3));
+  border-radius: calc(var(--workspace-shell-radius) + var(--space-1));
   background: var(--chrome);
 }
 .landing-console .pui-app-shell {
   block-size: 100%;
-  border-radius: 16px;
+  border-radius: var(--workspace-shell-radius);
   overflow: hidden;
 }
 /* The logo and the avatar sit on the navigation's icon column (24px marks centred on
