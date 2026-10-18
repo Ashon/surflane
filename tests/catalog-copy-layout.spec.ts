@@ -84,3 +84,31 @@ test('section paragraphs fill UI content width and long copy wraps naturally acr
     }
   }
 })
+test('document tables hang 16px past both page text lines, so row hover is symmetric', async ({
+  page,
+}) => {
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 1000 })
+    for (const [route, section] of [
+      ['/components/button', '#api'],
+      ['/coverage', 'main section'],
+    ]) {
+      await page.goto(route)
+      await waitForCatalogReady(page)
+      // Detail sections render when they scroll into view.
+      await page.locator(section).first().scrollIntoViewIfNeeded()
+      const table = page
+        .locator(`${section} .pui-table:not(.catalog-example-frame *)`)
+        .first()
+      const edges = await table.evaluate((table) => {
+        const root = table.closest('.pui-scroll-root')!.getBoundingClientRect()
+        const text = table
+          .closest('section')!
+          .querySelector(':scope > h2')!
+          .getBoundingClientRect()
+        return [text.left - root.left, root.right - text.right]
+      })
+      expect(edges, `${route} at ${width}px`).toEqual([16, 16])
+    }
+  }
+})

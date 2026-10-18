@@ -740,13 +740,16 @@ footer {
   font-family: var(--font-code);
   font-size: 12px;
 }
-/* Document tables hang their cell padding into the gutter, like card grids, so the
- * caption and cell text start on the page text line. Example frames keep components
- * as they render in a product. */
+/* Document tables hang their cell padding into the gutter on both sides, like card
+ * grids: caption and cell text start and end on the page text lines, and a row's
+ * hover surface reaches the same distance past them left and right. The scroll
+ * root's max-width would otherwise cap the width and leave the right edge inside.
+ * Example frames keep components as they render in a product. */
 .catalog-page-body
   .pui-scroll-root:has(> .pui-scroll-viewport .pui-table):not(
     .catalog-example-frame *
   ) {
+  max-inline-size: none;
   margin-inline: calc(-1 * var(--space-4));
 }
 .catalog-table-wrap {
