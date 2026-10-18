@@ -255,20 +255,23 @@ export function ContentFoundation() {
         </p>
         <CodeBlock
           language='tsx'
-          code={`const locale = userPreferences.locale;
-const timeZone = userPreferences.timeZone;
+          code={`const locale = userPreferences.locale
+const timeZone = userPreferences.timeZone
 // value is an instant with a known offset; never parse an ambiguous local string.
-const occurredAt = new Date("2026-03-08T07:30:00Z");
+const occurredAt = new Date('2026-03-08T07:30:00Z')
 const display = new Intl.DateTimeFormat(locale, {
-  timeZone, dateStyle: "medium", timeStyle: "long",
-}).format(occurredAt);
+  timeZone,
+  dateStyle: 'medium',
+  timeStyle: 'long',
+}).format(occurredAt)
 
 <time dateTime={occurredAt.toISOString()}>{display}</time>
 
 // Keep zero; distinguish absent values from invalid values upstream.
-const countLabel = count == null
-  ? messages.notAvailable
-  : new Intl.NumberFormat(locale).format(count);`}
+const countLabel =
+  count == null
+    ? messages.notAvailable
+    : new Intl.NumberFormat(locale).format(count)`}
         />
         <p>
           This code is an example of a display contract. Validate invalid dates,

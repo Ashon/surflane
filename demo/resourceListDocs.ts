@@ -19,7 +19,42 @@ export const resourceListDocs: Record<string, ComponentDoc> = {
       '--ink-body',
       '--ink-muted',
     ],
-    code: 'import { List, Checkbox, StatusBadge, Menu } from "@surflane/ui";\n\n<List.Root aria-label="Registered resources">\n  {resources.map(resource => <List.Item key={resource.id} selected={selected.has(resource.id)}>\n    <Checkbox.Root aria-label={`Select ${resource.name}`}\n      checked={selected.has(resource.id)} onCheckedChange={value => select(resource.id, value)}>\n      <Checkbox.Indicator />\n    </Checkbox.Root>\n    <List.Content>\n      <List.Title><a href={resource.href}>{resource.name}</a></List.Title>\n      <List.Description>{resource.description}</List.Description>\n    </List.Content>\n    <List.Actions>\n      <StatusBadge tone="success">Ready</StatusBadge>\n      <Menu.Root><Menu.Trigger aria-label={`Actions for ${resource.name}`}>Actions</Menu.Trigger>\n        <Menu.Portal><Menu.Content><Menu.Item onClick={() => inspect(resource.id)}>Inspect</Menu.Item></Menu.Content></Menu.Portal>\n      </Menu.Root>\n    </List.Actions>\n  </List.Item>)}\n</List.Root>',
+    code: `import { List, Checkbox, StatusBadge, Menu } from '@surflane/ui'
+
+<List.Root aria-label='Registered resources'>
+  {resources.map((resource) => (
+    <List.Item key={resource.id} selected={selected.has(resource.id)}>
+      <Checkbox.Root
+        aria-label={\`Select \${resource.name}\`}
+        checked={selected.has(resource.id)}
+        onCheckedChange={(value) => select(resource.id, value)}
+      >
+        <Checkbox.Indicator />
+      </Checkbox.Root>
+      <List.Content>
+        <List.Title>
+          <a href={resource.href}>{resource.name}</a>
+        </List.Title>
+        <List.Description>{resource.description}</List.Description>
+      </List.Content>
+      <List.Actions>
+        <StatusBadge tone='success'>Ready</StatusBadge>
+        <Menu.Root>
+          <Menu.Trigger aria-label={\`Actions for \${resource.name}\`}>
+            Actions
+          </Menu.Trigger>
+          <Menu.Portal>
+            <Menu.Content>
+              <Menu.Item onClick={() => inspect(resource.id)}>
+                Inspect
+              </Menu.Item>
+            </Menu.Content>
+          </Menu.Portal>
+        </Menu.Root>
+      </List.Actions>
+    </List.Item>
+  ))}
+</List.Root>`,
     props: [
       [
         'List.Root',

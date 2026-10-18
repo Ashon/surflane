@@ -17,7 +17,40 @@ export const filterBarDocs: Record<string, ComponentDoc> = {
       '--type-caption-size',
       '--type-caption-leading',
     ],
-    code: 'import { FilterBar, Input, Select, Button } from "@surflane/ui";\n\n<FilterBar.Root label="Filter resources" onSubmit={e => e.preventDefault()}\n  onReset={e => { e.preventDefault(); resetFilters(); }}>\n  <FilterBar.Controls>\n    <FilterBar.Field width="search">Search\n      <Input type="search" value={query} onChange={e => setQuery(e.target.value)} />\n    </FilterBar.Field>\n    <FilterBar.Field>State\n      <Select aria-label="Resource state" value={state} onValueChange={setState} options={states} />\n    </FilterBar.Field>\n    <FilterBar.Actions><Button type="reset">Clear filters</Button></FilterBar.Actions>\n  </FilterBar.Controls>\n  <FilterBar.Summary>{count} results</FilterBar.Summary>\n</FilterBar.Root>',
+    code: `import { FilterBar, Input, Select, Button } from '@surflane/ui'
+
+<FilterBar.Root
+  label='Filter resources'
+  onSubmit={(e) => e.preventDefault()}
+  onReset={(e) => {
+    e.preventDefault()
+    resetFilters()
+  }}
+>
+  <FilterBar.Controls>
+    <FilterBar.Field width='search'>
+      Search
+      <Input
+        type='search'
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      />
+    </FilterBar.Field>
+    <FilterBar.Field>
+      State
+      <Select
+        aria-label='Resource state'
+        value={state}
+        onValueChange={setState}
+        options={states}
+      />
+    </FilterBar.Field>
+    <FilterBar.Actions>
+      <Button type='reset'>Clear filters</Button>
+    </FilterBar.Actions>
+  </FilterBar.Controls>
+  <FilterBar.Summary>{count} results</FilterBar.Summary>
+</FilterBar.Root>`,
     props: [
       ['Root.label', 'required accessible search landmark name', 'required'],
       [

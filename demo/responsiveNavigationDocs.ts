@@ -19,7 +19,40 @@ export const responsiveNavigationDocs: Record<string, ComponentDoc> = {
       '--chrome',
       '--canvas',
     ],
-    code: `import {AppShell, Sheet, Button, ScrollArea} from "@surflane/ui";\n\nconst navigation = destinations.filter(canAccess).map(item =>\n  <AppShell.Link key={item.id} href={item.href} label={item.label}\n    icon={item.icon} aria-current={isCurrent(item) ? "page" : undefined} />\n);\n\n<AppShell.Sidebar><ScrollArea orientation="vertical" label="Destinations">\n  <nav aria-label="Workspace navigation">{navigation}</nav>\n</ScrollArea></AppShell.Sidebar>\n\n<Sheet.Root side="left" open={open} onOpenChange={setOpen}>\n  <Sheet.Trigger render={<Button aria-label="Open navigation" />}>Menu</Sheet.Trigger>\n  <Sheet.Content finalFocus={resolveReturnFocus}>\n    <Sheet.Title>Workspace navigation</Sheet.Title>\n    <Sheet.Description>Choose a workspace page.</Sheet.Description>\n    <nav aria-label="Mobile workspace navigation">{navigation}</nav>\n  </Sheet.Content>\n</Sheet.Root>\n\n// Match AppShell's <=760px CSS breakpoint. Close the Sheet on desktop resize.\n// Resolve return focus: cancel -> trigger; navigation -> heading; desktop resize -> current link.\n// Revalidate routes and permissions in the product, including browser back/forward.`,
+    code: `import { AppShell, Sheet, Button, ScrollArea } from '@surflane/ui'
+
+const navigation = destinations
+  .filter(canAccess)
+  .map((item) => (
+    <AppShell.Link
+      key={item.id}
+      href={item.href}
+      label={item.label}
+      icon={item.icon}
+      aria-current={isCurrent(item) ? 'page' : undefined}
+    />
+  ))
+
+<AppShell.Sidebar>
+  <ScrollArea orientation='vertical' label='Destinations'>
+    <nav aria-label='Workspace navigation'>{navigation}</nav>
+  </ScrollArea>
+</AppShell.Sidebar>
+
+<Sheet.Root side='left' open={open} onOpenChange={setOpen}>
+  <Sheet.Trigger render={<Button aria-label='Open navigation' />}>
+    Menu
+  </Sheet.Trigger>
+  <Sheet.Content finalFocus={resolveReturnFocus}>
+    <Sheet.Title>Workspace navigation</Sheet.Title>
+    <Sheet.Description>Choose a workspace page.</Sheet.Description>
+    <nav aria-label='Mobile workspace navigation'>{navigation}</nav>
+  </Sheet.Content>
+</Sheet.Root>
+
+// Match AppShell's <=760px CSS breakpoint. Close the Sheet on desktop resize.
+// Resolve return focus: cancel -> trigger; navigation -> heading; desktop resize -> current link.
+// Revalidate routes and permissions in the product, including browser back/forward.`,
     props: [
       [
         'Destination model',

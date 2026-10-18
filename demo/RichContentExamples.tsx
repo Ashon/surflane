@@ -9,7 +9,14 @@ import {
   Textarea,
 } from '@surflane/ui'
 const examples: Record<string, string> = {
-  tsx: 'import { Button } from "@surflane/ui";\n\n// Built from the same design tokens.\nexport function RunAction() {\n  const count = 3;\n  return <Button disabled={count === 0}>Deploy service</Button>;\n}\n',
+  tsx: `import { Button } from '@surflane/ui'
+
+// Built from the same design tokens.
+export function RunAction() {
+  const count = 3
+  return <Button disabled={count === 0}>Deploy service</Button>
+}
+`,
   css: '.workspace {\n  color: var(--ink-body);\n  padding: 24px;\n  background: var(--canvas);\n}\n',
   yaml: 'name: platform-api\nenvironment: staging\nretries: 3\nenabled: true\n# Keep credentials outside source control.\n',
   json: '{\n  "name": "Platform workspace",\n  "available": true,\n  "environments": ["staging", "production"]\n}\n',
@@ -36,7 +43,7 @@ Review **deployment results** in a shared design language. Jump to [Results](#re
 ### Example code
 
 \`\`\`tsx
-import { Button } from "@surflane/ui";
+import { Button } from '@surflane/ui'
 
 <Button onClick={inspect}>Inspect logs</Button>
 \`\`\`

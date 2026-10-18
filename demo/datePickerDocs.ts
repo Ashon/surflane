@@ -24,7 +24,57 @@ export const datePickerDocs: Record<string, ComponentDoc> = {
       '--shadow-float',
       '--layer-popup',
     ],
-    code: `import {DatePicker, DateRangePicker, TimeField, DateLocaleProvider} from "@surflane/ui";\nimport {parseDate, parseDateTime, Time, toZoned} from "@internationalized/date";\n\n<DateLocaleProvider locale="en-US">\n  <DatePicker label="Run date" name="runDate" value={date} onChange={setDate}\n    minValue={parseDate("2026-10-01")} maxValue={parseDate("2026-12-31")}\n    isRequired description="October–December 2026" />\n  <DateRangePicker label="Release window" startName="from" endName="to"\n    value={range} onChange={setRange} />\n  <TimeField label="Start time" name="time" defaultValue={new Time(9,30)} hourCycle={24} />\n</DateLocaleProvider>\n\n// A local time is not an instant. Resolve explicitly and handle rejection.\ntry {\n  const instant = toZoned(parseDateTime("2026-11-01T01:30"), "America/New_York", "reject");\n  console.log(instant.toAbsoluteString());\n} catch { /* Ask for another time or an explicit earlier/later decision. */ }\n// Controlled form reset: explicitly restore date/range state in onReset.`,
+    code: `import {
+  DatePicker,
+  DateRangePicker,
+  TimeField,
+  DateLocaleProvider,
+} from '@surflane/ui'
+import {
+  parseDate,
+  parseDateTime,
+  Time,
+  toZoned,
+} from '@internationalized/date'
+
+<DateLocaleProvider locale='en-US'>
+  <DatePicker
+    label='Run date'
+    name='runDate'
+    value={date}
+    onChange={setDate}
+    minValue={parseDate('2026-10-01')}
+    maxValue={parseDate('2026-12-31')}
+    isRequired
+    description='October–December 2026'
+  />
+  <DateRangePicker
+    label='Release window'
+    startName='from'
+    endName='to'
+    value={range}
+    onChange={setRange}
+  />
+  <TimeField
+    label='Start time'
+    name='time'
+    defaultValue={new Time(9, 30)}
+    hourCycle={24}
+  />
+</DateLocaleProvider>
+
+// A local time is not an instant. Resolve explicitly and handle rejection.
+try {
+  const instant = toZoned(
+    parseDateTime('2026-11-01T01:30'),
+    'America/New_York',
+    'reject',
+  )
+  console.log(instant.toAbsoluteString())
+} catch {
+  /* Ask for another time or an explicit earlier/later decision. */
+}
+// Controlled form reset: explicitly restore date/range state in onReset.`,
     props: [
       [
         'DatePicker / DateRangePicker / TimeField',

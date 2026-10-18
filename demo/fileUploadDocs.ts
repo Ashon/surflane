@@ -19,7 +19,30 @@ export const fileUploadDocs: Record<string, ComponentDoc> = {
       '--space-4',
       '--space-5',
     ],
-    code: 'import { FileUpload, Form } from "@surflane/ui";\n\n<Form onSubmit={event => {\n  event.preventDefault();\n  const data = new FormData(event.currentTarget);\n  const files = data.getAll("artifacts");\n  // Submit using your application transport.\n}}>\n  <FileUpload name="artifacts" label="Build artifacts"\n    description="Up to three JSON files, 1 MB each."\n    accept=".json,application/json" multiple required\n    maxFiles={3} maxFileSize={1024 * 1024}\n    transport={async (file, { signal, onProgress }) => {\n      await yourUpload(file, { signal, onProgress });\n    }} />\n</Form>',
+    code: `import { FileUpload, Form } from '@surflane/ui'
+
+<Form
+  onSubmit={(event) => {
+    event.preventDefault()
+    const data = new FormData(event.currentTarget)
+    const files = data.getAll('artifacts')
+    // Submit using your application transport.
+  }}
+>
+  <FileUpload
+    name='artifacts'
+    label='Build artifacts'
+    description='Up to three JSON files, 1 MB each.'
+    accept='.json,application/json'
+    multiple
+    required
+    maxFiles={3}
+    maxFileSize={1024 * 1024}
+    transport={async (file, { signal, onProgress }) => {
+      await yourUpload(file, { signal, onProgress })
+    }}
+  />
+</Form>`,
     props: [
       [
         'label / description',

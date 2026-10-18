@@ -16,7 +16,31 @@ export const inputExtensionDocs: Record<string, ComponentDoc> = {
       '--menu-hover-background',
       '--layer-popup',
     ],
-    code: 'import { Autocomplete, Field } from "@surflane/ui";\n\n<Field.Root name="query">\n  <Field.Label>Pipeline search</Field.Label>\n  <Autocomplete.Root name="query" items={suggestions}>\n    <Autocomplete.InputGroup>\n      <Autocomplete.Input placeholder="Search scenarios…" />\n      <Autocomplete.Clear /><Autocomplete.Trigger />\n    </Autocomplete.InputGroup>\n    <Autocomplete.Content>\n      <Autocomplete.Empty>No suggestions. Free text is accepted.</Autocomplete.Empty>\n      <Autocomplete.List>{(item: string) => (\n        <Autocomplete.Item key={item} value={item}>{item}</Autocomplete.Item>\n      )}</Autocomplete.List>\n    </Autocomplete.Content>\n  </Autocomplete.Root>\n  <Field.Error />\n</Field.Root>',
+    code: `import { Autocomplete, Field } from '@surflane/ui'
+
+<Field.Root name='query'>
+  <Field.Label>Pipeline search</Field.Label>
+  <Autocomplete.Root name='query' items={suggestions}>
+    <Autocomplete.InputGroup>
+      <Autocomplete.Input placeholder='Search scenarios…' />
+      <Autocomplete.Clear />
+      <Autocomplete.Trigger />
+    </Autocomplete.InputGroup>
+    <Autocomplete.Content>
+      <Autocomplete.Empty>
+        No suggestions. Free text is accepted.
+      </Autocomplete.Empty>
+      <Autocomplete.List>
+        {(item: string) => (
+          <Autocomplete.Item key={item} value={item}>
+            {item}
+          </Autocomplete.Item>
+        )}
+      </Autocomplete.List>
+    </Autocomplete.Content>
+  </Autocomplete.Root>
+  <Field.Error />
+</Field.Root>`,
     props: [
       [
         'Root.value / defaultValue / onValueChange',
@@ -60,7 +84,18 @@ export const inputExtensionDocs: Record<string, ComponentDoc> = {
       '--interaction-focus',
       '--radius-full',
     ],
-    code: 'import { Slider } from "@surflane/ui";\n\n<Slider.Root name="workers" defaultValue={3} min={1} max={16}>\n  <Slider.Label>Parallel workers</Slider.Label>\n  <Slider.Value>{(_, values) => `${values[0]} workers`}</Slider.Value>\n  <Slider.Control>\n    <Slider.Track><Slider.Indicator /></Slider.Track>\n    <Slider.Thumb getAriaValueText={(_, value) => `${value} workers`} />\n  </Slider.Control>\n</Slider.Root>',
+    code: `import { Slider } from '@surflane/ui'
+
+<Slider.Root name='workers' defaultValue={3} min={1} max={16}>
+  <Slider.Label>Parallel workers</Slider.Label>
+  <Slider.Value>{(_, values) => \`\${values[0]} workers\`}</Slider.Value>
+  <Slider.Control>
+    <Slider.Track>
+      <Slider.Indicator />
+    </Slider.Track>
+    <Slider.Thumb getAriaValueText={(_, value) => \`\${value} workers\`} />
+  </Slider.Control>
+</Slider.Root>`,
     props: [
       [
         'Root.value / defaultValue',

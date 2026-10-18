@@ -18,7 +18,26 @@ export const errorRecoveryDocs: Record<string, ComponentDoc> = {
       '--ink-muted',
       '--control-focus',
     ],
-    code: `import {InlineMessage, Button, EmptyState} from "@surflane/ui";\n\n<InlineMessage.Root tone="danger" role="alert">\n  <InlineMessage.Content>\n    <InlineMessage.Title>The request failed</InlineMessage.Title>\n    <InlineMessage.Description>Your draft is retained.</InlineMessage.Description>\n    <InlineMessage.Actions><Button onClick={retry}>Retry</Button></InlineMessage.Actions>\n  </InlineMessage.Content>\n</InlineMessage.Root>\n\n// Request ownership remains in the product:\n// guard duplicate starts synchronously; snapshot the draft; use AbortController.\n// accept a response only if its identity is still current and not aborted.\n// preserve draft on failure/cancel; clear protected caches on permission changes.\n// restore meaningful focus and report freshness without implying successful mutation.\n// diagnostics must be safe to display/copy and contain no credentials.`,
+    code: `import { InlineMessage, Button, EmptyState } from '@surflane/ui'
+
+<InlineMessage.Root tone='danger' role='alert'>
+  <InlineMessage.Content>
+    <InlineMessage.Title>The request failed</InlineMessage.Title>
+    <InlineMessage.Description>
+      Your draft is retained.
+    </InlineMessage.Description>
+    <InlineMessage.Actions>
+      <Button onClick={retry}>Retry</Button>
+    </InlineMessage.Actions>
+  </InlineMessage.Content>
+</InlineMessage.Root>
+
+// Request ownership remains in the product:
+// guard duplicate starts synchronously; snapshot the draft; use AbortController.
+// accept a response only if its identity is still current and not aborted.
+// preserve draft on failure/cancel; clear protected caches on permission changes.
+// restore meaningful focus and report freshness without implying successful mutation.
+// diagnostics must be safe to display/copy and contain no credentials.`,
     props: [
       [
         'Recovery state',

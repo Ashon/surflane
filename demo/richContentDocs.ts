@@ -16,7 +16,10 @@ export const richContentDocs: Record<string, ComponentDoc> = {
       '--syntax-string',
       '--syntax-comment',
     ],
-    code: 'import { SyntaxHighlighter, CodeBlock } from "@surflane/ui";\n\n<SyntaxHighlighter code={source} language="tsx" label="Source preview" />\n<CodeBlock code={source} language="tsx" label="Copyable example" />',
+    code: `import { SyntaxHighlighter, CodeBlock } from '@surflane/ui'
+
+<SyntaxHighlighter code={source} language='tsx' label='Source preview' />
+<CodeBlock code={source} language='tsx' label='Copyable example' />`,
     props: [
       ['code', 'original source string', 'required'],
       [
@@ -54,7 +57,14 @@ export const richContentDocs: Record<string, ComponentDoc> = {
       '--syntax-keyword',
       '--ink-body',
     ],
-    code: 'import { Markdown } from "@surflane/ui";\n\n<Markdown source={documentSource} label="Deployment guide"\n  headingLevel={2} codeWrap={false} />',
+    code: `import { Markdown } from '@surflane/ui'
+
+<Markdown
+  source={documentSource}
+  label='Deployment guide'
+  headingLevel={2}
+  codeWrap={false}
+/>`,
     props: [
       ['source', 'CommonMark + GitHub flavored Markdown string', 'required'],
       [

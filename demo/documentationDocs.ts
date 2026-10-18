@@ -20,7 +20,30 @@ export const documentationDocs: Record<string, ComponentDoc> = {
       '--selected',
       '--control-focus',
     ],
-    code: `import {PageHeader, Prose, CodeBlock, InlineMessage} from "@surflane/ui";\n\n<nav aria-label="On this guide"><a href="#guide-setup">Setup</a></nav>\n<article lang="en" aria-label="Getting started">\n  <PageHeader level={3} size="document" title="Getting started" />\n  <Prose>\n    <section aria-labelledby="guide-setup">\n      <h4 id="guide-setup" tabIndex={-1}>Setup</h4>\n      <p>Confirm the target before continuing.</p>\n      <InlineMessage.Root tone="neutral">\n        <InlineMessage.Content>Read-only example.</InlineMessage.Content>\n      </InlineMessage.Root>\n      <CodeBlock code={sample} language="typescript" label="Configuration" />\n    </section>\n  </Prose>\n</article>\n\n// Keep heading IDs stable across translations and direct fragment loads.\n// Use the actual scroll viewport for current-section tracking; never focus on scroll.\n// Translate content, lang, control labels and announcements together in the product.`,
+    code: `import { PageHeader, Prose, CodeBlock, InlineMessage } from '@surflane/ui'
+
+<nav aria-label='On this guide'>
+  <a href='#guide-setup'>Setup</a>
+</nav>
+<article lang='en' aria-label='Getting started'>
+  <PageHeader level={3} size='document' title='Getting started' />
+  <Prose>
+    <section aria-labelledby='guide-setup'>
+      <h4 id='guide-setup' tabIndex={-1}>
+        Setup
+      </h4>
+      <p>Confirm the target before continuing.</p>
+      <InlineMessage.Root tone='neutral'>
+        <InlineMessage.Content>Read-only example.</InlineMessage.Content>
+      </InlineMessage.Root>
+      <CodeBlock code={sample} language='typescript' label='Configuration' />
+    </section>
+  </Prose>
+</article>
+
+// Keep heading IDs stable across translations and direct fragment loads.
+// Use the actual scroll viewport for current-section tracking; never focus on scroll.
+// Translate content, lang, control labels and announcements together in the product.`,
     props: [
       [
         'Prose',

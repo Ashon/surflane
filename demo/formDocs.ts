@@ -23,7 +23,14 @@ export const formDocs: Record<string, ComponentDoc> = {
     anatomy:
       'Field.Root → Label + Control (or Input / Select) + Description + Error',
     tokens: fields,
-    code: 'import { Field } from "@surflane/ui";\n\n<Field.Root name="project">\n  <Field.Label>Project name</Field.Label>\n  <Field.Control required placeholder="demo-e2e-01" />\n  <Field.Description>Use a unique name.</Field.Description>\n  <Field.Error />\n</Field.Root>',
+    code: `import { Field } from '@surflane/ui'
+
+<Field.Root name='project'>
+  <Field.Label>Project name</Field.Label>
+  <Field.Control required placeholder='demo-e2e-01' />
+  <Field.Description>Use a unique name.</Field.Description>
+  <Field.Error />
+</Field.Root>`,
     props: [
       [
         'Root.name / disabled / invalid',
@@ -43,7 +50,15 @@ export const formDocs: Record<string, ComponentDoc> = {
       'Each input keeps its natural Tab order. A disabled group is excluded from interaction and form submission.',
     anatomy: 'Fieldset.Root → Legend + related Fields',
     tokens: ['--space-4', '--type-subsection-size', '--ink'],
-    code: 'import { Fieldset, Field } from "@surflane/ui";\n\n<Fieldset.Root disabled={disabled}>\n  <Fieldset.Legend>Deployment target</Fieldset.Legend>\n  <Field.Root name="project">\n    <Field.Label>Project name</Field.Label>\n    <Field.Control />\n  </Field.Root>\n</Fieldset.Root>',
+    code: `import { Fieldset, Field } from '@surflane/ui'
+
+<Fieldset.Root disabled={disabled}>
+  <Fieldset.Legend>Deployment target</Fieldset.Legend>
+  <Field.Root name='project'>
+    <Field.Label>Project name</Field.Label>
+    <Field.Control />
+  </Field.Root>
+</Fieldset.Root>`,
     props: [
       ['Root.disabled', 'boolean; cascades to nested fields', 'false'],
       ['Legend', 'accessible group name', 'required content'],
@@ -58,7 +73,19 @@ export const formDocs: Record<string, ComponentDoc> = {
       'Enter or the submit button validates the form and moves focus to the first invalid input. Editing an input clears its server error, and Reset restores the initial values.',
     anatomy: 'Form → Field / Fieldset + submit / reset + result status',
     tokens: fields,
-    code: 'import { Form, Field, Button } from "@surflane/ui";\n\n<Form errors={serverErrors} onFormSubmit={savePreview}>\n  <Field.Root name="project">\n    <Field.Label>Project name</Field.Label>\n    <Field.Control required />\n    <Field.Error />\n  </Field.Root>\n  <Button type="submit">Save preview</Button>\n  <Button type="reset" variant="outline">Reset</Button>\n</Form>',
+    code: `import { Form, Field, Button } from '@surflane/ui'
+
+<Form errors={serverErrors} onFormSubmit={savePreview}>
+  <Field.Root name='project'>
+    <Field.Label>Project name</Field.Label>
+    <Field.Control required />
+    <Field.Error />
+  </Field.Root>
+  <Button type='submit'>Save preview</Button>
+  <Button type='reset' variant='outline'>
+    Reset
+  </Button>
+</Form>`,
     props: [
       [
         'onFormSubmit',
@@ -78,7 +105,18 @@ export const formDocs: Record<string, ComponentDoc> = {
       'Preserves native text editing, Enter for line breaks, and Korean IME input. Tab moves to the next input.',
     anatomy: 'Field.Control render={<Textarea />} → native textarea',
     tokens: fields,
-    code: 'import { Field, Textarea } from "@surflane/ui";\n\n<Field.Root name="description">\n  <Field.Label>Description</Field.Label>\n  <Field.Control render={<Textarea rows={4} />} required\n    placeholder="Describe the deployment goal" />\n  <Field.Description>Keep the context concise.</Field.Description>\n  <Field.Error />\n</Field.Root>',
+    code: `import { Field, Textarea } from '@surflane/ui'
+
+<Field.Root name='description'>
+  <Field.Label>Description</Field.Label>
+  <Field.Control
+    render={<Textarea rows={4} />}
+    required
+    placeholder='Describe the deployment goal'
+  />
+  <Field.Description>Keep the context concise.</Field.Description>
+  <Field.Error />
+</Field.Root>`,
     props: [
       [
         'rows / maxLength / required / disabled / readOnly',
@@ -97,7 +135,14 @@ export const formDocs: Record<string, ComponentDoc> = {
       "Tab to the checkbox and press Space to toggle it. Label clicks, form submission, and reset are wired through Base UI's hidden input.",
     anatomy: 'label → Checkbox.Root + Indicator(default SVG) + text',
     tokens: selection,
-    code: 'import { Checkbox } from "@surflane/ui";\n\n<label className="pui-choice-label">\n  <Checkbox.Root name="cleanup" defaultChecked>\n    <Checkbox.Indicator />\n  </Checkbox.Root>\n  <span>Clean up temporary accounts</span>\n</label>',
+    code: `import { Checkbox } from '@surflane/ui'
+
+<label className='pui-choice-label'>
+  <Checkbox.Root name='cleanup' defaultChecked>
+    <Checkbox.Indicator />
+  </Checkbox.Root>
+  <span>Clean up temporary accounts</span>
+</label>`,
     props: [
       [
         'Root.checked / defaultChecked',
@@ -122,7 +167,28 @@ export const formDocs: Record<string, ComponentDoc> = {
     anatomy:
       'Fieldset → CheckboxGroup(allValues) → parent checkbox + value checkboxes',
     tokens: selection,
-    code: 'import { CheckboxGroup, Checkbox } from "@surflane/ui";\n\n<CheckboxGroup allValues={["staging", "production"]}\n  defaultValue={["staging"]} aria-label="Environments">\n  <label className="pui-choice-label">\n    <Checkbox.Root parent><Checkbox.Indicator /></Checkbox.Root>\n    <span>All environments</span>\n  </label>\n  {["staging", "production"].map(value => (\n    <label className="pui-choice-label" key={value}>\n      <Checkbox.Root name="environments" value={value}>\n        <Checkbox.Indicator />\n      </Checkbox.Root>\n      <span>{value}</span>\n    </label>\n  ))}\n</CheckboxGroup>',
+    code: `import { CheckboxGroup, Checkbox } from '@surflane/ui'
+
+<CheckboxGroup
+  allValues={['staging', 'production']}
+  defaultValue={['staging']}
+  aria-label='Environments'
+>
+  <label className='pui-choice-label'>
+    <Checkbox.Root parent>
+      <Checkbox.Indicator />
+    </Checkbox.Root>
+    <span>All environments</span>
+  </label>
+  {['staging', 'production'].map((value) => (
+    <label className='pui-choice-label' key={value}>
+      <Checkbox.Root name='environments' value={value}>
+        <Checkbox.Indicator />
+      </Checkbox.Root>
+      <span>{value}</span>
+    </label>
+  ))}
+</CheckboxGroup>`,
     props: [
       [
         'value / defaultValue / onValueChange',
@@ -142,7 +208,18 @@ export const formDocs: Record<string, ComponentDoc> = {
       'Tab moves into the selected item, and arrow keys move the selection. Disabled items are skipped.',
     anatomy: 'RadioGroup → label + Radio.Root(value) / Indicator',
     tokens: selection,
-    code: 'import { RadioGroup, Radio } from "@surflane/ui";\n\n<RadioGroup name="source" defaultValue="live" aria-label="Log source">\n  {["live", "simulation"].map(value => (\n    <label className="pui-choice-label" key={value}>\n      <Radio.Root value={value}><Radio.Indicator /></Radio.Root>\n      <span>{value}</span>\n    </label>\n  ))}\n</RadioGroup>',
+    code: `import { RadioGroup, Radio } from '@surflane/ui'
+
+<RadioGroup name='source' defaultValue='live' aria-label='Log source'>
+  {['live', 'simulation'].map((value) => (
+    <label className='pui-choice-label' key={value}>
+      <Radio.Root value={value}>
+        <Radio.Indicator />
+      </Radio.Root>
+      <span>{value}</span>
+    </label>
+  ))}
+</RadioGroup>`,
     props: [
       [
         'value / defaultValue / onValueChange',
@@ -171,7 +248,19 @@ export const formDocs: Record<string, ComponentDoc> = {
       '--control-switch-height',
       '--control-switch-thumb',
     ],
-    code: 'import { Switch } from "@surflane/ui";\n\n<label className="pui-choice-label">\n  <Switch.Root name="refresh" defaultChecked value="enabled"\n    uncheckedValue="disabled">\n    <Switch.Thumb />\n  </Switch.Root>\n  <span>Refresh run status</span>\n</label>',
+    code: `import { Switch } from '@surflane/ui'
+
+<label className='pui-choice-label'>
+  <Switch.Root
+    name='refresh'
+    defaultChecked
+    value='enabled'
+    uncheckedValue='disabled'
+  >
+    <Switch.Thumb />
+  </Switch.Root>
+  <span>Refresh run status</span>
+</label>`,
     props: [
       [
         'checked / defaultChecked / onCheckedChange',

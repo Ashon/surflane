@@ -179,9 +179,17 @@ export function AccessibilityFoundation() {
         <CodeBlock
           language='tsx'
           label='Accessible field composition'
-          code={
-            '<Field.Root name="name">\n  <Field.Label>Environment name (required)</Field.Label>\n  <Field.Control required />\n  <Field.Description>Use a unique environment name.</Field.Description>\n  <Field.Error />\n</Field.Root>\n\n// Keep this live region mounted before updating its text.\n<p role="status" aria-atomic="true">{result}</p>'
-          }
+          code={`<Field.Root name='name'>
+  <Field.Label>Environment name (required)</Field.Label>
+  <Field.Control required />
+  <Field.Description>Use a unique environment name.</Field.Description>
+  <Field.Error />
+</Field.Root>
+
+// Keep this live region mounted before updating its text.
+<p role='status' aria-atomic='true'>
+  {result}
+</p>`}
         />
       </section>
       <section id='keyboard'>

@@ -80,8 +80,12 @@ const copy = {
     long: 'Platform API / project-abcdefghijklmnopqrstuvwxyz0123456789',
   },
 }
-export const documentationSampleCode =
-  'const preview = {\n  environment: "sample-environment",\n  mode: "read-only",\n  identifier: "platform-api-abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789"\n};'
+export const documentationSampleCode = `const preview = {
+  environment: 'sample-environment',
+  mode: 'read-only',
+  identifier:
+    'platform-api-abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789',
+}`
 export function DocumentationExample() {
   const [locale, setLocale] = useState<'ko' | 'en'>('en'),
     [long, setLong] = useState(false),

@@ -85,7 +85,11 @@ export const componentDocs: Record<string, ComponentDoc> = {
       'Tab moves focus and Enter / Space activates. While in progress, it prevents duplicate runs and announces the result.',
     anatomy: 'Button → optional SVG icon + text that describes the action',
     tokens: ['--brand', '--danger', ...controls],
-    code: 'import { Button } from "@surflane/ui";\n\n<Button onClick={runPreview}>Run preview</Button>\n<Button variant="outline">Inspect details</Button>\n<Button disabled>Unavailable</Button>',
+    code: `import { Button } from '@surflane/ui'
+
+<Button onClick={runPreview}>Run preview</Button>
+<Button variant='outline'>Inspect details</Button>
+<Button disabled>Unavailable</Button>`,
     props: [
       [
         'variant',
@@ -110,7 +114,17 @@ export const componentDocs: Record<string, ComponentDoc> = {
     anatomy:
       'label → Input wrapper → leadingIcon(optional) + input, help text / error',
     tokens: controls,
-    code: 'import { Input } from "@surflane/ui";\n\n<label>Project name\n  <Input name="project" placeholder="Enter a name" />\n</label>\n<Input aria-label="Project ID" aria-invalid="true"\n  aria-describedby="project-error" />',
+    code: `import { Input } from '@surflane/ui'
+
+<label>
+  Project name
+  <Input name='project' placeholder='Enter a name' />
+</label>
+<Input
+  aria-label='Project ID'
+  aria-invalid='true'
+  aria-describedby='project-error'
+/>`,
     props: [
       ['leadingIcon', 'ReactNode', '—'],
       ['wrapperClassName', 'string', '—'],
@@ -127,7 +141,17 @@ export const componentDocs: Record<string, ComponentDoc> = {
     anatomy:
       'Select → Trigger / Value / SVG chevron → Portal / Positioner / List / Item / Indicator',
     tokens: [...controls, '--menu-border', '--shadow-float'],
-    code: 'import { Select } from "@surflane/ui";\n\n<Select name="environment" aria-label="Environment" defaultValue="staging"\n  options={[{ value: "staging", label: "Staging" },\n            { value: "production", label: "Production" }]} />',
+    code: `import { Select } from '@surflane/ui'
+
+<Select
+  name='environment'
+  aria-label='Environment'
+  defaultValue='staging'
+  options={[
+    { value: 'staging', label: 'Staging' },
+    { value: 'production', label: 'Production' },
+  ]}
+/>`,
     props: [
       ['options', '{ value, label, disabled? }[]', 'required'],
       ['value / onValueChange', 'controlled value + callback', '—'],
@@ -147,7 +171,12 @@ export const componentDocs: Record<string, ComponentDoc> = {
       'Uses the same keyboard flow as the shared Select and submits the value to forms through a hidden input.',
     anatomy: 'HTML option children → adapter → shared Select',
     tokens: controls,
-    code: 'import { NativeSelect } from "@surflane/ui";\n\n<NativeSelect aria-label="Environment" name="environment">\n  <option value="staging">Staging</option>\n  <option value="production">Production</option>\n</NativeSelect>',
+    code: `import { NativeSelect } from '@surflane/ui'
+
+<NativeSelect aria-label='Environment' name='environment'>
+  <option value='staging'>Staging</option>
+  <option value='production'>Production</option>
+</NativeSelect>`,
     props: [
       ['children', 'option / optgroup elements', '—'],
       ['value / onChange', 'native-style change adapter', '—'],
@@ -170,7 +199,17 @@ export const componentDocs: Record<string, ComponentDoc> = {
       '--space-2',
       '--space-4',
     ],
-    code: 'import { Popover, Button } from "@surflane/ui";\n\n<Popover.Root>\n  <Popover.Trigger render={<Button />}>Inspect</Popover.Trigger>\n  <Popover.Portal><Popover.Content>\n    <Popover.Title>Account</Popover.Title>\n    <Popover.Description>Preview details.</Popover.Description>\n  </Popover.Content></Popover.Portal>\n</Popover.Root>',
+    code: `import { Popover, Button } from '@surflane/ui'
+
+<Popover.Root>
+  <Popover.Trigger render={<Button />}>Inspect</Popover.Trigger>
+  <Popover.Portal>
+    <Popover.Content>
+      <Popover.Title>Account</Popover.Title>
+      <Popover.Description>Preview details.</Popover.Description>
+    </Popover.Content>
+  </Popover.Portal>
+</Popover.Root>`,
     props: [
       [
         'Content.side / align / sideOffset',
@@ -188,7 +227,18 @@ export const componentDocs: Record<string, ComponentDoc> = {
       'Navigate with the arrow keys, Home / End or by typing, and activate with Enter / Space. Escape closes the menu.',
     anatomy: 'Root → Trigger + Portal → Content → Item / Group / Separator',
     tokens: ['--menu-border', '--shadow-float', '--selected'],
-    code: 'import { Menu, Button } from "@surflane/ui";\n\n<Menu.Root>\n  <Menu.Trigger render={<Button />}>Actions</Menu.Trigger>\n  <Menu.Portal><Menu.Content>\n    <Menu.Item className="pui-select-item" onClick={inspect}>\n      Inspect\n    </Menu.Item>\n  </Menu.Content></Menu.Portal>\n</Menu.Root>',
+    code: `import { Menu, Button } from '@surflane/ui'
+
+<Menu.Root>
+  <Menu.Trigger render={<Button />}>Actions</Menu.Trigger>
+  <Menu.Portal>
+    <Menu.Content>
+      <Menu.Item className='pui-select-item' onClick={inspect}>
+        Inspect
+      </Menu.Item>
+    </Menu.Content>
+  </Menu.Portal>
+</Menu.Root>`,
     props: [
       ['Content.align / sideOffset', 'Base UI positioner props', 'end / 6'],
       ['Item.disabled / onClick', 'availability and action', '—'],
@@ -207,7 +257,13 @@ export const componentDocs: Record<string, ComponentDoc> = {
       '--tooltip-foreground',
       '--control-radius',
     ],
-    code: 'import { TooltipProvider, Tooltip, Button } from "@surflane/ui";\n\n<TooltipProvider>\n  <Tooltip label="Inspect the build logs">\n    <Button variant="outline">Logs</Button>\n  </Tooltip>\n</TooltipProvider>',
+    code: `import { TooltipProvider, Tooltip, Button } from '@surflane/ui'
+
+<TooltipProvider>
+  <Tooltip label='Inspect the build logs'>
+    <Button variant='outline'>Logs</Button>
+  </Tooltip>
+</TooltipProvider>`,
     props: [
       ['label', 'string', 'required'],
       ['enabled', 'boolean', 'true'],
@@ -224,7 +280,21 @@ export const componentDocs: Record<string, ComponentDoc> = {
     anatomy:
       'Root → Trigger → Content → Header(Title / Description / X) + Body + Footer',
     tokens: overlays,
-    code: 'import { Dialog, Button } from "@surflane/ui";\n\n<Dialog.Root>\n  <Dialog.Trigger render={<Button />}>Open plan</Dialog.Trigger>\n  <Dialog.Content closeLabel="Close plan">\n    <Dialog.Header>\n      <Dialog.Title>Deployment plan</Dialog.Title>\n      <Dialog.Description>Preview only.</Dialog.Description>\n    </Dialog.Header>\n    <Dialog.Body>Plan details</Dialog.Body>\n    <Dialog.Footer><Dialog.Close render={<Button />}>Done</Dialog.Close></Dialog.Footer>\n  </Dialog.Content>\n</Dialog.Root>',
+    code: `import { Dialog, Button } from '@surflane/ui'
+
+<Dialog.Root>
+  <Dialog.Trigger render={<Button />}>Open plan</Dialog.Trigger>
+  <Dialog.Content closeLabel='Close plan'>
+    <Dialog.Header>
+      <Dialog.Title>Deployment plan</Dialog.Title>
+      <Dialog.Description>Preview only.</Dialog.Description>
+    </Dialog.Header>
+    <Dialog.Body>Plan details</Dialog.Body>
+    <Dialog.Footer>
+      <Dialog.Close render={<Button />}>Done</Dialog.Close>
+    </Dialog.Footer>
+  </Dialog.Content>
+</Dialog.Root>`,
     props: [
       [
         'Content.closeLabel',
@@ -249,7 +319,25 @@ export const componentDocs: Record<string, ComponentDoc> = {
     anatomy:
       'Root → Trigger → Content → Header(Title / Description) + Footer(Cancel / Action)',
     tokens: overlays,
-    code: 'import { AlertDialog, Button } from "@surflane/ui";\n\n<AlertDialog.Root open={open} onOpenChange={setOpen}>\n  <AlertDialog.Trigger render={<Button />}>Discard</AlertDialog.Trigger>\n  <AlertDialog.Content initialFocus={cancelRef}>\n    <AlertDialog.Header>\n      <AlertDialog.Title>Discard draft?</AlertDialog.Title>\n      <AlertDialog.Description>This cannot be undone.</AlertDialog.Description>\n    </AlertDialog.Header>\n    <AlertDialog.Footer>\n      <AlertDialog.Close ref={cancelRef} render={<Button />}>Keep draft</AlertDialog.Close>\n      <Button variant="destructive" onClick={discard}>Discard draft</Button>\n    </AlertDialog.Footer>\n  </AlertDialog.Content>\n</AlertDialog.Root>',
+    code: `import { AlertDialog, Button } from '@surflane/ui'
+
+<AlertDialog.Root open={open} onOpenChange={setOpen}>
+  <AlertDialog.Trigger render={<Button />}>Discard</AlertDialog.Trigger>
+  <AlertDialog.Content initialFocus={cancelRef}>
+    <AlertDialog.Header>
+      <AlertDialog.Title>Discard draft?</AlertDialog.Title>
+      <AlertDialog.Description>This cannot be undone.</AlertDialog.Description>
+    </AlertDialog.Header>
+    <AlertDialog.Footer>
+      <AlertDialog.Close ref={cancelRef} render={<Button />}>
+        Keep draft
+      </AlertDialog.Close>
+      <Button variant='destructive' onClick={discard}>
+        Discard draft
+      </Button>
+    </AlertDialog.Footer>
+  </AlertDialog.Content>
+</AlertDialog.Root>`,
     props: [
       ['Root.open / onOpenChange', 'controlled state', '—'],
       ['Content.initialFocus', 'safe cancel button ref', '—'],
@@ -264,7 +352,21 @@ export const componentDocs: Record<string, ComponentDoc> = {
       "Follows Dialog's focus trap, Escape and focus restoration. A select menu inside the panel closes first.",
     anatomy: 'Root(side) → Trigger → Content → Header / Body / Footer',
     tokens: overlays,
-    code: 'import { Sheet, Button } from "@surflane/ui";\n\n<Sheet.Root side="right">\n  <Sheet.Trigger render={<Button />}>Details</Sheet.Trigger>\n  <Sheet.Content closeLabel="Close details">\n    <Sheet.Header>\n      <Sheet.Title>Environment</Sheet.Title>\n      <Sheet.Description>Preview details.</Sheet.Description>\n    </Sheet.Header>\n    <Sheet.Body>Resource details</Sheet.Body>\n    <Sheet.Footer><Sheet.Close render={<Button />}>Done</Sheet.Close></Sheet.Footer>\n  </Sheet.Content>\n</Sheet.Root>',
+    code: `import { Sheet, Button } from '@surflane/ui'
+
+<Sheet.Root side='right'>
+  <Sheet.Trigger render={<Button />}>Details</Sheet.Trigger>
+  <Sheet.Content closeLabel='Close details'>
+    <Sheet.Header>
+      <Sheet.Title>Environment</Sheet.Title>
+      <Sheet.Description>Preview details.</Sheet.Description>
+    </Sheet.Header>
+    <Sheet.Body>Resource details</Sheet.Body>
+    <Sheet.Footer>
+      <Sheet.Close render={<Button />}>Done</Sheet.Close>
+    </Sheet.Footer>
+  </Sheet.Content>
+</Sheet.Root>`,
     props: [
       ['Root.side', 'left | right | top | bottom', 'right'],
       ['Content.size', 'small | default | large (sm / md / lg aliases)', 'md'],
@@ -281,7 +383,21 @@ export const componentDocs: Record<string, ComponentDoc> = {
     anatomy:
       'Root → Trigger → Content(handle / popup) → Header / Body / Footer',
     tokens: overlays,
-    code: 'import { Drawer, Button } from "@surflane/ui";\n\n<Drawer.Root>\n  <Drawer.Trigger render={<Button />}>Prepare run</Drawer.Trigger>\n  <Drawer.Content>\n    <Drawer.Header>\n      <Drawer.Title>Prepare deployment</Drawer.Title>\n      <Drawer.Description>Preview only.</Drawer.Description>\n    </Drawer.Header>\n    <Drawer.Body>Run settings</Drawer.Body>\n    <Drawer.Footer><Drawer.Close render={<Button />}>Cancel</Drawer.Close></Drawer.Footer>\n  </Drawer.Content>\n</Drawer.Root>',
+    code: `import { Drawer, Button } from '@surflane/ui'
+
+<Drawer.Root>
+  <Drawer.Trigger render={<Button />}>Prepare run</Drawer.Trigger>
+  <Drawer.Content>
+    <Drawer.Header>
+      <Drawer.Title>Prepare deployment</Drawer.Title>
+      <Drawer.Description>Preview only.</Drawer.Description>
+    </Drawer.Header>
+    <Drawer.Body>Run settings</Drawer.Body>
+    <Drawer.Footer>
+      <Drawer.Close render={<Button />}>Cancel</Drawer.Close>
+    </Drawer.Footer>
+  </Drawer.Content>
+</Drawer.Root>`,
     props: [
       [
         'Root.side',
@@ -300,7 +416,11 @@ export const componentDocs: Record<string, ComponentDoc> = {
       'Focus the region and navigate with the arrow keys and Page Up / Down. Wheel and touch scrolling keep working.',
     anatomy: 'ScrollArea(label) → Root / Viewport + Scrollbar / Thumb / Corner',
     tokens: ['--scrollbar-size', '--scrollbar-thumb', '--scrollbar-track'],
-    code: 'import { ScrollArea } from "@surflane/ui";\n\n<ScrollArea label="Build logs" orientation="both"\n  style={{ maxHeight: 240 }}>\n  <table>...</table>\n</ScrollArea>',
+    code: `import { ScrollArea } from '@surflane/ui'
+
+<ScrollArea label='Build logs' orientation='both' style={{ maxHeight: 240 }}>
+  <table>...</table>
+</ScrollArea>`,
     props: [
       ['label', 'accessible region name', '—'],
       [
@@ -334,7 +454,20 @@ export const componentDocs: Record<string, ComponentDoc> = {
     keyboard: "Follows Popover's focus, Escape and restoration behavior.",
     anatomy: 'Popover + description + cancel / confirm Button',
     tokens: ['--menu-border', '--shadow-float'],
-    code: 'import { Popover, Button } from "@surflane/ui";\n\n// Compose Popover + Button; no standalone Confirm export.\n<Popover.Root open={open} onOpenChange={setOpen}>\n  <Popover.Trigger render={<Button />}>Reset filters</Popover.Trigger>\n  <Popover.Portal><Popover.Content>\n    <Popover.Title>Reset filters?</Popover.Title>\n    <Popover.Description>Restore default filters.</Popover.Description>\n    <Popover.Close render={<Button />}>Keep filters</Popover.Close>\n    <Button onClick={reset}>Reset filters</Button>\n  </Popover.Content></Popover.Portal>\n</Popover.Root>',
+    code: `import { Popover, Button } from '@surflane/ui'
+
+// Compose Popover + Button; no standalone Confirm export.
+<Popover.Root open={open} onOpenChange={setOpen}>
+  <Popover.Trigger render={<Button />}>Reset filters</Popover.Trigger>
+  <Popover.Portal>
+    <Popover.Content>
+      <Popover.Title>Reset filters?</Popover.Title>
+      <Popover.Description>Restore default filters.</Popover.Description>
+      <Popover.Close render={<Button />}>Keep filters</Popover.Close>
+      <Button onClick={reset}>Reset filters</Button>
+    </Popover.Content>
+  </Popover.Portal>
+</Popover.Root>`,
     props: [['Composition', 'Popover + Button', 'no standalone export']],
   },
 }

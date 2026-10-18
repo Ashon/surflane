@@ -16,7 +16,19 @@ export const asyncJobDocs: Record<string, ComponentDoc> = {
       '--control-focus',
       '--status-caution-bg',
     ],
-    code: `import {Progress, StatusBadge, List} from "@surflane/ui";\n\n<Progress.Root value={finishedChecks} max={totalChecks}>\n  <Progress.Label>Finished checks</Progress.Label>\n  <Progress.Track><Progress.Indicator /></Progress.Track>\n</Progress.Root>\n<StatusBadge tone="caution">Cancellation requested</StatusBadge>\n\n// Accept updates only for the current run and delivery version.\n// Cancellation is acknowledged by the worker before reporting canceled.\n// Retry creates a new run; reused results retain their original identity.`,
+    code: `import { Progress, StatusBadge, List } from '@surflane/ui'
+
+<Progress.Root value={finishedChecks} max={totalChecks}>
+  <Progress.Label>Finished checks</Progress.Label>
+  <Progress.Track>
+    <Progress.Indicator />
+  </Progress.Track>
+</Progress.Root>
+<StatusBadge tone='caution'>Cancellation requested</StatusBadge>
+
+// Accept updates only for the current run and delivery version.
+// Cancellation is acknowledged by the worker before reporting canceled.
+// Retry creates a new run; reused results retain their original identity.`,
     props: [
       [
         'Run phase',

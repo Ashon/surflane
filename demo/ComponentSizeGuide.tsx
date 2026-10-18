@@ -201,9 +201,17 @@ export function ComponentSizeGuide() {
       <CodeBlock
         language='tsx'
         label='Component size composition'
-        code={
-          'import { SizeProvider, Button, Input, Select } from "@surflane/ui";\n\n<SizeProvider size="small">\n  <Input aria-label="Project name" />\n  <Select aria-label="Environment" options={environments} />\n  <Button>Apply</Button>\n  <Button size="large">Start deployment</Button>\n</SizeProvider>\n\n// The existing sm / md / lg aliases still work.\n// A numeric size on Input is the standard HTML character-width hint.'
-        }
+        code={`import { SizeProvider, Button, Input, Select } from '@surflane/ui'
+
+<SizeProvider size='small'>
+  <Input aria-label='Project name' />
+  <Select aria-label='Environment' options={environments} />
+  <Button>Apply</Button>
+  <Button size='large'>Start deployment</Button>
+</SizeProvider>
+
+// The existing sm / md / lg aliases still work.
+// A numeric size on Input is the standard HTML character-width hint.`}
       />
     </section>
   )

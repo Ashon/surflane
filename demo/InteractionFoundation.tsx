@@ -264,10 +264,12 @@ export function InteractionFoundation() {
   aria-busy={pending}
   onClick={startPreview}
 >
-  {pending && <Spinner decorative size="sm" />}
+  {pending && <Spinner decorative size='sm' />}
   Run local preview
 </Button>
-<p role="status" aria-atomic="true">{resultMessage}</p>
+<p role='status' aria-atomic='true'>
+  {resultMessage}
+</p>
 
 // Also guard duplicate starts in the handler. Cancel timers / requests on cleanup.
 // For real writes, the server still owns idempotency and authorization.`}

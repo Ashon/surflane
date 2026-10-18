@@ -99,22 +99,34 @@ export function LayoutGridGuide() {
       <CodeBlock
         language='tsx'
         label='Responsive grid composition'
-        code={`import { Container, Grid, GridItem, Card } from "@surflane/ui";
+        code={`import { Container, Grid, GridItem, Card } from '@surflane/ui'
 
-<Container width="workspace">
-  <Grid columns="layout">
-    <GridItem span={8} mediumSpan={4} smallSpan={4}>Main</GridItem>
-    <GridItem span={4} mediumSpan={2} smallSpan={4}>Details</GridItem>
-    <GridItem span={12} mediumSpan={6} smallSpan={4}>Results</GridItem>
+<Container width='workspace'>
+  <Grid columns='layout'>
+    <GridItem span={8} mediumSpan={4} smallSpan={4}>
+      Main
+    </GridItem>
+    <GridItem span={4} mediumSpan={2} smallSpan={4}>
+      Details
+    </GridItem>
+    <GridItem span={12} mediumSpan={6} smallSpan={4}>
+      Results
+    </GridItem>
   </Grid>
 </Container>
 
 // Equal cards: 3 columns, then 2, then 1.
-<Grid columns={3} gap={4}>{cards}</Grid>
+<Grid columns={3} gap={4}>
+  {cards}
+</Grid>
 
 // Align card content with surrounding text. Match bleed to card padding.
 <Grid columns={3} gap={4} bleed={4}>
-  {items.map(item => <Card.Root key={item.id} padding={4}>...</Card.Root>)}
+  {items.map((item) => (
+    <Card.Root key={item.id} padding={4}>
+      ...
+    </Card.Root>
+  ))}
 </Grid>`}
       />
       <p>

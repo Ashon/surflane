@@ -21,7 +21,42 @@ export const toastDocs: Record<string, ComponentDoc> = {
       '--toast-stack-duration',
       '--toast-stack-ease',
     ],
-    code: 'import { Toast } from "@surflane/ui";\n\nfunction NotificationList() {\n  const { toasts } = Toast.useToastManager();\n  return <Toast.Portal><Toast.Viewport aria-label="Notifications">\n    {toasts.map(toast => <Toast.Root key={toast.id} toast={toast}>\n      <Toast.Content>\n        <Toast.Icon />\n        <Toast.Text><Toast.Title /><Toast.Description /><Toast.Action /></Toast.Text>\n        <Toast.Close />\n      </Toast.Content>\n    </Toast.Root>)}\n  </Toast.Viewport></Toast.Portal>;\n}\n\nfunction App() {\n  return <Toast.Provider timeout={5000} limit={3}>\n    <YourPage /><NotificationList />\n  </Toast.Provider>;\n}\n// Inside YourPage:\n// const manager = Toast.useToastManager();\n// manager.add({ id: "export", title: "Export ready", type: "success" });',
+    code: `import { Toast } from '@surflane/ui'
+
+function NotificationList() {
+  const { toasts } = Toast.useToastManager()
+  return (
+    <Toast.Portal>
+      <Toast.Viewport aria-label='Notifications'>
+        {toasts.map((toast) => (
+          <Toast.Root key={toast.id} toast={toast}>
+            <Toast.Content>
+              <Toast.Icon />
+              <Toast.Text>
+                <Toast.Title />
+                <Toast.Description />
+                <Toast.Action />
+              </Toast.Text>
+              <Toast.Close />
+            </Toast.Content>
+          </Toast.Root>
+        ))}
+      </Toast.Viewport>
+    </Toast.Portal>
+  )
+}
+
+function App() {
+  return (
+    <Toast.Provider timeout={5000} limit={3}>
+      <YourPage />
+      <NotificationList />
+    </Toast.Provider>
+  )
+}
+// Inside YourPage:
+// const manager = Toast.useToastManager()
+// manager.add({ id: 'export', title: 'Export ready', type: 'success' })`,
     props: [
       [
         'Provider.timeout / limit',

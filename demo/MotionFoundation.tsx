@@ -390,9 +390,15 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
         <CodeBlock
           language='tsx'
           label='React theme integration'
-          code={
-            'import { flushSync } from "react-dom";\nimport { transitionTheme } from "@surflane/design-tokens/theme-transition";\nimport "@surflane/design-tokens/motion.css";\n\n// Resolve system mode before committing the theme.\nawait transitionTheme(() => {\n  document.documentElement.dataset.theme = resolvedTheme;\n  flushSync(() => setMode(nextMode));\n});'
-          }
+          code={`import { flushSync } from 'react-dom'
+import { transitionTheme } from '@surflane/design-tokens/theme-transition'
+import '@surflane/design-tokens/motion.css'
+
+// Resolve system mode before committing the theme.
+await transitionTheme(() => {
+  document.documentElement.dataset.theme = resolvedTheme
+  flushSync(() => setMode(nextMode))
+})`}
         />
         <p>
           Restoring the initial theme, saving the selected mode, and subscribing

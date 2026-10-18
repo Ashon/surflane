@@ -14,7 +14,15 @@ export const commandDocs: Record<string, ComponentDoc> = {
       '--radius-full',
       '--interaction-focus',
     ],
-    code: 'import { Toggle } from "@surflane/ui";\n\n<Toggle pressed={pinned} onPressedChange={setPinned}>Pin logs</Toggle>\n<Toggle defaultPressed>Show timings</Toggle>\n<Toggle size="icon" aria-label="Pin logs"><PinIcon /></Toggle>',
+    code: `import { Toggle } from '@surflane/ui'
+
+<Toggle pressed={pinned} onPressedChange={setPinned}>
+  Pin logs
+</Toggle>
+<Toggle defaultPressed>Show timings</Toggle>
+<Toggle size='icon' aria-label='Pin logs'>
+  <PinIcon />
+</Toggle>`,
     props: [
       [
         'pressed / defaultPressed',
@@ -55,7 +63,20 @@ export const commandDocs: Record<string, ComponentDoc> = {
       '--radius-full',
       '--interaction-focus',
     ],
-    code: 'import { ToggleGroup, Toggle } from "@surflane/ui";\n\n<ToggleGroup aria-label="Log source" value={source} onValueChange={setSource}>\n  <Toggle value="live">Live</Toggle>\n  <Toggle value="simulation">Simulation</Toggle>\n</ToggleGroup>\n<ToggleGroup multiple aria-label="Visible log details" defaultValue={["requests"]}>\n  <Toggle value="requests">Requests</Toggle>\n  <Toggle value="errors">Errors</Toggle>\n</ToggleGroup>',
+    code: `import { ToggleGroup, Toggle } from '@surflane/ui'
+
+<ToggleGroup aria-label='Log source' value={source} onValueChange={setSource}>
+  <Toggle value='live'>Live</Toggle>
+  <Toggle value='simulation'>Simulation</Toggle>
+</ToggleGroup>
+<ToggleGroup
+  multiple
+  aria-label='Visible log details'
+  defaultValue={['requests']}
+>
+  <Toggle value='requests'>Requests</Toggle>
+  <Toggle value='errors'>Errors</Toggle>
+</ToggleGroup>`,
     props: [
       [
         'value / defaultValue',
@@ -97,7 +118,25 @@ export const commandDocs: Record<string, ComponentDoc> = {
       '--radius-md',
       '--interaction-focus',
     ],
-    code: 'import { Toolbar, Toggle, Menu } from "@surflane/ui";\n\n<Toolbar.Root aria-label="Run tools">\n  <Toolbar.Button onClick={refresh}>Refresh</Toolbar.Button>\n  <Toolbar.Button render={<Toggle pressed={pinned} onPressedChange={setPinned} />}>\n    Pin results\n  </Toolbar.Button>\n  <Toolbar.Input aria-label="Filter services" />\n  <Menu.Root>\n    <Toolbar.Button render={<Menu.Trigger />}>More actions</Toolbar.Button>\n    <Menu.Portal><Menu.Content>\n      <Menu.Item onClick={exportLogs}>Export logs</Menu.Item>\n    </Menu.Content></Menu.Portal>\n  </Menu.Root>\n</Toolbar.Root>',
+    code: `import { Toolbar, Toggle, Menu } from '@surflane/ui'
+
+<Toolbar.Root aria-label='Run tools'>
+  <Toolbar.Button onClick={refresh}>Refresh</Toolbar.Button>
+  <Toolbar.Button
+    render={<Toggle pressed={pinned} onPressedChange={setPinned} />}
+  >
+    Pin results
+  </Toolbar.Button>
+  <Toolbar.Input aria-label='Filter services' />
+  <Menu.Root>
+    <Toolbar.Button render={<Menu.Trigger />}>More actions</Toolbar.Button>
+    <Menu.Portal>
+      <Menu.Content>
+        <Menu.Item onClick={exportLogs}>Export logs</Menu.Item>
+      </Menu.Content>
+    </Menu.Portal>
+  </Menu.Root>
+</Toolbar.Root>`,
     props: [
       [
         'Root.orientation / loopFocus',
@@ -147,7 +186,19 @@ export const commandDocs: Record<string, ComponentDoc> = {
       '--radius-md',
       '--layer-popup',
     ],
-    code: 'import { Menubar, Menu } from "@surflane/ui";\n\n<Menubar aria-label="Deployment commands" modal={false}>\n  <Menu.Root>\n    <Menu.Trigger>Run</Menu.Trigger>\n    <Menu.Portal><Menu.Content align="start">\n      <Menu.Item onClick={preparePreview}>New preview</Menu.Item>\n      <Menu.Item disabled>Delete runs</Menu.Item>\n    </Menu.Content></Menu.Portal>\n  </Menu.Root>\n</Menubar>',
+    code: `import { Menubar, Menu } from '@surflane/ui'
+
+<Menubar aria-label='Deployment commands' modal={false}>
+  <Menu.Root>
+    <Menu.Trigger>Run</Menu.Trigger>
+    <Menu.Portal>
+      <Menu.Content align='start'>
+        <Menu.Item onClick={preparePreview}>New preview</Menu.Item>
+        <Menu.Item disabled>Delete runs</Menu.Item>
+      </Menu.Content>
+    </Menu.Portal>
+  </Menu.Root>
+</Menubar>`,
     props: [
       [
         'orientation / loopFocus',

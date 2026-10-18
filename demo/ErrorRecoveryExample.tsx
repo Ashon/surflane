@@ -299,7 +299,7 @@ export function ErrorRecoveryExample() {
           </Collapsible.Trigger>
           <Collapsible.Panel>
             <CodeBlock
-              language='tsx'
+              language='text'
               code={
                 'Request: PREVIEW-503\nOperation: read resource preview\nStatus: temporary failure\nThis sample contains no credentials or product data.'
               }

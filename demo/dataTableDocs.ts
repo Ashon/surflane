@@ -18,7 +18,41 @@ export const dataTableDocs: Record<string, ComponentDoc> = {
       '--interaction-hover-bg',
       '--scrollbar-thumb',
     ],
-    code: `import { Table, Checkbox, FilterBar, Pagination, Button } from "@surflane/ui";\n\n// Product-owned state: query, filters, sorting, selected stable IDs, page, columns.\nconst sorted = stableSort(filter(rows, query), sort);\nconst visible = sorted.slice((page - 1) * size, page * size);\nconst manageable = visible.filter(row => row.canManage);\n\n<Table.Container label="Resource comparison" orientation="horizontal">\n  <Table.Root>\n    <Table.Caption>Resources</Table.Caption>\n    <Table.Head><Table.Row>\n      <Table.HeaderCell scope="col" aria-sort="ascending">\n        <Button variant="ghost" onClick={toggleNameSort}>Name</Button>\n      </Table.HeaderCell>\n    </Table.Row></Table.Head>\n    <Table.Body>{visible.map(row =>\n      <Table.Row key={row.id} selected={selected.has(row.id)}>\n        <Table.HeaderCell scope="row"><a href={row.href}>{row.name}</a></Table.HeaderCell>\n      </Table.Row>\n    )}</Table.Body>\n  </Table.Root>\n</Table.Container>\n<Pagination page={page} pageCount={pageCount} onPageChange={setPage} />\n\n// Reset page on filter/sort/page-size changes and clamp after response changes.\n// Header selection is only the current page's manageable rows, not all results.\n// Revalidate selected IDs against authorization on the server before mutation.`,
+    code: `import { Table, Checkbox, FilterBar, Pagination, Button } from '@surflane/ui'
+
+// Product-owned state: query, filters, sorting, selected stable IDs, page, columns.
+const sorted = stableSort(filter(rows, query), sort)
+const visible = sorted.slice((page - 1) * size, page * size)
+const manageable = visible.filter((row) => row.canManage)
+
+<Table.Container label='Resource comparison' orientation='horizontal'>
+  <Table.Root>
+    <Table.Caption>Resources</Table.Caption>
+    <Table.Head>
+      <Table.Row>
+        <Table.HeaderCell scope='col' aria-sort='ascending'>
+          <Button variant='ghost' onClick={toggleNameSort}>
+            Name
+          </Button>
+        </Table.HeaderCell>
+      </Table.Row>
+    </Table.Head>
+    <Table.Body>
+      {visible.map((row) => (
+        <Table.Row key={row.id} selected={selected.has(row.id)}>
+          <Table.HeaderCell scope='row'>
+            <a href={row.href}>{row.name}</a>
+          </Table.HeaderCell>
+        </Table.Row>
+      ))}
+    </Table.Body>
+  </Table.Root>
+</Table.Container>
+<Pagination page={page} pageCount={pageCount} onPageChange={setPage} />
+
+// Reset page on filter/sort/page-size changes and clamp after response changes.
+// Header selection is only the current page's manageable rows, not all results.
+// Revalidate selected IDs against authorization on the server before mutation.`,
     props: [
       [
         'Processing order',

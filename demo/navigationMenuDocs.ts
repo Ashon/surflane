@@ -18,7 +18,34 @@ export const navigationMenuDocs: Record<string, ComponentDoc> = {
       '--radius-lg',
       '--dialog-enter-duration',
     ],
-    code: 'import { NavigationMenu } from "@surflane/ui";\n\n<NavigationMenu.Root aria-label="Platform navigation">\n  <NavigationMenu.List>\n    <NavigationMenu.Item value="products">\n      <NavigationMenu.Trigger>Products</NavigationMenu.Trigger>\n      <NavigationMenu.Content>\n        <NavigationMenu.Link href="/workspace" active closeOnClick>Workspace</NavigationMenu.Link>\n        <NavigationMenu.Link href="/docs" closeOnClick>Documentation</NavigationMenu.Link>\n      </NavigationMenu.Content>\n    </NavigationMenu.Item>\n  </NavigationMenu.List>\n  <NavigationMenu.Portal>\n    <NavigationMenu.Positioner align="start" sideOffset={8} collisionPadding={12}>\n      <NavigationMenu.Popup aria-label="Product destinations">\n        <NavigationMenu.Viewport />\n      </NavigationMenu.Popup>\n    </NavigationMenu.Positioner>\n  </NavigationMenu.Portal>\n</NavigationMenu.Root>',
+    code: `import { NavigationMenu } from '@surflane/ui'
+
+<NavigationMenu.Root aria-label='Platform navigation'>
+  <NavigationMenu.List>
+    <NavigationMenu.Item value='products'>
+      <NavigationMenu.Trigger>Products</NavigationMenu.Trigger>
+      <NavigationMenu.Content>
+        <NavigationMenu.Link href='/workspace' active closeOnClick>
+          Workspace
+        </NavigationMenu.Link>
+        <NavigationMenu.Link href='/docs' closeOnClick>
+          Documentation
+        </NavigationMenu.Link>
+      </NavigationMenu.Content>
+    </NavigationMenu.Item>
+  </NavigationMenu.List>
+  <NavigationMenu.Portal>
+    <NavigationMenu.Positioner
+      align='start'
+      sideOffset={8}
+      collisionPadding={12}
+    >
+      <NavigationMenu.Popup aria-label='Product destinations'>
+        <NavigationMenu.Viewport />
+      </NavigationMenu.Popup>
+    </NavigationMenu.Positioner>
+  </NavigationMenu.Portal>
+</NavigationMenu.Root>`,
     props: [
       [
         'Root.value / defaultValue / onValueChange',

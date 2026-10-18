@@ -18,7 +18,34 @@ export const advancedFormDocs: Record<string, ComponentDoc> = {
       '--selected',
       '--layer-popup',
     ],
-    code: 'import { Combobox, Field } from "@surflane/ui";\n\n<Field.Root name="environment">\n  <Field.Label>Target environment</Field.Label>\n  <Combobox.Root name="environment" items={environments} defaultValue="Staging web">\n    <Combobox.InputGroup>\n      <Combobox.Input placeholder="Search environments…" />\n      <Combobox.Clear /><Combobox.Trigger />\n    </Combobox.InputGroup>\n    <Combobox.Content>\n      <Combobox.Empty>No matching environments.</Combobox.Empty>\n      <Combobox.List>{(environment: string) => (\n        <Combobox.Item key={environment} value={environment}>\n          <Combobox.ItemIndicator />{environment}\n        </Combobox.Item>\n      )}</Combobox.List>\n    </Combobox.Content>\n  </Combobox.Root>\n  <Field.Error />\n</Field.Root>',
+    code: `import { Combobox, Field } from '@surflane/ui'
+
+<Field.Root name='environment'>
+  <Field.Label>Target environment</Field.Label>
+  <Combobox.Root
+    name='environment'
+    items={environments}
+    defaultValue='Staging web'
+  >
+    <Combobox.InputGroup>
+      <Combobox.Input placeholder='Search environments…' />
+      <Combobox.Clear />
+      <Combobox.Trigger />
+    </Combobox.InputGroup>
+    <Combobox.Content>
+      <Combobox.Empty>No matching environments.</Combobox.Empty>
+      <Combobox.List>
+        {(environment: string) => (
+          <Combobox.Item key={environment} value={environment}>
+            <Combobox.ItemIndicator />
+            {environment}
+          </Combobox.Item>
+        )}
+      </Combobox.List>
+    </Combobox.Content>
+  </Combobox.Root>
+  <Field.Error />
+</Field.Root>`,
     props: [
       [
         'Root.items / value / defaultValue',
@@ -69,7 +96,19 @@ export const advancedFormDocs: Record<string, ComponentDoc> = {
       '--control-focus',
       '--ink-body',
     ],
-    code: 'import { NumberField, Field } from "@surflane/ui";\n\n<Field.Root name="attempts">\n  <Field.Label>Retry attempts</Field.Label>\n  <NumberField.Root name="attempts" defaultValue={2} min={1} max={8} step={1}>\n    <NumberField.Group>\n      <NumberField.Decrement aria-label="Decrease attempts" />\n      <NumberField.Input />\n      <NumberField.Increment aria-label="Increase attempts" />\n    </NumberField.Group>\n  </NumberField.Root>\n  <Field.Error />\n</Field.Root>',
+    code: `import { NumberField, Field } from '@surflane/ui'
+
+<Field.Root name='attempts'>
+  <Field.Label>Retry attempts</Field.Label>
+  <NumberField.Root name='attempts' defaultValue={2} min={1} max={8} step={1}>
+    <NumberField.Group>
+      <NumberField.Decrement aria-label='Decrease attempts' />
+      <NumberField.Input />
+      <NumberField.Increment aria-label='Increase attempts' />
+    </NumberField.Group>
+  </NumberField.Root>
+  <Field.Error />
+</Field.Root>`,
     props: [
       [
         'Root.value / defaultValue / onValueChange',

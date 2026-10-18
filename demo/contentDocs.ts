@@ -9,7 +9,20 @@ export const contentDocs: Record<string, ComponentDoc> = {
     keyboard:
       'Root is a plain div with no focus or click behavior. Only the actions enter the Tab order. Match the surrounding heading hierarchy with Title.level, and connect a group name with aria-labelledby when needed.',
     tokens: ['--surface', '--canvas', '--space-6', '--space-4', '--radius-lg'],
-    code: 'import { Card, Button } from "@surflane/ui";\n\n<Card.Root aria-labelledby="environment-title">\n  <Card.Header>\n    <Card.Title id="environment-title" level={3}>DEMO main</Card.Title>\n    <Card.Description>Platform API environment</Card.Description>\n  </Card.Header>\n  <Card.Body>Three services are ready to deploy.</Card.Body>\n  <Card.Footer><Button onClick={inspect}>Inspect environment</Button></Card.Footer>\n</Card.Root>',
+    code: `import { Card, Button } from '@surflane/ui'
+
+<Card.Root aria-labelledby='environment-title'>
+  <Card.Header>
+    <Card.Title id='environment-title' level={3}>
+      DEMO main
+    </Card.Title>
+    <Card.Description>Platform API environment</Card.Description>
+  </Card.Header>
+  <Card.Body>Three services are ready to deploy.</Card.Body>
+  <Card.Footer>
+    <Button onClick={inspect}>Inspect environment</Button>
+  </Card.Footer>
+</Card.Root>`,
     props: [
       ['Root.tone', 'subtle | canvas', 'subtle'],
       ['Root.padding', 'shared Space token step', '6 (24px)'],
@@ -34,7 +47,14 @@ export const contentDocs: Record<string, ComponentDoc> = {
       '--radius-md',
       '--ink-body',
     ],
-    code: 'import { CodeBlock } from "@surflane/ui";\n\n<CodeBlock label="Runner task" language="YAML"\n  code={"name: platform-api\\n  environment: staging\\n"} />\n<CodeBlock label="Wrapped source" code={source} wrap />',
+    code: `import { CodeBlock } from '@surflane/ui'
+
+<CodeBlock
+  label='Runner task'
+  language='YAML'
+  code={'name: platform-api\\n  environment: staging\\n'}
+/>
+<CodeBlock label='Wrapped source' code={source} wrap />`,
     props: [
       ['code', 'plain source string', 'required'],
       [
@@ -71,7 +91,20 @@ export const contentDocs: Record<string, ComponentDoc> = {
       '--radius-full',
       '--interaction-focus',
     ],
-    code: 'import { Pagination } from "@surflane/ui";\n\n<Pagination page={page} pageCount={pageCount}\n  onPageChange={setPage} aria-label="Pipeline run pages" />\n\n<Pagination page={2} pageCount={10}\n  getPageHref={(page) => `/runs?page=${page}`} />',
+    code: `import { Pagination } from '@surflane/ui'
+
+<Pagination
+  page={page}
+  pageCount={pageCount}
+  onPageChange={setPage}
+  aria-label='Pipeline run pages'
+/>
+
+<Pagination
+  page={2}
+  pageCount={10}
+  getPageHref={(page) => \`/runs?page=\${page}\`}
+/>`,
     props: [
       [
         'page / pageCount',

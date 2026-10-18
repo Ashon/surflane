@@ -19,7 +19,33 @@ export const treeDocs: Record<string, ComponentDoc> = {
       '--interaction-hover-bg',
       '--control-focus',
     ],
-    code: `import {Tree, type TreeNode} from "@surflane/ui";\n\nconst nodes: TreeNode[] = [{id:"projects", label:"Projects", children:[\n  {id:"workspace", label:"Workspace"},\n  {id:"reserved", label:"Reserved environment", disabled:true}\n]}];\n<Tree nodes={nodes} label="Resources" height={352}\n  expandedIds={expanded} onExpandedIdsChange={setExpanded}\n  selectedIds={selected} onSelectedIdsChange={setSelected}\n  selectionMode="multiple" virtualized />\n\n// Keep IDs unique and data immutable. Validate selected IDs in the product.\n// Selection does not imply navigation or authorization.\n// Fixed rowHeight defaults to44px; custom heights must fit their content.`,
+    code: `import { Tree, type TreeNode } from '@surflane/ui'
+
+const nodes: TreeNode[] = [
+  {
+    id: 'projects',
+    label: 'Projects',
+    children: [
+      { id: 'workspace', label: 'Workspace' },
+      { id: 'reserved', label: 'Reserved environment', disabled: true },
+    ],
+  },
+]
+<Tree
+  nodes={nodes}
+  label='Resources'
+  height={352}
+  expandedIds={expanded}
+  onExpandedIdsChange={setExpanded}
+  selectedIds={selected}
+  onSelectedIdsChange={setSelected}
+  selectionMode='multiple'
+  virtualized
+/>
+
+// Keep IDs unique and data immutable. Validate selected IDs in the product.
+// Selection does not imply navigation or authorization.
+// Fixed rowHeight defaults to44px; custom heights must fit their content.`,
     props: [
       [
         'nodes / label',

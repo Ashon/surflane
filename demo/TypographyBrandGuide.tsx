@@ -99,16 +99,18 @@ export function TypographyBrandGuide() {
       </p>
       <CodeBlock
         language='tsx'
-        code={`import "@surflane/design-tokens/tokens.css";
-import "@surflane/design-tokens/foundations.css";
-import "@surflane/design-tokens/typography.css";
+        code={`import '@surflane/design-tokens/tokens.css'
+import '@surflane/design-tokens/foundations.css'
+import '@surflane/design-tokens/typography.css'
 // Load the actual font files once in the application entry.
 // Body scope also covers dialogs, menus and other portals.
-<body className="pui-typography">{application}</body>
+<body className='pui-typography'>{application}</body>
 
-<Heading level={3} size="subsection">Card subhead</Heading>
-<Text variant="caption">400 / Manrope / 0</Text>
-<Text variant="mono">400 / JetBrains Mono / 0</Text>`}
+<Heading level={3} size='subsection'>
+  Card subhead
+</Heading>
+<Text variant='caption'>400 / Manrope / 0</Text>
+<Text variant='mono'>400 / JetBrains Mono / 0</Text>`}
       />
     </section>
   )

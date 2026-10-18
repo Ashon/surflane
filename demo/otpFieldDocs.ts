@@ -19,7 +19,21 @@ export const otpFieldDocs: Record<string, ComponentDoc> = {
       '--font-code',
       '--space-2',
     ],
-    code: 'import { OTPField, Field } from "@surflane/ui";\n\n<Field.Root name="verificationCode">\n  <Field.Label>Verification code</Field.Label>\n  <Field.Description>Enter the six-digit code.</Field.Description>\n  <OTPField.Root length={6} required>\n    {Array.from({ length: 6 }, (_, index) => (\n      <OTPField.Input key={index}\n        aria-label={index === 0 ? undefined : `Character ${index + 1} of 6`} />\n    ))}\n  </OTPField.Root>\n  <Field.Error />\n</Field.Root>',
+    code: `import { OTPField, Field } from '@surflane/ui'
+
+<Field.Root name='verificationCode'>
+  <Field.Label>Verification code</Field.Label>
+  <Field.Description>Enter the six-digit code.</Field.Description>
+  <OTPField.Root length={6} required>
+    {Array.from({ length: 6 }, (_, index) => (
+      <OTPField.Input
+        key={index}
+        aria-label={index === 0 ? undefined : \`Character \${index + 1} of 6\`}
+      />
+    ))}
+  </OTPField.Root>
+  <Field.Error />
+</Field.Root>`,
     props: [
       [
         'Root.length',

@@ -17,7 +17,41 @@ export const commandSearchDocs: Record<string, ComponentDoc> = {
       '--control-focus',
       '--selected',
     ],
-    code: `import {Combobox, Dialog, ScrollArea} from "@surflane/ui";\n\n<Combobox.Root inline open={open} onOpenChange={setOpen}\n  items={commands} filter={matches} value={null} autoHighlight\n  onValueChange={executeAllowedCommand}>\n  <Dialog.Root open={open} onOpenChange={setOpen}>\n    <Dialog.Trigger>Search documentation</Dialog.Trigger>\n    <Dialog.Content initialFocus={inputRef}>\n      <Dialog.Title>Command search</Dialog.Title>\n      <Dialog.Description>Choose a destination or command.</Dialog.Description>\n      <Combobox.Input ref={inputRef} aria-label="Search pages and actions" />\n      <ScrollArea orientation="vertical" label="Command results">\n        <Combobox.Empty>No results.</Combobox.Empty>\n        <Combobox.List>{command => <Combobox.Item\n          value={command} disabled={!command.allowed}>{command.label}</Combobox.Item>}\n        </Combobox.List>\n      </ScrollArea>\n    </Dialog.Content>\n  </Dialog.Root>\n</Combobox.Root>\n\n// Share open state; preserve destination focus after modal dismissal.\n// Guard repeated execution and unregister route-scoped keyboard handlers.\n// Permission checks and destructive-action confirmation belong to the product.`,
+    code: `import { Combobox, Dialog, ScrollArea } from '@surflane/ui'
+
+<Combobox.Root
+  inline
+  open={open}
+  onOpenChange={setOpen}
+  items={commands}
+  filter={matches}
+  value={null}
+  autoHighlight
+  onValueChange={executeAllowedCommand}
+>
+  <Dialog.Root open={open} onOpenChange={setOpen}>
+    <Dialog.Trigger>Search documentation</Dialog.Trigger>
+    <Dialog.Content initialFocus={inputRef}>
+      <Dialog.Title>Command search</Dialog.Title>
+      <Dialog.Description>Choose a destination or command.</Dialog.Description>
+      <Combobox.Input ref={inputRef} aria-label='Search pages and actions' />
+      <ScrollArea orientation='vertical' label='Command results'>
+        <Combobox.Empty>No results.</Combobox.Empty>
+        <Combobox.List>
+          {(command) => (
+            <Combobox.Item value={command} disabled={!command.allowed}>
+              {command.label}
+            </Combobox.Item>
+          )}
+        </Combobox.List>
+      </ScrollArea>
+    </Dialog.Content>
+  </Dialog.Root>
+</Combobox.Root>
+
+// Share open state; preserve destination focus after modal dismissal.
+// Guard repeated execution and unregister route-scoped keyboard handlers.
+// Permission checks and destructive-action confirmation belong to the product.`,
     props: [
       [
         'Source',

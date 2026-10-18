@@ -19,7 +19,32 @@ export const formWorkflowDocs: Record<string, ComponentDoc> = {
       '--status-danger-fg',
       '--status-success-bg',
     ],
-    code: 'import { Form, Field, Fieldset, Button } from "@surflane/ui";\n\n<Form errors={serverErrors} onFormSubmit={submit} aria-busy={pending}>\n  <Fieldset.Root disabled={pending}>\n    <Fieldset.Legend>Environment details</Fieldset.Legend>\n    <Field.Root name="name">\n      <Field.Label>Environment name</Field.Label>\n      <Field.Control required value={name} onChange={e => setName(e.target.value)} />\n      <Field.Error />\n    </Field.Root>\n  </Fieldset.Root>\n  <Button type="submit" disabled={pending}>Register preview</Button>\n</Form>\n\n// Product-owned submission contract:\n// 1. Guard repeated submits before awaiting. Snapshot validated values.\n// 2. Retain an AbortController and request identity.\n// 3. Ignore aborted, superseded or unmounted responses.\n// 4. Map field errors by Field.name; preserve draft and restore meaningful focus.\n// 5. Server-side idempotency and authorization remain required.',
+    code: `import { Form, Field, Fieldset, Button } from '@surflane/ui'
+
+<Form errors={serverErrors} onFormSubmit={submit} aria-busy={pending}>
+  <Fieldset.Root disabled={pending}>
+    <Fieldset.Legend>Environment details</Fieldset.Legend>
+    <Field.Root name='name'>
+      <Field.Label>Environment name</Field.Label>
+      <Field.Control
+        required
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <Field.Error />
+    </Field.Root>
+  </Fieldset.Root>
+  <Button type='submit' disabled={pending}>
+    Register preview
+  </Button>
+</Form>
+
+// Product-owned submission contract:
+// 1. Guard repeated submits before awaiting. Snapshot validated values.
+// 2. Retain an AbortController and request identity.
+// 3. Ignore aborted, superseded or unmounted responses.
+// 4. Map field errors by Field.name; preserve draft and restore meaningful focus.
+// 5. Server-side idempotency and authorization remain required.`,
     props: [
       [
         'Form.onFormSubmit',

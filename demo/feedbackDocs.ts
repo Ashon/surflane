@@ -9,7 +9,17 @@ export const feedbackDocs: Record<string, ComponentDoc> = {
       "It's a status display, so it isn't in the Tab order. Label provides the accessible name, and min/max/value with aria-valuetext convey the units. Don't announce every frequent value change through a live region.",
     anatomy: 'Root → Label + Value + Track(Indicator)',
     tokens: ['--brand', '--surface', '--space-2', '--duration-base'],
-    code: 'import { Progress } from "@surflane/ui";\n\n<Progress.Root value={30} aria-valuetext="30 of 100 checks completed">\n  <Progress.Label>Deployment progress</Progress.Label>\n  <Progress.Value>{(formatted, value) => value === null ? "Waiting" : formatted}</Progress.Value>\n  <Progress.Track><Progress.Indicator /></Progress.Track>\n</Progress.Root>',
+    code: `import { Progress } from '@surflane/ui'
+
+<Progress.Root value={30} aria-valuetext='30 of 100 checks completed'>
+  <Progress.Label>Deployment progress</Progress.Label>
+  <Progress.Value>
+    {(formatted, value) => (value === null ? 'Waiting' : formatted)}
+  </Progress.Value>
+  <Progress.Track>
+    <Progress.Indicator />
+  </Progress.Track>
+</Progress.Root>`,
     props: [
       ['Root.value', 'number | null (indeterminate)', 'required'],
       ['Root.min / max', 'number', '0 / 100'],
@@ -31,7 +41,15 @@ export const feedbackDocs: Record<string, ComponentDoc> = {
       "It's a read-only measurement, so it isn't in the Tab order. Describe the target and unit in Label and aria-valuetext. In RTL, the fill still grows from the logical start.",
     anatomy: 'Root → Label + Value + Track(Indicator)',
     tokens: ['--ink-body', '--surface', '--space-2', '--duration-base'],
-    code: 'import { Meter } from "@surflane/ui";\n\n<Meter.Root value={30} min={0} max={64} aria-valuetext="30 GiB of 64 GiB">\n  <Meter.Label>Memory allocation</Meter.Label>\n  <Meter.Value>{(_, value) => `${value} / 64 GiB`}</Meter.Value>\n  <Meter.Track><Meter.Indicator /></Meter.Track>\n</Meter.Root>',
+    code: `import { Meter } from '@surflane/ui'
+
+<Meter.Root value={30} min={0} max={64} aria-valuetext='30 GiB of 64 GiB'>
+  <Meter.Label>Memory allocation</Meter.Label>
+  <Meter.Value>{(_, value) => \`\${value} / 64 GiB\`}</Meter.Value>
+  <Meter.Track>
+    <Meter.Indicator />
+  </Meter.Track>
+</Meter.Root>`,
     props: [
       ['Root.value', 'number', 'required'],
       ['Root.min / max', 'number', '0 / 100'],
@@ -52,7 +70,12 @@ export const feedbackDocs: Record<string, ComponentDoc> = {
       'Provides role=status and visually hidden text by default. decorative removes it from the accessibility tree. With reduced motion, rotation stops while the static indicator and label remain.',
     anatomy: 'span(status) → decorative SVG + visually hidden label',
     tokens: ['--ink-body'],
-    code: 'import { Spinner } from "@surflane/ui";\n\n<Spinner label="Syncing environments" />\n<button disabled><Spinner decorative size="sm" /> Saving</button>',
+    code: `import { Spinner } from '@surflane/ui'
+
+<Spinner label='Syncing environments' />
+<button disabled>
+  <Spinner decorative size='sm' /> Saving
+</button>`,
     props: [
       ['label', 'string', 'Loading'],
       ['decorative', 'boolean', 'false'],
@@ -68,7 +91,12 @@ export const feedbackDocs: Record<string, ComponentDoc> = {
       'Always aria-hidden=true and never a focus target. The parent announces the state once, and the pulse stops with reduced motion.',
     anatomy: 'decorative span; parent loading region owns announcements',
     tokens: ['--surface', '--radius-sm', '--radius-md'],
-    code: 'import { Skeleton } from "@surflane/ui";\n\n<section aria-label="Environment" aria-busy={loading}>\n  {loading ? <Skeleton shape="block" /> : <EnvironmentDetails />}\n</section>\n<p role="status">{loading ? "Loading environment…" : "Environment loaded."}</p>',
+    code: `import { Skeleton } from '@surflane/ui'
+
+<section aria-label='Environment' aria-busy={loading}>
+  {loading ? <Skeleton shape='block' /> : <EnvironmentDetails />}
+</section>
+<p role='status'>{loading ? 'Loading environment…' : 'Environment loaded.'}</p>`,
     props: [
       ['shape', 'text | block | circle', 'text'],
       ['style / className', 'native span layout overrides', '—'],

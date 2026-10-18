@@ -19,8 +19,44 @@ export const appShellDocs: Record<string, ComponentDoc> = {
       '--radius-full',
       '--control-focus',
     ],
-    code: `import { AppShell, ScrollArea, Button } from "@surflane/ui";\n\n<AppShell.Root layout="workspace" collapsed={collapsed}>\n  <AppShell.Header>{mobileBrand}{mobileNavigationTrigger}</AppShell.Header>\n  <AppShell.Sidebar aria-label="Workspace">
-    {brand}\n    <Button aria-expanded={!collapsed} aria-controls="workspace-nav"\n      onClick={() => setCollapsed(!collapsed)}>Toggle sidebar</Button>\n    <ScrollArea orientation="vertical" label="Workspace destinations">\n      <nav id="workspace-nav" aria-label="Workspace navigation">\n        <AppShell.Link href="/resources" label="Resources" icon={resourceIcon}\n          aria-current={isResources ? "page" : undefined} />\n      </nav>\n    </ScrollArea>\n    <AppShell.Footer>{accountMenu}</AppShell.Footer>\n  </AppShell.Sidebar>\n  <AppShell.Content><ScrollArea orientation="vertical" label="Workspace content">\n    <div className="workspace-sheet">{children}</div>\n  </ScrollArea></AppShell.Content>\n</AppShell.Root>\n\n// Add a Sheet navigation trigger at <=760px. The desktop Sidebar is hidden.\n// AppShell.Content is a div: render the application's single main landmark yourself.\n// Route, permission, session, cookie and theme ownership stay with the application.`,
+    code: `import { AppShell, ScrollArea, Button } from '@surflane/ui'
+
+<AppShell.Root layout='workspace' collapsed={collapsed}>
+  <AppShell.Header>
+    {mobileBrand}
+    {mobileNavigationTrigger}
+  </AppShell.Header>
+  <AppShell.Sidebar aria-label='Workspace'>
+    {brand}
+    <Button
+      aria-expanded={!collapsed}
+      aria-controls='workspace-nav'
+      onClick={() => setCollapsed(!collapsed)}
+    >
+      Toggle sidebar
+    </Button>
+    <ScrollArea orientation='vertical' label='Workspace destinations'>
+      <nav id='workspace-nav' aria-label='Workspace navigation'>
+        <AppShell.Link
+          href='/resources'
+          label='Resources'
+          icon={resourceIcon}
+          aria-current={isResources ? 'page' : undefined}
+        />
+      </nav>
+    </ScrollArea>
+    <AppShell.Footer>{accountMenu}</AppShell.Footer>
+  </AppShell.Sidebar>
+  <AppShell.Content>
+    <ScrollArea orientation='vertical' label='Workspace content'>
+      <div className='workspace-sheet'>{children}</div>
+    </ScrollArea>
+  </AppShell.Content>
+</AppShell.Root>
+
+// Add a Sheet navigation trigger at <=760px. The desktop Sidebar is hidden.
+// AppShell.Content is a div: render the application's single main landmark yourself.
+// Route, permission, session, cookie and theme ownership stay with the application.`,
     props: [
       [
         'Root style --app-shell-radius / --app-shell-inset',

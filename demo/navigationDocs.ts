@@ -15,7 +15,20 @@ export const navigationDocs: Record<string, ComponentDoc> = {
       '--control-radius',
       '--interaction-focus',
     ],
-    code: 'import { Tabs } from "@surflane/ui";\n\n<Tabs.Root defaultValue="overview">\n  <Tabs.List aria-label="Deployment sections">\n    <Tabs.Tab value="overview">Overview</Tabs.Tab>\n    <Tabs.Tab value="logs">Logs</Tabs.Tab>\n  </Tabs.List>\n  <Tabs.Panel value="overview" keepMounted>Overview details</Tabs.Panel>\n  <Tabs.Panel value="logs" keepMounted>Build logs</Tabs.Panel>\n</Tabs.Root>',
+    code: `import { Tabs } from '@surflane/ui'
+
+<Tabs.Root defaultValue='overview'>
+  <Tabs.List aria-label='Deployment sections'>
+    <Tabs.Tab value='overview'>Overview</Tabs.Tab>
+    <Tabs.Tab value='logs'>Logs</Tabs.Tab>
+  </Tabs.List>
+  <Tabs.Panel value='overview' keepMounted>
+    Overview details
+  </Tabs.Panel>
+  <Tabs.Panel value='logs' keepMounted>
+    Build logs
+  </Tabs.Panel>
+</Tabs.Root>`,
     props: [
       [
         'Root.value / defaultValue / onValueChange',
@@ -46,7 +59,16 @@ export const navigationDocs: Record<string, ComponentDoc> = {
       '--motion-reveal',
       '--interaction-focus',
     ],
-    code: 'import { Accordion } from "@surflane/ui";\n\n<Accordion.Root defaultValue={["identity"]}>\n  <Accordion.Item value="identity">\n    <Accordion.Header>\n      <Accordion.Trigger>Identity controls</Accordion.Trigger>\n    </Accordion.Header>\n    <Accordion.Panel>Deployment details</Accordion.Panel>\n  </Accordion.Item>\n</Accordion.Root>',
+    code: `import { Accordion } from '@surflane/ui'
+
+<Accordion.Root defaultValue={['identity']}>
+  <Accordion.Item value='identity'>
+    <Accordion.Header>
+      <Accordion.Trigger>Identity controls</Accordion.Trigger>
+    </Accordion.Header>
+    <Accordion.Panel>Deployment details</Accordion.Panel>
+  </Accordion.Item>
+</Accordion.Root>`,
     props: [
       ['Root.value / defaultValue', 'array of expanded item values', '—'],
       [
@@ -75,7 +97,12 @@ export const navigationDocs: Record<string, ComponentDoc> = {
       '--motion-reveal',
       '--interaction-focus',
     ],
-    code: 'import { Collapsible } from "@surflane/ui";\n\n<Collapsible.Root>\n  <Collapsible.Trigger>Technical details</Collapsible.Trigger>\n  <Collapsible.Panel keepMounted>Redacted build logs</Collapsible.Panel>\n</Collapsible.Root>',
+    code: `import { Collapsible } from '@surflane/ui'
+
+<Collapsible.Root>
+  <Collapsible.Trigger>Technical details</Collapsible.Trigger>
+  <Collapsible.Panel keepMounted>Redacted build logs</Collapsible.Panel>
+</Collapsible.Root>`,
     props: [
       [
         'Root.open / defaultOpen / onOpenChange',
@@ -107,7 +134,12 @@ export const navigationDocs: Record<string, ComponentDoc> = {
       '--line',
       '--surface',
     ],
-    code: 'import { Avatar } from "@surflane/ui";\n\n<Avatar.Root role="img" aria-label="Preview user" size="md">\n  <Avatar.Image src="/profile.png" alt="" />\n  <Avatar.Fallback aria-hidden="true">CG</Avatar.Fallback>\n</Avatar.Root>',
+    code: `import { Avatar } from '@surflane/ui'
+
+<Avatar.Root role='img' aria-label='Preview user' size='md'>
+  <Avatar.Image src='/profile.png' alt='' />
+  <Avatar.Fallback aria-hidden='true'>CG</Avatar.Fallback>
+</Avatar.Root>`,
     props: [
       [
         'Root.size',
@@ -149,7 +181,14 @@ export const navigationDocs: Record<string, ComponentDoc> = {
       '--status-progress-bg',
       '--status-badge-gap',
     ],
-    code: 'import { Badge, StatusBadge } from "@surflane/ui";\n\n<Badge>3 environments</Badge>\n<StatusBadge tone="success">Passed</StatusBadge>\n<div role="status">\n  <StatusBadge tone="progress">Running</StatusBadge>\n  <span>Deployment is in progress.</span>\n</div>',
+    code: `import { Badge, StatusBadge } from '@surflane/ui'
+
+<Badge>3 environments</Badge>
+<StatusBadge tone='success'>Passed</StatusBadge>
+<div role='status'>
+  <StatusBadge tone='progress'>Running</StatusBadge>
+  <span>Deployment is in progress.</span>
+</div>`,
     props: [
       ['tone', 'neutral | success | danger | caution | progress', 'neutral'],
       [
@@ -169,7 +208,11 @@ export const navigationDocs: Record<string, ComponentDoc> = {
       "Non-interactive separators aren't in the Tab order. Orientation is conveyed with aria-orientation.",
     anatomy: 'Separator(orientation, optional horizontal inset)',
     tokens: ['--line', '--space-4'],
-    code: 'import { Separator } from "@surflane/ui";\n\n<Separator />\n<Separator inset />\n<Separator orientation="vertical" />',
+    code: `import { Separator } from '@surflane/ui'
+
+<Separator />
+<Separator inset />
+<Separator orientation='vertical' />`,
     props: [
       ['orientation', 'horizontal | vertical', 'horizontal'],
       ['inset', 'horizontal inset by space-4', 'false'],
@@ -184,7 +227,12 @@ export const navigationDocs: Record<string, ComponentDoc> = {
       "Tab to the link and press Enter to open it. Modifier-key clicks, new tabs, downloads, and hash navigation follow the browser's default behavior.",
     anatomy: 'native anchor + shared link class',
     tokens: ['--ink', '--brand-ink', '--interaction-focus'],
-    code: 'import { Link } from "@surflane/ui";\n\n<Link href="/components">Browse components</Link>\n<Link href="https://base-ui.com" target="_blank" rel="noreferrer">\n  Reference (opens in a new tab)\n</Link>',
+    code: `import { Link } from '@surflane/ui'
+
+<Link href='/components'>Browse components</Link>
+<Link href='https://base-ui.com' target='_blank' rel='noreferrer'>
+  Reference (opens in a new tab)
+</Link>`,
     props: [
       [
         'href / target / rel / download',
@@ -209,7 +257,19 @@ export const navigationDocs: Record<string, ComponentDoc> = {
       '--ink-muted',
       '--interaction-focus',
     ],
-    code: 'import { Breadcrumbs } from "@surflane/ui";\n\n<Breadcrumbs.Root aria-label="Project breadcrumb">\n  <Breadcrumbs.List>\n    <Breadcrumbs.Item><Breadcrumbs.Link href="/">Platform</Breadcrumbs.Link></Breadcrumbs.Item>\n    <Breadcrumbs.Item>\n      <Breadcrumbs.Separator />\n      <Breadcrumbs.Current>Deployments</Breadcrumbs.Current>\n    </Breadcrumbs.Item>\n  </Breadcrumbs.List>\n</Breadcrumbs.Root>',
+    code: `import { Breadcrumbs } from '@surflane/ui'
+
+<Breadcrumbs.Root aria-label='Project breadcrumb'>
+  <Breadcrumbs.List>
+    <Breadcrumbs.Item>
+      <Breadcrumbs.Link href='/'>Platform</Breadcrumbs.Link>
+    </Breadcrumbs.Item>
+    <Breadcrumbs.Item>
+      <Breadcrumbs.Separator />
+      <Breadcrumbs.Current>Deployments</Breadcrumbs.Current>
+    </Breadcrumbs.Item>
+  </Breadcrumbs.List>
+</Breadcrumbs.Root>`,
     props: [
       ['Root.aria-label', 'accessible navigation name', 'Breadcrumb'],
       ['Link', 'shared native Link', '—'],

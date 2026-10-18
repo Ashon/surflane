@@ -139,9 +139,16 @@ export function IconographyFoundation() {
         <CodeBlock
           language='tsx'
           label='Accessible icon examples'
-          code={
-            'import { Icon, Button } from "@surflane/ui";\n\n<Button><Icon name="plus" />Add environment</Button>\n<Button size="icon" aria-label="Close details">\n  <Icon name="close" />\n</Button>\n<Icon name="info" decorative={false} label="Additional information" />'
-          }
+          code={`import { Icon, Button } from '@surflane/ui'
+
+<Button>
+  <Icon name='plus' />
+  Add environment
+</Button>
+<Button size='icon' aria-label='Close details'>
+  <Icon name='close' />
+</Button>
+<Icon name='info' decorative={false} label='Additional information' />`}
         />
       </section>
       <section id='direction'>

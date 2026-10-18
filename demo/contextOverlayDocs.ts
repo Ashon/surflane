@@ -16,7 +16,27 @@ export const contextOverlayDocs: Record<string, ComponentDoc> = {
       '--radius-md',
       '--layer-popup',
     ],
-    code: 'import { ContextMenu, Menu } from "@surflane/ui";\n\n<ContextMenu.Root>\n  <ContextMenu.Trigger>Log preview</ContextMenu.Trigger>\n  <ContextMenu.Portal>\n    <ContextMenu.Content positionerProps={{ collisionPadding: 12 }}>\n      <ContextMenu.Item onClick={openLogs}>Open logs</ContextMenu.Item>\n    </ContextMenu.Content>\n  </ContextMenu.Portal>\n</ContextMenu.Root>\n{/* Always offer the same action through a visible control. */}\n<Menu.Root>\n  <Menu.Trigger>Log actions</Menu.Trigger>\n  <Menu.Portal><Menu.Content>\n    <Menu.Item onClick={openLogs}>Open logs</Menu.Item>\n  </Menu.Content></Menu.Portal>\n</Menu.Root>',
+    code: `import { ContextMenu, Menu } from '@surflane/ui'
+
+<ContextMenu.Root>
+  <ContextMenu.Trigger>Log preview</ContextMenu.Trigger>
+  <ContextMenu.Portal>
+    <ContextMenu.Content positionerProps={{ collisionPadding: 12 }}>
+      <ContextMenu.Item onClick={openLogs}>Open logs</ContextMenu.Item>
+    </ContextMenu.Content>
+  </ContextMenu.Portal>
+</ContextMenu.Root>
+{
+  /* Always offer the same action through a visible control. */
+}
+<Menu.Root>
+  <Menu.Trigger>Log actions</Menu.Trigger>
+  <Menu.Portal>
+    <Menu.Content>
+      <Menu.Item onClick={openLogs}>Open logs</Menu.Item>
+    </Menu.Content>
+  </Menu.Portal>
+</Menu.Root>`,
     props: [
       [
         'Root.open / defaultOpen / onOpenChange',
@@ -62,7 +82,19 @@ export const contextOverlayDocs: Record<string, ComponentDoc> = {
       '--radius-md',
       '--dialog-enter-duration',
     ],
-    code: 'import { PreviewCard } from "@surflane/ui";\n\n<PreviewCard.Root>\n  <PreviewCard.Trigger href="/guides/deployment-policy">\n    Deployment policy guide\n  </PreviewCard.Trigger>\n  <PreviewCard.Portal>\n    <PreviewCard.Content positionerProps={{ sideOffset: 8 }}>\n      <strong>Deployment policy guide</strong>\n      <p>Check allowed and blocked environments with temporary tokens.</p>\n    </PreviewCard.Content>\n  </PreviewCard.Portal>\n</PreviewCard.Root>',
+    code: `import { PreviewCard } from '@surflane/ui'
+
+<PreviewCard.Root>
+  <PreviewCard.Trigger href='/guides/deployment-policy'>
+    Deployment policy guide
+  </PreviewCard.Trigger>
+  <PreviewCard.Portal>
+    <PreviewCard.Content positionerProps={{ sideOffset: 8 }}>
+      <strong>Deployment policy guide</strong>
+      <p>Check allowed and blocked environments with temporary tokens.</p>
+    </PreviewCard.Content>
+  </PreviewCard.Portal>
+</PreviewCard.Root>`,
     props: [
       [
         'Root.open / defaultOpen / onOpenChange',

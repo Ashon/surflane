@@ -16,7 +16,25 @@ export const dataDocs: Record<string, ComponentDoc> = {
       '--interaction-hover-bg',
       '--selected',
     ],
-    code: 'import { Table } from "@surflane/ui";\n\n<Table.Container label="Environment comparison">\n  <Table.Root>\n    <Table.Caption>Registered environments</Table.Caption>\n    <Table.Head><Table.Row>\n      <Table.HeaderCell scope="col">Name</Table.HeaderCell>\n      <Table.HeaderCell scope="col">Services</Table.HeaderCell>\n    </Table.Row></Table.Head>\n    <Table.Body><Table.Row>\n      <Table.HeaderCell scope="row">DEMO main</Table.HeaderCell>\n      <Table.Cell>3</Table.Cell>\n    </Table.Row></Table.Body>\n  </Table.Root>\n</Table.Container>',
+    code: `import { Table } from '@surflane/ui'
+
+<Table.Container label='Environment comparison'>
+  <Table.Root>
+    <Table.Caption>Registered environments</Table.Caption>
+    <Table.Head>
+      <Table.Row>
+        <Table.HeaderCell scope='col'>Name</Table.HeaderCell>
+        <Table.HeaderCell scope='col'>Services</Table.HeaderCell>
+      </Table.Row>
+    </Table.Head>
+    <Table.Body>
+      <Table.Row>
+        <Table.HeaderCell scope='row'>DEMO main</Table.HeaderCell>
+        <Table.Cell>3</Table.Cell>
+      </Table.Row>
+    </Table.Body>
+  </Table.Root>
+</Table.Container>`,
     props: [
       ['Container.label', 'accessible scroll-region name', 'required'],
       [
@@ -47,7 +65,19 @@ export const dataDocs: Record<string, ComponentDoc> = {
     keyboard:
       'Keeps the native list structure and puts only the inner actions in the Tab order. On small screens, the actions move to the next line.',
     tokens: ['--space-3', '--space-4', '--radius-md', '--interaction-hover-bg'],
-    code: 'import { List, Button } from "@surflane/ui";\n\n<List.Root aria-label="Registered environments">\n  <List.Item>\n    <List.Content>\n      <List.Title>DEMO main</List.Title>\n      <List.Description>3 discovered services</List.Description>\n    </List.Content>\n    <List.Actions><Button variant="outline">Inspect DEMO main</Button></List.Actions>\n  </List.Item>\n</List.Root>',
+    code: `import { List, Button } from '@surflane/ui'
+
+<List.Root aria-label='Registered environments'>
+  <List.Item>
+    <List.Content>
+      <List.Title>DEMO main</List.Title>
+      <List.Description>3 discovered services</List.Description>
+    </List.Content>
+    <List.Actions>
+      <Button variant='outline'>Inspect DEMO main</Button>
+    </List.Actions>
+  </List.Item>
+</List.Root>`,
     props: [
       ['Root', 'native ul props; semantic role=list', '—'],
       ['Item', 'native li props', '—'],
@@ -76,7 +106,20 @@ export const dataDocs: Record<string, ComponentDoc> = {
       '--radius-md',
       '--space-4',
     ],
-    code: 'import { InlineMessage, Button } from "@surflane/ui";\n\n<InlineMessage.Root tone="danger">\n  <InlineMessage.Icon tone="danger" />\n  <InlineMessage.Content>\n    <InlineMessage.Title>Discovery failed</InlineMessage.Title>\n    <InlineMessage.Description>Check the connection and retry.</InlineMessage.Description>\n    <InlineMessage.Actions><Button onClick={retry}>Retry</Button></InlineMessage.Actions>\n  </InlineMessage.Content>\n</InlineMessage.Root>',
+    code: `import { InlineMessage, Button } from '@surflane/ui'
+
+<InlineMessage.Root tone='danger'>
+  <InlineMessage.Icon tone='danger' />
+  <InlineMessage.Content>
+    <InlineMessage.Title>Discovery failed</InlineMessage.Title>
+    <InlineMessage.Description>
+      Check the connection and retry.
+    </InlineMessage.Description>
+    <InlineMessage.Actions>
+      <Button onClick={retry}>Retry</Button>
+    </InlineMessage.Actions>
+  </InlineMessage.Content>
+</InlineMessage.Root>`,
     props: [
       [
         'Root.tone / Icon.tone',
@@ -102,7 +145,17 @@ export const dataDocs: Record<string, ComponentDoc> = {
     keyboard:
       "There's no automatic focus or live region. Set Title.level to fit the surrounding heading hierarchy. Express clearing a search, creating an item, and permission guidance as clear buttons or links.",
     tokens: ['--space-6', '--space-4', '--ink-body', '--ink-muted'],
-    code: 'import { EmptyState, Button } from "@surflane/ui";\n\n<EmptyState.Root>\n  <EmptyState.Title>No matching environments</EmptyState.Title>\n  <EmptyState.Description>Try another name or clear the filters.</EmptyState.Description>\n  <EmptyState.Actions><Button onClick={clearFilters}>Clear filters</Button></EmptyState.Actions>\n</EmptyState.Root>',
+    code: `import { EmptyState, Button } from '@surflane/ui'
+
+<EmptyState.Root>
+  <EmptyState.Title>No matching environments</EmptyState.Title>
+  <EmptyState.Description>
+    Try another name or clear the filters.
+  </EmptyState.Description>
+  <EmptyState.Actions>
+    <Button onClick={clearFilters}>Clear filters</Button>
+  </EmptyState.Actions>
+</EmptyState.Root>`,
     props: [
       ['Root', 'native div props; no automatic role or focus', '—'],
       ['Title', 'native heading props + level (2–6)', 'h3'],

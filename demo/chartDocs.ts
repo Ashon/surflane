@@ -22,18 +22,30 @@ export const chartDocs: Record<string, ComponentDoc> = {
       '--space-3',
       '--radius-md',
     ],
-    code: `import {Chart, type ChartDatum} from "@surflane/ui";
+    code: `import { Chart, type ChartDatum } from '@surflane/ui'
 
 const data: ChartDatum[] = [
-  {id: "day-1", label: "October 1", values: {workspace: 12, inventory: 8}},
-  {id: "day-2", label: "October 2", values: {workspace: 18, inventory: null}},
-  {id: "day-3", label: "October 3", values: {workspace: 14, inventory: 10}},
-];
-<Chart title="Pipeline activity"
-  description="Workspace records 12, 18 and 14 runs; Inventory has no report on October 2."
-  xLabel="Reporting day" yLabel="Pipeline run count" unit="runs"
-  data={data} series={[{key: "workspace", label: "Workspace"}, {key: "inventory", label: "Inventory"}]}
-  type="line" />
+  { id: 'day-1', label: 'October 1', values: { workspace: 12, inventory: 8 } },
+  {
+    id: 'day-2',
+    label: 'October 2',
+    values: { workspace: 18, inventory: null },
+  },
+  { id: 'day-3', label: 'October 3', values: { workspace: 14, inventory: 10 } },
+]
+<Chart
+  title='Pipeline activity'
+  description='Workspace records 12, 18 and 14 runs; Inventory has no report on October 2.'
+  xLabel='Reporting day'
+  yLabel='Pipeline run count'
+  unit='runs'
+  data={data}
+  series={[
+    { key: 'workspace', label: 'Workspace' },
+    { key: 'inventory', label: 'Inventory' },
+  ]}
+  type='line'
+/>
 
 // Controlled selection: update only when the owner accepts the change.
 // hiddenSeries={hidden} onHiddenSeriesChange={setHidden}

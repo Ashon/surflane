@@ -282,9 +282,20 @@ export function LayersFoundation() {
         <CodeBlock
           language='tsx'
           label='Portalled selection inside a dialog'
-          code={
-            '<Dialog.Root>\n  <Dialog.Trigger render={<Button />}>Open workspace</Dialog.Trigger>\n  <Dialog.Content>\n    <Dialog.Title>Workspace</Dialog.Title>\n    <Dialog.Description>Review the selected environment.</Dialog.Description>\n    <Field.Root>\n      <Field.Label>Environment</Field.Label>\n      <NativeSelect value={environment} onChange={onEnvironmentChange}>\n        <option value="staging">Staging</option>\n        <option value="production">Production</option>\n      </NativeSelect>\n    </Field.Root>\n  </Dialog.Content>\n</Dialog.Root>'
-          }
+          code={`<Dialog.Root>
+  <Dialog.Trigger render={<Button />}>Open workspace</Dialog.Trigger>
+  <Dialog.Content>
+    <Dialog.Title>Workspace</Dialog.Title>
+    <Dialog.Description>Review the selected environment.</Dialog.Description>
+    <Field.Root>
+      <Field.Label>Environment</Field.Label>
+      <NativeSelect value={environment} onChange={onEnvironmentChange}>
+        <option value='staging'>Staging</option>
+        <option value='production'>Production</option>
+      </NativeSelect>
+    </Field.Root>
+  </Dialog.Content>
+</Dialog.Root>`}
         />
       </section>
       <section id='diagnostics'>

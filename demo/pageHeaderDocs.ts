@@ -19,7 +19,19 @@ export const pageHeaderDocs: Record<string, ComponentDoc> = {
       '--type-workspace-title-size',
       '--type-document-title-size',
     ],
-    code: 'import { PageHeader, Button } from "@surflane/ui";\n\n<PageHeader as="header" title="Registered resources" level={1} size="page"\n  headingProps={{ id: "page-title", tabIndex: -1 }}\n  description="Discover and inspect registered resources."\n  breadcrumb={breadcrumb}\n  actionsLabel="Resource actions"\n  actions={<Button onClick={openRegistration}>Register resource</Button>} />',
+    code: `import { PageHeader, Button } from '@surflane/ui'
+
+<PageHeader
+  as='header'
+  title='Registered resources'
+  level={1}
+  size='page'
+  headingProps={{ id: 'page-title', tabIndex: -1 }}
+  description='Discover and inspect registered resources.'
+  breadcrumb={breadcrumb}
+  actionsLabel='Resource actions'
+  actions={<Button onClick={openRegistration}>Register resource</Button>}
+/>`,
     props: [
       [
         'title / description / breadcrumb / actions',
