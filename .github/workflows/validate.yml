@@ -30,6 +30,7 @@ jobs:
       # Pack without requiring or changing sibling product repositories.
       - run: npm run pack
       - run: npx playwright install --with-deps chromium firefox webkit
+      - run: npm run check:tailwind
       - run: npm run test:browsers
   # Packed tarballs installed into real framework apps: build, SSR, hydration.
   examples:

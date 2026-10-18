@@ -44,6 +44,36 @@ Animate later changes with `transitionTheme` from `@surflane/design-tokens/theme
 
 `data-theme` also works on any element: `<div data-theme="dark">` renders that subtree in the dark theme inside a light page, and the reverse. Every token, including aliases such as `--control-hover-background`, resolves again inside the subtree. Use it for previews and embedded surfaces, not as a second page theme.
 
+## Tailwind CSS v4
+
+`@surflane/design-tokens/tailwind.css` maps the tokens to Tailwind CSS v4 utilities. Tailwind stays optional: the tokens and components work without it, and the bridge adds no runtime code.
+
+```css
+@import 'tailwindcss';
+@import '@surflane/design-tokens/tokens.css' layer(theme);
+@import '@surflane/design-tokens/controls.css' layer(components);
+@import '@surflane/design-tokens/foundations.css' layer(components);
+@import '@surflane/design-tokens/typography.css' layer(components);
+@import '@surflane/ui/styles.css' layer(components);
+@import '@surflane/design-tokens/tailwind.css';
+```
+
+Import the Surflane stylesheets into Tailwind's layers. Unlayered styles win over every layer, so without `layer(components)` a utility such as `px-8` could not adjust a `.pui-button`.
+
+| Tokens                                                                | Utilities                                          |
+| --------------------------------------------------------------------- | -------------------------------------------------- |
+| Color roles: `--ink`, `--canvas`, `--surface`, `--line`, `--brand`, … | `text-ink`, `bg-canvas`, `border-line`, `bg-brand` |
+| `--space-*` (4px steps)                                               | `p-4`, `gap-6`, `p-10`: the same steps as Tailwind |
+| `--layout-page-inset`, `--layout-gutter`, `--layout-section-gap`      | `p-page`, `gap-gutter`, `py-section`               |
+| `--layout-reading`, `--layout-content`, `--layout-workspace`, …       | `max-w-reading`, `max-w-content`, …                |
+| `--radius-*`, `--shadow-*`                                            | `rounded-md`, `rounded-sheet`, `shadow-float`      |
+| `--font-*`, `--weight-*`, `--type-*-size` with `--type-*-leading`     | `font-display`, `font-medium`, `text-title`        |
+| `--tracking`, `--tracking-mono`, `--ease-in`, `--ease-out`            | `tracking-default`, `tracking-mono`, `ease-out`    |
+
+Utilities read the tokens through `var()`, so they follow `data-theme`, including scoped themes, without a `dark:` variant. When you need one, `dark:` follows the nearest `data-theme`, not the operating system. The bridge never redefines a token: Tailwind emits no theme variables for it, even where Surflane and Tailwind share a name such as `--radius-md`. Durations and layers have no Tailwind theme namespace; use them as `duration-(--duration-fast)` and `z-(--layer-dialog)`.
+
+`npm run check:tailwind` compiles this setup with Tailwind CSS v4, checks every mapped utility and verifies the layer order and `dark:` in Chromium.
+
 ## React Server Components
 
 Every `@surflane/ui` module is a client module (`"use client"`). Server Components can import and render Surflane components and pass serializable props, including React elements such as `render={<Button />}`.

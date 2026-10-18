@@ -20,9 +20,12 @@ npm install @surflane/design-tokens
 | `motion.css`       | Theme transition timing and the `data-theme-switching` state                          |
 | `theme.json`       | Each theme's `chrome` color, for example for `<meta name="theme-color">`              |
 | `catalog.json`     | Generated token catalog with values, aliases and source locations                     |
+| `tailwind.css`     | Tailwind CSS v4 theme: utilities such as `bg-canvas`, `p-page` and `rounded-sheet`    |
 | `theme-transition` | `transitionTheme(update)`, a reduced-motion-aware crossfade for theme changes         |
 
 Tokens default to the dark theme. `data-theme="light"` on `<html>` selects the light theme. Set the attribute before the first paint, for example from a cookie on the server. `data-theme="light"` or `"dark"` on any other element scopes that theme to its subtree.
+
+With Tailwind CSS v4, `tailwind.css` maps the tokens to utilities that read them, so utilities follow scoped themes too. See [Tailwind CSS v4](https://github.com/Ashon/surflane/blob/main/docs/frameworks.md#tailwind-css-v4) for the import order.
 
 The tokens and classes work without React. With React, use them together with [`@surflane/ui`](https://www.npmjs.com/package/@surflane/ui), released with the same version.
 
