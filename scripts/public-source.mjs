@@ -25,6 +25,7 @@ const rootFiles = new Set([
   "LICENSE-APACHE",
   "NOTICE",
   "CHANGELOG.md",
+  "SECURITY.md",
 ]);
 const excluded = new Set([
   ".git",
