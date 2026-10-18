@@ -602,13 +602,24 @@ function App() {
                   {content}
                 </DeferredContent>
               </div>
-              <footer className="catalog-footer">
-                Shared visual language / React primitives / framework-neutral
-                CSS tokens
-                <br />© 2026 ashon · MIT OR Apache-2.0
-              </footer>
             </main>
           </div>
+          <footer className="catalog-site-footer">
+            <div className="catalog-site-footer-inner">
+              <span className="catalog-site-footer-brand">
+                <span className="catalog-brand-mark" aria-hidden="true" />
+                Surflane
+              </span>
+              <span>© 2026 ashon · MIT OR Apache-2.0</span>
+              <nav aria-label="Project links">
+                <a href="https://github.com/Ashon/surflane">GitHub</a>
+                <a href="https://www.npmjs.com/package/@surflane/ui">npm</a>
+                <a href="https://github.com/Ashon/surflane/blob/main/SECURITY.md">
+                  Security
+                </a>
+              </nav>
+            </div>
+          </footer>
         </ScrollArea>
       </div>
       {mobileNavigation && (

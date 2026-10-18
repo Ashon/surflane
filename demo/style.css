@@ -522,11 +522,6 @@ footer {
   outline: 2px solid var(--interaction-focus);
   outline-offset: 3px;
 }
-.catalog-footer {
-  margin-top: var(--space-8);
-  color: var(--ink-muted);
-  font-size: 12px;
-}
 .catalog-feature-links {
   margin-top: var(--space-6);
 }
@@ -1497,6 +1492,7 @@ body,
       var(--catalog-content-max)
   );
   --catalog-rail-height: 64px;
+  --catalog-footer-height: 56px;
   block-size: 100dvh;
   display: grid;
   position: relative;
@@ -1562,11 +1558,57 @@ body,
   min-block-size: 0;
 }
 .catalog-app .catalog-shell {
-  min-block-size: calc(100dvh - var(--catalog-rail-height) - 24px);
+  min-block-size: calc(
+    100dvh - var(--catalog-rail-height) - 24px - var(--catalog-footer-height)
+  );
+}
+/* One site footer for every route: the shell shrinks by its height, so a short page ends exactly at it. */
+.catalog-site-footer {
+  --catalog-footer-gap: var(--space-3);
+  box-sizing: border-box;
+  block-size: var(--catalog-footer-height);
+  padding-block-start: var(--catalog-footer-gap);
+}
+.catalog-site-footer-inner {
+  box-sizing: border-box;
+  block-size: 100%;
+  max-inline-size: var(--catalog-frame-max);
+  margin-inline: auto;
+  padding-inline: var(--space-3);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-6);
+  color: var(--ink-muted);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+}
+.catalog-site-footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--ink);
+  font-weight: 500;
+}
+.catalog-site-footer-brand .catalog-brand-mark {
+  inline-size: 16px;
+  block-size: 16px;
+}
+.catalog-site-footer nav {
+  display: flex;
+  gap: var(--space-4);
+  margin-inline-start: auto;
+}
+.catalog-site-footer a {
+  color: inherit;
 }
 .catalog-app .catalog-sidebar {
-  block-size: calc(100dvh - var(--catalog-rail-height) - 24px);
-  max-block-size: calc(100dvh - var(--catalog-rail-height) - 24px);
+  block-size: calc(
+    100dvh - var(--catalog-rail-height) - 24px - var(--catalog-footer-height)
+  );
+  max-block-size: calc(
+    100dvh - var(--catalog-rail-height) - 24px - var(--catalog-footer-height)
+  );
 }
 .catalog-page-body section[id] {
   scroll-margin-block-start: 24px;
@@ -2683,7 +2725,9 @@ body,
     padding-block-end: 0;
   }
   .catalog-app .catalog-shell {
-    min-block-size: calc(100dvh - var(--catalog-rail-height) - 12px);
+    min-block-size: calc(
+      100dvh - var(--catalog-rail-height) - 12px - var(--catalog-footer-height)
+    );
   }
   .catalog-app .catalog-shell .sheet {
     --catalog-inset: clamp(16px, 4vw, 24px);

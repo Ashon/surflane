@@ -11,7 +11,10 @@ test("Foundations fills the viewport while keeping its two-column index near the
   const sheet = await page.getByRole("main").boundingBox();
   expect(sheet!.y).toBe(76);
   expect(sheet!.width).toBe(1100);
-  expect(sheet!.height).toBe(1512);
+  // The sheet fills the viewport down to the site footer, which ends at the 12px inset.
+  const footer = (await page.locator(".catalog-site-footer").boundingBox())!;
+  expect(sheet!.y + sheet!.height).toBe(footer.y);
+  expect(footer.y + footer.height).toBe(1600 - 12);
   const items = page.locator(
     '.catalog-item-list[data-layout="grid"] .catalog-item',
   );

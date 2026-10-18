@@ -16,7 +16,13 @@ test("short sheets fill the available viewport and long content remains scrollab
     await waitForCatalogReady(page);
     const sheet = page.getByRole("main");
     const tall = (await sheet.boundingBox())!;
-    expect(tall.y + tall.height).toBeCloseTo(2388, 0);
+    // The sheet fills the space above the site footer, which ends at the scroller's bottom inset.
+    const footer = (await page.locator(".catalog-site-footer").boundingBox())!;
+    const inset = await documentViewport(page).evaluate((el) =>
+      parseFloat(getComputedStyle(el).paddingBottom),
+    );
+    expect(tall.y + tall.height).toBeCloseTo(footer.y, 0);
+    expect(footer.y + footer.height).toBeCloseTo(2400 - inset, 0);
     expect(await documentViewport(page).evaluate((el) => el.scrollHeight)).toBe(
       2400,
     );
