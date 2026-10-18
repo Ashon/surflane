@@ -176,7 +176,7 @@ export function TreeExample() {
       </div>
       <p>
         {labels.size.toLocaleString('en-US')} loaded nodes. Selection and
-        expansion are local. Reserved environment cannot be selected.
+        expansion are local. Reserved environment can't be selected.
       </p>
       {dataset === 'loading' ? (
         <InlineMessage.Root tone='progress' role='status'>
@@ -194,7 +194,7 @@ export function TreeExample() {
           <InlineMessage.Content>
             <InlineMessage.Title>Hierarchy unavailable</InlineMessage.Title>
             <InlineMessage.Description>
-              The local example is showing a failed load.
+              This local example shows a failed load.
             </InlineMessage.Description>
             <InlineMessage.Actions>
               <Button

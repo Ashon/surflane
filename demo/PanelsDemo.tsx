@@ -19,9 +19,9 @@ export function PanelsDemo({
     <section aria-labelledby='panels-title'>
       <h2 id='panels-title'>Drawers and sheets</h2>
       <p className='note'>
-        Review details or continue a task without leaving the screen. A Sheet is
-        a panel that opens from a chosen side; a Drawer is a task panel you can
-        swipe to close.
+        Review details or continue a task without leaving the screen. A Sheet
+        opens from a chosen side. A Drawer is a task panel that closes with a
+        swipe.
       </p>
       <div className='panel-examples' data-single={view !== 'all' || undefined}>
         {view !== 'drawer' && (
@@ -72,7 +72,7 @@ export function PanelsDemo({
                               <span>
                                 Deployment {String(i + 1).padStart(2, '0')}
                               </span>
-                              <span>Build, smoke test and health checks</span>
+                              <span>Build, smoke test, and health checks</span>
                             </li>
                           ))}
                         </ol>
@@ -96,7 +96,7 @@ export function PanelsDemo({
           <div className='panel-example'>
             <div className='eyebrow'>QUICK ACTION / MOBILE</div>
             <h3>Bottom drawer</h3>
-            <p>A task panel for touch, mouse gestures and the keyboard.</p>
+            <p>A task panel for touch, mouse gestures, and the keyboard.</p>
             <div className='actions'>
               <Drawer.Root>
                 <Drawer.Trigger render={<Button variant='outline' />}>
@@ -106,7 +106,7 @@ export function PanelsDemo({
                   <Drawer.Header>
                     <Drawer.Title>Prepare deployment</Drawer.Title>
                     <Drawer.Description>
-                      A UI preview that does not start a real deployment.
+                      This preview doesn't start a real deployment.
                     </Drawer.Description>
                   </Drawer.Header>
                   <Drawer.Body>
@@ -150,7 +150,7 @@ export function PanelsDemo({
                         </Sheet.Header>
                         <Sheet.Body>
                           <p>
-                            Authentication, environment access and project
+                            Authentication, environment access, and project
                             isolation.
                           </p>
                         </Sheet.Body>

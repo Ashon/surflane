@@ -78,7 +78,7 @@ export function PageHeaderExample() {
           }
           description={
             details
-              ? 'Describe the current location with a breadcrumb and title, and keep related actions close by. Long content wraps naturally.'
+              ? 'Show the current location with a breadcrumb and title. Keep related actions close by. Long content wraps.'
               : undefined
           }
           actionsLabel={details ? 'Preview page actions' : undefined}
@@ -114,7 +114,7 @@ export function PageHeaderExample() {
         <a href='https://www.w3.org/WAI/tutorials/page-structure/headings/'>
           heading hierarchy
         </a>
-        , and sets text size and heading level independently.
+        . It sets text size and heading level independently.
       </p>
     </>
   )

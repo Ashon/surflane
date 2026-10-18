@@ -87,8 +87,8 @@ function PaginationExample() {
       </div>
       <h3>URL navigation</h3>
       <p>
-        These links retain native browser navigation. The current page is
-        represented in the fragment for this local example.
+        These links keep native browser navigation. In this local example, the
+        URL fragment holds the current page.
       </p>
       <Pagination
         page={2}
@@ -114,8 +114,8 @@ export function ContentExample({ id }: { id: string }) {
           </Card.Header>
           <Card.Body>
             <p>
-              Three services are ready to deploy. Credentials are managed by the
-              environment administrator.
+              Three services are ready to deploy. The environment administrator
+              manages credentials.
             </p>
           </Card.Body>
           <Card.Footer>
@@ -124,9 +124,7 @@ export function ContentExample({ id }: { id: string }) {
               variant='outline'
               className={() => 'content-card-action'}
               onClick={() =>
-                setNotice(
-                  'Environment preview opened; no remote action performed.',
-                )
+                setNotice('Environment preview opened. No remote action ran.')
               }
             >
               Inspect environment

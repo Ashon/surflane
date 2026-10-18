@@ -166,7 +166,7 @@ export function ErrorRecoveryExample() {
           onChange={(event) => setLabel(event.target.value)}
         />
         <Field.Description>
-          Draft text stays local while recovery is in progress.
+          Your draft stays local during recovery.
         </Field.Description>
       </Field.Root>
       {(mode === 'error' || mode === 'offline' || mode === 'pending') && (
@@ -209,8 +209,8 @@ export function ErrorRecoveryExample() {
               {mode === 'error'
                 ? 'Retry the request or inspect the safe preview details. Your draft is retained.'
                 : mode === 'offline'
-                  ? 'Cached information may be outdated. Reconnect before requesting fresh data.'
-                  : 'The local response is completed manually. Cancel preserves your draft.'}
+                  ? 'Cached data may be outdated. Reconnect to request fresh data.'
+                  : 'Complete the local response by hand. Canceling keeps your draft.'}
             </InlineMessage.Description>
             <InlineMessage.Actions>
               {mode === 'pending' ? (
@@ -242,8 +242,8 @@ export function ErrorRecoveryExample() {
         <EmptyState.Root>
           <EmptyState.Title>Resource access required</EmptyState.Title>
           <EmptyState.Description>
-            Cached resource data has been cleared. Restore preview access before
-            loading it again.
+            Cached resource data was cleared. Restore preview access to load it
+            again.
           </EmptyState.Description>
           <EmptyState.Actions>
             <Button
@@ -263,8 +263,8 @@ export function ErrorRecoveryExample() {
         <EmptyState.Root>
           <EmptyState.Title>Resource not found</EmptyState.Title>
           <EmptyState.Description>
-            The address may be stale. Choose a resource from the list instead of
-            retrying this address.
+            This address may be stale. Choose a resource from the list instead
+            of retrying it.
           </EmptyState.Description>
           <EmptyState.Actions>
             <Link

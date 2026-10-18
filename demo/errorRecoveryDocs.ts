@@ -1,14 +1,28 @@
 import type { ComponentDoc } from './componentDocs'
 export const errorRecoveryDocs: Record<string, ComponentDoc> = {
   'error-recovery': {
-    usage:
-      "Shows the cause of a failure together with possible next steps. A temporary request failure leads to retry, a lost connection to retry after reconnecting, restricted access to restoring access, and a bad address to browsing the list. The example combines InlineMessage, EmptyState, Field, Button, Collapsible, and CodeBlock. Drafts are preserved and cached data is marked as stale, and the cache is cleared when access is lost or the resource can't be found. Responses complete a local Promise manually, so you can inspect each recovery state.",
-    avoid:
-      "Don't turn errors into empty results or success. Don't conclude server availability from offline status alone; confirm it with a real request. Don't leave unauthorized data or secrets in error details, the clipboard, or the cache. Don't present canceling as rolling back server work. The product implements real requests, retry counts, backoff, and idempotency, online events, access requests, and server permission checks. Restoring access and reconnecting in the example are local simulations.",
+    usage: [
+      'Show the cause of a failure with the possible next steps.',
+      'A temporary request failure leads to retry, and a lost connection leads to retry after reconnecting. Restricted access leads to restoring access, and a bad address leads to browsing the list.',
+      "Keep drafts, and mark cached data as stale. Clear the cache when access is lost or the resource can't be found.",
+      'The example combines InlineMessage, EmptyState, Field, Button, Collapsible, and CodeBlock, and settles a local Promise manually. Complete each response to inspect every recovery state.',
+    ],
+    avoid: [
+      "Don't turn errors into empty results or success. Show the error with its recovery action.",
+      "Don't infer server availability from offline status alone. Confirm it with a real request.",
+      "Don't leave unauthorized data or secrets in error details, the clipboard, or the cache.",
+      "Don't present canceling as a rollback of server work.",
+      "Don't rely on the example's local simulation of restoring access and reconnecting. The product owns real requests, retry counts, backoff, idempotency, online events, access requests, and server permission checks.",
+    ],
     anatomy:
       'Failure/result preview controls → controlled draft Field → state-specific InlineMessage or EmptyState + recovery action → optional cached data with freshness status → safe collapsible diagnostics → outcome announcement',
-    keyboard:
-      "The state selector keeps focus. Starting a retry moves focus to Cancel, success to the result heading, a failed retry to Retry, and restricted access to the restore access button. Canceling returns focus to the draft input. Restoring access moves focus to the refetch data button and isn't treated as immediate success. Errors use role=alert, and progress and recovery results use appropriate status announcements. The details disclosure and copy messages follow the keyboard rules of the existing primitives.",
+    keyboard: [
+      'The state selector keeps focus. Starting a retry moves focus to Cancel, and canceling returns focus to the draft input.',
+      'Success moves focus to the result heading, and a failed retry moves focus to Retry. Restricted access moves focus to the restore access button.',
+      "Restoring access moves focus to the refetch data button and doesn't count as immediate success.",
+      "The details disclosure and copy messages follow their primitives' keyboard rules.",
+      'Errors use role=alert. Progress and recovery results use status announcements.',
+    ],
     tokens: [
       '--space-3',
       '--space-4',

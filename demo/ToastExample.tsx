@@ -63,8 +63,8 @@ function AnchoredDemo() {
         Show anchored feedback
       </Button>
       <p>
-        Anchored notifications use a separate provider. This example keeps only
-        one notification provider mounted at a time.
+        Anchored notifications use a separate Provider. This example mounts one
+        Provider at a time.
       </p>
       <Toast.Portal>
         <Toast.Viewport
@@ -147,7 +147,7 @@ function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
       .promise(promise, {
         loading: {
           title: 'Preparing export preview',
-          description: 'Please wait for the sample task.',
+          description: 'Waiting for the sample task.',
           type: 'progress',
           timeout: 0,
         },
@@ -207,7 +207,7 @@ function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
             for (let n = 1; n <= 4; n++)
               manager.add({
                 title: `Batch notification ${n}`,
-                description: 'The newest three remain visible.',
+                description: 'The newest 3 stay visible.',
                 timeout: duration,
               })
           }}
@@ -220,8 +220,7 @@ function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
             manager.add({
               id: 'urgent-preview',
               title: 'Attention preview',
-              description:
-                'Example of a notification that requests immediate attention.',
+              description: 'This notification needs immediate attention.',
               type: 'caution',
               priority: 'high',
               timeout: 0,
@@ -235,9 +234,9 @@ function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
         </Button>
       </div>
       <p>
-        Item status: {archived ? 'archived' : 'available'}. Repeating success
-        updates one notification. F6 enters notifications; Escape closes a
-        focused notification.
+        Item status: {archived ? 'archived' : 'available'}. Repeated success
+        updates one notification. F6 moves focus to notifications. Escape closes
+        the focused notification.
       </p>
       {archived && (
         <Button

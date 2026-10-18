@@ -15,8 +15,8 @@ type Command = {
 const commands: Command[] = [
   {
     id: 'rotate-theme',
-    label: 'Rotate theme',
-    description: 'Switch between Light, Dark and System',
+    label: 'Switch theme',
+    description: 'Cycle through Light, Dark, and System',
     category: 'Action',
     disabled: false,
     action: 'theme',
@@ -103,9 +103,8 @@ export function CommandSearchExample({
   return (
     <div className='example-stack command-search-example'>
       <p>
-        Search catalog pages or run a local appearance action. Ctrl+K or ⌘K
-        opens this preview while this page is mounted; typing fields keep their
-        own shortcuts.
+        Search catalog pages or change the appearance. Ctrl+K or ⌘K opens search
+        while this page is mounted. Text fields keep their own shortcuts.
       </p>
       <Combobox.Root<Command>
         inline
@@ -153,8 +152,8 @@ export function CommandSearchExample({
             <Dialog.Header>
               <Dialog.Title>Command search</Dialog.Title>
               <Dialog.Description>
-                Type a name, purpose or category. Use arrow keys to choose and
-                Enter to open. Planned pages cannot be opened.
+                Type a name, purpose, or category. Choose with the arrow keys,
+                then press Enter to open. Planned pages can't be opened.
               </Dialog.Description>
             </Dialog.Header>
             <Dialog.Body className='command-search-body'>

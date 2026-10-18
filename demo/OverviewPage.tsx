@@ -5,10 +5,10 @@ export function Overview() {
   return (
     <>
       <section id='overview-foundations'>
-        <h2>Start with foundations</h2>
+        <h2>Foundations first</h2>
         <p>
-          Review the shared tokens, typography and layout first, then read each
-          component page for its behavior and usage guidance.
+          Review the shared tokens, typography, and layout first. Then read each
+          component page for behavior and usage guidance.
         </p>
         <Grid columns={3} gap={4} bleed={4} className='catalog-feature-links'>
           {[
@@ -29,11 +29,11 @@ export function Overview() {
         </Grid>
       </section>
       <section id='overview-components'>
-        <h2>Components have their own pages</h2>
+        <h2>Component pages</h2>
         <p>
           Each page covers examples, usage guidance, keyboard behavior, the key
-          API and tokens. Unimplemented items are marked Planned, and unstyled
-          re-exports are marked Primitive only.
+          API, and tokens. Unimplemented items are labeled Planned. Unstyled
+          re-exports are labeled Primitive only.
         </p>
         <div className='actions'>
           <Link
@@ -51,16 +51,15 @@ export function Overview() {
       <section id='overview-direction'>
         <h2>Design direction</h2>
         <p>
-          Surflane builds the UI that platform development needs from consistent
-          tokens, components and patterns. It covers visual choices and
-          implementation rules together, and evolves through real use and
-          testing.
+          Surflane builds UI for platform development from consistent tokens,
+          components, and patterns. It covers visual choices and implementation
+          rules together. It evolves through real use and testing.
         </p>
         <dl className='design-principles'>
           <div>
             <dt>Surfaces first</dt>
             <dd>
-              Build hierarchy with surfaces and whitespace; use lines only where
+              Build hierarchy with surfaces and whitespace. Use lines only where
               a boundary is needed.
             </dd>
           </div>
@@ -73,15 +72,15 @@ export function Overview() {
           <div>
             <dt>Composable foundations</dt>
             <dd>
-              Connect shared standards for color, typography, spacing and size
+              Connect shared color, typography, spacing, and size standards
               through composable APIs.
             </dd>
           </div>
         </dl>
         <p>
-          This direction is not a fixed, finished plan. New design decisions are
-          added, reflected in the foundations and behavior examples, and the
-          standards are refined over time.
+          This direction isn't a fixed, finished plan. New design decisions
+          update the foundations and behavior examples, and refine the standards
+          over time.
         </p>
       </section>
     </>

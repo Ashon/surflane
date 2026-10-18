@@ -170,7 +170,7 @@ test('cancellation invalidates already queued updates and requires acknowledgeme
   )
   await page.getByRole('button', { name: 'Acknowledge cancellation' }).click()
   await expect(status(page)).toHaveText('Canceled')
-  await expect(details(page)).toContainText('no rollback is implied')
+  await expect(details(page)).toContainText('nothing is rolled back')
   await expect(
     page.getByRole('heading', { name: 'Run summary', exact: true }),
   ).toBeFocused()

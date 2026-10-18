@@ -10,8 +10,8 @@ export function ConfirmationDemo() {
     <section aria-labelledby='confirmations-title'>
       <h2 id='confirmations-title'>Confirmation</h2>
       <p className='note'>
-        Confirm important decisions in a small dialog and lightweight actions
-        next to the button. This preview does not affect real data.
+        Confirm important decisions in a small dialog. Confirm lightweight
+        actions next to their button. This preview doesn't affect real data.
       </p>
       <div className='actions'>
         <AlertDialog.Root open={open} onOpenChange={setOpen}>
@@ -23,7 +23,7 @@ export function ConfirmationDemo() {
               <AlertDialog.Title>Discard this draft?</AlertDialog.Title>
               <AlertDialog.Description>
                 Discards the preview draft in progress. Real tests and
-                environments are not affected.
+                environments aren't affected.
               </AlertDialog.Description>
             </AlertDialog.Header>
             <AlertDialog.Footer>

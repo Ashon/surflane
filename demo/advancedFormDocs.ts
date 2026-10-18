@@ -2,13 +2,18 @@ import type { ComponentDoc } from './componentDocs'
 export const advancedFormDocs: Record<string, ComponentDoc> = {
   combobox: {
     usage:
-      'Use it for selections from a list long enough to need search. Unlike Autocomplete, which saves free text, it supports single selection and a chips layout for choosing multiple roles.',
+      'Pick from a list long enough to need search. Combobox supports single selection and a Chips layout for multiple values, such as roles. Name the Input with Field.Label or a native label. Give Clear, Trigger, and ChipRemove action names too.',
     avoid:
-      "Don't submit arbitrary search text as a valid selection. Name the Input with Field.Label or a native label, and give Clear, Trigger, and ChipRemove action names too.",
+      "Don't submit arbitrary search text as a valid selection. When free text is valid, use Autocomplete, which saves free text.",
     anatomy:
       'Root → Field(label/description/error) + InputGroup(Input/Clear/Trigger or Chips) + Content(Portal/Positioner/Popup → Empty + List(Item/Indicator))',
-    keyboard:
-      "Typing filters the list, arrow keys move through candidates, and Enter selects. Escape closes an open popup and clears the selection when the popup is closed. Disabled candidates can't be selected. Remove individual values with a named ChipRemove. IME input, such as Korean, is handled by Base UI.",
+    keyboard: [
+      'Typing filters the list. Base UI handles IME input, such as Korean.',
+      'Arrow keys move through items.',
+      "Enter selects an item. Disabled items can't be selected.",
+      'Escape closes an open popup. With the popup closed, Escape clears the selection.',
+      'Remove one value with its named ChipRemove.',
+    ],
     tokens: [
       '--control-height',
       '--control-radius',
@@ -75,20 +80,24 @@ export const advancedFormDocs: Record<string, ComponentDoc> = {
       ],
       [
         'Form reset',
-        'recreate internal query/selection model; canceled resets ignored; controlled props preserved',
+        'recreates the internal query and selection; skips canceled resets; keeps controlled props',
         'enabled',
       ],
     ],
   },
   'number-field': {
     usage:
-      'Use it for numeric input that needs a range, step, or display format. Offer direct typing alongside increment and decrement buttons, and keep the underlying number separate from display strings such as currency.',
+      'Enter a number that needs a range, step, or display format. Offer direct typing alongside the Increment and Decrement buttons. Keep the underlying number separate from display strings such as currency.',
     avoid:
-      "Don't use it for identifiers that aren't calculated, such as phone numbers or postal codes. Don't force many clicks to enter small increments or make dragging the only input path.",
+      "Don't use it for identifiers that aren't calculated, such as phone numbers or postal codes. Use Input instead. Don't force many clicks for small increments, or make dragging the only input path. Keep direct typing available.",
     anatomy:
       'Field(label/description/error) → Root → Group(Decrement + Input + Increment); optional ScrubArea',
-    keyboard:
-      "Supports direct typing, Up/Down arrow keys, and increment and decrement buttons. Respects the min/max range and distinguishes readOnly from disabled. Form reset returns uncontrolled values to their initial value, while controlled values keep the parent's value. Canceled changes and resets are respected.",
+    keyboard: [
+      'Type a value directly.',
+      'The Up and Down arrow keys and the Increment and Decrement buttons change the value. It respects min and max.',
+      'readOnly and disabled are distinct states.',
+      "Form reset returns uncontrolled values to their initial value, and controlled values keep the parent's value. Canceled changes and resets are respected.",
+    ],
     tokens: [
       '--control-height',
       '--control-radius',
@@ -123,7 +132,7 @@ export const advancedFormDocs: Record<string, ComponentDoc> = {
       ],
       [
         'Root.allowOutOfRange',
-        'allow direct entry outside range for validation',
+        'allows typed values outside the range, for validation',
         'false',
       ],
       [

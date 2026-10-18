@@ -94,7 +94,7 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
     'field',
     'Field',
     'Forms',
-    'Connects a label, help text, error and value.',
+    'Connects a label, help text, error, and value.',
     1,
   ],
   ['fieldset', 'Fieldset', 'Forms', 'Groups related inputs under a legend.', 1],
@@ -111,7 +111,7 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
     'checkbox-group',
     'Checkbox Group',
     'Selection',
-    'Connects multiple selection with select all.',
+    'Connects multiple selections to a select-all checkbox.',
     1,
   ],
   [
@@ -132,7 +132,7 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
     'toggle',
     'Toggle',
     'Selection',
-    'Switches a control between pressed and unpressed.',
+    'Switches between pressed and unpressed states.',
     2,
   ],
   [
@@ -175,7 +175,7 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
     'date-picker',
     'Date / time picker',
     'Forms',
-    'Accepts dates, times and ranges in locale-specific formats.',
+    'Accepts dates, times, and ranges in locale-specific formats.',
     3,
   ],
   [
@@ -196,14 +196,14 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
     'menu',
     'Menu',
     'Overlays',
-    'Collects the actions available in the current context.',
+    'Collects the actions for the current context.',
     0,
   ],
   [
     'context-menu',
     'Context Menu',
     'Overlays',
-    'Opens contextual actions on right-click or long press, with a visible menu as the fallback.',
+    'Opens actions on right-click or long press, with a visible menu fallback.',
     2,
   ],
   [
@@ -217,14 +217,14 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
     'preview-card',
     'Preview Card',
     'Overlays',
-    "Previews information about a link's destination.",
+    "Previews a link's destination.",
     3,
   ],
   [
     'dialog',
     'Dialog',
     'Overlays',
-    "Opens a standalone task that needs the user's full attention.",
+    'Opens a standalone task that needs full attention.',
     0,
   ],
   [
@@ -245,7 +245,7 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
     'drawer',
     'Drawer',
     'Overlays',
-    'Opens a task panel that can be dismissed with a gesture.',
+    'Opens a task panel that closes with a swipe.',
     0,
   ],
   [
@@ -266,7 +266,7 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
     'collapsible',
     'Collapsible',
     'Navigation',
-    'Collapses and expands the details of a single section.',
+    "Collapses and expands one section's details.",
     1,
   ],
   [
@@ -280,7 +280,7 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
     'menubar',
     'Menubar',
     'Navigation',
-    'Navigates several action menus in a single row.',
+    'Navigates several action menus in one row.',
     3,
   ],
   [
@@ -316,14 +316,14 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
     'badge',
     'Badge / Status',
     'Data display',
-    'Shows status with color, icon and text together.',
+    'Shows status with color, icon, and text together.',
     1,
   ],
   [
     'card',
     'Card / Surface',
     'Data display',
-    'Groups only the information that belongs together on a single surface.',
+    'Groups only related information on a single surface.',
     1,
   ],
   [
@@ -351,7 +351,7 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
     'markdown',
     'Markdown',
     'Data display',
-    'Renders documents, code and tables in a shared reading style.',
+    'Renders documents, code, and tables in a shared reading style.',
     2,
   ],
   [
@@ -372,14 +372,14 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
     'chart',
     'Chart',
     'Data display',
-    'Communicates trends with units, a legend and an alternative table.',
+    'Shows trends with units, a legend, and an alternative table.',
     3,
   ],
   [
     'scroll-area',
     'Scroll Area',
     'Structure',
-    'Sets up horizontal and vertical scrolling within a layout.',
+    'Adds horizontal and vertical scrolling within a layout.',
     0,
   ],
   [
@@ -393,7 +393,7 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
     'progress',
     'Progress',
     'Feedback',
-    'Shows how much of a task is complete, or that it is in progress.',
+    "Shows how much of a task is complete, or that it's running.",
     2,
   ],
   [
@@ -414,7 +414,7 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
     'inline-message',
     'Inline message',
     'Feedback',
-    'Explains information, warnings and errors in the current context.',
+    'Explains information, warnings, and errors in the current context.',
     1,
   ],
   ['spinner', 'Spinner', 'Feedback', 'Indicates progress for short tasks.', 1],
@@ -422,7 +422,7 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
     'skeleton',
     'Skeleton',
     'Feedback',
-    "Shows loading while preserving the content's structure.",
+    "Shows the content's structure while it loads.",
     1,
   ],
   [
@@ -458,67 +458,67 @@ const nonBase = new Set([
 ])
 const criteriaByGroup: Record<string, string[]> = {
   Actions: [
-    'Default, hover, focus, pressed, disabled and in-progress states',
-    'Enter / Space activation and duplicate-run prevention',
+    'Default, hover, focus, pressed, disabled, and in-progress states',
+    'Enter or Space activation and duplicate-run prevention',
   ],
   Forms: [
-    'Label, help text, error, required, disabled and read-only',
-    'Form submit, reset, autofill and Hangul IME input',
+    'Label, help text, error, required, disabled, and read-only',
+    'Form submit, reset, autofill, and Korean IME input',
   ],
   Selection: [
-    'Checked, unchecked, mixed and disabled states',
-    'Keyboard, labels, form submit and reset',
+    'Checked, unchecked, mixed, and disabled states',
+    'Keyboard, labels, form submit, and reset',
   ],
   Overlays: [
-    'Close, Escape, outside click, initial focus and focus restoration',
-    'Nested portals, small screens, open motion and instant close',
+    'Close, Escape, outside click, initial focus, and focus restoration',
+    'Nested portals, small screens, open motion, and instant close',
   ],
   Navigation: [
-    'Current, visited, active and disabled styling',
-    'Direct URLs, back navigation, keyboard and focus',
+    'Current, visited, active, and disabled styling',
+    'Direct URLs, back navigation, keyboard, and focus',
   ],
   'Data display': [
-    'Long Korean and English text, identifiers, empty values and large data sets',
-    'Responsive layout, semantic HTML and text alternatives',
+    'Long Korean and English text, identifiers, empty values, and large data sets',
+    'Responsive layout, semantic HTML, and text alternatives',
   ],
   Structure: [
-    'Full width, inset, nesting and overflow',
+    'Full width, inset, nesting, and overflow',
     'Keyboard scrolling and reflow when zoomed',
   ],
   Feedback: [
-    'Per-status text, icon, color and action',
-    'Live announcements, duration, retry and cancel',
+    'Per-status text, icon, color, and action',
+    'Live announcements, duration, retry, and cancel',
   ],
 }
 const specializedCriteria: Record<string, string[]> = {
   'navigation-menu': [
-    'nav, native links, current location and closing on link selection',
-    'Horizontal, vertical and RTL keyboard movement, pointer, touch and narrow screens',
+    'nav, native links, current location, and closing on link selection',
+    'Horizontal, vertical, and RTL keyboard movement, pointer, touch, and narrow screens',
   ],
   'context-menu': [
-    'Same actions in a visible regular menu, shared state and a keyboard path',
-    'Pointer, long press, collision avoidance and submenus',
+    'Same actions in a visible regular menu, shared state, and a keyboard path',
+    'Pointer, long press, collision avoidance, and submenus',
   ],
   'preview-card': [
-    'Native link navigation, hover delay, Escape and focus retention',
-    'Essential information lives at the destination; no actions exclusive to the popup',
+    'Native link navigation, hover delay, Escape, and focus retention',
+    'Essential information lives at the destination, with no popup-only actions',
   ],
   'date-picker': [
-    'Korean/English date and time formats, ranges, min/max, time zones and DST handling',
+    'Korean/English date and time formats, ranges, min/max, time zones, and DST handling',
   ],
   'file-upload': [
-    'Extensions, size limits, upload progress, failure, cancel, retry and a selection path besides drag and drop',
+    'Extensions, size limits, upload progress, failure, cancel, retry, and a selection path besides drag and drop',
   ],
   tree: [
-    'ARIA tree hierarchy, expansion, selection, arrow-key navigation, virtualization and large data sets',
-    'Headless Tree / TanStack Virtual, controlled state and focus recovery, RTL and disabled nodes',
+    'ARIA tree hierarchy, expansion, selection, arrow-key navigation, virtualization, and large data sets',
+    'Headless Tree / TanStack Virtual, controlled state, focus recovery, RTL, and disabled nodes',
   ],
   chart: [
-    'Units, axes, legend, distinctions beyond color, alternative table, empty values and tooltip accessibility',
+    'Units, axes, legend, distinctions beyond color, alternative table, empty values, and tooltip accessibility',
   ],
-  'otp-field': ['Code paste, autofill, deletion, errors, expiry and resend'],
+  'otp-field': ['Code paste, autofill, deletion, errors, expiry, and resend'],
   toast: [
-    'aria-live priority, duration, pause on hover/focus, duplicates and actions',
+    'aria-live priority, duration, pause on hover/focus, duplicates, and actions',
   ],
 }
 const specialized = new Set(['date-picker', 'file-upload', 'tree', 'chart'])
@@ -557,7 +557,7 @@ export const components: CatalogItem[] = definitions.map(
     criteria: [
       ...criteriaByGroup[group],
       ...(specializedCriteria[id] ?? []),
-      'Light, dark and system themes, reduced motion, 320px / zoom checks',
+      'Light, dark, and system themes, reduced motion, and 320px and zoom checks',
     ],
   }),
 )
@@ -565,31 +565,31 @@ const patternDefinitions: [string, string, string, 1 | 2 | 3][] = [
   [
     'app-shell',
     'App shell / Sidebar',
-    'Aligns the brand and theme at the top, collapsible navigation, the account at the bottom and the content.',
+    'Frames content with collapsible navigation, brand and theme on top, account below.',
     1,
   ],
   [
     'page-header',
     'Page header',
-    'Aligns and spaces the breadcrumb path, title, description and actions.',
+    'Aligns and spaces the breadcrumb, title, description, and actions.',
     1,
   ],
   [
     'filter-bar',
     'Search / filter bar',
-    'Connects search, filters, applied state and reset.',
+    'Connects search, filters, applied state, and reset.',
     1,
   ],
   [
     'data-table',
     'Data table',
-    'Connects selection, sorting, filters, column settings and pagination.',
+    'Connects selection, sorting, filters, column settings, and pagination.',
     2,
   ],
   [
     'resource-list',
     'Resource list',
-    'Connects item padding, hover areas, status and detail links.',
+    'Connects item padding, hover areas, status, and detail links.',
     1,
   ],
   [
@@ -601,31 +601,31 @@ const patternDefinitions: [string, string, string, 1 | 2 | 3][] = [
   [
     'form-workflow',
     'Form workflow',
-    'Connects input, validation, server errors, pending and success states.',
+    'Connects input, validation, server errors, and pending and success states.',
     1,
   ],
   [
     'async-job',
     'Async job / Run detail',
-    'Connects queued, running, canceled and partially failed states with build logs.',
+    'Connects queued, running, canceled, and partially failed states to build logs.',
     2,
   ],
   [
     'documentation',
     'Documentation page',
-    'Organizes body text, table of contents, code, callouts and language switching.',
+    'Organizes body text, table of contents, code, callouts, and language switching.',
     2,
   ],
   [
     'command-search',
     'Command search',
-    'Connects quick navigation, commands and search results through the keyboard.',
+    'Connects quick navigation, commands, and search results from the keyboard.',
     3,
   ],
   [
     'error-recovery',
     'Error / permission / offline',
-    'Explains failures, restricted access, lost connections and recovery paths.',
+    'Explains failures, restricted access, lost connections, and recovery paths.',
     2,
   ],
   [
@@ -666,74 +666,74 @@ export const patterns: CatalogItem[] = patternDefinitions.map(
     criteria:
       id === 'command-search'
         ? [
-            'Composes Dialog, inline Combobox and ScrollArea',
-            'Registry search, disabled Planned items, local commands and destination navigation',
-            'Checks keyboard, IME and shortcut scope, focus restoration and 320px',
+            'Composes Dialog, inline Combobox, and ScrollArea',
+            'Registry search, disabled Planned items, local commands, and destination navigation',
+            'Checks keyboard, IME and shortcut scope, focus restoration, and 320px',
           ]
         : id === 'async-job'
           ? [
-              'Composes Progress, List and status and log primitives',
-              'Queued, running, cancel request and confirmation, partial failure and retry as a new run',
-              'Checks duplicate starts, late updates, log sources and focus',
+              'Composes Progress, List, and status and log primitives',
+              'Queued, running, cancel request and confirmation, partial failure, and retry as a new run',
+              'Checks duplicate starts, late updates, log sources, and focus',
             ]
           : id === 'error-recovery'
             ? [
-                'Composes InlineMessage, EmptyState and existing input and copy primitives',
-                'Error, offline, permission and invalid address states, each with a recovery action',
-                'Checks drafts and cache, duplicate requests, blocking late responses and focus restoration',
+                'Composes InlineMessage, EmptyState, and existing input and copy primitives',
+                'Error, offline, permission, and invalid address states, each with a recovery action',
+                'Checks drafts and cache, duplicate requests, blocking late responses, and focus restoration',
               ]
             : id === 'documentation'
               ? [
-                  'Shared document composition of Prose, PageHeader, CodeBlock and InlineMessage',
-                  'Stable heading IDs, table of contents and current section, language switching and long content',
-                  'Checks direct links, keyboard, code copy and horizontal scrolling, 320px and themes',
+                  'Shared document composition of Prose, PageHeader, CodeBlock, and InlineMessage',
+                  'Stable heading IDs, table of contents and current section, language switching, and long content',
+                  'Checks direct links, keyboard, code copy, horizontal scrolling, 320px, and themes',
                 ]
               : id === 'responsive-navigation'
                 ? [
                     'Reuses the same navigation model across AppShell and Sheet',
-                    'Desktop and mobile switching, long names and read-only destinations',
-                    'Checks focus after open, select, Escape and viewport widening or narrowing, plus 320px',
+                    'Desktop and mobile switching, long names, and read-only destinations',
+                    'Checks focus after open, select, Escape, and viewport widening or narrowing, plus 320px',
                   ]
                 : id === 'data-table'
                   ? [
-                      'Composes existing Table, FilterBar, Checkbox, Menu and Pagination',
-                      'Filters, stable sorting, column settings, per-page selection and bulk actions',
-                      'Checks loading, error, permission, empty results, keyboard and 320px',
+                      'Composes existing Table, FilterBar, Checkbox, Menu, and Pagination',
+                      'Filters, stable sorting, column settings, per-page selection, and bulk actions',
+                      'Checks loading, error, permission, empty results, keyboard, and 320px',
                     ]
                   : id === 'app-shell'
                     ? [
-                        'Shared layout slots, native links and controlled collapse',
-                        'Fixed icon positions, account at the bottom, theme at the top and mobile Sheet navigation',
-                        'Checks focus restoration, keyboard, long content, 320px and themes',
+                        'Shared layout slots, native links, and controlled collapse',
+                        'Fixed icon positions, account at the bottom, theme at the top, and mobile Sheet navigation',
+                        'Checks focus restoration, keyboard, long content, 320px, and themes',
                       ]
                     : id === 'form-workflow'
                       ? [
                           'Composes existing form and message primitives',
-                          'Validation, submitting, field errors, request failure, permission, success and cancel',
-                          'Checks controlled input preservation, duplicate submits, blocking late responses and focus restoration',
+                          'Validation, submitting, field errors, request failure, permission, success, and cancel',
+                          'Checks controlled input preservation, duplicate submits, blocking late responses, and focus restoration',
                         ]
                       : id === 'resource-list'
                         ? [
-                            'Composes existing List, Checkbox, Menu and status components',
-                            'Selection, long content, loading, error, restricted access, empty results and responsive layout',
-                            'Checks padding, hover, focus, native links and list semantics',
+                            'Composes existing List, Checkbox, Menu, and status components',
+                            'Selection, long content, loading, error, restricted access, empty results, and responsive layout',
+                            'Checks padding, hover, focus, native links, and list semantics',
                           ]
                         : id === 'filter-bar'
                           ? [
-                              'Shared composition of search, filters, summary and reset',
-                              'Instant apply, empty results, long input and responsive alignment',
-                              'Keyboard focus, result announcements and real use in the catalog',
+                              'Shared composition of search, filters, summary, and reset',
+                              'Instant apply, empty results, long input, and responsive alignment',
+                              'Keyboard focus, result announcements, and real use in the catalog',
                             ]
                           : id === 'page-header'
                             ? [
-                                'Shared structure for breadcrumb, title, description and actions',
-                                'Long titles, optional slots and responsive placement',
-                                'Heading hierarchy, keyboard and real use in the catalog',
+                                'Shared structure for breadcrumb, title, description, and actions',
+                                'Long titles, optional slots, and responsive placement',
+                                'Heading hierarchy, keyboard, and real use in the catalog',
                               ]
                             : [
-                                'Composes shared components and tokens; domain logic stays in the product',
-                                'Empty, loading, error, permission, long content and responsive states',
-                                'Checks keyboard flow, focus and real product use',
+                                'Composes shared components and tokens, leaving domain logic in the product',
+                                'Empty, loading, error, permission, long content, and responsive states',
+                                'Checks keyboard flow, focus, and real product use',
                               ],
   }),
 )
@@ -741,61 +741,61 @@ export const foundations: CatalogItem[] = [
   [
     'layout',
     'Layout',
-    'Containers, spacing, grids and reading width',
+    'Defines containers, spacing, grids, and reading width.',
     'available',
   ],
   [
     'typography',
     'Typography',
-    'Fonts by role, sizes, line height and rendering',
+    'Defines fonts by role, sizes, line height, and rendering.',
     'available',
   ],
   [
     'tokens',
     'Design tokens',
-    'Values, aliases, themes, search and code references',
+    'Lists token values and aliases per theme, with search and code references.',
     'available',
   ],
   [
     'color',
     'Color / contrast',
-    'Brand, neutral and status colors, and contrast',
+    'Defines brand, neutral, and status colors and their contrast.',
     'available',
   ],
   [
     'iconography',
     'Iconography',
-    'SVG size, stroke, alignment and accessible names',
+    'Defines SVG size, stroke, alignment, and accessible names.',
     'available',
   ],
   [
     'interaction',
     'Interaction / states',
-    'Pointer, keyboard, selection, disabled and async states, and recovery',
+    'Defines pointer, keyboard, selection, disabled, and async states, plus recovery.',
     'available',
   ],
   [
     'motion',
     'Motion / theme',
-    'Theme sync, enter, exit and reduced motion',
+    'Defines theme sync, enter, exit, and reduced motion.',
     'available',
   ],
   [
     'accessibility',
     'Accessibility',
-    'Semantic structure, focus, keyboard, zoom and status announcements',
+    'Covers semantic structure, focus, keyboard, zoom, and status announcements.',
     'available',
   ],
   [
     'content',
     'Content / localization',
-    'Korean and English copy, error messages, time and number formats',
+    'Covers Korean and English copy, error messages, and time and number formats.',
     'available',
   ],
   [
     'layers',
     'Layers / elevation',
-    'Surfaces, layers, portals, shadows and stacking rules',
+    'Defines surfaces, layers, portals, shadows, and stacking rules.',
     'available',
   ],
 ].map(([id, name, summary, stage]) => ({
@@ -808,7 +808,7 @@ export const foundations: CatalogItem[] = [
   group: 'Foundations',
   basis: 'Shared CSS tokens',
   criteria: [
-    'Principles, tokens, working examples and per-product usage guidance',
+    'Principles, tokens, working examples, and per-product usage guidance',
   ],
 }))
 export const catalog = [...foundations, ...components, ...patterns]
@@ -829,7 +829,7 @@ export const referenceSources = [
     url: 'https://react-aria.adobe.com/DatePicker',
   },
   {
-    name: 'Internationalized date — local time, IANA zones and DST disambiguation',
+    name: 'Internationalized date — local time, IANA zones, and DST disambiguation',
     url: 'https://react-aria.adobe.com/internationalized/date/CalendarDateTime',
   },
   {

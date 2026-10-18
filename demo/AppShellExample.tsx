@@ -134,7 +134,7 @@ export function AppShellExample({
           >
             View preview profile
           </Menu.Item>
-          <Menu.Item onClick={toggleTheme}>Rotate application theme</Menu.Item>
+          <Menu.Item onClick={toggleTheme}>Switch theme</Menu.Item>
         </Menu.Content>
       </Menu.Portal>
     </Menu.Root>
@@ -324,11 +324,11 @@ export function AppShellExample({
                   description={`${profile} / local workspace preview`}
                 />
                 <p>
-                  Navigation and content stay separate, and icons keep their
-                  horizontal position when the menu collapses.
+                  Navigation and content stay separate. Icons keep their
+                  horizontal position when the sidebar collapses.
                 </p>
                 <p>
-                  The product manages accounts, permissions, routes and data
+                  The product manages accounts, permissions, routes, and data
                   requests.
                 </p>
                 {longContent &&
@@ -336,9 +336,8 @@ export function AppShellExample({
                     <section key={index}>
                       <h4>Workspace section {index + 1}</h4>
                       <p>
-                        Local preview content for inspecting scrolling.
-                        Navigation and the account footer remain available while
-                        this content scrolls.
+                        Sample content to test scrolling. Navigation and the
+                        account footer stay available while it scrolls.
                       </p>
                     </section>
                   ))}

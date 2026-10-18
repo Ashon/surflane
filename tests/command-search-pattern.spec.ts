@@ -91,9 +91,9 @@ test('local action executes once, preserves route and restores trigger focus', a
   page,
 }) => {
   await open(page)
-  await search(page).fill('rotate theme')
+  await search(page).fill('switch theme')
   const action = dialog(page).getByRole('option', {
-    name: /^Rotate theme .*Action$/,
+    name: /^Switch theme .*Action$/,
     exact: true,
   })
   await action.evaluate((el: HTMLElement) => {

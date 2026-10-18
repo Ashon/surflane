@@ -2,13 +2,23 @@ import type { ComponentDoc } from './componentDocs'
 export const filterBarDocs: Record<string, ComponentDoc> = {
   'filter-bar': {
     usage:
-      "Aligns search, category, and status filters on a shared baseline and connects the applied criteria to the result count. Small lists that apply instantly are derived from controlled state, and the Clear action returns focus to the search input. The catalog's own component and pattern indexes also use this pattern.",
-    avoid:
-      "Primitives don't handle server requests, URL routing, or permissions automatically. For server search, apply the query with a delay after IME composition ends or require an explicit submit, and cancel earlier requests or check response order. Provide aria-busy for loading results, retry with preserved input for failures, and an explanation for permission limits. Don't show server loading as an empty result.",
+      "Align search, category, and status filters on a shared baseline. Tie the applied criteria to the result count. Derive small, instantly applied lists from controlled state. Clearing returns focus to the search input. The catalog's own component and pattern indexes use this pattern.",
+    avoid: [
+      "Don't expect the primitives to handle server requests, URL routing, or permissions. Wire them yourself.",
+      "Don't send a server search on every keystroke. Apply the query after a delay once IME composition ends, or require an explicit submit.",
+      "Don't let an earlier response overwrite a later one. Cancel earlier requests or check response order.",
+      "Don't show server loading as an empty result. Mark loading results with aria-busy.",
+      "Don't clear the input when a request fails. Keep it and offer retry.",
+      "Don't hide permission limits. Explain them.",
+    ],
     anatomy:
       'FilterBar.Root(named search form) → Controls → Field(label + Input/Select) + Actions; optional applied-filter buttons and Summary(status). Results remain outside the form.',
-    keyboard:
-      "Inputs use standard editing keys, and Select's arrow keys and Enter/Escape are delegated to Base UI. Root doesn't intercept submit or reset, so the caller wires onSubmit/onReset. In instant-apply mode, call preventDefault so Enter doesn't reload the page. When a chip is removed, focus moves to the remaining input. Result announcements update only a text summary and don't read the whole list as a live region.",
+    keyboard: [
+      "Inputs use standard editing keys. Base UI handles Select's arrow keys, Enter, and Escape.",
+      "Root doesn't intercept submit or reset, so the caller wires onSubmit and onReset. In instant-apply mode, call preventDefault so Enter doesn't reload the page.",
+      'Removing an applied filter moves focus to the remaining input.',
+      'Result announcements update only the text summary. The whole list is never a live region.',
+    ],
     tokens: [
       '--space-2',
       '--space-4',
@@ -55,7 +65,7 @@ export const filterBarDocs: Record<string, ComponentDoc> = {
       ['Root.label', 'required accessible search landmark name', 'required'],
       [
         'Root.onSubmit / onReset',
-        'native form events; state and requests controlled by caller',
+        'native form events; caller controls state and requests',
         'native behavior',
       ],
       ['Field.width', 'search (2× flexible basis) | filter', 'filter'],

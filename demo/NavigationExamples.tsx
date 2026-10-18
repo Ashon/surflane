@@ -318,7 +318,7 @@ function LinkExample() {
         </TextLink>
       </p>
       <p id='link-preview-target' tabIndex={-1}>
-        Preview destination. Native anchors retain their browser behavior.
+        Preview destination. Native anchors keep their browser behavior.
       </p>
     </div>
   )
@@ -346,8 +346,8 @@ function BreadcrumbExample() {
         </Breadcrumbs.List>
       </Breadcrumbs.Root>
       <p id='breadcrumb-preview-target' tabIndex={-1}>
-        Shows the project path as an ordered list. The current location can
-        remain unlinked.
+        Shows the project path as an ordered list. The current location can stay
+        unlinked.
       </p>
     </div>
   )

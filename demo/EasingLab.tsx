@@ -127,10 +127,10 @@ export function EasingLab() {
     <section id='easing'>
       <h2>Easing: time and progress</h2>
       <p>
-        Duration is the total time; easing is the rate at which the change
-        progresses over that time. Two 200ms transitions can still differ in
-        speed at the start and end. In the curve below, the horizontal axis is
-        time and the vertical axis is movement progress.
+        Duration is the total time. Easing is how fast the change progresses
+        over that time. Two 200ms transitions can still differ in speed at the
+        start and end. In the curve below, the horizontal axis is time and the
+        vertical axis is movement progress.
       </p>
       <div className='easing-controls'>
         <Field.Root>
@@ -279,31 +279,30 @@ export function EasingLab() {
       <h3>How the curve works</h3>
       <p>
         <code>cubic-bezier(x1, y1, x2, y2)</code> builds a curve from (0, 0) to
-        (1, 1) with two control points. First find the point on the curve that
-        matches time x, then use that point's y as progress. Using the curve's
-        internal parameter u directly as time gives wrong results.
+        (1, 1) with two control points. To read it, find the point on the curve
+        that matches time x, then use that point's y as progress. Don't use the
+        curve's internal parameter u as time. It gives wrong results.
       </p>
       <p>
-        A steep slope means fast change; a shallow slope means slow change.
-        State feedback responds quickly and then decelerates, while Panel
-        movement travels faster early on. Toast stack uses a gentler
-        deceleration because several cards move together. Linear is a
-        constant-speed comparison, and acceleration is a comparison that keeps
-        speeding up.
+        A steep slope means fast change. A shallow slope means slow change.
+        State feedback responds quickly, then decelerates. Panel movement
+        travels faster early on. Toast stack decelerates more gently because
+        several cards move together. Linear compares constant speed, and
+        Acceleration compares a curve that keeps speeding up.
       </p>
       <p>
-        In CSS, control point x values must stay within 0–1, while y values can
-        go outside that range to create overshoot. This example compares only
-        the system's non-overshooting curves. 600ms is a slow playback for
-        observation, not a product default. The actual animation runs through
-        the browser's Web Animations API, and the curve display computes the
-        same easing.
+        In CSS, control point x values must stay within 0–1. The y values can go
+        outside that range to create overshoot. This example compares only the
+        system's non-overshooting curves. 600ms is a slow playback for
+        observation, not a product default. The animation runs through the
+        browser's Web Animations API, and the curve display computes the same
+        easing.
       </p>
       <p>
         With reduced motion, playback completes immediately and the time slider
-        shows static positions. The completion announcement is made only when
-        the playback state changes; progress is not read out on every frame.
-        Never treat animation completion as completion of a network task.
+        shows static positions. Completion is announced only when the playback
+        state changes. Progress isn't read out on every frame. Never treat
+        animation completion as completion of a network task.
       </p>
       <p>
         References:{' '}

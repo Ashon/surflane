@@ -55,31 +55,31 @@ const scenarios: Record<
     data: trend,
     unit: 'runs',
     description:
-      'Six illustrative days: Workspace rises from 12 to 27 runs. Inventory has no measurement on October 3; the line keeps that gap.',
+      'Six sample days. Workspace rises from 12 to 27 runs. Inventory has no measurement on October 3, so its line keeps a gap.',
   },
   mixed: {
     data: mixed,
     unit: 'resources',
     description:
-      'Illustrative changes include negative, zero and positive resource counts. Every bar starts at the zero baseline; missing values remain unavailable.',
+      'Sample changes include negative, zero, and positive resource counts. Every bar starts at the zero baseline. Missing values stay unavailable.',
   },
   dense: {
     data: dense,
     unit: 'runs',
     description:
-      '120 illustrative resources with long Korean and English labels. The data table preserves all labels and measurements; only axis labels are abbreviated.',
+      '120 sample resources with long Korean and English labels. Only axis labels are abbreviated. The data table keeps every label and measurement.',
   },
   missing: {
     data: missing,
     unit: 'runs',
     description:
-      'Two reports contain no finite numeric measurement. Missing and invalid values are unavailable, never zero.',
+      'Two reports have no finite numeric measurement. Missing and invalid values are unavailable, never zero.',
   },
   empty: {
     data: [],
     unit: 'runs',
     description:
-      'No reports in this illustrative scope. The empty state has no fabricated trend.',
+      'No reports in this sample scope. The empty state shows no fabricated trend.',
   },
 }
 
@@ -149,13 +149,13 @@ export function ChartExample() {
         onHiddenSeriesChange={(next) => {
           if (locked)
             setNotice(
-              'Series selection unchanged: the calling example rejected this change.',
+              'Series selection unchanged. The example rejected this change.',
             )
           else {
             setHidden(next)
             setNotice(
               next.length
-                ? `${next.length} hidden series. The data table still contains every series.`
+                ? `${next.length} hidden series. The data table still shows every series.`
                 : 'All series are visible.',
             )
           }

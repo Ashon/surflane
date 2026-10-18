@@ -135,7 +135,7 @@ export function ComponentSizeGuide() {
     <section id='component-sizes' aria-labelledby='component-sizes-title'>
       <h2 id='component-sizes-title'>Component sizes</h2>
       <p>
-        Small, Default and Large are three sizes of the same design language.
+        Small, Default, and Large are three sizes of the same design language.
         Default is the current default. Sizes adjust control height and spacing
         instead of scaling the whole screen.
       </p>
@@ -178,11 +178,11 @@ export function ComponentSizeGuide() {
         </Table.Root>
       </Table.Container>
       <p>
-        On small screens and touch devices, buttons, inputs and menus keep a
-        minimum height of 44px. Checkboxes and switches respond to clicks
-        anywhere on the row, including the label. Size changes never distort
-        chart coordinates and data, divider thickness, scrollbar thickness or
-        the reading type hierarchy.
+        On small screens and touch devices, buttons, inputs, and menus stay at
+        least 44px tall. Checkboxes and switches respond to clicks anywhere on
+        the row, including the label. Size changes never affect chart
+        coordinates and data, divider and scrollbar thickness, or the reading
+        type hierarchy.
       </p>
       <div className='size-scheme-grid'>
         {componentSizes.map((size) => (
@@ -191,11 +191,11 @@ export function ComponentSizeGuide() {
       </div>
       <h3>Composition and overrides</h3>
       <p>
-        SizeProvider sets the size of a whole composition such as a form, table
-        or menu. Menus, popovers and dialogs that open in a portal inherit the
-        same size. A nested provider changes only the size inside it, and an
-        individual size prop or explicit padding or height takes precedence on
-        that component. Don't place a provider inside a table; wrap
+        SizeProvider sets the size of a whole composition, such as a form,
+        table, or menu. Menus, popovers, and dialogs that open in a portal
+        inherit the same size. A nested provider changes only the size inside
+        it. On a single component, a size prop or explicit padding or height
+        takes precedence. Don't place a provider inside a table. Wrap
         Table.Container from the outside instead.
       </p>
       <CodeBlock

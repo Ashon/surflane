@@ -49,8 +49,8 @@ const copy = {
   en: {
     title: 'Deploy your first service',
     description:
-      'A guide example for choosing a service, reviewing configuration and checking the deployment.',
-    contents: 'On this guide',
+      'Choose a service, review its configuration, and check the deployment.',
+    contents: 'In this guide',
     prepare: 'Before you begin',
     configure: 'Preview configuration',
     next: 'Next steps',
@@ -67,7 +67,7 @@ const copy = {
     config:
       'Copy the configuration or enable wrapping. Long identifiers scroll horizontally inside the code region.',
     continuation:
-      'Reading width and line spacing stay consistent throughout the guide. Contents links move to the related heading; links to other documents retain standard browser navigation.',
+      'Reading width and line spacing stay consistent throughout the guide. Contents links move to their heading. Links to other documents keep standard browser navigation.',
     nextBody:
       'Continue with the form workflow for input and error handling, or review the accessibility foundation.',
     workflow: 'Explore the form workflow',

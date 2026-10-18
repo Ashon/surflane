@@ -24,17 +24,17 @@ export function TypographyBrandGuide() {
     <section id='brand-type-roles' aria-labelledby='brand-type-roles-title'>
       <h2 id='brand-type-roles-title'>Brand type roles</h2>
       <p>
-        Typeface, weight and tracking follow each element's role on screen.
-        Latin text uses Manrope and Korean (Hangul) text uses Pretendard. Body
-        text, controls and code keep default tracking for comfortable reading
-        density and use sentence case. API names and identifiers keep their
-        original spelling. Font files are available from{' '}
+        Typeface, weight, and tracking follow each element's role on screen.
+        Latin text uses Manrope, and Korean (Hangul) text uses Pretendard. Body
+        text, controls, and code keep default tracking for comfortable reading
+        density, and use sentence case. API names and identifiers keep their
+        original spelling. Get font files from{' '}
         <a href='https://fonts.google.com/specimen/Manrope'>Google Fonts</a> and
         each typeface's public distribution package.
       </p>
       <Table.Container label='Brand typography roles' orientation='horizontal'>
         <Table.Root>
-          <Table.Caption>Typeface, weight and tracking by role</Table.Caption>
+          <Table.Caption>Typeface, weight, and tracking by role</Table.Caption>
           <Table.Head>
             <Table.Row>
               {['Role', 'Typeface', 'Weight', 'Tracking'].map((label) => (
@@ -79,9 +79,9 @@ export function TypographyBrandGuide() {
         </Text>
       </div>
       <p>
-        The HTML heading level sets document structure; the Heading size prop
+        The HTML heading level sets document structure. The Heading size prop
         sets the visual role. Headings and body text use Manrope, with hierarchy
-        built from size and weight. Labels and captions use 400; links, buttons
+        built from size and weight. Labels and captions use 400. Links, buttons,
         and emphasis in body text use 500. Shared styles keep the browser's
         default bold from rendering at 700.
       </p>
@@ -90,12 +90,12 @@ export function TypographyBrandGuide() {
       </Text>
       <p>
         Korean uses Pretendard and Japanese uses Noto Sans JP. Set lang on a
-        language block to combine Manrope for Latin text with glyphs for that
-        language. When redistributing font files, check each package's license.
+        language block to combine Manrope for Latin text with that language's
+        glyphs. Check each package's license before redistributing font files.
       </p>
       <p>
-        The scale below is a set of independent UI role tokens. Choose by the
-        reading density of documentation, workspace screens and data tables.
+        The scale below is a set of independent UI role tokens. Choose by
+        reading density: documentation, workspace screens, or data tables.
       </p>
       <CodeBlock
         language='tsx'

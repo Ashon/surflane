@@ -823,13 +823,16 @@ footer {
 .delivery-waves p {
   margin: var(--space-2) 0 0;
 }
+/* Lists hang their markers in the margin, so item text keeps the paragraph edge. */
 #coverage-ready > ul,
-#coverage-research > ul {
+#coverage-research > ul,
+.catalog-rules {
   padding-inline-start: 0;
   list-style-position: outside;
 }
 #coverage-ready li + li,
-#coverage-research li + li {
+#coverage-research li + li,
+.catalog-rules li + li {
   margin-block-start: var(--space-2);
 }
 .panel-examples[data-single] {

@@ -18,7 +18,7 @@ test('localized documents retain anchor IDs, heading focus and current section w
   await page.getByRole('checkbox', { name: 'Long document' }).check()
   expect(await article.locator('p').count()).toBeGreaterThan(before)
   const contents = page.getByRole('navigation', {
-    name: 'On this guide',
+    name: 'In this guide',
     exact: true,
   })
   const link = contents.getByRole('link', {
@@ -74,7 +74,7 @@ test('direct section links load after lazy content and the document viewport scr
     .toBe(true)
   await expect(
     page
-      .getByRole('navigation', { name: 'On this guide' })
+      .getByRole('navigation', { name: 'In this guide' })
       .getByRole('link', { name: 'Preview configuration', exact: true }),
   ).toHaveAttribute('aria-current', 'location')
   await page.reload()
@@ -154,12 +154,12 @@ test('long guides retain reading geometry, accessible headings and responsive co
       expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([])
     }
   }
-  await page.getByRole('button', { name: 'On this guide', exact: true }).click()
+  await page.getByRole('button', { name: 'In this guide', exact: true }).click()
   await expect(
-    page.getByRole('navigation', { name: 'On this guide', exact: true }),
+    page.getByRole('navigation', { name: 'In this guide', exact: true }),
   ).toBeHidden()
-  await page.getByRole('button', { name: 'On this guide', exact: true }).click()
+  await page.getByRole('button', { name: 'In this guide', exact: true }).click()
   await expect(
-    page.getByRole('navigation', { name: 'On this guide', exact: true }),
+    page.getByRole('navigation', { name: 'In this guide', exact: true }),
   ).toBeVisible()
 })

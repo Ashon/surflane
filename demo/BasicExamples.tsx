@@ -60,7 +60,7 @@ export function BasicExample({
             <Button
               variant='destructive'
               onClick={() =>
-                setMessage('Destructive appearance only; nothing deleted.')
+                setMessage('Destructive style only. Nothing was deleted.')
               }
             >
               Discard preview
@@ -69,8 +69,8 @@ export function BasicExample({
           </div>
           <div className='button-variant-guide'>
             <p>
-              Default is the former name of Primary. The Default size means the
-              base size and is separate from the color role.
+              Default is the former name of Primary. The Default size is the
+              base size, separate from the color role.
             </p>
             <ScrollArea label='Button variants and sizes'>
               <table className='button-variant-table'>
@@ -275,7 +275,7 @@ export function BasicExample({
             <Dialog.Header>
               <Dialog.Title>Deployment plan</Dialog.Title>
               <Dialog.Description>
-                A preview that does not start a deployment.
+                This preview doesn't start a deployment.
               </Dialog.Description>
             </Dialog.Header>
             <Dialog.Body>
@@ -308,8 +308,7 @@ export function BasicExample({
             <AlertDialog.Header>
               <AlertDialog.Title>Discard this draft?</AlertDialog.Title>
               <AlertDialog.Description>
-                Discards only the preview draft. Real resources are not
-                affected.
+                Discards only the preview draft. Real resources aren't affected.
               </AlertDialog.Description>
             </AlertDialog.Header>
             <AlertDialog.Footer>

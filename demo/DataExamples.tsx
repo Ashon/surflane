@@ -91,7 +91,7 @@ function EmptyPreview() {
             <List.Content>
               <List.Title>New environment preview</List.Title>
               <List.Description>
-                Local example only; no resource created.
+                Local example only. No resource was created.
               </List.Description>
             </List.Content>
             <StatusBadge tone='success'>Configured</StatusBadge>
@@ -140,7 +140,7 @@ function EmptyPreview() {
               <Button
                 variant='outline'
                 onClick={() =>
-                  setNotice('Access request previewed; no message sent.')
+                  setNotice('Access request previewed. No message was sent.')
                 }
               >
                 Preview access request
@@ -176,9 +176,9 @@ function MessagePreview() {
           </InlineMessage.Title>
           <InlineMessage.Description>
             {state === 'error'
-              ? 'The preview endpoint did not respond. Check the connection and retry.'
+              ? "The preview endpoint didn't respond. Check the connection and retry."
               : state === 'pending'
-                ? 'Preview is waiting for a result. Use the controls below to resolve it.'
+                ? 'Waiting for a result. Use the controls below to resolve it.'
                 : 'Three environments are available in this local preview.'}
           </InlineMessage.Description>
           <InlineMessage.Actions>
@@ -209,7 +209,7 @@ function MessagePreview() {
                   variant='ghost'
                   onClick={() => {
                     setState('error')
-                    setNotice('Discovery failed again. You can retry.')
+                    setNotice('Discovery failed again. Retry when ready.')
                   }}
                 >
                   Fail retry
@@ -236,7 +236,7 @@ function MessagePreview() {
         <InlineMessage.Content>
           <InlineMessage.Title>Local examples</InlineMessage.Title>
           <InlineMessage.Description>
-            These controls do not contact DEMO or create resources.
+            These controls don't contact DEMO or create resources.
           </InlineMessage.Description>
         </InlineMessage.Content>
       </InlineMessage.Root>

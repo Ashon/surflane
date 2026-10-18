@@ -148,7 +148,7 @@ export function FormExample({ id }: { id: string }) {
               placeholder='Enter multiple lines of Korean and English text.'
             />
             <Field.Description>
-              Up to 240 characters. Drag the bottom handle to resize the height.
+              Up to 240 characters. Drag the bottom handle to change the height.
             </Field.Description>
             <Field.Error />
           </Field.Root>
@@ -299,7 +299,7 @@ export function FormExample({ id }: { id: string }) {
             </label>
           </div>
           <p className='catalog-preview-note'>
-            These settings toggle only within the preview.
+            These settings change only in this preview.
           </p>
           {buttons}
         </Form>

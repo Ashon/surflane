@@ -1,14 +1,22 @@
 import type { ComponentDoc } from './componentDocs'
 export const toastDocs: Record<string, ComponentDoc> = {
   toast: {
-    usage:
-      "Announces short results that don't block the current screen, such as a finished task, a copy, or an undoable change. Place a shared Provider and a notification Viewport in the app; calling add with an existing ID updates that notification. Cards have no border and are distinguished by an opaque surface and shadow, and Root's tone sets the status icon color. The default stack overlaps the cards and expands on hover or when focus enters. For an always-expanded list, set Viewport.layout=list. For feedback next to a button, use a separate Provider with Viewport.layout=anchored and a Positioner.",
+    usage: [
+      'Announce short, non-blocking results: a finished task, a copied value, or an undoable change.',
+      'Render one Provider and one Viewport for the app. For feedback beside a button, use a separate Provider with Viewport.layout=anchored and a Positioner.',
+      'Calling add with an existing ID updates that toast.',
+      'The stack overlaps and expands on hover or focus. Set Viewport.layout=list to keep it expanded.',
+      "Toasts are borderless, opaque surfaces with a shadow, and Root's tone colors the status icon.",
+    ],
     avoid:
-      "Don't put critical errors, input validation, or task history only in a disappearing Toast. Keep the information in an inline message, field error, or result screen, and don't announce work as finished when it didn't run. Use high priority only when immediate attention is required.",
+      "Don't put critical errors, input validation, or task history only in a disappearing toast. Keep them in an inline message, field error, or result screen. Announce work as finished only after it runs. Use high priority only when something needs immediate attention.",
     anatomy:
       'Provider → caller controls + Portal → Viewport(region) → Root(non-modal dialog) → Content → Icon + Text(Title / Description / Action) + Close',
-    keyboard:
-      "Notifications don't steal focus when they open. F6 moves into the notification region, and Tab moves through actions and the close button. Escape closes the focused notification. Timers pause on hover, on focus, and while the window is inactive. Swipe is a secondary way to dismiss; keep the Close button.",
+    keyboard: [
+      "Toasts don't take focus when they open. F6 moves focus into the Viewport, and Tab moves through the Action and Close buttons.",
+      'Escape closes the focused toast. Swipe is a secondary way to dismiss, so keep the Close button.',
+      'Timers pause on hover, on focus, and while the window is inactive.',
+    ],
     tokens: [
       '--menu-background',
       '--status-success-fg',
@@ -60,7 +68,7 @@ function App() {
     props: [
       [
         'Provider.timeout / limit',
-        'default dismissal ms; 0 persists; visible notification limit',
+        'default dismissal ms (0 persists); max visible toasts',
         '5000 / 3',
       ],
       [
@@ -81,32 +89,32 @@ function App() {
       ],
       [
         'Root.swipeDirection',
-        'direction(s), empty array disables swipe',
+        'swipe direction(s); an empty array disables swipe',
         'down + right',
       ],
       [
         'Action / toast.actionProps',
-        'native button props; handler explicitly closes after executing if desired',
+        'native button props; to close after running, close it in the handler',
         '—',
       ],
       [
         'Close',
-        'SVG close button; override accessible label for localization',
+        'SVG close button; override the accessible label to localize',
         'Dismiss notification',
       ],
       [
         'Viewport',
-        'layout=stack: compact cards expanding on hover/focus; layout=list: always expanded; layout=anchored: Positioner canvas',
+        'layout=stack: compact, expands on hover or focus; layout=list: always expanded; layout=anchored: Positioner canvas',
         'Notifications',
       ],
       [
         'Root[data-limited]',
-        'overflow items stay inert/mounted but styled display:none',
+        'overflow toasts stay mounted and inert, styled display:none',
         'limit=3',
       ],
       [
         'render / ref / className',
-        'actual DOM refs, custom element composition and state callbacks',
+        'DOM element refs, custom element composition, and state callbacks',
         '—',
       ],
     ],

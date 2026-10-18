@@ -16,9 +16,9 @@ export function CoveragePage() {
       <section id='coverage-scope'>
         <h2>Scope and readiness</h2>
         <p>
-          The scope is based on the web UI needed for platform development and
-          the Base UI component list. The summary below and the per-item
-          inventory show actual implementation and documentation readiness.
+          The scope covers the web UI needed for platform development, plus the
+          Base UI component list. The summary and inventory below show actual
+          implementation and documentation readiness.
         </p>
         <dl className='coverage-summary'>
           {Object.entries(stageLabels).map(([stage, label]) => (
@@ -31,8 +31,8 @@ export function CoveragePage() {
         <p>
           <strong>Available</strong>: has a shared implementation and a working
           example. <strong>Primitive only</strong>: re-exports the upstream
-          primitive; styling has not started. <strong>Planned</strong>: a shared
-          implementation or dedicated guide is still pending. Product deployment
+          primitive. Styling hasn't started. <strong>Planned</strong>: still
+          needs a shared implementation or dedicated guide. Product deployment
           and full accessibility certification are reviewed separately.
         </p>
       </section>
@@ -42,8 +42,8 @@ export function CoveragePage() {
           <li>
             <strong>Wave 0 — Existing controls and overlays</strong>
             <p>
-              Move existing inputs, selection, confirmation, panels and
-              scrolling to their own pages, and connect behavior with usage
+              Move existing inputs, selection, confirmation, panels, and
+              scrolling to their own pages. Pair each behavior with usage
               guidance.
             </p>
           </li>
@@ -51,21 +51,21 @@ export function CoveragePage() {
             <strong>Wave 1 — Daily product UI</strong>
             <p>
               Refine composition and interaction for Field, Checkbox, Radio,
-              Switch, Tabs, status, tables, empty states and the sidebar.
+              Switch, Tabs, status, tables, empty states, and the sidebar.
             </p>
           </li>
           <li>
             <strong>Wave 2 — Rich interaction</strong>
             <p>
-              Extend searchable selection, numeric input, Toast, data tables and
-              run flows. Each component's own wave label takes precedence.
+              Extend searchable selection, numeric input, Toast, data tables,
+              and run flows. Each component's own wave label takes precedence.
             </p>
           </li>
           <li>
             <strong>Wave 3 — Specialized UI</strong>
             <p>
               Review dedicated behavior and library fit for dates, files, trees,
-              charts, OTP and command search.
+              charts, OTP, and command search.
             </p>
           </li>
         </ol>
@@ -147,35 +147,36 @@ export function CoveragePage() {
         <ul>
           <li>
             Keep a working example and docs for usage, anti-patterns, states,
-            API and keyboard on the same page.
+            API, and keyboard on the same page.
           </li>
           <li>
-            Check light, dark and system themes, enter motion, instant close and
-            reduced motion.
+            Check light, dark, and system themes. Check enter motion, instant
+            close, and reduced motion.
           </li>
           <li>
-            Confirm labels, initial focus, focus movement and restoration, error
-            messages, and 320px / long Korean and English text / zoom states.
+            Confirm labels, initial focus, focus movement and restoration, and
+            error messages. Check 320px width, long Korean and English text, and
+            zoom.
           </li>
           <li>
-            Check submit, reset and server errors for forms; portals, nesting
-            and outside clicks for overlays; and loading, empty values and
-            partial failure for data UI.
+            Check submit, reset, and server errors in forms. Check portals,
+            nesting, and outside clicks in overlays. Check loading, empty
+            values, and partial failure in data UI.
           </li>
           <li>
-            React uses Base UI plus explicit library composition for specialized
-            features, and Astro docs prefer framework-independent CSS. Domain
-            rules stay in the product.
+            React builds on Base UI, with explicit library composition for
+            specialized features. Astro docs prefer framework-independent CSS.
+            Domain rules stay in the product.
           </li>
         </ul>
       </section>
       <section id='coverage-research'>
         <h2>Research and implementation boundaries</h2>
         <p>
-          Base UI is the foundation for accessibility and behavior primitives.
-          Tables, status, the app shell and document flows are composed from
-          semantic HTML and shared styles. For dates, trees, charts and similar
-          features, don't assume Base UI provides what it doesn't.
+          Base UI provides the accessibility and behavior primitives. Tables,
+          status, the app shell, and document flows build on semantic HTML and
+          shared styles. For dates, trees, charts, and similar features, confirm
+          what Base UI provides before relying on it.
         </p>
         <ul>
           {referenceSources.map((s) => (
@@ -187,9 +188,9 @@ export function CoveragePage() {
           ))}
         </ul>
         <p>
-          Component list and packages reviewed as of 2026-10-17 / Base UI 1.9.0.
-          The framework utilities CSP / Direction / mergeProps / useRender are
-          not counted as separate interactive components.
+          Component list and packages reviewed as of 2026-10-17, with Base UI
+          1.9.0. The framework utilities CSP, Direction, mergeProps, and
+          useRender don't count as separate interactive components.
         </p>
       </section>
     </>

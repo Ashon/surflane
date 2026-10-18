@@ -2,13 +2,17 @@ import type { ComponentDoc } from './componentDocs'
 export const richContentDocs: Record<string, ComponentDoc> = {
   'syntax-highlighter': {
     usage:
-      'Platform Quiet is a dedicated code theme with neutral surfaces and low-chroma OKLCH colors. Keywords are purple, strings sage, functions and types blue, and numbers amber, while properties and punctuation stay neutral. Comments stay readable too, without italics or faded opacity. When you need a copy action, use CodeBlock, which uses the same highlighter. Highlighting is not code validation or an execution result.',
-    avoid:
-      "Don't inject HTML or execute the source. Unsupported languages, engine load failures, and sources over 50,000 characters stay as plain text. Don't strip or auto-correct whitespace, line breaks, or Hangul text.",
+      'Highlight source code in Platform Quiet, a dedicated code theme with neutral surfaces and low-chroma OKLCH colors. Keywords are purple, strings sage, functions and types blue, and numbers amber. Properties and punctuation stay neutral, and comments stay readable, without italics or faded opacity. For a copy action, use CodeBlock, which shares this highlighter.',
+    avoid: [
+      "Don't present highlighting as code validation or an execution result. Report those separately instead.",
+      "Don't inject HTML or execute the source. Pass it as a plain code string instead.",
+      "Don't strip or auto-correct whitespace, line breaks, or Hangul text. Pass the original source unchanged instead.",
+      "Don't expect every source to be highlighted. Unsupported languages, engine load failures, and sources over 50,000 characters stay plain text.",
+    ],
     anatomy:
-      'labelled ScrollArea → pre → code → semantic token spans; inline mode returns only code',
+      'labeled ScrollArea → pre → code → semantic token spans; inline mode returns only code',
     keyboard:
-      'The source keeps native text selection and copying. It scrolls horizontally in a ScrollArea, and wrap breaks lines visually without changing the source. Colors meet at least 4.5:1 in both themes and use the system text color in forced colors mode.',
+      'The source keeps native text selection and copying. It scrolls horizontally in a ScrollArea. Setting wrap breaks lines visually without changing the source. Colors meet at least 4.5:1 in both themes and use the system text color in forced colors mode.',
     tokens: [
       '--code-bg',
       '--font-code',
@@ -42,13 +46,13 @@ export const richContentDocs: Record<string, ComponentDoc> = {
   },
   markdown: {
     usage:
-      "Renders CommonMark documents plus GFM tables, task lists, strikethrough, and footnotes in a shared reading style. Code fences reuse CodeBlock's highlighting, copy action, and horizontal scrolling.",
+      "Render CommonMark documents, plus GFM tables, task lists, strikethrough, and footnotes, in the shared reading style. Code fences reuse CodeBlock's highlighting, copy action, and horizontal scrolling.",
     avoid:
-      "Don't render MDX or executable HTML. The calling screen decides remote document fetching, permissions, link destinations, and image visibility. Task lists are read-only and don't replace form inputs.",
+      "Don't render MDX or executable HTML. Pass CommonMark or GFM source instead. Don't use task lists as form inputs, since they're read-only. Use Checkbox instead. The calling screen decides remote document fetching, permissions, link destinations, and image visibility.",
     anatomy:
       'named article → scoped heading hierarchy and anchors → prose / links / lists / blockquote → Table.ScrollArea / highlighted CodeBlock / notes',
     keyboard:
-      "Links and copy buttons keep native Tab/Enter behavior. Headings start at h2 by default, and each instance's IDs are linked to its internal links. HTML is excluded, and unsafe URLs are blocked by the default URL policy. Long tables and code scroll independently instead of overflowing the document.",
+      "Tab reaches links and copy buttons, and Enter activates them natively. Headings start at h2 by default. Each instance's internal links point to its own IDs. HTML is excluded, and the default URL policy blocks unsafe URLs. Long tables and code scroll independently instead of overflowing the document.",
     tokens: [
       '--type-reading-size',
       '--type-reading-leading',

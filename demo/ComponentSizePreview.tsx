@@ -40,10 +40,10 @@ export function ComponentSizePreview({
             ))}
           </div>
           <p>
-            Compare the same example at each size. Input values and selection
-            state are preserved.{' '}
+            Compare the same example at each size. Switching keeps input values
+            and selection state.{' '}
             <a href={withBase('/foundations/layout#component-sizes')}>
-              Size guidelines and comparisons
+              Size guidance and comparisons
             </a>
           </p>
         </div>

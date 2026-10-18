@@ -2,11 +2,11 @@ import type { ComponentDoc } from './componentDocs'
 export const navigationDocs: Record<string, ComponentDoc> = {
   tabs: {
     usage:
-      'Switches between related panels in the same context. The selected tab is shown as a full rounded surface. Use Panel.keepMounted to preserve input.',
+      'Switch between related panels in the same context. The selected tab shows as a full rounded surface. Set Panel.keepMounted to preserve input.',
     avoid:
-      "Don't hide navigation between separate pages behind ad hoc tab state. Don't load slow content unnecessarily just because arrow-key focus moved.",
+      "Don't fake navigation between separate pages with tab state. Use links instead. Don't load slow content on arrow-key focus. Keep the default manual activation instead.",
     keyboard:
-      "Tab moves into the active tab. Arrow keys and Home/End move focus, and in the default manual mode Enter/Space activates the focused tab. With List.activateOnFocus=true, tabs activate as they receive focus. Disabled tabs can still receive focus but don't activate.",
+      "Tab moves focus to the active tab. Arrow keys, Home, and End move focus between tabs. In the default manual mode, Enter or Space activates the focused tab. With List.activateOnFocus=true, a tab activates when it receives focus. Disabled tabs receive focus but don't activate.",
     anatomy: 'Tabs.Root → List(Tab + Indicator) + value-matched Panels',
     tokens: [
       '--surface',
@@ -32,25 +32,21 @@ export const navigationDocs: Record<string, ComponentDoc> = {
     props: [
       [
         'Root.value / defaultValue / onValueChange',
-        'Base UI tab values and callback',
+        'selected tab value and change callback',
         '— / 0 / —',
       ],
       ['Root.orientation', 'horizontal | vertical', 'horizontal'],
-      [
-        'List.activateOnFocus',
-        'automatic activation with arrow focus',
-        'false',
-      ],
-      ['Panel.keepMounted', 'preserve inactive panel DOM', 'false'],
+      ['List.activateOnFocus', 'activate tabs on arrow-key focus', 'false'],
+      ['Panel.keepMounted', 'keep inactive panels in the DOM', 'false'],
     ],
   },
   accordion: {
     usage:
-      "Expands related details under their headings. When switching in single-item mode, the previous and next panels swap with a height and fade transition, and the closing panel is made inert so its inputs can't be operated mid-transition. With reduced motion, panels switch instantly.",
+      "Expand related details under their headings. In single-item mode, the closing and opening panels swap with a height and fade transition. The closing panel turns inert, so its inputs can't be used mid-transition. With reduced motion, panels switch instantly.",
     avoid:
-      "Don't hide all essential information inside collapsed panels. Don't nest buttons or links inside a Trigger.",
+      "Don't hide all essential information in collapsed panels. Keep key facts visible outside them. Don't nest buttons or links inside a Trigger. Place them in the Panel instead.",
     keyboard:
-      'Tab/Shift+Tab moves through each Trigger and the inputs in open panels. Enter/Space expands a panel. Base UI 1.9 no longer uses arrow-key roving focus for Accordion.',
+      'Tab and Shift+Tab move through each Trigger and the inputs in open panels. Enter or Space expands a panel. Base UI 1.9 dropped arrow-key roving focus for Accordion.',
     anatomy: 'Root → Item → Header(Trigger + SVG) + Panel(content body)',
     tokens: [
       '--surface',
@@ -73,7 +69,7 @@ export const navigationDocs: Record<string, ComponentDoc> = {
       ['Root.value / defaultValue', 'array of expanded item values', '—'],
       [
         'Root.multiple / keepMounted',
-        'multiple expanded items / preserve content',
+        'allow several expanded items / keep closed content mounted',
         'false',
       ],
       [
@@ -85,11 +81,11 @@ export const navigationDocs: Record<string, ComponentDoc> = {
   },
   collapsible: {
     usage:
-      'Expands a single group of supplementary information in place. The title and content share the same horizontal padding.',
+      'Expand one group of supplementary information in place. The Trigger and Panel share the same horizontal padding.',
     avoid:
-      "For several related sections, consider Accordion. Don't assume Escape closes it the way it closes a modal.",
+      "Use Accordion for several related sections. Don't expect Escape to close it as it closes a modal. Close it with the Trigger instead.",
     keyboard:
-      'Tab to the Trigger and press Enter/Space to open and close it. With keepMounted, input state is preserved while the panel is closed.',
+      'Tab to the Trigger. Enter or Space opens and closes the Panel. With keepMounted, the closed Panel keeps its input state.',
     anatomy: 'Collapsible.Root → Trigger + Panel(content body)',
     tokens: [
       '--surface',
@@ -109,21 +105,21 @@ export const navigationDocs: Record<string, ComponentDoc> = {
         'controlled / uncontrolled state',
         '— / false',
       ],
-      ['Root.disabled', 'disable disclosure trigger', 'false'],
+      ['Root.disabled', 'disable the Trigger', 'false'],
       [
         'Panel.keepMounted / hiddenUntilFound',
-        'preserve state / browser-find reveal',
+        'keep state while closed / reveal on browser find',
         'false',
       ],
     ],
   },
   avatar: {
     usage:
-      "Shows a user image and falls back to initials or an SVG when the image fails or is missing. Choose the alt text or Root name so it isn't announced twice alongside a nearby name. Status is a decorative badge separate from the photo; also expose the actual status through Root's aria-description or adjacent text.",
+      "Show a user image, with initials or an SVG as the fallback when the image is missing or fails. Set the alt text or Root name so a nearby name isn't announced twice. Status is a decorative badge, separate from the image. Expose the actual status through Root's aria-description or adjacent text.",
     avoid:
-      "Don't build an account menu out of the Avatar span itself. Wrap actions in a named button or Popover.Trigger.",
+      "Don't make the Avatar span itself an account menu. Wrap it in a named button or Popover.Trigger instead.",
     keyboard:
-      "A static Avatar isn't in the Tab order. When it sits inside a button, that button provides focus and behavior.",
+      "A static Avatar isn't in the Tab order. Inside a button, the button provides focus and behavior.",
     anatomy:
       'Avatar.Root → Image + Fallback(initials or default SVG) + optional Status',
     tokens: [
@@ -154,18 +150,18 @@ export const navigationDocs: Record<string, ComponentDoc> = {
       ['Fallback.delay', 'milliseconds before fallback', '0'],
       [
         'Status',
-        'Decorative corner marker; describe availability on Root or adjacent text and set aria-hidden on the marker',
+        'decorative corner marker; set aria-hidden on it and describe availability on Root or in adjacent text',
         'optional',
       ],
     ],
   },
   badge: {
     usage:
-      'Shows a short status or count. StatusBadge provides a semantic SVG for each tone; use Badge for general labels or counts. Badges have no border and are distinguished by a light status-color surface plus text and icon; general metadata badges use a neutral surface. Small status labels use a 12px size and medium (500) weight to stay legible. Status surfaces use badge background tokens that are separate from InlineMessage.',
+      'Show a short status with StatusBadge, which adds a semantic SVG for each tone. Use Badge for general labels or counts, on a neutral surface. Badges are borderless: status badges pair text and icon with a light tone surface from badge background tokens, separate from InlineMessage. Small status labels use 12px at medium (500) weight to stay legible.',
     avoid:
-      "Don't convey status with color or an icon alone. Don't style static badges like buttons or give every badge a live role.",
+      "Don't convey status with color or an icon alone. Always include a text label. Use Button for actions instead of styling badges like buttons. Announce changes from one role=status sentence, not a live role on every badge.",
     keyboard:
-      "Badges are static spans and aren't in the Tab order. To announce a status change, apply role=status to a single sentence.",
+      "Badges are static spans and aren't in the Tab order. To announce a status change, put role=status on one sentence.",
     anatomy:
       'Badge(text + optional icon) / StatusBadge(default semantic SVG + text)',
     tokens: [
@@ -201,11 +197,11 @@ export const navigationDocs: Record<string, ComponentDoc> = {
   },
   separator: {
     usage:
-      'Marks a meaningful boundary in content, horizontally or vertically. The parent Stack/Inline manages the outer spacing.',
+      'Mark a meaningful boundary in content, horizontally or vertically. The parent Stack or Inline sets the outer spacing.',
     avoid:
-      "Don't repeat a line between every row. Handle purely decorative lines with CSS or aria-hidden.",
+      "Don't repeat a line between every row. Use spacing instead. For purely decorative lines, use CSS or aria-hidden.",
     keyboard:
-      "Non-interactive separators aren't in the Tab order. Orientation is conveyed with aria-orientation.",
+      "Separators are non-interactive and aren't in the Tab order. aria-orientation conveys the orientation.",
     anatomy: 'Separator(orientation, optional horizontal inset)',
     tokens: ['--line', '--space-4'],
     code: `import { Separator } from '@surflane/ui'
@@ -220,11 +216,11 @@ export const navigationDocs: Record<string, ComponentDoc> = {
   },
   link: {
     usage:
-      'Navigates to a destination with a real href. The underline and focus ring keep the navigation affordance visible.',
+      'Navigate to a destination with a real href. The underline and focus ring show that it navigates.',
     avoid:
-      "Don't implement actions as links without an href. When a link opens in a new tab, say so in the text and set rel.",
+      "Don't use a link without an href for an action. Use Button instead. When a link opens a new tab, say so in the text and set rel.",
     keyboard:
-      "Tab to the link and press Enter to open it. Modifier-key clicks, new tabs, downloads, and hash navigation follow the browser's default behavior.",
+      'Tab to the link and press Enter to open it. Modifier-key clicks, new tabs, downloads, and hash navigation keep browser defaults.',
     anatomy: 'native anchor + shared link class',
     tokens: ['--ink', '--brand-ink', '--interaction-focus'],
     code: `import { Link } from '@surflane/ui'
@@ -244,11 +240,11 @@ export const navigationDocs: Record<string, ComponentDoc> = {
   },
   breadcrumbs: {
     usage:
-      'Shows the path from the top level to the current location as an ordered list. Long trails wrap instead of collapsing, which preserves reading order.',
+      'Show the path from the top level to the current location as an ordered list. Long trails wrap instead of collapsing, so reading order holds.',
     avoid:
-      "Don't let screen readers announce path separators; mark the current location with aria-current=page. Keep router logic in the product.",
+      "Don't let screen readers announce path separators. Use the decorative Separator instead. Mark the current location with aria-current=page. Keep router logic in the product.",
     keyboard:
-      "Tab to the ancestor links and press Enter to open them. The current-location text doesn't add an unnecessary Tab stop.",
+      "Tab to an ancestor link and press Enter to open it. The current location isn't a Tab stop.",
     anatomy:
       'Root(nav) → List(ol) → Item(Link / decorative Separator / Current)',
     tokens: [

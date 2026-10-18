@@ -30,7 +30,7 @@ export function NavigationMenuExample() {
     {
       id: 'workspace',
       title: 'Workspace',
-      description: 'Manage services, pipelines and deployments.',
+      description: 'Manage services, pipelines, and deployments.',
     },
     {
       id: 'inventory',
@@ -108,7 +108,7 @@ export function NavigationMenuExample() {
                     >
                       <strong>Layout foundations</strong>
                       <span>
-                        Inspect shared spacing, grid and content widths.
+                        Inspect shared spacing, grid, and content widths.
                       </span>
                     </NavigationMenu.Link>
                   </div>
@@ -152,7 +152,7 @@ export function NavigationMenuExample() {
         >
           <strong>Deployment guide</strong>
           <p>
-            Check which environments a policy allows or blocks and keep redacted
+            Check which environments a policy allows or blocks. Keep redacted
             logs.
           </p>
         </section>

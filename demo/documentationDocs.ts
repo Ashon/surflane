@@ -1,14 +1,28 @@
 import type { ComponentDoc } from './componentDocs'
 export const documentationDocs: Record<string, ComponentDoc> = {
   documentation: {
-    usage:
-      "Builds documentation from PageHeader, Prose, CodeBlock, InlineMessage, and native table-of-contents links. Body text keeps an explicit reading width, and the secondary table of contents sits beside it on wide screens and before the body on narrow screens. Match each heading's stable ID to its table-of-contents href, and mark the current item from the shared document scroll position. Switching languages keeps the same section IDs and changes article.lang along with the notices and copy messages.",
-    avoid:
-      "Don't nest cards repeatedly for the whole document and each section. Don't force a reading-width limit on general UI description text; apply it only to Prose in the document body. Don't let horizontal code overflow scroll the whole page, and don't convey notice meaning with color alone. The product manages the translation status of real docs, server document loading, permissions, URL locales, and version switching. The dates and settings in the example are fixed local content.",
+    usage: [
+      'Build documentation from PageHeader, Prose, CodeBlock, InlineMessage, and native table-of-contents links.',
+      'Body text keeps an explicit reading width. The secondary table of contents sits beside the body on wide screens and before it on narrow screens.',
+      "Match each heading's stable ID to its table-of-contents href. Mark the current item from the shared document scroll position.",
+      'Switching languages keeps the section IDs and changes article.lang, the notices, and the copy messages.',
+    ],
+    avoid: [
+      "Don't nest cards for the whole document and again for each section.",
+      "Don't apply the reading-width limit to general UI description text. Apply it only to Prose in the document body.",
+      "Don't let horizontal code overflow scroll the whole page. Keep it in the shared ScrollArea.",
+      "Don't convey a notice's meaning with color alone.",
+      "Don't treat the example's dates and settings as real data. They're fixed local content, and the product owns the translation status of real docs, server document loading, permissions, URL locales, and version switching.",
+    ],
     anatomy:
       'Language/length/wrap controls → desktop body + contents rail / mobile contents then body → article(lang) → PageHeader + date → Prose(sections, headings, lists, inline message, CodeBlock, related native links)',
-    keyboard:
-      "Table-of-contents links use a standard a href=#id, and the target heading can receive focus with tabIndex=-1. The heading hierarchy stays page h1 → Preview h2 → document title h3 → body section h4. Collapsing the table of contents uses Collapsible's button and its aria-expanded relationship. Horizontal code areas are navigable with keyboard and pointer in the shared ScrollArea, and CodeBlock announces copy success or failure. Scroll tracking in the table of contents doesn't steal focus, and changing the language or line wrapping keeps focus on the control in use.",
+    keyboard: [
+      'Table-of-contents links are standard a href=#id links. The target heading can take focus with tabIndex=-1.',
+      "Table-of-contents scroll tracking doesn't move focus. Changing the language or line wrapping keeps focus on the control in use.",
+      'Horizontal code areas scroll by keyboard and pointer in the shared ScrollArea.',
+      "The table of contents collapses with Collapsible's button and its aria-expanded state.",
+      'Headings run page h1 → Preview h2 → document title h3 → body section h4. CodeBlock announces copy success or failure.',
+    ],
     tokens: [
       '--layout-reading',
       '--type-reading-size',
@@ -22,7 +36,7 @@ export const documentationDocs: Record<string, ComponentDoc> = {
     ],
     code: `import { PageHeader, Prose, CodeBlock, InlineMessage } from '@surflane/ui'
 
-<nav aria-label='On this guide'>
+<nav aria-label='In this guide'>
   <a href='#guide-setup'>Setup</a>
 </nav>
 <article lang='en' aria-label='Getting started'>
@@ -47,7 +61,7 @@ export const documentationDocs: Record<string, ComponentDoc> = {
     props: [
       [
         'Prose',
-        'explicit reading measure, typography and wrapping for article content',
+        'explicit reading measure, typography, and wrapping for article content',
         '--layout-reading',
       ],
       [

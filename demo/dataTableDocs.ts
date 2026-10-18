@@ -1,14 +1,29 @@
 import type { ComponentDoc } from './componentDocs'
 export const dataTableDocs: Record<string, ComponentDoc> = {
   'data-table': {
-    usage:
-      'Combines Table, FilterBar, Checkbox, Menu, and Pagination for comparison tasks. Data is computed in the order filter → stable sort → paginate, and changing the search, sort, or page size returns to the first page. Selection is preserved by row ID, and the header checkbox applies only to manageable rows on the current page. The number of selections outside the current page is announced, and bulk actions apply to an explicit selection set that includes hidden selections. Column settings always keep the required name column, and hiding the sorted column restores sorting by name ascending.',
-    avoid:
-      "Don't turn the whole table into an ARIA grid or hide navigation in whole-row clicks. Checkboxes, name links, and sort buttons each act independently. Don't automatically select server results that aren't visible. This example handles only small local data. The product implements server-side filtering, sorting, and pagination for large datasets, URL state, request cancellation, permissions, idempotent bulk changes, and selection validation. Don't assume virtualization or server-wide selection is implemented.",
+    usage: [
+      'Combine Table, FilterBar, Checkbox, Menu, and Pagination for comparison tasks.',
+      'Process data in order: filter → stable sort → paginate. Changing the search, sort, or page size returns to the first page.',
+      'Preserve selection by row ID. The header checkbox selects only manageable rows on the current page.',
+      'Announce how many selections sit outside the current page. Bulk actions apply to an explicit selection set that includes hidden selections.',
+      'The Columns menu always keeps the required name column. Hiding the sorted column resets the sort to name ascending.',
+    ],
+    avoid: [
+      "Don't turn the whole table into an ARIA grid. Keep native table semantics.",
+      "Don't hide navigation in whole-row clicks. Checkboxes, name links, and sort buttons each act on their own.",
+      "Don't auto-select server results that aren't visible.",
+      "Don't assume virtualization or server-wide selection. Neither is implemented, and the example handles only small local data.",
+      "Don't filter, sort, or paginate large datasets locally. The product owns server-side filtering, sorting, and pagination, plus URL state, request cancellation, permissions, idempotent bulk changes, and selection validation.",
+    ],
     anatomy:
       'Preview mode → FilterBar(query, product, reset, result summary) → bulk actions + Columns menu → Table.Container(Table caption, sort headers, page selection, row headers, native links, state) → page size + Pagination → action result',
-    keyboard:
-      "Keeps native table semantics and scope=col/row. Sorting lives in a button inside the header, and aria-sort is set on the single currently sorted column. Tab/Shift+Tab and Enter/Space operate the controls, and the column settings menu follows Base UI's arrow keys, Escape, and trigger focus restoration. Search and page changes keep focus on the control in use. Finished loading, retry, restored access, and clearing the search return focus to the search input. Horizontal overflow on mobile is handled by the shared ScrollArea.",
+    keyboard: [
+      'Tab, Shift+Tab, Enter, and Space operate the controls. Each sort control is a button inside its header cell.',
+      'Search and page changes keep focus on the control in use. Focus returns to the search input after loading finishes, a retry, restored access, or a cleared search.',
+      "The Columns menu follows Base UI's arrow keys and Escape, and returns focus to its trigger.",
+      'On mobile, the shared ScrollArea handles horizontal overflow.',
+      'The table keeps native semantics with scope=col and scope=row. Only the sorted column has aria-sort.',
+    ],
     tokens: [
       '--space-2',
       '--space-4',

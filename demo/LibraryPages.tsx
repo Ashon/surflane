@@ -188,8 +188,8 @@ export function LibraryIndex({
         <section>
           <h2>Interaction lab</h2>
           <p>
-            A combined example for exploring input, popups, nested panels and
-            themes together.
+            Explore input, popups, nested panels, and themes together in one
+            example.
           </p>
           <Link href='/patterns/interaction-lab'>Open interaction lab</Link>
         </section>

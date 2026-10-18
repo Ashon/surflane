@@ -1,12 +1,26 @@
 import type { ComponentDoc } from './componentDocs'
 export const commandSearchDocs: Record<string, ComponentDoc> = {
   'command-search': {
-    usage:
-      "A quick-navigation pattern combining Dialog, an inline Combobox, and ScrollArea. It takes destinations from the catalog registry, searches whitespace-separated words in names, descriptions, and categories, and supports both Hangul and Latin text. Planned items are marked Planned and can't be selected. A local theme change command is also offered as a separate action. The page shortcut is active only while the example is mounted.",
-    avoid:
-      "Don't make command search the only navigation path. Don't intercept shortcuts in input fields, during IME composition, or in other modals. Don't run destructive actions from a search selection alone; route them through a confirmation flow. The product manages real permissions, the search server, limits for large data, and storage of personal data and recent searches. The example searches only the local registry and doesn't call accounts or services.",
-    keyboard:
-      "Opens with Ctrl+K or ⌘K and with the button, and focuses the input. Up/Down arrow keys and Enter follow Base UI Combobox's active-item rules. Planned items are skipped. Escape or closing returns focus to the open button, and after a page is chosen the existing router manages the destination heading and scroll. The theme action runs on the current page and returns focus to the open button. Tab stays inside the Dialog.",
+    usage: [
+      'Use command search for quick navigation. Build it from Dialog, an inline Combobox, and ScrollArea.',
+      'Search matches whitespace-separated words in names, descriptions, and categories, in Hangul or Latin text.',
+      "Planned items carry a Planned label and can't be selected.",
+      'The example draws destinations from the catalog registry and adds a local theme command as a separate action.',
+      'The page shortcut works only while the example is mounted.',
+    ],
+    avoid: [
+      "Don't make command search the only way to navigate. Keep regular navigation alongside it.",
+      "Don't intercept shortcuts in input fields, during IME composition, or in other modals. Let those keys reach the focused field or modal.",
+      "Don't run a destructive action from a search selection alone. Route it through a confirmation flow.",
+      "Don't expect the primitives to handle real permissions, the search server, limits for large data, or storage of personal data and recent searches. The product owns them.",
+      'The example searches only the local registry and calls no accounts or services.',
+    ],
+    keyboard: [
+      'Ctrl+K, ⌘K, or the button opens search and focuses the input. Tab stays inside the Dialog.',
+      "Up Arrow, Down Arrow, and Enter follow Base UI Combobox's active-item rules. Planned items are skipped.",
+      'After a page is chosen, the router manages the destination heading and scroll. The theme action runs on the current page and returns focus to the open button.',
+      'Escape or closing returns focus to the open button.',
+    ],
     anatomy:
       'Trigger / scoped shortcut → Dialog(Title, Description) → Combobox.Input → result count + ScrollArea(Empty, List, disabled/planned Item) → route or local command',
     tokens: [

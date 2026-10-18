@@ -2,11 +2,25 @@ import type { ComponentDoc } from './componentDocs'
 export const treeDocs: Record<string, ComponentDoc> = {
   tree: {
     usage:
-      "Use it to navigate a hierarchy and select resources. It combines Headless Tree's explicit ARIA hierarchy attributes with TanStack Virtual and renders only the visible rows plus the currently focused row. Focus and selection are separate, and the expand button only changes whether children are shown. Examples cover controlled selection and expansion, single and multiple selection, RTL, disabled resources, an empty state, and 10,100 nodes.",
-    avoid:
-      "Don't add an unnecessary tree role to ordinary navigation lists. This API takes already-loaded immutable data with unique IDs. Server requests, permission checks, async child loading, moving data, and persistence are the product's responsibility. Disabled nodes can receive arrow-key focus so they stay discoverable, but they can't be selected or expanded. Keep row height identical to the virtualization calculation; long names are visually truncated while the full accessible name and title are preserved. Virtualization doesn't reduce the size of transferred data.",
-    keyboard:
-      "Tab enters the single current treeitem. Up/Down move through visible items, Home/End go to the first/last item, Right expands and then moves to the first child, and Left collapses or moves to the parent. Right does nothing on a leaf. Left and Right are reversed in RTL. Enter/Space selects; moving focus with arrow keys doesn't change the selection. In multiple selection, Space/click toggles, Shift selects a range, and Ctrl/Meta+A selects all visible selectable nodes. Typing characters quickly jumps to a visible name with that prefix, and repeating the same character moves to the next match. * expands all groups at the same level. Moving to a virtualized row moves real DOM focus and the inner scroll position together.",
+      "Navigate a hierarchy and select resources. Tree pairs Headless Tree's explicit ARIA hierarchy attributes with TanStack Virtual, rendering only visible rows plus the focused row. Focus and selection are separate, and the expand button only shows or hides children. Examples cover controlled selection and expansion, single and multiple selection, RTL, disabled resources, an empty state, and 10,100 nodes.",
+    avoid: [
+      "Don't add a tree role to ordinary navigation lists. Use a nav with a plain list of links instead.",
+      "Don't pass mutable or partially loaded data. Pass already-loaded, immutable data with unique IDs instead.",
+      "Don't expect Tree to fetch or store data. The product owns server requests, permission checks, async child loading, moving data, and persistence.",
+      "Don't expect arrow keys to skip disabled nodes. They take focus so they stay discoverable, but they can't be selected or expanded.",
+      "Don't let a row's height differ from rowHeight, which the virtualization calculation depends on. Long names truncate visually instead and keep their full accessible name and title.",
+      "Don't expect virtualization to reduce the size of transferred data. It only limits how many rows render.",
+    ],
+    keyboard: [
+      'Tab enters the tree at its single current treeitem.',
+      'Up and Down move through visible items. Home and End go to the first and last item.',
+      'Right expands a group, then moves to its first child, and does nothing on a leaf. Left collapses a group or moves to the parent, and RTL reverses Left and Right.',
+      '* expands all groups at the same level.',
+      'Type characters quickly to jump to a visible name with that prefix. Repeat the same character to move to the next match.',
+      "Enter or Space selects. Moving focus with arrow keys doesn't change the selection.",
+      'In multiple selection, Space or click toggles, Shift selects a range, and Ctrl/Meta+A selects all visible selectable nodes.',
+      'Moving to a virtualized row moves real DOM focus and the inner scroll position together.',
+    ],
     anatomy:
       'ScrollArea → tree container → virtualized treeitems(level, posinset, setsize, expanded, selected, disabled) → disclosure button + truncated label; product-owned result summary',
     tokens: [
@@ -70,7 +84,7 @@ const nodes: TreeNode[] = [
       ['selectionMode', 'single / multiple', 'single'],
       [
         'virtualized / height / rowHeight',
-        'windowed rows with focus retention; fixed pixels',
+        'windowed rows that keep the focused row; fixed pixel sizes',
         'true / 320 / 44',
       ],
       [

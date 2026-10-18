@@ -100,7 +100,7 @@ export function FileUploadExample() {
       >
         <FileUpload
           label='Build artifacts'
-          description='Choose up to three JSON or text files, each no larger than 1 KB. The transport is simulated locally.'
+          description='Choose up to 3 JSON or text files, 1 KB or smaller each. The transport is simulated locally.'
           name='artifacts'
           accept='.json,.txt,application/json,text/plain'
           multiple
@@ -133,7 +133,7 @@ export function FileUploadExample() {
       </Form>
       <FileUpload
         label='Controlled attachment'
-        description='One optional CSV file, owned by the page and associated with the form above. Reset preserves this controlled selection.'
+        description='One optional CSV file. The page owns it, and it submits with the form above. Reset keeps this controlled selection.'
         name='attachment'
         form='file-upload-preview-form'
         accept='.csv,text/csv'

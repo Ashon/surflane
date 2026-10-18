@@ -8,12 +8,12 @@ export function LayoutGridGuide() {
     <section id='grid-system' aria-labelledby='grid-system-title'>
       <h2 id='grid-system-title'>Responsive grid system</h2>
       <p>
-        Use Grid's 1–4 columns for lists of equal-size cards, and the 12 / 6 / 4
+        Use Grid's 1–4 columns for lists of equal-size cards. Use the 12 / 6 / 4
         column layout grid for areas of different widths, such as main content
-        and a supporting panel. Guide lines are overlaid as pseudo-elements, so
-        they never change the position or height of the UI. Keep visual order
-        and DOM order the same, and limit reading content to the separate
-        reading width.
+        and a supporting panel. Keep visual order and DOM order the same. Limit
+        reading content to the separate reading width. Guide lines are overlaid
+        as pseudo-elements, so they never change the position or height of the
+        UI.
       </p>
       <Table.Container label='Grid breakpoints' orientation='horizontal'>
         <Table.Root>
@@ -54,10 +54,10 @@ export function LayoutGridGuide() {
         </Table.Root>
       </Table.Container>
       <p>
-        Containers fill the available width up to a maximum of 75rem for
-        workspace, 96rem for wide and 52rem for reading. The catalog's own sheet
-        is limited to 1100px. Gutters follow the default token, and dense
-        combinations such as lists and filters set gap to space-4 explicitly.
+        Containers fill the available width up to 75rem for workspace, 96rem for
+        wide, and 52rem for reading. The catalog's own sheet is limited to
+        1100px. Gutters follow the default token. Dense combinations, such as
+        lists and filters, set gap to space-4 explicitly.
       </p>
       <Grid
         columns='layout'
@@ -135,22 +135,22 @@ export function LayoutGridGuide() {
 </Grid>`}
       />
       <p>
-        In a card grid, the edge of the card surface and the line where text
-        starts are different. If the card's inner padding is space-4, set{' '}
-        <code>{'bleed={4}'}</code> on Grid so headings and body text align with
-        surrounding content. Only the grid's left and right edges extend, by
-        16px each; column gaps and card padding stay the same. The default bleed
-        is 0 and does not propagate to nested grids. Reserve that space and room
-        for focus indicators in the outer container, and don't use bleed at the
-        window edge or in clipped areas. The overview and each index card use
-        the same contract.
+        Match bleed to card padding so card text aligns with surrounding
+        content. In a card grid, the card's edge and the line where its text
+        starts differ. With space-4 card padding, set <code>{'bleed={4}'}</code>{' '}
+        on Grid. Only the grid's left and right edges extend, by 16px each.
+        Column gaps and card padding stay the same. The default bleed is 0, and
+        it doesn't propagate to nested grids. Reserve that space, and room for
+        focus indicators, in the outer container. Don't use bleed at the window
+        edge or in clipped areas. The overview and each index card use the same
+        contract.
       </p>
       <p>
-        Use GridItem as a direct child of columns="layout". A span you don't set
-        inherits the value from the next larger size, capped at the current
-        column count. Don't reorder content with hidden columns or CSS order.
-        Check the minimum inner width of inputs, tables and code, and let tables
-        and code scroll only in the direction they need with{' '}
+        Use GridItem as a direct child of columns="layout". An unset span
+        inherits from the next larger size, capped at the current column count.
+        Don't reorder content with hidden columns or CSS order. Check the
+        minimum inner width of inputs, tables, and code. Let tables and code
+        scroll only in the direction they need, with{' '}
         <Link href='/components/scroll-area'>ScrollArea</Link>.
       </p>
       <p>

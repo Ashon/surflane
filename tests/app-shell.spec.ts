@@ -93,9 +93,7 @@ test('shell options preserve state, reflow at 320px and pass both theme audits',
       await page
         .getByRole('button', { name: 'Preview user account menu' })
         .click()
-      await page
-        .getByRole('menuitem', { name: 'Rotate application theme' })
-        .click()
+      await page.getByRole('menuitem', { name: 'Switch theme' }).click()
       await expect(page.locator('html')).not.toHaveAttribute(
         'data-theme-switching',
       )

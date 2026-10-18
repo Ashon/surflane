@@ -50,7 +50,7 @@ const messages = {
     ],
     unavailable: 'Not available yet',
     reference:
-      'Relative time uses a fixed preview reference; the absolute time is retained.',
+      'Relative time uses a fixed preview reference. The absolute time is shown too.',
   },
 }
 const copyExamples = [
@@ -58,7 +58,7 @@ const copyExamples = [
     'Action',
     'Start deployment',
     '배포 시작',
-    'Name the object and the action specifically.',
+    'Name the specific action and object.',
   ],
   [
     'Progress',
@@ -70,13 +70,13 @@ const copyExamples = [
     'Empty result',
     'No runs match these filters. Clear filters to see all runs.',
     '조건에 맞는 실행이 없습니다. 필터를 초기화해 전체 실행을 확인하세요.',
-    'Distinguish having no data from having no matching results.',
+    'Distinguish no data from no matching results.',
   ],
   [
     'Permission',
     'You cannot deploy to this environment. Ask a project administrator for access.',
     '이 환경에 배포할 권한이 없습니다. 프로젝트 관리자에게 권한을 요청하세요.',
-    'Explain the cause and a recovery path the user can actually take.',
+    'State the cause and a recovery path the user can take.',
   ],
   [
     'Partial failure',
@@ -159,28 +159,28 @@ export function ContentFoundation() {
       <section id='principles'>
         <h2>Meaning before formatting</h2>
         <p>
-          Use the same term for the same action, state, and object across every
-          screen. Lead with the outcome the user needs and the next step, and
-          keep internal error codes, stack traces, and implementation terms in
-          reviewable details. Manage whole sentences as translation units; never
-          build word order or plurals by joining word fragments.
+          Use one term for each action, state, and object across every screen.
+          Lead with the outcome the user needs, then the next step. Keep
+          internal error codes, stack traces, and implementation terms in
+          reviewable details. Translate whole sentences as units. Never build
+          word order or plurals by joining word fragments.
         </p>
         <p>
-          The product decides the document's base <code>lang</code>, the user's
-          language and time zone settings, and the actual message translations.
-          Pass translated labels, errors, and close button names to shared
-          components. Changing the browser language does not translate product
-          copy automatically.
+          The product sets the document's base <code>lang</code>, the user's
+          language and time zone settings, and the message translations. Pass
+          translated labels, errors, and close button names to shared
+          components. Changing the browser language doesn't translate product
+          copy.
         </p>
       </section>
       <section id='formatting'>
         <h2>One value, explicit locale and time zone</h2>
         <p>
-          The locale determines number and date formats; the time zone
-          determines the local time of the same instant. The settings below
-          apply only to this example. Currency is fixed to USD and is not
-          converted when the locale changes. Compare the skipped and repeated
-          times around DST changes with the UTC source and offset.
+          The locale sets number and date formats. The time zone sets the local
+          time of an instant. The settings below apply only to this example.
+          Currency stays USD and isn't converted when the locale changes.
+          Compare the skipped and repeated times around DST changes with the UTC
+          source and offset.
         </p>
         <Grid columns={2} gap={4} className='content-preview-settings'>
           <Field.Root>
@@ -249,8 +249,8 @@ export function ContentFoundation() {
         </div>
         <p>
           Source: <code data-source-instant>{instant}</code>. The relative time
-          is a local example that does not follow the current time. A real
-          service must manage the refresh interval, reference time, and
+          is a local example and doesn't follow the current time. In a real
+          service, manage the refresh interval, reference time, and
           server–client clock difference separately.
         </p>
         <CodeBlock
@@ -274,22 +274,22 @@ const countLabel =
     : new Intl.NumberFormat(locale).format(count)`}
         />
         <p>
-          This code is an example of a display contract. Validate invalid dates,
-          NaN, infinity, and unsupported locales or time zones at the data
-          boundary and handle them as errors. Don't substitute zero or the
-          current time for an empty value. Date-only values, scheduled local
-          times, durations, and UTC instants are different domain values; never
-          parse a display string back.
+          The code above is a display contract. Validate invalid dates, NaN,
+          infinity, and unsupported locales or time zones at the data boundary.
+          Handle them as errors. Don't substitute zero or the current time for
+          an empty value. Date-only values, scheduled local times, durations,
+          and UTC instants are different domain values. Never parse a display
+          string back.
         </p>
       </section>
       <section id='language-direction'>
         <h2>Language and direction are separate</h2>
         <p>
-          <code>lang</code> sets the language and <code>dir</code> sets the base
-          reading direction. The RTL example is for checking layout; it does not
-          mean an Arabic translation is provided. Isolate user-entered names
-          with <code>dir="auto"</code> and stable Latin-script identifiers with{' '}
-          <code>bdi dir="ltr"</code>.
+          <code>lang</code> sets the language, and <code>dir</code> sets the
+          base reading direction. Isolate user-entered names with{' '}
+          <code>dir="auto"</code> and stable Latin-script identifiers with{' '}
+          <code>bdi dir="ltr"</code>. The RTL preview only checks layout. It
+          doesn't mean an Arabic translation is provided.
         </p>
         <label className='pui-choice-label'>
           <Checkbox.Root checked={rtl} onCheckedChange={setRtl}>
@@ -338,10 +338,10 @@ const countLabel =
           </div>
         </DirectionProvider>
         <p>
-          Prefer wrapping and logical (start/end) spacing. Don't hide names,
-          amounts, or key identifiers in errors and confirmations behind an
-          ellipsis or a hover-only tooltip. When a table needs to truncate, keep
-          the full text available by keyboard and touch.
+          Prefer wrapping and logical (start/end) spacing. In errors and
+          confirmations, don't hide names, amounts, or key identifiers behind an
+          ellipsis or a hover-only tooltip. When a table truncates, keep the
+          full text reachable by keyboard and touch.
         </p>
       </section>
       <section id='writing'>
@@ -352,7 +352,7 @@ const countLabel =
         >
           <Table.Root>
             <Table.Caption>
-              Complete sentences with the same meaning in English and Korean
+              The same complete sentences in English and Korean
             </Table.Caption>
             <Table.Head>
               <Table.Row>
@@ -380,7 +380,7 @@ const countLabel =
         <p>
           A recoverable error connects the cause, the fix, and the preserved
           input. Keep Field.Error, InlineMessage, and result records
-          persistently visible; never rely on a Toast alone to report a failure
+          persistently visible. Never rely on a Toast alone to report a failure
           or a recovery path. Report success only when the work has actually
           completed.
         </p>
@@ -397,23 +397,23 @@ const countLabel =
             unknown quantity are different states.
           </li>
           <li>
-            Preserve the content language and proper names; localize date
+            Preserve the content language and proper names. Localize date
             formats and link purpose.
           </li>
           <li>
-            Pass the same locale and time zone to SSR and the client to avoid a
-            mismatched first render.
+            Pass the same locale and time zone to SSR and the client, so the
+            first render matches.
           </li>
         </ul>
         <p>
-          Review this together with the shared component guidance on{' '}
+          See also the shared guidance on{' '}
           <Link href='/foundations/typography'>typography</Link>,{' '}
           <Link href='/foundations/accessibility'>
             label, error, and focus contracts
           </Link>
           , <Link href='/components/number-field'>Number Field locale</Link>,
           and <Link href='/components/toast'>persistent recovery paths</Link>.
-          This page does not mean the whole product is translated, external
+          This page doesn't mean the whole product is translated, external
           services are connected, or production rollout is complete.
         </p>
         <p>

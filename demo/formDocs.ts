@@ -15,11 +15,12 @@ const fields = [
 ]
 export const formDocs: Record<string, ComponentDoc> = {
   field: {
-    usage: 'Connects a label, description, and error to an input.',
+    usage:
+      'Connect a label, description, and error to an input. Inside the same Field, the shared Input or Select can replace Field.Control.',
     avoid:
-      "Don't use a placeholder in place of a label, and don't show errors with color alone. The shared Input and Select can also be connected inside the same Field instead of Field.Control.",
+      "Don't use a placeholder in place of a label. Use Field.Label instead. Don't show errors with color alone. Write the message in Field.Error.",
     keyboard:
-      'Clicking the label focuses the input, and submitting the form moves focus to the first invalid input. Errors and descriptions are linked with aria-describedby.',
+      'Clicking the label focuses the input. Submitting the form moves focus to the first invalid input. aria-describedby links the description and error to the input.',
     anatomy:
       'Field.Root → Label + Control (or Input / Select) + Description + Error',
     tokens: fields,
@@ -43,11 +44,11 @@ export const formDocs: Record<string, ComponentDoc> = {
   },
   fieldset: {
     usage:
-      "Groups inputs on a single topic under a legend. Passes the group's disabled state to child Fields.",
+      "Group inputs on one topic under a Legend. The group's disabled state passes to child Fields.",
     avoid:
-      "Don't use it as a card just to draw a visual border. Keep an individual label on each input.",
+      "Don't use it just to draw a visual border. Use a Card instead. Keep an individual label on each input.",
     keyboard:
-      'Each input keeps its natural Tab order. A disabled group is excluded from interaction and form submission.',
+      'Tab follows the natural order of the inputs. A disabled group is excluded from interaction and form submission. Legend gives the group its accessible name.',
     anatomy: 'Fieldset.Root → Legend + related Fields',
     tokens: ['--space-4', '--type-subsection-size', '--ink'],
     code: `import { Fieldset, Field } from '@surflane/ui'
@@ -66,11 +67,11 @@ export const formDocs: Record<string, ComponentDoc> = {
   },
   form: {
     usage:
-      'Coordinates submit validation and server errors across multiple Fields. onFormSubmit collects values from named Fields; when you need the raw native submission values, read FormData in onSubmit. The server error button in the preview only changes local state.',
+      "Coordinate submit validation and server errors across several Fields. onFormSubmit collects values from named Fields. For the raw native submission values, read FormData in onSubmit. The preview's server error button only changes local state.",
     avoid:
-      "Don't assume async validation always blocks submission. The product handles real requests, permissions, and duplicate-submission prevention.",
+      "Don't assume async validation always blocks submission. Handle real requests, permissions, and duplicate-submission prevention in the product.",
     keyboard:
-      'Enter or the submit button validates the form and moves focus to the first invalid input. Editing an input clears its server error, and Reset restores the initial values.',
+      'Enter or the submit button validates the form and moves focus to the first invalid input. Editing an input clears its server error. Reset restores the initial values.',
     anatomy: 'Form → Field / Fieldset + submit / reset + result status',
     tokens: fields,
     code: `import { Form, Field, Button } from '@surflane/ui'
@@ -98,11 +99,11 @@ export const formDocs: Record<string, ComponentDoc> = {
   },
   textarea: {
     usage:
-      'Accepts multi-line descriptions and notes. Text starts at the top, and the field can be resized vertically.',
+      "Enter multi-line descriptions and notes. Text starts at the top. Users can resize the field vertically. To connect it to a Field, compose it through Field.Control's render prop.",
     avoid:
-      "Don't use it as an editor for large amounts of code. To connect it to a Field, compose it through Field.Control's render prop.",
+      "Don't use it to edit large amounts of code. Use a dedicated code editor instead.",
     keyboard:
-      'Preserves native text editing, Enter for line breaks, and Korean IME input. Tab moves to the next input.',
+      'Enter inserts a line break. Tab moves to the next input. Native text editing and Korean IME input keep working.',
     anatomy: 'Field.Control render={<Textarea />} → native textarea',
     tokens: fields,
     code: `import { Field, Textarea } from '@surflane/ui'
@@ -128,11 +129,11 @@ export const formDocs: Record<string, ComponentDoc> = {
   },
   checkbox: {
     usage:
-      'Selects independent options. The mixed state is shown with a dash SVG, and read-only and disabled states look distinct.',
+      'Select independent options. The mixed state shows a dash SVG. Read-only and disabled states look distinct.',
     avoid:
-      "Use Radio Group for a single choice among mutually exclusive options. Don't distinguish states by color alone.",
+      "Don't use it for one choice among mutually exclusive options. Use RadioGroup instead. Don't distinguish states by color alone. Let the Indicator icon show the state too.",
     keyboard:
-      "Tab to the checkbox and press Space to toggle it. Label clicks, form submission, and reset are wired through Base UI's hidden input.",
+      "Tab focuses the checkbox. Space toggles it. Base UI's hidden input handles label clicks, form submission, and reset.",
     anatomy: 'label → Checkbox.Root + Indicator(default SVG) + text',
     tokens: selection,
     code: `import { Checkbox } from '@surflane/ui'
@@ -159,11 +160,11 @@ export const formDocs: Record<string, ComponentDoc> = {
   },
   'checkbox-group': {
     usage:
-      'Manages multiple selections on the same topic and connects the mixed state of a select-all checkbox.',
+      'Manage several selections on one topic. The group drives the mixed state of a parent select-all checkbox. Pass every child value in allValues.',
     avoid:
-      "Don't store the parent checkbox state separately from its children. Keep allValues in sync with the children's values.",
+      "Don't store the parent checkbox state separately from its children. Keep allValues in sync with the children's values instead.",
     keyboard:
-      'Tab moves to each item and Space selects it. The parent selects or clears all items and shows as mixed when only some are selected.',
+      'Tab moves to each checkbox. Space toggles it. The parent selects or clears all items. It shows as mixed when only some are selected.',
     anatomy:
       'Fieldset → CheckboxGroup(allValues) → parent checkbox + value checkboxes',
     tokens: selection,
@@ -201,11 +202,11 @@ export const formDocs: Record<string, ComponentDoc> = {
   },
   'radio-group': {
     usage:
-      'Chooses one of several mutually exclusive options. Provide both a group name and a name for each item.',
+      'Choose one of several mutually exclusive options. Give the group and each item a name.',
     avoid:
-      "Don't place a lone Radio without a name. Don't treat a selection change as submitting the whole form.",
+      "Don't place a lone Radio without a name. Put each Radio in a named RadioGroup. Don't treat a selection change as submitting the whole form. Leave submission to the form's submit button.",
     keyboard:
-      'Tab moves into the selected item, and arrow keys move the selection. Disabled items are skipped.',
+      'Tab moves focus to the selected item. Arrow keys move the selection and skip disabled items.',
     anatomy: 'RadioGroup → label + Radio.Root(value) / Indicator',
     tokens: selection,
     code: `import { RadioGroup, Radio } from '@surflane/ui'
@@ -236,11 +237,11 @@ export const formDocs: Record<string, ComponentDoc> = {
   },
   switch: {
     usage:
-      'Turns a setting that applies immediately on or off. The thumb position and background change together, and the label stays the same in both states.',
+      "Toggle a setting that applies immediately. The thumb position and background change together. The label stays the same in both states. In read-only mode, the value is visible but can't change.",
     avoid:
-      "Don't use it in place of an action button or a multi-select list. In read-only mode the value is visible but can't be changed.",
+      "Don't use it in place of an action button. Use Button instead. Don't use it for a multi-select list. Use CheckboxGroup instead.",
     keyboard:
-      'Tab to the switch and press Space to toggle it. In forms, name / value / uncheckedValue submit explicit values.',
+      'Tab focuses the switch. Space toggles it. In forms, the name, value, and uncheckedValue props submit explicit values.',
     anatomy: 'label → Switch.Root + Thumb + stable label',
     tokens: [
       ...selection,

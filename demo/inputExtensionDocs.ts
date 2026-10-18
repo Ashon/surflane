@@ -2,13 +2,13 @@ import type { ComponentDoc } from './componentDocs'
 export const inputExtensionDocs: Record<string, ComponentDoc> = {
   autocomplete: {
     usage:
-      "Offers suggestions for search and tag inputs that don't require a selection. Typed text is valid even without a matching suggestion, and Root.value is the input string, not a selected ID.",
+      "Suggest values for search and tag inputs that don't require a selection. Typed text is valid even without a matching suggestion. Root.value is the input string, not a selected ID.",
     avoid:
-      "Use Combobox when users must pick a registered resource. Don't treat text that isn't in the suggestions as an error, and don't submit the form unannounced right after a selection.",
+      "Use Combobox when users must pick a registered resource. Don't treat text outside the suggestions as an error. Accept it as typed. Don't submit the form unannounced right after a selection. Announce it, or keep submitOnItemClick off.",
     anatomy:
       'Root → Field(label/description/error) + InputGroup(Input/Clear/Trigger) + Content(Empty/Status + List/Item)',
     keyboard:
-      "Typing narrows the suggestions, and arrow keys and Enter complete the text. Escape and Tab close the popup. By default, selecting an item doesn't submit the form. Base UI types for non-string object suggestions and grouped items are preserved.",
+      "Typing narrows the suggestions. Arrow keys and Enter complete the text. Escape or Tab closes the popup. By default, selecting an item doesn't submit the form. Base UI types for non-string object suggestions and grouped items are preserved.",
     tokens: [
       '--control-height',
       '--control-radius',
@@ -62,20 +62,28 @@ export const inputExtensionDocs: Record<string, ComponentDoc> = {
       ['Content.positionerProps', 'popup placement options', 'sideOffset=6'],
       [
         'Root.name / form / required / disabled / readOnly',
-        'native form ownership, reset and validation',
+        'native form ownership, reset, and validation',
         'Base UI semantics',
       ],
     ],
   },
   slider: {
     usage:
-      'Use it to adjust an approximate value or range within bounds. Show the value with its unit, and pair it with a NumberField for precise adjustment.',
-    avoid:
-      "Don't make dragging the only way to do tasks where exact values matter. Don't give both thumbs of a range the same name, and don't convey the current value with color alone.",
+      'Adjust an approximate value or range within bounds. Show the value with its unit. Pair it with a NumberField for precise adjustment.',
+    avoid: [
+      "Don't make dragging the only path where exact values matter. Add a NumberField instead.",
+      "Don't give both thumbs of a range the same name. Set a distinct aria-label on each Thumb.",
+      "Don't convey the current value with color alone. Show it in Value with its unit.",
+    ],
     anatomy:
       'Root → Label + Value + Control(Track/Indicator + one or more Thumbs)',
-    keyboard:
-      "Tab moves to each Thumb's range input. Arrow keys move by step, PageUp/PageDown by largeStep, and Home/End to the bounds. Give each range thumb its own name and unit. The default thumbAlignment=edge keeps thumbs inside the control. Form reset restores only uncontrolled values and preserves controlled values and canceled resets.",
+    keyboard: [
+      "Tab moves to each Thumb's range input.",
+      'Arrow keys move by step, and Page Up and Page Down move by largeStep. Home and End jump to the bounds.',
+      'The default thumbAlignment=edge keeps thumbs inside the control.',
+      'Form reset restores only uncontrolled values. It keeps controlled values and respects canceled resets.',
+      'Give each range thumb its own name and unit.',
+    ],
     tokens: [
       '--brand',
       '--ink-muted',
@@ -129,7 +137,7 @@ export const inputExtensionDocs: Record<string, ComponentDoc> = {
       ],
       [
         'Thumb.index / aria-label / getAriaValueText',
-        'range thumb order, accessible name and units',
+        'range thumb order, accessible name, and units',
         'caller supplied for ranges',
       ],
     ],

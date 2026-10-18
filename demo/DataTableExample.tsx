@@ -239,7 +239,7 @@ export function DataTableExample() {
                 setQuery(event.target.value)
                 setPage(1)
               }}
-              placeholder='Name, product or environment…'
+              placeholder='Name, product, or environment…'
               aria-controls={resultId}
               disabled={!ready}
             />
@@ -287,7 +287,7 @@ export function DataTableExample() {
             <InlineMessage.Content>
               <InlineMessage.Title>Loading table preview</InlineMessage.Title>
               <InlineMessage.Description>
-                The local preview waits for manual completion.
+                This preview waits until you complete it.
               </InlineMessage.Description>
               <InlineMessage.Actions>
                 <Button variant='outline' onClick={recover}>
@@ -303,7 +303,7 @@ export function DataTableExample() {
                 Resources could not be loaded
               </InlineMessage.Title>
               <InlineMessage.Description>
-                Your filters and selection are retained.
+                Your filters and selection are kept.
               </InlineMessage.Description>
               <InlineMessage.Actions>
                 <Button variant='outline' onClick={recover}>
@@ -316,7 +316,7 @@ export function DataTableExample() {
           <EmptyState.Root>
             <EmptyState.Title>Resource access required</EmptyState.Title>
             <EmptyState.Description>
-              Selection was cleared because the access scope changed.
+              The access scope changed, so the selection was cleared.
             </EmptyState.Description>
             <EmptyState.Actions>
               <Button variant='outline' onClick={recover}>

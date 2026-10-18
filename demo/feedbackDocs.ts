@@ -2,11 +2,11 @@ import type { ComponentDoc } from './componentDocs'
 export const feedbackDocs: Record<string, ComponentDoc> = {
   progress: {
     usage:
-      'Shows the progress of a task that can finish. When the total amount is unknown, use value=null. Connect it to the real task state and announce the completed result separately.',
+      'Show progress for a task that will finish. Set value=null when the total is unknown. Drive it from the real task state. Announce the completed result separately.',
     avoid:
-      "Don't advance progress artificially just because time has passed. Show usage with Meter.",
+      "Don't advance progress just because time has passed. Update it from the real task. Use Meter to show usage.",
     keyboard:
-      "It's a status display, so it isn't in the Tab order. Label provides the accessible name, and min/max/value with aria-valuetext convey the units. Don't announce every frequent value change through a live region.",
+      "Progress is a status display and isn't in the Tab order. Label provides the accessible name. The min, max, and value props, with aria-valuetext, convey the units. Don't announce every frequent value change through a live region. Announce the completed result instead.",
     anatomy: 'Root → Label + Value + Track(Indicator)',
     tokens: ['--brand', '--surface', '--space-2', '--duration-base'],
     code: `import { Progress } from '@surflane/ui'
@@ -34,11 +34,11 @@ export const feedbackDocs: Record<string, ComponentDoc> = {
   },
   meter: {
     usage:
-      'Shows a measurement within a known range, such as memory or storage usage. Show the value together with its unit.',
+      'Show a measurement within a known range, such as memory or storage usage. Show the value with its unit.',
     avoid:
-      "Don't use it for task completion or loading of unknown length. Don't make users judge risk from color alone.",
+      "Use Progress, not Meter, for task completion or loading of unknown length. Don't make users judge risk from color alone. Describe the risk in text too.",
     keyboard:
-      "It's a read-only measurement, so it isn't in the Tab order. Describe the target and unit in Label and aria-valuetext. In RTL, the fill still grows from the logical start.",
+      "Meter is a read-only measurement and isn't in the Tab order. Describe what it measures and its unit in Label and aria-valuetext. In RTL, the fill still grows from the logical start.",
     anatomy: 'Root → Label + Value + Track(Indicator)',
     tokens: ['--ink-body', '--surface', '--space-2', '--duration-base'],
     code: `import { Meter } from '@surflane/ui'
@@ -63,11 +63,11 @@ export const feedbackDocs: Record<string, ComponentDoc> = {
   },
   spinner: {
     usage:
-      'Indicates short processing of unknown length. When used on its own, describe the task with label; inside a region that already announces the status, use decorative.',
+      'Indicate short processing of unknown length. On its own, describe the task with label. Inside a region that already announces the status, set decorative.',
     avoid:
-      "Don't show a spinner indefinitely. Communicate failures, delays, and cancellation separately. Don't announce the same loading through multiple live regions.",
+      "Don't show a spinner indefinitely. Report failures, delays, and cancellation separately. Announce loading from one live region, not several.",
     keyboard:
-      'Provides role=status and visually hidden text by default. decorative removes it from the accessibility tree. With reduced motion, rotation stops while the static indicator and label remain.',
+      'By default, Spinner has role=status and visually hidden text. The decorative prop removes it from the accessibility tree. With reduced motion, rotation stops, but the static indicator and label remain.',
     anatomy: 'span(status) → decorative SVG + visually hidden label',
     tokens: ['--ink-body'],
     code: `import { Spinner } from '@surflane/ui'
@@ -84,11 +84,11 @@ export const feedbackDocs: Record<string, ComponentDoc> = {
   },
   skeleton: {
     usage:
-      'A decorative placeholder that previews the structure that appears after loading. Give the parent region aria-busy and a readable loading message, and replace the skeleton with real content when loading finishes.',
+      'Preview the structure of loading content with a decorative placeholder. Give the parent region aria-busy and a readable loading message. Replace the skeleton with real content when loading finishes.',
     avoid:
-      "Don't treat it as real data or input. Don't add excessive fake cards for structure you can't predict.",
+      "Don't treat it as real data or input. For structure you can't predict, show one generic block instead of many fake cards.",
     keyboard:
-      'Always aria-hidden=true and never a focus target. The parent announces the state once, and the pulse stops with reduced motion.',
+      'Skeleton is always aria-hidden=true and never takes focus. The parent announces the loading state once. With reduced motion, the pulse stops.',
     anatomy: 'decorative span; parent loading region owns announcements',
     tokens: ['--surface', '--radius-sm', '--radius-md'],
     code: `import { Skeleton } from '@surflane/ui'

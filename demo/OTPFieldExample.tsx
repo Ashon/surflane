@@ -107,7 +107,7 @@ export function OTPFieldExample() {
             <Field.Root name='verificationCode' key={generation}>
               <Field.Label>Verification code</Field.Label>
               <Field.Description>
-                Enter six digits. This local preview sends no code to a server.
+                Enter 6 digits. This local preview sends no code to a server.
               </Field.Description>
               <OTPField.Root
                 length={6}
@@ -160,8 +160,8 @@ export function OTPFieldExample() {
           <Field.Root name='recoveryCode'>
             <Field.Label>Recovery code</Field.Label>
             <Field.Description>
-              Controlled value, uppercase letters and digits. Associated with
-              the form above.
+              A controlled value of uppercase letters and digits. This field
+              belongs to the form above.
             </Field.Description>
             <OTPField.Root
               length={6}

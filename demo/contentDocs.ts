@@ -2,12 +2,12 @@ import type { ComponentDoc } from './componentDocs'
 export const contentDocs: Record<string, ComponentDoc> = {
   card: {
     usage:
-      'Groups related information and actions on a single surface. The default 24px padding keeps all four sides balanced, and spacing expresses the hierarchy of title, description, body, and actions. To align text inside a card grid with the surrounding body text, set the same token step on Grid.bleed and Card.Root.padding. Use this only when the outer container has room for the extended surface and the focus indicator.',
+      'Group related information and actions on one surface. The default 24px padding balances all four sides, and spacing sets the hierarchy of title, description, body, and actions. To align card grid text with the surrounding body text, set Grid.bleed and Card.Root.padding to the same token step. Do this only when the outer container has room for the extended surface and the focus indicator.',
     avoid:
-      "Don't repeat a card for every page section or stack cards inside cards. Don't turn the whole container into a fake button; provide purposeful links and buttons.",
+      "Don't wrap every page section in a card or stack cards inside cards. Separate sections with headings and spacing instead. Don't turn the whole card into a fake button. Put purposeful links and buttons inside it instead.",
     anatomy: 'Root(Surface) → Header(Title + Description) + Body + Footer',
     keyboard:
-      'Root is a plain div with no focus or click behavior. Only the actions enter the Tab order. Match the surrounding heading hierarchy with Title.level, and connect a group name with aria-labelledby when needed.',
+      'Only the actions enter the Tab order. Root is a plain div with no focus or click behavior. Set Title.level to match the surrounding heading hierarchy. When the card needs a group name, connect it with aria-labelledby.',
     tokens: ['--surface', '--canvas', '--space-6', '--space-4', '--radius-lg'],
     code: `import { Card, Button } from '@surflane/ui'
 
@@ -33,13 +33,21 @@ export const contentDocs: Record<string, ComponentDoc> = {
   },
   code: {
     usage:
-      'Preserves whitespace and line breaks in code, configuration, and long identifiers, and supports selection and copying. Content scrolls horizontally by default; in documentation contexts, wrap breaks only the long lines.',
-    avoid:
-      "Don't let language-specific syntax highlighting be mistaken for syntax validation or execution results. Don't inject code as HTML or execute it. Don't treat a rejected clipboard write as success.",
+      'Show code, configuration, and long identifiers with whitespace and line breaks preserved, ready to select and copy. The copy button shows its result in place: Copied, or Copy unavailable. Content scrolls horizontally by default. In documentation, set wrap so only long lines break.',
+    avoid: [
+      "Don't let syntax highlighting pass for syntax validation or an execution result. Report those separately instead.",
+      "Don't inject code as HTML or execute it. Pass a plain source string to code instead.",
+      "Don't treat a rejected clipboard write as success. Let a custom onCopy throw or reject on failure, so the button shows Copy unavailable.",
+    ],
     anatomy:
-      'Root → toolbar(label + language + copy action, which also shows the result) + labelled ScrollArea(pre/code)',
-    keyboard:
-      "Tab reaches the copy button and the scroll area, and Enter/Space copies. The result replaces the button's label in place, so nothing else moves: Copied, or Copy unavailable with the source selected for the keyboard copy shortcut. The label is a polite live region and returns to the action after two seconds. When the source changes, the previous result is cleared, and late responses don't overwrite the new source's state.",
+      'Root → toolbar(label + language + copy action, which also shows the result) + labeled ScrollArea(pre/code)',
+    keyboard: [
+      'Tab reaches the copy button and the scroll area.',
+      'Enter or Space copies. The result replaces the button label in place, so nothing else moves: Copied on success, Copy unavailable on failure.',
+      'On failure, the source is selected for the keyboard copy shortcut.',
+      "Changing the source clears the result, and late responses don't overwrite the new source's state.",
+      'The label is a polite live region and returns to the action after 2 seconds.',
+    ],
     tokens: [
       '--code-bg',
       '--font-code',
@@ -59,7 +67,7 @@ export const contentDocs: Record<string, ComponentDoc> = {
       ['code', 'plain source string', 'required'],
       [
         'label / language',
-        'region name / Shiki grammar and visible language hint; unknown = plain',
+        'scroll region name / Shiki grammar and visible language hint; unknown languages render plain',
         'Code / —',
       ],
       ['wrap', 'wrap long source lines visually', 'false'],
@@ -70,20 +78,28 @@ export const contentDocs: Record<string, ComponentDoc> = {
       ],
       [
         'copyLabel / copiedLabel / copyErrorLabel',
-        'localized action and short in-button outcome strings',
+        'localized action label and short in-button results',
         'Copy code / Copied / Copy unavailable',
       ],
     ],
   },
   pagination: {
     usage:
-      'Place it after a list to browse results of the same kind page by page. Use onPageChange for in-page state and getPageHref for real URL navigation. The current page is marked with aria-current=page.',
-    avoid:
-      "Don't split short lists unnecessarily. Don't use it for step-by-step input flows, and don't request a page that became invalid after a filter change. Don't invent a total page count for cursor-based navigation where the count is unknown.",
+      'Let people browse same-kind results page by page. Place it after the list. Use onPageChange for in-page state, or getPageHref for real URL navigation. The current page has aria-current=page.',
+    avoid: [
+      "Don't split short lists. Show the whole list instead.",
+      "Don't use it for step-by-step input flows. Use the form's own Back and Next actions instead.",
+      "Don't request a page that became invalid after a filter change. Clamp page to the new pageCount instead.",
+      "Don't invent a total page count when cursor-based navigation can't know it. Use plain Previous and Next buttons instead.",
+    ],
     anatomy:
       'named nav → Previous control + list(page controls / decorative SVG gaps) + Next control',
-    keyboard:
-      "Uses standard Tab and Enter; buttons also support Space. Links keep browser behaviors such as opening in a new tab. The caller decides how results are announced, how loading is shown, and where focus goes after a page change. Pagination is hidden when there's one page or fewer. On small screens it shows previous, next, and a current/total page summary.",
+    keyboard: [
+      'Tab moves between the controls.',
+      'Enter activates the controls, and buttons also respond to Space. Links keep browser behaviors such as opening in a new tab.',
+      "Pagination renders nothing when there's one page or fewer. On small screens, it shows Previous, Next, and a current/total page summary.",
+      'The caller decides how results are announced, how loading shows, and where focus goes after a page change.',
+    ],
     tokens: [
       '--selected',
       '--control-border',
@@ -119,7 +135,7 @@ export const contentDocs: Record<string, ComponentDoc> = {
       ['siblings', '0 | 1 | 2 neighboring pages', '1'],
       [
         'disabled',
-        'disable all controls without changing current page',
+        'disable all controls without changing the current page',
         'false',
       ],
       [

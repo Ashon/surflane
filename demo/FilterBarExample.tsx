@@ -170,8 +170,8 @@ export function FilterBarExample() {
         )}
       </div>
       <p>
-        Filters apply to this local example immediately. The product connects
-        server requests, URL sync and permissions.
+        Filters apply immediately in this local example. The product connects
+        server requests, URL sync, and permissions.
       </p>
     </div>
   )

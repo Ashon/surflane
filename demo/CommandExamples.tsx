@@ -207,8 +207,8 @@ export function CommandExample({ id }: { id: string }) {
         </Toolbar.Root>
         <p>Pinned results: {pinned ? 'yes' : 'no'}</p>
         <p id='toolbar-help'>
-          Use arrows between toolbar controls and native editing keys inside the
-          search input.
+          Arrow keys move between toolbar controls. The search input keeps its
+          native editing keys.
         </p>
       </>
     )
@@ -288,8 +288,8 @@ export function CommandExample({ id }: { id: string }) {
           Passed checks: {passed ? 'visible' : 'hidden'} / Detail: {density}
         </p>
         <p id='command-help'>
-          Application commands are grouped in menus. These previews do not
-          execute remote work.
+          Menus group the application commands. These previews run no remote
+          work.
         </p>
       </>
     )

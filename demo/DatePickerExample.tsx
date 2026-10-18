@@ -101,7 +101,7 @@ export function DatePickerExample() {
               setRange(initialRange())
               setZoned(initialZoned())
               setResult(
-                'Local form reset. Controlled values explicitly restored by this example.',
+                'Form reset. This example restores the controlled values.',
               )
             }}
           >
@@ -153,7 +153,7 @@ export function DatePickerExample() {
               isRequired
               isDisabled={disabled}
               isReadOnly={readOnly}
-              description='09:00–18:00; wall-clock time without an assumed date or time zone.'
+              description='09:00–18:00. Wall-clock time, with no assumed date or time zone.'
               errorMessage='Enter a time from 09:00 through 18:00.'
             />
             <DatePicker
@@ -165,7 +165,7 @@ export function DatePickerExample() {
               hourCycle={24}
               isDisabled={disabled}
               isReadOnly={readOnly}
-              description='The time-zone abbreviation stays visible. Changing display zone preserves the instant.'
+              description='The time-zone abbreviation stays visible. Changing the display zone keeps the instant.'
             />
             <div className='actions'>
               <Button type='submit' disabled={disabled || readOnly}>
@@ -219,8 +219,8 @@ export function DatePickerExample() {
           >
             <h3 id='local-time-heading'>Resolve a local time explicitly</h3>
             <p>
-              A calendar date is not an instant. A local date and time needs an
-              IANA zone; DST gaps and repeated times need a stated policy.
+              A calendar date isn't an instant. A local date and time needs an
+              IANA zone. DST gaps and repeated times need a stated policy.
             </p>
             <div className='foundation-controls'>
               <label>
@@ -278,7 +278,7 @@ export function DatePickerExample() {
                   } catch {
                     setResolved(null)
                     setZoneError(
-                      'This local time is skipped or occurs twice in this zone. Choose an explicit earlier/later policy or another local time.',
+                      'This local time is skipped or occurs twice in this zone. Choose an explicit earlier or later policy, or another local time.',
                     )
                   }
                 }}

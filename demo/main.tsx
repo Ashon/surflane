@@ -172,27 +172,27 @@ function App() {
     '/': ['Surflane', 'Design system for platform development', 'Overview'],
     '/foundations': [
       'Foundations',
-      'Standards for the layout, typography, color and motion that make up a screen.',
+      'Apply shared standards for layout, typography, color, and motion.',
       'Foundations',
     ],
     '/foundations/layout': [
       'Layout',
-      'Build operational and reading screens with width, spacing and grids.',
+      'Sets width, spacing, and grids for operational and reading screens.',
       'Foundations',
     ],
     '/foundations/typography': [
       'Typography',
-      'Align the roles and reading rhythm of Hangul, Latin and code text.',
+      'Aligns the roles and reading rhythm of Hangul, Latin, and code text.',
       'Foundations',
     ],
     '/tokens': [
       'Design tokens',
-      'Review values and aliases for each theme and reference them in code.',
+      "Lists each theme's values and aliases for reference in code.",
       'Foundations',
     ],
     '/components': [
       'Components',
-      'Find the UI you need and review its examples and usage guidance.',
+      'Find a component, then review its examples and usage guidance.',
       'Components',
     ],
     '/patterns': [
@@ -202,17 +202,17 @@ function App() {
     ],
     '/coverage': [
       'Coverage',
-      'Review the full scope of web UI work and its current implementation status.',
+      'Review the full web UI scope and its implementation status.',
       'Coverage',
     ],
     '/patterns/interaction-lab': [
       'Interaction lab',
-      'A combined example that tests input, nested popups, panels and themes together.',
+      'Tests input, nested popups, panels, and themes in one example.',
       'Patterns',
     ],
     '/foundations/lab': [
       'Foundation lab',
-      'A combined example that tests layout, typography and tokens together.',
+      'Tests layout, typography, and tokens in one example.',
       'Foundations',
     ],
   }
@@ -385,7 +385,7 @@ function App() {
             <span className='catalog-nav-label'>On this page</span>
             {(area === 'Overview'
               ? [
-                  ['overview-foundations', 'Start with foundations'],
+                  ['overview-foundations', 'Foundations first'],
                   ['overview-components', 'Component pages'],
                   ['overview-direction', 'Design direction'],
                 ]

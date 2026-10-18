@@ -2,11 +2,28 @@ import type { ComponentDoc } from './componentDocs'
 export const chartDocs: Record<string, ComponentDoc> = {
   chart: {
     usage:
-      'Compares numeric trends in the same unit as line, bar, or area charts. Always provide a title, a factual summary, and axis names with units. By default, series use brand and neutral fills and lines, and circle/square/triangle markers, line patterns, and bar fill patterns distinguish series beyond color. Legend buttons only change which series are shown; hidden series remain in the source data table. Above 40 points, markers are omitted to reduce overlap, while legend markers and line patterns, details, and the table remain. The data is an immutable array owned by the caller.',
-    avoid:
-      "Don't mix different units on one axis or replace missing values with 0. null, undefined, NaN, and Infinity are normalized to missing values, and lines aren't connected across them. The y-axis always includes 0 and keeps negative values. Linear lines are used so the chart doesn't invent extremes that weren't measured. Instead of overlaying many series on one screen, use filters or separate charts. Build loading, error, and retry states in the product screen; description is a factual summary provided by the caller, not an automatically inferred analysis.",
-    keyboard:
-      "Tab reaches the legend buttons, the chart, and the data table toggle. Enter/Space on a legend button toggles a series, and aria-pressed reports whether it's shown. With the chart focused, Left/Right moves between data points. Escape clears the details, and arrow keys show them again. Pointer and touch update the same details region. Details appear in a fixed-position polite live region that doesn't cover the marks. View data table is a native details element that expands with Enter/Space. Long tables have their own horizontal and vertical scrolling and provide headers, units, and full values. Animation is off by default, and markers, line patterns, and fill patterns remain in high contrast mode. Real assistive technology usability is tested separately after product integration.",
+      'Compare numeric trends in one unit as a line, bar, or area chart. Always provide a title, a factual summary, and axis names with units. Series default to brand and neutral fills and lines. Pass data as an immutable array that the caller owns.',
+    avoid: [
+      "Don't mix units on one axis. Use separate charts instead.",
+      "Don't overlay many series on one screen. Use filters or separate charts instead.",
+      "Don't replace missing values with 0. Pass null instead: the chart treats null, undefined, NaN, and Infinity as missing and doesn't connect lines across them.",
+      "Don't expect a cropped y-axis. It always includes 0 and keeps negative values.",
+      "Don't expect smoothed curves. Lines are linear, so the chart doesn't invent extremes that weren't measured.",
+      "Don't expect the chart to show loading, error, or retry states. Build them in the product screen.",
+      "Don't expect the description prop to be an automatically inferred analysis. It holds the caller's factual summary.",
+    ],
+    keyboard: [
+      'Tab reaches the legend buttons, the chart, and the data table toggle.',
+      'With the chart focused, Left and Right move between data points.',
+      "Enter or Space on a legend button shows or hides its series, and aria-pressed reports whether it's shown. Hidden series stay in the data table.",
+      'View data table is a native details element that Enter or Space expands. Long tables scroll on both axes and include headers, units, and full values.',
+      'Escape clears the details, and an arrow key shows them again.',
+      "Pointer and touch update the same details region. It's a fixed-position, polite live region that doesn't cover the marks.",
+      'Circle, square, and triangle markers, line patterns, and bar fill patterns distinguish series beyond color. They remain in high contrast mode.',
+      'Above 40 points, the plot omits markers to reduce overlap. Legend markers, line patterns, details, and the table remain.',
+      'Animation is off by default.',
+      'Test real assistive technology usability separately after product integration.',
+    ],
     anatomy:
       'figure → figcaption(title + summary) + legend toggle buttons + named axes + responsive Recharts ComposedChart + persistent inline value readout + details → Table.Container → full data table',
     tokens: [
@@ -53,7 +70,7 @@ const data: ChartDatum[] = [
     props: [
       [
         'title / description / xLabel / yLabel / unit',
-        'required string labels, factual summary and a shared unit',
+        'required string labels, a factual summary, and a shared unit',
         'required',
       ],
       [
@@ -76,7 +93,7 @@ const data: ChartDatum[] = [
       ],
       [
         'missingLabel / emptyLabel',
-        'text alternatives for non-finite/missing values and no numeric measurements',
+        'text alternatives for missing or non-finite values, and for no numeric measurements',
         'Not available / No numeric measurements to display.',
       ],
       [

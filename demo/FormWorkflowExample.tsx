@@ -153,8 +153,8 @@ export function FormWorkflowExample() {
         </NativeSelect>
       </label>
       <p>
-        Responses are completed manually below so each submission state can be
-        inspected. No environment is created.
+        Complete each response by hand below to inspect every submission state.
+        No environment is created.
       </p>
       {phase === 'field-error' && (
         <InlineMessage.Root tone='danger' role='alert'>
@@ -174,7 +174,7 @@ export function FormWorkflowExample() {
           <InlineMessage.Icon tone='danger' />
           <InlineMessage.Content>
             <InlineMessage.Title>
-              The request could not be completed
+              The request couldn't be completed
             </InlineMessage.Title>
             <InlineMessage.Description>
               Your draft is retained. Change the preview response and retry when
@@ -188,11 +188,11 @@ export function FormWorkflowExample() {
           <InlineMessage.Icon tone='caution' />
           <InlineMessage.Content>
             <InlineMessage.Title>
-              Registration is not permitted
+              Registration isn't permitted
             </InlineMessage.Title>
             <InlineMessage.Description id='workflow-permission-reason'>
-              This preview account has no registration access. Inputs are
-              preserved.
+              This preview account has no registration access. Your inputs are
+              retained.
             </InlineMessage.Description>
             <InlineMessage.Actions>
               <Button
@@ -258,7 +258,7 @@ export function FormWorkflowExample() {
               placeholder='preview-environment'
             />
             <Field.Description>
-              3–48 lowercase letters, digits or hyphens; start with a letter.
+              3–48 lowercase letters, digits, or hyphens. Start with a letter.
             </Field.Description>
             <Field.Error />
           </Field.Root>
@@ -335,8 +335,8 @@ export function FormWorkflowExample() {
         {notice}
       </p>
       <p className='catalog-preview-note'>
-        Preview requests started: {attempts}. Real request transport,
-        permissions and idempotency remain product responsibilities.
+        Preview requests started: {attempts}. The product owns request
+        transport, permissions, and idempotency.
       </p>
     </div>
   )

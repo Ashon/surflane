@@ -33,7 +33,7 @@ export function FormContractExample() {
     <div className='form-contract-example example-stack'>
       <h3>Controlled values and external form ownership</h3>
       <p>
-        The calling screen owns the values. Native reset does not overwrite
+        The calling screen owns the values. Native reset doesn't overwrite
         controlled values. An explicit restore action resets the model.
       </p>
       <form

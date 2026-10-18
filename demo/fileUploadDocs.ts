@@ -1,14 +1,23 @@
 import type { ComponentDoc } from './componentDocs'
 export const fileUploadDocs: Record<string, ComponentDoc> = {
   'file-upload': {
-    usage:
-      "Manages choosing, dropping, and removing files as one selection state. The native file input is registered as a Field.Control, so the shared Form keeps required validation, server errors, and submission of real File objects. Transfers don't start automatically; the product-provided transport runs per file. The drop zone is distinguished by a surface rather than a dashed outline, and its background is highlighted while a file is dragged over it. Keyboard focus on the choose button and the field error display are preserved.",
-    avoid:
-      "accept is a selection hint, and client-side validation doesn't replace server validation. Directory uploads, chunked transfers, resuming, and signed URL policies are handled by the transport or the product. Don't prefill files already uploaded to the server as if they were local Files. If you need the actual files instead of Form.onFormSubmit's string model, read FormData in onSubmit.",
+    usage: [
+      'Choose, drop, and remove files as one selection state.',
+      'The native file input registers as a Field.Control, so the shared Form keeps required validation, server errors, and real File submission.',
+      "Transfers don't start automatically. The transport you provide runs per file.",
+      'The drop zone is a surface, not a dashed outline. Its background highlights while a file is dragged over it.',
+      'Keyboard focus on the choose button and the field error display are preserved.',
+    ],
+    avoid: [
+      "Don't treat accept as validation. It's a selection hint, and client-side validation doesn't replace server validation.",
+      "Don't expect FileUpload to handle directory uploads, chunked transfers, resuming, or signed URL policies. Handle them in the transport or the product.",
+      "Don't prefill files already uploaded to the server as if they were local Files. List them separately.",
+      "Don't read actual files from Form.onFormSubmit's string model. Read FormData in onSubmit instead.",
+    ],
     anatomy:
       'FileUpload owns Field.Root → Label + Description + native Field.Control(type=file) + visible picker label/dropzone + rejection alert + Field.Error + file list/status/progress/actions + one polite announcement',
     keyboard:
-      "Tabbing to the native file input shows a focus ring on the choose button. Enter/Space opens the file picker, and the list's Upload/Cancel/Retry/Remove buttons work with Tab and Enter/Space. The same file selection works without dragging. disabled blocks selection and submission and cancels transfers in progress.",
+      'Tabbing to the native file input shows a focus ring on the choose button. Enter or Space opens the file picker. In the file list, Tab reaches the Upload, Cancel, Retry, and Remove buttons. Enter or Space activates them. Every file selection works without dragging. disabled blocks selection and submission, and cancels transfers in progress.',
     tokens: [
       '--control-border',
       '--control-focus',
@@ -67,7 +76,7 @@ export const fileUploadDocs: Record<string, ComponentDoc> = {
       ],
       [
         'getUploadError',
-        'map transport errors to a user-facing string',
+        'maps transport errors to a user-facing string',
         'Upload failed. Try again.',
       ],
       [
@@ -77,7 +86,7 @@ export const fileUploadDocs: Record<string, ComponentDoc> = {
       ],
       [
         'disabled',
-        'prevent selection/removal/submission; cancel active transfers',
+        'blocks selection, removal, and submission; cancels active transfers',
         'false',
       ],
       [
@@ -88,7 +97,7 @@ export const fileUploadDocs: Record<string, ComponentDoc> = {
       [
         'Field.Root props / ref / className',
         'owns the Field; supports Form.errors/validation and actual div ref',
-        'do not wrap in another Field.Root',
+        "don't wrap in another Field.Root",
       ],
     ],
   },

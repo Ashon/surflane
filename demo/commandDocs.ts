@@ -2,12 +2,12 @@ import type { ComponentDoc } from './componentDocs'
 export const commandDocs: Record<string, ComponentDoc> = {
   toggle: {
     usage:
-      'Use it for command buttons that stay on or off. The label stays the same as the state changes, and aria-pressed conveys the pressed state. The state is shown as a full rounded surface.',
+      'Turn a command on or off with a button that holds its state. Keep the label the same in both states. aria-pressed conveys the state, and a full rounded surface shows it.',
     avoid:
-      "Use Link/Button for navigation or one-off actions. When a form needs a checked value, use Checkbox/Switch; don't assume Toggle state is automatically included in FormData or reset values.",
+      "Use Link or Button for navigation or one-off actions. When a form needs a checked value, use Checkbox or Switch. Don't assume FormData or form reset includes Toggle state.",
     anatomy: 'Toggle(button) → optional decorative SVG + stable action label',
     keyboard:
-      "Tab to the toggle and press Enter/Space to change its state. Disabled toggles don't run. Control it with pressed/onPressedChange or use defaultPressed; event.cancel() cancels a change.",
+      "Tab to the toggle and press Enter or Space to change its state. Disabled toggles don't change. Control it with pressed and onPressedChange, or set defaultPressed. event.cancel() cancels a change.",
     tokens: [
       '--selected',
       '--control-border',
@@ -50,12 +50,12 @@ export const commandDocs: Record<string, ComponentDoc> = {
   },
   'toggle-group': {
     usage:
-      'Groups related display modes or filters. Even in single mode, value is an array; the group allows at most one pressed item, or several with multiple=true.',
+      'Group related display modes or filters. At most one item is pressed, or several with multiple=true. The value is always an array, even in single mode.',
     avoid:
-      "Use RadioGroup for forms that require exactly one choice. Don't override the pressed state with aria-selected, and don't let the keyboard orientation differ from the visual layout.",
+      'Use RadioGroup when a form requires exactly one choice. Let aria-pressed carry the pressed state, not aria-selected. Set orientation to match the visual layout.',
     anatomy: 'named ToggleGroup(role=group) → Toggle(value) items',
     keyboard:
-      'Provides a single Tab stop plus arrow-key and Home/End navigation. Arrow keys only move focus; Enter/Space selects. Disabled items are skipped. For RTL, set both DirectionProvider and the DOM dir.',
+      'The group is a single Tab stop. Arrow keys, Home, and End only move focus. Enter or Space selects the focused item. Disabled items are skipped. For RTL, set both DirectionProvider and the DOM dir.',
     tokens: [
       '--selected',
       '--control-border',
@@ -104,13 +104,13 @@ export const commandDocs: Record<string, ComponentDoc> = {
   },
   toolbar: {
     usage:
-      "Groups related actions and display settings for the same screen into one toolbar. The container and controls are separated by surfaces rather than borders, and inner corners use the outer radius minus the inner padding. Compose Button, Toggle, and Menu triggers through render so real buttons aren't nested.",
+      "Group a screen's related actions and display settings in one toolbar. Surfaces, not borders, separate the container from its controls. Inner corners use the outer radius minus the inner padding. Compose Button, Toggle, and Menu triggers through render so buttons don't nest.",
     avoid:
-      "Don't add a Toolbar to every simple group of buttons. Don't arbitrarily intercept editing keys in text inputs or disguise link navigation as command execution.",
+      "Don't add a Toolbar to every simple group of buttons. Use Inline instead. Let text inputs keep their editing keys. Use Toolbar.Link for navigation instead of disguising it as a command.",
     anatomy:
       'Root(role=toolbar) → Group(Button/Toggle) + Separator + Input + composed popup trigger + Link',
     keyboard:
-      "Provides a single Tab stop plus arrow keys along the orientation and Home/End navigation. Editing keys inside inputs keep their behavior. Disabled Buttons can still receive focus because focusableWhenDisabled=true by default, but they don't run. Links keep native navigation and aren't disabled by Root.disabled.",
+      "The toolbar is a single Tab stop. Arrow keys along the orientation, Home, and End move focus. Editing keys inside inputs keep their behavior. Disabled Buttons stay focusable, since focusableWhenDisabled defaults to true, but they don't run. Links keep native navigation, and Root.disabled doesn't disable them.",
     tokens: [
       '--surface',
       '--space-2',
@@ -145,7 +145,7 @@ export const commandDocs: Record<string, ComponentDoc> = {
       ],
       [
         'Root.disabled / Group.disabled',
-        'disable command controls; links remain native navigation',
+        'disable command controls; links still navigate natively',
         'false',
       ],
       [
@@ -160,7 +160,7 @@ export const commandDocs: Record<string, ComponentDoc> = {
       ],
       [
         'Input / Link',
-        'native input/anchor props plus toolbar focus integration',
+        'native input or anchor props, plus toolbar focus handling',
         '—',
       ],
       [
@@ -172,13 +172,19 @@ export const commandDocs: Record<string, ComponentDoc> = {
   },
   menubar: {
     usage:
-      "Groups application commands into menus such as Run, View, and Help. Reuses the shared Menu's items, checkbox items, radio items, submenus, and links.",
+      'Group application commands into menus such as Run, View, and Help. Each menu reuses the shared Menu parts: Item, CheckboxItem, RadioItem, submenus, and LinkItem.',
     avoid:
-      "Use NavigationMenu or a native nav for a site's primary navigation or plain link lists. Don't nest other buttons inside a menu trigger.",
+      "Use NavigationMenu or a native nav for a site's primary navigation or plain link lists. Don't nest other buttons inside a Menu.Trigger. Add those commands as Menu.Item instead.",
     anatomy:
       'Menubar(role=menubar) → Menu.Root(Trigger + Portal/Content(Item/CheckboxItem/RadioItem/Submenu))',
-    keyboard:
-      'Arrow keys move between menu triggers, and Enter/Space or the arrow key toward the menu opens one. Moving between open menus, closing with Escape, returning to the trigger, and submenu arrow keys are delegated to Base UI. Keep orientation consistent with DirectionProvider/DOM dir. Because Base UI 1.9 stores the initial direction in the menu model, give the Menubar an orientation-based key so it remounts when the direction changes at runtime, and control menu selection values from the parent.',
+    keyboard: [
+      'Arrow keys move between menu triggers.',
+      'Enter or Space, or the arrow key toward the menu, opens a menu.',
+      'Base UI handles moving between open menus, closing with Escape, returning focus to the trigger, and submenu arrow keys.',
+      'Keep orientation consistent with DirectionProvider and the DOM dir.',
+      'Base UI 1.9 stores the initial direction in the menu model. If the direction changes at runtime, give the Menubar an orientation-based key so it remounts.',
+      'Control menu selection values from the parent.',
+    ],
     tokens: [
       '--menu-background',
       '--menu-hover-background',
@@ -213,7 +219,7 @@ export const commandDocs: Record<string, ComponentDoc> = {
       ['disabled', 'disable all menu triggers', 'false'],
       [
         'Menu.Content',
-        'styled popup/positioner; use Menu.Portal around it',
+        'styled Positioner and Popup; wrap it in Menu.Portal',
         'align=end, sideOffset=6',
       ],
       [

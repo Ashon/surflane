@@ -36,9 +36,9 @@ export function FoundationDemo({
             {view === 'all' ? 'Layout' : 'Workspace and reading'}
           </h2>
           <Text color='secondary'>
-            Compare width, spacing and information density between workspace and
-            documentation screens. Structure comes from content alignment and
-            whitespace, not nested backgrounds.
+            Build structure from content alignment and whitespace, not nested
+            backgrounds. Compare width, spacing, and information density between
+            workspace and documentation screens.
           </Text>
           <div className='foundation-controls'>
             <label>
@@ -114,8 +114,8 @@ export function FoundationDemo({
                   }
                   description={
                     profile === 'reading'
-                      ? 'A documentation layout for reading and understanding environment access and deployment rules.'
-                      : 'A workspace for selecting environments, reviewing pipeline runs, and checking deployment results.'
+                      ? 'Read the rules for environment access and deployment.'
+                      : 'Select environments, review pipeline runs, and check deployment results.'
                   }
                   actions={
                     <Button
@@ -161,16 +161,14 @@ export function FoundationDemo({
                     <p>
                       Documentation and operational tools share one design
                       language but differ in information density. Documentation
-                      favors the flow between sentences and the rhythm of
-                      long-form reading.
+                      favors sentence flow and the rhythm of long-form reading.
                     </p>
                     <h4>How services move between environments</h4>
                     <p>
-                      Review service permissions together with the deployment
-                      policy. Korean text uses Pretendard and Latin text uses
-                      Manrope, while identifiers such as{' '}
-                      <code>environment_id</code> are set apart in a monospace
-                      font.
+                      Review service permissions with the deployment policy.
+                      Korean text uses Pretendard and Latin text uses Manrope.
+                      Identifiers such as <code>environment_id</code> use a
+                      monospace font.
                     </p>
                     <p>
                       Read the policy, check the release notes, and confirm who
@@ -200,10 +198,10 @@ export function FoundationDemo({
             {view === 'all' ? 'Typography' : 'Specimens and scale'}
           </h2>
           <Text color='secondary'>
-            Manrope / Pretendard / JetBrains Mono. Weights are 400 and 500, and
-            the visual role and the HTML heading level are chosen separately.
-            Antialiasing, kerning and optical sizing hints apply everywhere, and
-            faux bold is never synthesized. Actual rendering varies by browser
+            Manrope / Pretendard / JetBrains Mono. Use weights 400 and 500.
+            Choose the visual role and the HTML heading level separately.
+            Antialiasing, kerning, and optical sizing hints apply everywhere.
+            Faux bold is never synthesized. Actual rendering varies by browser
             and display.
           </Text>
           <div className='font-specimens'>
@@ -237,12 +235,11 @@ export function FoundationDemo({
           </div>
           <Surface>
             <Text variant='caption' color='muted'>
-              Headings use the size that fits their role: 30–40px for primary
-              screen titles, 24/32px for page titles and 32–40px for
-              reading-focused titles. Shared role and profile tokens connect
-              them, so not every heading is forced to the same size. The samples
-              below mix Korean (Hangul) and English to show both scripts at each
-              size.
+              Size headings by role: 30–40px for primary screen titles, 24/32px
+              for page titles, and 32–40px for reading-focused titles. Shared
+              role and profile tokens connect them without forcing one size on
+              every heading. The samples below mix Korean (Hangul) and English
+              to show both scripts at each size.
             </Text>
           </Surface>
           <div className='type-scale' aria-label='Typography roles'>

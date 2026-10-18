@@ -86,7 +86,7 @@ export function InputExtensionExample({ id }: { id: string }) {
           <Field.Root name='query'>
             <Field.Label>Pipeline search</Field.Label>
             <Field.Description>
-              Suggestions are optional; any nonempty search text is valid.
+              Suggestions are optional. Any nonempty search text is valid.
             </Field.Description>
             <Autocomplete.Root
               name='query'
@@ -106,7 +106,7 @@ export function InputExtensionExample({ id }: { id: string }) {
               </Autocomplete.InputGroup>
               <Autocomplete.Content>
                 <Autocomplete.Empty>
-                  No suggestions. You can still use this search text.
+                  No suggestions. Your search text still works.
                 </Autocomplete.Empty>
                 <Autocomplete.List>
                   {(text: string) => (
@@ -129,8 +129,8 @@ export function InputExtensionExample({ id }: { id: string }) {
         <Field.Root name='tag'>
           <Field.Label>Controlled search tag</Field.Label>
           <Field.Description>
-            Object suggestions supply labels, while the input remains free text.
-            This field belongs to the form above.
+            Object suggestions supply labels. The input stays free text. This
+            field belongs to the form above.
           </Field.Description>
           <Autocomplete.Root
             name='tag'
@@ -268,7 +268,7 @@ export function InputExtensionExample({ id }: { id: string }) {
           <Field.Root name='exactWeight'>
             <Field.Label>Exact percentage</Field.Label>
             <Field.Description>
-              A direct numeric alternative to dragging.
+              Type a value instead of dragging.
             </Field.Description>
             <NumberField.Root
               name='exactWeight'
@@ -316,7 +316,7 @@ export function InputExtensionExample({ id }: { id: string }) {
             {cancelReset ? 'Allow reset' : 'Cancel reset'}
           </Button>
           <Button variant='outline' onClick={() => setCancelChange((v) => !v)}>
-            {cancelChange ? 'Allow primary changes' : 'Cancel primary changes'}
+            {cancelChange ? 'Allow worker changes' : 'Cancel worker changes'}
           </Button>
         </div>
         <p role='status'>

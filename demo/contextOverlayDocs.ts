@@ -2,13 +2,13 @@ import type { ComponentDoc } from './componentDocs'
 export const contextOverlayDocs: Record<string, ComponentDoc> = {
   'context-menu': {
     usage:
-      'A secondary menu for quickly running actions on a target with right-click or long press. Always provide a regular Menu button that exposes the same actions. Both paths share state and action handlers.',
+      'Offer quick actions on a target through right-click or long press, as a secondary menu. Always pair it with a visible Menu that offers the same actions. Both paths share state and action handlers.',
     avoid:
-      "Don't offer important features through right-click alone. In Base UI 1.9, Trigger is a div and doesn't handle Shift+F10 itself; keyboard users run the same actions from the visible Menu.Trigger. Don't wrap entire inputs or links that need the browser's native context menu.",
+      "Don't offer important features through right-click alone. In Base UI 1.9, Trigger is a div that doesn't handle Shift+F10. Keyboard users run the same actions from the visible Menu.Trigger. Wrap only non-interactive content, not inputs or links that need the browser's native context menu.",
     anatomy:
       'Root → Trigger + Portal → Content(Positioner + Popup) → Item / CheckboxItem / SubmenuRoot',
     keyboard:
-      "Tab to the visible regular menu button and press Enter/Space to open it. Inside the menu, use arrow keys, Home/End, and type-ahead to move, Enter to run an item, and Escape to close. ContextMenu's default pointer positioning and collision avoidance are kept.",
+      'Tab to the visible Menu.Trigger and press Enter or Space to open the menu. Arrow keys, Home, End, and type-ahead move between items. Enter runs an item, and Escape closes the menu. ContextMenu keeps its default pointer positioning and collision avoidance.',
     tokens: [
       '--menu-background',
       '--menu-border',
@@ -45,10 +45,10 @@ export const contextOverlayDocs: Record<string, ComponentDoc> = {
       ],
       [
         'Root.disabled',
-        'disable contextual opening; visible actions remain separate',
+        'disable contextual opening; the visible Menu stays separate',
         'false',
       ],
-      ['Trigger', 'div; right click / 500ms long press', 'non-focusable'],
+      ['Trigger', 'div; right-click or 500ms long press', 'non-focusable'],
       [
         'Content.positionerProps',
         'cursor-aware ContextMenu.Positioner props',
@@ -68,13 +68,13 @@ export const contextOverlayDocs: Record<string, ComponentDoc> = {
   },
   'preview-card': {
     usage:
-      "Previews a summary of a link's destination on hover or keyboard focus. Keep the information users need in the body text and at the destination; the link still navigates to its original href.",
+      "Preview a summary of a link's destination on hover or keyboard focus. Keep the information users need in the body text and at the destination. The link still navigates to its original href.",
     avoid:
-      "Don't put buttons, forms, or exclusive information inside the preview. Popup content isn't an independent navigation path for touch, keyboard, or screen reader users, so don't add Dialog/Tooltip roles to it. Use Popover when interaction is needed.",
+      "Don't put buttons, forms, or exclusive information in the Popup. It isn't a separate navigation path for touch, keyboard, or screen reader users, so don't give it Dialog or Tooltip roles. Use Popover when the content needs interaction.",
     anatomy:
       'Root<Payload> → Trigger(anchor) + Portal → Content(Positioner + Popup); optional Viewport / Arrow',
     keyboard:
-      "Links keep their Tab and Enter navigation. When the visual preview opens after a delay, focus doesn't move into it or get trapped. Escape, focus leaving, and the pointer leaving close it. All preview information must also be available at the destination.",
+      "The link keeps its Tab and Enter navigation. When the Popup opens after its delay, focus doesn't move into it or get trapped. Escape closes it, as does moving focus or the pointer away. Make all preview information available at the destination too.",
     tokens: [
       '--menu-background',
       '--menu-border',
@@ -114,7 +114,7 @@ export const contextOverlayDocs: Record<string, ComponentDoc> = {
       ],
       [
         'Content.positionerProps',
-        'side, align, anchor and collision options',
+        'side, align, anchor, and collision options',
         'sideOffset=8; collisionPadding=12',
       ],
       [

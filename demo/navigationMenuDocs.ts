@@ -2,13 +2,19 @@ import type { ComponentDoc } from './componentDocs'
 export const navigationMenuDocs: Record<string, ComponentDoc> = {
   'navigation-menu': {
     usage:
-      'Groups links and sub-navigation that lead to products, docs, and sections. Keeps the native nav, ul, li, and a structure, and marks the current destination with Link.active. Trigger opens sub-links, and Link navigates.',
+      'Group links and sub-navigation to products, docs, and sections. It keeps the native nav, ul, li, and a structure. Trigger opens sub-links, and Link navigates. Set Link.active to mark the current destination.',
     avoid:
-      "Use Menu/Menubar for commands and Tabs for switching panels on the same screen. Don't turn links into buttons or give nav role=menu. Don't make it hover-only; provide click and keyboard paths on small screens too.",
+      "Use Menu or Menubar for commands, and Tabs for switching panels on one screen. Keep links native, and don't give nav role=menu. Don't make it hover-only. Provide click and keyboard paths, on small screens too.",
     anatomy:
       'Root(nav) → List(ul) → Item(li) → Trigger + Content; Portal → Positioner → Popup(nav) → Viewport',
-    keyboard:
-      "Arrow keys move between top-level items. Enter/Space, or ArrowDown in a horizontal layout, opens the sub-links. Once they're open, Tab moves into the sub-links, Tab and arrow keys move through them, Enter navigates, and Escape closes. For RTL, set both DirectionProvider and the DOM dir. For a vertical layout, orientation=vertical changes both the semantics and the layout.",
+    keyboard: [
+      "Once a Trigger's sub-links are open, Tab moves into them. Tab and arrow keys move through the sub-links.",
+      "Arrow keys move between top-level items. In a horizontal layout, ArrowDown also opens a Trigger's sub-links.",
+      "Enter or Space opens a Trigger's sub-links. Enter on a sub-link navigates.",
+      'Escape closes the sub-links.',
+      'For RTL, set both DirectionProvider and the DOM dir.',
+      'For a vertical layout, set orientation=vertical. It changes both semantics and layout.',
+    ],
     tokens: [
       '--menu-background',
       '--menu-border',
@@ -75,12 +81,12 @@ export const navigationMenuDocs: Record<string, ComponentDoc> = {
       ['Content.keepMounted', 'preserve hidden content and SSR links', 'false'],
       [
         'Positioner / Popup / Viewport',
-        'explicit popup anatomy; anchor collision options; measured size',
+        'explicit Popup anatomy; anchor and collision options; measured size',
         'required for popup composition',
       ],
       [
         'render / ref / className',
-        'Base UI composition, actual DOM ref and state callback',
+        'Base UI composition, DOM element ref, and state callback',
         '—',
       ],
     ],

@@ -68,7 +68,7 @@ export function TokenBrowser({ initialQuery = '' }: { initialQuery?: string }) {
       <h2 id='tokens-title'>Design tokens</h2>
       <Text color='secondary'>
         {catalog.tokens.length} tokens generated from the CSS source. Search by
-        name, role or reference, and see the computed value for the current
+        name, role, or reference to see each computed value for the current
         theme and screen size.
       </Text>
       <div className='foundation-controls'>
@@ -222,7 +222,7 @@ export function TokenBrowser({ initialQuery = '' }: { initialQuery?: string }) {
         </Button>
       )}
       <Text variant='caption' color='muted'>
-        Don't copy raw values into product code; reference them with{' '}
+        Don't copy raw values into product code. Reference them with{' '}
         <code>var(--token-name)</code>. Use semantic tokens for color and
         status, and scale tokens for size and spacing.
       </Text>

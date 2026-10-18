@@ -18,9 +18,10 @@ export function IconographyFoundation() {
       <section id='principles'>
         <h2>One visual language</h2>
         <p>
-          Icons use a 24×24 viewBox, currentColor, a shared stroke width, and
-          SVG shapes. Don't substitute special characters, emoji, or icon fonts
-          for UI symbols. Product logos and illustrations are separate assets.
+          Draw icons as SVG shapes with a 24×24 viewBox, currentColor, and the
+          shared stroke width. Don't substitute special characters, emoji, or
+          icon fonts for UI symbols. Product logos and illustrations are
+          separate assets.
         </p>
         <Table.Container label='Icon design tokens' orientation='horizontal'>
           <Table.Root>
@@ -67,19 +68,18 @@ export function IconographyFoundation() {
           </Table.Root>
         </Table.Container>
         <p>
-          Don't make the icon itself the click target. Inside buttons, use flex
-          alignment and the shared gap; inline, align icons to the text
-          baseline. Keep the parent control's click target and focus ring when
-          you change the icon size.
+          Make the parent control the click target, not the icon. Inside
+          buttons, use flex alignment and the shared gap. Inline, align icons to
+          the text baseline. Keep the parent's click target and focus ring when
+          you resize the icon.
         </p>
       </section>
       <section id='library'>
         <h2>Shared vocabulary</h2>
         <p>
-          The shared Icon currently provides {iconNames.length} shapes. To add a
-          shape a product needs, add it to the shared source with a name and
-          usage guidance, then test it. This list does not replace a full icon
-          library.
+          The shared Icon currently provides {iconNames.length} shapes. To add
+          one, put it in the shared source with a name and usage guidance, then
+          test it. This list doesn't replace a full icon library.
         </p>
         <ul className='icon-gallery' aria-label='Shared icon vocabulary'>
           {iconNames.map((name) => (
@@ -95,8 +95,8 @@ export function IconographyFoundation() {
         <p>
           An icon next to text is decorative by default. Give an icon-only
           button an aria-label that describes its action, and hide the SVG. A
-          Tooltip does not replace the accessible name. For a meaningful
-          standalone graphic, set decorative=false together with label.
+          Tooltip doesn't replace the accessible name. For a meaningful
+          standalone graphic, set decorative=false with label.
         </p>
         <div className='actions'>
           <Button variant='outline' onClick={() => setCount((n) => n + 1)}>
@@ -119,7 +119,7 @@ export function IconographyFoundation() {
             decorative={false}
             label='Supplementary information'
           />
-          Example of a standalone icon with an explicit name.
+          A standalone icon with an explicit name.
         </p>
         <p>
           The button is the focusable element. Don't add tabIndex or a separate
@@ -129,12 +129,12 @@ export function IconographyFoundation() {
         <h3>Primitive contract</h3>
         <p>
           <code>name</code> takes a value from the shared list above.{' '}
-          <code>size</code> is sm (the default, 16px), md, or lg, and{' '}
+          <code>size</code> is sm (the default, 16px), md, or lg.{' '}
           <code>decorative</code> defaults to true. A meaningful standalone SVG
-          sets <code>decorative=false</code> together with a non-empty{' '}
-          <code>label</code>. The ref points to the SVGSVGElement, and you can
-          compose it with className, style, and data attributes. If you override
-          styles, recheck size, contrast, and direction.
+          sets <code>decorative=false</code> with a non-empty <code>label</code>
+          . The ref points to the SVGSVGElement. Compose it with className,
+          style, and data attributes. If you override styles, recheck size,
+          contrast, and direction.
         </p>
         <CodeBlock
           language='tsx'
@@ -155,7 +155,7 @@ export function IconographyFoundation() {
         <h2>Logical direction</h2>
         <p>
           Only the logical-direction icons, arrow-back and chevron-forward,
-          mirror based on the DOM dir. Search, play, copy, external link, and
+          mirror with the DOM dir. Search, play, copy, external link, and
           expand-down icons don't mirror. For keyboard direction in Base UI
           controls, also set the product's DirectionProvider to the same
           direction.
@@ -190,16 +190,13 @@ export function IconographyFoundation() {
             External link
           </span>
         </div>
-        <p>
-          Static markers for comparing direction. The labels above don't
-          navigate anywhere.
-        </p>
+        <p>Static markers for comparing direction. They don't navigate.</p>
       </section>
       <section id='application'>
         <h2>Icon implementation rules</h2>
         <ul>
           <li>
-            Use the same symbol for the same action, and keep the status name on
+            Use the same symbol for the same action. Keep the status name on
             result states.
           </li>
           <li>
@@ -207,16 +204,15 @@ export function IconographyFoundation() {
             name. Don't shrink the hit area when you make the icon smaller.
           </li>
           <li>
-            Use the code copy and external link symbols consistently. The
-            wording and link purpose must be clear even when the SVG isn't
-            visible.
+            Use the code copy and external link symbols consistently. Wording
+            and link purpose must stay clear even when the SVG isn't visible.
           </li>
         </ul>
         <p>
           Color follows the parent's currentColor. Don't force-override the
-          user's high-contrast colors, and check that required symbols have
-          enough contrast against the adjacent background. Don't distinguish
-          states by color alone.
+          user's high-contrast colors. Check that required symbols have enough
+          contrast against the adjacent background. Don't distinguish states by
+          color alone.
         </p>
         <p>
           <a href='https://design-system.w3.org/styles/svg-icons.html'>
@@ -231,8 +227,8 @@ export function IconographyFoundation() {
         </p>
         <p>
           This page covers the shared primitive and guidance added so far. It
-          does not mean that every existing product and component SVG has been
-          migrated to this API.
+          doesn't mean every existing product and component SVG has moved to
+          this API.
         </p>
       </section>
     </>

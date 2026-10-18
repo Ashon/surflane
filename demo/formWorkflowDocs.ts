@@ -2,13 +2,23 @@ import type { ComponentDoc } from './componentDocs'
 export const formWorkflowDocs: Record<string, ComponentDoc> = {
   'form-workflow': {
     usage:
-      'Connects validation, pending submission, field errors, request failures, restricted access, and success using Form, Field, Fieldset, and messages. Input values are kept in controlled state, and the result is described using the values copied at submit time. The local example completes the response manually with Complete preview request, so you can inspect each state.',
-    avoid:
-      "Don't hide service calls or permission policies inside primitives. Don't present errors as an empty success, and don't promise that canceling rolls back the server. The product API also needs server validation, permission checks, idempotency, and duplicate-request prevention. Restoring access in the example is a local simulation.",
+      'Connect validation, pending submission, field errors, request failures, restricted access, and success with Form, Field, Fieldset, and messages. Keep input values in controlled state. Describe the result with the values copied at submit time. The example settles the response manually. Use Complete preview request to inspect each state.',
+    avoid: [
+      "Don't hide service calls or permission policies inside primitives. Keep them in the product.",
+      "Don't present errors as an empty success. Show field errors, request failures, and restricted access as their own states.",
+      "Don't promise that canceling rolls back the server. Canceling stops the request and preserves the draft.",
+      "Don't rely on client checks alone. The product API also needs server validation, permission checks, idempotency, and duplicate-request prevention.",
+      'The example simulates restoring access locally.',
+    ],
     anatomy:
       'Preview response control → result message → named Form → Fieldset(Fields + errors) + submit/reset actions → pending request controls',
-    keyboard:
-      'Pre-submit validation is delegated to Base UI Form, which focuses the first invalid input. Server field errors connect through Field.name keys in errors. While pending, duplicate submissions are blocked and focus moves to Cancel. Field errors move focus to the input, request errors to Retry, and success to the result heading. After canceling or resetting, focus returns to the name input. Field links descriptions and errors, and meaning is never conveyed by color alone.',
+    keyboard: [
+      'Base UI Form runs pre-submit validation and focuses the first invalid input.',
+      'While pending, duplicate submissions are blocked and focus moves to Cancel.',
+      'Server field errors map to fields through Field.name keys in errors. A field error moves focus to its input, a request error to Retry, and success to the result heading.',
+      'Canceling or resetting returns focus to the name input.',
+      'Field links each description and error to its control. Color never carries meaning alone.',
+    ],
     tokens: [
       '--space-2',
       '--space-4',

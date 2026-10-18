@@ -195,7 +195,7 @@ test('Empty state distinguishes first use, no results and missing permissions wi
     .getByRole('button', { name: 'Preview access request', exact: true })
     .click()
   await expect(page.locator('#preview').getByRole('status')).toHaveText(
-    'Access request previewed; no message sent.',
+    'Access request previewed. No message was sent.',
   )
 })
 test('Data/message pages pass light/dark accessibility, narrow reflow and enlarged RTL text', async ({

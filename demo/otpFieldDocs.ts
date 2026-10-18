@@ -2,13 +2,17 @@ import type { ComponentDoc } from './componentDocs'
 export const otpFieldDocs: Record<string, ComponentDoc> = {
   'otp-field': {
     usage:
-      'Enters short fixed-length values such as verification or recovery codes. Each slot is a real input, and pasted values and autofilled values that arrive all at once are distributed across the slots. Field.Label names the first slot, and the remaining slots are named with an aria-label that describes their position.',
-    avoid:
-      "Don't split ordinary passwords or long identifiers into multiple slots. Don't treat completed input as successful verification; server validation, expiry, and resending are handled by the product. Don't repeat the actual code in logs or status messages. mask only hides the value visually and doesn't encrypt the submitted value.",
+      'Enter a short, fixed-length value, such as a verification or recovery code. Each slot is a real input. Pasted or autofilled values that arrive all at once fill across the slots. Field.Label names the first slot. Name each remaining slot with an aria-label for its position.',
+    avoid: [
+      "Don't split ordinary passwords or long identifiers into slots. Use a single Input instead.",
+      "Don't treat completed input as successful verification. Handle server validation, expiry, and resending in the product.",
+      "Don't repeat the actual code in logs or status messages. Report the state, not the value.",
+      "Don't treat mask as encryption. It only hides the value visually and doesn't encrypt the submitted value.",
+    ],
     anatomy:
       'Field → Label + Description + OTPField.Root(length) → Input slots / optional Group + decorative Separator; one hidden validation/submission input',
     keyboard:
-      'Typing moves to the next slot. Arrow keys and Home/End move between slots, and Backspace/Delete edits. Pasting the whole code and IME composition are supported. Set direction with both DirectionProvider and the DOM dir. disabled excludes the field from editing and submission; readOnly keeps it readable and submitted.',
+      'Typing moves to the next slot. Arrow keys, Home, and End move between slots. Backspace and Delete edit. Pasting the whole code and IME composition work. Set direction with both DirectionProvider and the DOM dir. disabled excludes the field from editing and submission. readOnly keeps it readable and submitted.',
     tokens: [
       '--control-background',
       '--control-border',
@@ -52,7 +56,7 @@ export const otpFieldDocs: Record<string, ComponentDoc> = {
       ],
       [
         'Root.onValueInvalid / onValueComplete',
-        'rejected characters / completed entry callbacks; not authentication result',
+        'rejected-character / completed-entry callbacks; not an authentication result',
         '—',
       ],
       [
@@ -62,7 +66,7 @@ export const otpFieldDocs: Record<string, ComponentDoc> = {
       ],
       [
         'Root.autoSubmit',
-        'requestSubmit() owning form on completion; explicit opt-in',
+        'calls requestSubmit() on the owning form when complete; explicit opt-in',
         'false',
       ],
       [

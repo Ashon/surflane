@@ -7,7 +7,7 @@ import {
   itemHref,
   type CatalogItem,
 } from './catalog'
-import { componentDocs } from './componentDocs'
+import { componentDocs, type DocText } from './componentDocs'
 import { ComponentSizePreview } from './ComponentSizePreview'
 import { StageLabel } from './StageLabel'
 import { Link } from './router'
@@ -25,6 +25,17 @@ function CodeBlock({
       label='Example code'
       copyLabel='Copy example'
     />
+  )
+}
+function DocCopy({ text }: { text: DocText }) {
+  return typeof text === 'string' ? (
+    <p>{text}</p>
+  ) : (
+    <ul className='catalog-rules'>
+      {text.map((item) => (
+        <li key={item}>{item}</li>
+      ))}
+    </ul>
   )
 }
 export function DetailPage({
@@ -69,7 +80,7 @@ export function DetailPage({
           <section id='preview'>
             <h2>Preview</h2>
             <p className='catalog-preview-note'>
-              Local preview. It does not affect real accounts, environments or
+              Local preview. It doesn't affect real accounts, environments, or
               run data.
             </p>
             <ComponentSizePreview
@@ -80,13 +91,12 @@ export function DetailPage({
           </section>
           <section id='usage'>
             <h2>Usage</h2>
-            <p>{doc.usage}</p>
-            <p>{doc.avoid}</p>
+            <DocCopy text={doc.usage} />
+            <DocCopy text={doc.avoid} />
             {item.kind === 'component' && (
               <p>
-                Size: <code>SizeProvider size="small"</code> adjusts the whole
-                composition. The default is Default, and the size also applies
-                inside portals.{' '}
+                Size: <code>SizeProvider size="small"</code> resizes the whole
+                composition, including portals. The default size is Default.{' '}
                 <Link href='/foundations/layout#component-sizes'>
                   Size guidance and comparisons
                 </Link>
@@ -97,20 +107,20 @@ export function DetailPage({
           </section>
           <section id='keyboard'>
             <h2>Keyboard and accessibility</h2>
-            <p>{doc.keyboard}</p>
+            <DocCopy text={doc.keyboard} />
             <p>
-              Provide names that describe the purpose, connected error messages
-              and state signals beyond color. Automated checks do not replace
-              manual keyboard and assistive technology testing.
+              Give each control a name that describes its purpose. Connect error
+              messages to their controls, and signal state with more than color.
+              Automated checks don't replace manual keyboard and assistive
+              technology testing.
             </p>
           </section>
           <section id='code'>
             <h2>Example code</h2>
             <p>
-              Shared components connect their styles through design tokens. Each
-              example sets up its own composition and accessibility attributes;
-              callbacks, refs and product data are defined by the calling
-              screen.
+              Shared components take their styles from design tokens. Each
+              example sets its own composition and accessibility attributes. The
+              calling screen defines callbacks, refs, and product data.
             </p>
             <CodeBlock language='tsx' code={doc.code} />
           </section>
@@ -146,8 +156,8 @@ export function DetailPage({
               </Table.Root>
             </Table.Container>
             <p>
-              The package type declarations define the full types. The table
-              above lists the main settings of the common wrapper.
+              The table lists the common wrapper's main props. See the package
+              type declarations for the full types.
             </p>
           </section>
           <section id='tokens'>
@@ -173,8 +183,8 @@ export function DetailPage({
           </h2>
           <p>
             {item.stage === 'primitive'
-              ? 'This re-exports the original Base UI primitive. Until shared styles, examples and state testing are complete, do not treat it as a finished product component.'
-              : 'A planned item tracked in coverage. The shared implementation or individual guidance and working behavior examples are still to be done.'}
+              ? "This re-exports the original Base UI primitive. Don't treat it as a finished product component until shared styles, examples, and state testing are complete."
+              : 'This item is planned and tracked in coverage. It still needs a shared implementation or individual guidance, plus working behavior examples.'}
           </p>
           <p>
             Wave {item.phase} / {item.group}
@@ -186,9 +196,9 @@ export function DetailPage({
             ))}
           </ul>
           <p>
-            It moves to Available after it adds Preview / Usage / Keyboard /
-            Code / API / Tokens to the same page structure and passes the common
-            acceptance criteria above.
+            To move to Available, the page needs the standard Preview, Usage,
+            Keyboard, Code, API, and Tokens sections. It must also pass the
+            common acceptance criteria above.
           </p>
           <Link href='/coverage'>Read the coverage and delivery plan</Link>
         </section>

@@ -21,7 +21,7 @@ const rules = [
     'Task groups',
     '24px',
     'space-6',
-    'Separate field groups, filters and results',
+    'Separate field groups, filters, and results',
   ],
   [
     'Sections',
@@ -45,7 +45,7 @@ export function SpacingGuide() {
       <h2 id='spacing-title'>Spacing and grouping</h2>
       <p>
         Spacing uses tokens on a 4px base unit. Group closely related items with
-        small gaps and separate different tasks with larger ones. Decide how
+        small gaps. Separate different tasks with larger ones. Decide how
         information relates before increasing all spacing evenly.
       </p>
       <div className='spacing-scale' aria-label='Spacing token scale'>
@@ -88,7 +88,7 @@ export function SpacingGuide() {
       <p>
         The example below uses 4px between heading and description, 8px between
         label and input, 16px between the input and the button row, and 8px
-        between buttons. Popovers use the same combination.
+        between buttons. Popovers use the same spacing.
       </p>
       <div className='actions spacing-measurement-controls'>
         <Button
@@ -134,16 +134,16 @@ export function SpacingGuide() {
       />
       <p>
         Manage spacing in one place. Don't combine a Stack or Inline gap with
-        child margins. The parent layout owns outer spacing and the container
+        child margins. The parent layout owns outer spacing, and the container
         owns inner padding. In compact layouts, reduce group spacing from 24px
-        to 16px but keep input height and focus indicators. On small screens,
-        reduce page padding and let button rows wrap. Don't size spacing inside
-        forms as a fraction of viewport height.
+        to 16px, but keep input height and focus indicators. On small screens,
+        reduce page padding and let button rows wrap. Don't size form spacing as
+        a fraction of viewport height.
       </p>
       <p>
         A full-width divider turns sections into panels. Like a card, a panel
-        keeps the same inset on all four sides, so use the container's inset on
-        both sides of the divider; the 32–48px section spacing applies when
+        keeps the same inset on all four sides. Use the container's inset on
+        both sides of the divider. The 32–48px section spacing applies when
         whitespace alone separates sections. A card grid inside a panel then
         sits as evenly as a paragraph.
       </p>
@@ -160,9 +160,9 @@ export function SpacingGuide() {
         <Link href='/tokens?q=--layout-page-inset'>
           <code>--layout-page-inset</code>
         </Link>{' '}
-        (32px). The catalog's own sheet is an explicit exception: one 40px inset
-        (24px at 960px and below) on every side, including above the page title,
-        and on both sides of each section divider.
+        (32px). The catalog's own sheet is an explicit exception. It uses one
+        40px inset (24px at 960px and below) on every side, including above the
+        page title, and on both sides of each section divider.
       </p>
     </section>
   )

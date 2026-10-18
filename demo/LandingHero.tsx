@@ -42,8 +42,8 @@ export function LandingHero() {
           The interface layer for platform teams.
         </Heading>
         <Text variant='reading' color='secondary'>
-          Tokens, accessible React components and tested patterns for consoles,
-          dashboards and developer tools. Ready for Server Components.
+          Tokens, accessible React components, and tested patterns for consoles,
+          dashboards, and developer tools. Ready for Server Components.
         </Text>
         <div className='actions'>
           <Link
@@ -137,7 +137,7 @@ export function LandingHero() {
                   size='page'
                   level={2}
                   title='Deployments'
-                  description='Services across production, staging and development.'
+                  description='Services across production, staging, and development.'
                   actions={
                     <Button variant='primary' size='small'>
                       New deployment

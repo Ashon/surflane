@@ -157,33 +157,33 @@ export function ColorFoundation() {
       <section id='roles'>
         <h2>Semantic roles</h2>
         <p>
-          Reference roles, not color names. The same token name resolves to a
-          readable combination in both the light and dark themes.
+          Reference roles, not color names. Each token resolves to a readable
+          combination in both the light and dark themes.
         </p>
         <dl className='color-role-list'>
           <div>
             <dt>Surface</dt>
             <dd>
-              <code>--chrome</code> is for the outer app, <code>--canvas</code>{' '}
+              Use <code>--chrome</code> for the outer app, <code>--canvas</code>{' '}
               for content, and <code>--surface</code> for inner surfaces such as
-              code and lists. Don't keep adding nested cards.
+              code and lists. Don't keep nesting cards.
             </dd>
           </div>
           <div>
             <dt>Text</dt>
             <dd>
-              <code>--ink</code> is for headings, <code>--ink-body</code> for
+              Use <code>--ink</code> for headings, <code>--ink-body</code> for
               body text, and <code>--ink-muted</code> for descriptions.
-              Descriptions also keep readable contrast.
+              Descriptions keep readable contrast too.
             </dd>
           </div>
           <div>
             <dt>Brand</dt>
             <dd>
-              <code>--brand</code> is the surface of primary actions, and{' '}
+              <code>--brand</code> fills primary actions, and{' '}
               <code>--on-brand</code> is the text on it. In the light theme,
-              don't use green for small text on a white background. Links use{' '}
-              <code>--brand-ink</code> together with an underline.
+              don't set small text in green on white. Give links{' '}
+              <code>--brand-ink</code> and an underline.
             </dd>
           </div>
           <div>
@@ -191,8 +191,8 @@ export function ColorFoundation() {
             <dd>
               <code>--line</code> is a decorative divider. Parts that identify
               controls, such as input boundaries and focus, use{' '}
-              <code>--control-border</code> and <code>--control-focus</code> and
-              are checked separately against adjacent surfaces.
+              <code>--control-border</code> and <code>--control-focus</code>.
+              They're checked separately against adjacent surfaces.
             </dd>
           </div>
         </dl>
@@ -200,37 +200,35 @@ export function ColorFoundation() {
       <section id='contrast'>
         <h2>Live color contrast</h2>
         <p>
-          OKLCH is used to express and transition colors; contrast is calculated
-          from WCAG relative luminance in linear sRGB. Changing the color model
-          does not change the contrast criteria.
+          Colors are defined and transitioned in OKLCH. Contrast is calculated
+          from WCAG relative luminance in linear sRGB. The color model doesn't
+          change the contrast criteria.
         </p>
         <p>
-          Surfaces step from the chrome to the sheet, then to recessed surfaces,
-          the code well, hover and selection. Each step stays at least 1.05:1
-          from the one it sits on, so a layer never disappears into its
-          background. Recessed surfaces belong on the sheet; on the chrome, use
+          Keep each surface step at least 1.05:1 from the one it sits on, so no
+          layer disappears into its background. Surfaces step from the chrome to
+          the sheet, then to recessed surfaces, the code well, hover, and
+          selection. Place recessed surfaces on the sheet. On the chrome, use
           the sheet tone.
         </p>
         <p>
-          Ratios are approximations from the current theme's computed colors,
-          converted to 8-bit sRGB pixels. The threshold is 4.5:1 for normal text
-          and 3:1 for large text. Large text is at least 18pt (24 CSS px), or at
-          least 14pt (about 18.67 CSS px) when bold; text rows are compared
-          against the normal-text threshold. Rows for input boundaries, focus
-          borders, and selection marks are compared at 3:1 against the adjacent
-          color.
+          Normal text needs 4.5:1 and large text needs 3:1. Large text is at
+          least 18pt (24 CSS px), or at least 14pt (about 18.67 CSS px) when
+          bold. Text rows use the normal-text threshold. Input boundary, focus
+          border, and selection mark rows need 3:1 against the adjacent color.
         </p>
         <p>
-          Displayed ratios are rounded to two decimal places, but results use
-          the unrounded value. This does not evaluate transparent colors,
-          gradients, images, ancestor opacity, overlap, anti-aliasing, or every
-          interaction state. Recheck borderline values and real products with a
-          separate tool.
+          Ratios are approximate: they come from the current theme's computed
+          colors, converted to 8-bit sRGB pixels. Ratios display rounded to two
+          decimal places, but results use the unrounded value. The check skips
+          transparent colors, gradients, images, ancestor opacity, overlap,
+          anti-aliasing, and some interaction states. Recheck borderline values
+          and real products with a separate tool.
         </p>
         {forcedColors && (
           <p role='status'>
             Forced colors mode is active. The user's system colors take
-            precedence, and token contrast checks are skipped.
+            precedence, so token contrast checks are skipped.
           </p>
         )}
         <div
@@ -335,17 +333,16 @@ export function ColorFoundation() {
                 value.ratio != null && value.ratio >= pairs[index][3],
             ).length
           }{' '}
-          / {pairs.length} combinations meet their threshold. Forced colors and
-          unsupported colors are excluded from the results.
+          / {pairs.length} pairs meet their threshold. Forced colors and
+          unsupported colors are excluded.
         </p>
         <p>
-          Check that control boundaries, and the required icons or lines that
-          identify state, reach at least 3:1 against adjacent colors. Don't
-          apply the same rule wholesale to decorative dividers, secondary badge
-          surfaces, or disabled controls. Compare each state's indicator with
-          its adjacent surface, not the colors before and after hover with each
-          other. The faint outer glow on focus is a secondary effect; the solid
-          border is what identifies focus.
+          Control boundaries, and the icons or lines required to identify state,
+          need at least 3:1 against adjacent colors. Don't apply this rule
+          wholesale to decorative dividers, secondary badge surfaces, or
+          disabled controls. Compare each state's indicator with its adjacent
+          surface, not the pre-hover color with the hover color. The solid
+          border identifies focus. The faint outer glow is secondary.
         </p>
         <p>
           <a href='https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html'>
@@ -361,19 +358,17 @@ export function ColorFoundation() {
         <h2>State beyond color</h2>
         <p>
           Text selection pairs an opaque neutral gray surface with a text color,
-          both tuned to the theme. Drag to select the sentence below. This keeps
-          a translucent highlight from overlapping body, code, or status
-          surfaces and changing the contrast.
+          both tuned to the theme. A translucent highlight would overlap body,
+          code, or status surfaces and change the contrast. Drag to select the
+          sentence below.
         </p>
         <p data-selection-sample>
-          Selected text stays comfortable to read. It stays readable across
-          surfaces.
+          Selected text stays comfortable to read across surfaces.
         </p>
         <p>
-          Status combines a label, an SVG icon, and position. Instead of
-          accenting only one side of a rounded surface, use the full border and
-          background. Brand actions and success states are also told apart by
-          context and wording.
+          Show status with a label, an SVG icon, and position. Use the full
+          border and background, not an accent on one side of a rounded surface.
+          Context and wording also tell brand actions apart from success states.
         </p>
         <div
           className='actions'
@@ -398,24 +393,24 @@ export function ColorFoundation() {
         </div>
         <p>
           These statuses are static examples. Announce real asynchronous results
-          once, where they are needed, and keep errors and recovery actions in
-          the page content.
+          once, where they're needed. Keep errors and recovery actions in the
+          page content.
         </p>
       </section>
       <section id='application'>
         <h2>Apply semantic color roles</h2>
         <ul>
           <li>
-            Show task results with a status name and an icon, along with the
-            reason for a failure and a recovery action.
+            Show task results with a status name and an icon. For a failure, add
+            the reason and a recovery action.
           </li>
           <li>
-            Distinguish data status from user selection. Express selection with
+            Keep data status distinct from user selection. Show selection with
             checkboxes or a selected surface, and actions with clear buttons.
           </li>
           <li>
-            Keep underlines on links in body text, and ensure readable contrast
-            for code and secondary descriptions too.
+            Keep underlines on links in body text. Keep code and secondary
+            descriptions at readable contrast too.
           </li>
         </ul>
         <CodeBlock
@@ -426,10 +421,10 @@ export function ColorFoundation() {
           }
         />
         <p>
-          Don't copy color values into products. See the{' '}
-          <Link href='/tokens?q=--ink'>token browser</Link> and{' '}
-          <Link href='/components/inline-message'>Inline message</Link> for the
-          actual tokens and usage examples.
+          Don't copy color values into products. Reference tokens instead: see
+          the <Link href='/tokens?q=--ink'>token browser</Link> and{' '}
+          <Link href='/components/inline-message'>Inline message</Link> for real
+          tokens and usage examples.
         </p>
       </section>
     </>

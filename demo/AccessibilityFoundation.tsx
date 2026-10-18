@@ -20,22 +20,22 @@ const responsibilities = [
   [
     'Keyboard',
     'Buttons, links, and forms keep their native semantics',
-    'Operate with Tab, Shift+Tab, arrow keys, Enter, Space, and Escape',
+    'Complete tasks with Tab, Shift+Tab, arrow keys, Enter, Space, and Escape',
   ],
   [
     'Forms',
     'Field labels, descriptions, error associations, and required state',
-    'Preserve values and explain the cause and how to fix it',
+    'Preserve values, and state the cause and the fix',
   ],
   [
     'Feedback',
     'status or alert, matched to severity',
-    'Avoid duplicate announcements; keep results and recovery actions in the page content',
+    'Announce once, and keep results and recovery actions in the page content',
   ],
   [
     'Perception',
     'Shared color, focus, size, and motion tokens',
-    'Check across themes, zoom, text spacing, narrow widths, and high contrast',
+    'Check themes, zoom, text spacing, narrow widths, and high contrast',
   ],
 ]
 export function AccessibilityFoundation() {
@@ -57,11 +57,10 @@ export function AccessibilityFoundation() {
       <section id='principles'>
         <h2>Shared behavior, product responsibility</h2>
         <p>
-          Base UI and the shared wrappers provide the foundation for
-          interaction, focus, and styling. The screen name, document structure,
-          data, error meaning, permissions, and task-completion messages are the
-          product's responsibility. Using the components does not by itself make
-          the whole screen accessible.
+          Using the components doesn't make a screen accessible on its own. Base
+          UI and the shared wrappers handle interaction, focus, and styling. The
+          product owns the screen name, document structure, data, error meaning,
+          permissions, and task-completion messages.
         </p>
         <Table.Container
           label='Accessibility responsibilities'
@@ -69,7 +68,7 @@ export function AccessibilityFoundation() {
         >
           <Table.Root>
             <Table.Caption>
-              Connecting design, implementation, and review
+              What to implement and review in each area
             </Table.Caption>
             <Table.Head>
               <Table.Row>
@@ -90,7 +89,7 @@ export function AccessibilityFoundation() {
           </Table.Root>
         </Table.Container>
         <p>
-          New behavior follows the{' '}
+          Build new behavior on the{' '}
           <Link href='/components'>keyboard guidance for each component</Link>.
           Don't add positive tabIndex values, clickable divs, unnamed icon
           buttons, or unnecessary ARIA roles.
@@ -99,24 +98,23 @@ export function AccessibilityFoundation() {
       <section id='forms'>
         <h2>Recover without losing input</h2>
         <p>
-          The example below validates locally. Submit an empty name or an
-          invalid format, then check how the description and error are
-          associated. After you enter a valid name, you can also reproduce a
-          name conflict explicitly. No server requests are made and no resources
-          are created.
+          Submit an empty name or an invalid format, then check how the
+          description and error are associated. Enter a valid name to try
+          Simulate name conflict. The example validates locally, sends no server
+          requests, and creates no resources.
         </p>
         <Form
           aria-label='Accessible validation preview'
           errors={errors}
           onFormSubmit={(values) =>
             setMessage(
-              `Validated: ${String(values.name)}. This is a local example; no resources were created.`,
+              `Validated: ${String(values.name)}. This local example created no resources.`,
             )
           }
           onReset={() => {
             setName('')
             setErrors({})
-            setMessage('Preview reset. You can enter a name again.')
+            setMessage('Preview reset. Enter a name to try again.')
           }}
         >
           <Field.Root name='name'>
@@ -170,11 +168,11 @@ export function AccessibilityFoundation() {
           {message}
         </p>
         <p>
-          The label and the required attribute convey that a field is required.
-          Errors show the cause and how to fix it instead of only changing
-          color. The name conflict example associates the error and moves focus
-          to the input only after an explicit user action. Successful validation
-          does not force focus to move.
+          Mark required fields with the label and the required attribute. Errors
+          state the cause and the fix, not just a color change. The name
+          conflict associates its error and moves focus to the input only after
+          an explicit user action. Successful validation leaves focus where it
+          is.
         </p>
         <CodeBlock
           language='tsx'
@@ -195,15 +193,15 @@ export function AccessibilityFoundation() {
       <section id='keyboard'>
         <h2>Follow a predictable focus path</h2>
         <p>
-          Draw the actual focus outline with{' '}
+          Draw the focus outline with{' '}
           <Link href='/tokens?q=--control-focus'>
             <code>--control-focus</code>
           </Link>
-          , and don't replace it with only the faint background of{' '}
+          . Don't replace it with the faint{' '}
           <Link href='/tokens?q=--control-focus-ring'>
             <code>--control-focus-ring</code>
-          </Link>
-          . Interactive areas use{' '}
+          </Link>{' '}
+          background alone. Size interactive areas with{' '}
           <Link href='/tokens?q=--control-height'>
             <code>--control-height</code>
           </Link>{' '}
@@ -211,16 +209,16 @@ export function AccessibilityFoundation() {
           behind content.
         </p>
         <p>
-          Tab order follows DOM order. Links navigate, buttons perform actions,
-          and headings define document structure. When the route changes, update
-          the document title and h1; table-of-contents links within the same
-          page keep the browser's native anchor navigation.
+          Tab order follows DOM order. Links navigate, buttons run actions, and
+          headings define document structure. On a route change, update the
+          document title and h1. Same-page table-of-contents links keep the
+          browser's native anchor navigation.
         </p>
         <p>
           In modals, check Tab cycling, Escape, the close button, and focus
-          restoration. The shared Dialog provides this behavior, so don't add a
-          separate keyboard trap. When an action removes its trigger, the
-          product decides the next meaningful focus target.
+          restoration. The shared Dialog provides this behavior, so don't add
+          your own keyboard trap. When an action removes its trigger, the
+          product picks the next meaningful focus target.
         </p>
         <div className='actions'>
           <Dialog.Root>
@@ -231,7 +229,7 @@ export function AccessibilityFoundation() {
               <Dialog.Header>
                 <Dialog.Title>Keyboard focus preview</Dialog.Title>
                 <Dialog.Description>
-                  Cycle with Tab and Shift+Tab; press Escape to close and return
+                  Cycle with Tab and Shift+Tab. Press Escape to close and return
                   to the trigger.
                 </Dialog.Description>
               </Dialog.Header>
@@ -261,9 +259,9 @@ export function AccessibilityFoundation() {
         <h2>Announce once, preserve the result</h2>
         <ul>
           <li>
-            Announce updates that don't need a focus change, such as completion
-            or search results, briefly in a role=status region mounted in
-            advance.
+            Announce updates that don't move focus, such as completion or search
+            results, in a role=status region. Mount it in advance and keep the
+            message brief.
           </li>
           <li>
             Use alert only for errors that need immediate attention. Don't
@@ -271,11 +269,11 @@ export function AccessibilityFoundation() {
           </li>
           <li>
             Keep the failure reason and the retry and fix paths in the page
-            content. Don't rely only on a toast's timing or motion.
+            content. Don't rely on a toast's timing or motion alone.
           </li>
           <li>
-            Use color, icons, and labels together, and give icon-only actions a
-            name that describes their target and purpose.
+            Use color, icons, and labels together. Name icon-only actions by
+            their target and purpose.
           </li>
         </ul>
         <p>
@@ -290,15 +288,15 @@ export function AccessibilityFoundation() {
         <h2>Test the complete task</h2>
         <ol>
           <li>
-            Using only the keyboard, run the task through start, edit,
-            completion, cancellation, and failure recovery. The visible focus
-            must match the actual active element.
+            Run the task by keyboard alone: start, edit, complete, cancel, and
+            recover from failure. Visible focus must match the actual active
+            element.
           </li>
           <li>
-            Check at a 320 CSS px width and on desktop, and test 200% and 400%
-            browser zoom and text spacing changes yourself. Present areas that
-            need two-dimensional content, such as tables and code, as named,
-            independent scroll areas.
+            Check at a 320 CSS px width and on desktop. Test 200% and 400%
+            browser zoom and text spacing changes yourself. Put two-dimensional
+            content, such as tables and code, in named, independent scroll
+            areas.
           </li>
           <li>
             Check light, dark, system, forced colors, and reduced motion
@@ -307,20 +305,19 @@ export function AccessibilityFoundation() {
             <Link href='/foundations/motion'>motion guidance</Link> together.
           </li>
           <li>
-            Confirm with real assistive technologies such as VoiceOver and NVDA
-            that names, order, errors, and states make sense. axe checks and
-            viewport resizing do not replace this manual check.
+            Confirm names, order, errors, and states with real assistive
+            technologies, such as VoiceOver and NVDA. axe checks and viewport
+            resizing don't replace this manual check.
           </li>
           <li>
-            Test the tasks users perform, such as entering data, saving,
-            recovering from errors, reading, and copying code, from start to
-            finish.
+            Test the tasks users perform from start to finish, such as entering
+            data, saving, recovering from errors, reading, and copying code.
           </li>
         </ol>
         <p>
-          This guide and the automated checks do not constitute accessibility
-          certification or a completed full manual review. Don't mark untested
-          items as complete.
+          Don't mark untested items as complete. This guide and the automated
+          checks aren't an accessibility certification or a completed full
+          manual review.
         </p>
         <p>
           <a href='https://www.w3.org/WAI/tutorials/forms/notifications/'>

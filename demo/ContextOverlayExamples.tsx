@@ -150,8 +150,8 @@ export function ContextOverlayExample({ id }: { id: string }) {
           redacted logs for each check.
         </p>
         <p>
-          The destination contains the same summary. No action or essential
-          information is available only inside the preview.
+          The destination repeats this summary. No action or essential
+          information exists only in the preview.
         </p>
       </section>
     </div>

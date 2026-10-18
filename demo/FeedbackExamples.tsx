@@ -42,7 +42,7 @@ export function FeedbackExample({ id }: { id: string }) {
         <p role='status'>
           {value === 100
             ? 'All checks completed.'
-            : 'Preview only; no tests are running.'}
+            : 'Preview only. No tests are running.'}
         </p>
       </div>
     )
@@ -72,7 +72,7 @@ export function FeedbackExample({ id }: { id: string }) {
             Release allocation
           </Button>
         </div>
-        <p>Measurement of capacity; this is not a running task.</p>
+        <p>This measures capacity, not a running task.</p>
       </div>
     )
   return (

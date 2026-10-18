@@ -2,11 +2,19 @@ import type { ComponentDoc } from './componentDocs'
 export const asyncJobDocs: Record<string, ComponentDoc> = {
   'async-job': {
     usage:
-      "Distinguishes queued, running, cancel requested, canceled, partially failed, and completed states. Progress shows the number of checks actually finished and doesn't promise an estimated duration. Connects the List's per-step status with explicit actions to open and copy logs. Local manual updates let you check each state.",
-    avoid:
-      "Don't present a cancel request as a completed cancellation or rollback. Don't turn partial failures into success. The product implements actually starting the job, server permissions, idempotency, event ordering, reconnection, and persistence. Decide whether to reuse a successful result only after checking its expiry and permissions. The example provides fixed samples only and doesn't send product requests.",
-    keyboard:
-      "After starting, focus moves to the request cancel button; after a cancel request, to the confirm button; and when the job ends, to the summary heading. Intermediate updates and opening logs don't steal focus. Status is announced with text and role=status, and copying logs runs from a separate button.",
+      "Distinguish queued, running, cancel requested, canceled, partially failed, and completed states. Show progress as the count of finished checks. Don't promise an estimated duration. Pair each step's status in the List with explicit actions to open and copy logs. Deliver updates manually in the example to inspect each state.",
+    avoid: [
+      "Don't present a cancel request as a finished cancellation or a rollback. Report canceled only after the worker acknowledges it.",
+      "Don't report a partial failure as success. Reuse a successful result only after checking its expiry and permissions.",
+      "Don't expect the primitives to start the job or handle server permissions, idempotency, event ordering, reconnection, or persistence. The product owns them.",
+      'The example uses fixed samples and sends no product requests.',
+    ],
+    keyboard: [
+      'Starting the job moves focus to the cancel request button. Requesting cancellation moves focus to the confirm button.',
+      "When the job ends, focus moves to the summary heading. Intermediate updates and opening logs don't move focus.",
+      'A separate button copies the logs.',
+      'Status is announced as text in role=status.',
+    ],
     anatomy:
       'Preview inputs → start / cancel / deliver controls → run identity + environment snapshot + status → completed check count → step list → selected logs',
     tokens: [

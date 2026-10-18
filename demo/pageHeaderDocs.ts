@@ -2,11 +2,11 @@ import type { ComponentDoc } from './componentDocs'
 export const pageHeaderDocs: Record<string, ComponentDoc> = {
   'page-header': {
     usage:
-      "Brings a page's path, title, description, and related actions together as a single starting point. Product profiles and preview options sit outside the border, and only the actual page header example is wrapped in the shared border. The catalog's own page headers use the same primitive. Use workspace for operational screens, page for dense lists, and document for reading screens.",
+      "Open a page with its path, title, description, and related actions. Set size to workspace for operational screens, page for dense lists, or document for reading screens. The catalog's own page headers use the same primitive. In the preview, the shared border wraps only the header example, not the product profiles or preview options.",
     avoid:
-      "Don't truncate titles or pick heading levels to get a certain size. The product decides which actions appear and their execution state based on loading, errors, and permissions; when you hide an unavailable action, explain why. Don't nest cards or separate backgrounds.",
+      'Show titles in full, and set visual size with size, not the heading level. The product decides which actions appear and their execution state, based on loading, errors, and permissions. When you hide an unavailable action, explain why. Place the header directly on the page, without nested cards or a separate background.',
     keyboard:
-      "Don't add extra keyboard behavior to a static header. Links run with Enter and buttons with Enter/Space. After SPA navigation, move focus to the title using headingProps' id and tabIndex=-1. Give the breadcrumb a named navigation landmark and aria-current=page.",
+      "Don't add keyboard behavior to the static header. Its links run on Enter, and its buttons on Enter or Space. After SPA navigation, move focus to the title with headingProps' id and tabIndex=-1. Give the breadcrumb a named navigation landmark, and mark the current page with aria-current=page.",
     anatomy:
       'PageHeader → optional breadcrumb → copy (semantic Heading + optional description) + optional wrapping action group',
     tokens: [
@@ -43,7 +43,7 @@ export const pageHeaderDocs: Record<string, ComponentDoc> = {
       ['size', 'title | page | workspace | document; visual role', 'title'],
       [
         'headingProps',
-        'heading HTML attributes including id and tabIndex',
+        'heading HTML attributes, including id and tabIndex',
         'undefined',
       ],
       ['actionsLabel', 'optional accessible group name', 'undefined'],

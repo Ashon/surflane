@@ -179,8 +179,7 @@ export function ResourceListExample() {
           <EmptyState.Root>
             <EmptyState.Title>Resource access unavailable</EmptyState.Title>
             <EmptyState.Description id='resource-access-note'>
-              This preview account does not have access to the resource
-              collection.
+              This preview account can't access the resource collection.
             </EmptyState.Description>
             <EmptyState.Actions>
               <Button variant='outline' onClick={restore}>
@@ -346,8 +345,8 @@ export function ResourceListExample() {
         {notice}
       </p>
       <p>
-        Local design examples. Title links navigate to the related
-        documentation; review actions do not contact product services.
+        Local design examples. Title links open the related documentation.
+        Review actions don't contact product services.
       </p>
     </div>
   )

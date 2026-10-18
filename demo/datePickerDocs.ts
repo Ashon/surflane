@@ -2,11 +2,26 @@ import type { ComponentDoc } from './componentDocs'
 export const datePickerDocs: Record<string, ComponentDoc> = {
   'date-picker': {
     usage:
-      "Use it to enter a date, date range, or time in a locale format or to pick one from a calendar. It composes React Aria's segmented input, calendar grid, and range selection on the shared form surface. DateLocaleProvider sets the locale format, and the examples cover Korean, English, and RTL. Min/max, unavailable dates, required values, form submission, and reset are validated.",
-    avoid:
-      "Distinguish calendar dates (CalendarDate), local date-times (CalendarDateTime), instants (ZonedDateTime), and wall-clock times (Time). Don't convert date-only values to UTC midnight. Real execution times need an IANA time zone and an explicit DST policy; the examples reject ambiguous or nonexistent local times by default. Choosing earlier/later is an explicit user decision. This library doesn't replace Temporal or server-side schedule and permission validation. Keep immutable date objects and the same date type, and let the caller handle resetting controlled values.",
-    keyboard:
-      "Each date and time segment is a spinbutton. Tab/Shift+Tab and Left/Right move between segments; type digits, use Up/Down to increment and decrement, and use Home/End and Backspace/Delete to edit. Enter/Space on the calendar button opens the calendar; in the calendar, arrow keys move by day, PageUp/PageDown by month, and Shift+PageUp/PageDown by year. Enter/Space selects a date, or the start and end of a range. Escape closes the calendar and returns focus to the trigger. Disabled values can't be edited, and read-only values can be navigated and read but not changed. Popup collision avoidance and touch selection are supported.",
+      "Enter a date, date range, or time in a locale format, or pick one from a calendar. It composes React Aria's segmented input, calendar grid, and range selection on the shared form surface. DateLocaleProvider sets the locale format. The examples cover Korean, English, and RTL. Min and max, unavailable dates, required values, form submission, and reset are validated.",
+    avoid: [
+      "Don't interchange date types. Use CalendarDate for calendar dates, CalendarDateTime for local date-times, ZonedDateTime for instants, and Time for wall-clock times.",
+      "Don't convert date-only values to UTC midnight. Keep them as CalendarDate.",
+      "Don't store real execution times without an IANA time zone and an explicit DST policy.",
+      "Don't pick earlier or later on the user's behalf for an ambiguous or nonexistent local time. By default, the examples reject these times.",
+      "Don't treat this library as a replacement for Temporal or server-side schedule and permission validation.",
+      "Don't mutate date objects or mix their types. Keep them immutable and of the same type.",
+      "Don't expect form reset to restore controlled values. Reset them yourself in onReset.",
+    ],
+    keyboard: [
+      'Tab, Shift+Tab, and the Left and Right arrow keys move between segments.',
+      'Type digits to fill a segment. Up and Down increment and decrement it, and Home, End, Backspace, and Delete edit it.',
+      'In the calendar, arrow keys move by day, and Page Up and Page Down move by month. Shift+Page Up and Shift+Page Down move by year.',
+      'Enter or Space on the calendar button opens the calendar. In the calendar, Enter or Space selects a date, or the start and end of a range.',
+      'Escape closes the calendar and returns focus to the trigger.',
+      "Disabled values can't be edited. Read-only values can be navigated and read, but not changed.",
+      'The popup avoids collisions, and touch selection works.',
+      'Each date and time segment is a spinbutton.',
+    ],
     anatomy:
       'DateLocaleProvider → DatePicker / DateRangePicker / TimeField → Label + Group + DateInput segments + calendar trigger → Popover + Dialog + Calendar/RangeCalendar → month navigation + weekday headers + grid cells; description + FieldError',
     tokens: [
@@ -88,12 +103,12 @@ try {
       ],
       [
         'DateLocaleProvider.locale',
-        'locale + optional calendar extension; field value retains its original calendar',
+        'locale + optional calendar extension; the field value keeps its original calendar',
         'environment locale',
       ],
       [
         'minValue / maxValue / isDateUnavailable',
-        'typed value bounds; unavailable callback for date/date-range; ranges cannot cross unavailable dates by default',
+        "typed value bounds; unavailable callback for date/date-range; by default, ranges can't cross unavailable dates",
         'optional',
       ],
       [
@@ -108,7 +123,7 @@ try {
       ],
       [
         'isDisabled / isReadOnly',
-        'disabled prevents interaction; readonly preserves accessible value',
+        'disabled prevents interaction; read-only keeps the accessible value',
         'false',
       ],
       [

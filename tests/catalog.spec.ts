@@ -50,9 +50,10 @@ test('inventory covers every installed Base UI component and links only real tok
       'anatomy',
       'code',
     ] as const)
-      expect(doc[field].trim().length, `${item.id}: ${field}`).toBeGreaterThan(
-        0,
-      )
+      expect(
+        [doc[field]].flat().join(' ').trim().length,
+        `${item.id}: ${field}`,
+      ).toBeGreaterThan(0)
     expect(doc.props.length, `${item.id}: props`).toBeGreaterThan(0)
     expect(doc.tokens.length, `${item.id}: tokens`).toBeGreaterThan(0)
     expect(doc.code).toContain('@surflane/ui')

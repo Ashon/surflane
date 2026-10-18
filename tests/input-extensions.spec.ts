@@ -15,7 +15,7 @@ test('Autocomplete accepts and submits free text when no suggestion matches', as
   await input.fill('custom scenario 한글')
   await expect(
     page.getByRole('status').filter({
-      hasText: 'No suggestions. You can still use this search text.',
+      hasText: 'No suggestions. Your search text still works.',
     }),
   ).toBeVisible()
   await input.press('Tab')
@@ -192,7 +192,7 @@ test('Slider range respects minimum distance and primary cancellation blocks key
       Number(await low.getAttribute('aria-valuenow')),
   ).toBeGreaterThanOrEqual(10)
   await page
-    .getByRole('button', { name: 'Cancel primary changes', exact: true })
+    .getByRole('button', { name: 'Cancel worker changes', exact: true })
     .click()
   const primary = page.getByRole('slider', {
     name: 'Parallel workers',

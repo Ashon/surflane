@@ -208,9 +208,7 @@ export function AsyncJobExample() {
   const evidence = inspected === null ? null : run?.steps[inspected]
   return (
     <div className='example-stack async-job-example'>
-      <p>
-        This local preview delivers updates manually. No product job is started.
-      </p>
+      <p>Updates arrive only when you deliver them. No real job runs.</p>
       <Field.Root name='job-target'>
         <Field.Label>Next run environment</Field.Label>
         <Field.Control
@@ -219,8 +217,8 @@ export function AsyncJobExample() {
           disabled={active(run)}
         />
         <Field.Description>
-          Retries keep the original environment and reuse successful checks only
-          in this preview.
+          In this preview, retries keep the original environment and reuse
+          successful checks.
         </Field.Description>
       </Field.Root>
       <label className='example-field'>
@@ -307,9 +305,9 @@ export function AsyncJobExample() {
                 </InlineMessage.Title>
                 <InlineMessage.Description>
                   {run.phase === 'cancel-requested'
-                    ? 'Waiting for worker acknowledgement. Completed work remains recorded.'
+                    ? 'Waiting for the worker to acknowledge. Completed work stays recorded.'
                     : run.phase === 'canceled'
-                      ? 'Worker acknowledged cancellation. Completed checks were retained; no rollback is implied.'
+                      ? 'The worker acknowledged cancellation. Completed checks are kept, and nothing is rolled back.'
                       : 'Review the failed check logs. Retry creates a new run for unfinished checks.'}
                 </InlineMessage.Description>
               </InlineMessage.Content>

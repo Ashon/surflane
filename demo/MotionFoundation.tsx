@@ -74,23 +74,21 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
         <h2>Motion has a purpose</h2>
         <p>
           Use motion only to explain a change in position, a change in state, or
-          how screens connect. Don't add decorative bounces or looping playback,
-          and never make the next interaction wait for an animation to finish.
+          how screens connect. Don't add decorative bounces or looping playback.
+          Never make the next interaction wait for an animation to finish.
         </p>
         <ul>
           <li>
-            Dialog: enters with a fade that rises from 8px below and exits
-            immediately.
+            Dialog: fades in while rising from 8px below, and exits immediately.
           </li>
           <li>
-            Sheet / Drawer: an edge slide that connects the entry direction with
-            where the panel closes. CSS transitions are off while a Drawer is
-            being swiped directly.
+            Sheet / Drawer: an edge slide that ties the entry direction to where
+            the panel closes. CSS transitions are off during a direct Drawer
+            swipe.
           </li>
           <li>
-            Theme: the whole screen changes as one scene, so individual
-            backgrounds, borders, and icons don't trail behind at different
-            times.
+            Theme: the whole screen changes as one scene, so backgrounds,
+            borders, and icons don't trail behind at different times.
           </li>
         </ul>
         <Table.Container label='Motion design tokens' orientation='horizontal'>
@@ -124,8 +122,8 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
         </Table.Container>
         <p>
           The table shows design token values. With reduced motion on,
-          components drop their actual transitions, so these values don't
-          reflect real playback time.
+          components drop their transitions, so these values don't match real
+          playback time.
         </p>
       </section>
       <EasingLab />
@@ -133,10 +131,9 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
         <h2>Transition contracts</h2>
         <p>
           Entry, exit, and repeated interactions don't share one fixed duration.
-          An entrance explains the new context, and closing never makes the user
+          An entrance explains the new context. Closing never makes the user
           wait to take the next action. Sheet and Drawer are the exception:
-          their spatial relationship matters, so they keep movement in both
-          directions.
+          their spatial relationship matters, so they move in both directions.
         </p>
         <Table.Container
           label='Component transition policies'
@@ -163,13 +160,13 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
                   'Dialog / Alert dialog',
                   environment.values['--dialog-enter-duration'],
                   environment.values['--dialog-exit-duration'],
-                  'opacity + lift; close and focus restoration are immediate',
+                  'opacity + lift, with immediate close and focus restoration',
                 ],
                 [
                   'Sheet / Drawer',
                   environment.values['--duration-base'],
                   environment.values['--duration-base'],
-                  'edge movement; follows the pointer directly during a gesture',
+                  'edge movement that follows the pointer directly during a gesture',
                 ],
                 [
                   'Accordion',
@@ -181,25 +178,25 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
                   'Collapsible',
                   environment.values['--motion-reveal'],
                   '0ms',
-                  'expands with content preserved; closes immediately',
+                  'expands with content preserved, and closes immediately',
                 ],
                 [
                   'Toast',
                   environment.values['--toast-enter-duration'],
                   '0ms',
-                  'relaxed fade + lift; keep important results in the page content',
+                  'relaxed fade + lift, with important results kept in the page content',
                 ],
                 [
                   'Toast stack',
                   environment.values['--toast-stack-duration'],
                   '0ms',
-                  'repositioning time; cards expand on hover, focus, and touch',
+                  'repositioning time, with cards expanding on hover, focus, and touch',
                 ],
                 [
                   'Theme',
                   environment.values['--theme-transition-duration'],
                   'same scene',
-                  'snapshot transition of one scene; prevents stacked per-component transitions',
+                  'one-scene snapshot transition that prevents stacked per-component transitions',
                 ],
               ].map(([component, entry, exit, behavior]) => (
                 <Table.Row key={component}>
@@ -213,29 +210,30 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
           </Table.Root>
         </Table.Container>
         <p>
-          Focus rings appear immediately, and a running transition never blocks
+          Focus rings appear immediately. A running transition never blocks
           interaction. During rapid opening, closing, and theme changes, don't
-          let stale timers overwrite the new state, and don't tie completion
+          let stale timers overwrite the new state. Don't tie completion
           announcements to CSS transitionend. See{' '}
           <Link href='/foundations/interaction'>Interaction / states</Link> for
           real task states and duplicate-run prevention.
         </p>
         <p>
-          Toast <Link href='/components/toast'>swipe, duration, and pause</Link>{' '}
-          and Drawer gestures are managed by their primitives. Examples and
-          products don't reimplement this behavior with separate timers. With
-          reduced motion, the movement and fades in the rules below are removed,
-          but names, focus, state, and close paths remain.
+          The Toast primitive manages{' '}
+          <Link href='/components/toast'>swipe, duration, and pause</Link>, and
+          the Drawer primitive manages gestures. Don't reimplement this behavior
+          with separate timers in examples or products. With reduced motion,
+          these transitions drop their movement and fades. Names, focus, state,
+          and close paths remain.
         </p>
       </section>
       <section id='theme'>
         <h2>One scene, one clock</h2>
         <p>
           The shared <code>transitionTheme</code> applies the DOM theme
-          attribute and framework state in the same update. In supporting
-          browsers it fades the new screen in over the old one and briefly
-          suppresses individual CSS transitions. Rapid repeated changes follow
-          the last request.
+          attribute and framework state in the same update. Where supported, it
+          fades the new screen in over the old one and briefly suppresses
+          individual CSS transitions. Rapid repeated changes follow the last
+          request.
         </p>
         <ul aria-label='Current motion environment'>
           <li>
@@ -262,15 +260,15 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
         </div>
         <p>
           The cycle order is Light → Dark → System → Light. System follows the
-          operating system setting. Where the API is unsupported or reduced
-          motion is on, the whole theme applies immediately and works the same.
+          operating system setting. Without the API, or with reduced motion on,
+          the whole theme applies immediately and works the same.
         </p>
       </section>
       <section id='panels'>
         <h2>Compare real panels</h2>
         <p>
           The examples below are the real shared Dialog and Sheet. Compare
-          opening, Escape, closing, and focus restoration, and try changing the
+          opening, Escape, closing, and focus restoration. Try changing the
           theme while a panel is open. The input draft is local state in this
           guide.
         </p>
@@ -283,8 +281,8 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
               <Dialog.Header>
                 <Dialog.Title>Dialog motion preview</Dialog.Title>
                 <Dialog.Description>
-                  Check the short entrance and immediate exit. The draft and
-                  focus are kept when the theme changes.
+                  Check the short entrance and immediate exit. Changing the
+                  theme keeps the draft and focus.
                 </Dialog.Description>
               </Dialog.Header>
               <Dialog.Body>
@@ -314,15 +312,15 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
               <Sheet.Header>
                 <Sheet.Title>Sheet motion preview</Sheet.Title>
                 <Sheet.Description>
-                  Compare entry and exit from the edge with the reduced motion
-                  setting.
+                  Compare the edge entry and exit with reduced motion on and
+                  off.
                 </Sheet.Description>
               </Sheet.Header>
               <Sheet.Body>
                 <p>
-                  Details open and close from the side, keeping the spatial
-                  relationship. Submission and completion status for real tasks
-                  is announced independently of the animation.
+                  Details open and close from the side, keeping their spatial
+                  relationship. Real task submission and completion are
+                  announced independently of the animation.
                 </p>
                 <Link className='pui-link' href='/components/sheet'>
                   Sheet usage and API
@@ -352,9 +350,9 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
         <h2>Respect motion preferences</h2>
         <p>
           The guide follows the operating system or browser setting{' '}
-          <code>prefers-reduced-motion: reduce</code>. This page does not add a
-          separate toggle that overrides it. Changing the setting updates both
-          the environment readout above and the actual component behavior.
+          <code>prefers-reduced-motion: reduce</code>. This page adds no toggle
+          to override it. Changing the setting updates both the environment
+          readout above and the actual component behavior.
         </p>
         <ul>
           <li>
@@ -366,8 +364,8 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
             and completion announcements don't depend on motion.
           </li>
           <li>
-            If a product adds continuous motion, auto-scrolling, or blinking, it
-            needs its own stop control and accessibility review.
+            Products that add continuous motion, auto-scrolling, or blinking
+            need their own stop control and accessibility review.
           </li>
         </ul>
         <p>
@@ -384,8 +382,8 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
         <h2>Theme integration</h2>
         <p>
           Commit the React state and the DOM theme update synchronously inside
-          the same shared function. Don't call the wrapper more than once per
-          user action or add per-screen transition timers.
+          the same shared function. Call the wrapper once per user action. Don't
+          add per-screen transition timers.
         </p>
         <CodeBlock
           language='tsx'
@@ -401,11 +399,10 @@ await transitionTheme(() => {
 })`}
         />
         <p>
-          Restoring the initial theme, saving the selected mode, and subscribing
-          to OS changes are the product's responsibility. With server rendering
-          and hydration, check separately that the first screen renders with the
-          matching theme. Check transitions and reduced motion in the browsers
-          you support.
+          The product restores the initial theme, saves the selected mode, and
+          subscribes to OS changes. With server rendering and hydration, check
+          separately that the first screen renders the matching theme. Check
+          transitions and reduced motion in the browsers you support.
         </p>
         <div className='token-reference-links'>
           <Link href='/tokens?q=--motion'>Motion tokens</Link>

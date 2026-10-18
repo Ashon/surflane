@@ -26,10 +26,12 @@ import { dataDocs } from './dataDocs'
 import { feedbackDocs } from './feedbackDocs'
 import { navigationDocs } from './navigationDocs'
 import { formDocs } from './formDocs'
+// A field with many rules reads as a list, one topic per item; a short one stays a paragraph.
+export type DocText = string | string[]
 export type ComponentDoc = {
-  usage: string
-  avoid: string
-  keyboard: string
+  usage: DocText
+  avoid: DocText
+  keyboard: DocText
   anatomy: string
   tokens: string[]
   code: string
@@ -78,11 +80,11 @@ export const componentDocs: Record<string, ComponentDoc> = {
   ...navigationDocs,
   button: {
     usage:
-      "Keep an action's emphasis separate from its meaning. primary uses the brand surface for the key action, secondary uses a borderless neutral surface for supporting actions, outline is the only bordered variant for supporting actions, and ghost expresses low emphasis. destructive signals danger and is independent of priority. default is styled the same as primary for backward compatibility. Emphasize only one primary action per area.",
+      "Set a button's emphasis apart from its meaning. primary marks the one key action per area, on the brand surface. secondary (a borderless neutral surface) and outline (the only bordered variant) mark supporting actions, and ghost marks low emphasis. destructive signals danger at any priority. default is a backward-compatible alias styled like primary.",
     avoid:
-      "Use a link for page navigation, and don't rely on color alone to mark destructive actions.",
+      "Don't use Button for page navigation. Use a link instead. Don't mark destructive actions with color alone. Say what the action does in the label text.",
     keyboard:
-      'Tab moves focus and Enter / Space activates. While in progress, it prevents duplicate runs and announces the result.',
+      'Tab moves focus. Enter or Space activates the button. While an action is in progress, the button blocks duplicate runs and announces the result.',
     anatomy: 'Button → optional SVG icon + text that describes the action',
     tokens: ['--brand', '--danger', ...controls],
     code: `import { Button } from '@surflane/ui'
@@ -106,11 +108,11 @@ export const componentDocs: Record<string, ComponentDoc> = {
   },
   input: {
     usage:
-      'Use for short, single-line input. Keep the label visible after the user types.',
+      'Enter short, single-line text. Keep the label visible after the user types.',
     avoid:
-      "Don't use the placeholder as the only label. Describe errors in text associated with the input.",
+      "Don't use the placeholder as the only label. Add a visible label instead. Describe errors in text associated with the input.",
     keyboard:
-      'Tab moves focus. Standard text editing and Hangul IME input keep working.',
+      'Tab moves focus. Native text editing and Korean IME input keep working.',
     anatomy:
       'label → Input wrapper → leadingIcon(optional) + input, help text / error',
     tokens: controls,
@@ -133,11 +135,11 @@ export const componentDocs: Record<string, ComponentDoc> = {
   },
   select: {
     usage:
-      'Use to pick one option from a fixed list. If the list is long enough to need search, consider Combobox.',
+      'Pick one option from a fixed list. If the list is long enough to need search, use Combobox.',
     avoid:
-      "Don't use it as a widget for running menu actions. Check the selected result and the submitted value together.",
+      "Don't use Select to run actions. Use Menu instead. Check the selected result and the submitted value together.",
     keyboard:
-      'Open with Enter / Space or the arrow keys, then navigate with the arrow keys or by typing. Escape closes only the listbox and returns focus.',
+      'Enter, Space, or an arrow key opens the listbox. Arrow keys and typing move between items. Escape closes only the listbox and returns focus.',
     anatomy:
       'Select → Trigger / Value / SVG chevron → Portal / Positioner / List / Item / Indicator',
     tokens: [...controls, '--menu-border', '--shadow-float'],
@@ -164,11 +166,11 @@ export const componentDocs: Record<string, ComponentDoc> = {
   },
   'native-select': {
     usage:
-      'A compatibility adapter for incrementally migrating existing option / optgroup markup. Prefer Select for new screens.',
+      'Migrate existing option and optgroup markup incrementally with this compatibility adapter. Use Select for new screens.',
     avoid:
-      "Don't assume the same DOM API as the browser's native select popup.",
+      "Don't assume the DOM API of the browser's native select popup. Use the value and onChange adapter instead.",
     keyboard:
-      'Uses the same keyboard flow as the shared Select and submits the value to forms through a hidden input.',
+      'Keys work as in the shared Select. A hidden input submits the value with the form.',
     anatomy: 'HTML option children → adapter → shared Select',
     tokens: controls,
     code: `import { NativeSelect } from '@surflane/ui'
@@ -184,11 +186,11 @@ export const componentDocs: Record<string, ComponentDoc> = {
   },
   popover: {
     usage:
-      'Provides brief details or secondary tasks next to a button. Group the title and description with Stack gap={1} and inputs and action buttons with Stack gap={4}, and lay out the button row with Inline gap={2}. Remove default child margins so the parent gap owns the spacing.',
+      'Show brief details or a secondary task next to a button. Group Title and Description with Stack gap={1}. Group inputs and action buttons with Stack gap={4}. Lay out the button row with Inline gap={2}. Remove default child margins so the parent gap owns the spacing.',
     avoid:
-      "Use AlertDialog for required responses or confirming data loss. Don't put inputs in a Tooltip.",
+      "Don't use Popover for required responses or data-loss confirmation. Use AlertDialog instead. Don't put inputs in a Tooltip. Use a Popover instead.",
     keyboard:
-      'Opens from the trigger and moves to the tasks inside. Closing with Escape / an outside click returns focus to the trigger.',
+      'The Trigger opens the popover and moves focus inside. Escape or an outside click closes it and returns focus to the Trigger.',
     anatomy:
       'Root → Trigger + Portal → Content(Positioner + Popup) → Title / Description / Close',
     tokens: [
@@ -221,10 +223,10 @@ export const componentDocs: Record<string, ComponentDoc> = {
   },
   menu: {
     usage:
-      'Lists the actions available from the current location. Selecting an item runs an action.',
-    avoid: 'Use Select for form inputs that choose a current value.',
+      'List the actions available from the current location. Selecting an item runs its action.',
+    avoid: "Don't use Menu to choose a form value. Use Select instead.",
     keyboard:
-      'Navigate with the arrow keys, Home / End or by typing, and activate with Enter / Space. Escape closes the menu.',
+      'Arrow keys, Home, End, and typing move between items. Enter or Space activates an item. Escape closes the menu.',
     anatomy: 'Root → Trigger + Portal → Content → Item / Group / Separator',
     tokens: ['--menu-border', '--shadow-float', '--selected'],
     code: `import { Menu, Button } from '@surflane/ui'
@@ -246,11 +248,11 @@ export const componentDocs: Record<string, ComponentDoc> = {
   },
   tooltip: {
     usage:
-      'Provides a short supplementary description on both hover and keyboard focus.',
+      'Show a short supplementary description on hover and keyboard focus. Wrap a single focusable trigger.',
     avoid:
-      'In Base UI 1.9 a tooltip is a visual supplementary label. Give the trigger itself an accessible name, and put essential descriptions or interactive elements in the page content or a Popover.',
+      "In Base UI 1.9, a tooltip is a visual, supplementary label. Don't rely on it for the accessible name. Name the trigger itself. Don't put essential descriptions or interactive elements in it. Use the page content or a Popover instead.",
     keyboard:
-      'Appears when the trigger receives focus and closes with Escape. The popup never receives focus itself.',
+      'Focusing the trigger shows the tooltip. Escape closes it. The tooltip never receives focus.',
     anatomy: 'TooltipProvider → Tooltip(label) → single focusable trigger',
     tokens: [
       '--tooltip-background',
@@ -272,11 +274,11 @@ export const componentDocs: Record<string, ComponentDoc> = {
   },
   dialog: {
     usage:
-      "Use for tasks that need the user's full attention. Provide a title, a description and an explicit way to close.",
+      "Run a task that needs the user's full attention. Include a Title, a Description, and an explicit way to close.",
     avoid:
-      "Don't repeatedly block the flow for simple notices. Use a separate AlertDialog to confirm data loss.",
+      "Don't repeatedly block the flow for simple notices. Use a Toast instead. Don't confirm data loss in a Dialog. Use a separate AlertDialog.",
     keyboard:
-      'Tab focus stays inside; exit with Escape / the close button. A nested Select closes first, then the parent Dialog.',
+      'Tab keeps focus inside the dialog. Escape or the close button closes it. A nested Select closes first, then the parent Dialog.',
     anatomy:
       'Root → Trigger → Content → Header(Title / Description / X) + Body + Footer',
     tokens: overlays,
@@ -311,11 +313,11 @@ export const componentDocs: Record<string, ComponentDoc> = {
   },
   'alert-dialog': {
     usage:
-      'Gets confirmation for actions that are hard to undo, such as deleting or discarding.',
+      "Confirm an action that's hard to undo, such as deleting or discarding. Point Content.initialFocus at the safe cancel button.",
     avoid:
-      "Use a specific action name instead of a neutral OK / Yes. Don't treat an outside click as a response.",
+      "Don't label the action with a neutral OK or Yes. Name the specific action instead. Don't treat an outside click as a response. Wait for an explicit choice.",
     keyboard:
-      'Initial focus goes to the safe cancel action. Focus stays inside, and Escape acts as cancel.',
+      'Focus starts on the safe cancel action and stays inside the dialog. Escape acts as cancel.',
     anatomy:
       'Root → Trigger → Content → Header(Title / Description) + Footer(Cancel / Action)',
     tokens: overlays,
@@ -345,11 +347,11 @@ export const componentDocs: Record<string, ComponentDoc> = {
   },
   sheet: {
     usage:
-      'Inspect resource details or settings without leaving the current list.',
+      'Inspect resource details or settings without leaving the current list. Put long content in Body, which scrolls independently.',
     avoid:
-      "Don't repeat the same content across stacked panels. Handle long content with independent scrolling in Body.",
+      "Don't repeat the same content across stacked panels. Keep each detail in one panel.",
     keyboard:
-      "Follows Dialog's focus trap, Escape and focus restoration. A select menu inside the panel closes first.",
+      'Focus trapping, Escape, and focus restoration work as in Dialog. A Select inside the panel closes first.',
     anatomy: 'Root(side) → Trigger → Content → Header / Body / Footer',
     tokens: overlays,
     code: `import { Sheet, Button } from '@surflane/ui'
@@ -375,11 +377,11 @@ export const componentDocs: Record<string, ComponentDoc> = {
   },
   drawer: {
     usage:
-      'Use for task panels that close with a swipe on mobile. Also provide keyboard support and a close button.',
+      'Show a task panel that closes with a swipe on mobile. Also provide keyboard support and a close button.',
     avoid:
-      "Don't use the close gesture to mean done or save. Don't build UI that works only by dragging.",
+      "Don't treat the close gesture as done or save. Put those on an explicit button in the Footer. Don't build UI that works only by dragging. Offer a keyboard and button path too.",
     keyboard:
-      'Focus stays inside the panel; exit with Escape / the close button. After a swipe dismiss, focus returns to the trigger.',
+      'Focus stays inside the panel. Escape or the close button closes it. After a swipe dismisses it, focus returns to the Trigger.',
     anatomy:
       'Root → Trigger → Content(handle / popup) → Header / Body / Footer',
     tokens: overlays,
@@ -409,11 +411,11 @@ export const componentDocs: Record<string, ComponentDoc> = {
   },
   'scroll-area': {
     usage:
-      'Use to review long content such as tables, diffs or logs in limited space. Scrollbars appear while scrolling or when the pointer comes within 24px of the matching edge, and stay operable during drag and keyboard scrolling.',
+      'Fit long content, such as tables, diffs, or logs, into limited space. Scrollbars appear while scrolling or when the pointer comes within 24px of their edge. They stay operable during drag and keyboard scrolling.',
     avoid:
-      "Don't split the page into unnecessary nested scroll regions. Give a name to any region whose content is hidden by scrolling.",
+      "Don't split the page into needless nested scroll regions. Use a single scroll region instead. Give a label to any region whose content scrolls out of view.",
     keyboard:
-      'Focus the region and navigate with the arrow keys and Page Up / Down. Wheel and touch scrolling keep working.',
+      'Tab focuses the region. Arrow keys and Page Up or Page Down scroll it. Wheel and touch scrolling keep working. label gives the region its accessible name.',
     anatomy: 'ScrollArea(label) → Root / Viewport + Scrollbar / Thumb / Corner',
     tokens: ['--scrollbar-size', '--scrollbar-thumb', '--scrollbar-track'],
     code: `import { ScrollArea } from '@surflane/ui'
@@ -448,10 +450,10 @@ export const componentDocs: Record<string, ComponentDoc> = {
   },
   'inline-confirmation': {
     usage:
-      'Confirms a lightweight action, such as resetting filters, before it runs.',
+      "Confirm a lightweight action, such as resetting filters, before it runs. Compose it from Popover and Button. There's no standalone export.",
     avoid:
-      'Use AlertDialog to confirm high-risk actions such as deleting or changing permissions.',
-    keyboard: "Follows Popover's focus, Escape and restoration behavior.",
+      "Don't use it for high-risk actions, such as deleting or changing permissions. Use AlertDialog instead.",
+    keyboard: 'Focus, Escape, and focus restoration work as in Popover.',
     anatomy: 'Popover + description + cancel / confirm Button',
     tokens: ['--menu-border', '--shadow-float'],
     code: `import { Popover, Button } from '@surflane/ui'

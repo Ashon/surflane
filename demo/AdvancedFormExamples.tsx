@@ -84,8 +84,7 @@ export function AdvancedFormExample({ id }: { id: string }) {
           <Field.Root name='environment'>
             <Field.Label>Target environment</Field.Label>
             <Field.Description>
-              Select one registered environment. Reserved environment is
-              unavailable.
+              Choose one environment. Reserved environment is unavailable.
             </Field.Description>
             <Combobox.Root
               items={regions}
@@ -124,7 +123,7 @@ export function AdvancedFormExample({ id }: { id: string }) {
           <Field.Root name='roles'>
             <Field.Label>Test user roles</Field.Label>
             <Field.Description>
-              Choose multiple roles; remove them individually.
+              Choose one or more roles. Remove each from its chip.
             </Field.Description>
             <Combobox.Root
               items={roles}
@@ -176,8 +175,7 @@ export function AdvancedFormExample({ id }: { id: string }) {
         <Field.Root name='controlledEnvironment'>
           <Field.Label>Controlled environment</Field.Label>
           <Field.Description>
-            Linked to the form above; the parent retains its selected value on
-            reset.
+            Submits with the form above. The parent keeps its value on reset.
           </Field.Description>
           <Combobox.Root
             items={regions}
@@ -260,7 +258,7 @@ export function AdvancedFormExample({ id }: { id: string }) {
         <Field.Root name='budget'>
           <Field.Label>Budget preview</Field.Label>
           <Field.Description>
-            US dollars; submission contains the numeric value.
+            In US dollars. The form submits the numeric value.
           </Field.Description>
           <NumberField.Root
             name='budget'
