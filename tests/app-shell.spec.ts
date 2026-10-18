@@ -188,6 +188,14 @@ test("workspace benchmark keeps brand and account fixed while menu and body scro
   await expect
     .poll(() => content.evaluate((el) => el.scrollTop))
     .toBeGreaterThan(100);
+  // Let the keyboard scroll animation finish; Chromium keeps applying it after a programmatic reset.
+  await expect
+    .poll(async () => {
+      const before = await content.evaluate((el) => el.scrollTop);
+      await page.waitForTimeout(50);
+      return before === (await content.evaluate((el) => el.scrollTop));
+    })
+    .toBe(true);
   await menu.getByRole("link", { name: "Saved view 16", exact: true }).click();
   await expect(
     page.getByRole("heading", { name: "Saved view 16", exact: true }),

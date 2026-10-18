@@ -1794,8 +1794,9 @@ body,
 .app-shell-mobile-trigger.pui-button {
   display: none;
 }
-.app-shell-mobile-panel nav {
-  margin-block: var(--space-6);
+/* Header, Body and Footer own the panel padding; the account spans the footer. */
+.app-shell-mobile-footer {
+  justify-content: stretch;
 }
 @media (max-width: 760px) {
   .app-shell-mobile-trigger.pui-button {

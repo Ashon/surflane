@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   AppShell,
   Button,
@@ -62,6 +62,10 @@ export function AppShellExample({
       document.removeEventListener("focusin", trackFocus);
     };
   }, []);
+  // A new view starts at the top; reset after it renders so the old content's height doesn't matter.
+  useLayoutEffect(() => {
+    contentViewport.current?.scrollTo({ top: 0 });
+  }, [view, account]);
   const links = (panel = false) => (
     <nav
       aria-label={
@@ -94,7 +98,6 @@ export function AppShellExample({
                 return;
               e.preventDefault();
               setView(label);
-              contentViewport.current?.scrollTo({ top: 0 });
               setAccount(false);
               if (panel) {
                 selectedInPanel.current = true;
@@ -126,7 +129,6 @@ export function AppShellExample({
           <Menu.Item
             onClick={() => {
               setAccount(true);
-              contentViewport.current?.scrollTo({ top: 0 });
             }}
           >
             View preview profile
@@ -229,12 +231,16 @@ export function AppShellExample({
                     : trigger.current;
                 }}
               >
-                <Sheet.Title>Workspace navigation</Sheet.Title>
-                <Sheet.Description>
-                  Choose a local preview page.
-                </Sheet.Description>
-                {links(true)}
-                {accountMenu}
+                <Sheet.Header>
+                  <Sheet.Title>Workspace navigation</Sheet.Title>
+                  <Sheet.Description>
+                    Choose a local preview page.
+                  </Sheet.Description>
+                </Sheet.Header>
+                <Sheet.Body>{links(true)}</Sheet.Body>
+                <Sheet.Footer className="app-shell-mobile-footer">
+                  {accountMenu}
+                </Sheet.Footer>
               </Sheet.Content>
             </Sheet.Root>
           </AppShell.Header>
