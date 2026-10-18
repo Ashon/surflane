@@ -4,11 +4,11 @@ export const appShellDocs: Record<string, ComponentDoc> = {
     usage:
       'As in the example, a workspace can be built from the main content plus a sidebar with a brand, a collapse toggle, and an account at the bottom. Documentation sites that need a global top rail use the default header layout. AppShell provides the layout and native link styles, while the caller controls the collapsed state, routes, account, and theme. The workspace layout collapses from 224px to 72px and keeps icon positions fixed. In the example, the theme switch is in the account menu. The brand and account stay fixed while the menu and main content scroll in separate ScrollAreas; try Overflow navigation and Long workspace content to see this. The content surface extends to the full length of the scrolling content, and its bottom rounded corners appear when you reach the end of the content. Product selection and preview options sit outside the example boundary. The example boundary has a 20px radius, the app shell inside its 1px border and 3px padding has 16px, and the content surface inset 12px inside it has 4px. Inner radii are computed as max(0px, outer radius - inset) instead of stacking fixed values. The main content can scroll with the document; in the example it sits in a fixed-height frame within the page, so its ScrollAreas keep the default scrollChain="auto" and hand the wheel to the page at their edges. In a full-viewport product shell with no page behind it, scrollChain="contain" stops an edge scroll from bouncing the page. The sidebar on a real documentation site is text-first, and the icon collapse in the example is a product choice.',
     avoid:
-      "Don't force an icon sidebar on every product. Don't give links a menu role or use aria-expanded to indicate the current page. When you hide the desktop sidebar on mobile, always provide alternative navigation such as a Sheet. The layout module doesn't handle permissions or sign-in. Don't use a blur fade at the sidebar edge that blurs text.",
+      "Don't force an icon sidebar on every product. Don't give links a menu role or use aria-expanded to indicate the current page. When you hide the desktop sidebar on mobile, always provide alternative navigation such as a bottom Sheet. The layout module doesn't handle permissions or sign-in. Don't use a blur fade at the sidebar edge that blurs text.",
     anatomy:
-      'AppShell.Root(layout=workspace) → mobile Header + Sidebar(brand, boundary toggle, ScrollArea(nav links), Footer(account + theme)) + Content(ScrollArea); mobile: Sheet(Title, Description, nav links)',
+      'AppShell.Root(layout=workspace) → mobile Header + Sidebar(brand, boundary toggle, ScrollArea(nav links), Footer(account + theme)) + Content(ScrollArea); mobile: bottom Sheet(Header(Title, Description), Body(nav links), Footer(account, Close menu))',
     keyboard:
-      'Tab / Shift+Tab reach native links and buttons, and Enter follows a link. Links keep a clear accessible name even when collapsed. The toggle connects aria-expanded and aria-controls. The mobile Sheet leaves the open button, Escape, focus trapping, and focus restoration after closing to Base UI. Choosing a destination closes the Sheet and moves focus to the new content heading. In a real product, the product router manages navigation, back navigation, and scroll restoration.',
+      'Tab / Shift+Tab reach native links and buttons, and Enter follows a link. Links keep a clear accessible name even when collapsed. The toggle connects aria-expanded and aria-controls. The mobile bottom Sheet opens on the current destination and leaves the open button, Escape, focus trapping, and focus restoration after closing to Base UI. Choosing a destination closes the Sheet and moves focus to the new content heading. In a real product, the product router manages navigation, back navigation, and scroll restoration.',
     tokens: [
       '--space-3',
       '--space-4',
@@ -54,7 +54,8 @@ export const appShellDocs: Record<string, ComponentDoc> = {
   </AppShell.Content>
 </AppShell.Root>
 
-// Add a Sheet navigation trigger at <=760px. The desktop Sidebar is hidden.
+// Add a bottom Sheet navigation trigger at <=760px (see Responsive navigation).
+// The desktop Sidebar is hidden.
 // AppShell.Content is a div: render the application's single main landmark yourself.
 // Route, permission, session, cookie and theme ownership stay with the application.`,
     props: [

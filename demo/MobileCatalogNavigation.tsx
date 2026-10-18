@@ -1,7 +1,8 @@
 import React, { useLayoutEffect, useRef } from 'react'
-import { Button, Dialog } from '@surflane/ui'
+import { Button, Sheet } from '@surflane/ui'
 
-/** Modal bottom sheet: centered navigation and a thumb-accessible close action. */
+/** Modal bottom sheet (`navigation-sheet`, shared with the app shell example):
+ * centered navigation and a thumb-accessible close action. */
 export default function MobileCatalogNavigation({
   open,
   onOpenChange,
@@ -33,10 +34,10 @@ export default function MobileCatalogNavigation({
       viewport.scrollTop += row.bottom - bounds.bottom + 16
   }, [open, area])
   return (
-    <Dialog.Root open={open} onOpenChange={onOpenChange}>
-      <Dialog.Content
+    <Sheet.Root side='bottom' open={open} onOpenChange={onOpenChange}>
+      <Sheet.Content
         ref={panel}
-        className='catalog-mobile-navigation'
+        className='catalog-mobile-navigation navigation-sheet'
         closeLabel='Close catalog navigation'
         initialFocus={() =>
           panel.current?.querySelector<HTMLElement>('a[aria-current="page"]') ??
@@ -44,19 +45,17 @@ export default function MobileCatalogNavigation({
         }
         finalFocus={finalFocus}
       >
-        <Dialog.Header>
-          <Dialog.Title>{area} navigation</Dialog.Title>
-          <Dialog.Description>
-            Choose a page in this section.
-          </Dialog.Description>
-        </Dialog.Header>
+        <Sheet.Header>
+          <Sheet.Title>{area} navigation</Sheet.Title>
+          <Sheet.Description>Choose a page in this section.</Sheet.Description>
+        </Sheet.Header>
         <div className='catalog-mobile-navigation-body'>{children}</div>
-        <Dialog.Footer>
+        <Sheet.Footer>
           <Button variant='secondary' onClick={() => onOpenChange(false)}>
             Close menu
           </Button>
-        </Dialog.Footer>
-      </Dialog.Content>
-    </Dialog.Root>
+        </Sheet.Footer>
+      </Sheet.Content>
+    </Sheet.Root>
   )
 }

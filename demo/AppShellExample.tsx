@@ -36,6 +36,7 @@ export function AppShellExample({
     [account, setAccount] = useState(false)
   const heading = useRef<HTMLHeadingElement>(null),
     trigger = useRef<HTMLButtonElement>(null),
+    mobilePanel = useRef<HTMLDivElement>(null),
     selectedInPanel = useRef(false)
   const profile = 'Surflane'
   const previewId = React.useId()
@@ -194,8 +195,9 @@ export function AppShellExample({
               <Icon name='monitor' decorative />
               <strong>{profile}</strong>
             </div>
+            {/* The same bottom sheet as the catalog's own mobile menu. */}
             <Sheet.Root
-              side='left'
+              side='bottom'
               open={mobileOpen}
               onOpenChange={(open) => setMobileOpen(open)}
             >
@@ -216,9 +218,15 @@ export function AppShellExample({
                 <Icon name='menu' decorative />
               </Sheet.Trigger>
               <Sheet.Content
-                className='app-shell-mobile-panel'
+                ref={mobilePanel}
+                className='app-shell-mobile-panel navigation-sheet'
                 aria-modal='true'
                 closeLabel='Close workspace navigation'
+                initialFocus={() =>
+                  mobilePanel.current?.querySelector<HTMLElement>(
+                    'a[aria-current="page"]',
+                  ) ?? true
+                }
                 finalFocus={() => {
                   if (matchMedia('(min-width: 761px)').matches)
                     return (
@@ -238,8 +246,14 @@ export function AppShellExample({
                   </Sheet.Description>
                 </Sheet.Header>
                 <Sheet.Body>{links(true)}</Sheet.Body>
-                <Sheet.Footer className='app-shell-mobile-footer'>
+                <Sheet.Footer>
                   {accountMenu}
+                  <Button
+                    variant='secondary'
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    Close menu
+                  </Button>
                 </Sheet.Footer>
               </Sheet.Content>
             </Sheet.Root>
