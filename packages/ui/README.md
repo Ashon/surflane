@@ -15,11 +15,11 @@ npm install @surflane/ui @surflane/design-tokens
 Import the stylesheets once at the application root:
 
 ```css
-@import "@surflane/design-tokens/tokens.css";
-@import "@surflane/design-tokens/controls.css";
-@import "@surflane/design-tokens/foundations.css";
-@import "@surflane/design-tokens/typography.css";
-@import "@surflane/ui/styles.css";
+@import '@surflane/design-tokens/tokens.css';
+@import '@surflane/design-tokens/controls.css';
+@import '@surflane/design-tokens/foundations.css';
+@import '@surflane/design-tokens/typography.css';
+@import '@surflane/ui/styles.css';
 ```
 
 Set `data-theme="light"` or `data-theme="dark"` on `<html>` before the first paint and add `pui-typography` to `<body>`.
@@ -31,17 +31,17 @@ import {
   DialogRoot,
   DialogTitle,
   DialogTrigger,
-} from "@surflane/ui";
+} from '@surflane/ui'
 
 export function Example() {
   return (
     <DialogRoot>
-      <DialogTrigger render={<Button variant="primary" />}>Open</DialogTrigger>
+      <DialogTrigger render={<Button variant='primary' />}>Open</DialogTrigger>
       <DialogContent>
         <DialogTitle>Surflane</DialogTitle>
       </DialogContent>
     </DialogRoot>
-  );
+  )
 }
 ```
 

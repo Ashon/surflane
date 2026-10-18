@@ -1,10 +1,10 @@
-"use client";
-import * as React from "react";
-import { Autocomplete as BaseAutocomplete } from "@base-ui/react/autocomplete";
-import { Slider as BaseSlider } from "@base-ui/react/slider";
-import { Combobox } from "./advanced-forms.js";
-import { skin, part } from "./parts.js";
-import { useResetValue, useRootRef } from "./form-state.js";
+'use client'
+import * as React from 'react'
+import { Autocomplete as BaseAutocomplete } from '@base-ui/react/autocomplete'
+import { Slider as BaseSlider } from '@base-ui/react/slider'
+import { Combobox } from './advanced-forms.js'
+import { skin, part } from './parts.js'
+import { useResetValue, useRootRef } from './form-state.js'
 const AutocompleteRoot: typeof BaseAutocomplete.Root =
   function AutocompleteRoot({
     children,
@@ -14,13 +14,13 @@ const AutocompleteRoot: typeof BaseAutocomplete.Root =
     onValueChange,
     ...props
   }: React.ComponentProps<typeof BaseAutocomplete.Root>) {
-    const anchor = React.useRef<HTMLSpanElement>(null);
+    const anchor = React.useRef<HTMLSpanElement>(null)
     const [query, setQuery, revision] = useResetValue(
       value,
-      defaultValue ?? "",
+      defaultValue ?? '',
       anchor,
       form,
-    );
+    )
     return (
       <BaseAutocomplete.Root
         key={revision}
@@ -28,48 +28,48 @@ const AutocompleteRoot: typeof BaseAutocomplete.Root =
         form={form}
         value={query}
         onValueChange={(next, event) => {
-          onValueChange?.(next, event);
-          if (value === undefined && !event.isCanceled) setQuery(next);
+          onValueChange?.(next, event)
+          if (value === undefined && !event.isCanceled) setQuery(next)
         }}
       >
         <span hidden ref={anchor} />
         {children}
       </BaseAutocomplete.Root>
-    );
-  };
+    )
+  }
 const AutoTrigger = React.forwardRef<
   HTMLButtonElement,
   React.ComponentPropsWithoutRef<typeof BaseAutocomplete.Trigger>
 >(function AutoTrigger({ className, children, ...props }, ref) {
   return (
     <BaseAutocomplete.Trigger
-      aria-label="Show suggestions"
+      aria-label='Show suggestions'
       {...props}
       ref={ref}
-      className={skin("pui-combobox-action", className)}
+      className={skin('pui-combobox-action', className)}
     >
       {children ?? (
         <svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          aria-hidden="true"
+          width='16'
+          height='16'
+          viewBox='0 0 24 24'
+          fill='none'
+          stroke='currentColor'
+          strokeWidth='1.6'
+          aria-hidden='true'
         >
-          <path d="m6 9 6 6 6-6" />
+          <path d='m6 9 6 6 6-6' />
         </svg>
       )}
     </BaseAutocomplete.Trigger>
-  );
-});
+  )
+})
 const AutoClear = React.forwardRef<
   HTMLButtonElement,
   React.ComponentPropsWithoutRef<typeof BaseAutocomplete.Clear>
 >(function AutoClear(props, ref) {
-  return <Combobox.Clear aria-label="Clear input" {...props} ref={ref} />;
-});
+  return <Combobox.Clear aria-label='Clear input' {...props} ref={ref} />
+})
 export const Autocomplete = {
   ...BaseAutocomplete,
   Root: AutocompleteRoot,
@@ -87,16 +87,16 @@ export const Autocomplete = {
   InputGroup: part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseAutocomplete.InputGroup>
-  >(BaseAutocomplete.InputGroup, "pui-combobox-group"),
+  >(BaseAutocomplete.InputGroup, 'pui-combobox-group'),
   Item: part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseAutocomplete.Item>
-  >(BaseAutocomplete.Item, "pui-combobox-item"),
+  >(BaseAutocomplete.Item, 'pui-combobox-item'),
   Separator: part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseAutocomplete.Separator>
-  >(BaseAutocomplete.Separator, "pui-combobox-separator"),
-};
+  >(BaseAutocomplete.Separator, 'pui-combobox-separator'),
+}
 function SliderRoot<Value extends number | readonly number[]>({
   value,
   defaultValue,
@@ -104,16 +104,16 @@ function SliderRoot<Value extends number | readonly number[]>({
   ref,
   className,
   form,
-  thumbAlignment = "edge",
+  thumbAlignment = 'edge',
   ...props
 }: BaseSlider.Root.Props<Value> & { ref?: React.Ref<HTMLDivElement> }) {
-  const [element, attach] = useRootRef(ref);
+  const [element, attach] = useRootRef(ref)
   const [selected, setSelected] = useResetValue(
     value,
     (defaultValue ?? props.min ?? 0) as Value,
     element,
     form,
-  );
+  )
   return (
     <BaseSlider.Root<Value>
       {...props}
@@ -121,14 +121,13 @@ function SliderRoot<Value extends number | readonly number[]>({
       ref={attach}
       value={selected}
       thumbAlignment={thumbAlignment}
-      className={skin("pui-slider", className)}
+      className={skin('pui-slider', className)}
       onValueChange={(next, event) => {
-        onValueChange?.(next, event);
-        if (value === undefined && !event.isCanceled)
-          setSelected(next as Value);
+        onValueChange?.(next, event)
+        if (value === undefined && !event.isCanceled) setSelected(next as Value)
       }}
     />
-  );
+  )
 }
 export const Slider = {
   ...BaseSlider,
@@ -136,31 +135,31 @@ export const Slider = {
   Label: part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseSlider.Label>
-  >(BaseSlider.Label, "pui-slider-label"),
+  >(BaseSlider.Label, 'pui-slider-label'),
   Value: part<
     HTMLOutputElement,
     React.ComponentPropsWithoutRef<typeof BaseSlider.Value>
-  >(BaseSlider.Value, "pui-slider-value"),
+  >(BaseSlider.Value, 'pui-slider-value'),
   Control: part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseSlider.Control>
-  >(BaseSlider.Control, "pui-slider-control"),
+  >(BaseSlider.Control, 'pui-slider-control'),
   Track: part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseSlider.Track>
-  >(BaseSlider.Track, "pui-slider-track"),
+  >(BaseSlider.Track, 'pui-slider-track'),
   Indicator: part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseSlider.Indicator>
-  >(BaseSlider.Indicator, "pui-slider-indicator"),
+  >(BaseSlider.Indicator, 'pui-slider-indicator'),
   Thumb: part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseSlider.Thumb>
-  >(BaseSlider.Thumb, "pui-slider-thumb"),
-};
+  >(BaseSlider.Thumb, 'pui-slider-thumb'),
+}
 
 // Flat names for React Server Components, which cannot dot into client exports.
-export { AutocompleteRoot, SliderRoot };
+export { AutocompleteRoot, SliderRoot }
 export const {
   Arrow: AutocompleteArrow,
   Backdrop: AutocompleteBackdrop,
@@ -183,7 +182,7 @@ export const {
   Trigger: AutocompleteTrigger,
   Value: AutocompleteValue,
   Content: AutocompleteContent,
-} = Autocomplete;
+} = Autocomplete
 export const {
   Control: SliderControl,
   Indicator: SliderIndicator,
@@ -191,4 +190,4 @@ export const {
   Thumb: SliderThumb,
   Track: SliderTrack,
   Value: SliderValue,
-} = Slider;
+} = Slider

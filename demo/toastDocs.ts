@@ -1,4 +1,4 @@
-import type { ComponentDoc } from "./componentDocs";
+import type { ComponentDoc } from './componentDocs'
 export const toastDocs: Record<string, ComponentDoc> = {
   toast: {
     usage:
@@ -6,74 +6,74 @@ export const toastDocs: Record<string, ComponentDoc> = {
     avoid:
       "Don't put critical errors, input validation, or task history only in a disappearing Toast. Keep the information in an inline message, field error, or result screen, and don't announce work as finished when it didn't run. Use high priority only when immediate attention is required.",
     anatomy:
-      "Provider → caller controls + Portal → Viewport(region) → Root(non-modal dialog) → Content → Icon + Text(Title / Description / Action) + Close",
+      'Provider → caller controls + Portal → Viewport(region) → Root(non-modal dialog) → Content → Icon + Text(Title / Description / Action) + Close',
     keyboard:
       "Notifications don't steal focus when they open. F6 moves into the notification region, and Tab moves through actions and the close button. Escape closes the focused notification. Timers pause on hover, on focus, and while the window is inactive. Swipe is a secondary way to dismiss; keep the Close button.",
     tokens: [
-      "--menu-background",
-      "--status-success-fg",
-      "--status-danger-fg",
-      "--interaction-focus",
-      "--radius-lg",
-      "--shadow-float",
-      "--layer-popup",
-      "--toast-enter-duration",
-      "--toast-stack-duration",
-      "--toast-stack-ease",
+      '--menu-background',
+      '--status-success-fg',
+      '--status-danger-fg',
+      '--interaction-focus',
+      '--radius-lg',
+      '--shadow-float',
+      '--layer-popup',
+      '--toast-enter-duration',
+      '--toast-stack-duration',
+      '--toast-stack-ease',
     ],
     code: 'import { Toast } from "@surflane/ui";\n\nfunction NotificationList() {\n  const { toasts } = Toast.useToastManager();\n  return <Toast.Portal><Toast.Viewport aria-label="Notifications">\n    {toasts.map(toast => <Toast.Root key={toast.id} toast={toast}>\n      <Toast.Content>\n        <Toast.Icon />\n        <Toast.Text><Toast.Title /><Toast.Description /><Toast.Action /></Toast.Text>\n        <Toast.Close />\n      </Toast.Content>\n    </Toast.Root>)}\n  </Toast.Viewport></Toast.Portal>;\n}\n\nfunction App() {\n  return <Toast.Provider timeout={5000} limit={3}>\n    <YourPage /><NotificationList />\n  </Toast.Provider>;\n}\n// Inside YourPage:\n// const manager = Toast.useToastManager();\n// manager.add({ id: "export", title: "Export ready", type: "success" });',
     props: [
       [
-        "Provider.timeout / limit",
-        "default dismissal ms; 0 persists; visible notification limit",
-        "5000 / 3",
+        'Provider.timeout / limit',
+        'default dismissal ms; 0 persists; visible notification limit',
+        '5000 / 3',
       ],
       [
-        "Provider.toastManager / createToastManager<Data>()",
-        "optional shared manager for calls outside React",
-        "—",
+        'Provider.toastManager / createToastManager<Data>()',
+        'optional shared manager for calls outside React',
+        '—',
       ],
-      ["useToastManager<Data>()", "toasts, add, update, close, promise", "—"],
+      ['useToastManager<Data>()', 'toasts, add, update, close, promise', '—'],
       [
-        "add.id / timeout / priority",
-        "same id updates in place; per-toast timer; low | high",
-        "generated / Provider default / low",
-      ],
-      [
-        "Root.toast / tone",
-        "Base UI toast object; neutral | success | danger | caution | progress",
-        "required / neutral",
+        'add.id / timeout / priority',
+        'same id updates in place; per-toast timer; low | high',
+        'generated / Provider default / low',
       ],
       [
-        "Root.swipeDirection",
-        "direction(s), empty array disables swipe",
-        "down + right",
+        'Root.toast / tone',
+        'Base UI toast object; neutral | success | danger | caution | progress',
+        'required / neutral',
       ],
       [
-        "Action / toast.actionProps",
-        "native button props; handler explicitly closes after executing if desired",
-        "—",
+        'Root.swipeDirection',
+        'direction(s), empty array disables swipe',
+        'down + right',
       ],
       [
-        "Close",
-        "SVG close button; override accessible label for localization",
-        "Dismiss notification",
+        'Action / toast.actionProps',
+        'native button props; handler explicitly closes after executing if desired',
+        '—',
       ],
       [
-        "Viewport",
-        "layout=stack: compact cards expanding on hover/focus; layout=list: always expanded; layout=anchored: Positioner canvas",
-        "Notifications",
+        'Close',
+        'SVG close button; override accessible label for localization',
+        'Dismiss notification',
       ],
       [
-        "Root[data-limited]",
-        "overflow items stay inert/mounted but styled display:none",
-        "limit=3",
+        'Viewport',
+        'layout=stack: compact cards expanding on hover/focus; layout=list: always expanded; layout=anchored: Positioner canvas',
+        'Notifications',
       ],
       [
-        "render / ref / className",
-        "actual DOM refs, custom element composition and state callbacks",
-        "—",
+        'Root[data-limited]',
+        'overflow items stay inert/mounted but styled display:none',
+        'limit=3',
+      ],
+      [
+        'render / ref / className',
+        'actual DOM refs, custom element composition and state callbacks',
+        '—',
       ],
     ],
   },
-};
+}

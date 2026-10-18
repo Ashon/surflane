@@ -21,38 +21,38 @@ import {
   TabsRoot,
   TabsTab,
   Text,
-} from "@surflane/ui";
+} from '@surflane/ui'
 
 /** Flat part names keep this tree renderable from React Server Components. */
 export function SurflaneDemo({ framework }: { framework: string }) {
   return (
-    <Container width="reading">
+    <Container width='reading'>
       <Stack gap={6}>
         <Stack gap={2}>
-          <Heading level={1} size="page">
+          <Heading level={1} size='page'>
             Surflane on {framework}
           </Heading>
-          <Text color="secondary">
+          <Text color='secondary'>
             Server-rendered components that hydrate into interactive controls.
           </Text>
         </Stack>
-        <FieldRoot name="project">
+        <FieldRoot name='project'>
           <FieldLabel>Project name</FieldLabel>
-          <FieldControl placeholder="demo-preview" />
+          <FieldControl placeholder='demo-preview' />
           <FieldDescription>Example data is fictional.</FieldDescription>
         </FieldRoot>
-        <TabsRoot defaultValue="overview">
+        <TabsRoot defaultValue='overview'>
           <TabsList>
-            <TabsTab value="overview">Overview</TabsTab>
-            <TabsTab value="activity">Activity</TabsTab>
+            <TabsTab value='overview'>Overview</TabsTab>
+            <TabsTab value='activity'>Activity</TabsTab>
           </TabsList>
-          <TabsPanel value="overview">
+          <TabsPanel value='overview'>
             Tokens and components ship as one versioned pair.
           </TabsPanel>
-          <TabsPanel value="activity">No activity yet.</TabsPanel>
+          <TabsPanel value='activity'>No activity yet.</TabsPanel>
         </TabsRoot>
         <DialogRoot>
-          <DialogTrigger render={<Button variant="primary" />}>
+          <DialogTrigger render={<Button variant='primary' />}>
             Open dialog
           </DialogTrigger>
           <DialogContent>
@@ -64,7 +64,7 @@ export function SurflaneDemo({ framework }: { framework: string }) {
               Focus moves into the dialog and returns to the trigger on close.
             </DialogBody>
             <DialogFooter>
-              <DialogClose render={<Button variant="outline" />}>
+              <DialogClose render={<Button variant='outline' />}>
                 Close
               </DialogClose>
             </DialogFooter>
@@ -72,5 +72,5 @@ export function SurflaneDemo({ framework }: { framework: string }) {
         </DialogRoot>
       </Stack>
     </Container>
-  );
+  )
 }

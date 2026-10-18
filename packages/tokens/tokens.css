@@ -1,5 +1,5 @@
-@import "./foundation-tokens.css";
-@import "./typography-rendering.css";
+@import './foundation-tokens.css';
+@import './typography-rendering.css';
 
 /* Surflane theme roles. Surfaces, typography, spacing and interaction states
  * are shared between independent application and documentation examples.
@@ -71,8 +71,8 @@
 }
 
 /* ---------------------------------------------------------- Light */
-:root[data-theme="light"],
-[data-theme="light"] {
+:root[data-theme='light'],
+[data-theme='light'] {
   --chrome: oklch(0.9781762 0.0034179 247.8580546); /* Gray 10 */
   --canvas: oklch(1 0 0); /* White */
   --surface: oklch(0.9781762 0.0034179 247.8580546); /* Gray 10 */
@@ -113,16 +113,16 @@
 [data-theme] {
   /* The brand typefaces (Manrope, JetBrains Mono) have no Hangul, so Hangul glyphs fall back to Pretendard. */
   --font-hangul:
-    "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Noto Sans KR",
-    "Malgun Gothic";
-  --font-japanese: "Noto Sans JP Variable", "Noto Sans JP", sans-serif;
+    'Pretendard Variable', Pretendard, 'Apple SD Gothic Neo', 'Noto Sans KR',
+    'Malgun Gothic';
+  --font-japanese: 'Noto Sans JP Variable', 'Noto Sans JP', sans-serif;
   --font-display:
-    "Manrope Variable", var(--font-hangul), -apple-system, system-ui, sans-serif;
+    'Manrope Variable', var(--font-hangul), -apple-system, system-ui, sans-serif;
   --font-body:
-    "Manrope Variable", var(--font-hangul), -apple-system, BlinkMacSystemFont,
+    'Manrope Variable', var(--font-hangul), -apple-system, BlinkMacSystemFont,
     system-ui, sans-serif;
   --font-code:
-    "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, Consolas,
+    'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, Consolas,
     var(--font-hangul), monospace;
 
   /* Brand type rules: two weights, 400 and 500 (500 maximum); tracking is the default 0, Mono 0. */
@@ -235,8 +235,8 @@
   --interaction-active-bg: var(--selected);
   --interaction-focus: var(--brand-ink);
 }
-:root[data-theme="light"],
-[data-theme="light"] {
+:root[data-theme='light'],
+[data-theme='light'] {
   --status-success-fg: oklch(
     from color-mix(in srgb, var(--brand) 25%, var(--ink)) l c h / alpha
   );
@@ -278,8 +278,8 @@
   );
 }
 
-:root[data-theme="light"],
-[data-theme="light"] {
+:root[data-theme='light'],
+[data-theme='light'] {
   --control-background: var(--canvas);
 }
 @media (max-width: 760px), (pointer: coarse) {
@@ -518,8 +518,8 @@
   --syntax-attribute: var(--syntax-plain);
   --syntax-punctuation: var(--syntax-comment);
 }
-:root[data-theme="light"],
-[data-theme="light"] {
+:root[data-theme='light'],
+[data-theme='light'] {
   --syntax-comment: oklch(0.47 0.012 250);
   --syntax-keyword: oklch(0.43 0.08 295);
   --syntax-string: oklch(0.43 0.065 150);

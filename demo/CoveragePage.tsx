@@ -1,26 +1,26 @@
-import React, { useState } from "react";
-import { Grid, Table, Select } from "@surflane/ui";
-import { catalog, stageLabels, itemHref, referenceSources } from "./catalog";
-import { StageLabel } from "./StageLabel";
-import { Link } from "./router";
+import React, { useState } from 'react'
+import { Grid, Table, Select } from '@surflane/ui'
+import { catalog, stageLabels, itemHref, referenceSources } from './catalog'
+import { StageLabel } from './StageLabel'
+import { Link } from './router'
 export function CoveragePage() {
-  const [kind, setKind] = useState("all"),
-    [phase, setPhase] = useState("all");
+  const [kind, setKind] = useState('all'),
+    [phase, setPhase] = useState('all')
   const shown = catalog.filter(
     (i) =>
-      (kind === "all" || kind === i.kind) &&
-      (phase === "all" || phase === String(i.phase)),
-  );
+      (kind === 'all' || kind === i.kind) &&
+      (phase === 'all' || phase === String(i.phase)),
+  )
   return (
     <>
-      <section id="coverage-scope">
+      <section id='coverage-scope'>
         <h2>Scope and readiness</h2>
         <p>
           The scope is based on the web UI needed for platform development and
           the Base UI component list. The summary below and the per-item
           inventory show actual implementation and documentation readiness.
         </p>
-        <dl className="coverage-summary">
+        <dl className='coverage-summary'>
           {Object.entries(stageLabels).map(([stage, label]) => (
             <div key={stage}>
               <dt>{label}</dt>
@@ -36,9 +36,9 @@ export function CoveragePage() {
           and full accessibility certification are reviewed separately.
         </p>
       </section>
-      <section id="coverage-waves">
+      <section id='coverage-waves'>
         <h2>Delivery waves</h2>
-        <ol className="delivery-waves" role="list">
+        <ol className='delivery-waves' role='list'>
           <li>
             <strong>Wave 0 — Existing controls and overlays</strong>
             <p>
@@ -70,18 +70,18 @@ export function CoveragePage() {
           </li>
         </ol>
       </section>
-      <section id="coverage-inventory">
+      <section id='coverage-inventory'>
         <h2>Coverage inventory</h2>
-        <div className="catalog-filters">
+        <div className='catalog-filters'>
           <label>
             Layer
             <Select
-              aria-label="Coverage layer"
+              aria-label='Coverage layer'
               value={kind}
               onValueChange={setKind}
               options={[
-                { value: "all", label: "All layers" },
-                ...["foundation", "component", "pattern"].map((value) => ({
+                { value: 'all', label: 'All layers' },
+                ...['foundation', 'component', 'pattern'].map((value) => ({
                   value,
                   label: value,
                 })),
@@ -91,14 +91,14 @@ export function CoveragePage() {
           <label>
             Wave
             <Select
-              aria-label="Coverage wave"
+              aria-label='Coverage wave'
               value={phase}
               onValueChange={setPhase}
               options={[
-                { value: "all", label: "All waves" },
+                { value: 'all', label: 'All waves' },
                 ...[0, 1, 2, 3].map((n) => ({
                   value: String(n),
-                  label: "Wave " + n,
+                  label: 'Wave ' + n,
                 })),
               ]}
             />
@@ -106,27 +106,27 @@ export function CoveragePage() {
         </div>
         <Grid columns={1} gap={0} bleed={4}>
           <Table.Container
-            className="catalog-table-wrap"
-            label="Coverage inventory table"
-            orientation="horizontal"
+            className='catalog-table-wrap'
+            label='Coverage inventory table'
+            orientation='horizontal'
           >
             <Table.Root>
               <Table.Caption>{shown.length} coverage items</Table.Caption>
               <Table.Head>
                 <Table.Row>
-                  <Table.HeaderCell scope="col">Item</Table.HeaderCell>
-                  <Table.HeaderCell scope="col">
+                  <Table.HeaderCell scope='col'>Item</Table.HeaderCell>
+                  <Table.HeaderCell scope='col'>
                     Layer / category
                   </Table.HeaderCell>
-                  <Table.HeaderCell scope="col">Basis</Table.HeaderCell>
-                  <Table.HeaderCell scope="col">Wave</Table.HeaderCell>
-                  <Table.HeaderCell scope="col">Stage</Table.HeaderCell>
+                  <Table.HeaderCell scope='col'>Basis</Table.HeaderCell>
+                  <Table.HeaderCell scope='col'>Wave</Table.HeaderCell>
+                  <Table.HeaderCell scope='col'>Stage</Table.HeaderCell>
                 </Table.Row>
               </Table.Head>
               <Table.Body>
                 {shown.map((i) => (
                   <Table.Row key={i.kind + i.id}>
-                    <Table.HeaderCell scope="row">
+                    <Table.HeaderCell scope='row'>
                       <Link href={itemHref(i)}>{i.name}</Link>
                     </Table.HeaderCell>
                     <Table.Cell>
@@ -144,7 +144,7 @@ export function CoveragePage() {
           </Table.Container>
         </Grid>
       </section>
-      <section id="coverage-ready">
+      <section id='coverage-ready'>
         <h2>Definition of ready</h2>
         <ul>
           <li>
@@ -171,7 +171,7 @@ export function CoveragePage() {
           </li>
         </ul>
       </section>
-      <section id="coverage-research">
+      <section id='coverage-research'>
         <h2>Research and implementation boundaries</h2>
         <p>
           Base UI is the foundation for accessibility and behavior primitives.
@@ -182,7 +182,7 @@ export function CoveragePage() {
         <ul>
           {referenceSources.map((s) => (
             <li key={s.url}>
-              <a href={s.url} target="_blank" rel="noreferrer">
+              <a href={s.url} target='_blank' rel='noreferrer'>
                 {s.name}
               </a>
             </li>
@@ -195,5 +195,5 @@ export function CoveragePage() {
         </p>
       </section>
     </>
-  );
+  )
 }

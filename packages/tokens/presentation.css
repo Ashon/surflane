@@ -17,11 +17,11 @@
   color: var(--ink-body);
   font: 500 12px/1 var(--font-body);
 }
-.pui-avatar[data-size="sm"] {
+.pui-avatar[data-size='sm'] {
   --avatar-size: var(--avatar-size-sm);
   font-size: 10px;
 }
-.pui-avatar[data-size="lg"] {
+.pui-avatar[data-size='lg'] {
   --avatar-size: var(--avatar-size-lg);
   font-size: 16px;
 }
@@ -56,11 +56,11 @@
   flex: none;
   background: var(--line);
 }
-.pui-separator[data-orientation="horizontal"][data-inset] {
+.pui-separator[data-orientation='horizontal'][data-inset] {
   width: calc(100% - var(--space-4) * 2);
   margin-inline: var(--space-4);
 }
-.pui-separator[data-orientation="vertical"] {
+.pui-separator[data-orientation='vertical'] {
   width: 1px;
   height: auto;
   min-height: var(--space-6);
@@ -134,19 +134,19 @@
   flex: none;
   align-items: center;
 }
-.pui-badge[data-tone="success"] {
+.pui-badge[data-tone='success'] {
   color: var(--status-success-fg);
   background: var(--badge-success-bg);
 }
-.pui-badge[data-tone="danger"] {
+.pui-badge[data-tone='danger'] {
   color: var(--status-danger-fg);
   background: var(--badge-danger-bg);
 }
-.pui-badge[data-tone="caution"] {
+.pui-badge[data-tone='caution'] {
   color: var(--status-caution-fg);
   background: var(--badge-caution-bg);
 }
-.pui-badge[data-tone="progress"] {
+.pui-badge[data-tone='progress'] {
   color: var(--status-progress-fg);
   background: var(--badge-progress-bg);
 }
@@ -253,19 +253,19 @@
   background: var(--status-neutral-bg);
   color: var(--status-neutral-fg);
 }
-.pui-message[data-tone="success"] {
+.pui-message[data-tone='success'] {
   background: var(--status-success-bg);
   color: var(--status-success-fg);
 }
-.pui-message[data-tone="danger"] {
+.pui-message[data-tone='danger'] {
   background: var(--status-danger-bg);
   color: var(--status-danger-fg);
 }
-.pui-message[data-tone="caution"] {
+.pui-message[data-tone='caution'] {
   background: var(--status-caution-bg);
   color: var(--status-caution-fg);
 }
-.pui-message[data-tone="progress"] {
+.pui-message[data-tone='progress'] {
   background: var(--status-progress-bg);
   color: var(--status-progress-fg);
 }
@@ -359,7 +359,7 @@
   background: var(--surface);
   color: var(--ink-body);
 }
-.pui-card[data-tone="canvas"] {
+.pui-card[data-tone='canvas'] {
   background: var(--canvas);
 }
 .pui-card-header {
@@ -421,14 +421,14 @@
   text-decoration: none;
   font: 500 14px/20px var(--font-body);
 }
-.pui-pagination .pui-pagination-control[aria-current="page"] {
+.pui-pagination .pui-pagination-control[aria-current='page'] {
   background: var(--selected);
   border-color: var(--control-border);
 }
 .pui-pagination-control:is(a, button):hover {
   background: var(--interaction-hover-bg);
 }
-.pui-pagination-control[aria-disabled="true"] {
+.pui-pagination-control[aria-disabled='true'] {
   opacity: var(--control-disabled-opacity);
 }
 .pui-pagination-control:focus-visible {
@@ -445,7 +445,7 @@
   transform: rotate(180deg);
 }
 @media (forced-colors: active) {
-  .pui-pagination .pui-pagination-control[aria-current="page"] {
+  .pui-pagination .pui-pagination-control[aria-current='page'] {
     border-color: CanvasText;
   }
 }
@@ -548,7 +548,7 @@
 
 /* Registered progress keeps status transitions in the explicit OKLCH space. */
 @property --pui-status-progress {
-  syntax: "<number>";
+  syntax: '<number>';
   inherits: false;
   initial-value: 1;
 }

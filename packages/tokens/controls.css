@@ -44,7 +44,7 @@
   background: var(--interaction-hover-bg);
   color: var(--ink);
 }
-.pui-segment[aria-current="page"] {
+.pui-segment[aria-current='page'] {
   background: var(--selected);
   color: var(--ink);
 }

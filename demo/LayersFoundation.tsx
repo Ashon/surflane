@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
+import React, { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import {
   Button,
   Checkbox,
@@ -12,41 +12,41 @@ import {
   Toggle,
   Tooltip,
   TooltipProvider,
-} from "@surflane/ui";
-import { Link } from "./router";
+} from '@surflane/ui'
+import { Link } from './router'
 
 const roles = [
-  ["--chrome", "Outer app surface, sidebar"],
-  ["--canvas", "Content sheet, dialogs"],
-  ["--surface", "Secondary surface within content"],
-  ["--menu-background", "Opaque surface for menus, select lists, and toasts"],
-  ["--shadow-sheet", "Subtle separation for the content sheet"],
-  ["--shadow-float", "Depth for transient popups and notifications"],
-  ["--layer-backdrop", "Blocking backdrop behind a Dialog"],
-  ["--layer-dialog", "Positioner for Dialog and Sheet/Drawer"],
-  ["--layer-popup", "Menus, select lists, popovers, toasts"],
-  ["--layer-tooltip", "Positioner for explanatory tooltips"],
-];
+  ['--chrome', 'Outer app surface, sidebar'],
+  ['--canvas', 'Content sheet, dialogs'],
+  ['--surface', 'Secondary surface within content'],
+  ['--menu-background', 'Opaque surface for menus, select lists, and toasts'],
+  ['--shadow-sheet', 'Subtle separation for the content sheet'],
+  ['--shadow-float', 'Depth for transient popups and notifications'],
+  ['--layer-backdrop', 'Blocking backdrop behind a Dialog'],
+  ['--layer-dialog', 'Positioner for Dialog and Sheet/Drawer'],
+  ['--layer-popup', 'Menus, select lists, popovers, toasts'],
+  ['--layer-tooltip', 'Positioner for explanatory tooltips'],
+]
 function StackingLab() {
-  const [stage, setStage] = useState<HTMLDivElement | null>(null);
-  const [portal, setPortal] = useState(false);
-  const [clip, setClip] = useState(true);
+  const [stage, setStage] = useState<HTMLDivElement | null>(null)
+  const [portal, setPortal] = useState(false)
+  const [clip, setClip] = useState(true)
   const plane = (
     <div
-      className="layer-demo-plane"
+      className='layer-demo-plane'
       data-layer-plane
       data-portalled={portal || undefined}
     >
       Overlay / z-index: 9999
     </div>
-  );
+  )
   return (
     <>
-      <div className="actions layer-demo-controls">
+      <div className='actions layer-demo-controls'>
         <Toggle pressed={portal} onPressedChange={setPortal}>
           Portal to demonstration stage
         </Toggle>
-        <label className="pui-choice-label">
+        <label className='pui-choice-label'>
           <Checkbox.Root checked={clip} onCheckedChange={setClip}>
             <Checkbox.Indicator />
           </Checkbox.Root>
@@ -55,31 +55,31 @@ function StackingLab() {
       </div>
       <div
         ref={setStage}
-        className="layer-demo-stage"
-        role="img"
+        className='layer-demo-stage'
+        role='img'
         aria-label={
           portal
-            ? "Portalled overlay appears above the sibling plane and outside local clipping."
-            : "Local overlay stays below the sibling plane despite its larger z-index."
+            ? 'Portalled overlay appears above the sibling plane and outside local clipping.'
+            : 'Local overlay stays below the sibling plane despite its larger z-index.'
         }
       >
         <div
-          className="layer-demo-host"
+          className='layer-demo-host'
           data-clipped={clip || undefined}
-          aria-hidden="true"
+          aria-hidden='true'
         >
           Parent context / z-index: 1{!portal && plane}
         </div>
-        <div className="layer-demo-cover" aria-hidden="true">
+        <div className='layer-demo-cover' aria-hidden='true'>
           Sibling context / z-index: 2
         </div>
         {portal &&
           stage &&
-          createPortal(<div aria-hidden="true">{plane}</div>, stage)}
+          createPortal(<div aria-hidden='true'>{plane}</div>, stage)}
       </div>
-      <p role="status" aria-label="Stacking demonstration result">
+      <p role='status' aria-label='Stacking demonstration result'>
         {portal
-          ? "Portal: the overlay is a sibling of the two contexts and appears in front."
+          ? 'Portal: the overlay is a sibling of the two contexts and appears in front.'
           : "Local: the child stays in its parent's context; 9999 cannot outrank a sibling context at 2."}
       </p>
       <p>
@@ -92,13 +92,13 @@ function StackingLab() {
         are not product layer values.
       </p>
     </>
-  );
+  )
 }
 function OverlayLab() {
-  const [region, setRegion] = useState("staging");
+  const [region, setRegion] = useState('staging')
   return (
     <Dialog.Root>
-      <Dialog.Trigger render={<Button variant="outline" />}>
+      <Dialog.Trigger render={<Button variant='outline' />}>
         Open layered dialog
       </Dialog.Trigger>
       <Dialog.Content>
@@ -113,23 +113,23 @@ function OverlayLab() {
             value={region}
             onChange={(event) => setRegion(event.target.value)}
           >
-            <option value="staging">Staging preview</option>
-            <option value="production">Production preview</option>
+            <option value='staging'>Staging preview</option>
+            <option value='production'>Production preview</option>
           </NativeSelect>
         </Field.Root>
         <p>
           Selected environment: <strong data-layer-region>{region}</strong>
         </p>
-        <div className="actions">
+        <div className='actions'>
           <Popover.Root>
-            <Popover.Trigger render={<Button variant="outline" />}>
+            <Popover.Trigger render={<Button variant='outline' />}>
               Inspect overlay details
             </Popover.Trigger>
             <Popover.Portal>
               <Popover.Content
-                side="bottom"
-                align="start"
-                aria-label="Overlay details"
+                side='bottom'
+                align='start'
+                aria-label='Overlay details'
               >
                 <h3>Overlay details</h3>
                 <p>A real portal that uses the shared Popover.</p>
@@ -140,12 +140,12 @@ function OverlayLab() {
             </Popover.Portal>
           </Popover.Root>
           <TooltipProvider>
-            <Tooltip label="Tooltip uses the explanation layer above popup surfaces.">
-              <Button variant="outline">Explain this layer</Button>
+            <Tooltip label='Tooltip uses the explanation layer above popup surfaces.'>
+              <Button variant='outline'>Explain this layer</Button>
             </Tooltip>
           </TooltipProvider>
           <Dialog.Root>
-            <Dialog.Trigger render={<Button variant="outline" />}>
+            <Dialog.Trigger render={<Button variant='outline' />}>
               Open nested dialog
             </Dialog.Trigger>
             <Dialog.Content>
@@ -154,42 +154,42 @@ function OverlayLab() {
                 Escape closes only this dialog and returns focus to its trigger
                 in the parent.
               </Dialog.Description>
-              <Dialog.Close render={<Button variant="outline" />}>
+              <Dialog.Close render={<Button variant='outline' />}>
                 Close nested inspection
               </Dialog.Close>
             </Dialog.Content>
           </Dialog.Root>
         </div>
-        <Dialog.Close render={<Button variant="outline" />}>
+        <Dialog.Close render={<Button variant='outline' />}>
           Close layered preview
         </Dialog.Close>
       </Dialog.Content>
     </Dialog.Root>
-  );
+  )
 }
 export function LayersFoundation() {
-  const [values, setValues] = useState<Record<string, string>>({});
+  const [values, setValues] = useState<Record<string, string>>({})
   useEffect(() => {
     const update = () => {
-      const css = getComputedStyle(document.documentElement);
+      const css = getComputedStyle(document.documentElement)
       setValues(
         Object.fromEntries(
           roles.map(([name]) => [name, css.getPropertyValue(name).trim()]),
         ),
-      );
-    };
-    update();
-    const observer = new MutationObserver(update);
+      )
+    }
+    update()
+    const observer = new MutationObserver(update)
     observer.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ["data-theme"],
-    });
-    return () => observer.disconnect();
-  }, []);
+      attributeFilter: ['data-theme'],
+    })
+    return () => observer.disconnect()
+  }, [])
   return (
     <>
-      <nav className="page-toc" aria-label="On this page">
-        {["surfaces", "contexts", "overlays", "diagnostics", "application"].map(
+      <nav className='page-toc' aria-label='On this page'>
+        {['surfaces', 'contexts', 'overlays', 'diagnostics', 'application'].map(
           (id) => (
             <a key={id} href={`#${id}`}>
               {id[0].toUpperCase() + id.slice(1)}
@@ -197,7 +197,7 @@ export function LayersFoundation() {
           ),
         )}
       </nav>
-      <section id="surfaces">
+      <section id='surfaces'>
         <h2>Surface and elevation roles</h2>
         <p>
           Surfaces group information; layers describe front-to-back
@@ -207,19 +207,19 @@ export function LayersFoundation() {
           Don't wrap every section in nested cards or add a border for every
           state.
         </p>
-        <div className="layer-shadow-comparison">
-          <div className="layer-shadow-sheet">
+        <div className='layer-shadow-comparison'>
+          <div className='layer-shadow-sheet'>
             <strong>Content sheet</strong>
             <p>Surface for sustained reading and work</p>
           </div>
-          <div className="layer-shadow-float">
+          <div className='layer-shadow-float'>
             <strong>Floating surface</strong>
             <p>Surface that temporarily overlaps the current context</p>
           </div>
         </div>
         <Table.Container
-          label="Surface and layer tokens"
-          orientation="horizontal"
+          label='Surface and layer tokens'
+          orientation='horizontal'
         >
           <Table.Root>
             <Table.Caption>
@@ -227,22 +227,22 @@ export function LayersFoundation() {
             </Table.Caption>
             <Table.Head>
               <Table.Row>
-                <Table.HeaderCell scope="col">Token</Table.HeaderCell>
-                <Table.HeaderCell scope="col">Role</Table.HeaderCell>
-                <Table.HeaderCell scope="col">Resolved value</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>Token</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>Role</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>Resolved value</Table.HeaderCell>
               </Table.Row>
             </Table.Head>
             <Table.Body>
               {roles.map(([name, role]) => (
                 <Table.Row key={name}>
-                  <Table.HeaderCell scope="row">
+                  <Table.HeaderCell scope='row'>
                     <Link href={`/tokens?q=${encodeURIComponent(name)}`}>
                       <code>{name}</code>
                     </Link>
                   </Table.HeaderCell>
                   <Table.Cell>{role}</Table.Cell>
                   <Table.Cell data-layer-token={name}>
-                    <code>{values[name] ?? "Reading…"}</code>
+                    <code>{values[name] ?? 'Reading…'}</code>
                   </Table.Cell>
                 </Table.Row>
               ))}
@@ -258,7 +258,7 @@ export function LayersFoundation() {
           messages.
         </p>
       </section>
-      <section id="contexts">
+      <section id='contexts'>
         <h2>Stacking contexts and clipping</h2>
         <p>
           Raising a child's z-index alone cannot escape its parent's stacking
@@ -269,7 +269,7 @@ export function LayersFoundation() {
         </p>
         <StackingLab />
       </section>
-      <section id="overlays">
+      <section id='overlays'>
         <h2>Nested overlay contract</h2>
         <p>
           A layer number alone doesn't make a modal. Base UI manages initial
@@ -280,14 +280,14 @@ export function LayersFoundation() {
         </p>
         <OverlayLab />
         <CodeBlock
-          language="tsx"
-          label="Portalled selection inside a dialog"
+          language='tsx'
+          label='Portalled selection inside a dialog'
           code={
             '<Dialog.Root>\n  <Dialog.Trigger render={<Button />}>Open workspace</Dialog.Trigger>\n  <Dialog.Content>\n    <Dialog.Title>Workspace</Dialog.Title>\n    <Dialog.Description>Review the selected environment.</Dialog.Description>\n    <Field.Root>\n      <Field.Label>Environment</Field.Label>\n      <NativeSelect value={environment} onChange={onEnvironmentChange}>\n        <option value="staging">Staging</option>\n        <option value="production">Production</option>\n      </NativeSelect>\n    </Field.Root>\n  </Dialog.Content>\n</Dialog.Root>'
           }
         />
       </section>
-      <section id="diagnostics">
+      <section id='diagnostics'>
         <h2>Diagnose before raising z-index</h2>
         <ol>
           <li>
@@ -321,7 +321,7 @@ export function LayersFoundation() {
           fullscreen, or native popover, check the actual DOM and portal target.
         </p>
       </section>
-      <section id="application">
+      <section id='application'>
         <h2>Layer composition rules</h2>
         <ul>
           <li>
@@ -344,24 +344,24 @@ export function LayersFoundation() {
           to separate areas.
         </p>
         <p>
-          References:{" "}
-          <a href="https://www.w3.org/TR/CSS22/zindex.html">
+          References:{' '}
+          <a href='https://www.w3.org/TR/CSS22/zindex.html'>
             W3C stacking order
-          </a>{" "}
-          ,{" "}
-          <a href="https://react.dev/reference/react-dom/createPortal">
+          </a>{' '}
+          ,{' '}
+          <a href='https://react.dev/reference/react-dom/createPortal'>
             React createPortal
-          </a>{" "}
-          ,{" "}
-          <a href="https://www.w3.org/TR/css-position-4/#top-layer">
+          </a>{' '}
+          ,{' '}
+          <a href='https://www.w3.org/TR/css-position-4/#top-layer'>
             W3C positioned layout / top layer
-          </a>{" "}
-          ,{" "}
-          <a href="https://base-ui.com/react/components/dialog">
+          </a>{' '}
+          ,{' '}
+          <a href='https://base-ui.com/react/components/dialog'>
             Base UI Dialog
           </a>
         </p>
       </section>
     </>
-  );
+  )
 }

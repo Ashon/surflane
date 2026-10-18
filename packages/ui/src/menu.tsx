@@ -1,25 +1,25 @@
-"use client";
-import * as React from "react";
-import { Menu as BaseMenu } from "@base-ui/react/menu";
-import { skin, part } from "./parts.js";
+'use client'
+import * as React from 'react'
+import { Menu as BaseMenu } from '@base-ui/react/menu'
+import { skin, part } from './parts.js'
 const MenuPopup = part<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseMenu.Popup>
->(BaseMenu.Popup, "pui-menu");
+>(BaseMenu.Popup, 'pui-menu')
 const MenuPositioner = part<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseMenu.Positioner>
->(BaseMenu.Positioner, "pui-positioner");
+>(BaseMenu.Positioner, 'pui-positioner')
 const MenuContent = React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseMenu.Popup> &
     Pick<
       React.ComponentPropsWithoutRef<typeof BaseMenu.Positioner>,
-      "align" | "side" | "sideOffset" | "collisionPadding"
+      'align' | 'side' | 'sideOffset' | 'collisionPadding'
     >
 >(function MenuContent(
   {
-    align = "end",
+    align = 'end',
     sideOffset = 6,
     side,
     collisionPadding,
@@ -37,21 +37,21 @@ const MenuContent = React.forwardRef<
     >
       <MenuPopup {...props} ref={ref} className={className} />
     </MenuPositioner>
-  );
-});
+  )
+})
 const MenuTrigger = React.forwardRef<
   HTMLButtonElement,
   React.ComponentPropsWithoutRef<typeof BaseMenu.Trigger>
 >(function MenuTrigger({ className, ...props }, ref) {
   return (
     <BaseMenu.Trigger
-      data-variant="ghost"
+      data-variant='ghost'
       {...props}
       ref={ref}
-      className={skin("pui-button pui-menu-trigger", className)}
+      className={skin('pui-button pui-menu-trigger', className)}
     />
-  );
-});
+  )
+})
 const CheckboxIndicator = React.forwardRef<
   HTMLSpanElement,
   React.ComponentPropsWithoutRef<typeof BaseMenu.CheckboxItemIndicator>
@@ -61,24 +61,24 @@ const CheckboxIndicator = React.forwardRef<
       keepMounted
       {...props}
       ref={ref}
-      className={skin("pui-menu-indicator", className)}
+      className={skin('pui-menu-indicator', className)}
     >
       {children ?? (
         <svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          aria-hidden="true"
+          width='16'
+          height='16'
+          viewBox='0 0 24 24'
+          fill='none'
+          stroke='currentColor'
+          strokeWidth='1.6'
+          aria-hidden='true'
         >
-          <path d="m5 12 4 4L19 6" />
+          <path d='m5 12 4 4L19 6' />
         </svg>
       )}
     </BaseMenu.CheckboxItemIndicator>
-  );
-});
+  )
+})
 const RadioIndicator = React.forwardRef<
   HTMLSpanElement,
   React.ComponentPropsWithoutRef<typeof BaseMenu.RadioItemIndicator>
@@ -88,54 +88,54 @@ const RadioIndicator = React.forwardRef<
       keepMounted
       {...props}
       ref={ref}
-      className={skin("pui-menu-indicator", className)}
+      className={skin('pui-menu-indicator', className)}
     >
       {children ?? (
         <svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          aria-hidden="true"
+          width='16'
+          height='16'
+          viewBox='0 0 24 24'
+          fill='currentColor'
+          aria-hidden='true'
         >
-          <circle cx="12" cy="12" r="4" />
+          <circle cx='12' cy='12' r='4' />
         </svg>
       )}
     </BaseMenu.RadioItemIndicator>
-  );
-});
+  )
+})
 const SubmenuTrigger = React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseMenu.SubmenuTrigger> & {
-    indicator?: React.ReactNode;
+    indicator?: React.ReactNode
   }
 >(function SubmenuTrigger({ className, children, indicator, ...props }, ref) {
   return (
     <BaseMenu.SubmenuTrigger
       {...props}
       ref={ref}
-      className={skin("pui-menu-item pui-menu-submenu-trigger", className)}
+      className={skin('pui-menu-item pui-menu-submenu-trigger', className)}
     >
       {children}
       {indicator === false
         ? null
         : (indicator ?? (
             <svg
-              className="pui-submenu-arrow"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              aria-hidden="true"
+              className='pui-submenu-arrow'
+              width='16'
+              height='16'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='currentColor'
+              strokeWidth='1.6'
+              aria-hidden='true'
             >
-              <path d="m9 6 6 6-6 6" />
+              <path d='m9 6 6 6-6 6' />
             </svg>
           ))}
     </BaseMenu.SubmenuTrigger>
-  );
-});
+  )
+})
 export const Menu = {
   ...BaseMenu,
   Content: MenuContent,
@@ -148,35 +148,35 @@ export const Menu = {
   Item: part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseMenu.Item>
-  >(BaseMenu.Item, "pui-menu-item"),
+  >(BaseMenu.Item, 'pui-menu-item'),
   LinkItem: part<
     HTMLAnchorElement,
     React.ComponentPropsWithoutRef<typeof BaseMenu.LinkItem>
-  >(BaseMenu.LinkItem, "pui-menu-item"),
+  >(BaseMenu.LinkItem, 'pui-menu-item'),
   CheckboxItem: part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseMenu.CheckboxItem>
-  >(BaseMenu.CheckboxItem, "pui-menu-item pui-menu-check-item"),
+  >(BaseMenu.CheckboxItem, 'pui-menu-item pui-menu-check-item'),
   RadioItem: part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseMenu.RadioItem>
-  >(BaseMenu.RadioItem, "pui-menu-item pui-menu-check-item"),
+  >(BaseMenu.RadioItem, 'pui-menu-item pui-menu-check-item'),
   GroupLabel: part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseMenu.GroupLabel>
-  >(BaseMenu.GroupLabel, "pui-menu-group-label"),
+  >(BaseMenu.GroupLabel, 'pui-menu-group-label'),
   Separator: part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseMenu.Separator>
-  >(BaseMenu.Separator, "pui-menu-separator"),
+  >(BaseMenu.Separator, 'pui-menu-separator'),
   Input: part<
     HTMLInputElement,
     React.ComponentPropsWithoutRef<typeof BaseMenu.Input>
-  >(BaseMenu.Input, "pui-input"),
-};
+  >(BaseMenu.Input, 'pui-input'),
+}
 
 // Flat names for React Server Components, which cannot dot into client exports.
-export { MenuPopup, MenuPositioner, MenuTrigger, MenuContent };
+export { MenuPopup, MenuPositioner, MenuTrigger, MenuContent }
 export const {
   Arrow: MenuArrow,
   Backdrop: MenuBackdrop,
@@ -201,4 +201,4 @@ export const {
   SubmenuRoot: MenuSubmenuRoot,
   SubmenuTrigger: MenuSubmenuTrigger,
   Viewport: MenuViewport,
-} = Menu;
+} = Menu

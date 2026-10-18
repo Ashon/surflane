@@ -1,28 +1,28 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 import {
   FileUpload,
   Form,
   Button,
   Checkbox,
   type UploadTransport,
-} from "@surflane/ui";
+} from '@surflane/ui'
 function Flag({
   checked,
   onChange,
   children,
 }: {
-  checked: boolean;
-  onChange: (value: boolean) => void;
-  children: React.ReactNode;
+  checked: boolean
+  onChange: (value: boolean) => void
+  children: React.ReactNode
 }) {
   return (
-    <label className="pui-choice-label">
+    <label className='pui-choice-label'>
       <Checkbox.Root checked={checked} onCheckedChange={onChange}>
         <Checkbox.Indicator />
       </Checkbox.Root>
       {children}
     </label>
-  );
+  )
 }
 export function FileUploadExample() {
   const [disabled, setDisabled] = useState(false),
@@ -30,33 +30,33 @@ export function FileUploadExample() {
     [cancel, setCancel] = useState(false),
     [cancelReset, setCancelReset] = useState(false),
     [controlled, setControlled] = useState<readonly File[]>([]),
-    [summary, setSummary] = useState("No file form submitted.");
+    [summary, setSummary] = useState('No file form submitted.')
   const [late, setLate] = useState(false),
-    [formErrors, setFormErrors] = useState<Record<string, string>>({});
+    [formErrors, setFormErrors] = useState<Record<string, string>>({})
   const transport: UploadTransport = (file, { signal, onProgress }) =>
     new Promise((resolve, reject) => {
-      let progress = 0;
+      let progress = 0
       const abort = () => {
-        if (late) return;
-        clearInterval(timer);
-        reject(new DOMException("Canceled", "AbortError"));
-      };
+        if (late) return
+        clearInterval(timer)
+        reject(new DOMException('Canceled', 'AbortError'))
+      }
       const timer = setInterval(() => {
-        progress += 20;
-        onProgress(progress);
+        progress += 20
+        onProgress(progress)
         if (progress >= 100) {
-          clearInterval(timer);
-          signal.removeEventListener("abort", abort);
-          if (fail) reject(new Error("Sample transport failed"));
-          else resolve();
+          clearInterval(timer)
+          signal.removeEventListener('abort', abort)
+          if (fail) reject(new Error('Sample transport failed'))
+          else resolve()
         }
-      }, 200);
-      signal.addEventListener("abort", abort, { once: true });
-      if (signal.aborted) abort();
-    });
+      }, 200)
+      signal.addEventListener('abort', abort, { once: true })
+      if (signal.aborted) abort()
+    })
   return (
-    <div className="example-stack">
-      <div className="actions">
+    <div className='example-stack'>
+      <div className='actions'>
         <Flag checked={disabled} onChange={setDisabled}>
           Disable file controls
         </Flag>
@@ -74,19 +74,19 @@ export function FileUploadExample() {
         </Flag>
       </div>
       <Form
-        id="file-upload-preview-form"
+        id='file-upload-preview-form'
         errors={formErrors}
         onReset={(event) => {
-          if (cancelReset) event.preventDefault();
-          else setFormErrors({});
+          if (cancelReset) event.preventDefault()
+          else setFormErrors({})
         }}
         onSubmit={(event) => {
-          event.preventDefault();
-          const data = new FormData(event.currentTarget);
+          event.preventDefault()
+          const data = new FormData(event.currentTarget)
           const files = [...data.entries()].filter(
             (entry): entry is [string, File] =>
               entry[1] instanceof File && !!entry[1].name,
-          );
+          )
           setSummary(
             JSON.stringify(
               files.map(([field, file]) => ({
@@ -95,14 +95,14 @@ export function FileUploadExample() {
                 size: file.size,
               })),
             ),
-          );
+          )
         }}
       >
         <FileUpload
-          label="Build artifacts"
-          description="Choose up to three JSON or text files, each no larger than 1 KB. The transport is simulated locally."
-          name="artifacts"
-          accept=".json,.txt,application/json,text/plain"
+          label='Build artifacts'
+          description='Choose up to three JSON or text files, each no larger than 1 KB. The transport is simulated locally.'
+          name='artifacts'
+          accept='.json,.txt,application/json,text/plain'
           multiple
           maxFiles={3}
           maxFileSize={1024}
@@ -110,43 +110,43 @@ export function FileUploadExample() {
           disabled={disabled}
           transport={transport}
           onFilesChange={(_, details) => {
-            if (cancel) details.cancel();
+            if (cancel) details.cancel()
           }}
         />
-        <div className="actions">
-          <Button type="submit">Inspect submitted files</Button>
+        <div className='actions'>
+          <Button type='submit'>Inspect submitted files</Button>
           <Button
-            type="button"
-            variant="ghost"
+            type='button'
+            variant='ghost'
             onClick={() =>
               setFormErrors({
-                artifacts: "These files were rejected by the example server.",
+                artifacts: 'These files were rejected by the example server.',
               })
             }
           >
             Show field error
           </Button>
-          <Button type="reset" variant="outline">
+          <Button type='reset' variant='outline'>
             Reset file form
           </Button>
         </div>
       </Form>
       <FileUpload
-        label="Controlled attachment"
-        description="One optional CSV file, owned by the page and associated with the form above. Reset preserves this controlled selection."
-        name="attachment"
-        form="file-upload-preview-form"
-        accept=".csv,text/csv"
+        label='Controlled attachment'
+        description='One optional CSV file, owned by the page and associated with the form above. Reset preserves this controlled selection.'
+        name='attachment'
+        form='file-upload-preview-form'
+        accept='.csv,text/csv'
         files={controlled}
         disabled={disabled}
         onFilesChange={(files, details) => {
-          if (cancel) details.cancel();
-          else setControlled(files);
+          if (cancel) details.cancel()
+          else setControlled(files)
         }}
       />
-      <p className="file-demo-result" role="status">
+      <p className='file-demo-result' role='status'>
         {summary}
       </p>
     </div>
-  );
+  )
 }

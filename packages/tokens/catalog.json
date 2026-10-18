@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceHash": "6a10e57516d080f0fe7b93f2fea4fbc14da6168d410e8b4280ca12d62d247966",
+  "sourceHash": "fb354848c3c2148a9d4b2fb148e8d7e307d892e6bdd4d05ce2856872a54198fd",
   "sources": [
     "tokens.css",
     "foundation-tokens.css",
@@ -1018,7 +1018,7 @@
       "variants": [
         {
           "context": ":root",
-          "value": "\"Manrope Variable\", var(--font-hangul), -apple-system, BlinkMacSystemFont,\n    system-ui, sans-serif",
+          "value": "'Manrope Variable', var(--font-hangul), -apple-system, BlinkMacSystemFont,\n    system-ui, sans-serif",
           "file": "tokens.css",
           "line": 121
         }
@@ -1035,7 +1035,7 @@
       "variants": [
         {
           "context": ":root",
-          "value": "\"JetBrains Mono Variable\", ui-monospace, SFMono-Regular, Menlo, Consolas,\n    var(--font-hangul), monospace",
+          "value": "'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, Consolas,\n    var(--font-hangul), monospace",
           "file": "tokens.css",
           "line": 124
         }
@@ -1052,7 +1052,7 @@
       "variants": [
         {
           "context": ":root",
-          "value": "\"Manrope Variable\", var(--font-hangul), -apple-system, system-ui, sans-serif",
+          "value": "'Manrope Variable', var(--font-hangul), -apple-system, system-ui, sans-serif",
           "file": "tokens.css",
           "line": 119
         }
@@ -1069,7 +1069,7 @@
       "variants": [
         {
           "context": ":root",
-          "value": "\"Pretendard Variable\", Pretendard, \"Apple SD Gothic Neo\", \"Noto Sans KR\",\n    \"Malgun Gothic\"",
+          "value": "'Pretendard Variable', Pretendard, 'Apple SD Gothic Neo', 'Noto Sans KR',\n    'Malgun Gothic'",
           "file": "tokens.css",
           "line": 115
         }
@@ -1084,7 +1084,7 @@
       "variants": [
         {
           "context": ":root",
-          "value": "\"Noto Sans JP Variable\", \"Noto Sans JP\", sans-serif",
+          "value": "'Noto Sans JP Variable', 'Noto Sans JP', sans-serif",
           "file": "tokens.css",
           "line": 118
         }

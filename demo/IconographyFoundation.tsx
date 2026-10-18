@@ -1,20 +1,13 @@
-import React, { useState } from "react";
-import {
-  Button,
-  CodeBlock,
-  Icon,
-  iconNames,
-  Select,
-  Table,
-} from "@surflane/ui";
-import { Link } from "./router";
+import React, { useState } from 'react'
+import { Button, CodeBlock, Icon, iconNames, Select, Table } from '@surflane/ui'
+import { Link } from './router'
 export function IconographyFoundation() {
   const [count, setCount] = useState(0),
-    [direction, setDirection] = useState("ltr");
+    [direction, setDirection] = useState('ltr')
   return (
     <>
-      <nav className="page-toc" aria-label="On this page">
-        {["principles", "library", "semantics", "direction", "application"].map(
+      <nav className='page-toc' aria-label='On this page'>
+        {['principles', 'library', 'semantics', 'direction', 'application'].map(
           (id) => (
             <a key={id} href={`#${id}`}>
               {id[0].toUpperCase() + id.slice(1)}
@@ -22,46 +15,46 @@ export function IconographyFoundation() {
           ),
         )}
       </nav>
-      <section id="principles">
+      <section id='principles'>
         <h2>One visual language</h2>
         <p>
           Icons use a 24×24 viewBox, currentColor, a shared stroke width, and
           SVG shapes. Don't substitute special characters, emoji, or icon fonts
           for UI symbols. Product logos and illustrations are separate assets.
         </p>
-        <Table.Container label="Icon design tokens" orientation="horizontal">
+        <Table.Container label='Icon design tokens' orientation='horizontal'>
           <Table.Root>
             <Table.Caption>Icon size and alignment</Table.Caption>
             <Table.Head>
               <Table.Row>
-                <Table.HeaderCell scope="col">Token</Table.HeaderCell>
-                <Table.HeaderCell scope="col">Usage</Table.HeaderCell>
-                <Table.HeaderCell scope="col">Example</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>Token</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>Usage</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>Example</Table.HeaderCell>
               </Table.Row>
             </Table.Head>
             <Table.Body>
-              {(["sm", "md", "lg"] as const).map((size) => (
+              {(['sm', 'md', 'lg'] as const).map((size) => (
                 <Table.Row key={size}>
-                  <Table.HeaderCell scope="row">
+                  <Table.HeaderCell scope='row'>
                     <Link href={`/tokens?q=--icon-size-${size}`}>
                       <code>--icon-size-{size}</code>
                     </Link>
                   </Table.HeaderCell>
                   <Table.Cell>
-                    {size === "sm"
-                      ? "16px / compact controls"
-                      : size === "md"
-                        ? "20px / general UI"
-                        : "24px / emphasis"}
+                    {size === 'sm'
+                      ? '16px / compact controls'
+                      : size === 'md'
+                        ? '20px / general UI'
+                        : '24px / emphasis'}
                   </Table.Cell>
                   <Table.Cell>
-                    <Icon name="search" size={size} data-icon-specimen={size} />
+                    <Icon name='search' size={size} data-icon-specimen={size} />
                   </Table.Cell>
                 </Table.Row>
               ))}
               <Table.Row>
-                <Table.HeaderCell scope="row">
-                  <Link href="/tokens?q=--icon-stroke-width">
+                <Table.HeaderCell scope='row'>
+                  <Link href='/tokens?q=--icon-stroke-width'>
                     <code>--icon-stroke-width</code>
                   </Link>
                 </Table.HeaderCell>
@@ -80,7 +73,7 @@ export function IconographyFoundation() {
           you change the icon size.
         </p>
       </section>
-      <section id="library">
+      <section id='library'>
         <h2>Shared vocabulary</h2>
         <p>
           The shared Icon currently provides {iconNames.length} shapes. To add a
@@ -88,16 +81,16 @@ export function IconographyFoundation() {
           usage guidance, then test it. This list does not replace a full icon
           library.
         </p>
-        <ul className="icon-gallery" aria-label="Shared icon vocabulary">
+        <ul className='icon-gallery' aria-label='Shared icon vocabulary'>
           {iconNames.map((name) => (
             <li key={name}>
-              <Icon name={name} size="md" />
+              <Icon name={name} size='md' />
               <code>{name}</code>
             </li>
           ))}
         </ul>
       </section>
-      <section id="semantics">
+      <section id='semantics'>
         <h2>Names belong to meaning</h2>
         <p>
           An icon next to text is decorative by default. Give an icon-only
@@ -105,53 +98,53 @@ export function IconographyFoundation() {
           Tooltip does not replace the accessible name. For a meaningful
           standalone graphic, set decorative=false together with label.
         </p>
-        <div className="actions">
-          <Button variant="outline" onClick={() => setCount((n) => n + 1)}>
-            <Icon name="plus" />
+        <div className='actions'>
+          <Button variant='outline' onClick={() => setCount((n) => n + 1)}>
+            <Icon name='plus' />
             Increment preview
           </Button>
           <Button
-            variant="outline"
-            size="icon"
-            aria-label="Reset preview"
+            variant='outline'
+            size='icon'
+            aria-label='Reset preview'
             onClick={() => setCount(0)}
           >
-            <Icon name="close" />
+            <Icon name='close' />
           </Button>
         </div>
-        <p role="status">Local count: {count}</p>
-        <p className="icon-inline-example">
+        <p role='status'>Local count: {count}</p>
+        <p className='icon-inline-example'>
           <Icon
-            name="info"
+            name='info'
             decorative={false}
-            label="Supplementary information"
+            label='Supplementary information'
           />
           Example of a standalone icon with an explicit name.
         </p>
         <p>
           The button is the focusable element. Don't add tabIndex or a separate
           click behavior to the SVG. Show status with both an icon and text, and
-          prefer <Link href="/components/badge">StatusBadge</Link>.
+          prefer <Link href='/components/badge'>StatusBadge</Link>.
         </p>
         <h3>Primitive contract</h3>
         <p>
-          <code>name</code> takes a value from the shared list above.{" "}
-          <code>size</code> is sm (the default, 16px), md, or lg, and{" "}
+          <code>name</code> takes a value from the shared list above.{' '}
+          <code>size</code> is sm (the default, 16px), md, or lg, and{' '}
           <code>decorative</code> defaults to true. A meaningful standalone SVG
-          sets <code>decorative=false</code> together with a non-empty{" "}
+          sets <code>decorative=false</code> together with a non-empty{' '}
           <code>label</code>. The ref points to the SVGSVGElement, and you can
           compose it with className, style, and data attributes. If you override
           styles, recheck size, contrast, and direction.
         </p>
         <CodeBlock
-          language="tsx"
-          label="Accessible icon examples"
+          language='tsx'
+          label='Accessible icon examples'
           code={
             'import { Icon, Button } from "@surflane/ui";\n\n<Button><Icon name="plus" />Add environment</Button>\n<Button size="icon" aria-label="Close details">\n  <Icon name="close" />\n</Button>\n<Icon name="info" decorative={false} label="Additional information" />'
           }
         />
       </section>
-      <section id="direction">
+      <section id='direction'>
         <h2>Logical direction</h2>
         <p>
           Only the logical-direction icons, arrow-back and chevron-forward,
@@ -163,30 +156,30 @@ export function IconographyFoundation() {
         <label>
           Preview direction
           <Select
-            aria-label="Preview direction"
+            aria-label='Preview direction'
             value={direction}
-            onValueChange={(value) => setDirection(value ?? "ltr")}
+            onValueChange={(value) => setDirection(value ?? 'ltr')}
             options={[
-              { value: "ltr", label: "Left to right" },
-              { value: "rtl", label: "Right to left" },
+              { value: 'ltr', label: 'Left to right' },
+              { value: 'rtl', label: 'Right to left' },
             ]}
           />
         </label>
         <div
-          className="actions icon-direction-preview"
+          className='actions icon-direction-preview'
           dir={direction}
           data-icon-direction={direction}
         >
           <span>
-            <Icon name="arrow-back" />
+            <Icon name='arrow-back' />
             Back
           </span>
           <span>
             Next
-            <Icon name="chevron-forward" />
+            <Icon name='chevron-forward' />
           </span>
           <span>
-            <Icon name="external-link" />
+            <Icon name='external-link' />
             External link
           </span>
         </div>
@@ -195,7 +188,7 @@ export function IconographyFoundation() {
           navigate anywhere.
         </p>
       </section>
-      <section id="application">
+      <section id='application'>
         <h2>Icon implementation rules</h2>
         <ul>
           <li>
@@ -219,15 +212,15 @@ export function IconographyFoundation() {
           states by color alone.
         </p>
         <p>
-          <a href="https://design-system.w3.org/styles/svg-icons.html">
+          <a href='https://design-system.w3.org/styles/svg-icons.html'>
             W3C — SVG icons
           </a>
-          {" / "}
-          <a href="https://www.w3.org/WAI/tutorials/images/functional/">
+          {' / '}
+          <a href='https://www.w3.org/WAI/tutorials/images/functional/'>
             WAI — Functional images
           </a>
-          {" / "}
-          <Link href="/foundations/color">Color and contrast</Link>
+          {' / '}
+          <Link href='/foundations/color'>Color and contrast</Link>
         </p>
         <p>
           This page covers the shared primitive and guidance added so far. It
@@ -236,5 +229,5 @@ export function IconographyFoundation() {
         </p>
       </section>
     </>
-  );
+  )
 }

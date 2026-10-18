@@ -37,23 +37,23 @@
     />
     <meta name="twitter:card" content="summary_large_image" />
     <script>
-      (() => {
-        let mode = "light";
+      ;(() => {
+        let mode = 'light'
         try {
           const value = document.cookie
-            .split("; ")
-            .find((entry) => entry.startsWith("surflane-theme="))
-            ?.slice("surflane-theme=".length);
-          if (["light", "dark", "system"].includes(value)) mode = value;
+            .split('; ')
+            .find((entry) => entry.startsWith('surflane-theme='))
+            ?.slice('surflane-theme='.length)
+          if (['light', 'dark', 'system'].includes(value)) mode = value
         } catch {}
-        document.documentElement.dataset.themeMode = mode;
+        document.documentElement.dataset.themeMode = mode
         document.documentElement.dataset.theme =
-          mode === "system"
-            ? matchMedia("(prefers-color-scheme: dark)").matches
-              ? "dark"
-              : "light"
-            : mode;
-      })();
+          mode === 'system'
+            ? matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light'
+            : mode
+      })()
     </script>
     <title>Surflane</title>
   </head>

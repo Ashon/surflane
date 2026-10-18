@@ -1,54 +1,54 @@
-import { SpacingScaleMark } from "./BlueprintCanvas";
-import React, { useRef, useState } from "react";
-import { SpacingMeasurements } from "./SpacingMeasurements";
-import { Button, CodeBlock, Inline, Input, Stack, Table } from "@surflane/ui";
-import { Link } from "./router";
+import { SpacingScaleMark } from './BlueprintCanvas'
+import React, { useRef, useState } from 'react'
+import { SpacingMeasurements } from './SpacingMeasurements'
+import { Button, CodeBlock, Inline, Input, Stack, Table } from '@surflane/ui'
+import { Link } from './router'
 
 const rules = [
   [
-    "Closely related elements",
-    "4–8px",
-    "space-1 / space-2",
-    "Icon and label, heading and description, label and input",
+    'Closely related elements',
+    '4–8px',
+    'space-1 / space-2',
+    'Icon and label, heading and description, label and input',
   ],
   [
-    "Related controls",
-    "12–16px",
-    "space-3 / space-4",
-    "8–12px between buttons, 16px between an input and its action button",
+    'Related controls',
+    '12–16px',
+    'space-3 / space-4',
+    '8–12px between buttons, 16px between an input and its action button',
   ],
   [
-    "Task groups",
-    "24px",
-    "space-6",
-    "Separate field groups, filters and results",
+    'Task groups',
+    '24px',
+    'space-6',
+    'Separate field groups, filters and results',
   ],
   [
-    "Sections",
-    "32–48px",
-    "space-8 / space-12",
-    "Between independent topics or task steps",
+    'Sections',
+    '32–48px',
+    'space-8 / space-12',
+    'Between independent topics or task steps',
   ],
   [
-    "Inside containers",
-    "16–32px",
-    "space-4 / space-6 / space-8",
-    "Popovers 16px, panels 24px, pages from 32px",
+    'Inside containers',
+    '16–32px',
+    'space-4 / space-6 / space-8',
+    'Popovers 16px, panels 24px, pages from 32px',
   ],
-];
+]
 
 export function SpacingGuide() {
-  const host = useRef<HTMLDivElement>(null);
-  const [measurements, setMeasurements] = useState(true);
+  const host = useRef<HTMLDivElement>(null)
+  const [measurements, setMeasurements] = useState(true)
   return (
-    <section id="spacing" aria-labelledby="spacing-title">
-      <h2 id="spacing-title">Spacing and grouping</h2>
+    <section id='spacing' aria-labelledby='spacing-title'>
+      <h2 id='spacing-title'>Spacing and grouping</h2>
       <p>
         Spacing uses tokens on a 4px base unit. Group closely related items with
         small gaps and separate different tasks with larger ones. Decide how
         information relates before increasing all spacing evenly.
       </p>
-      <div className="spacing-scale" aria-label="Spacing token scale">
+      <div className='spacing-scale' aria-label='Spacing token scale'>
         {([1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20] as const).map((step) => (
           <div key={step}>
             <SpacingScaleMark step={step} />
@@ -58,15 +58,15 @@ export function SpacingGuide() {
         ))}
       </div>
       <Table.Container
-        label="Spacing usage guidelines"
-        orientation="horizontal"
+        label='Spacing usage guidelines'
+        orientation='horizontal'
       >
         <Table.Root>
           <Table.Caption>Default spacing by relationship</Table.Caption>
           <Table.Head>
             <Table.Row>
-              {["Relationship", "Spacing", "Token", "Examples"].map((label) => (
-                <Table.HeaderCell key={label} scope="col">
+              {['Relationship', 'Spacing', 'Token', 'Examples'].map((label) => (
+                <Table.HeaderCell key={label} scope='col'>
                   {label}
                 </Table.HeaderCell>
               ))}
@@ -75,7 +75,7 @@ export function SpacingGuide() {
           <Table.Body>
             {rules.map(([relation, gap, token, usage]) => (
               <Table.Row key={relation}>
-                <Table.HeaderCell scope="row">{relation}</Table.HeaderCell>
+                <Table.HeaderCell scope='row'>{relation}</Table.HeaderCell>
                 <Table.Cell>{gap}</Table.Cell>
                 <Table.Cell>{token}</Table.Cell>
                 <Table.Cell>{usage}</Table.Cell>
@@ -90,9 +90,9 @@ export function SpacingGuide() {
         label and input, 16px between the input and the button row, and 8px
         between buttons. Popovers use the same combination.
       </p>
-      <div className="actions spacing-measurement-controls">
+      <div className='actions spacing-measurement-controls'>
         <Button
-          variant="outline"
+          variant='outline'
           aria-pressed={measurements}
           onClick={() => setMeasurements((value) => !value)}
         >
@@ -106,30 +106,30 @@ export function SpacingGuide() {
       <Stack
         gap={4}
         ref={host}
-        className="spacing-example spacing-form-example"
-        data-testid="spacing-form"
+        className='spacing-example spacing-form-example'
+        data-testid='spacing-form'
       >
-        <Stack gap={1} className="spacing-example">
+        <Stack gap={1} className='spacing-example'>
           <h4 data-spacing-title>Account details</h4>
           <p data-spacing-description>Enter the name to display.</p>
         </Stack>
         <label>
           <span data-spacing-label>Display name</span>
-          <Input placeholder="Name" />
+          <Input placeholder='Name' />
         </label>
         <Inline gap={2} data-spacing-actions>
-          <Button type="button">Save preview</Button>
-          <Button type="button" variant="outline">
+          <Button type='button'>Save preview</Button>
+          <Button type='button' variant='outline'>
             Cancel preview
           </Button>
         </Inline>
         <SpacingMeasurements hostRef={host} visible={measurements} />
       </Stack>
       <CodeBlock
-        language="tsx"
-        label="Spacing composition"
+        language='tsx'
+        label='Spacing composition'
         code={
-          "<Stack gap={4}>\n  <Stack gap={1}>{/* Title and description; margin: 0 */}</Stack>\n  <label>{/* Label + Input; gap: var(--space-2) */}</label>\n  <Inline gap={2}>{/* Action buttons */}</Inline>\n</Stack>"
+          '<Stack gap={4}>\n  <Stack gap={1}>{/* Title and description; margin: 0 */}</Stack>\n  <label>{/* Label + Input; gap: var(--space-2) */}</label>\n  <Inline gap={2}>{/* Action buttons */}</Inline>\n</Stack>'
         }
       />
       <p>
@@ -141,14 +141,14 @@ export function SpacingGuide() {
         forms as a fraction of viewport height.
       </p>
       <p>
-        Related tokens:{" "}
-        <Link href="/tokens?q=--layout-gutter">--layout-gutter</Link> (24px),{" "}
-        <Link href="/tokens?q=--layout-section-gap">--layout-section-gap</Link>{" "}
-        (48px),{" "}
-        <Link href="/tokens?q=--layout-page-inset">--layout-page-inset</Link>{" "}
+        Related tokens:{' '}
+        <Link href='/tokens?q=--layout-gutter'>--layout-gutter</Link> (24px),{' '}
+        <Link href='/tokens?q=--layout-section-gap'>--layout-section-gap</Link>{' '}
+        (48px),{' '}
+        <Link href='/tokens?q=--layout-page-inset'>--layout-page-inset</Link>{' '}
         (32px). The responsive spacing of the catalog's own sheet and sidebar is
         an explicit exception in each layout.
       </p>
     </section>
-  );
+  )
 }

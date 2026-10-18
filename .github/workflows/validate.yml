@@ -26,6 +26,7 @@ jobs:
       - run: npm run check:package
       - run: npm run check:ssr
       - run: npm run check:public
+      - run: npm run format:check
       # Pack without requiring or changing sibling product repositories.
       - run: npm run pack
       - run: npx playwright install --with-deps chromium firefox webkit

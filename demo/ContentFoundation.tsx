@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 import {
   Checkbox,
   CodeBlock,
@@ -8,155 +8,155 @@ import {
   Input,
   NativeSelect,
   Table,
-} from "@surflane/ui";
-import { Link } from "./router";
+} from '@surflane/ui'
+import { Link } from './router'
 
-type Locale = "ko-KR" | "en-US";
+type Locale = 'ko-KR' | 'en-US'
 const instants = [
-  ["2026-03-08T06:30:00Z", "Before spring DST change"],
-  ["2026-03-08T07:30:00Z", "After spring DST change"],
-  ["2026-11-01T05:30:00Z", "First autumn 01:30"],
-  ["2026-11-01T06:30:00Z", "Second autumn 01:30"],
-];
+  ['2026-03-08T06:30:00Z', 'Before spring DST change'],
+  ['2026-03-08T07:30:00Z', 'After spring DST change'],
+  ['2026-11-01T05:30:00Z', 'First autumn 01:30'],
+  ['2026-11-01T06:30:00Z', 'Second autumn 01:30'],
+]
 const messages = {
   // Korean-locale sample messages, kept in Korean to show full-sentence localization.
-  "ko-KR": {
+  'ko-KR': {
     count: (value: string) => `기록된 실행 ${value}개`,
     labels: [
-      "실행 수",
-      "예상 비용 (USD)",
-      "사용률",
-      "발생 시각",
-      "시간대",
-      "최근 변경",
-      "실제 0",
-      "아직 없는 값",
+      '실행 수',
+      '예상 비용 (USD)',
+      '사용률',
+      '발생 시각',
+      '시간대',
+      '최근 변경',
+      '실제 0',
+      '아직 없는 값',
     ],
-    unavailable: "아직 제공되지 않음",
-    reference: "상대 시간은 고정된 예제 기준이며 발생 시각을 함께 제공합니다.",
+    unavailable: '아직 제공되지 않음',
+    reference: '상대 시간은 고정된 예제 기준이며 발생 시각을 함께 제공합니다.',
   },
-  "en-US": {
+  'en-US': {
     count: (value: string, category: Intl.LDMLPluralRule) =>
-      category === "one" ? `${value} recorded run` : `${value} recorded runs`,
+      category === 'one' ? `${value} recorded run` : `${value} recorded runs`,
     labels: [
-      "Recorded runs",
-      "Estimated cost (USD)",
-      "Utilization",
-      "Occurred at",
-      "Time zone",
-      "Last change",
-      "Actual zero",
-      "Missing value",
+      'Recorded runs',
+      'Estimated cost (USD)',
+      'Utilization',
+      'Occurred at',
+      'Time zone',
+      'Last change',
+      'Actual zero',
+      'Missing value',
     ],
-    unavailable: "Not available yet",
+    unavailable: 'Not available yet',
     reference:
-      "Relative time uses a fixed preview reference; the absolute time is retained.",
+      'Relative time uses a fixed preview reference; the absolute time is retained.',
   },
-};
+}
 const copyExamples = [
   [
-    "Action",
-    "Start deployment",
-    "배포 시작",
-    "Name the object and the action specifically.",
+    'Action',
+    'Start deployment',
+    '배포 시작',
+    'Name the object and the action specifically.',
   ],
   [
-    "Progress",
-    "Deployment in progress",
-    "배포 진행 중",
+    'Progress',
+    'Deployment in progress',
+    '배포 진행 중',
     "Don't describe work in progress as complete.",
   ],
   [
-    "Empty result",
-    "No runs match these filters. Clear filters to see all runs.",
-    "조건에 맞는 실행이 없습니다. 필터를 초기화해 전체 실행을 확인하세요.",
-    "Distinguish having no data from having no matching results.",
+    'Empty result',
+    'No runs match these filters. Clear filters to see all runs.',
+    '조건에 맞는 실행이 없습니다. 필터를 초기화해 전체 실행을 확인하세요.',
+    'Distinguish having no data from having no matching results.',
   ],
   [
-    "Permission",
-    "You cannot deploy to this environment. Ask a project administrator for access.",
-    "이 환경에 배포할 권한이 없습니다. 프로젝트 관리자에게 권한을 요청하세요.",
-    "Explain the cause and a recovery path the user can actually take.",
+    'Permission',
+    'You cannot deploy to this environment. Ask a project administrator for access.',
+    '이 환경에 배포할 권한이 없습니다. 프로젝트 관리자에게 권한을 요청하세요.',
+    'Explain the cause and a recovery path the user can actually take.',
   ],
   [
-    "Partial failure",
-    "2 checks failed. Review the results before retrying.",
-    "검사 2개가 실패했습니다. 결과를 확인한 뒤 다시 시도하세요.",
+    'Partial failure',
+    '2 checks failed. Review the results before retrying.',
+    '검사 2개가 실패했습니다. 결과를 확인한 뒤 다시 시도하세요.',
     "State the scope and the next step so it isn't mistaken for full success.",
   ],
-];
+]
 export function ContentFoundation() {
-  const [locale, setLocale] = useState<Locale>("en-US");
-  const [timeZone, setTimeZone] = useState("Asia/Seoul");
-  const [instant, setInstant] = useState(instants[0][0]);
-  const [count, setCount] = useState(1);
-  const [rtl, setRtl] = useState(false);
+  const [locale, setLocale] = useState<Locale>('en-US')
+  const [timeZone, setTimeZone] = useState('Asia/Seoul')
+  const [instant, setInstant] = useState(instants[0][0])
+  const [count, setCount] = useState(1)
+  const [rtl, setRtl] = useState(false)
   const [resourceName, setResourceName] = useState(
-    "프로젝트 / مشروع / platform-api-production-release-archive",
-  );
-  const number = new Intl.NumberFormat(locale);
-  const copy = messages[locale];
+    '프로젝트 / مشروع / platform-api-production-release-archive',
+  )
+  const number = new Intl.NumberFormat(locale)
+  const copy = messages[locale]
   const runCount = copy.count(
     number.format(count),
     new Intl.PluralRules(locale).select(count),
-  );
-  const occurredAt = new Date(instant);
+  )
+  const occurredAt = new Date(instant)
   const date = new Intl.DateTimeFormat(locale, {
     timeZone,
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    hourCycle: "h23",
-    timeZoneName: "shortOffset",
-  });
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hourCycle: 'h23',
+    timeZoneName: 'shortOffset',
+  })
   const displayValues = [
     runCount,
     new Intl.NumberFormat(locale, {
-      style: "currency",
-      currency: "USD",
+      style: 'currency',
+      currency: 'USD',
     }).format(1234.5),
     new Intl.NumberFormat(locale, {
-      style: "percent",
+      style: 'percent',
       maximumFractionDigits: 1,
     }).format(0.875),
     <time
-      key="time"
-      data-content-value="instant"
+      key='time'
+      data-content-value='instant'
       dateTime={occurredAt.toISOString()}
     >
       {date.format(occurredAt)}
     </time>,
-    <bdi key="zone" dir="ltr">
+    <bdi key='zone' dir='ltr'>
       {timeZone}
     </bdi>,
-    new Intl.RelativeTimeFormat(locale, { numeric: "always" }).format(
+    new Intl.RelativeTimeFormat(locale, { numeric: 'always' }).format(
       -5,
-      "minute",
+      'minute',
     ),
     number.format(0),
     copy.unavailable,
-  ];
+  ]
   return (
     <>
-      <nav className="page-toc" aria-label="On this page">
+      <nav className='page-toc' aria-label='On this page'>
         {[
-          "principles",
-          "formatting",
-          "language-direction",
-          "writing",
-          "application",
+          'principles',
+          'formatting',
+          'language-direction',
+          'writing',
+          'application',
         ].map((id) => (
           <a key={id} href={`#${id}`}>
             {id
-              .split("-")
+              .split('-')
               .map((word) => word[0].toUpperCase() + word.slice(1))
-              .join(" ")}
+              .join(' ')}
           </a>
         ))}
       </nav>
-      <section id="principles">
+      <section id='principles'>
         <h2>Meaning before formatting</h2>
         <p>
           Use the same term for the same action, state, and object across every
@@ -173,7 +173,7 @@ export function ContentFoundation() {
           copy automatically.
         </p>
       </section>
-      <section id="formatting">
+      <section id='formatting'>
         <h2>One value, explicit locale and time zone</h2>
         <p>
           The locale determines number and date formats; the time zone
@@ -182,15 +182,15 @@ export function ContentFoundation() {
           converted when the locale changes. Compare the skipped and repeated
           times around DST changes with the UTC source and offset.
         </p>
-        <Grid columns={2} gap={4} className="content-preview-settings">
+        <Grid columns={2} gap={4} className='content-preview-settings'>
           <Field.Root>
             <Field.Label>Formatting locale</Field.Label>
             <NativeSelect
               value={locale}
               onChange={(event) => setLocale(event.target.value as Locale)}
             >
-              <option value="en-US">English / United States</option>
-              <option value="ko-KR">Korean / South Korea</option>
+              <option value='en-US'>English / United States</option>
+              <option value='ko-KR'>Korean / South Korea</option>
             </NativeSelect>
           </Field.Root>
           <Field.Root>
@@ -199,9 +199,9 @@ export function ContentFoundation() {
               value={timeZone}
               onChange={(event) => setTimeZone(event.target.value)}
             >
-              <option value="Asia/Seoul">Asia/Seoul</option>
-              <option value="America/New_York">America/New_York</option>
-              <option value="UTC">UTC</option>
+              <option value='Asia/Seoul'>Asia/Seoul</option>
+              <option value='America/New_York'>America/New_York</option>
+              <option value='UTC'>UTC</option>
             </NativeSelect>
           </Field.Root>
           <Field.Root>
@@ -232,12 +232,12 @@ export function ContentFoundation() {
           </Field.Root>
         </Grid>
         <div
-          className="content-format-preview"
+          className='content-format-preview'
           lang={locale}
-          aria-label="Localized format preview"
-          role="group"
+          aria-label='Localized format preview'
+          role='group'
         >
-          <dl className="content-value-list">
+          <dl className='content-value-list'>
             {copy.labels.map((label, index) => (
               <div key={index}>
                 <dt>{label}</dt>
@@ -254,7 +254,7 @@ export function ContentFoundation() {
           server–client clock difference separately.
         </p>
         <CodeBlock
-          language="tsx"
+          language='tsx'
           code={`const locale = userPreferences.locale;
 const timeZone = userPreferences.timeZone;
 // value is an instant with a known offset; never parse an ambiguous local string.
@@ -279,58 +279,58 @@ const countLabel = count == null
           parse a display string back.
         </p>
       </section>
-      <section id="language-direction">
+      <section id='language-direction'>
         <h2>Language and direction are separate</h2>
         <p>
           <code>lang</code> sets the language and <code>dir</code> sets the base
           reading direction. The RTL example is for checking layout; it does not
           mean an Arabic translation is provided. Isolate user-entered names
-          with <code>dir="auto"</code> and stable Latin-script identifiers with{" "}
+          with <code>dir="auto"</code> and stable Latin-script identifiers with{' '}
           <code>bdi dir="ltr"</code>.
         </p>
-        <label className="pui-choice-label">
+        <label className='pui-choice-label'>
           <Checkbox.Root checked={rtl} onCheckedChange={setRtl}>
             <Checkbox.Indicator />
           </Checkbox.Root>
           RTL preview
         </label>
-        <Field.Root className="content-name-field">
+        <Field.Root className='content-name-field'>
           <Field.Label>Resource name preview</Field.Label>
           <Field.Description>
             Try a long name, Korean or Arabic text, or text that looks like
             HTML. Input is shown only as text and is never submitted.
           </Field.Description>
           <Input
-            dir="auto"
+            dir='auto'
             value={resourceName}
             onChange={(event) => setResourceName(event.target.value)}
           />
         </Field.Root>
-        <DirectionProvider direction={rtl ? "rtl" : "ltr"}>
+        <DirectionProvider direction={rtl ? 'rtl' : 'ltr'}>
           <div
-            className="content-direction-preview"
-            dir={rtl ? "rtl" : "ltr"}
-            lang="en"
-            role="group"
-            aria-label="Mixed direction preview"
+            className='content-direction-preview'
+            dir={rtl ? 'rtl' : 'ltr'}
+            lang='en'
+            role='group'
+            aria-label='Mixed direction preview'
           >
             <p>
-              Project:{" "}
-              <bdi dir="auto" data-resource-name>
-                {resourceName || "Untitled preview"}
+              Project:{' '}
+              <bdi dir='auto' data-resource-name>
+                {resourceName || 'Untitled preview'}
               </bdi>
             </p>
             <p>
-              Resource ID:{" "}
-              <bdi dir="ltr" className="content-identifier">
+              Resource ID:{' '}
+              <bdi dir='ltr' className='content-identifier'>
                 demo-e2e-42/platform-api-production
               </bdi>
             </p>
             <p>
-              <span lang="ar" dir="rtl">
+              <span lang='ar' dir='rtl'>
                 المشروع
               </span>
-              : <bdi dir="ltr">demo-e2e-42</bdi>
+              : <bdi dir='ltr'>demo-e2e-42</bdi>
             </p>
           </div>
         </DirectionProvider>
@@ -341,11 +341,11 @@ const countLabel = count == null
           the full text available by keyboard and touch.
         </p>
       </section>
-      <section id="writing">
+      <section id='writing'>
         <h2>Write the outcome and a useful next step</h2>
         <Table.Container
-          label="Interface writing examples"
-          orientation="horizontal"
+          label='Interface writing examples'
+          orientation='horizontal'
         >
           <Table.Root>
             <Table.Caption>
@@ -353,9 +353,9 @@ const countLabel = count == null
             </Table.Caption>
             <Table.Head>
               <Table.Row>
-                {["Context", "English", "Korean sample", "Review"].map(
+                {['Context', 'English', 'Korean sample', 'Review'].map(
                   (label) => (
-                    <Table.HeaderCell key={label} scope="col">
+                    <Table.HeaderCell key={label} scope='col'>
                       {label}
                     </Table.HeaderCell>
                   ),
@@ -365,9 +365,9 @@ const countLabel = count == null
             <Table.Body>
               {copyExamples.map(([context, en, ko, review]) => (
                 <Table.Row key={context}>
-                  <Table.HeaderCell scope="row">{context}</Table.HeaderCell>
-                  <Table.Cell lang="en">{en}</Table.Cell>
-                  <Table.Cell lang="ko">{ko}</Table.Cell>
+                  <Table.HeaderCell scope='row'>{context}</Table.HeaderCell>
+                  <Table.Cell lang='en'>{en}</Table.Cell>
+                  <Table.Cell lang='ko'>{ko}</Table.Cell>
                   <Table.Cell>{review}</Table.Cell>
                 </Table.Row>
               ))}
@@ -382,7 +382,7 @@ const countLabel = count == null
           completed.
         </p>
       </section>
-      <section id="application">
+      <section id='application'>
         <h2>Content implementation rules</h2>
         <ul>
           <li>
@@ -403,32 +403,32 @@ const countLabel = count == null
           </li>
         </ul>
         <p>
-          Review this together with the shared component guidance on{" "}
-          <Link href="/foundations/typography">typography</Link>,{" "}
-          <Link href="/foundations/accessibility">
+          Review this together with the shared component guidance on{' '}
+          <Link href='/foundations/typography'>typography</Link>,{' '}
+          <Link href='/foundations/accessibility'>
             label, error, and focus contracts
           </Link>
-          , <Link href="/components/number-field">Number Field locale</Link>,
-          and <Link href="/components/toast">persistent recovery paths</Link>.
+          , <Link href='/components/number-field'>Number Field locale</Link>,
+          and <Link href='/components/toast'>persistent recovery paths</Link>.
           This page does not mean the whole product is translated, external
           services are connected, or production rollout is complete.
         </p>
         <p>
-          References:{" "}
-          <a href="https://402.ecma-international.org/">
+          References:{' '}
+          <a href='https://402.ecma-international.org/'>
             ECMA-402: Intl formatting
           </a>
-          ,{" "}
-          <a href="https://www.w3.org/International/questions/qa-html-language-declarations">
+          ,{' '}
+          <a href='https://www.w3.org/International/questions/qa-html-language-declarations'>
             W3C: language declarations
           </a>
-          ,{" "}
-          <a href="https://www.w3.org/International/questions/qa-html-dir">
+          ,{' '}
+          <a href='https://www.w3.org/International/questions/qa-html-dir'>
             W3C: text direction
           </a>
           .
         </p>
       </section>
     </>
-  );
+  )
 }

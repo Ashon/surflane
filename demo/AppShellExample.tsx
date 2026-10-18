@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import {
   AppShell,
   Button,
@@ -9,67 +9,67 @@ import {
   PageHeader,
   ScrollArea,
   Sheet,
-} from "@surflane/ui";
+} from '@surflane/ui'
 const destinations: [string, IconName][] = [
-  ["Overview", "monitor"],
-  ["Resources", "copy"],
-  ["Activity", "play"],
-  ["Settings", "settings"],
-];
+  ['Overview', 'monitor'],
+  ['Resources', 'copy'],
+  ['Activity', 'play'],
+  ['Settings', 'settings'],
+]
 export function AppShellExample({
   toggleTheme,
   id,
 }: {
-  toggleTheme: () => void;
-  id?: string;
+  toggleTheme: () => void
+  id?: string
 }) {
-  const responsive = id === "responsive-navigation";
+  const responsive = id === 'responsive-navigation'
   const [longContent, setLongContent] = useState(false),
-    [longNavigation, setLongNavigation] = useState(false);
-  const contentViewport = useRef<HTMLDivElement>(null);
+    [longNavigation, setLongNavigation] = useState(false)
+  const contentViewport = useRef<HTMLDivElement>(null)
   const [longLabels, setLongLabels] = useState(false),
-    [readOnly, setReadOnly] = useState(false);
-  const sidebar = useRef<HTMLElement>(null);
+    [readOnly, setReadOnly] = useState(false)
+  const sidebar = useRef<HTMLElement>(null)
   const [collapsed, setCollapsed] = useState(false),
-    [mobileOpen, setMobileOpen] = useState(false);
-  const [view, setView] = useState("Overview"),
-    [account, setAccount] = useState(false);
+    [mobileOpen, setMobileOpen] = useState(false)
+  const [view, setView] = useState('Overview'),
+    [account, setAccount] = useState(false)
   const heading = useRef<HTMLHeadingElement>(null),
     trigger = useRef<HTMLButtonElement>(null),
-    selectedInPanel = useRef(false);
-  const profile = "Surflane";
-  const previewId = React.useId();
+    selectedInPanel = useRef(false)
+  const profile = 'Surflane'
+  const previewId = React.useId()
   // The dialog must close when its desktop navigation becomes available.
   useEffect(() => {
-    const media = matchMedia("(max-width: 760px)");
-    let lastFocused: Element | null = document.activeElement;
+    const media = matchMedia('(max-width: 760px)')
+    let lastFocused: Element | null = document.activeElement
     const trackFocus = (event: FocusEvent) => {
       if (event.target instanceof Element && event.target !== document.body)
-        lastFocused = event.target;
-    };
-    document.addEventListener("focusin", trackFocus);
+        lastFocused = event.target
+    }
+    document.addEventListener('focusin', trackFocus)
     const update = () => {
-      if (!media.matches) setMobileOpen(false);
+      if (!media.matches) setMobileOpen(false)
       else if (
         sidebar.current?.contains(document.activeElement) ||
         sidebar.current?.contains(lastFocused)
       )
-        trigger.current?.focus({ preventScroll: true });
-    };
-    media.addEventListener("change", update);
+        trigger.current?.focus({ preventScroll: true })
+    }
+    media.addEventListener('change', update)
     return () => {
-      media.removeEventListener("change", update);
-      document.removeEventListener("focusin", trackFocus);
-    };
-  }, []);
+      media.removeEventListener('change', update)
+      document.removeEventListener('focusin', trackFocus)
+    }
+  }, [])
   // A new view starts at the top; reset after it renders so the old content's height doesn't matter.
   useLayoutEffect(() => {
-    contentViewport.current?.scrollTo({ top: 0 });
-  }, [view, account]);
+    contentViewport.current?.scrollTo({ top: 0 })
+  }, [view, account])
   const links = (panel = false) => (
     <nav
       aria-label={
-        panel ? "Mobile workspace navigation" : "Workspace navigation"
+        panel ? 'Mobile workspace navigation' : 'Workspace navigation'
       }
     >
       {[
@@ -77,50 +77,50 @@ export function AppShellExample({
         ...(longNavigation
           ? Array.from({ length: 16 }, (_, index): [string, IconName] => [
               `Saved view ${index + 1}`,
-              "copy",
+              'copy',
             ])
           : []),
       ]
-        .filter(([label]) => !readOnly || label !== "Settings")
+        .filter(([label]) => !readOnly || label !== 'Settings')
         .map(([label, icon]) => (
           <AppShell.Link
             key={label}
             href={`#${previewId}-workspace`}
             label={
-              longLabels && label === "Resources"
-                ? "Resources / services and deployment pipelines by environment"
+              longLabels && label === 'Resources'
+                ? 'Resources / services and deployment pipelines by environment'
                 : label
             }
             icon={<Icon name={icon} decorative />}
-            aria-current={view === label ? "page" : undefined}
+            aria-current={view === label ? 'page' : undefined}
             onClick={(e) => {
               if (e.button || e.metaKey || e.ctrlKey || e.altKey || e.shiftKey)
-                return;
-              e.preventDefault();
-              setView(label);
-              setAccount(false);
+                return
+              e.preventDefault()
+              setView(label)
+              setAccount(false)
               if (panel) {
-                selectedInPanel.current = true;
-                setMobileOpen(false);
-              } else heading.current?.focus({ preventScroll: true });
+                selectedInPanel.current = true
+                setMobileOpen(false)
+              } else heading.current?.focus({ preventScroll: true })
             }}
           />
         ))}
     </nav>
-  );
+  )
   const accountMenu = (
     <Menu.Root>
       <Menu.Trigger
         render={
           <Button
-            variant="ghost"
-            className="app-shell-account"
-            aria-label="Preview user account menu"
+            variant='ghost'
+            className='app-shell-account'
+            aria-label='Preview user account menu'
           />
         }
       >
-        <span className="pui-app-shell-icon">
-          <Icon name="info" decorative />
+        <span className='pui-app-shell-icon'>
+          <Icon name='info' decorative />
         </span>
         <AppShell.Label>Preview user</AppShell.Label>
       </Menu.Trigger>
@@ -128,7 +128,7 @@ export function AppShellExample({
         <Menu.Content>
           <Menu.Item
             onClick={() => {
-              setAccount(true);
+              setAccount(true)
             }}
           >
             View preview profile
@@ -137,11 +137,11 @@ export function AppShellExample({
         </Menu.Content>
       </Menu.Portal>
     </Menu.Root>
-  );
+  )
   return (
     <>
-      <div className="actions app-shell-preview-options">
-        <label className="pui-choice-label">
+      <div className='actions app-shell-preview-options'>
+        <label className='pui-choice-label'>
           <Checkbox.Root
             checked={longNavigation}
             onCheckedChange={setLongNavigation}
@@ -150,7 +150,7 @@ export function AppShellExample({
           </Checkbox.Root>
           Overflow navigation
         </label>
-        <label className="pui-choice-label">
+        <label className='pui-choice-label'>
           <Checkbox.Root checked={longContent} onCheckedChange={setLongContent}>
             <Checkbox.Indicator />
           </Checkbox.Root>
@@ -158,19 +158,19 @@ export function AppShellExample({
         </label>
       </div>
       {responsive && (
-        <div className="actions app-shell-responsive-options">
-          <label className="pui-choice-label">
+        <div className='actions app-shell-responsive-options'>
+          <label className='pui-choice-label'>
             <Checkbox.Root checked={longLabels} onCheckedChange={setLongLabels}>
               <Checkbox.Indicator />
             </Checkbox.Root>
             Long navigation labels
           </label>
-          <label className="pui-choice-label">
+          <label className='pui-choice-label'>
             <Checkbox.Root
               checked={readOnly}
               onCheckedChange={(checked) => {
-                setReadOnly(checked);
-                if (checked && view === "Settings") setView("Overview");
+                setReadOnly(checked)
+                if (checked && view === 'Settings') setView('Overview')
               }}
             >
               <Checkbox.Indicator />
@@ -180,22 +180,22 @@ export function AppShellExample({
         </div>
       )}
       <div
-        className="catalog-example-frame"
-        data-kind="pattern"
-        data-content="workspace"
+        className='catalog-example-frame'
+        data-kind='pattern'
+        data-content='workspace'
       >
         <AppShell.Root
-          layout="workspace"
+          layout='workspace'
           collapsed={collapsed}
-          className="app-shell-preview"
+          className='app-shell-preview'
         >
           <AppShell.Header>
-            <div className="app-shell-mobile-brand">
-              <Icon name="monitor" decorative />
+            <div className='app-shell-mobile-brand'>
+              <Icon name='monitor' decorative />
               <strong>{profile}</strong>
             </div>
             <Sheet.Root
-              side="left"
+              side='left'
               open={mobileOpen}
               onOpenChange={(open) => setMobileOpen(open)}
             >
@@ -203,32 +203,32 @@ export function AppShellExample({
                 render={
                   <Button
                     ref={trigger}
-                    variant="ghost"
-                    size="icon"
-                    className="app-shell-mobile-trigger"
-                    aria-label="Open workspace navigation"
+                    variant='ghost'
+                    size='icon'
+                    className='app-shell-mobile-trigger'
+                    aria-label='Open workspace navigation'
                     onClick={() => {
-                      selectedInPanel.current = false;
+                      selectedInPanel.current = false
                     }}
                   />
                 }
               >
-                <Icon name="menu" decorative />
+                <Icon name='menu' decorative />
               </Sheet.Trigger>
               <Sheet.Content
-                className="app-shell-mobile-panel"
-                aria-modal="true"
-                closeLabel="Close workspace navigation"
+                className='app-shell-mobile-panel'
+                aria-modal='true'
+                closeLabel='Close workspace navigation'
                 finalFocus={() => {
-                  if (matchMedia("(min-width: 761px)").matches)
+                  if (matchMedia('(min-width: 761px)').matches)
                     return (
                       sidebar.current?.querySelector<HTMLElement>(
                         'a[aria-current="page"]',
                       ) ?? heading.current
-                    );
+                    )
                   return selectedInPanel.current
                     ? heading.current
-                    : trigger.current;
+                    : trigger.current
                 }}
               >
                 <Sheet.Header>
@@ -238,7 +238,7 @@ export function AppShellExample({
                   </Sheet.Description>
                 </Sheet.Header>
                 <Sheet.Body>{links(true)}</Sheet.Body>
-                <Sheet.Footer className="app-shell-mobile-footer">
+                <Sheet.Footer className='app-shell-mobile-footer'>
                   {accountMenu}
                 </Sheet.Footer>
               </Sheet.Content>
@@ -246,37 +246,37 @@ export function AppShellExample({
           </AppShell.Header>
           <AppShell.Sidebar
             ref={sidebar}
-            aria-label="Example workspace sidebar"
+            aria-label='Example workspace sidebar'
           >
-            <div className="app-shell-brand" data-blueprint-guide>
-              <Icon name="monitor" decorative />
+            <div className='app-shell-brand' data-blueprint-guide>
+              <Icon name='monitor' decorative />
               <AppShell.Label>
                 <strong>{profile}</strong>
               </AppShell.Label>
             </div>
             <Button
-              variant="ghost"
-              size="icon"
-              className="app-shell-collapse"
+              variant='ghost'
+              size='icon'
+              className='app-shell-collapse'
               aria-expanded={!collapsed}
               aria-controls={`${previewId}-navigation`}
               aria-label={
                 collapsed
-                  ? "Expand workspace sidebar"
-                  : "Collapse workspace sidebar"
+                  ? 'Expand workspace sidebar'
+                  : 'Collapse workspace sidebar'
               }
               onClick={() => setCollapsed(!collapsed)}
             >
-              <Icon name="menu" decorative />
+              <Icon name='menu' decorative />
             </Button>
             <ScrollArea
-              orientation="vertical"
-              label="Workspace destinations"
-              rootClassName="app-shell-menu-scroll"
-              className="app-shell-menu-viewport"
+              orientation='vertical'
+              label='Workspace destinations'
+              rootClassName='app-shell-menu-scroll'
+              className='app-shell-menu-viewport'
             >
               <div id={`${previewId}-navigation`}>
-                <p className="app-shell-section-label">
+                <p className='app-shell-section-label'>
                   <AppShell.Label>Workspace</AppShell.Label>
                 </p>
                 {links()}
@@ -287,17 +287,17 @@ export function AppShellExample({
           <AppShell.Content
             id={`${previewId}-workspace`}
             ref={(element) => {
-              heading.current = element?.querySelector("h3") ?? null;
+              heading.current = element?.querySelector('h3') ?? null
             }}
           >
             <ScrollArea
               ref={contentViewport}
-              orientation="vertical"
-              label="Workspace content"
-              rootClassName="app-shell-content-scroll"
-              className="app-shell-content-viewport"
+              orientation='vertical'
+              label='Workspace content'
+              rootClassName='app-shell-content-scroll'
+              className='app-shell-content-viewport'
             >
-              <div className="app-shell-workspace-sheet">
+              <div className='app-shell-workspace-sheet'>
                 <PageHeader
                   title={view}
                   level={3}
@@ -324,7 +324,7 @@ export function AppShellExample({
                     </section>
                   ))}
                 {account && (
-                  <p role="status">
+                  <p role='status'>
                     Preview profile / no account service is connected.
                   </p>
                 )}
@@ -334,5 +334,5 @@ export function AppShellExample({
         </AppShell.Root>
       </div>
     </>
-  );
+  )
 }

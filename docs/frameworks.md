@@ -24,11 +24,11 @@ Both packages are released together with the same version. Install matching vers
 Import the stylesheets once at the application root, in this order:
 
 ```css
-@import "@surflane/design-tokens/tokens.css";
-@import "@surflane/design-tokens/controls.css";
-@import "@surflane/design-tokens/foundations.css";
-@import "@surflane/design-tokens/typography.css";
-@import "@surflane/ui/styles.css";
+@import '@surflane/design-tokens/tokens.css';
+@import '@surflane/design-tokens/controls.css';
+@import '@surflane/design-tokens/foundations.css';
+@import '@surflane/design-tokens/typography.css';
+@import '@surflane/ui/styles.css';
 ```
 
 Add `pui-typography` to `<body>` to apply document typography, including portalled overlays. Fonts are not bundled. Load Manrope, Pretendard, JetBrains Mono or your own families in the host, for example through `@fontsource-variable/*` packages. Without them, the token font stacks fall back to system fonts.

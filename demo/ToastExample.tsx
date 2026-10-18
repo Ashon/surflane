@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react'
 import {
   Toast,
   Button,
@@ -7,53 +7,53 @@ import {
   InlineMessage,
   DirectionProvider,
   type StatusTone,
-} from "@surflane/ui";
+} from '@surflane/ui'
 // This manager is deliberately outside React, while the hook below reads its Provider state.
-const anchoredManager = Toast.createToastManager<{ source: string }>();
+const anchoredManager = Toast.createToastManager<{ source: string }>()
 export function ToastExample() {
-  const [presentation, setPresentation] = useState("stack");
+  const [presentation, setPresentation] = useState('stack')
   return (
-    <div className="example-stack">
-      <label className="toast-duration">
+    <div className='example-stack'>
+      <label className='toast-duration'>
         Notification presentation
         <NativeSelect
           value={presentation}
           onChange={(event) => setPresentation(event.target.value)}
         >
-          <option value="stack">Global stack</option>
-          <option value="list">Expanded list</option>
-          <option value="anchored">Anchored feedback</option>
+          <option value='stack'>Global stack</option>
+          <option value='list'>Expanded list</option>
+          <option value='anchored'>Anchored feedback</option>
         </NativeSelect>
       </label>
-      {presentation !== "anchored" ? (
+      {presentation !== 'anchored' ? (
         <Toast.Provider key={presentation} timeout={5000} limit={3}>
-          <ToastDemo layout={presentation === "list" ? "list" : "stack"} />
+          <ToastDemo layout={presentation === 'list' ? 'list' : 'stack'} />
         </Toast.Provider>
       ) : (
-        <Toast.Provider key="anchored" toastManager={anchoredManager} limit={1}>
+        <Toast.Provider key='anchored' toastManager={anchoredManager} limit={1}>
           <AnchoredDemo />
         </Toast.Provider>
       )}
     </div>
-  );
+  )
 }
 function AnchoredDemo() {
-  const anchor = useRef<HTMLButtonElement>(null);
-  const { toasts } = Toast.useToastManager<{ source: string }>();
+  const anchor = useRef<HTMLButtonElement>(null)
+  const { toasts } = Toast.useToastManager<{ source: string }>()
   return (
-    <div className="example-stack">
+    <div className='example-stack'>
       <Button
         ref={anchor}
         onClick={() =>
           anchoredManager.add({
-            id: "anchored-preview",
-            title: "Link feedback preview",
-            description: "This notification stays near its trigger.",
+            id: 'anchored-preview',
+            title: 'Link feedback preview',
+            description: 'This notification stays near its trigger.',
             timeout: 0,
-            data: { source: "outside-react-manager" },
+            data: { source: 'outside-react-manager' },
             positionerProps: {
               anchor: anchor.current,
-              side: "top",
+              side: 'top',
               sideOffset: 8,
               collisionPadding: 12,
             },
@@ -68,8 +68,8 @@ function AnchoredDemo() {
       </p>
       <Toast.Portal>
         <Toast.Viewport
-          layout="anchored"
-          aria-label="Anchored preview notifications"
+          layout='anchored'
+          aria-label='Anchored preview notifications'
         >
           {toasts.map((toast) => (
             <Toast.Positioner
@@ -91,168 +91,168 @@ function AnchoredDemo() {
         </Toast.Viewport>
       </Toast.Portal>
     </div>
-  );
+  )
 }
-function ToastDemo({ layout }: { layout: "stack" | "list" }) {
-  const manager = Toast.useToastManager<{ source: string }>();
+function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
+  const manager = Toast.useToastManager<{ source: string }>()
   const [duration, setDuration] = useState(5000),
     [archived, setArchived] = useState(false),
     [fail, setFail] = useState(false),
     [error, setError] = useState(false),
-    [rtl, setRtl] = useState(false);
+    [rtl, setRtl] = useState(false)
   const sequence = useRef(0),
-    timers = useRef(new Set<ReturnType<typeof setTimeout>>());
-  useEffect(() => () => timers.current.forEach(clearTimeout), []);
+    timers = useRef(new Set<ReturnType<typeof setTimeout>>())
+  useEffect(() => () => timers.current.forEach(clearTimeout), [])
   function addNotice() {
-    sequence.current++;
+    sequence.current++
     manager.add({
-      id: "export-preview",
-      title: "Export preview ready",
+      id: 'export-preview',
+      title: 'Export preview ready',
       description: `Prepared sample export ${sequence.current}.`,
-      type: "success",
+      type: 'success',
       timeout: duration,
-      data: { source: "export-preview" },
-    });
+      data: { source: 'export-preview' },
+    })
   }
   function archive() {
-    setArchived(true);
+    setArchived(true)
     manager.add({
-      id: "archive-preview",
-      title: "Preview item archived",
-      description: "Undo restores the local preview item.",
-      type: "info",
+      id: 'archive-preview',
+      title: 'Preview item archived',
+      description: 'Undo restores the local preview item.',
+      type: 'info',
       timeout: 0,
       actionProps: {
-        children: "Undo",
+        children: 'Undo',
         onClick: () => {
-          setArchived(false);
-          manager.close("archive-preview");
+          setArchived(false)
+          manager.close('archive-preview')
         },
       },
-    });
+    })
   }
   function task() {
-    setError(false);
+    setError(false)
     const promise = new Promise<void>((resolve, reject) => {
       const timer = setTimeout(() => {
-        timers.current.delete(timer);
+        timers.current.delete(timer)
         if (fail) {
-          setError(true);
-          reject(new Error("Preview export failed"));
-        } else resolve();
-      }, 500);
-      timers.current.add(timer);
-    });
+          setError(true)
+          reject(new Error('Preview export failed'))
+        } else resolve()
+      }, 500)
+      timers.current.add(timer)
+    })
     void manager
       .promise(promise, {
         loading: {
-          title: "Preparing export preview",
-          description: "Please wait for the sample task.",
-          type: "progress",
+          title: 'Preparing export preview',
+          description: 'Please wait for the sample task.',
+          type: 'progress',
           timeout: 0,
         },
         success: {
-          title: "Export task complete",
-          description: "The sample export is ready.",
-          type: "success",
+          title: 'Export task complete',
+          description: 'The sample export is ready.',
+          type: 'success',
           timeout: duration,
         },
         error: {
-          title: "Export preview failed",
-          description: "Retry from the persistent message on this page.",
-          type: "error",
+          title: 'Export preview failed',
+          description: 'Retry from the persistent message on this page.',
+          type: 'error',
           timeout: 0,
         },
       })
-      .catch(() => {});
+      .catch(() => {})
   }
   return (
-    <div className="example-stack">
-      <div className="toast-demo-settings">
-        <label className="toast-duration">
+    <div className='example-stack'>
+      <div className='toast-demo-settings'>
+        <label className='toast-duration'>
           Notification duration
           <NativeSelect
             value={String(duration)}
             onChange={(event) => setDuration(Number(event.target.value))}
           >
-            <option value="5000">5 seconds</option>
-            <option value="1500">1.5 seconds — timing preview</option>
-            <option value="0">Until dismissed</option>
+            <option value='5000'>5 seconds</option>
+            <option value='1500'>1.5 seconds — timing preview</option>
+            <option value='0'>Until dismissed</option>
           </NativeSelect>
         </label>
-        <label className="pui-choice-label">
+        <label className='pui-choice-label'>
           <Checkbox.Root checked={fail} onCheckedChange={setFail}>
             <Checkbox.Indicator />
           </Checkbox.Root>
           Fail async preview
         </label>
-        <label className="pui-choice-label">
+        <label className='pui-choice-label'>
           <Checkbox.Root checked={rtl} onCheckedChange={setRtl}>
             <Checkbox.Indicator />
           </Checkbox.Root>
           RTL notifications
         </label>
       </div>
-      <div className="toast-demo-actions">
+      <div className='toast-demo-actions'>
         <Button onClick={addNotice}>Show success</Button>
-        <Button variant="outline" onClick={archive}>
+        <Button variant='outline' onClick={archive}>
           Archive preview item
         </Button>
-        <Button variant="outline" onClick={task}>
+        <Button variant='outline' onClick={task}>
           Preview async task
         </Button>
         <Button
-          variant="outline"
+          variant='outline'
           onClick={() => {
             for (let n = 1; n <= 4; n++)
               manager.add({
                 title: `Batch notification ${n}`,
-                description: "The newest three remain visible.",
+                description: 'The newest three remain visible.',
                 timeout: duration,
-              });
+              })
           }}
         >
           Show batch
         </Button>
         <Button
-          variant="outline"
+          variant='outline'
           onClick={() =>
             manager.add({
-              id: "urgent-preview",
-              title: "Attention preview",
+              id: 'urgent-preview',
+              title: 'Attention preview',
               description:
-                "Example of a notification that requests immediate attention.",
-              type: "caution",
-              priority: "high",
+                'Example of a notification that requests immediate attention.',
+              type: 'caution',
+              priority: 'high',
               timeout: 0,
             })
           }
         >
           Show urgent notice
         </Button>
-        <Button variant="outline" onClick={() => manager.close()}>
+        <Button variant='outline' onClick={() => manager.close()}>
           Dismiss all
         </Button>
       </div>
       <p>
-        Item status: {archived ? "archived" : "available"}. Repeating success
+        Item status: {archived ? 'archived' : 'available'}. Repeating success
         updates one notification. F6 enters notifications; Escape closes a
         focused notification.
       </p>
       {archived && (
         <Button
-          variant="outline"
+          variant='outline'
           onClick={() => {
-            setArchived(false);
-            manager.close("archive-preview");
+            setArchived(false)
+            manager.close('archive-preview')
           }}
         >
           Restore preview item
         </Button>
       )}
       {error && (
-        <InlineMessage.Root tone="danger">
-          <InlineMessage.Icon tone="danger" />
+        <InlineMessage.Root tone='danger'>
+          <InlineMessage.Icon tone='danger' />
           <InlineMessage.Content>
             <InlineMessage.Title>
               Export preview needs attention
@@ -261,37 +261,37 @@ function ToastDemo({ layout }: { layout: "stack" | "list" }) {
               The task failed. This message remains after the toast closes.
             </InlineMessage.Description>
             <InlineMessage.Actions>
-              <Button variant="outline" onClick={task}>
+              <Button variant='outline' onClick={task}>
                 Retry export preview
               </Button>
             </InlineMessage.Actions>
           </InlineMessage.Content>
         </InlineMessage.Root>
       )}
-      <DirectionProvider direction={rtl ? "rtl" : "ltr"}>
+      <DirectionProvider direction={rtl ? 'rtl' : 'ltr'}>
         <Toast.Portal>
           <Toast.Viewport
             layout={layout}
-            dir={rtl ? "rtl" : "ltr"}
-            aria-label="Preview notifications"
+            dir={rtl ? 'rtl' : 'ltr'}
+            aria-label='Preview notifications'
           >
             {manager.toasts.map((toast) => {
               const tone: StatusTone =
-                toast.type === "error"
-                  ? "danger"
-                  : toast.type === "success"
-                    ? "success"
-                    : toast.type === "progress"
-                      ? "progress"
-                      : toast.type === "caution"
-                        ? "caution"
-                        : "neutral";
+                toast.type === 'error'
+                  ? 'danger'
+                  : toast.type === 'success'
+                    ? 'success'
+                    : toast.type === 'progress'
+                      ? 'progress'
+                      : toast.type === 'caution'
+                        ? 'caution'
+                        : 'neutral'
               return (
                 <Toast.Root
                   key={toast.id}
                   toast={toast}
                   tone={tone}
-                  swipeDirection={rtl ? "left" : "right"}
+                  swipeDirection={rtl ? 'left' : 'right'}
                 >
                   <Toast.Content>
                     <Toast.Icon />
@@ -303,11 +303,11 @@ function ToastDemo({ layout }: { layout: "stack" | "list" }) {
                     <Toast.Close />
                   </Toast.Content>
                 </Toast.Root>
-              );
+              )
             })}
           </Toast.Viewport>
         </Toast.Portal>
       </DirectionProvider>
     </div>
-  );
+  )
 }

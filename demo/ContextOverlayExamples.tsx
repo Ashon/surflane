@@ -1,24 +1,24 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 import {
   ContextMenu,
   Menu,
   PreviewCard,
   Checkbox,
   DirectionProvider,
-} from "@surflane/ui";
-export { contextOverlayExampleIds } from "./exampleGroups";
+} from '@surflane/ui'
+export { contextOverlayExampleIds } from './exampleGroups'
 function Items({
   pinned,
   setPinned,
   setAction,
 }: {
-  pinned: boolean;
-  setPinned: (value: boolean) => void;
-  setAction: (value: string) => void;
+  pinned: boolean
+  setPinned: (value: boolean) => void
+  setAction: (value: string) => void
 }) {
   return (
     <>
-      <Menu.Item onClick={() => setAction("Log preview opened.")}>
+      <Menu.Item onClick={() => setAction('Log preview opened.')}>
         Open logs
       </Menu.Item>
       <Menu.CheckboxItem checked={pinned} onCheckedChange={setPinned}>
@@ -31,55 +31,55 @@ function Items({
         <Menu.SubmenuTrigger>Export</Menu.SubmenuTrigger>
         <Menu.Portal>
           <ContextMenu.Content>
-            <Menu.Item onClick={() => setAction("JSON export previewed.")}>
+            <Menu.Item onClick={() => setAction('JSON export previewed.')}>
               JSON logs
             </Menu.Item>
           </ContextMenu.Content>
         </Menu.Portal>
       </Menu.SubmenuRoot>
     </>
-  );
+  )
 }
 
 export function ContextOverlayExample({ id }: { id: string }) {
-  const [pinned, setPinned] = useState(false);
-  const [action, setAction] = useState("No log action taken.");
-  const [disabled, setDisabled] = useState(false);
-  const [rtl, setRtl] = useState(false);
-  const [cancel, setCancel] = useState(false);
-  if (id === "context-menu")
+  const [pinned, setPinned] = useState(false)
+  const [action, setAction] = useState('No log action taken.')
+  const [disabled, setDisabled] = useState(false)
+  const [rtl, setRtl] = useState(false)
+  const [cancel, setCancel] = useState(false)
+  if (id === 'context-menu')
     return (
-      <div className="example-stack">
-        <div className="actions">
-          <label className="pui-choice-label">
+      <div className='example-stack'>
+        <div className='actions'>
+          <label className='pui-choice-label'>
             <Checkbox.Root checked={disabled} onCheckedChange={setDisabled}>
               <Checkbox.Indicator />
             </Checkbox.Root>
             Disable context menu
           </label>
-          <label className="pui-choice-label">
+          <label className='pui-choice-label'>
             <Checkbox.Root checked={rtl} onCheckedChange={setRtl}>
               <Checkbox.Indicator />
             </Checkbox.Root>
             RTL preview
           </label>
         </div>
-        <DirectionProvider direction={rtl ? "rtl" : "ltr"}>
-          <div dir={rtl ? "rtl" : "ltr"} className="context-evidence">
+        <DirectionProvider direction={rtl ? 'rtl' : 'ltr'}>
+          <div dir={rtl ? 'rtl' : 'ltr'} className='context-evidence'>
             <ContextMenu.Root disabled={disabled}>
               <ContextMenu.Trigger
-                className="context-evidence-target"
-                aria-describedby="context-hint"
+                className='context-evidence-target'
+                aria-describedby='context-hint'
               >
                 <strong>Platform API build logs</strong>
-                <p id="context-hint">
+                <p id='context-hint'>
                   Right-click or long-press for actions. The visible menu offers
                   the same actions with keyboard and touch.
                 </p>
               </ContextMenu.Trigger>
               <ContextMenu.Portal>
                 <ContextMenu.Content
-                  aria-label="Log context actions"
+                  aria-label='Log context actions'
                   positionerProps={{ collisionPadding: 12 }}
                 >
                   <Items
@@ -93,7 +93,7 @@ export function ContextOverlayExample({ id }: { id: string }) {
             <Menu.Root>
               <Menu.Trigger>Log actions</Menu.Trigger>
               <Menu.Portal>
-                <Menu.Content aria-label="Log actions">
+                <Menu.Content aria-label='Log actions'>
                   <Items
                     pinned={pinned}
                     setPinned={setPinned}
@@ -104,14 +104,14 @@ export function ContextOverlayExample({ id }: { id: string }) {
             </Menu.Root>
           </div>
         </DirectionProvider>
-        <p role="status">
-          {action} {pinned ? "Logs pinned." : "Logs unpinned."}
+        <p role='status'>
+          {action} {pinned ? 'Logs pinned.' : 'Logs unpinned.'}
         </p>
       </div>
-    );
+    )
   return (
-    <div className="example-stack">
-      <label className="pui-choice-label">
+    <div className='example-stack'>
+      <label className='pui-choice-label'>
         <Checkbox.Root checked={cancel} onCheckedChange={setCancel}>
           <Checkbox.Indicator />
         </Checkbox.Root>
@@ -119,14 +119,14 @@ export function ContextOverlayExample({ id }: { id: string }) {
       </label>
       <PreviewCard.Root
         onOpenChange={(open, details) => {
-          if (open && cancel) details.cancel();
+          if (open && cancel) details.cancel()
         }}
       >
         <p>
-          Read the{" "}
-          <PreviewCard.Trigger href="#preview-destination">
+          Read the{' '}
+          <PreviewCard.Trigger href='#preview-destination'>
             deployment policy guide
-          </PreviewCard.Trigger>{" "}
+          </PreviewCard.Trigger>{' '}
           before configuring deployment checks.
         </p>
         <PreviewCard.Portal>
@@ -140,11 +140,11 @@ export function ContextOverlayExample({ id }: { id: string }) {
         </PreviewCard.Portal>
       </PreviewCard.Root>
       <section
-        id="preview-destination"
+        id='preview-destination'
         tabIndex={-1}
-        aria-labelledby="preview-destination-title"
+        aria-labelledby='preview-destination-title'
       >
-        <h3 id="preview-destination-title">Deployment policy guide</h3>
+        <h3 id='preview-destination-title'>Deployment policy guide</h3>
         <p>
           Check allowed and blocked environments with temporary tokens. Keep
           redacted logs for each check.
@@ -155,5 +155,5 @@ export function ContextOverlayExample({ id }: { id: string }) {
         </p>
       </section>
     </div>
-  );
+  )
 }
