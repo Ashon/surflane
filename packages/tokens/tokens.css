@@ -231,10 +231,11 @@
   --status-neutral-fg: var(--ink-muted);
   --status-neutral-bg: var(--surface);
   --status-neutral-border: var(--line);
-  /* A state layer: 8% of the element's own text color over whatever it rests on.
-     It lifts a hovered item one visible step on the sheet, the chrome or a recessed
-     bar alike, where a fixed surface color matched the bar and vanished. */
-  --interaction-hover-bg: color-mix(in srgb, currentColor 8%, transparent);
+  /* A state layer: ink at 8% over whatever the item rests on. It lifts a hovered
+     item one visible step on the sheet, the chrome or a recessed bar alike, where
+     a fixed surface color matched the bar and vanished. One ink keeps a row's
+     cells one color, whatever each cell's text color. */
+  --interaction-hover-bg: oklch(from var(--ink) l c h / 0.08);
   --interaction-active-bg: var(--selected);
   --interaction-focus: var(--brand-ink);
 }

@@ -188,6 +188,8 @@
   cursor: pointer;
 }
 .pui-button:is([data-variant='default'], [data-variant='primary']) {
+  /* On the brand fill the layer is its ink: light ink barely moves bright cyan. */
+  --interaction-hover-bg: oklch(from var(--on-brand) l c h / 0.08);
   background: var(--brand);
   border-color: transparent;
   color: var(--on-brand);
