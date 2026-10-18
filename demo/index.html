@@ -10,15 +10,12 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
+    <!-- Mobile browsers tint their toolbars with the chosen theme's --chrome, not the OS scheme. -->
     <meta
       name="theme-color"
       content="#f6f8fa"
-      media="(prefers-color-scheme: light)"
-    />
-    <meta
-      name="theme-color"
-      content="#1b1f23"
-      media="(prefers-color-scheme: dark)"
+      data-light="#f6f8fa"
+      data-dark="#1b1f23"
     />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Surflane" />
@@ -47,12 +44,15 @@
           if (['light', 'dark', 'system'].includes(value)) mode = value
         } catch {}
         document.documentElement.dataset.themeMode = mode
-        document.documentElement.dataset.theme =
+        const theme =
           mode === 'system'
             ? matchMedia('(prefers-color-scheme: dark)').matches
               ? 'dark'
               : 'light'
             : mode
+        document.documentElement.dataset.theme = theme
+        const chrome = document.querySelector('meta[name="theme-color"]')
+        chrome.content = chrome.dataset[theme]
       })()
     </script>
     <title>Surflane</title>

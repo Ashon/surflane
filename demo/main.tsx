@@ -139,12 +139,18 @@ function App() {
       // Storage restrictions must not prevent an in-session theme change.
     }
     void transitionTheme(() => {
-      document.documentElement.dataset.theme =
+      const resolved =
         next === 'system'
           ? matchMedia('(prefers-color-scheme: dark)').matches
             ? 'dark'
             : 'light'
           : next
+      document.documentElement.dataset.theme = resolved
+      // The mobile browser toolbar changes with the page, in the same frame.
+      const chrome = document.querySelector<HTMLMetaElement>(
+        'meta[name="theme-color"]',
+      )
+      if (chrome?.dataset[resolved]) chrome.content = chrome.dataset[resolved]
       flushSync(() => setTheme(next))
     })
   }

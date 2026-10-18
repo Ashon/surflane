@@ -39,6 +39,44 @@ test('theme rotation persists a cookie and restores explicit and system modes', 
     (await context.cookies()).find((c) => c.name === 'surflane-theme')!.value,
   ).toBe('light')
 })
+test('the browser chrome follows the chosen theme, not the OS scheme', async ({
+  page,
+}) => {
+  await page.emulateMedia({ colorScheme: 'dark' })
+  await page.goto('/')
+  await waitForCatalogReady(page)
+  const chrome = page.locator('meta[name="theme-color"]')
+  // The meta color is the sRGB form of the page's --chrome token.
+  const pageChrome = () =>
+    page.evaluate(() => {
+      const context = document.createElement('canvas').getContext('2d')!
+      context.fillStyle = getComputedStyle(document.body).backgroundColor
+      context.fillRect(0, 0, 1, 1)
+      const [r, g, b] = context.getImageData(0, 0, 1, 1).data
+      return (
+        '#' + [r, g, b].map((v) => v.toString(16).padStart(2, '0')).join('')
+      )
+    })
+  await expect(chrome).toHaveCount(1)
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
+  await expect(chrome).toHaveAttribute('content', await pageChrome())
+  expect(
+    await page.evaluate(
+      () => getComputedStyle(document.documentElement).colorScheme,
+    ),
+  ).toBe('light')
+  await page.getByRole('button', { name: 'Toggle theme' }).click()
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+  await expect(chrome).toHaveAttribute('content', await pageChrome())
+  expect(
+    await page.evaluate(
+      () => getComputedStyle(document.documentElement).colorScheme,
+    ),
+  ).toBe('dark')
+  await page.reload()
+  await waitForCatalogReady(page)
+  await expect(chrome).toHaveAttribute('content', '#1b1f23')
+})
 test('a malformed cookie falls back safely before the app starts', async ({
   page,
   context,

@@ -10,6 +10,13 @@ body {
   font-size: var(--type-body-size);
   line-height: var(--type-body-leading);
 }
+/* Native scrollbars, controls and the mobile browser UI follow the chosen theme. */
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
 #root {
   isolation: isolate;
   padding: 12px;
