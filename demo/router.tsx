@@ -14,12 +14,15 @@ function routePath() {
     ? path.slice(basePath.length)
     : path
 }
+// crypto.randomUUID exists only in secure contexts; a dev server opened by LAN or
+// Tailscale address is plain HTTP, so the key comes from getRandomValues instead.
+const randomKey = () =>
+  Array.from(crypto.getRandomValues(new Uint32Array(4)), (part) =>
+    part.toString(36),
+  ).join('-')
 function entryKey() {
   if (!history.state?.catalogEntry) {
-    history.replaceState(
-      { ...history.state, catalogEntry: crypto.randomUUID() },
-      '',
-    )
+    history.replaceState({ ...history.state, catalogEntry: randomKey() }, '')
   }
   return history.state.catalogEntry as string
 }
@@ -54,7 +57,7 @@ export function navigate(href: string) {
     '',
   )
   history.pushState(
-    { catalogEntry: crypto.randomUUID(), catalogScroll: 0 },
+    { catalogEntry: randomKey(), catalogScroll: 0 },
     '',
     withBase(href),
   )

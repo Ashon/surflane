@@ -7,6 +7,8 @@ import {
   Icon,
   EmptyState,
 } from '@surflane/ui'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/FilterBarExample'
 const resources = [
   { name: 'Workspace', product: 'workspace', status: 'ready' },
   { name: 'Inventory main', product: 'inventory', status: 'ready' },
@@ -18,6 +20,7 @@ const resources = [
   },
 ]
 export function FilterBarExample() {
+  const t = text[useLocale().locale]
   const [query, setQuery] = useState(''),
     [product, setProduct] = useState('all'),
     [status, setStatus] = useState('all')
@@ -39,20 +42,20 @@ export function FilterBarExample() {
     input.current?.focus()
   }
   const productOptions = [
-    { value: 'all', label: 'All products' },
-    { value: 'workspace', label: 'Workspace' },
-    { value: 'inventory', label: 'Inventory' },
-    { value: 'docs', label: 'Documentation' },
+    { value: 'all', label: t.allProducts },
+    { value: 'workspace', label: t.workspace },
+    { value: 'inventory', label: t.inventory },
+    { value: 'docs', label: t.documentation },
   ]
   const statusOptions = [
-    { value: 'all', label: 'All states' },
-    { value: 'ready', label: 'Ready' },
-    { value: 'pending', label: 'Pending' },
+    { value: 'all', label: t.allStates },
+    { value: 'ready', label: t.ready },
+    { value: 'pending', label: t.pending },
   ]
   return (
     <div className='filter-bar-example'>
       <FilterBar.Root
-        label='Filter preview resources'
+        label={t.filterPreviewResources}
         onSubmit={(e) => e.preventDefault()}
         onReset={(e) => {
           e.preventDefault()
@@ -61,44 +64,44 @@ export function FilterBarExample() {
       >
         <FilterBar.Controls>
           <FilterBar.Field width='search'>
-            Search resources
+            {t.searchResources}
             <Input
               ref={input}
               type='search'
               name='query'
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder='Name or identifier…'
+              placeholder={t.nameOrIdentifier}
               leadingIcon={<Icon name='search' />}
               aria-controls='filter-preview-results'
             />
           </FilterBar.Field>
           <FilterBar.Field>
-            Product
+            {t.product}
             <Select
               value={product}
               onValueChange={setProduct}
               options={productOptions}
-              aria-label='Filter product'
+              aria-label={t.filterProduct}
             />
           </FilterBar.Field>
           <FilterBar.Field>
-            State
+            {t.state}
             <Select
               value={status}
               onValueChange={setStatus}
               options={statusOptions}
-              aria-label='Filter state'
+              aria-label={t.filterState}
             />
           </FilterBar.Field>
           <FilterBar.Actions>
             <Button type='reset' variant='outline' disabled={!active}>
-              Clear all filters
+              {t.clearAllFilters}
             </Button>
           </FilterBar.Actions>
         </FilterBar.Controls>
         {active > 0 && (
-          <FilterBar.Actions aria-label='Applied filters' role='group'>
+          <FilterBar.Actions aria-label={t.appliedFilters} role='group'>
             {query.trim() && (
               <Button
                 variant='ghost'
@@ -106,9 +109,9 @@ export function FilterBarExample() {
                   setQuery('')
                   input.current?.focus()
                 }}
-                aria-label={`Remove search filter: Search: ${query.trim()}`}
+                aria-label={t.removeSearchFilter(query.trim())}
               >
-                Search: {query.trim()}
+                {t.searchValue(query.trim())}
                 <Icon name='close' />
               </Button>
             )}
@@ -119,7 +122,9 @@ export function FilterBarExample() {
                   setProduct('all')
                   input.current?.focus()
                 }}
-                aria-label={`Remove product filter: ${productOptions.find((p) => p.value === product)?.label}`}
+                aria-label={t.removeProductFilter(
+                  productOptions.find((p) => p.value === product)?.label ?? '',
+                )}
               >
                 {productOptions.find((p) => p.value === product)?.label}
                 <Icon name='close' />
@@ -132,7 +137,9 @@ export function FilterBarExample() {
                   setStatus('all')
                   input.current?.focus()
                 }}
-                aria-label={`Remove state filter: ${statusOptions.find((s) => s.value === status)?.label}`}
+                aria-label={t.removeStateFilter(
+                  statusOptions.find((s) => s.value === status)?.label ?? '',
+                )}
               >
                 {statusOptions.find((s) => s.value === status)?.label}
                 <Icon name='close' />
@@ -141,8 +148,7 @@ export function FilterBarExample() {
           </FilterBar.Actions>
         )}
         <FilterBar.Summary>
-          {visible.length} of {resources.length} resources / {active} active
-          filters
+          {t.summary(visible.length, resources.length, active)}
         </FilterBar.Summary>
       </FilterBar.Root>
       <div id='filter-preview-results'>
@@ -151,28 +157,25 @@ export function FilterBarExample() {
             {visible.map((item) => (
               <li key={item.name}>
                 <strong>{item.name}</strong>
-                <span>{item.status === 'ready' ? 'Ready' : 'Pending'}</span>
+                <span>{item.status === 'ready' ? t.ready : t.pending}</span>
               </li>
             ))}
           </ul>
         ) : (
           <EmptyState.Root>
-            <EmptyState.Title>No matching resources</EmptyState.Title>
+            <EmptyState.Title>{t.noMatchingResources}</EmptyState.Title>
             <EmptyState.Description>
-              Try a different search term or filter combination.
+              {t.tryDifferentSearchTerm}
             </EmptyState.Description>
             <EmptyState.Actions>
               <Button variant='outline' onClick={clear}>
-                Reset filters
+                {t.resetFilters}
               </Button>
             </EmptyState.Actions>
           </EmptyState.Root>
         )}
       </div>
-      <p>
-        Filters apply immediately in this local example. The product connects
-        server requests, URL sync, and permissions.
-      </p>
+      <p>{t.footer}</p>
     </div>
   )
 }

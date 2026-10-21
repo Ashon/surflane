@@ -18,9 +18,17 @@ import {
   Stack,
   Inline,
 } from '@surflane/ui'
-import { componentSizes, sizeLabels } from './ComponentSizePreview'
+import { componentSizes } from './ComponentSizePreview'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/ComponentSizeGuide'
 function Specimen({ size }: { size: (typeof componentSizes)[number] }) {
+  const t = text[useLocale().locale]
   const id = useId()
+  const labels = {
+    small: t.sizeSmall,
+    default: t.sizeDefault,
+    large: t.sizeLarge,
+  }
   return (
     <article
       className='size-scheme-specimen'
@@ -28,21 +36,21 @@ function Specimen({ size }: { size: (typeof componentSizes)[number] }) {
       data-size-specimen={size}
     >
       <header>
-        <h3 id={`${id}-title`}>{sizeLabels[size]}</h3>
+        <h3 id={`${id}-title`}>{labels[size]}</h3>
         <p>
           {size === 'small'
-            ? 'Dense tools and secondary tasks'
+            ? t.denseTools
             : size === 'large'
-              ? 'Primary tasks and roomy input'
-              : 'Default size for most screens'}
+              ? t.primaryTasks
+              : t.defaultSizeIntro}
         </p>
       </header>
       <SizeProvider size={size}>
         <Stack gap={4}>
           <Inline gap={2}>
-            <Button>Run preview</Button>
-            <Button variant='outline'>Details</Button>
-            <Button size='icon' aria-label={`${sizeLabels[size]} add item`}>
+            <Button>{t.runPreview}</Button>
+            <Button variant='outline'>{t.details}</Button>
+            <Button size='icon' aria-label={t.addItem(labels[size])}>
               <svg
                 viewBox='0 0 24 24'
                 width='16'
@@ -56,29 +64,28 @@ function Specimen({ size }: { size: (typeof componentSizes)[number] }) {
             </Button>
           </Inline>
           <Field.Root>
-            <Field.Label htmlFor={`${id}-input`}>Project name</Field.Label>
+            <Field.Label htmlFor={`${id}-input`}>{t.projectName}</Field.Label>
             <Input id={`${id}-input`} placeholder='Platform API' />
           </Field.Root>
           <Field.Root>
-            <Field.Label htmlFor={`${id}-environment`}>Environment</Field.Label>
+            <Field.Label htmlFor={`${id}-environment`}>
+              {t.environment}
+            </Field.Label>
             <NativeSelect id={`${id}-environment`} defaultValue='staging'>
-              <option value='staging'>Staging</option>
-              <option value='production'>Production</option>
+              <option value='staging'>{t.staging}</option>
+              <option value='production'>{t.production}</option>
             </NativeSelect>
           </Field.Root>
           <Field.Root>
-            <Field.Label htmlFor={`${id}-notes`}>Notes</Field.Label>
-            <Textarea
-              id={`${id}-notes`}
-              placeholder='Describe what to deploy.'
-            />
+            <Field.Label htmlFor={`${id}-notes`}>{t.notes}</Field.Label>
+            <Textarea id={`${id}-notes`} placeholder={t.describePlaceholder} />
           </Field.Root>
           <Field.Root>
             <Field.Item>
               <Checkbox.Root defaultChecked>
                 <Checkbox.Indicator />
               </Checkbox.Root>
-              <Field.Label>Include logs</Field.Label>
+              <Field.Label>{t.includeLogs}</Field.Label>
             </Field.Item>
           </Field.Root>
           <Field.Root>
@@ -86,43 +93,39 @@ function Specimen({ size }: { size: (typeof componentSizes)[number] }) {
               <Switch.Root defaultChecked>
                 <Switch.Thumb />
               </Switch.Root>
-              <Field.Label>Auto refresh</Field.Label>
+              <Field.Label>{t.autoRefresh}</Field.Label>
             </Field.Item>
           </Field.Root>
           <Inline gap={2}>
-            <StatusBadge tone='success'>Available</StatusBadge>
-            <Spinner label={`${sizeLabels[size]} loading preview`} />
+            <StatusBadge tone='success'>{t.available}</StatusBadge>
+            <Spinner label={t.loadingPreview(labels[size])} />
           </Inline>
           <Tabs.Root defaultValue='overview'>
-            <Tabs.List aria-label={`${sizeLabels[size]} sections`}>
-              <Tabs.Tab value='overview'>Overview</Tabs.Tab>
-              <Tabs.Tab value='history'>History</Tabs.Tab>
+            <Tabs.List aria-label={t.sections(labels[size])}>
+              <Tabs.Tab value='overview'>{t.overview}</Tabs.Tab>
+              <Tabs.Tab value='history'>{t.history}</Tabs.Tab>
             </Tabs.List>
-            <Tabs.Panel value='overview'>
-              Review recent runs and build logs.
-            </Tabs.Panel>
-            <Tabs.Panel value='history'>Recent run history.</Tabs.Panel>
+            <Tabs.Panel value='overview'>{t.overviewPanel}</Tabs.Panel>
+            <Tabs.Panel value='history'>{t.historyPanel}</Tabs.Panel>
           </Tabs.Root>
           <Menu.Root>
             <Menu.Trigger render={<Button variant='outline' />}>
-              Open size menu
+              {t.openSizeMenu}
             </Menu.Trigger>
             <Menu.Portal>
               <Menu.Content>
-                <Menu.Item>Inspect logs</Menu.Item>
-                <Menu.Item>View history</Menu.Item>
+                <Menu.Item>{t.inspectLogs}</Menu.Item>
+                <Menu.Item>{t.viewHistory}</Menu.Item>
               </Menu.Content>
             </Menu.Portal>
           </Menu.Root>
           <Card.Root>
             <Card.Header>
-              <Card.Title>Deployment</Card.Title>
-              <Card.Description>
-                Keeps the same surface and spacing rules.
-              </Card.Description>
+              <Card.Title>{t.deployment}</Card.Title>
+              <Card.Description>{t.deploymentDescription}</Card.Description>
             </Card.Header>
             <Card.Footer>
-              <Button variant='ghost'>Inspect</Button>
+              <Button variant='ghost'>{t.inspect}</Button>
             </Card.Footer>
           </Card.Root>
         </Stack>
@@ -131,42 +134,24 @@ function Specimen({ size }: { size: (typeof componentSizes)[number] }) {
   )
 }
 export function ComponentSizeGuide() {
+  const t = text[useLocale().locale]
   return (
     <section id='component-sizes' aria-labelledby='component-sizes-title'>
-      <h2 id='component-sizes-title'>Component sizes</h2>
-      <p>
-        Small, Default, and Large are three sizes of the same design language.
-        Default is the current default. Sizes adjust control height and spacing
-        instead of scaling the whole screen.
-      </p>
-      <Table.Container
-        label='Component size scheme dimensions'
-        orientation='horizontal'
-      >
+      <h2 id='component-sizes-title'>{t.title}</h2>
+      <p>{t.intro}</p>
+      <Table.Container label={t.tableLabel} orientation='horizontal'>
         <Table.Root>
-          <Table.Caption>
-            Desktop values / Small · Default · Large
-          </Table.Caption>
+          <Table.Caption>{t.caption}</Table.Caption>
           <Table.Head>
             <Table.Row>
-              <Table.HeaderCell scope='col'>Element</Table.HeaderCell>
-              <Table.HeaderCell scope='col'>Small</Table.HeaderCell>
-              <Table.HeaderCell scope='col'>Default</Table.HeaderCell>
-              <Table.HeaderCell scope='col'>Large</Table.HeaderCell>
+              <Table.HeaderCell scope='col'>{t.element}</Table.HeaderCell>
+              <Table.HeaderCell scope='col'>{t.sizeSmall}</Table.HeaderCell>
+              <Table.HeaderCell scope='col'>{t.sizeDefault}</Table.HeaderCell>
+              <Table.HeaderCell scope='col'>{t.sizeLarge}</Table.HeaderCell>
             </Table.Row>
           </Table.Head>
           <Table.Body>
-            {[
-              ['Button / input height', '32px', '36px', '44px'],
-              ['Control body text', '13 / 20px', '14 / 22px', '16 / 24px'],
-              ['Checkbox / radio', '16px', '20px', '24px'],
-              ['Popover padding', '12px', '16px', '24px'],
-              ['Card padding', '16px', '24px', '32px'],
-              ['Table cell vertical padding', '8px', '12px', '16px'],
-              ['Badge vertical padding', '2px', '4px', '6px'],
-              ['Avatar', '24px', '36px', '48px'],
-              ['Tree row', '36px', '44px', '52px'],
-            ].map(([label, ...values]) => (
+            {t.rows.map(([label, ...values]) => (
               <Table.Row key={label}>
                 <Table.HeaderCell scope='row'>{label}</Table.HeaderCell>
                 {values.map((value, i) => (
@@ -177,30 +162,17 @@ export function ComponentSizeGuide() {
           </Table.Body>
         </Table.Root>
       </Table.Container>
-      <p>
-        On small screens and touch devices, buttons, inputs, and menus stay at
-        least 44px tall. Checkboxes and switches respond to clicks anywhere on
-        the row, including the label. Size changes never affect chart
-        coordinates and data, divider and scrollbar thickness, or the reading
-        type hierarchy.
-      </p>
+      <p>{t.touchTargets}</p>
       <div className='size-scheme-grid'>
         {componentSizes.map((size) => (
           <Specimen key={size} size={size} />
         ))}
       </div>
-      <h3>Composition and overrides</h3>
-      <p>
-        SizeProvider sets the size of a whole composition, such as a form,
-        table, or menu. Menus, popovers, and dialogs that open in a portal
-        inherit the same size. A nested provider changes only the size inside
-        it. On a single component, a size prop or explicit padding or height
-        takes precedence. Don't place a provider inside a table. Wrap
-        Table.Container from the outside instead.
-      </p>
+      <h3>{t.compositionTitle}</h3>
+      <p>{t.compositionIntro}</p>
       <CodeBlock
         language='tsx'
-        label='Component size composition'
+        label={t.codeLabel}
         code={`import { SizeProvider, Button, Input, Select } from '@surflane/ui'
 
 <SizeProvider size='small'>

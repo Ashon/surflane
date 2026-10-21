@@ -3,52 +3,19 @@ import React, { useRef, useState } from 'react'
 import { SpacingMeasurements } from './SpacingMeasurements'
 import { Button, CodeBlock, Inline, Input, Stack, Table } from '@surflane/ui'
 import { Link } from './router'
-
-const rules = [
-  [
-    'Closely related elements',
-    '4–8px',
-    'space-1 / space-2',
-    'Icon and label, heading and description, label and input',
-  ],
-  [
-    'Related controls',
-    '12–16px',
-    'space-3 / space-4',
-    '8–12px between buttons, 16px between an input and its action button',
-  ],
-  [
-    'Task groups',
-    '24px',
-    'space-6',
-    'Separate field groups, filters, and results',
-  ],
-  [
-    'Sections',
-    '32–48px',
-    'space-8 / space-12',
-    'Between independent topics or task steps',
-  ],
-  [
-    'Inside containers',
-    '16–32px',
-    'space-4 / space-6 / space-8',
-    'Popovers 16px, panels 24px, pages from 32px',
-  ],
-]
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/SpacingGuide'
 
 export function SpacingGuide() {
+  const t = text[useLocale().locale]
   const host = useRef<HTMLDivElement>(null)
   const [measurements, setMeasurements] = useState(true)
+  const rules = t.rules
   return (
     <section id='spacing' aria-labelledby='spacing-title'>
-      <h2 id='spacing-title'>Spacing and grouping</h2>
-      <p>
-        Spacing uses tokens on a 4px base unit. Group closely related items with
-        small gaps. Separate different tasks with larger ones. Decide how
-        information relates before increasing all spacing evenly.
-      </p>
-      <div className='spacing-scale' aria-label='Spacing token scale'>
+      <h2 id='spacing-title'>{t.title}</h2>
+      <p>{t.intro}</p>
+      <div className='spacing-scale' aria-label={t.scaleLabel}>
         {([1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20] as const).map((step) => (
           <div key={step}>
             <SpacingScaleMark step={step} />
@@ -57,15 +24,12 @@ export function SpacingGuide() {
           </div>
         ))}
       </div>
-      <Table.Container
-        label='Spacing usage guidelines'
-        orientation='horizontal'
-      >
+      <Table.Container label={t.tableLabel} orientation='horizontal'>
         <Table.Root>
-          <Table.Caption>Default spacing by relationship</Table.Caption>
+          <Table.Caption>{t.caption}</Table.Caption>
           <Table.Head>
             <Table.Row>
-              {['Relationship', 'Spacing', 'Token', 'Examples'].map((label) => (
+              {[t.relationship, t.spacing, t.token, t.examples].map((label) => (
                 <Table.HeaderCell key={label} scope='col'>
                   {label}
                 </Table.HeaderCell>
@@ -84,24 +48,17 @@ export function SpacingGuide() {
           </Table.Body>
         </Table.Root>
       </Table.Container>
-      <h3>Spacing between inputs and actions</h3>
-      <p>
-        The example below uses 4px between heading and description, 8px between
-        label and input, 16px between the input and the button row, and 8px
-        between buttons. Popovers use the same spacing.
-      </p>
+      <h3>{t.inputsActionsTitle}</h3>
+      <p>{t.inputsActionsIntro}</p>
       <div className='actions spacing-measurement-controls'>
         <Button
           variant='outline'
           aria-pressed={measurements}
           onClick={() => setMeasurements((value) => !value)}
         >
-          Spacing dimensions
+          {t.spacingDimensions}
         </Button>
-        <span>
-          Dimension lines measure the actual gaps between elements and take up
-          no space.
-        </span>
+        <span>{t.dimensionLines}</span>
       </div>
       <Stack
         gap={4}
@@ -110,45 +67,32 @@ export function SpacingGuide() {
         data-testid='spacing-form'
       >
         <Stack gap={1} className='spacing-example'>
-          <h4 data-spacing-title>Account details</h4>
-          <p data-spacing-description>Enter the name to display.</p>
+          <h4 data-spacing-title>{t.accountDetails}</h4>
+          <p data-spacing-description>{t.enterNameToDisplay}</p>
         </Stack>
         <label>
-          <span data-spacing-label>Display name</span>
-          <Input placeholder='Name' />
+          <span data-spacing-label>{t.displayName}</span>
+          <Input placeholder={t.namePlaceholder} />
         </label>
         <Inline gap={2} data-spacing-actions>
-          <Button type='button'>Save preview</Button>
+          <Button type='button'>{t.savePreview}</Button>
           <Button type='button' variant='outline'>
-            Cancel preview
+            {t.cancelPreview}
           </Button>
         </Inline>
         <SpacingMeasurements hostRef={host} visible={measurements} />
       </Stack>
       <CodeBlock
         language='tsx'
-        label='Spacing composition'
+        label={t.codeLabel}
         code={
           '<Stack gap={4}>\n  <Stack gap={1}>{/* Title and description; margin: 0 */}</Stack>\n  <label>{/* Label + Input; gap: var(--space-2) */}</label>\n  <Inline gap={2}>{/* Action buttons */}</Inline>\n</Stack>'
         }
       />
+      <p>{t.manageSpacing}</p>
+      <p>{t.divider}</p>
       <p>
-        Manage spacing in one place. Don't combine a Stack or Inline gap with
-        child margins. The parent layout owns outer spacing, and the container
-        owns inner padding. In compact layouts, reduce group spacing from 24px
-        to 16px, but keep input height and focus indicators. On small screens,
-        reduce page padding and let button rows wrap. Don't size form spacing as
-        a fraction of viewport height.
-      </p>
-      <p>
-        A full-width divider turns sections into panels. Like a card, a panel
-        keeps the same inset on all four sides. Use the container's inset on
-        both sides of the divider. The 32–48px section spacing applies when
-        whitespace alone separates sections. A card grid inside a panel then
-        sits as evenly as a paragraph.
-      </p>
-      <p>
-        Related tokens:{' '}
+        {t.relatedTokensLabel}{' '}
         <Link href='/tokens?q=--layout-gutter'>
           <code>--layout-gutter</code>
         </Link>{' '}
@@ -160,9 +104,7 @@ export function SpacingGuide() {
         <Link href='/tokens?q=--layout-page-inset'>
           <code>--layout-page-inset</code>
         </Link>{' '}
-        (32px). The catalog's own sheet is an explicit exception. It uses one
-        40px inset (24px at 960px and below) on every side, including above the
-        page title, and on both sides of each section divider.
+        (32px). {t.relatedTokensRest}
       </p>
     </section>
   )

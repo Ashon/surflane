@@ -2,20 +2,22 @@ import React, { useEffect, useState } from 'react'
 import { Button, CodeBlock, Dialog, Input, Sheet, Table } from '@surflane/ui'
 import { Link } from './router'
 import { EasingLab } from './EasingLab'
-const tokens = [
-  ['--motion-feedback', 'Short semantic feedback across the product'],
-  ['--duration-fast', 'Selection control color, expand icon feedback'],
-  ['--toast-enter-duration', 'Toast entry fade and lift'],
-  ['--toast-stack-duration', 'Toast stack repositioning'],
-  ['--toast-stack-ease', 'Toast stack deceleration curve'],
-  ['--motion-reveal', 'Accordion / Collapsible expansion'],
-  ['--dialog-enter-duration', 'Dialog entry'],
-  ['--dialog-enter-offset', 'Dialog entry travel distance'],
-  ['--dialog-exit-duration', 'Dialog exit'],
-  ['--duration-base', 'Sheet / Drawer movement'],
-  ['--theme-transition-duration', 'Theme scene transition'],
-  ['--theme-transition-ease', 'Theme transition acceleration'],
-]
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/MotionFoundation'
+const tokenNames = [
+  '--motion-feedback',
+  '--duration-fast',
+  '--toast-enter-duration',
+  '--toast-stack-duration',
+  '--toast-stack-ease',
+  '--motion-reveal',
+  '--dialog-enter-duration',
+  '--dialog-enter-offset',
+  '--dialog-exit-duration',
+  '--duration-base',
+  '--theme-transition-duration',
+  '--theme-transition-ease',
+] as const
 function useMotionEnvironment() {
   const [environment, setEnvironment] = useState({
     reduced: false,
@@ -32,7 +34,10 @@ function useMotionEnvironment() {
         supported: typeof document.startViewTransition === 'function',
         theme: document.documentElement.dataset.theme ?? 'default',
         values: Object.fromEntries(
-          tokens.map(([token]) => [token, css.getPropertyValue(token).trim()]),
+          tokenNames.map((token) => [
+            token,
+            css.getPropertyValue(token).trim(),
+          ]),
         ),
       })
     }
@@ -51,56 +56,39 @@ function useMotionEnvironment() {
   return environment
 }
 export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
+  const t = text[useLocale().locale]
   const environment = useMotionEnvironment()
   const [draft, setDraft] = useState('Platform API release')
+  const tokens = tokenNames.map(
+    (token) => [token, t.tokenRoles[token]] as const,
+  )
   return (
     <>
-      <nav className='page-toc' aria-label='On this page'>
-        {[
-          'principles',
-          'transitions',
-          'easing',
-          'theme',
-          'panels',
-          'reduction',
-          'application',
-        ].map((id) => (
+      <nav className='page-toc' aria-label={t.onThisPage}>
+        {t.nav.map(({ id, label }) => (
           <a key={id} href={`#${id}`}>
-            {id[0].toUpperCase() + id.slice(1)}
+            {label}
           </a>
         ))}
       </nav>
       <section id='principles'>
-        <h2>Motion has a purpose</h2>
-        <p>
-          Use motion only to explain a change in position, a change in state, or
-          how screens connect. Don't add decorative bounces or looping playback.
-          Never make the next interaction wait for an animation to finish.
-        </p>
+        <h2>{t.principlesTitle}</h2>
+        <p>{t.principlesIntro}</p>
         <ul>
-          <li>
-            Dialog: fades in while rising from 8px below, and exits immediately.
-          </li>
-          <li>
-            Sheet / Drawer: an edge slide that ties the entry direction to where
-            the panel closes. CSS transitions are off during a direct Drawer
-            swipe.
-          </li>
-          <li>
-            Theme: the whole screen changes as one scene, so backgrounds,
-            borders, and icons don't trail behind at different times.
-          </li>
+          <li>{t.dialogBullet}</li>
+          <li>{t.sheetBullet}</li>
+          <li>{t.themeBullet}</li>
         </ul>
-        <Table.Container label='Motion design tokens' orientation='horizontal'>
+        <Table.Container label={t.tableLabel} orientation='horizontal'>
           <Table.Root>
-            <Table.Caption>
-              Motion tokens resolved for the current theme
-            </Table.Caption>
+            <Table.Caption>{t.caption}</Table.Caption>
             <Table.Head>
               <Table.Row>
-                <Table.HeaderCell scope='col'>Token</Table.HeaderCell>
-                <Table.HeaderCell scope='col'>Role</Table.HeaderCell>
-                <Table.HeaderCell scope='col'>Resolved value</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>{t.tokenHeader}</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>{t.roleHeader}</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>
+                  {t.resolvedHeader}
+                </Table.HeaderCell>
               </Table.Row>
             </Table.Head>
             <Table.Body>
@@ -113,45 +101,37 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
                   </Table.HeaderCell>
                   <Table.Cell>{role}</Table.Cell>
                   <Table.Cell data-motion-token={token}>
-                    {environment.values[token] ?? 'Reading…'}
+                    {environment.values[token] ?? t.reading}
                   </Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>
           </Table.Root>
         </Table.Container>
-        <p>
-          The table shows design token values. With reduced motion on,
-          components drop their transitions, so these values don't match real
-          playback time.
-        </p>
+        <p>{t.principlesClosing}</p>
       </section>
       <EasingLab />
       <section id='transitions'>
-        <h2>Transition contracts</h2>
-        <p>
-          Entry, exit, and repeated interactions don't share one fixed duration.
-          An entrance explains the new context. Closing never makes the user
-          wait to take the next action. Sheet and Drawer are the exception:
-          their spatial relationship matters, so they move in both directions.
-        </p>
+        <h2>{t.transitionsTitle}</h2>
+        <p>{t.transitionsIntro}</p>
         <Table.Container
-          label='Component transition policies'
+          label={t.transitionsTableLabel}
           orientation='horizontal'
         >
           <Table.Root>
-            <Table.Caption>
-              Transition rules tied to the actual styles
-            </Table.Caption>
+            <Table.Caption>{t.transitionsCaption}</Table.Caption>
             <Table.Head>
               <Table.Row>
-                {['Component', 'Entry / update', 'Exit', 'Behavior'].map(
-                  (label) => (
-                    <Table.HeaderCell key={label} scope='col'>
-                      {label}
-                    </Table.HeaderCell>
-                  ),
-                )}
+                {[
+                  t.compHeader,
+                  t.entryHeader,
+                  t.exitHeader,
+                  t.behaviorHeader,
+                ].map((label) => (
+                  <Table.HeaderCell key={label} scope='col'>
+                    {label}
+                  </Table.HeaderCell>
+                ))}
               </Table.Row>
             </Table.Head>
             <Table.Body>
@@ -160,49 +140,49 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
                   'Dialog / Alert dialog',
                   environment.values['--dialog-enter-duration'],
                   environment.values['--dialog-exit-duration'],
-                  'opacity + lift, with immediate close and focus restoration',
+                  t.behaviorDialog,
                 ],
                 [
                   'Sheet / Drawer',
                   environment.values['--duration-base'],
                   environment.values['--duration-base'],
-                  'edge movement that follows the pointer directly during a gesture',
+                  t.behaviorSheet,
                 ],
                 [
                   'Accordion',
                   environment.values['--motion-reveal'],
                   environment.values['--motion-reveal'],
-                  "opens and closes swapped panels with height + opacity, clipped so they don't overlap",
+                  t.behaviorAccordion,
                 ],
                 [
                   'Collapsible',
                   environment.values['--motion-reveal'],
                   '0ms',
-                  'expands with content preserved, and closes immediately',
+                  t.behaviorCollapsible,
                 ],
                 [
                   'Toast',
                   environment.values['--toast-enter-duration'],
                   '0ms',
-                  'relaxed fade + lift, with important results kept in the page content',
+                  t.behaviorToast,
                 ],
                 [
-                  'Toast stack',
+                  t.transRowToastStack,
                   environment.values['--toast-stack-duration'],
                   '0ms',
-                  'repositioning time, with cards expanding on hover, focus, and touch',
+                  t.behaviorToastStack,
                 ],
                 [
-                  'Theme',
+                  t.transRowTheme,
                   environment.values['--theme-transition-duration'],
-                  'same scene',
-                  'one-scene snapshot transition that prevents stacked per-component transitions',
+                  t.exitSameScene,
+                  t.behaviorTheme,
                 ],
               ].map(([component, entry, exit, behavior]) => (
                 <Table.Row key={component}>
                   <Table.HeaderCell scope='row'>{component}</Table.HeaderCell>
-                  <Table.Cell>{entry ?? 'Reading…'}</Table.Cell>
-                  <Table.Cell>{exit ?? 'Reading…'}</Table.Cell>
+                  <Table.Cell>{entry ?? t.reading}</Table.Cell>
+                  <Table.Cell>{exit ?? t.reading}</Table.Cell>
                   <Table.Cell>{behavior}</Table.Cell>
                 </Table.Row>
               ))}
@@ -210,84 +190,64 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
           </Table.Root>
         </Table.Container>
         <p>
-          Focus rings appear immediately. A running transition never blocks
-          interaction. During rapid opening, closing, and theme changes, don't
-          let stale timers overwrite the new state. Don't tie completion
-          announcements to CSS transitionend. See{' '}
-          <Link href='/foundations/interaction'>Interaction / states</Link> for
-          real task states and duplicate-run prevention.
+          {t.transitionsFocusBefore}{' '}
+          <Link href='/foundations/interaction'>{t.transitionsFocusLink}</Link>{' '}
+          {t.transitionsFocusAfter}
         </p>
         <p>
-          The Toast primitive manages{' '}
-          <Link href='/components/toast'>swipe, duration, and pause</Link>, and
-          the Drawer primitive manages gestures. Don't reimplement this behavior
-          with separate timers in examples or products. With reduced motion,
-          these transitions drop their movement and fades. Names, focus, state,
-          and close paths remain.
+          {t.toastManagesBefore}{' '}
+          <Link href='/components/toast'>{t.toastManagesLink}</Link>
+          {t.toastManagesAfter}
         </p>
       </section>
       <section id='theme'>
-        <h2>One scene, one clock</h2>
+        <h2>{t.themeTitle}</h2>
         <p>
-          The shared <code>transitionTheme</code> applies the DOM theme
-          attribute and framework state in the same update. Where supported, it
-          fades the new screen in over the old one and briefly suppresses
-          individual CSS transitions. Rapid repeated changes follow the last
-          request.
+          {t.themeSceneBefore} <code>transitionTheme</code> {t.themeSceneAfter}
         </p>
-        <ul aria-label='Current motion environment'>
+        <ul aria-label={t.environmentLabel}>
           <li>
-            Resolved theme:{' '}
+            {t.resolvedThemeLabel}{' '}
             <strong data-motion-theme>{environment.theme}</strong>
           </li>
           <li>
-            Reduced motion:{' '}
+            {t.reducedMotionLabel}{' '}
             <strong data-motion-preference>
-              {environment.reduced ? 'Reduce' : 'No preference'}
+              {environment.reduced ? t.reduceValue : t.noPreferenceValue}
             </strong>
           </li>
           <li>
-            View Transitions API:{' '}
+            {t.viewTransitionsLabel}{' '}
             <strong data-motion-support>
-              {environment.supported ? 'Available' : 'Unavailable'}
+              {environment.supported ? t.availableValue : t.unavailableValue}
             </strong>
           </li>
         </ul>
         <div className='actions'>
           <Button variant='outline' onClick={toggleTheme}>
-            Cycle preview theme
+            {t.cyclePreviewTheme}
           </Button>
         </div>
-        <p>
-          The cycle order is Light → Dark → System → Light. System follows the
-          operating system setting. Without the API, or with reduced motion on,
-          the whole theme applies immediately and works the same.
-        </p>
+        <p>{t.themeCycleInfo}</p>
       </section>
       <section id='panels'>
-        <h2>Compare real panels</h2>
-        <p>
-          The examples below are the real shared Dialog and Sheet. Compare
-          opening, Escape, closing, and focus restoration. Try changing the
-          theme while a panel is open. The input draft is local state in this
-          guide.
-        </p>
+        <h2>{t.panelsTitle}</h2>
+        <p>{t.panelsIntro}</p>
         <div className='actions'>
           <Dialog.Root>
             <Dialog.Trigger render={<Button variant='outline' />}>
-              Open motion dialog
+              {t.openMotionDialog}
             </Dialog.Trigger>
-            <Dialog.Content closeLabel='Close motion dialog'>
+            <Dialog.Content closeLabel={t.closeMotionDialog}>
               <Dialog.Header>
-                <Dialog.Title>Dialog motion preview</Dialog.Title>
+                <Dialog.Title>{t.dialogMotionPreview}</Dialog.Title>
                 <Dialog.Description>
-                  Check the short entrance and immediate exit. Changing the
-                  theme keeps the draft and focus.
+                  {t.dialogMotionPreviewDesc}
                 </Dialog.Description>
               </Dialog.Header>
               <Dialog.Body>
                 <label>
-                  Preview draft
+                  {t.previewDraftLabel}
                   <Input
                     value={draft}
                     onChange={(event) => setDraft(event.target.value)}
@@ -296,98 +256,77 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
               </Dialog.Body>
               <Dialog.Footer>
                 <Button variant='ghost' onClick={toggleTheme}>
-                  Cycle theme in dialog
+                  {t.cycleThemeInDialog}
                 </Button>
                 <Dialog.Close render={<Button variant='outline' />}>
-                  Done
+                  {t.done}
                 </Dialog.Close>
               </Dialog.Footer>
             </Dialog.Content>
           </Dialog.Root>
           <Sheet.Root side='right'>
             <Sheet.Trigger render={<Button variant='outline' />}>
-              Open motion sheet
+              {t.openMotionSheet}
             </Sheet.Trigger>
-            <Sheet.Content closeLabel='Close motion sheet'>
+            <Sheet.Content closeLabel={t.closeMotionSheet}>
               <Sheet.Header>
-                <Sheet.Title>Sheet motion preview</Sheet.Title>
+                <Sheet.Title>{t.sheetMotionPreview}</Sheet.Title>
                 <Sheet.Description>
-                  Compare the edge entry and exit with reduced motion on and
-                  off.
+                  {t.sheetMotionPreviewDesc}
                 </Sheet.Description>
               </Sheet.Header>
               <Sheet.Body>
-                <p>
-                  Details open and close from the side, keeping their spatial
-                  relationship. Real task submission and completion are
-                  announced independently of the animation.
-                </p>
+                <p>{t.sheetBodyNote}</p>
                 <Link className='pui-link' href='/components/sheet'>
-                  Sheet usage and API
+                  {t.sheetUsageApi}
                 </Link>
               </Sheet.Body>
               <Sheet.Footer>
                 <Button variant='ghost' onClick={toggleTheme}>
-                  Cycle theme in sheet
+                  {t.cycleThemeInSheet}
                 </Button>
                 <Sheet.Close render={<Button variant='outline' />}>
-                  Done
+                  {t.done}
                 </Sheet.Close>
               </Sheet.Footer>
             </Sheet.Content>
           </Sheet.Root>
         </div>
         <p>
-          See the <Link href='/components/drawer'>Drawer gesture example</Link>{' '}
-          and{' '}
-          <Link href='/components/accordion'>
-            height transitions for expanding sections
-          </Link>{' '}
-          on their component pages.
+          {t.panelSeeBefore}{' '}
+          <Link href='/components/drawer'>{t.drawerGestureExample}</Link>{' '}
+          {t.panelAnd}{' '}
+          <Link href='/components/accordion'>{t.heightTransitionsLink}</Link>{' '}
+          {t.panelSeeAfter}
         </p>
       </section>
       <section id='reduction'>
-        <h2>Respect motion preferences</h2>
+        <h2>{t.reductionTitle}</h2>
         <p>
-          The guide follows the operating system or browser setting{' '}
-          <code>prefers-reduced-motion: reduce</code>. This page adds no toggle
-          to override it. Changing the setting updates both the environment
-          readout above and the actual component behavior.
+          {t.reductionIntroBefore} <code>prefers-reduced-motion: reduce</code>
+          {t.reductionIntroAfter}
         </p>
         <ul>
-          <li>
-            Movement and transitions are removed from Dialog and panels.
-            Opening, closing, keyboard, and focus restoration still work.
-          </li>
-          <li>
-            The theme applies without the snapshot animation. Async task status
-            and completion announcements don't depend on motion.
-          </li>
-          <li>
-            Products that add continuous motion, auto-scrolling, or blinking
-            need their own stop control and accessibility review.
-          </li>
+          <li>{t.reductionBulletMovement}</li>
+          <li>{t.reductionBulletTheme}</li>
+          <li>{t.reductionBulletProducts}</li>
         </ul>
         <p>
           <a href='https://www.w3.org/WAI/WCAG22/Techniques/css/C39.html'>
-            W3C C39 — prefers-reduced-motion
+            {t.w3cReducedMotionLink}
           </a>
           {' / '}
           <a href='https://base-ui.com/react/handbook/animation'>
-            Base UI — animation lifecycle
+            {t.baseUiAnimationLink}
           </a>
         </p>
       </section>
       <section id='application'>
-        <h2>Theme integration</h2>
-        <p>
-          Commit the React state and the DOM theme update synchronously inside
-          the same shared function. Call the wrapper once per user action. Don't
-          add per-screen transition timers.
-        </p>
+        <h2>{t.applicationTitle}</h2>
+        <p>{t.applicationIntro}</p>
         <CodeBlock
           language='tsx'
-          label='React theme integration'
+          label={t.codeLabel}
           code={`import { flushSync } from 'react-dom'
 import { transitionTheme } from '@surflane/design-tokens/theme-transition'
 import '@surflane/design-tokens/motion.css'
@@ -398,16 +337,11 @@ await transitionTheme(() => {
   flushSync(() => setMode(nextMode))
 })`}
         />
-        <p>
-          The product restores the initial theme, saves the selected mode, and
-          subscribes to OS changes. With server rendering and hydration, check
-          separately that the first screen renders the matching theme. Check
-          transitions and reduced motion in the browsers you support.
-        </p>
+        <p>{t.applicationClosing}</p>
         <div className='token-reference-links'>
-          <Link href='/tokens?q=--motion'>Motion tokens</Link>
-          <Link href='/foundations/color'>Color and contrast</Link>
-          <Link href='/patterns/interaction-lab'>Interaction lab</Link>
+          <Link href='/tokens?q=--motion'>{t.motionTokensLink}</Link>
+          <Link href='/foundations/color'>{t.colorContrastLink}</Link>
+          <Link href='/patterns/interaction-lab'>{t.interactionLabLink}</Link>
         </div>
       </section>
     </>

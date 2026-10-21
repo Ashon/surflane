@@ -1,5 +1,6 @@
 import React, { useLayoutEffect, useRef } from 'react'
 import { Button, Sheet } from '@surflane/ui'
+import { useMessages } from './i18n'
 
 /** Modal bottom sheet (`navigation-sheet`, shared with the app shell example):
  * centered navigation and a thumb-accessible close action. */
@@ -16,6 +17,7 @@ export default function MobileCatalogNavigation({
   finalFocus: () => HTMLElement | null
   children: React.ReactNode
 }) {
+  const messages = useMessages()
   const panel = useRef<HTMLDivElement>(null)
   useLayoutEffect(() => {
     if (!open) return
@@ -38,7 +40,7 @@ export default function MobileCatalogNavigation({
       <Sheet.Content
         ref={panel}
         className='catalog-mobile-navigation navigation-sheet'
-        closeLabel='Close catalog navigation'
+        closeLabel={messages.closeCatalogNavigation}
         initialFocus={() =>
           panel.current?.querySelector<HTMLElement>('a[aria-current="page"]') ??
           panel.current
@@ -46,13 +48,17 @@ export default function MobileCatalogNavigation({
         finalFocus={finalFocus}
       >
         <Sheet.Header>
-          <Sheet.Title>{area} navigation</Sheet.Title>
+          <Sheet.Title>
+            {messages.areaNavigation(
+              messages.areas[area as keyof typeof messages.areas],
+            )}
+          </Sheet.Title>
           <Sheet.Description>Choose a page in this section.</Sheet.Description>
         </Sheet.Header>
         <div className='catalog-mobile-navigation-body'>{children}</div>
         <Sheet.Footer>
           <Button variant='secondary' onClick={() => onOpenChange(false)}>
-            Close menu
+            {messages.closeMenu}
           </Button>
         </Sheet.Footer>
       </Sheet.Content>

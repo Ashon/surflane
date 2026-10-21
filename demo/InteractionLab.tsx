@@ -11,19 +11,22 @@ import {
 } from '@surflane/ui'
 import { ConfirmationDemo } from './ConfirmationDemo'
 import { PanelsDemo } from './PanelsDemo'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/InteractionLab'
 export function InteractionLab({ toggleTheme }: { toggleTheme: () => void }) {
+  const t = text[useLocale().locale]
   const [result, setResult] = useState('')
   const [legacy, setLegacy] = useState('staging')
   const options = [
-    { value: 'staging', label: 'Staging' },
-    { value: 'production', label: 'Production' },
-    { value: 'unavailable', label: 'Unavailable', disabled: true },
+    { value: 'staging', label: t.staging },
+    { value: 'production', label: t.production },
+    { value: 'unavailable', label: t.unavailable, disabled: true },
   ]
   return (
     <>
       {' '}
       <section id='components'>
-        <h2>Inputs and selection</h2>
+        <h2>{t.inputsSelection}</h2>
         <form
           onSubmit={(e) => {
             e.preventDefault()
@@ -34,99 +37,100 @@ export function InteractionLab({ toggleTheme }: { toggleTheme: () => void }) {
         >
           <div className='grid'>
             <label>
-              Name
+              {t.name}
               <Input
                 name='name'
                 defaultValue='UI preview'
-                placeholder='Enter a name'
+                placeholder={t.enterName}
                 required
               />
             </label>
             <label>
-              Environment
+              {t.environment}
               <Select
                 name='environment'
                 options={options}
                 defaultValue='staging'
-                aria-label='Environment'
+                aria-label={t.environment}
               />
             </label>
             <label>
-              Compatibility field
+              {t.compatibilityField}
               <NativeSelect
-                aria-label='Compatibility field'
+                aria-label={t.compatibilityField}
                 name='legacyEnvironment'
                 value={legacy}
                 onChange={(e) => setLegacy(e.target.value)}
               >
-                <option value='staging'>Staging</option>
-                <option value='production'>Production</option>
+                <option value='staging'>{t.staging}</option>
+                <option value='production'>{t.production}</option>
               </NativeSelect>
             </label>
             <label>
-              Disabled
-              <Input placeholder='Unavailable' disabled />
+              {t.disabled}
+              <Input placeholder={t.unavailable} disabled />
             </label>
           </div>
           <div className='actions'>
-            <Button type='submit'>Submit preview</Button>
+            <Button type='submit'>{t.submitPreview}</Button>
             <Button variant='outline' type='reset'>
-              Reset
+              {t.reset}
             </Button>
           </div>
           <output aria-live='polite'>{result}</output>
         </form>
       </section>
       <section>
-        <h2>Overlays and focus</h2>
+        <h2>{t.overlaysFocus}</h2>
         <div className='actions'>
           <Popover.Root>
             <Popover.Trigger
               render={<Button variant='outline' />}
-              aria-label='Open account'
+              aria-label={t.openAccount}
             >
-              Account
+              {t.account}
             </Popover.Trigger>
             <Popover.Portal>
               <Popover.Content side='top'>
-                <Popover.Title>Account</Popover.Title>
-                <Popover.Description>
-                  Portaled content keeps the same tokens.
-                </Popover.Description>
-                <Input aria-label='Account nickname' placeholder='Nickname' />
+                <Popover.Title>{t.account}</Popover.Title>
+                <Popover.Description>{t.portaledContent}</Popover.Description>
+                <Input
+                  aria-label={t.accountNickname}
+                  placeholder={t.nickname}
+                />
               </Popover.Content>
             </Popover.Portal>
           </Popover.Root>
           <Menu.Root>
             <Menu.Trigger render={<Button variant='outline' />}>
-              Actions
+              {t.actions}
             </Menu.Trigger>
             <Menu.Portal>
               <Menu.Content>
-                <Menu.Item className='pui-select-item'>Inspect</Menu.Item>
-                <Menu.Item className='pui-select-item'>Export</Menu.Item>
+                <Menu.Item className='pui-select-item'>{t.inspect}</Menu.Item>
+                <Menu.Item className='pui-select-item'>
+                  {t.exportAction}
+                </Menu.Item>
               </Menu.Content>
             </Menu.Portal>
           </Menu.Root>
           <Dialog.Root>
             <Dialog.Trigger render={<Button variant='outline' />}>
-              Open dialog
+              {t.openDialog}
             </Dialog.Trigger>
             <Dialog.Content
               className='demo-dialog'
-              closeLabel='Dismiss deployment plan'
+              closeLabel={t.dismissDeploymentPlan}
             >
               <Dialog.Header>
-                <Dialog.Title>Deployment plan</Dialog.Title>
-                <Dialog.Description>
-                  Check the nested select menu, Escape, and focus restoration.
-                </Dialog.Description>
+                <Dialog.Title>{t.deploymentPlan}</Dialog.Title>
+                <Dialog.Description>{t.dialogDescription}</Dialog.Description>
               </Dialog.Header>
               <Dialog.Body>
                 <label>
-                  Dialog environment
+                  {t.dialogEnvironment}
                   <Select
-                    aria-label='Dialog environment'
+                    aria-label={t.dialogEnvironment}
                     options={options}
                     defaultValue='staging'
                   />
@@ -134,7 +138,7 @@ export function InteractionLab({ toggleTheme }: { toggleTheme: () => void }) {
               </Dialog.Body>
               <Dialog.Footer>
                 <Dialog.Close render={<Button variant='outline' />}>
-                  Close dialog
+                  {t.closeDialog}
                 </Dialog.Close>
               </Dialog.Footer>
             </Dialog.Content>
@@ -144,18 +148,18 @@ export function InteractionLab({ toggleTheme }: { toggleTheme: () => void }) {
       <ConfirmationDemo />
       <PanelsDemo toggleTheme={toggleTheme} />
       <section>
-        <h2>Scroll and build revisions</h2>
+        <h2>{t.scrollBuildRevisions}</h2>
         <ScrollArea
-          label='Build revisions'
+          label={t.buildRevisions}
           orientation='both'
           style={{ maxHeight: 160 }}
         >
           <table>
             <thead>
               <tr>
-                <th>Service</th>
-                <th>Start revision</th>
-                <th>Finish revision</th>
+                <th>{t.service}</th>
+                <th>{t.startRevision}</th>
+                <th>{t.finishRevision}</th>
               </tr>
             </thead>
             <tbody>

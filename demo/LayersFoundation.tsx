@@ -14,20 +14,11 @@ import {
   TooltipProvider,
 } from '@surflane/ui'
 import { Link } from './router'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/LayersFoundation'
 
-const roles = [
-  ['--chrome', 'Outer app surface, sidebar'],
-  ['--canvas', 'Content sheet, dialogs'],
-  ['--surface', 'Secondary surface within content'],
-  ['--menu-background', 'Opaque surface for menus, select lists, and toasts'],
-  ['--shadow-sheet', 'Subtle separation for the content sheet'],
-  ['--shadow-float', 'Depth for transient popups and notifications'],
-  ['--layer-backdrop', 'Blocking backdrop behind a Dialog'],
-  ['--layer-dialog', 'Positioner for Dialog and Sheet/Drawer'],
-  ['--layer-popup', 'Menus, select lists, popovers, and toasts'],
-  ['--layer-tooltip', 'Positioner for explanatory tooltips'],
-]
 function StackingLab() {
+  const t = text[useLocale().locale]
   const [stage, setStage] = useState<HTMLDivElement | null>(null)
   const [portal, setPortal] = useState(false)
   const [clip, setClip] = useState(true)
@@ -37,144 +28,129 @@ function StackingLab() {
       data-layer-plane
       data-portalled={portal || undefined}
     >
-      Overlay / z-index: 9999
+      {t.overlayPlane}
     </div>
   )
   return (
     <>
       <div className='actions layer-demo-controls'>
         <Toggle pressed={portal} onPressedChange={setPortal}>
-          Portal to demonstration stage
+          {t.portalToStage}
         </Toggle>
         <label className='pui-choice-label'>
           <Checkbox.Root checked={clip} onCheckedChange={setClip}>
             <Checkbox.Indicator />
           </Checkbox.Root>
-          Clip local host
+          {t.clipLocalHost}
         </label>
       </div>
       <div
         ref={setStage}
         className='layer-demo-stage'
         role='img'
-        aria-label={
-          portal
-            ? 'Portaled overlay appears above the sibling plane and outside local clipping.'
-            : 'Local overlay stays below the sibling plane despite its larger z-index.'
-        }
+        aria-label={portal ? t.stageLabelPortaled : t.stageLabelLocal}
       >
         <div
           className='layer-demo-host'
           data-clipped={clip || undefined}
           aria-hidden='true'
         >
-          Parent context / z-index: 1{!portal && plane}
+          {t.parentContext}
+          {!portal && plane}
         </div>
         <div className='layer-demo-cover' aria-hidden='true'>
-          Sibling context / z-index: 2
+          {t.siblingContext}
         </div>
         {portal &&
           stage &&
           createPortal(<div aria-hidden='true'>{plane}</div>, stage)}
       </div>
-      <p role='status' aria-label='Stacking demonstration result'>
-        {portal
-          ? 'Portal: the overlay is a sibling of the two contexts and appears in front.'
-          : "Local: the child stays in its parent's context, so 9999 can't outrank a sibling context at 2."}
+      <p role='status' aria-label={t.stackResultLabel}>
+        {portal ? t.statusPortal : t.statusLocal}
       </p>
-      <p>
-        The two controls are independent. A stacking context sets the
-        front-to-back order among siblings. Overflow clips painting outside a
-        box. Setting the parent's overflow to visible doesn't change the
-        siblings' z-index order. This example portals only into the demo stage.
-        Real product popups use the shared Portal, as in the Base UI example
-        below. The values 1, 2, and 9999 illustrate the principle. They aren't
-        product layer values.
-      </p>
+      <p>{t.stackingNote}</p>
     </>
   )
 }
 function OverlayLab() {
+  const t = text[useLocale().locale]
   const [region, setRegion] = useState('staging')
   return (
     <Dialog.Root>
       <Dialog.Trigger render={<Button variant='outline' />}>
-        Open layered dialog
+        {t.openLayeredDialog}
       </Dialog.Trigger>
       <Dialog.Content>
-        <Dialog.Title>Layered workspace preview</Dialog.Title>
-        <Dialog.Description>
-          Local example. The menu keeps this task's selection state even when
-          portaled outside the sheet.
-        </Dialog.Description>
+        <Dialog.Title>{t.layeredWorkspacePreview}</Dialog.Title>
+        <Dialog.Description>{t.layeredWorkspaceDescription}</Dialog.Description>
         <Field.Root>
-          <Field.Label>Preview environment</Field.Label>
+          <Field.Label>{t.previewEnvironment}</Field.Label>
           <NativeSelect
             value={region}
             onChange={(event) => setRegion(event.target.value)}
           >
-            <option value='staging'>Staging preview</option>
-            <option value='production'>Production preview</option>
+            <option value='staging'>{t.stagingPreview}</option>
+            <option value='production'>{t.productionPreview}</option>
           </NativeSelect>
         </Field.Root>
         <p>
-          Selected environment: <strong data-layer-region>{region}</strong>
+          {t.selectedEnvironment} <strong data-layer-region>{region}</strong>
         </p>
         <div className='actions'>
           <Popover.Root>
             <Popover.Trigger render={<Button variant='outline' />}>
-              Inspect overlay details
+              {t.inspectOverlayDetails}
             </Popover.Trigger>
             <Popover.Portal>
               <Popover.Content
                 side='bottom'
                 align='start'
-                aria-label='Overlay details'
+                aria-label={t.overlayDetails}
               >
-                <h3>Overlay details</h3>
-                <p>A real portal that uses the shared Popover.</p>
+                <h3>{t.overlayDetails}</h3>
+                <p>{t.sharedPopoverNote}</p>
                 <p>
-                  Current selection: <strong>{region}</strong>
+                  {t.currentSelection} <strong>{region}</strong>
                 </p>
               </Popover.Content>
             </Popover.Portal>
           </Popover.Root>
           <TooltipProvider>
-            <Tooltip label='Tooltip uses the explanation layer above popup surfaces.'>
-              <Button variant='outline'>Explain this layer</Button>
+            <Tooltip label={t.tooltipExplainLayer}>
+              <Button variant='outline'>{t.explainThisLayer}</Button>
             </Tooltip>
           </TooltipProvider>
           <Dialog.Root>
             <Dialog.Trigger render={<Button variant='outline' />}>
-              Open nested dialog
+              {t.openNestedDialog}
             </Dialog.Trigger>
             <Dialog.Content>
-              <Dialog.Title>Nested inspection</Dialog.Title>
+              <Dialog.Title>{t.nestedInspectionTitle}</Dialog.Title>
               <Dialog.Description>
-                Escape closes only this dialog and returns focus to its trigger
-                in the parent.
+                {t.nestedInspectionDescription}
               </Dialog.Description>
               <Dialog.Close render={<Button variant='outline' />}>
-                Close nested inspection
+                {t.closeNestedInspection}
               </Dialog.Close>
             </Dialog.Content>
           </Dialog.Root>
         </div>
         <Dialog.Close render={<Button variant='outline' />}>
-          Close layered preview
+          {t.closeLayeredPreview}
         </Dialog.Close>
       </Dialog.Content>
     </Dialog.Root>
   )
 }
 export function LayersFoundation() {
+  const t = text[useLocale().locale]
   const [values, setValues] = useState<Record<string, string>>({})
   useEffect(() => {
     const update = () => {
       const css = getComputedStyle(document.documentElement)
       setValues(
         Object.fromEntries(
-          roles.map(([name]) => [name, css.getPropertyValue(name).trim()]),
+          t.roles.map(([name]) => [name, css.getPropertyValue(name).trim()]),
         ),
       )
     }
@@ -188,51 +164,40 @@ export function LayersFoundation() {
   }, [])
   return (
     <>
-      <nav className='page-toc' aria-label='On this page'>
-        {['surfaces', 'contexts', 'overlays', 'diagnostics', 'application'].map(
-          (id) => (
-            <a key={id} href={`#${id}`}>
-              {id[0].toUpperCase() + id.slice(1)}
-            </a>
-          ),
-        )}
+      <nav className='page-toc' aria-label={t.onThisPage}>
+        {t.nav.map(({ id, label }) => (
+          <a key={id} href={`#${id}`}>
+            {label}
+          </a>
+        ))}
       </nav>
       <section id='surfaces'>
-        <h2>Surface and elevation roles</h2>
-        <p>
-          Surfaces group information. Layers describe front-to-back
-          relationships. Within the content sheet, separate content with
-          spacing, headings, and secondary surfaces. Reserve shadows for UI that
-          temporarily overlaps, such as floating menus and notifications. Don't
-          wrap every section in nested cards or add a border for every state.
-        </p>
+        <h2>{t.surfacesTitle}</h2>
+        <p>{t.surfacesIntro}</p>
         <div className='layer-shadow-comparison'>
           <div className='layer-shadow-sheet'>
-            <strong>Content sheet</strong>
-            <p>For sustained reading and work</p>
+            <strong>{t.contentSheet}</strong>
+            <p>{t.contentSheetNote}</p>
           </div>
           <div className='layer-shadow-float'>
-            <strong>Floating surface</strong>
-            <p>Temporarily overlaps the current context</p>
+            <strong>{t.floatingSurface}</strong>
+            <p>{t.floatingSurfaceNote}</p>
           </div>
         </div>
-        <Table.Container
-          label='Surface and layer tokens'
-          orientation='horizontal'
-        >
+        <Table.Container label={t.surfaceTableLabel} orientation='horizontal'>
           <Table.Root>
-            <Table.Caption>
-              Surface, shadow, and layer tokens resolved for the current theme
-            </Table.Caption>
+            <Table.Caption>{t.tableCaption}</Table.Caption>
             <Table.Head>
               <Table.Row>
-                <Table.HeaderCell scope='col'>Token</Table.HeaderCell>
-                <Table.HeaderCell scope='col'>Role</Table.HeaderCell>
-                <Table.HeaderCell scope='col'>Resolved value</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>{t.tokenHeader}</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>{t.roleHeader}</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>
+                  {t.resolvedHeader}
+                </Table.HeaderCell>
               </Table.Row>
             </Table.Head>
             <Table.Body>
-              {roles.map(([name, role]) => (
+              {t.roles.map(([name, role]) => (
                 <Table.Row key={name}>
                   <Table.HeaderCell scope='row'>
                     <Link href={`/tokens?q=${encodeURIComponent(name)}`}>
@@ -241,46 +206,27 @@ export function LayersFoundation() {
                   </Table.HeaderCell>
                   <Table.Cell>{role}</Table.Cell>
                   <Table.Cell data-layer-token={name}>
-                    <code>{values[name] ?? 'Reading…'}</code>
+                    <code>{values[name] ?? t.reading}</code>
                   </Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>
           </Table.Root>
         </Table.Container>
-        <p>
-          These values order roles within a single stacking context.
-          Sheet/Drawer uses 0 for the backdrop and 1 for the content, inside one
-          isolated positioner. Toasts and menus share the popup role. When the
-          numbers are equal, also check DOM order and ancestor contexts.
-          Tooltips only explain. They never replace required actions or error
-          messages.
-        </p>
+        <p>{t.surfacesValuesNote}</p>
       </section>
       <section id='contexts'>
-        <h2>Stacking contexts and clipping</h2>
-        <p>
-          Raising a child's z-index alone can't escape its parent's stacking
-          context. Properties such as transform, opacity, and isolation, and
-          some contain values, can create a new context. The comparison below
-          uses real CSS and a React portal. The result sentence below it repeats
-          the labels hidden inside the figure.
-        </p>
+        <h2>{t.contextsTitle}</h2>
+        <p>{t.contextsIntro}</p>
         <StackingLab />
       </section>
       <section id='overlays'>
-        <h2>Nested overlay contract</h2>
-        <p>
-          A layer number alone doesn't make a modal. Base UI manages initial
-          focus, the Tab range, blocking background interaction, Escape order,
-          and focus return to the trigger. Keep selection state and task data in
-          the calling screen. Try the select list, popover, tooltip, and nested
-          dialog below.
-        </p>
+        <h2>{t.overlaysTitle}</h2>
+        <p>{t.overlaysIntro}</p>
         <OverlayLab />
         <CodeBlock
           language='tsx'
-          label='Portaled selection inside a dialog'
+          label={t.portaledSelectionLabel}
           code={`<Dialog.Root>
   <Dialog.Trigger render={<Button />}>Open workspace</Dialog.Trigger>
   <Dialog.Content>
@@ -298,65 +244,28 @@ export function LayersFoundation() {
         />
       </section>
       <section id='diagnostics'>
-        <h2>Diagnose before raising z-index</h2>
+        <h2>{t.diagnoseTitle}</h2>
         <ol>
-          <li>
-            In the DOM, check the actual portal target and the ancestor contexts
-            of the hidden element. The React tree and the DOM position can
-            differ.
-          </li>
-          <li>
-            Distinguish clipping by overflow, mask, or clip-path from z-index
-            ordering. Check that there's room for shadows and focus rings.
-          </li>
-          <li>
-            Confirm the layer token is applied to the correct positioner. Don't
-            just add a larger value to the child popup.
-          </li>
-          <li>
-            Check that the overlay is reachable by pointer and keyboard. Escape
-            must close from the innermost layer out, and focus must return to
-            where it was.
-          </li>
-          <li>
-            Don't let a notification above a dialog be the only error message.
-            Keep important status and recovery paths in the current work area
-            too.
-          </li>
+          <li>{t.diagnoseStep1}</li>
+          <li>{t.diagnoseStep2}</li>
+          <li>{t.diagnoseStep3}</li>
+          <li>{t.diagnoseStep4}</li>
+          <li>{t.diagnoseStep5}</li>
         </ol>
-        <p>
-          The browser's top layer is ordered separately from regular z-index.
-          This system's Dialog is a Base UI portal. Don't assume it's equivalent
-          to native showModal(). With third-party SDKs, fullscreen, or native
-          popover, check the actual DOM and portal target.
-        </p>
+        <p>{t.topLayerNote}</p>
       </section>
       <section id='application'>
-        <h2>Layer composition rules</h2>
+        <h2>{t.applicationTitle}</h2>
         <ul>
-          <li>
-            Don't let a scroll area's overflow clip menus, notifications, or
-            shadows. Show progress in the current work area as well.
-          </li>
-          <li>
-            Keep the sidebar and main content on base surfaces. Use the shared
-            portal and layer tokens for detail panels and menus.
-          </li>
-          <li>
-            Keep code and table scroll areas separate from popups. Don't add a
-            transform to the whole content area. It changes the coordinate
-            reference for floating UI.
-          </li>
+          <li>{t.compositionRule1}</li>
+          <li>{t.compositionRule2}</li>
+          <li>{t.compositionRule3}</li>
         </ul>
+        <p>{t.themePortalNote}</p>
         <p>
-          Themes apply the shared typography scope on body, and the root tokens,
-          to portals too. In forced colors mode, don't rely on shadows alone to
-          separate areas.
-        </p>
-        <p>
-          References:{' '}
+          {t.referencesLabel}{' '}
           <a href='https://www.w3.org/TR/CSS22/zindex.html'>
-            W3C stacking order
+            {t.w3cStackingOrderLink}
           </a>
           ,{' '}
           <a href='https://react.dev/reference/react-dom/createPortal'>
@@ -364,7 +273,7 @@ export function LayersFoundation() {
           </a>
           ,{' '}
           <a href='https://www.w3.org/TR/css-position-4/#top-layer'>
-            W3C positioned layout / top layer
+            {t.w3cPositionedLayoutLink}
           </a>
           ,{' '}
           <a href='https://base-ui.com/react/components/dialog'>

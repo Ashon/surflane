@@ -12,51 +12,12 @@ import {
   Toggle,
 } from '@surflane/ui'
 import { Link } from './router'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/InteractionFoundation'
 type Outcome = 'idle' | 'pending' | 'success' | 'error' | 'canceled'
-const states = [
-  ['Default', 'Ready to act', 'Clearly shows the label, role, and next action'],
-  [
-    'Hover',
-    'The pointer is over the target',
-    'Brief color and surface feedback, while essential information stays available',
-  ],
-  [
-    'Focus visible',
-    "The keyboard user's current position",
-    'An immediate focus ring, separate from the surface, with Tab order preserved',
-  ],
-  [
-    'Active',
-    'The brief moment while pressed',
-    'Press feedback that never reads as a persistent selection',
-  ],
-  [
-    'Pressed / selected',
-    'A selection that persists',
-    'Toggle and selection components change their state and ARIA value together',
-  ],
-  [
-    'Disabled',
-    "The action can't run",
-    'Native disabled state, with the reason in adjacent text',
-  ],
-  [
-    'Read only',
-    'The value can be read and copied',
-    'Keeps the value and focus, and blocks only edits',
-  ],
-  [
-    'Pending',
-    'Started and waiting for a result',
-    'Blocks duplicate requests, announces status, and offers a cancel path when possible',
-  ],
-  [
-    'Error / success',
-    'The result of the actual action',
-    'A persistent result and recovery path, never conveyed by motion alone',
-  ],
-]
 export function InteractionFoundation() {
+  const t = text[useLocale().locale]
+  const states = t.states
   const [included, setIncluded] = useState(false),
     [fail, setFail] = useState(false),
     [outcome, setOutcome] = useState<Outcome>('idle'),
@@ -88,46 +49,30 @@ export function InteractionFoundation() {
     runButton.current?.focus()
   }
   const status = {
-    idle: 'No preview has run.',
-    pending: 'Local preview running.',
-    success: 'Local preview completed. No resources were created.',
-    error: 'Local preview failed. Review the persistent message and retry.',
-    canceled: 'Local preview canceled. Run it again when ready.',
+    idle: t.statusIdle,
+    pending: t.statusPending,
+    success: t.statusSuccess,
+    error: t.statusError,
+    canceled: t.statusCanceled,
   }[outcome]
   return (
     <>
-      <nav className='page-toc' aria-label='On this page'>
-        {['states', 'activation', 'async-work', 'keyboard', 'application'].map(
-          (id) => (
-            <a key={id} href={`#${id}`}>
-              {id
-                .split('-')
-                .map((word) => word[0].toUpperCase() + word.slice(1))
-                .join(' ')}
-            </a>
-          ),
-        )}
+      <nav className='page-toc' aria-label={t.onThisPage}>
+        {t.nav.map(({ id, label }) => (
+          <a key={id} href={`#${id}`}>
+            {label}
+          </a>
+        ))}
       </nav>
       <section id='states'>
-        <h2>One action, understandable states</h2>
-        <p>
-          States tell users which actions are available now and what actually
-          happened. Pointer hover and active, keyboard focus, persistent
-          selection, and pending server work each mean something different.
-          Don't merge them into a single color. Don't offer actions only on
-          hover.
-        </p>
-        <Table.Container
-          label='Interaction state contracts'
-          orientation='horizontal'
-        >
+        <h2>{t.statesHeading}</h2>
+        <p>{t.statesIntro}</p>
+        <Table.Container label={t.statesTableLabel} orientation='horizontal'>
           <Table.Root>
-            <Table.Caption>
-              State contracts for shared controls and product actions
-            </Table.Caption>
+            <Table.Caption>{t.statesTableCaption}</Table.Caption>
             <Table.Head>
               <Table.Row>
-                {['State', 'Meaning', 'Contract'].map((label) => (
+                {t.stateColumns.map((label) => (
                   <Table.HeaderCell key={label} scope='col'>
                     {label}
                   </Table.HeaderCell>
@@ -147,48 +92,34 @@ export function InteractionFoundation() {
         </Table.Container>
       </section>
       <section id='activation'>
-        <h2>Distinguish selection from activation</h2>
-        <p>
-          Mouse, touch, Enter, and Space must all run the same action. Below,
-          the Toggle shows a persistent selection. The disabled button shows an
-          action that can't run. The read-only input shows a copyable value.
-          State changes apply only to this local example.
-        </p>
+        <h2>{t.activationHeading}</h2>
+        <p>{t.activationIntro}</p>
         <Inline gap={3}>
           <Toggle
             value='evidence'
             pressed={included}
             onPressedChange={setIncluded}
           >
-            Include evidence
+            {t.includeEvidence}
           </Toggle>
           <Button
             variant='outline'
             disabled
             aria-describedby='unavailable-reason'
           >
-            Unavailable preview
+            {t.unavailablePreview}
           </Button>
         </Inline>
-        <p id='unavailable-reason'>
-          Unavailable preview: no external environment is connected.
-        </p>
+        <p id='unavailable-reason'>{t.unavailableReason}</p>
         <p data-evidence-selection>
-          {included ? 'Evidence included.' : 'Evidence excluded.'}
+          {included ? t.evidenceIncluded : t.evidenceExcluded}
         </p>
         <Field.Root className='content-name-field'>
-          <Field.Label>Read-only resource ID</Field.Label>
-          <Field.Description>
-            Focus and copy this value. It can't be edited.
-          </Field.Description>
+          <Field.Label>{t.readOnlyResourceId}</Field.Label>
+          <Field.Description>{t.readOnlyResourceDescription}</Field.Description>
           <Input readOnly value='demo-e2e-42' />
         </Field.Root>
-        <p>
-          Keep the native keyboard semantics of Base UI buttons and the ARIA
-          contracts of selection components. Don't add clickable divs, positive
-          tabIndex values, or separate keydown handlers that run the action a
-          second time.
-        </p>
+        <p>{t.activationNote}</p>
       </section>
       <section id='async-work'>
         <h2>Pending is not completion</h2>

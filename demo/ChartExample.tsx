@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { Chart, Checkbox, NativeSelect, type ChartDatum } from '@surflane/ui'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/ChartExample'
 
 const series = [
   { key: 'workspace', label: 'Workspace' },
@@ -47,49 +49,44 @@ const missing: ChartDatum[] = [
     values: { workspace: NaN, inventory: Infinity, docs: -Infinity },
   },
 ]
-const scenarios: Record<
-  string,
-  { data: ChartDatum[]; unit: string; description: string }
-> = {
-  trend: {
-    data: trend,
-    unit: 'runs',
-    description:
-      'Six sample days. Workspace rises from 12 to 27 runs. Inventory has no measurement on October 3, so its line keeps a gap.',
-  },
-  mixed: {
-    data: mixed,
-    unit: 'resources',
-    description:
-      'Sample changes include negative, zero, and positive resource counts. Every bar starts at the zero baseline. Missing values stay unavailable.',
-  },
-  dense: {
-    data: dense,
-    unit: 'runs',
-    description:
-      '120 sample resources with long Korean and English labels. Only axis labels are abbreviated. The data table keeps every label and measurement.',
-  },
-  missing: {
-    data: missing,
-    unit: 'runs',
-    description:
-      'Two reports have no finite numeric measurement. Missing and invalid values are unavailable, never zero.',
-  },
-  empty: {
-    data: [],
-    unit: 'runs',
-    description:
-      'No reports in this sample scope. The empty state shows no fabricated trend.',
-  },
-}
-
 export function ChartExample() {
+  const t = text[useLocale().locale]
   const [type, setType] = useState<'line' | 'bar' | 'area'>('line')
   const [scenario, setScenario] = useState('trend')
   const [locale, setLocale] = useState('en-US')
   const [locked, setLocked] = useState(false)
   const [hidden, setHidden] = useState<string[]>([])
-  const [notice, setNotice] = useState('All series are visible.')
+  const [notice, setNotice] = useState(t.allSeriesVisible)
+  const scenarios: Record<
+    string,
+    { data: ChartDatum[]; unit: string; description: string }
+  > = {
+    trend: {
+      data: trend,
+      unit: 'runs',
+      description: t.descriptions.trend,
+    },
+    mixed: {
+      data: mixed,
+      unit: 'resources',
+      description: t.descriptions.mixed,
+    },
+    dense: {
+      data: dense,
+      unit: 'runs',
+      description: t.descriptions.dense,
+    },
+    missing: {
+      data: missing,
+      unit: 'runs',
+      description: t.descriptions.missing,
+    },
+    empty: {
+      data: [],
+      unit: 'runs',
+      description: t.descriptions.empty,
+    },
+  }
   const sample = scenarios[scenario]
   return (
     <div className='example-stack'>

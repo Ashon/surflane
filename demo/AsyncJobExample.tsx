@@ -10,6 +10,8 @@ import {
   StatusBadge,
   type StatusTone,
 } from '@surflane/ui'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/AsyncJobExample'
 
 type Scenario = 'success' | 'partial' | 'failure'
 type Phase =
@@ -37,16 +39,6 @@ type Run = {
   reused: number
 }
 type Delivery = { controller: AbortController; version: number; busy: boolean }
-const names = ['Resolve build', 'Check health', 'Collect logs']
-const phaseLabels: Record<Phase, string> = {
-  queued: 'Queued',
-  running: 'Running',
-  'cancel-requested': 'Cancellation requested',
-  canceled: 'Canceled',
-  success: 'Completed',
-  partial: 'Partially completed',
-  failed: 'Failed',
-}
 const tones: Record<string, StatusTone> = {
   queued: 'neutral',
   running: 'progress',
@@ -106,6 +98,10 @@ function advance(run: Run): Run {
   }
 }
 export function AsyncJobExample() {
+  const t = text[useLocale().locale]
+  const names = t.names
+  const phaseLabels = t.phaseLabels
+  const stepStateLabels = t.stepStateLabels
   const [target, setTarget] = useState('Sample environment')
   const [scenario, setScenario] = useState<Scenario>('success')
   const [run, setRun] = useState<Run | null>(null)
@@ -208,29 +204,26 @@ export function AsyncJobExample() {
   const evidence = inspected === null ? null : run?.steps[inspected]
   return (
     <div className='example-stack async-job-example'>
-      <p>Updates arrive only when you deliver them. No real job runs.</p>
+      <p>{t.intro}</p>
       <Field.Root name='job-target'>
-        <Field.Label>Next run environment</Field.Label>
+        <Field.Label>{t.nextRunEnvironment}</Field.Label>
         <Field.Control
           value={target}
           onChange={(event) => setTarget(event.target.value)}
           disabled={active(run)}
         />
-        <Field.Description>
-          In this preview, retries keep the original environment and reuse
-          successful checks.
-        </Field.Description>
+        <Field.Description>{t.fieldDescription}</Field.Description>
       </Field.Root>
       <label className='example-field'>
-        Next run result
+        {t.nextRunResult}
         <NativeSelect
           value={scenario}
           onChange={(event) => setScenario(event.target.value as Scenario)}
           disabled={active(run)}
         >
-          <option value='success'>Success</option>
-          <option value='partial'>Partial failure</option>
-          <option value='failure'>Blocking failure</option>
+          <option value='success'>{t.scenarioSuccess}</option>
+          <option value='partial'>{t.scenarioPartial}</option>
+          <option value='failure'>{t.scenarioFailure}</option>
         </NativeSelect>
       </label>
       <div className='actions'>
@@ -238,11 +231,11 @@ export function AsyncJobExample() {
           onClick={() => start()}
           disabled={active(run) || !target.trim()}
         >
-          Start preview run
+          {t.startPreviewRun}
         </Button>
         {run && !active(run) && run.phase !== 'success' && (
           <Button variant='outline' onClick={() => start(true)}>
-            Retry unfinished steps
+            {t.retryUnfinishedSteps}
           </Button>
         )}
         {active(run) && (
@@ -253,42 +246,37 @@ export function AsyncJobExample() {
               onClick={requestCancel}
               disabled={run?.phase === 'cancel-requested'}
             >
-              Request cancellation
+              {t.requestCancellation}
             </Button>
             <Button ref={update} variant='outline' onClick={deliver}>
               {run?.phase === 'cancel-requested'
-                ? 'Acknowledge cancellation'
-                : 'Deliver next preview update'}
+                ? t.acknowledgeCancellation
+                : t.deliverNextPreviewUpdate}
             </Button>
           </>
         )}
       </div>
       {run && (
-        <section className='example-stack' aria-label='Run details'>
+        <section className='example-stack' aria-label={t.runDetailsLabel}>
           <h3 ref={result} tabIndex={-1}>
-            Run summary
+            {t.runSummary}
           </h3>
           <p>
             {run.id} / {run.target}
           </p>
-          <div role='status' aria-label='Run status'>
+          <div role='status' aria-label={t.runStatusLabel}>
             <StatusBadge tone={tones[run.phase]}>
               {phaseLabels[run.phase]}
             </StatusBadge>
           </div>
-          {run.reused > 0 && (
-            <p>
-              {run.reused} successful {run.reused === 1 ? 'check' : 'checks'}{' '}
-              reused. Their logs keep the original run ID.
-            </p>
-          )}
+          {run.reused > 0 && <p>{t.reusedChecks(run.reused)}</p>}
           <Progress.Root
             value={finished}
             max={3}
-            aria-valuetext={`${finished} of 3 checks finished`}
+            aria-valuetext={t.checksFinished(finished)}
           >
-            <Progress.Label>Finished checks</Progress.Label>
-            <Progress.Value>{() => `${finished} / 3`}</Progress.Value>
+            <Progress.Label>{t.finishedChecksLabel}</Progress.Label>
+            <Progress.Value>{() => t.progressValue(finished)}</Progress.Value>
             <Progress.Track>
               <Progress.Indicator />
             </Progress.Track>
@@ -305,24 +293,24 @@ export function AsyncJobExample() {
                 </InlineMessage.Title>
                 <InlineMessage.Description>
                   {run.phase === 'cancel-requested'
-                    ? 'Waiting for the worker to acknowledge. Completed work stays recorded.'
+                    ? t.cancelRequestedDescription
                     : run.phase === 'canceled'
-                      ? 'The worker acknowledged cancellation. Completed checks are kept, and nothing is rolled back.'
-                      : 'Review the failed check logs. Retry creates a new run for unfinished checks.'}
+                      ? t.canceledDescription
+                      : t.partialDescription}
                 </InlineMessage.Description>
               </InlineMessage.Content>
             </InlineMessage.Root>
           )}
-          <List.Root aria-label='Run steps'>
+          <List.Root aria-label={t.runStepsLabel}>
             {run.steps.map((step, index) => (
               <List.Item key={step.name} selected={inspected === index}>
                 <List.Content>
                   <List.Title>{step.name}</List.Title>
                   <List.Description>
                     <StatusBadge tone={tones[step.state] ?? 'neutral'}>
-                      {step.state}
+                      {stepStateLabels[step.state]}
                     </StatusBadge>
-                    {step.source && <span> / Logs from {step.source}</span>}
+                    {step.source && <span> / {t.logsFrom(step.source)}</span>}
                   </List.Description>
                 </List.Content>
                 <List.Actions>
@@ -332,7 +320,7 @@ export function AsyncJobExample() {
                     aria-pressed={inspected === index}
                     onClick={() => setInspected(index)}
                   >
-                    Inspect {step.name}
+                    {t.inspectStep(step.name)}
                   </Button>
                 </List.Actions>
               </List.Item>
@@ -341,7 +329,7 @@ export function AsyncJobExample() {
           {evidence?.evidence && (
             <CodeBlock
               code={evidence.evidence}
-              label={`${evidence.name} output`}
+              label={t.stepOutput(evidence.name)}
               language='json'
               wrap
             />

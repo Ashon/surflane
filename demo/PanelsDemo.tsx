@@ -7,6 +7,8 @@ import {
   Select,
   type PanelSide,
 } from '@surflane/ui'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/PanelsDemo'
 
 export function PanelsDemo({
   toggleTheme,
@@ -15,74 +17,71 @@ export function PanelsDemo({
   toggleTheme: () => void
   view?: 'all' | 'sheet' | 'drawer'
 }) {
+  const t = text[useLocale().locale]
   return (
     <section aria-labelledby='panels-title'>
-      <h2 id='panels-title'>Drawers and sheets</h2>
-      <p className='note'>
-        Review details or continue a task without leaving the screen. A Sheet
-        opens from a chosen side. A Drawer is a task panel that closes with a
-        swipe.
-      </p>
+      <h2 id='panels-title'>{t.title}</h2>
+      <p className='note'>{t.intro}</p>
       <div className='panel-examples' data-single={view !== 'all' || undefined}>
         {view !== 'drawer' && (
           <div className='panel-example'>
-            <div className='eyebrow'>DETAILS / SETTINGS</div>
-            <h3>Side sheets</h3>
-            <p>
-              Fixed header and actions, with a body that scrolls independently.
-            </p>
+            <div className='eyebrow'>{t.detailsEyebrow}</div>
+            <h3>{t.sideSheets}</h3>
+            <p>{t.sideSheetsNote}</p>
             <div className='actions'>
               {(['left', 'right', 'top', 'bottom'] as PanelSide[]).map(
                 (side) => (
                   <Sheet.Root side={side} key={side}>
                     <Sheet.Trigger render={<Button variant='outline' />}>
-                      Open {side} sheet
+                      {t.openSheet(side)}
                     </Sheet.Trigger>
-                    <Sheet.Content closeLabel={`Close ${side} sheet`}>
+                    <Sheet.Content closeLabel={t.closeSheet(side)}>
                       <Sheet.Header>
-                        <Sheet.Title>
-                          {side[0].toUpperCase() + side.slice(1)} sheet
-                        </Sheet.Title>
+                        <Sheet.Title>{t.sheetTitle(side)}</Sheet.Title>
                         <Sheet.Description>
-                          Review the selected environment and its deployment
-                          history.
+                          {t.sheetDescription}
                         </Sheet.Description>
                       </Sheet.Header>
-                      <Sheet.Body aria-label='Environment details' tabIndex={0}>
+                      <Sheet.Body
+                        aria-label={t.environmentDetails}
+                        tabIndex={0}
+                      >
                         <div className='panel-summary'>
-                          <span className='eyebrow'>ENVIRONMENT</span>
+                          <span className='eyebrow'>
+                            {t.environmentEyebrow}
+                          </span>
                           <strong>DEMO main</strong>
                           <span>demo.example.com / Staging</span>
                         </div>
                         <label>
-                          Environment
+                          {t.environmentLabel}
                           <Select
-                            aria-label='Sheet environment'
+                            aria-label={t.sheetEnvironment}
                             defaultValue='staging'
                             options={[
-                              { value: 'staging', label: 'Staging' },
-                              { value: 'production', label: 'Production' },
+                              { value: 'staging', label: t.staging },
+                              { value: 'production', label: t.production },
                             ]}
                           />
                         </label>
-                        <h3>Deployment history</h3>
+                        <h3>{t.deploymentHistory}</h3>
                         <ol className='panel-history'>
                           {Array.from({ length: 18 }, (_, i) => (
                             <li key={i}>
                               <span>
-                                Deployment {String(i + 1).padStart(2, '0')}
+                                {t.deployment(String(i + 1).padStart(2, '0'))}
                               </span>
-                              <span>Build, smoke test, and health checks</span>
+                              <span>{t.deploymentNote}</span>
                             </li>
                           ))}
                         </ol>
                       </Sheet.Body>
                       <Sheet.Footer>
                         <Button variant='ghost' onClick={toggleTheme}>
-                          Cycle panel theme
+                          {t.cyclePanelTheme}
                         </Button>
                         <Sheet.Close render={<Button variant='outline' />}>
-                          Done
+                          {t.done}
                         </Sheet.Close>
                       </Sheet.Footer>
                     </Sheet.Content>
@@ -94,69 +93,61 @@ export function PanelsDemo({
         )}
         {view !== 'sheet' && (
           <div className='panel-example'>
-            <div className='eyebrow'>QUICK ACTION / MOBILE</div>
-            <h3>Bottom drawer</h3>
-            <p>A task panel for touch, mouse gestures, and the keyboard.</p>
+            <div className='eyebrow'>{t.quickActionEyebrow}</div>
+            <h3>{t.bottomDrawer}</h3>
+            <p>{t.bottomDrawerNote}</p>
             <div className='actions'>
               <Drawer.Root>
                 <Drawer.Trigger render={<Button variant='outline' />}>
-                  Open bottom drawer
+                  {t.openBottomDrawer}
                 </Drawer.Trigger>
-                <Drawer.Content closeLabel='Close drawer'>
+                <Drawer.Content closeLabel={t.closeDrawer}>
                   <Drawer.Header>
-                    <Drawer.Title>Prepare deployment</Drawer.Title>
-                    <Drawer.Description>
-                      This preview doesn't start a real deployment.
-                    </Drawer.Description>
+                    <Drawer.Title>{t.prepareDeployment}</Drawer.Title>
+                    <Drawer.Description>{t.previewNote}</Drawer.Description>
                   </Drawer.Header>
                   <Drawer.Body>
                     <div className='grid'>
                       <label>
-                        Run name
+                        {t.runName}
                         <Input
-                          placeholder='e.g. Staging rollout review'
+                          placeholder={t.runNamePlaceholder}
                           name='previewName'
                         />
                       </label>
                       <label>
-                        Target environment
+                        {t.targetEnvironment}
                         <Select
-                          aria-label='Drawer environment'
+                          aria-label={t.drawerEnvironment}
                           defaultValue='staging'
                           options={[
-                            { value: 'staging', label: 'Staging' },
-                            { value: 'production', label: 'Production' },
+                            { value: 'staging', label: t.staging },
+                            { value: 'production', label: t.production },
                           ]}
                         />
                       </label>
                     </div>
                     <div className='panel-summary'>
-                      <strong>Environment access and project isolation</strong>
-                      <span>
-                        10 checks / temporary credentials / cleanup included
-                      </span>
+                      <strong>{t.environmentAccess}</strong>
+                      <span>{t.checksSummary}</span>
                     </div>
                     <Sheet.Root>
                       <Sheet.Trigger render={<Button variant='outline' />}>
-                        Review drawer details
+                        {t.reviewDrawerDetails}
                       </Sheet.Trigger>
-                      <Sheet.Content closeLabel='Close nested sheet'>
+                      <Sheet.Content closeLabel={t.closeNestedSheet}>
                         <Sheet.Header>
-                          <Sheet.Title>Deployment details</Sheet.Title>
+                          <Sheet.Title>{t.deploymentDetails}</Sheet.Title>
                           <Sheet.Description>
-                            A Sheet nested on top of the Drawer. Closing it
-                            returns to the previous task.
+                            {t.nestedSheetDescription}
                           </Sheet.Description>
                         </Sheet.Header>
                         <Sheet.Body>
-                          <p>
-                            Authentication, environment access, and project
-                            isolation.
-                          </p>
+                          <p>{t.nestedSheetBody}</p>
                         </Sheet.Body>
                         <Sheet.Footer>
                           <Sheet.Close render={<Button />}>
-                            Back to drawer
+                            {t.backToDrawer}
                           </Sheet.Close>
                         </Sheet.Footer>
                       </Sheet.Content>
@@ -164,13 +155,13 @@ export function PanelsDemo({
                   </Drawer.Body>
                   <Drawer.Footer>
                     <Button variant='ghost' onClick={toggleTheme}>
-                      Cycle panel theme
+                      {t.cyclePanelTheme}
                     </Button>
                     <Drawer.Close render={<Button variant='outline' />}>
-                      Cancel preview
+                      {t.cancelPreview}
                     </Drawer.Close>
                     <Drawer.Close render={<Button />}>
-                      Confirm preview
+                      {t.confirmPreview}
                     </Drawer.Close>
                   </Drawer.Footer>
                 </Drawer.Content>

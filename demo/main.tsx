@@ -79,6 +79,8 @@ import {
   rememberCatalogScrollPosition,
   withBase,
 } from './router'
+import { LocaleProvider, localeNames, useLocale, useMessages } from './i18n'
+import { useCatalogText } from './catalogText'
 import '@surflane/design-tokens/tokens.css'
 import '@surflane/design-tokens/controls.css'
 import '@surflane/design-tokens/motion.css'
@@ -89,6 +91,10 @@ import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css'
 import './style.css'
 import '@surflane/design-tokens/typography.css'
 function App() {
+  const { locale, setLocale } = useLocale(),
+    messages = useMessages()
+  const text = useCatalogText()
+  const nextLocale = locale === 'en' ? 'ko' : 'en'
   const location = useLocation(),
     route = normalizeRoute(location)
   const [theme, setTheme] = useState(() => {
@@ -169,71 +175,33 @@ function App() {
     return () => media.removeEventListener('change', changed)
   }, [])
   const item = catalog.find((i) => itemHref(i) === route)
-  const pages: Record<string, [string, string, string]> = {
-    '/': ['Surflane', 'Design system for platform development', 'Overview'],
-    '/foundations': [
-      'Foundations',
-      'Apply shared standards for layout, typography, color, and motion.',
-      'Foundations',
-    ],
-    '/foundations/layout': [
-      'Layout',
-      'Sets width, spacing, and grids for operational and reading screens.',
-      'Foundations',
-    ],
-    '/foundations/typography': [
-      'Typography',
-      'Aligns the roles and reading rhythm of Hangul, Latin, and code text.',
-      'Foundations',
-    ],
-    '/tokens': [
-      'Design tokens',
-      "Lists each theme's values and aliases for reference in code.",
-      'Foundations',
-    ],
-    '/components': [
-      'Components',
-      'Find a component, then review its examples and usage guidance.',
-      'Components',
-    ],
-    '/patterns': [
-      'Patterns',
-      'Compose shared components into product workflows.',
-      'Patterns',
-    ],
-    '/coverage': [
-      'Coverage',
-      'Review the full web UI scope and its implementation status.',
-      'Coverage',
-    ],
-    '/patterns/interaction-lab': [
-      'Interaction lab',
-      'Tests input, nested popups, panels, and themes in one example.',
-      'Patterns',
-    ],
-    '/foundations/lab': [
-      'Foundation lab',
-      'Tests layout, typography, and tokens in one example.',
-      'Foundations',
-    ],
+  const pageAreas: Record<string, string> = {
+    '/': 'Overview',
+    '/foundations': 'Foundations',
+    '/foundations/layout': 'Foundations',
+    '/foundations/typography': 'Foundations',
+    '/tokens': 'Foundations',
+    '/components': 'Components',
+    '/patterns': 'Patterns',
+    '/coverage': 'Coverage',
+    '/patterns/interaction-lab': 'Patterns',
+    '/foundations/lab': 'Foundations',
   }
   const [title, description, area] =
-    pages[route] ??
-    (item
-      ? [
-          item.name,
-          item.summary,
-          item.kind === 'component'
-            ? 'Components'
-            : item.kind === 'pattern'
-              ? 'Patterns'
-              : 'Foundations',
-        ]
-      : [
-          'Page not found',
-          'Check the address or find the item in the catalog.',
-          'Overview',
-        ])
+    messages.pages[route] && pageAreas[route]
+      ? [messages.pages[route][0], messages.pages[route][1], pageAreas[route]]
+      : item
+        ? [
+            text.name(item),
+            text.summary(item),
+            item.kind === 'component'
+              ? 'Components'
+              : item.kind === 'pattern'
+                ? 'Patterns'
+                : 'Foundations',
+          ]
+        : [messages.notFound[0], messages.notFound[1], 'Overview']
+  const areaName = messages.areas[area as keyof typeof messages.areas]
   useEffect(() => {
     document.title = title === 'Surflane' ? title : title + ' | Surflane'
     setNavigationOpen(false)
@@ -369,70 +337,73 @@ function App() {
   else
     content = (
       <p>
-        <Link href='/components'>Browse components</Link>
+        <Link href='/components'>{messages.browseComponents}</Link>
       </p>
     )
   const catalogNavigation = (
     <ScrollArea
-      label='Catalog sections'
+      label={messages.catalogSections}
       orientation='vertical'
       scrollChain='contain'
       rootClassName='catalog-navigation-scroll'
       className='catalog-navigation-viewport'
     >
-      <nav id='catalog-navigation-links' aria-label='Catalog navigation'>
+      <nav
+        id='catalog-navigation-links'
+        aria-label={messages.catalogNavigation}
+      >
         {area === 'Overview' || area === 'Coverage' ? (
           <div className='catalog-nav-group'>
-            <span className='catalog-nav-label'>On this page</span>
+            <span className='catalog-nav-label'>{messages.onThisPage}</span>
             {(area === 'Overview'
               ? [
-                  ['overview-foundations', 'Foundations first'],
-                  ['overview-components', 'Component pages'],
-                  ['overview-direction', 'Design direction'],
+                  'overview-foundations',
+                  'overview-components',
+                  'overview-direction',
                 ]
               : [
-                  ['coverage-scope', 'Scope and readiness'],
-                  ['coverage-waves', 'Delivery waves'],
-                  ['coverage-inventory', 'Coverage inventory'],
-                  ['coverage-ready', 'Definition of ready'],
-                  ['coverage-research', 'Research boundaries'],
+                  'coverage-scope',
+                  'coverage-waves',
+                  'coverage-inventory',
+                  'coverage-ready',
+                  'coverage-research',
                 ]
-            ).map(([id, label]) => (
+            ).map((id) => (
               <a
                 key={id}
                 href={`#${id}`}
                 onClick={() => closeForNavigation(id)}
               >
-                {label}
+                {messages.sections[id as keyof typeof messages.sections]}
               </a>
             ))}
           </div>
         ) : area === 'Foundations' ? (
           <div className='catalog-nav-group'>
-            {navLink('/foundations', 'All foundations')}
+            {navLink('/foundations', messages.allFoundations)}
             {catalog
               .filter((c) => c.kind === 'foundation')
-              .map((c) => navLink(itemHref(c), c.name))}
+              .map((c) => navLink(itemHref(c), text.name(c)))}
           </div>
         ) : area === 'Components' ? (
           <>
             <div className='catalog-nav-group'>
-              {navLink('/components', 'All components')}
+              {navLink('/components', messages.allComponents)}
             </div>
             {[...new Set(components.map((c) => c.group))].map((group) => (
               <div className='catalog-nav-group' key={group}>
-                <span className='catalog-nav-label'>{group}</span>
+                <span className='catalog-nav-label'>{text.group(group)}</span>
                 {components
                   .filter((c) => c.group === group)
-                  .map((c) => navLink(itemHref(c), c.name))}
+                  .map((c) => navLink(itemHref(c), text.name(c)))}
               </div>
             ))}
           </>
         ) : (
           <div className='catalog-nav-group'>
-            {navLink('/patterns', 'All patterns')}
-            {patterns.map((c) => navLink(itemHref(c), c.name))}
-            {navLink('/patterns/interaction-lab', 'Interaction lab')}
+            {navLink('/patterns', messages.allPatterns)}
+            {patterns.map((c) => navLink(itemHref(c), text.name(c)))}
+            {navLink('/patterns/interaction-lab', messages.interactionLab)}
           </div>
         )}
       </nav>
@@ -442,19 +413,20 @@ function App() {
     <>
       <PointerBlueprint />
       <a className='catalog-skip' href='#main-content'>
-        Skip to content
+        {messages.skipToContent}
       </a>
       {/* Ambient guide probes drift over the whole catalog; see PointerBlueprint. */}
       <div className='catalog-app' data-blueprint-ambient='running'>
         <header
           className='catalog-toprail'
+          data-blueprint-ambient-avoid
           data-scrolled={documentScrolled || undefined}
         >
           <div className='catalog-toprail-inner'>
             <Link
               className='catalog-brand'
               href='/'
-              aria-label='Surflane home'
+              aria-label={messages.brandHome}
               data-blueprint-ambient-anchor
             >
               <span className='catalog-brand-mark' aria-hidden='true' />
@@ -463,11 +435,14 @@ function App() {
             <ScrollArea
               ref={primaryViewport}
               orientation='horizontal'
-              label='Primary sections'
+              label={messages.primarySections}
               rootClassName='catalog-primary-scroll'
               className='catalog-primary-viewport'
             >
-              <nav className='catalog-primary' aria-label='Primary navigation'>
+              <nav
+                className='catalog-primary'
+                aria-label={messages.primaryNavigation}
+              >
                 {[
                   ['/', 'Overview'],
                   ['/foundations', 'Foundations'],
@@ -486,7 +461,7 @@ function App() {
                         : undefined
                     }
                   >
-                    {label}
+                    {messages.areas[label as keyof typeof messages.areas]}
                   </Link>
                 ))}
               </nav>
@@ -495,9 +470,19 @@ function App() {
               variant='ghost'
               className='catalog-theme-toggle'
               size='icon'
-              aria-description={`Switch to ${theme === 'light' ? 'Dark' : theme === 'dark' ? 'System' : 'Light'} theme`}
+              aria-description={messages.switchTheme(
+                messages.themes[
+                  theme === 'light'
+                    ? 'dark'
+                    : theme === 'dark'
+                      ? 'system'
+                      : 'light'
+                ],
+              )}
               onClick={toggleTheme}
-              aria-label={`Toggle theme: ${theme === 'light' ? 'Light' : theme === 'dark' ? 'Dark' : 'System'}`}
+              aria-label={messages.toggleTheme(
+                messages.themes[theme as keyof typeof messages.themes],
+              )}
             >
               <svg
                 width='18'
@@ -524,10 +509,29 @@ function App() {
               </svg>
             </Button>
             <Button
+              variant='ghost'
+              className='catalog-locale-toggle'
+              size='icon'
+              aria-label={messages.language(localeNames[locale])}
+              aria-description={messages.switchLanguageTo(
+                localeNames[nextLocale],
+              )}
+              title={messages.switchLanguageTo(localeNames[nextLocale])}
+              onClick={() => setLocale(nextLocale)}
+            >
+              <span
+                className='catalog-locale-glyph'
+                lang={nextLocale}
+                aria-hidden='true'
+              >
+                {nextLocale === 'ko' ? '가' : 'A'}
+              </span>
+            </Button>
+            <Button
               ref={navigationTrigger}
               className='catalog-navigation-toggle'
               size='icon'
-              aria-label='Browse catalog'
+              aria-label={messages.browseCatalog}
               aria-haspopup='dialog'
               variant='ghost'
               aria-expanded={navigationOpen}
@@ -564,7 +568,7 @@ function App() {
           <div className='catalog-shell'>
             <aside
               className='catalog-sidebar'
-              aria-label={`${area} navigation`}
+              aria-label={messages.areaNavigation(areaName)}
             >
               <div className='catalog-navigation'>
                 {!mobileNavigation && catalogNavigation}
@@ -587,7 +591,7 @@ function App() {
                               Surflane
                             </Link>
                           </Breadcrumbs.Item>
-                          {title !== area && area !== 'Overview' && (
+                          {title !== areaName && area !== 'Overview' && (
                             <Breadcrumbs.Item>
                               <Breadcrumbs.Separator />
                               <Link
@@ -602,14 +606,14 @@ function App() {
                                         : '/coverage'
                                 }
                               >
-                                {area}
+                                {areaName}
                               </Link>
                             </Breadcrumbs.Item>
                           )}
                           <Breadcrumbs.Item>
                             <Breadcrumbs.Separator />
                             <Breadcrumbs.Current>
-                              {route === '/' ? 'Overview' : title}
+                              {route === '/' ? messages.areas.Overview : title}
                             </Breadcrumbs.Current>
                           </Breadcrumbs.Item>
                         </Breadcrumbs.List>
@@ -631,14 +635,14 @@ function App() {
                 <span className='catalog-brand-mark' aria-hidden='true' />
                 Surflane
               </span>
-              <span>© 2026 ashon · MIT OR Apache-2.0</span>
+              <span>{messages.license}</span>
               {/* Plain text docs for AI tools; the catalog itself is a single-page app. */}
               <a href={withBase('/llms.txt')}>llms.txt</a>
-              <nav aria-label='Project links'>
+              <nav aria-label={messages.projectLinks}>
                 <a href='https://github.com/Ashon/surflane'>GitHub</a>
                 <a href='https://www.npmjs.com/package/@surflane/ui'>npm</a>
                 <a href='https://github.com/Ashon/surflane/blob/main/SECURITY.md'>
-                  Security
+                  {messages.security}
                 </a>
               </nav>
             </div>
@@ -660,4 +664,8 @@ function App() {
     </>
   )
 }
-createRoot(document.getElementById('root')!).render(<App />)
+createRoot(document.getElementById('root')!).render(
+  <LocaleProvider>
+    <App />
+  </LocaleProvider>,
+)

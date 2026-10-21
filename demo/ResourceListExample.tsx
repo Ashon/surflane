@@ -14,6 +14,8 @@ import {
   type StatusTone,
 } from '@surflane/ui'
 import { Link } from './router'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/ResourceListExample'
 const resources = [
   {
     id: 'workspace',
@@ -58,6 +60,7 @@ const resources = [
 ] as const
 type Mode = 'ready' | 'loading' | 'error' | 'permission' | 'empty'
 export function ResourceListExample() {
+  const t = text[useLocale().locale]
   const [mode, setMode] = useState<Mode>('ready'),
     [query, setQuery] = useState(''),
     [selected, setSelected] = useState<string[]>([]),
@@ -95,7 +98,7 @@ export function ResourceListExample() {
   return (
     <div className='resource-list-example'>
       <label className='resource-preview-mode'>
-        Result state
+        {t.resultState}
         <NativeSelect
           value={mode}
           onChange={(e) => {
@@ -103,26 +106,26 @@ export function ResourceListExample() {
             setNotice('')
           }}
         >
-          <option value='ready'>Ready</option>
-          <option value='loading'>Loading</option>
-          <option value='error'>Error</option>
-          <option value='permission'>Permission restricted</option>
-          <option value='empty'>Initially empty</option>
+          <option value='ready'>{t.ready}</option>
+          <option value='loading'>{t.loading}</option>
+          <option value='error'>{t.error}</option>
+          <option value='permission'>{t.permissionRestricted}</option>
+          <option value='empty'>{t.initiallyEmpty}</option>
         </NativeSelect>
       </label>
       <FilterBar.Root
-        label='Find resource examples'
+        label={t.findResourceExamples}
         onSubmit={(e) => e.preventDefault()}
       >
         <FilterBar.Controls>
           <FilterBar.Field width='search'>
-            Find resources
+            {t.findResources}
             <Input
               ref={search}
               type='search'
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder='Name or product…'
+              placeholder={t.searchPlaceholder}
               disabled={mode === 'permission'}
               aria-describedby={
                 mode === 'permission' ? 'resource-access-note' : undefined
@@ -139,59 +142,54 @@ export function ResourceListExample() {
                 search.current?.focus()
               }}
             >
-              Clear search
+              {t.clearSearch}
             </Button>
           </FilterBar.Actions>
         </FilterBar.Controls>
         <FilterBar.Summary>
           {mode === 'ready'
-            ? `${visible.length} resources / ${selected.length} selected / ${visibleSelected.length} visible selections`
-            : `Preview state: ${mode}`}
+            ? t.summary(visible.length, selected.length, visibleSelected.length)
+            : t.previewState(mode)}
         </FilterBar.Summary>
       </FilterBar.Root>
       <div id='resource-preview-results' aria-busy={mode === 'loading'}>
         {mode === 'loading' ? (
           <div className='resource-loading'>
-            <Spinner label='Loading resource preview' />
-            <span>
-              Waiting for preview resources. Change the result state to
-              continue.
-            </span>
+            <Spinner label={t.loadingPreview} />
+            <span>{t.waitingDescription}</span>
           </div>
         ) : mode === 'error' ? (
           <InlineMessage.Root tone='danger' role='alert'>
             <InlineMessage.Icon tone='danger' />
             <InlineMessage.Content>
-              <InlineMessage.Title>
-                Resources could not be loaded
-              </InlineMessage.Title>
+              <InlineMessage.Title>{t.loadFailedTitle}</InlineMessage.Title>
               <InlineMessage.Description>
-                Your search and selection are retained.
+                {t.retainedDescription}
               </InlineMessage.Description>
               <InlineMessage.Actions>
                 <Button variant='outline' onClick={restore}>
-                  Retry preview
+                  {t.retryPreview}
                 </Button>
               </InlineMessage.Actions>
             </InlineMessage.Content>
           </InlineMessage.Root>
         ) : mode === 'permission' ? (
           <EmptyState.Root>
-            <EmptyState.Title>Resource access unavailable</EmptyState.Title>
+            <EmptyState.Title>{t.accessUnavailable}</EmptyState.Title>
             <EmptyState.Description id='resource-access-note'>
-              This preview account can't access the resource collection.
+              {t.accessDescription}
             </EmptyState.Description>
             <EmptyState.Actions>
               <Button variant='outline' onClick={restore}>
-                Restore preview access
+                {t.restoreAccess}
               </Button>
             </EmptyState.Actions>
           </EmptyState.Root>
         ) : mode === 'empty' ? (
           <EmptyState.Root>
-            <EmptyState.Title>No registered resources</EmptyState.Title>
+            <EmptyState.Title>{t.noRegistered}</EmptyState.Title>
             <EmptyState.Description>
-              Add resources before filtering or inspecting them.
+              {t.addResourcesDescription}
             </EmptyState.Description>
             <EmptyState.Actions>
               <Button
@@ -201,15 +199,15 @@ export function ResourceListExample() {
                   restore()
                 }}
               >
-                Show sample resources
+                {t.showSample}
               </Button>
             </EmptyState.Actions>
           </EmptyState.Root>
         ) : visible.length === 0 ? (
           <EmptyState.Root>
-            <EmptyState.Title>No matching resources</EmptyState.Title>
+            <EmptyState.Title>{t.noMatching}</EmptyState.Title>
             <EmptyState.Description>
-              Try another name or clear the search.
+              {t.tryAnotherDescription}
             </EmptyState.Description>
             <EmptyState.Actions>
               <Button
@@ -219,7 +217,7 @@ export function ResourceListExample() {
                   search.current?.focus()
                 }}
               >
-                Reset resource search
+                {t.resetSearch}
               </Button>
             </EmptyState.Actions>
           </EmptyState.Root>
@@ -246,7 +244,7 @@ export function ResourceListExample() {
                 >
                   <Checkbox.Indicator />
                 </Checkbox.Root>
-                Select visible editable resources
+                {t.selectVisibleEditable}
               </label>
               <Button
                 variant='ghost'
@@ -256,14 +254,14 @@ export function ResourceListExample() {
                   search.current?.focus()
                 }}
               >
-                Clear selection
+                {t.clearSelection}
               </Button>
             </div>
-            <List.Root aria-label='Resource examples'>
+            <List.Root aria-label={t.listLabel}>
               {visible.map((item) => (
                 <List.Item key={item.id} selected={selected.includes(item.id)}>
                   <Checkbox.Root
-                    aria-label={`Select ${item.name}`}
+                    aria-label={t.selectItem(item.name)}
                     disabled={!item.canManage}
                     aria-describedby={
                       !item.canManage ? `resource-reason-${item.id}` : undefined
@@ -282,7 +280,7 @@ export function ResourceListExample() {
                       {!item.canManage && (
                         <span id={`resource-reason-${item.id}`}>
                           {' '}
-                          / Read-only preview: review and selection unavailable.
+                          / {t.readOnlyPreview}
                         </span>
                       )}
                     </List.Description>
@@ -295,11 +293,11 @@ export function ResourceListExample() {
                           : (item.tone as StatusTone)
                       }
                     >
-                      {reviewed.includes(item.id) ? 'Reviewed' : item.status}
+                      {reviewed.includes(item.id) ? t.reviewed : item.status}
                     </StatusBadge>
                     <Menu.Root>
-                      <Menu.Trigger aria-label={`Actions for ${item.name}`}>
-                        Actions
+                      <Menu.Trigger aria-label={t.actionsFor(item.name)}>
+                        {t.actions}
                       </Menu.Trigger>
                       <Menu.Portal>
                         <Menu.Content align='end'>
@@ -309,12 +307,10 @@ export function ResourceListExample() {
                               setReviewed((current) => [
                                 ...new Set([...current, item.id]),
                               ])
-                              setNotice(
-                                `Marked ${item.name} as reviewed in this local preview.`,
-                              )
+                              setNotice(t.markedReviewed(item.name))
                             }}
                           >
-                            Mark reviewed
+                            {t.markReviewed}
                           </Menu.Item>
                           <Menu.Item
                             disabled={
@@ -324,12 +320,10 @@ export function ResourceListExample() {
                               setReviewed((current) =>
                                 current.filter((id) => id !== item.id),
                               )
-                              setNotice(
-                                `Reset review for ${item.name} in this local preview.`,
-                              )
+                              setNotice(t.reviewReset(item.name))
                             }}
                           >
-                            Reset review
+                            {t.resetReview}
                           </Menu.Item>
                         </Menu.Content>
                       </Menu.Portal>
@@ -344,10 +338,7 @@ export function ResourceListExample() {
       <p role='status' className='resource-action-status'>
         {notice}
       </p>
-      <p>
-        Local design examples. Title links open the related documentation.
-        Review actions don't contact product services.
-      </p>
+      <p>{t.footer}</p>
     </div>
   )
 }

@@ -9,6 +9,8 @@ import {
   InlineMessage,
   Spinner,
 } from '@surflane/ui'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/FormWorkflowExample'
 type Draft = { name: string; url: string; region: string }
 type Outcome =
   'success' | 'field-conflict' | 'request-failure' | 'permission-denied'
@@ -33,6 +35,7 @@ function previewRequest(id: number, values: Draft, outcome: Outcome) {
   return { id, values: { ...values }, outcome, controller, complete, promise }
 }
 export function FormWorkflowExample() {
+  const t = text[useLocale().locale]
   const [draft, setDraft] = useState<Draft>(initial),
     [outcome, setOutcome] = useState<Outcome>('success'),
     [phase, setPhase] = useState<Phase>('idle'),
@@ -98,7 +101,7 @@ export function FormWorkflowExample() {
       pending.current = null
       if (reply === 'field-conflict') {
         setErrors({
-          name: 'This environment name is already registered. Choose another name.',
+          name: t.fieldConflictError,
         })
         nextFocus.current = 'name'
         setPhase('field-error')
@@ -122,7 +125,7 @@ export function FormWorkflowExample() {
     setDraft(initial)
     setErrors({})
     setSaved(null)
-    setNotice('Preview reset.')
+    setNotice(t.previewResetNotice)
     nextFocus.current = 'name'
     setPhase('idle')
     setGeneration((value) => value + 1)
@@ -131,7 +134,7 @@ export function FormWorkflowExample() {
     const request = pending.current
     pending.current = null
     request?.controller.abort()
-    setNotice('Request canceled. Your draft is retained.')
+    setNotice(t.cancelRequestNotice)
     nextFocus.current = 'name'
     setPhase('idle')
   }
@@ -140,31 +143,26 @@ export function FormWorkflowExample() {
   return (
     <div className='form-workflow-example'>
       <label className='workflow-response'>
-        Preview response
+        {t.previewResponseLabel}
         <NativeSelect
           value={outcome}
           disabled={busy}
           onChange={(event) => setOutcome(event.target.value as Outcome)}
         >
-          <option value='success'>Success</option>
-          <option value='field-conflict'>Field conflict</option>
-          <option value='request-failure'>Request failure</option>
-          <option value='permission-denied'>Permission denied</option>
+          <option value='success'>{t.outcomeSuccess}</option>
+          <option value='field-conflict'>{t.outcomeFieldConflict}</option>
+          <option value='request-failure'>{t.outcomeRequestFailure}</option>
+          <option value='permission-denied'>{t.outcomePermissionDenied}</option>
         </NativeSelect>
       </label>
-      <p>
-        Complete each response by hand below to inspect every submission state.
-        No environment is created.
-      </p>
+      <p>{t.intro}</p>
       {phase === 'field-error' && (
         <InlineMessage.Root tone='danger' role='alert'>
           <InlineMessage.Icon tone='danger' />
           <InlineMessage.Content>
-            <InlineMessage.Title>
-              Correct the highlighted field
-            </InlineMessage.Title>
+            <InlineMessage.Title>{t.fieldErrorTitle}</InlineMessage.Title>
             <InlineMessage.Description>
-              Your other inputs are retained.
+              {t.fieldErrorDescription}
             </InlineMessage.Description>
           </InlineMessage.Content>
         </InlineMessage.Root>
@@ -173,12 +171,9 @@ export function FormWorkflowExample() {
         <InlineMessage.Root tone='danger' role='alert'>
           <InlineMessage.Icon tone='danger' />
           <InlineMessage.Content>
-            <InlineMessage.Title>
-              The request couldn't be completed
-            </InlineMessage.Title>
+            <InlineMessage.Title>{t.requestErrorTitle}</InlineMessage.Title>
             <InlineMessage.Description>
-              Your draft is retained. Change the preview response and retry when
-              ready.
+              {t.requestErrorDescription}
             </InlineMessage.Description>
           </InlineMessage.Content>
         </InlineMessage.Root>
@@ -187,24 +182,21 @@ export function FormWorkflowExample() {
         <InlineMessage.Root tone='caution' role='alert'>
           <InlineMessage.Icon tone='caution' />
           <InlineMessage.Content>
-            <InlineMessage.Title>
-              Registration isn't permitted
-            </InlineMessage.Title>
+            <InlineMessage.Title>{t.permissionTitle}</InlineMessage.Title>
             <InlineMessage.Description id='workflow-permission-reason'>
-              This preview account has no registration access. Your inputs are
-              retained.
+              {t.permissionDescription}
             </InlineMessage.Description>
             <InlineMessage.Actions>
               <Button
                 ref={restore}
                 variant='outline'
                 onClick={() => {
-                  setNotice('Preview access restored.')
+                  setNotice(t.previewAccessRestoredNotice)
                   nextFocus.current = 'name'
                   setPhase('idle')
                 }}
               >
-                Restore preview access
+                {t.restorePreviewAccess}
               </Button>
             </InlineMessage.Actions>
           </InlineMessage.Content>
@@ -215,14 +207,14 @@ export function FormWorkflowExample() {
           <InlineMessage.Icon tone='success' />
           <InlineMessage.Content>
             <InlineMessage.Title ref={success} tabIndex={-1}>
-              Registration preview complete
+              {t.successTitle}
             </InlineMessage.Title>
             <InlineMessage.Description>
               {saved.name} / {saved.url} / {saved.region}
             </InlineMessage.Description>
             <InlineMessage.Actions>
               <Button variant='outline' onClick={reset}>
-                Start another preview
+                {t.startAnotherPreview}
               </Button>
             </InlineMessage.Actions>
           </InlineMessage.Content>
@@ -230,7 +222,7 @@ export function FormWorkflowExample() {
       )}
       <Form<Draft>
         key={generation}
-        aria-label='Environment registration preview'
+        aria-label={t.formAriaLabel}
         aria-busy={busy}
         errors={errors}
         onFormSubmit={start}
@@ -245,9 +237,9 @@ export function FormWorkflowExample() {
             restricted ? 'workflow-permission-reason' : undefined
           }
         >
-          <Fieldset.Legend>Environment details</Fieldset.Legend>
+          <Fieldset.Legend>{t.environmentDetails}</Fieldset.Legend>
           <Field.Root name='name'>
-            <Field.Label>Environment name</Field.Label>
+            <Field.Label>{t.environmentNameLabel}</Field.Label>
             <Field.Control
               ref={name}
               required
@@ -257,13 +249,11 @@ export function FormWorkflowExample() {
               onChange={(event) => edit('name', event.target.value)}
               placeholder='preview-environment'
             />
-            <Field.Description>
-              3–48 lowercase letters, digits, or hyphens. Start with a letter.
-            </Field.Description>
+            <Field.Description>{t.nameDescription}</Field.Description>
             <Field.Error />
           </Field.Root>
           <Field.Root name='url'>
-            <Field.Label>Service URL</Field.Label>
+            <Field.Label>{t.serviceUrlLabel}</Field.Label>
             <Field.Control
               type='url'
               required
@@ -272,13 +262,13 @@ export function FormWorkflowExample() {
               onChange={(event) => edit('url', event.target.value)}
               placeholder='https://api.example.test'
             />
-            <Field.Description>Use an HTTPS endpoint.</Field.Description>
+            <Field.Description>{t.urlDescription}</Field.Description>
             <Field.Error />
           </Field.Root>
           <Field.Root name='region'>
-            <Field.Label>Cluster</Field.Label>
+            <Field.Label>{t.clusterLabel}</Field.Label>
             <Select
-              aria-label='Registration cluster'
+              aria-label={t.clusterAriaLabel}
               name='region'
               value={draft.region}
               onValueChange={(value) => edit('region', value)}
@@ -292,13 +282,13 @@ export function FormWorkflowExample() {
         <div className='actions'>
           <Button ref={submit} type='submit' disabled={busy || restricted}>
             {busy
-              ? 'Submitting preview…'
+              ? t.submittingPreview
               : phase === 'request-error'
-                ? 'Retry registration'
-                : 'Register preview'}
+                ? t.retryRegistration
+                : t.registerPreview}
           </Button>
           <Button type='reset' variant='outline' disabled={busy}>
-            Reset preview
+            {t.resetPreview}
           </Button>
         </div>
       </Form>
@@ -309,10 +299,10 @@ export function FormWorkflowExample() {
           </InlineMessage.Icon>
           <InlineMessage.Content>
             <InlineMessage.Title role='status'>
-              Submitting preview request
+              {t.submittingPreviewTitle}
             </InlineMessage.Title>
             <InlineMessage.Description>
-              Draft editing is paused. Complete or cancel this local request.
+              {t.busyDescription}
             </InlineMessage.Description>
             <InlineMessage.Actions>
               <Button
@@ -322,10 +312,10 @@ export function FormWorkflowExample() {
                   request?.complete(request.outcome)
                 }}
               >
-                Complete preview request
+                {t.completePreviewRequest}
               </Button>
               <Button ref={cancel} variant='outline' onClick={cancelRequest}>
-                Cancel request
+                {t.cancelRequest}
               </Button>
             </InlineMessage.Actions>
           </InlineMessage.Content>
@@ -334,10 +324,7 @@ export function FormWorkflowExample() {
       <p className='workflow-notice' role='status'>
         {notice}
       </p>
-      <p className='catalog-preview-note'>
-        Preview requests started: {attempts}. The product owns request
-        transport, permissions, and idempotency.
-      </p>
+      <p className='catalog-preview-note'>{t.catalogNote(attempts)}</p>
     </div>
   )
 }

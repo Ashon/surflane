@@ -54,6 +54,25 @@
         const chrome = document.querySelector('meta[name="theme-color"]')
         chrome.content = chrome.dataset[theme]
       })()
+      ;(() => {
+        let locale
+        try {
+          const value = document.cookie
+            .split('; ')
+            .find((entry) => entry.startsWith('surflane-locale='))
+            ?.slice('surflane-locale='.length)
+          if (value === 'en' || value === 'ko') locale = value
+        } catch {}
+        if (locale === undefined) {
+          const first = (
+            navigator.languages?.[0] ??
+            navigator.language ??
+            ''
+          ).toLowerCase()
+          locale = first.startsWith('ko') ? 'ko' : 'en'
+        }
+        document.documentElement.lang = locale
+      })()
     </script>
     <title>Surflane</title>
   </head>

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import catalog from '@surflane/design-tokens/catalog.json'
 import { Input, Select, Button, Text } from '@surflane/ui'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/TokenBrowser'
 function useResolvedTokens() {
   const [values, setValues] = useState<Record<string, string>>({})
   useEffect(() => {
@@ -33,6 +35,7 @@ function useResolvedTokens() {
   return values
 }
 export function TokenBrowser({ initialQuery = '' }: { initialQuery?: string }) {
+  const t = text[useLocale().locale]
   const [query, setQuery] = useState(initialQuery),
     [category, setCategory] = useState('all'),
     [limit, setLimit] = useState(24),
@@ -65,26 +68,22 @@ export function TokenBrowser({ initialQuery = '' }: { initialQuery?: string }) {
   }
   return (
     <section aria-labelledby='tokens-title' id='tokens'>
-      <h2 id='tokens-title'>Design tokens</h2>
-      <Text color='secondary'>
-        {catalog.tokens.length} tokens generated from the CSS source. Search by
-        name, role, or reference to see each computed value for the current
-        theme and screen size.
-      </Text>
+      <h2 id='tokens-title'>{t.title}</h2>
+      <Text color='secondary'>{t.intro(catalog.tokens.length)}</Text>
       <div className='foundation-controls'>
         <label>
-          Search
+          {t.search}
           <Input
-            aria-label='Search design tokens'
-            placeholder='e.g. --ink, typography, dialog'
+            aria-label={t.searchAriaLabel}
+            placeholder={t.searchPlaceholder}
             value={query}
             onChange={(e) => changeQuery(e.target.value)}
           />
         </label>
         <label>
-          Category
+          {t.category}
           <Select
-            aria-label='Token category'
+            aria-label={t.categoryAriaLabel}
             value={category}
             onValueChange={(value) => {
               setCategory(value)
@@ -92,14 +91,14 @@ export function TokenBrowser({ initialQuery = '' }: { initialQuery?: string }) {
               setCopied(null)
             }}
             options={[
-              { value: 'all', label: 'All categories' },
+              { value: 'all', label: t.allCategories },
               ...catalog.categories.map((value) => ({ value, label: value })),
             ]}
           />
         </label>
       </div>
       <Text variant='caption' color='muted' aria-live='polite'>
-        {tokens.length} matching tokens / {Math.min(limit, tokens.length)} shown
+        {t.count(tokens.length, Math.min(limit, tokens.length))}
       </Text>
       <div className='token-list'>
         {tokens.slice(0, limit).map((token) => (
@@ -141,7 +140,7 @@ export function TokenBrowser({ initialQuery = '' }: { initialQuery?: string }) {
                 {values[token.name] || '…'}
               </Text>
               <details>
-                <summary>Source and references</summary>
+                <summary>{t.sourceAndReferences}</summary>
                 {token.variants.map((v, i) => (
                   <div key={i}>
                     <Text variant='caption' color='muted'>
@@ -176,7 +175,7 @@ export function TokenBrowser({ initialQuery = '' }: { initialQuery?: string }) {
               size='sm'
               className='token-copy'
               data-copy-used={used || undefined}
-              aria-label={`Copy ${token.name}`}
+              aria-label={t.copyLabel(token.name)}
               data-copy-state={
                 copied?.name === token.name
                   ? copied.ok
@@ -201,30 +200,26 @@ export function TokenBrowser({ initialQuery = '' }: { initialQuery?: string }) {
                   className='pui-code-copy-label'
                 >
                   {copied?.name !== token.name
-                    ? 'Copy'
+                    ? t.copy
                     : copied.ok
-                      ? 'Copied'
-                      : 'Unavailable'}
+                      ? t.copied
+                      : t.unavailable}
                 </span>
               </span>
             </Button>
           </article>
         ))}
       </div>
-      {tokens.length === 0 && (
-        <Text color='secondary'>
-          No matching tokens. Try a different search term or category.
-        </Text>
-      )}
+      {tokens.length === 0 && <Text color='secondary'>{t.noMatching}</Text>}
       {tokens.length > limit && (
         <Button variant='outline' onClick={() => setLimit(limit + 24)}>
-          Show more tokens
+          {t.showMore}
         </Button>
       )}
       <Text variant='caption' color='muted'>
-        Don't copy raw values into product code. Reference them with{' '}
-        <code>var(--token-name)</code>. Use semantic tokens for color and
-        status, and scale tokens for size and spacing.
+        {t.usageNotePrefix}
+        <code>var(--token-name)</code>
+        {t.usageNoteSuffix}
       </Text>
     </section>
   )

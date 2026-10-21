@@ -7,18 +7,21 @@ import {
   NativeSelect,
 } from '@surflane/ui'
 import { withBase } from './router'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/PageHeaderExample'
 export function PageHeaderExample() {
+  const t = text[useLocale().locale]
   const [profile, setProfile] = useState('workspace')
   const [long, setLong] = useState(false)
   const [details, setDetails] = useState(true)
   const [count, setCount] = useState(0)
   const title = long
-    ? 'Environment and project deployment results / platform-api-abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz'
+    ? t.titleLong
     : profile === 'docs'
-      ? 'Getting started'
+      ? t.titleDocs
       : profile === 'inventory'
-        ? 'Registered resources'
-        : 'Deployment workspace'
+        ? t.titleInventory
+        : t.titleWorkspace
   const size =
     profile === 'docs'
       ? 'document'
@@ -29,20 +32,20 @@ export function PageHeaderExample() {
     <>
       <div className='page-header-settings actions'>
         <label>
-          Heading role{' '}
+          {t.headingRole}{' '}
           <NativeSelect
             value={profile}
             onChange={(e) => setProfile(e.target.value)}
           >
-            <option value='workspace'>Application</option>
-            <option value='inventory'>Page</option>
-            <option value='docs'>Reading</option>
+            <option value='workspace'>{t.optionApplication}</option>
+            <option value='inventory'>{t.optionPage}</option>
+            <option value='docs'>{t.optionReading}</option>
           </NativeSelect>
         </label>
         {(
           [
-            ['Long title', long, setLong],
-            ['Supporting content', details, setDetails],
+            [t.longTitleLabel, long, setLong],
+            [t.supportingContentLabel, details, setDetails],
           ] as const
         ).map(([label, checked, change]) => (
           <label key={label} className='pui-choice-label'>
@@ -63,25 +66,21 @@ export function PageHeaderExample() {
           title={title}
           breadcrumb={
             details ? (
-              <Breadcrumbs.Root aria-label='Preview page breadcrumb'>
+              <Breadcrumbs.Root aria-label={t.breadcrumbLabel}>
                 <Breadcrumbs.List>
                   <Breadcrumbs.Item>
-                    <a href={withBase('/patterns')}>Patterns</a>
+                    <a href={withBase('/patterns')}>{t.patterns}</a>
                   </Breadcrumbs.Item>
                   <Breadcrumbs.Item>
                     <Breadcrumbs.Separator />
-                    <Breadcrumbs.Current>Page header</Breadcrumbs.Current>
+                    <Breadcrumbs.Current>{t.pageHeader}</Breadcrumbs.Current>
                   </Breadcrumbs.Item>
                 </Breadcrumbs.List>
               </Breadcrumbs.Root>
             ) : undefined
           }
-          description={
-            details
-              ? 'Show the current location with a breadcrumb and title. Keep related actions close by. Long content wraps.'
-              : undefined
-          }
-          actionsLabel={details ? 'Preview page actions' : undefined}
+          description={details ? t.description : undefined}
+          actionsLabel={details ? t.previewPageActions : undefined}
           actions={
             details ? (
               <>
@@ -89,10 +88,10 @@ export function PageHeaderExample() {
                   variant='outline'
                   onClick={() => setCount((n) => n + 1)}
                 >
-                  Inspect preview
+                  {t.inspectPreview}
                 </Button>
                 <Button onClick={() => setCount((n) => n + 1)}>
-                  Run preview
+                  {t.runPreview}
                 </Button>
               </>
             ) : undefined
@@ -100,21 +99,18 @@ export function PageHeaderExample() {
         />
       </div>
       <p role='status'>
-        {count
-          ? `Local action preview: ${count}`
-          : 'Actions update this local preview only.'}
+        {count ? t.localActionPreview(count) : t.localPreviewNote}
       </p>
       <p>
-        The breadcrumb is a named navigation that marks the current location.
-        The header follows the{' '}
+        {t.breadcrumbIntro}{' '}
         <a href='https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/'>
-          WAI breadcrumb guidance
+          {t.waiBreadcrumbGuidance}
         </a>{' '}
-        and{' '}
+        {t.and}{' '}
         <a href='https://www.w3.org/WAI/tutorials/page-structure/headings/'>
-          heading hierarchy
+          {t.headingHierarchy}
         </a>
-        . It sets text size and heading level independently.
+        {t.guidanceOutro}
       </p>
     </>
   )

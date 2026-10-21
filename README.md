@@ -29,6 +29,8 @@ npm run test:browsers        # production catalog must be built first
 npm test                    # full Chromium suite
 ```
 
+The catalog ships in English and Korean. Read [CONTRIBUTING.md](CONTRIBUTING.md) before you add or change catalog text.
+
 ## Packages
 
 - `@surflane/design-tokens`: framework-neutral color, spacing, typography, sizing and motion tokens.

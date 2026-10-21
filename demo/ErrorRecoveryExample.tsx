@@ -10,6 +10,8 @@ import {
   Spinner,
   StatusBadge,
 } from '@surflane/ui'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/ErrorRecoveryExample'
 import { Link } from './router'
 type Mode =
   'error' | 'offline' | 'permission' | 'not-found' | 'ready' | 'pending'
@@ -33,6 +35,7 @@ function requestPreview(label: string, origin: Mode): Request {
   return { controller, promise, finish, label, origin }
 }
 export function ErrorRecoveryExample() {
+  const t = text[useLocale().locale]
   const [mode, setMode] = useState<Mode>('error'),
     [outcome, setOutcome] = useState<Exclude<Reply, 'aborted'>>('success'),
     [label, setLabel] = useState('Sample environment'),
@@ -97,7 +100,7 @@ export function ErrorRecoveryExample() {
         }))
         nextFocus.current = 'result'
         setMode('ready')
-        setNotice('Preview refreshed. No product resource was changed.')
+        setNotice(t.refreshedNotice)
       } else if (reply === 'permission') {
         setSaved(null)
         nextFocus.current = 'restore'
@@ -115,14 +118,14 @@ export function ErrorRecoveryExample() {
     request.controller.abort()
     nextFocus.current = 'input'
     setMode(request.origin)
-    setNotice('Retry canceled. Your draft is retained.')
+    setNotice(t.canceledNotice)
   }
   const cached = Boolean(saved) && mode !== 'permission' && mode !== 'not-found'
   return (
     <div className='recovery-example'>
       <div className='recovery-settings actions'>
         <label>
-          Preview recovery state
+          {t.previewRecoveryState}
           <NativeSelect
             value={
               mode === 'pending' ? (pending.current?.origin ?? 'error') : mode
@@ -139,7 +142,7 @@ export function ErrorRecoveryExample() {
           </NativeSelect>
         </label>
         <label>
-          Next retry result
+          {t.nextRetryResult}
           <NativeSelect
             disabled={mode === 'pending'}
             value={outcome}
@@ -156,7 +159,7 @@ export function ErrorRecoveryExample() {
         </label>
       </div>
       <Field.Root name='request-label'>
-        <Field.Label>Preview request label</Field.Label>
+        <Field.Label>{t.previewRequestLabel}</Field.Label>
         <Field.Control
           ref={input}
           value={label}
@@ -165,9 +168,7 @@ export function ErrorRecoveryExample() {
           }
           onChange={(event) => setLabel(event.target.value)}
         />
-        <Field.Description>
-          Your draft stays local during recovery.
-        </Field.Description>
+        <Field.Description>{t.draftStaysLocal}</Field.Description>
       </Field.Root>
       {(mode === 'error' || mode === 'offline' || mode === 'pending') && (
         <InlineMessage.Root
@@ -200,17 +201,17 @@ export function ErrorRecoveryExample() {
           <InlineMessage.Content>
             <InlineMessage.Title>
               {mode === 'error'
-                ? 'The resource request failed'
+                ? t.requestFailedTitle
                 : mode === 'offline'
-                  ? 'Connection unavailable'
-                  : 'Retrying resource request'}
+                  ? t.connectionUnavailableTitle
+                  : t.retryingTitle}
             </InlineMessage.Title>
             <InlineMessage.Description>
               {mode === 'error'
-                ? 'Retry the request or inspect the safe preview details. Your draft is retained.'
+                ? t.errorDescription
                 : mode === 'offline'
-                  ? 'Cached data may be outdated. Reconnect to request fresh data.'
-                  : 'Complete the local response by hand. Canceling keeps your draft.'}
+                  ? t.offlineDescription
+                  : t.pendingDescription}
             </InlineMessage.Description>
             <InlineMessage.Actions>
               {mode === 'pending' ? (
@@ -220,18 +221,18 @@ export function ErrorRecoveryExample() {
                     variant='outline'
                     onClick={cancelRequest}
                   >
-                    Cancel retry
+                    {t.cancelRetry}
                   </Button>
                   <Button
                     variant='ghost'
                     onClick={() => pending.current?.finish(outcome)}
                   >
-                    Complete recovery response
+                    {t.completeRecoveryResponse}
                   </Button>
                 </>
               ) : (
                 <Button ref={retry} onClick={start}>
-                  {mode === 'error' ? 'Retry preview' : 'Reconnect preview'}
+                  {mode === 'error' ? t.retryPreview : t.reconnectPreview}
                 </Button>
               )}
             </InlineMessage.Actions>
@@ -240,31 +241,29 @@ export function ErrorRecoveryExample() {
       )}
       {mode === 'permission' && (
         <EmptyState.Root>
-          <EmptyState.Title>Resource access required</EmptyState.Title>
+          <EmptyState.Title>{t.accessRequiredTitle}</EmptyState.Title>
           <EmptyState.Description>
-            Cached resource data was cleared. Restore preview access to load it
-            again.
+            {t.accessRequiredDescription}
           </EmptyState.Description>
           <EmptyState.Actions>
             <Button
               ref={restore}
               onClick={() => {
                 nextFocus.current = 'load'
-                setNotice('Preview access restored. Load data to check access.')
+                setNotice(t.accessRestoredNotice)
                 setMode('ready')
               }}
             >
-              Restore preview access
+              {t.restorePreviewAccess}
             </Button>
           </EmptyState.Actions>
         </EmptyState.Root>
       )}
       {mode === 'not-found' && (
         <EmptyState.Root>
-          <EmptyState.Title>Resource not found</EmptyState.Title>
+          <EmptyState.Title>{t.notFoundTitle}</EmptyState.Title>
           <EmptyState.Description>
-            This address may be stale. Choose a resource from the list instead
-            of retrying it.
+            {t.notFoundDescription}
           </EmptyState.Description>
           <EmptyState.Actions>
             <Link
@@ -272,7 +271,7 @@ export function ErrorRecoveryExample() {
               data-variant='outline'
               href='/patterns/resource-list'
             >
-              Browse resource examples
+              {t.browseResourceExamples}
             </Link>
           </EmptyState.Actions>
         </EmptyState.Root>
@@ -280,26 +279,26 @@ export function ErrorRecoveryExample() {
       {mode === 'ready' && (
         <div className='actions'>
           <Button ref={load} onClick={start}>
-            {saved ? 'Refresh preview' : 'Load preview'}
+            {saved ? t.refreshPreview : t.loadPreview}
           </Button>
         </div>
       )}
       {cached && saved && (
-        <section aria-label='Saved resource preview' className='recovery-saved'>
+        <section aria-label={t.savedPreviewLabel} className='recovery-saved'>
           <h3 ref={result} tabIndex={-1}>
-            Last saved preview
+            {t.lastSavedPreview}
           </h3>
           <p>{saved.label}</p>
-          <p>Revision {saved.revision}</p>
+          <p>{t.revision(saved.revision)}</p>
           <StatusBadge tone={mode === 'ready' ? 'success' : 'caution'}>
-            {mode === 'ready' ? 'Current preview' : 'May be outdated'}
+            {mode === 'ready' ? t.currentPreview : t.mayBeOutdated}
           </StatusBadge>
         </section>
       )}
       {mode === 'error' && (
         <Collapsible.Root>
           <Collapsible.Trigger render={<Button variant='ghost' />}>
-            Preview request details
+            {t.previewRequestDetails}
           </Collapsible.Trigger>
           <Collapsible.Panel>
             <CodeBlock
@@ -307,16 +306,16 @@ export function ErrorRecoveryExample() {
               code={
                 'Request: PREVIEW-503\nOperation: read resource preview\nStatus: temporary failure\nThis sample contains no credentials or product data.'
               }
-              label='Safe preview request details'
-              copyLabel='Copy preview details'
+              label={t.safePreviewDetailsLabel}
+              copyLabel={t.copyPreviewDetails}
             />
           </Collapsible.Panel>
         </Collapsible.Root>
       )}
-      <p role='status' aria-label='Recovery result'>
+      <p role='status' aria-label={t.recoveryResultLabel}>
         {notice}
       </p>
-      <p className='recovery-attempts'>Preview requests started: {attempts}.</p>
+      <p className='recovery-attempts'>{t.requestsStarted(attempts)}</p>
     </div>
   )
 }

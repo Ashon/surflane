@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Button, Combobox, Dialog, ScrollArea } from '@surflane/ui'
 import { catalog, itemHref, type CatalogItem } from './catalog'
 import { navigate } from './router'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/CommandSearchExample'
 
 type Command = {
   id: string
@@ -12,24 +14,6 @@ type Command = {
   href?: string
   action?: 'theme'
 }
-const commands: Command[] = [
-  {
-    id: 'rotate-theme',
-    label: 'Switch theme',
-    description: 'Cycle through Light, Dark, and System',
-    category: 'Action',
-    disabled: false,
-    action: 'theme',
-  },
-  ...catalog.map((item: CatalogItem) => ({
-    id: `${item.kind}/${item.id}`,
-    label: item.name,
-    description: item.summary,
-    category: `${item.kind} / ${item.group}`,
-    disabled: item.stage !== 'available',
-    href: itemHref(item),
-  })),
-]
 function normalized(value: string) {
   return value.normalize('NFKC').toLocaleLowerCase().trim()
 }
@@ -54,9 +38,28 @@ export function CommandSearchExample({
 }: {
   toggleTheme: () => void
 }) {
+  const t = text[useLocale().locale]
+  const commands: Command[] = [
+    {
+      id: 'rotate-theme',
+      label: t.switchThemeLabel,
+      description: t.switchThemeDescription,
+      category: t.actionCategory,
+      disabled: false,
+      action: 'theme',
+    },
+    ...catalog.map((item: CatalogItem) => ({
+      id: `${item.kind}/${item.id}`,
+      label: item.name,
+      description: item.summary,
+      category: `${item.kind} / ${item.group}`,
+      disabled: item.stage !== 'available',
+      href: itemHref(item),
+    })),
+  ]
   const [open, setOpen] = useState(false),
     [query, setQuery] = useState('')
-  const [notice, setNotice] = useState('No command executed.')
+  const [notice, setNotice] = useState(t.noCommandExecuted)
   const trigger = useRef<HTMLButtonElement>(null),
     input = useRef<HTMLInputElement>(null)
   const navigation = useRef<string | null>(null),
@@ -95,17 +98,14 @@ export function CommandSearchExample({
     executed.current = true
     if (command.action === 'theme') {
       toggleTheme()
-      setNotice('Appearance updated. The catalog page is unchanged.')
+      setNotice(t.appearanceUpdated)
     } else navigation.current = command.href ?? null
     setOpen(false)
   }
   const count = commands.filter((command) => matches(command, query)).length
   return (
     <div className='example-stack command-search-example'>
-      <p>
-        Search catalog pages or change the appearance. Ctrl+K or ⌘K opens search
-        while this page is mounted. Text fields keep their own shortcuts.
-      </p>
+      <p>{t.intro}</p>
       <Combobox.Root<Command>
         inline
         open={open}
@@ -144,46 +144,43 @@ export function CommandSearchExample({
           </Dialog.Trigger>
           <Dialog.Content
             className='command-search-dialog'
-            closeLabel='Close command search'
+            closeLabel={t.closeCommandSearch}
             aria-modal='true'
             initialFocus={input}
             finalFocus={() => (navigation.current ? false : trigger.current)}
           >
             <Dialog.Header>
-              <Dialog.Title>Command search</Dialog.Title>
+              <Dialog.Title>{t.commandSearchTitle}</Dialog.Title>
               <Dialog.Description>
-                Type a name, purpose, or category. Choose with the arrow keys,
-                then press Enter to open. Planned pages can't be opened.
+                {t.commandSearchDescription}
               </Dialog.Description>
             </Dialog.Header>
             <Dialog.Body className='command-search-body'>
               <label className='command-search-label'>
-                Search pages and actions
+                {t.searchPagesAndActions}
                 <Combobox.Input
                   ref={input}
-                  placeholder='Name, purpose, category…'
+                  placeholder={t.searchPlaceholder}
                   autoComplete='off'
                 />
               </label>
               <div
                 role='status'
-                aria-label='Search results count'
+                aria-label={t.searchResultsCount}
                 className='muted'
               >
-                {count} {count === 1 ? 'result' : 'results'}
+                {t.results(count)}
               </div>
               <ScrollArea
                 orientation='vertical'
-                label='Command results'
+                label={t.commandResults}
                 tabIndex={-1}
                 scrollChain='contain'
                 rootClassName='command-search-results'
                 className='command-search-results-viewport'
               >
-                <Combobox.Empty>
-                  No results. Try a shorter name or another category.
-                </Combobox.Empty>
-                <Combobox.List aria-label='Pages and actions'>
+                <Combobox.Empty>{t.noResults}</Combobox.Empty>
+                <Combobox.List aria-label={t.pagesAndActions}>
                   {(command: Command) => (
                     <Combobox.Item
                       key={command.id}
@@ -194,19 +191,19 @@ export function CommandSearchExample({
                         <strong>{command.label}</strong>
                         <span>{command.description}</span>
                         <small>
-                          {command.disabled ? 'Planned' : command.category}
+                          {command.disabled ? t.planned : command.category}
                         </small>
                       </span>
                     </Combobox.Item>
                   )}
                 </Combobox.List>
               </ScrollArea>
-              <p className='muted'>↑ ↓ Choose / Enter Open / Escape Close</p>
+              <p className='muted'>{t.keyboardHint}</p>
             </Dialog.Body>
           </Dialog.Content>
         </Dialog.Root>
       </Combobox.Root>
-      <p role='status' aria-label='Command result'>
+      <p role='status' aria-label={t.commandResult}>
         {notice}
       </p>
     </div>

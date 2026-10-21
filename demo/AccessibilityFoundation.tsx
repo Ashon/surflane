@@ -11,70 +11,39 @@ import {
   Table,
 } from '@surflane/ui'
 import { Link } from './router'
-const responsibilities = [
-  [
-    'Structure',
-    'main, nav, headings, and a meaningful DOM order',
-    'After a route change, check the h1, document title, and Skip to content',
-  ],
-  [
-    'Keyboard',
-    'Buttons, links, and forms keep their native semantics',
-    'Complete tasks with Tab, Shift+Tab, arrow keys, Enter, Space, and Escape',
-  ],
-  [
-    'Forms',
-    'Field labels, descriptions, error associations, and required state',
-    'Preserve values, and state the cause and the fix',
-  ],
-  [
-    'Feedback',
-    'status or alert, matched to severity',
-    'Announce once, and keep results and recovery actions in the page content',
-  ],
-  [
-    'Perception',
-    'Shared color, focus, size, and motion tokens',
-    'Check themes, zoom, text spacing, narrow widths, and high contrast',
-  ],
-]
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/AccessibilityFoundation'
 export function AccessibilityFoundation() {
+  const t = text[useLocale().locale]
+  const responsibilities = t.responsibilities
   const [name, setName] = useState('')
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [message, setMessage] = useState('')
   const nameInput = useRef<HTMLInputElement>(null)
   return (
     <>
-      <nav className='page-toc' aria-label='On this page'>
-        {['principles', 'forms', 'keyboard', 'feedback', 'testing'].map(
-          (id) => (
-            <a key={id} href={`#${id}`}>
-              {id[0].toUpperCase() + id.slice(1)}
-            </a>
-          ),
-        )}
+      <nav className='page-toc' aria-label={t.onThisPage}>
+        {t.nav.map(({ id, label }) => (
+          <a key={id} href={`#${id}`}>
+            {label}
+          </a>
+        ))}
       </nav>
       <section id='principles'>
-        <h2>Shared behavior, product responsibility</h2>
-        <p>
-          Using the components doesn't make a screen accessible on its own. Base
-          UI and the shared wrappers handle interaction, focus, and styling. The
-          product owns the screen name, document structure, data, error meaning,
-          permissions, and task-completion messages.
-        </p>
-        <Table.Container
-          label='Accessibility responsibilities'
-          orientation='horizontal'
-        >
+        <h2>{t.principlesTitle}</h2>
+        <p>{t.principlesIntro}</p>
+        <Table.Container label={t.tableLabel} orientation='horizontal'>
           <Table.Root>
-            <Table.Caption>
-              What to implement and review in each area
-            </Table.Caption>
+            <Table.Caption>{t.caption}</Table.Caption>
             <Table.Head>
               <Table.Row>
-                <Table.HeaderCell scope='col'>Area</Table.HeaderCell>
-                <Table.HeaderCell scope='col'>Implementation</Table.HeaderCell>
-                <Table.HeaderCell scope='col'>Review</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>{t.areaHeader}</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>
+                  {t.implementationHeader}
+                </Table.HeaderCell>
+                <Table.HeaderCell scope='col'>
+                  {t.reviewHeader}
+                </Table.HeaderCell>
               </Table.Row>
             </Table.Head>
             <Table.Body>
@@ -89,36 +58,28 @@ export function AccessibilityFoundation() {
           </Table.Root>
         </Table.Container>
         <p>
-          Build new behavior on the{' '}
-          <Link href='/components'>keyboard guidance for each component</Link>.
-          Don't add positive tabIndex values, clickable divs, unnamed icon
-          buttons, or unnecessary ARIA roles.
+          {t.buildOnStart}
+          <Link href='/components'>{t.keyboardGuidanceLink}</Link>
+          {t.buildOnEnd}
         </p>
       </section>
       <section id='forms'>
-        <h2>Recover without losing input</h2>
-        <p>
-          Submit an empty name or an invalid format, then check how the
-          description and error are associated. Enter a valid name to try
-          Simulate name conflict. The example validates locally, sends no server
-          requests, and creates no resources.
-        </p>
+        <h2>{t.formsTitle}</h2>
+        <p>{t.formsIntro}</p>
         <Form
-          aria-label='Accessible validation preview'
+          aria-label={t.formAriaLabel}
           errors={errors}
           onFormSubmit={(values) =>
-            setMessage(
-              `Validated: ${String(values.name)}. This local example created no resources.`,
-            )
+            setMessage(t.validatedMessage(String(values.name)))
           }
           onReset={() => {
             setName('')
             setErrors({})
-            setMessage('Preview reset. Enter a name to try again.')
+            setMessage(t.previewResetMessage)
           }}
         >
           <Field.Root name='name'>
-            <Field.Label>Preview name (required)</Field.Label>
+            <Field.Label>{t.nameLabel}</Field.Label>
             <Field.Control
               id='a11y-preview-name'
               ref={nameInput}
@@ -132,19 +93,19 @@ export function AccessibilityFoundation() {
               }}
               placeholder='demo-e2e-01'
             />
-            <Field.Description>
-              Use lowercase letters, numbers, and hyphens. Example: demo-e2e-01.
-            </Field.Description>
-            <Field.Error match='valueMissing'>Enter a name.</Field.Error>
+            <Field.Description>{t.nameDescription}</Field.Description>
+            <Field.Error match='valueMissing'>
+              {t.valueMissingError}
+            </Field.Error>
             <Field.Error match='patternMismatch'>
-              Use only lowercase letters, numbers, and hyphens.
+              {t.patternMismatchError}
             </Field.Error>
             {errors.name && <Field.Error>{errors.name}</Field.Error>}
           </Field.Root>
           <Inline gap={3}>
-            <Button type='submit'>Validate preview</Button>
+            <Button type='submit'>{t.validatePreview}</Button>
             <Button type='reset' variant='outline'>
-              Reset preview
+              {t.resetPreview}
             </Button>
             <Button
               type='button'
@@ -153,30 +114,24 @@ export function AccessibilityFoundation() {
               onClick={() => {
                 flushSync(() => {
                   setErrors({
-                    name: 'This name is already in use. Enter a different name.',
+                    name: t.nameConflictError,
                   })
                   setMessage('')
                 })
                 nameInput.current?.focus()
               }}
             >
-              Simulate name conflict
+              {t.simulateNameConflict}
             </Button>
           </Inline>
         </Form>
         <p role='status' aria-atomic='true' data-validation-result>
           {message}
         </p>
-        <p>
-          Mark required fields with the label and the required attribute. Errors
-          state the cause and the fix, not just a color change. The name
-          conflict associates its error and moves focus to the input only after
-          an explicit user action. Successful validation leaves focus where it
-          is.
-        </p>
+        <p>{t.formsNotes}</p>
         <CodeBlock
           language='tsx'
-          label='Accessible field composition'
+          label={t.codeLabel}
           code={`<Field.Root name='name'>
   <Field.Label>Environment name (required)</Field.Label>
   <Field.Control required />
@@ -191,57 +146,45 @@ export function AccessibilityFoundation() {
         />
       </section>
       <section id='keyboard'>
-        <h2>Follow a predictable focus path</h2>
+        <h2>{t.keyboardTitle}</h2>
         <p>
-          Draw the focus outline with{' '}
+          {t.keyboardIntroStart}
           <Link href='/tokens?q=--control-focus'>
             <code>--control-focus</code>
           </Link>
-          . Don't replace it with the faint{' '}
+          {t.keyboardIntroMid}
           <Link href='/tokens?q=--control-focus-ring'>
             <code>--control-focus-ring</code>
-          </Link>{' '}
-          background alone. Size interactive areas with{' '}
+          </Link>
+          {t.keyboardIntroAfterRing}
           <Link href='/tokens?q=--control-height'>
             <code>--control-height</code>
-          </Link>{' '}
-          and the button size rules. Don't remove the focus indicator or hide it
-          behind content.
+          </Link>
+          {t.keyboardIntroEnd}
         </p>
-        <p>
-          Tab order follows DOM order. Links navigate, buttons run actions, and
-          headings define document structure. On a route change, update the
-          document title and h1. Same-page table-of-contents links keep the
-          browser's native anchor navigation.
-        </p>
-        <p>
-          In modals, check Tab cycling, Escape, the close button, and focus
-          restoration. The shared Dialog provides this behavior, so don't add
-          your own keyboard trap. When an action removes its trigger, the
-          product picks the next meaningful focus target.
-        </p>
+        <p>{t.keyboardDomOrder}</p>
+        <p>{t.keyboardModals}</p>
         <div className='actions'>
           <Dialog.Root>
             <Dialog.Trigger render={<Button variant='outline' />}>
-              Open focus preview
+              {t.openFocusPreview}
             </Dialog.Trigger>
-            <Dialog.Content closeLabel='Close focus preview'>
+            <Dialog.Content closeLabel={t.closeFocusPreview}>
               <Dialog.Header>
-                <Dialog.Title>Keyboard focus preview</Dialog.Title>
+                <Dialog.Title>{t.focusPreviewTitle}</Dialog.Title>
                 <Dialog.Description>
-                  Cycle with Tab and Shift+Tab. Press Escape to close and return
-                  to the trigger.
+                  {t.focusPreviewDescription}
                 </Dialog.Description>
               </Dialog.Header>
               <Dialog.Body>
                 <label>
-                  Local note
-                  <Input defaultValue='Navigate with the keyboard' />
+                  {t.localNote}
+                  <Input defaultValue={t.keyboardInputValue} />
                 </label>
               </Dialog.Body>
               <Dialog.Footer>
                 <Dialog.Close render={<Button variant='outline' />}>
-                  Done
+                  {t.done}
                 </Dialog.Close>
               </Dialog.Footer>
             </Dialog.Content>
@@ -256,80 +199,48 @@ export function AccessibilityFoundation() {
         </p>
       </section>
       <section id='feedback'>
-        <h2>Announce once, preserve the result</h2>
+        <h2>{t.feedbackTitle}</h2>
         <ul>
-          <li>
-            Announce updates that don't move focus, such as completion or search
-            results, in a role=status region. Mount it in advance and keep the
-            message brief.
-          </li>
-          <li>
-            Use alert only for errors that need immediate attention. Don't
-            repeat the same sentence in the field, a toast, and a status region.
-          </li>
-          <li>
-            Keep the failure reason and the retry and fix paths in the page
-            content. Don't rely on a toast's timing or motion alone.
-          </li>
-          <li>
-            Use color, icons, and labels together. Name icon-only actions by
-            their target and purpose.
-          </li>
+          <li>{t.feedbackItem1}</li>
+          <li>{t.feedbackItem2}</li>
+          <li>{t.feedbackItem3}</li>
+          <li>{t.feedbackItem4}</li>
         </ul>
         <p>
-          <Link href='/components/inline-message'>Inline message</Link>
+          <Link href='/components/inline-message'>{t.inlineMessageLink}</Link>
           {' / '}
-          <Link href='/components/toast'>Toast</Link>
+          <Link href='/components/toast'>{t.toastLink}</Link>
           {' / '}
-          <Link href='/foundations/iconography'>Icon names</Link>
+          <Link href='/foundations/iconography'>{t.iconNamesLink}</Link>
         </p>
       </section>
       <section id='testing'>
-        <h2>Test the complete task</h2>
+        <h2>{t.testingTitle}</h2>
         <ol>
+          <li>{t.testingItem1}</li>
+          <li>{t.testingItem2}</li>
           <li>
-            Run the task by keyboard alone: start, edit, complete, cancel, and
-            recover from failure. Visible focus must match the actual active
-            element.
+            {t.testingItem3Start}
+            <Link href='/foundations/color'>{t.colorContrastLink}</Link>
+            {t.testingItem3Mid}
+            <Link href='/foundations/motion'>{t.motionGuidanceLink}</Link>
+            {t.testingItem3End}
           </li>
-          <li>
-            Check at a 320 CSS px width and on desktop. Test 200% and 400%
-            browser zoom and text spacing changes yourself. Put two-dimensional
-            content, such as tables and code, in named, independent scroll
-            areas.
-          </li>
-          <li>
-            Check light, dark, system, forced colors, and reduced motion
-            settings. Apply the{' '}
-            <Link href='/foundations/color'>color contrast</Link> and{' '}
-            <Link href='/foundations/motion'>motion guidance</Link> together.
-          </li>
-          <li>
-            Confirm names, order, errors, and states with real assistive
-            technologies, such as VoiceOver and NVDA. axe checks and viewport
-            resizing don't replace this manual check.
-          </li>
-          <li>
-            Test the tasks users perform from start to finish, such as entering
-            data, saving, recovering from errors, reading, and copying code.
-          </li>
+          <li>{t.testingItem4}</li>
+          <li>{t.testingItem5}</li>
         </ol>
-        <p>
-          Don't mark untested items as complete. This guide and the automated
-          checks aren't an accessibility certification or a completed full
-          manual review.
-        </p>
+        <p>{t.testingClosing}</p>
         <p>
           <a href='https://www.w3.org/WAI/tutorials/forms/notifications/'>
-            WAI — Form notifications
+            {t.waiFormNotifications}
           </a>
           {' / '}
           <a href='https://www.w3.org/WAI/WCAG22/Understanding/focus-order.html'>
-            WCAG — Focus order
+            {t.wcagFocusOrder}
           </a>
           {' / '}
           <a href='https://www.w3.org/WAI/WCAG22/Techniques/general/G202'>
-            W3C — Keyboard control
+            {t.w3cKeyboardControl}
           </a>
         </p>
       </section>

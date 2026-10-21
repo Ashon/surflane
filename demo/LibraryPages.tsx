@@ -7,9 +7,12 @@ import {
   itemHref,
   stageLabels,
   type CatalogItem,
+  type Stage,
 } from './catalog'
 import { StageLabel } from './StageLabel'
 import { Link } from './router'
+import { useCatalogText } from './catalogText'
+import { useMessages } from './i18n'
 export function FoundationIndex() {
   return <ItemList items={foundations} layout='grid' />
 }
@@ -22,6 +25,7 @@ export function ItemList({
   layout?: 'list' | 'grid'
   columns?: 2 | 3
 }) {
+  const text = useCatalogText()
   const children = items.map((item) => (
     <Link
       className='catalog-item'
@@ -31,10 +35,10 @@ export function ItemList({
     >
       <div>
         <div className='catalog-item-heading'>
-          <strong>{item.name}</strong>
+          <strong>{text.name(item)}</strong>
           <StageLabel item={item} />
         </div>
-        <p>{item.summary}</p>
+        <p>{text.summary(item)}</p>
       </div>
     </Link>
   ))
@@ -62,6 +66,8 @@ export function LibraryIndex({
   const [search, setSearch] = useState(''),
     [group, setGroup] = useState('all'),
     [stage, setStage] = useState('all')
+  const messages = useMessages()
+  const library = messages.library
   const searchInput = useRef<HTMLInputElement>(null)
   const resetFilters = () => {
     setSearch('')
@@ -71,11 +77,12 @@ export function LibraryIndex({
   }
   const items = kind === 'component' ? components : patterns
   const categories = [...new Set(items.map((item) => item.group))]
+  const text = useCatalogText()
   const visible = items.filter(
     (i) =>
       (group === 'all' || i.group === group) &&
       (stage === 'all' || i.stage === stage) &&
-      `${i.name} ${i.summary} ${i.group}`
+      `${i.name} ${i.summary} ${i.group} ${text.name(i)} ${text.summary(i)} ${text.group(i.group)}`
         .toLowerCase()
         .includes(search.toLowerCase()),
   )
@@ -83,7 +90,7 @@ export function LibraryIndex({
     <>
       <section>
         <FilterBar.Root
-          label='Filter catalog'
+          label={library.filter}
           onSubmit={(e) => e.preventDefault()}
           onReset={(e) => {
             e.preventDefault()
@@ -92,44 +99,44 @@ export function LibraryIndex({
         >
           <FilterBar.Controls>
             <FilterBar.Field width='search'>
-              Search
+              {library.search}
               <Input
                 ref={searchInput}
                 type='search'
-                aria-label='Search catalog'
+                aria-label={library.searchLabel}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder='Name, purpose, category…'
+                placeholder={library.searchPlaceholder}
               />
             </FilterBar.Field>
             {kind === 'component' && (
               <FilterBar.Field>
-                Category
+                {library.category}
                 <Select
-                  aria-label='Component category'
+                  aria-label={library.categoryLabel}
                   value={group}
                   onValueChange={setGroup}
                   options={[
-                    { value: 'all', label: 'All categories' },
+                    { value: 'all', label: library.allCategories },
                     ...categories.map((g) => ({
                       value: g,
-                      label: g,
+                      label: text.group(g),
                     })),
                   ]}
                 />
               </FilterBar.Field>
             )}
             <FilterBar.Field>
-              Readiness
+              {library.readiness}
               <Select
-                aria-label='Component readiness'
+                aria-label={library.readinessLabel}
                 value={stage}
                 onValueChange={setStage}
                 options={[
-                  { value: 'all', label: 'All stages' },
+                  { value: 'all', label: library.allStages },
                   ...Object.entries(stageLabels).map(([value, label]) => ({
                     value,
-                    label,
+                    label: text.stage(value as Stage),
                   })),
                 ]}
               />
@@ -140,12 +147,12 @@ export function LibraryIndex({
                 variant='outline'
                 disabled={!search && group === 'all' && stage === 'all'}
               >
-                Clear filters
+                {library.clearFilters}
               </Button>
             </FilterBar.Actions>
           </FilterBar.Controls>
           <FilterBar.Summary className='catalog-count'>
-            {visible.length} / {items.length} items
+            {library.count(visible.length, items.length)}
           </FilterBar.Summary>
         </FilterBar.Root>
         {visible.length ? (
@@ -164,13 +171,8 @@ export function LibraryIndex({
                     data-catalog-category={category}
                   >
                     <div className='catalog-category-header'>
-                      <h2 id={heading}>{category}</h2>
-                      <span>
-                        {categoryItems.length}{' '}
-                        {categoryItems.length === 1
-                          ? 'component'
-                          : 'components'}
-                      </span>
+                      <h2 id={heading}>{text.group(category)}</h2>
+                      <span>{library.components(categoryItems.length)}</span>
                     </div>
                     <ItemList items={categoryItems} layout='grid' columns={3} />
                   </section>
@@ -181,17 +183,14 @@ export function LibraryIndex({
             <ItemList items={visible} layout='grid' columns={3} />
           )
         ) : (
-          <p>No matching items. Try a different search term or filter.</p>
+          <p>{library.empty}</p>
         )}
       </section>
       {kind === 'pattern' && (
         <section>
-          <h2>Interaction lab</h2>
-          <p>
-            Explore input, popups, nested panels, and themes together in one
-            example.
-          </p>
-          <Link href='/patterns/interaction-lab'>Open interaction lab</Link>
+          <h2>{library.labTitle}</h2>
+          <p>{library.labBody}</p>
+          <Link href='/patterns/interaction-lab'>{library.labLink}</Link>
         </section>
       )}
     </>

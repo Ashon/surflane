@@ -3,7 +3,10 @@ import { Table, Select } from '@surflane/ui'
 import { catalog, stageLabels, itemHref, referenceSources } from './catalog'
 import { StageLabel } from './StageLabel'
 import { Link } from './router'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/CoveragePage'
 export function CoveragePage() {
+  const t = text[useLocale().locale]
   const [kind, setKind] = useState('all'),
     [phase, setPhase] = useState('all')
   const shown = catalog.filter(
@@ -14,12 +17,8 @@ export function CoveragePage() {
   return (
     <>
       <section id='coverage-scope'>
-        <h2>Scope and readiness</h2>
-        <p>
-          The scope covers the web UI needed for platform development, plus the
-          Base UI component list. The summary and inventory below show actual
-          implementation and documentation readiness.
-        </p>
+        <h2>{t.scopeAndReadiness}</h2>
+        <p>{t.scopeIntro}</p>
         <dl className='coverage-summary'>
           {Object.entries(stageLabels).map(([stage, label]) => (
             <div key={stage}>
@@ -29,58 +28,46 @@ export function CoveragePage() {
           ))}
         </dl>
         <p>
-          <strong>Available</strong>: has a shared implementation and a working
-          example. <strong>Primitive only</strong>: re-exports the upstream
-          primitive. Styling hasn't started. <strong>Planned</strong>: still
-          needs a shared implementation or dedicated guide. Product deployment
-          and full accessibility certification are reviewed separately.
+          <strong>{t.available}</strong>
+          {t.availableDesc}
+          <strong>{t.primitiveOnly}</strong>
+          {t.primitiveDesc}
+          <strong>{t.planned}</strong>
+          {t.plannedDesc}
         </p>
       </section>
       <section id='coverage-waves'>
-        <h2>Delivery waves</h2>
+        <h2>{t.deliveryWaves}</h2>
         <ol className='delivery-waves' role='list'>
           <li>
-            <strong>Wave 0 — Existing controls and overlays</strong>
-            <p>
-              Move existing inputs, selection, confirmation, panels, and
-              scrolling to their own pages. Pair each behavior with usage
-              guidance.
-            </p>
+            <strong>{t.wave0Title}</strong>
+            <p>{t.wave0Desc}</p>
           </li>
           <li>
-            <strong>Wave 1 — Daily product UI</strong>
-            <p>
-              Refine composition and interaction for Field, Checkbox, Radio,
-              Switch, Tabs, status, tables, empty states, and the sidebar.
-            </p>
+            <strong>{t.wave1Title}</strong>
+            <p>{t.wave1Desc}</p>
           </li>
           <li>
-            <strong>Wave 2 — Rich interaction</strong>
-            <p>
-              Extend searchable selection, numeric input, Toast, data tables,
-              and run flows. Each component's own wave label takes precedence.
-            </p>
+            <strong>{t.wave2Title}</strong>
+            <p>{t.wave2Desc}</p>
           </li>
           <li>
-            <strong>Wave 3 — Specialized UI</strong>
-            <p>
-              Review dedicated behavior and library fit for dates, files, trees,
-              charts, OTP, and command search.
-            </p>
+            <strong>{t.wave3Title}</strong>
+            <p>{t.wave3Desc}</p>
           </li>
         </ol>
       </section>
       <section id='coverage-inventory'>
-        <h2>Coverage inventory</h2>
+        <h2>{t.coverageInventory}</h2>
         <div className='catalog-filters'>
           <label>
-            Layer
+            {t.layer}
             <Select
-              aria-label='Coverage layer'
+              aria-label={t.layerAriaLabel}
               value={kind}
               onValueChange={setKind}
               options={[
-                { value: 'all', label: 'All layers' },
+                { value: 'all', label: t.allLayers },
                 ...['foundation', 'component', 'pattern'].map((value) => ({
                   value,
                   label: value,
@@ -89,16 +76,16 @@ export function CoveragePage() {
             />
           </label>
           <label>
-            Wave
+            {t.wave}
             <Select
-              aria-label='Coverage wave'
+              aria-label={t.waveAriaLabel}
               value={phase}
               onValueChange={setPhase}
               options={[
-                { value: 'all', label: 'All waves' },
+                { value: 'all', label: t.allWaves },
                 ...[0, 1, 2, 3].map((n) => ({
                   value: String(n),
-                  label: 'Wave ' + n,
+                  label: t.waveOption(n),
                 })),
               ]}
             />
@@ -106,20 +93,20 @@ export function CoveragePage() {
         </div>
         <Table.Container
           className='catalog-table-wrap'
-          label='Coverage inventory table'
+          label={t.tableLabel}
           orientation='horizontal'
         >
           <Table.Root>
-            <Table.Caption>{shown.length} coverage items</Table.Caption>
+            <Table.Caption>{t.caption(shown.length)}</Table.Caption>
             <Table.Head>
               <Table.Row>
-                <Table.HeaderCell scope='col'>Item</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>{t.itemHeader}</Table.HeaderCell>
                 <Table.HeaderCell scope='col'>
-                  Layer / category
+                  {t.layerCategoryHeader}
                 </Table.HeaderCell>
-                <Table.HeaderCell scope='col'>Basis</Table.HeaderCell>
-                <Table.HeaderCell scope='col'>Wave</Table.HeaderCell>
-                <Table.HeaderCell scope='col'>Stage</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>{t.basisHeader}</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>{t.waveHeader}</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>{t.stageHeader}</Table.HeaderCell>
               </Table.Row>
             </Table.Head>
             <Table.Body>
@@ -143,41 +130,18 @@ export function CoveragePage() {
         </Table.Container>
       </section>
       <section id='coverage-ready'>
-        <h2>Definition of ready</h2>
+        <h2>{t.definitionOfReady}</h2>
         <ul>
-          <li>
-            Keep a working example and docs for usage, anti-patterns, states,
-            API, and keyboard on the same page.
-          </li>
-          <li>
-            Check light, dark, and system themes. Check enter motion, instant
-            close, and reduced motion.
-          </li>
-          <li>
-            Confirm labels, initial focus, focus movement and restoration, and
-            error messages. Check 320px width, long Korean and English text, and
-            zoom.
-          </li>
-          <li>
-            Check submit, reset, and server errors in forms. Check portals,
-            nesting, and outside clicks in overlays. Check loading, empty
-            values, and partial failure in data UI.
-          </li>
-          <li>
-            React builds on Base UI, with explicit library composition for
-            specialized features. Astro docs prefer framework-independent CSS.
-            Domain rules stay in the product.
-          </li>
+          <li>{t.readyItem1}</li>
+          <li>{t.readyItem2}</li>
+          <li>{t.readyItem3}</li>
+          <li>{t.readyItem4}</li>
+          <li>{t.readyItem5}</li>
         </ul>
       </section>
       <section id='coverage-research'>
-        <h2>Research and implementation boundaries</h2>
-        <p>
-          Base UI provides the accessibility and behavior primitives. Tables,
-          status, the app shell, and document flows build on semantic HTML and
-          shared styles. For dates, trees, charts, and similar features, confirm
-          what Base UI provides before relying on it.
-        </p>
+        <h2>{t.researchBoundaries}</h2>
+        <p>{t.researchIntro}</p>
         <ul>
           {referenceSources.map((s) => (
             <li key={s.url}>
@@ -187,11 +151,7 @@ export function CoveragePage() {
             </li>
           ))}
         </ul>
-        <p>
-          Component list and packages reviewed as of 2026-10-17, with Base UI
-          1.9.0. The framework utilities CSP, Direction, mergeProps, and
-          useRender don't count as separate interactive components.
-        </p>
+        <p>{t.researchNote}</p>
       </section>
     </>
   )

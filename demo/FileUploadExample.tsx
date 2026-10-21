@@ -6,6 +6,8 @@ import {
   Checkbox,
   type UploadTransport,
 } from '@surflane/ui'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/FileUploadExample'
 function Flag({
   checked,
   onChange,
@@ -25,12 +27,13 @@ function Flag({
   )
 }
 export function FileUploadExample() {
+  const t = text[useLocale().locale]
   const [disabled, setDisabled] = useState(false),
     [fail, setFail] = useState(false),
     [cancel, setCancel] = useState(false),
     [cancelReset, setCancelReset] = useState(false),
     [controlled, setControlled] = useState<readonly File[]>([]),
-    [summary, setSummary] = useState('No file form submitted.')
+    [summary, setSummary] = useState(t.noFileSubmitted)
   const [late, setLate] = useState(false),
     [formErrors, setFormErrors] = useState<Record<string, string>>({})
   const transport: UploadTransport = (file, { signal, onProgress }) =>
@@ -58,19 +61,19 @@ export function FileUploadExample() {
     <div className='example-stack'>
       <div className='actions'>
         <Flag checked={disabled} onChange={setDisabled}>
-          Disable file controls
+          {t.disableFileControls}
         </Flag>
         <Flag checked={fail} onChange={setFail}>
-          Fail upload preview
+          {t.failUploadPreview}
         </Flag>
         <Flag checked={late} onChange={setLate}>
-          Late result after cancel
+          {t.lateResultAfterCancel}
         </Flag>
         <Flag checked={cancel} onChange={setCancel}>
-          Cancel selection changes
+          {t.cancelSelectionChanges}
         </Flag>
         <Flag checked={cancelReset} onChange={setCancelReset}>
-          Cancel reset
+          {t.cancelReset}
         </Flag>
       </div>
       <Form
@@ -99,8 +102,8 @@ export function FileUploadExample() {
         }}
       >
         <FileUpload
-          label='Build artifacts'
-          description='Choose up to 3 JSON or text files, 1 KB or smaller each. The transport is simulated locally.'
+          label={t.buildArtifacts}
+          description={t.buildArtifactsDescription}
           name='artifacts'
           accept='.json,.txt,application/json,text/plain'
           multiple
@@ -114,26 +117,26 @@ export function FileUploadExample() {
           }}
         />
         <div className='actions'>
-          <Button type='submit'>Inspect submitted files</Button>
+          <Button type='submit'>{t.inspectSubmittedFiles}</Button>
           <Button
             type='button'
             variant='ghost'
             onClick={() =>
               setFormErrors({
-                artifacts: 'These files were rejected by the example server.',
+                artifacts: t.rejectedByServer,
               })
             }
           >
-            Show field error
+            {t.showFieldError}
           </Button>
           <Button type='reset' variant='outline'>
-            Reset file form
+            {t.resetFileForm}
           </Button>
         </div>
       </Form>
       <FileUpload
-        label='Controlled attachment'
-        description='One optional CSV file. The page owns it, and it submits with the form above. Reset keeps this controlled selection.'
+        label={t.controlledAttachment}
+        description={t.controlledAttachmentDescription}
         name='attachment'
         form='file-upload-preview-form'
         accept='.csv,text/csv'

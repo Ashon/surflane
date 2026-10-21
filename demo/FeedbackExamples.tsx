@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import { Button, Progress, Meter, Spinner, Skeleton } from '@surflane/ui'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/FeedbackExamples'
 export { feedbackExampleIds } from './exampleGroups'
 export function FeedbackExample({ id }: { id: string }) {
+  const t = text[useLocale().locale]
   const [value, setValue] = useState<number | null>(30)
   const [loading, setLoading] = useState(true)
   if (id === 'progress')
@@ -10,15 +13,13 @@ export function FeedbackExample({ id }: { id: string }) {
         <Progress.Root
           value={value}
           aria-valuetext={
-            value === null
-              ? 'Waiting for worker'
-              : `${value} of 100 checks completed`
+            value === null ? t.waitingForWorker : t.checksCompleted(value)
           }
         >
-          <Progress.Label>Deployment progress</Progress.Label>
+          <Progress.Label>{t.deploymentProgress}</Progress.Label>
           <Progress.Value>
             {(formatted, current) =>
-              current === null ? 'Waiting for worker' : formatted
+              current === null ? t.waitingForWorker : formatted
             }
           </Progress.Value>
           <Progress.Track>
@@ -30,19 +31,17 @@ export function FeedbackExample({ id }: { id: string }) {
             variant='outline'
             onClick={() => setValue((v) => Math.min(100, (v ?? 0) + 10))}
           >
-            Complete 10 checks
+            {t.complete10Checks}
           </Button>
           <Button variant='outline' onClick={() => setValue(null)}>
-            Wait for worker
+            {t.waitForWorker}
           </Button>
           <Button variant='ghost' onClick={() => setValue(0)}>
-            Reset progress
+            {t.resetProgress}
           </Button>
         </div>
         <p role='status'>
-          {value === 100
-            ? 'All checks completed.'
-            : 'Preview only. No tests are running.'}
+          {value === 100 ? t.allChecksCompleted : t.previewOnly}
         </p>
       </div>
     )
@@ -53,10 +52,10 @@ export function FeedbackExample({ id }: { id: string }) {
           value={value ?? 30}
           min={0}
           max={64}
-          aria-valuetext={`${value ?? 30} GiB of 64 GiB`}
+          aria-valuetext={t.gibOfTotal(value ?? 30)}
         >
-          <Meter.Label>Memory allocation</Meter.Label>
-          <Meter.Value>{(_, v) => `${v} / 64 GiB`}</Meter.Value>
+          <Meter.Label>{t.memoryAllocation}</Meter.Label>
+          <Meter.Value>{(_, v) => t.gibValue(v)}</Meter.Value>
           <Meter.Track>
             <Meter.Indicator />
           </Meter.Track>
@@ -66,24 +65,24 @@ export function FeedbackExample({ id }: { id: string }) {
             variant='outline'
             onClick={() => setValue((v) => Math.min(64, (v ?? 30) + 8))}
           >
-            Allocate 8 GiB
+            {t.allocate8Gib}
           </Button>
           <Button variant='ghost' onClick={() => setValue(0)}>
-            Release allocation
+            {t.releaseAllocation}
           </Button>
         </div>
-        <p>This measures capacity, not a running task.</p>
+        <p>{t.capacityNote}</p>
       </div>
     )
   return (
     <div className='example-stack'>
       <div className='actions'>
         <Button variant='outline' onClick={() => setLoading((v) => !v)}>
-          {loading ? 'Finish preview loading' : 'Reload preview'}
+          {loading ? t.finishPreviewLoading : t.reloadPreview}
         </Button>
       </div>
       <section
-        aria-label='Environment preview'
+        aria-label={t.environmentPreview}
         aria-busy={loading}
         className='example-stack'
       >
@@ -93,7 +92,7 @@ export function FeedbackExample({ id }: { id: string }) {
               <Spinner decorative size='sm' />
               <Spinner decorative />
               <Spinner decorative size='lg' />
-              <span>Loading environment preview…</span>
+              <span>{t.loadingEnvironmentPreview}</span>
             </div>
           ) : (
             <>
@@ -108,26 +107,19 @@ export function FeedbackExample({ id }: { id: string }) {
             </>
           )
         ) : (
-          <p>DEMO main — 3 services available.</p>
+          <p>{t.servicesAvailable}</p>
         )}
       </section>
       <p role='status'>
-        {loading
-          ? 'Loading environment preview…'
-          : 'Environment preview loaded.'}
+        {loading ? t.loadingEnvironmentPreview : t.environmentPreviewLoaded}
       </p>
       {id === 'spinner' && (
         <div className='actions'>
-          <Spinner label='Background sync in progress' />
-          <span>Standalone status example</span>
+          <Spinner label={t.backgroundSyncInProgress} />
+          <span>{t.standaloneStatusExample}</span>
         </div>
       )}
-      {id === 'skeleton' && (
-        <p>
-          Placeholders are decorative. The containing region owns aria-busy and
-          a single loading announcement.
-        </p>
-      )}
+      {id === 'skeleton' && <p>{t.placeholderNote}</p>}
     </div>
   )
 }

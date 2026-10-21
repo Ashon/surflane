@@ -17,11 +17,8 @@ import {
   ScrollArea,
 } from '@surflane/ui'
 import { PanelsDemo } from './PanelsDemo'
-const regions = [
-  { value: 'staging', label: 'Staging' },
-  { value: 'production', label: 'Production' },
-  { value: 'unavailable', label: 'Unavailable', disabled: true },
-]
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/BasicExamples'
 export function BasicExample({
   id,
   toggleTheme,
@@ -29,7 +26,13 @@ export function BasicExample({
   id: string
   toggleTheme: () => void
 }) {
-  const [message, setMessage] = useState('No preview action taken.')
+  const t = text[useLocale().locale]
+  const regions = [
+    { value: 'staging', label: t.staging },
+    { value: 'production', label: t.production },
+    { value: 'unavailable', label: t.unavailable, disabled: true },
+  ]
+  const [message, setMessage] = useState(t.noPreviewActionTaken)
   const [selected, setSelected] = useState('staging')
   const [open, setOpen] = useState(false)
   const cancel = useRef<HTMLButtonElement>(null)
@@ -41,44 +44,39 @@ export function BasicExample({
           <div className='actions'>
             <Button
               variant='primary'
-              onClick={() => setMessage('Primary action previewed.')}
+              onClick={() => setMessage(t.primaryActionPreviewed)}
             >
-              Run preview
+              {t.runPreview}
             </Button>
             <Button
               variant='outline'
-              onClick={() => setMessage('Secondary action previewed.')}
+              onClick={() => setMessage(t.secondaryActionPreviewed)}
             >
-              Inspect details
+              {t.inspectDetails}
             </Button>
             <Button
               variant='ghost'
-              onClick={() => setMessage('Ghost action previewed.')}
+              onClick={() => setMessage(t.ghostActionPreviewed)}
             >
-              View history
+              {t.viewHistory}
             </Button>
             <Button
               variant='destructive'
-              onClick={() =>
-                setMessage('Destructive style only. Nothing was deleted.')
-              }
+              onClick={() => setMessage(t.destructiveStyleOnly)}
             >
-              Discard preview
+              {t.discardPreview}
             </Button>
-            <Button disabled>Unavailable</Button>
+            <Button disabled>{t.unavailable}</Button>
           </div>
           <div className='button-variant-guide'>
-            <p>
-              Default is the former name of Primary. The Default size is the
-              base size, separate from the color role.
-            </p>
-            <ScrollArea label='Button variants and sizes'>
+            <p>{t.defaultIsFormerName}</p>
+            <ScrollArea label={t.buttonVariantsAndSizes}>
               <table className='button-variant-table'>
-                <caption>Emphasis level and size comparison</caption>
+                <caption>{t.emphasisLevelAndSize}</caption>
                 <thead>
                   <tr>
-                    <th scope='col'>Role</th>
-                    {['Small', 'Default', 'Large'].map((size) => (
+                    <th scope='col'>{t.role}</th>
+                    {t.sizes.map((size) => (
                       <th key={size} scope='col'>
                         {size}
                       </th>
@@ -86,24 +84,7 @@ export function BasicExample({
                   </tr>
                 </thead>
                 <tbody>
-                  {(
-                    [
-                      ['primary', 'Primary', 'Primary action / brand surface'],
-                      [
-                        'secondary',
-                        'Secondary',
-                        'Secondary action / neutral surface',
-                      ],
-                      ['outline', 'Outline', 'Secondary action / border'],
-                      ['ghost', 'Ghost', 'Low emphasis / transparent surface'],
-                      [
-                        'destructive',
-                        'Destructive',
-                        'Destructive action / semantic color',
-                      ],
-                      ['link', 'Link', 'Lightweight inline action'],
-                    ] as const
-                  ).map(([variant, label, description]) => (
+                  {t.variantRows.map(([variant, label, description]) => (
                     <tr key={variant}>
                       <th scope='row'>
                         {label}
@@ -115,9 +96,7 @@ export function BasicExample({
                             variant={variant}
                             size={size}
                             aria-label={`${label}, ${size}`}
-                            onClick={() =>
-                              setMessage(`${label} / ${size} previewed.`)
-                            }
+                            onClick={() => setMessage(t.previewed(label, size))}
                           >
                             {label}
                           </Button>
@@ -136,27 +115,27 @@ export function BasicExample({
       example = (
         <div className='grid'>
           <label>
-            Name
-            <Input placeholder='Enter a name' />
+            {t.name}
+            <Input placeholder={t.enterName} />
           </label>
           <label>
-            Read only
+            {t.readOnly}
             <Input readOnly value='demo-e2e-01' />
           </label>
           <label>
-            Project ID
+            {t.projectID}
             <Input
               placeholder='project-id'
               aria-invalid='true'
               aria-describedby='input-error'
             />
             <span id='input-error' className='field-error'>
-              Check the project ID.
+              {t.checkProjectID}
             </span>
           </label>
           <label>
-            Disabled
-            <Input disabled placeholder='Unavailable' />
+            {t.disabled}
+            <Input disabled placeholder={t.unavailable} />
           </label>
         </div>
       )
@@ -168,39 +147,40 @@ export function BasicExample({
           onSubmit={(e) => {
             e.preventDefault()
             setMessage(
-              'Submitted environment: ' +
+              t.submittedEnvironment(
                 new FormData(e.currentTarget).get('environment'),
+              ),
             )
           }}
         >
           <label>
-            Environment
+            {t.environment}
             {id === 'select' ? (
               <Select
                 name='environment'
                 options={regions}
                 defaultValue='staging'
-                aria-label='Environment'
+                aria-label={t.environment}
               />
             ) : (
               <NativeSelect
                 name='environment'
-                aria-label='Environment'
+                aria-label={t.environment}
                 value={selected}
                 onChange={(e) => setSelected(e.target.value)}
               >
-                <option value='staging'>Staging</option>
-                <option value='production'>Production</option>
+                <option value='staging'>{t.staging}</option>
+                <option value='production'>{t.production}</option>
                 <option disabled value='unavailable'>
-                  Unavailable
+                  {t.unavailable}
                 </option>
               </NativeSelect>
             )}
           </label>
           <div className='actions'>
-            <Button type='submit'>Submit preview</Button>
+            <Button type='submit'>{t.submitPreview}</Button>
             <Button type='reset' variant='outline'>
-              Reset
+              {t.reset}
             </Button>
           </div>
         </form>
@@ -210,24 +190,22 @@ export function BasicExample({
       example = (
         <Popover.Root>
           <Popover.Trigger render={<Button variant='outline' />}>
-            Inspect account
+            {t.inspectAccount}
           </Popover.Trigger>
           <Popover.Portal>
             <Popover.Content>
               <Stack gap={4} className='spacing-example'>
                 <Stack gap={1} className='spacing-example'>
-                  <Popover.Title>Preview account</Popover.Title>
-                  <Popover.Description>
-                    Review details next to the trigger.
-                  </Popover.Description>
+                  <Popover.Title>{t.previewAccount}</Popover.Title>
+                  <Popover.Description>{t.reviewDetails}</Popover.Description>
                 </Stack>
                 <label>
-                  Nickname
-                  <Input placeholder='Display name' />
+                  {t.nickname}
+                  <Input placeholder={t.displayName} />
                 </label>
                 <Inline gap={2}>
                   <Popover.Close render={<Button variant='outline' />}>
-                    Done
+                    {t.done}
                   </Popover.Close>
                 </Inline>
               </Stack>
@@ -240,17 +218,17 @@ export function BasicExample({
       example = (
         <Menu.Root>
           <Menu.Trigger render={<Button variant='outline' />}>
-            Open actions
+            {t.openActions}
           </Menu.Trigger>
           <Menu.Portal>
             <Menu.Content>
-              <Menu.Item onClick={() => setMessage('Inspect selected.')}>
-                Inspect
+              <Menu.Item onClick={() => setMessage(t.inspectSelected)}>
+                {t.inspect}
               </Menu.Item>
-              <Menu.Item onClick={() => setMessage('Export selected.')}>
-                Export preview
+              <Menu.Item onClick={() => setMessage(t.exportSelected)}>
+                {t.exportPreview}
               </Menu.Item>
-              <Menu.Item disabled>Delete unavailable</Menu.Item>
+              <Menu.Item disabled>{t.deleteUnavailable}</Menu.Item>
             </Menu.Content>
           </Menu.Portal>
         </Menu.Root>
@@ -259,8 +237,8 @@ export function BasicExample({
     case 'tooltip':
       example = (
         <TooltipProvider delayDuration={200}>
-          <Tooltip label='Inspect the build logs.'>
-            <Button variant='outline'>Inspect logs</Button>
+          <Tooltip label={t.inspectBuildLogs}>
+            <Button variant='outline'>{t.inspectLogs}</Button>
           </Tooltip>
         </TooltipProvider>
       )
@@ -269,30 +247,30 @@ export function BasicExample({
       example = (
         <Dialog.Root>
           <Dialog.Trigger render={<Button variant='outline' />}>
-            Open deployment plan
+            {t.openDeploymentPlan}
           </Dialog.Trigger>
-          <Dialog.Content closeLabel='Close deployment plan'>
+          <Dialog.Content closeLabel={t.closeDeploymentPlan}>
             <Dialog.Header>
-              <Dialog.Title>Deployment plan</Dialog.Title>
+              <Dialog.Title>{t.deploymentPlan}</Dialog.Title>
               <Dialog.Description>
-                This preview doesn't start a deployment.
+                {t.doesNotStartDeployment}
               </Dialog.Description>
             </Dialog.Header>
             <Dialog.Body>
               <label>
-                Environment
+                {t.environment}
                 <Select
                   options={regions}
                   defaultValue='staging'
-                  aria-label='Dialog environment'
+                  aria-label={t.dialogEnvironment}
                 />
               </label>
             </Dialog.Body>
             <Dialog.Footer>
               <Dialog.Close render={<Button variant='outline' />}>
-                Cancel
+                {t.cancel}
               </Dialog.Close>
-              <Dialog.Close render={<Button />}>Save preview</Dialog.Close>
+              <Dialog.Close render={<Button />}>{t.savePreview}</Dialog.Close>
             </Dialog.Footer>
           </Dialog.Content>
         </Dialog.Root>
@@ -302,13 +280,13 @@ export function BasicExample({
       example = (
         <AlertDialog.Root open={open} onOpenChange={setOpen}>
           <AlertDialog.Trigger render={<Button variant='outline' />}>
-            Preview discard confirmation
+            {t.previewDiscardConfirmation}
           </AlertDialog.Trigger>
           <AlertDialog.Content initialFocus={cancel}>
             <AlertDialog.Header>
-              <AlertDialog.Title>Discard this draft?</AlertDialog.Title>
+              <AlertDialog.Title>{t.discardThisDraft}</AlertDialog.Title>
               <AlertDialog.Description>
-                Discards only the preview draft. Real resources aren't affected.
+                {t.discardsOnlyPreviewDraft}
               </AlertDialog.Description>
             </AlertDialog.Header>
             <AlertDialog.Footer>
@@ -316,16 +294,16 @@ export function BasicExample({
                 ref={cancel}
                 render={<Button variant='outline' />}
               >
-                Keep draft
+                {t.keepDraft}
               </AlertDialog.Close>
               <Button
                 variant='destructive'
                 onClick={() => {
-                  setMessage('Preview draft discarded.')
+                  setMessage(t.previewDraftDiscarded)
                   setOpen(false)
                 }}
               >
-                Discard preview draft
+                {t.discardPreviewDraft}
               </Button>
             </AlertDialog.Footer>
           </AlertDialog.Content>
@@ -336,25 +314,25 @@ export function BasicExample({
       example = (
         <Popover.Root open={open} onOpenChange={setOpen}>
           <Popover.Trigger render={<Button variant='outline' />}>
-            Preview reset confirmation
+            {t.previewResetConfirmation}
           </Popover.Trigger>
           <Popover.Portal>
             <Popover.Content>
-              <Popover.Title>Reset preview filters?</Popover.Title>
+              <Popover.Title>{t.resetPreviewFiltersTitle}</Popover.Title>
               <Popover.Description>
-                Resets the selected filters to their defaults.
+                {t.resetsSelectedFilters}
               </Popover.Description>
               <div className='actions'>
                 <Popover.Close render={<Button variant='outline' />}>
-                  Keep filters
+                  {t.keepFilters}
                 </Popover.Close>
                 <Button
                   onClick={() => {
-                    setMessage('Preview filters reset.')
+                    setMessage(t.previewFiltersReset)
                     setOpen(false)
                   }}
                 >
-                  Reset preview filters
+                  {t.resetPreviewFilters}
                 </Button>
               </div>
             </Popover.Content>
@@ -368,17 +346,17 @@ export function BasicExample({
     case 'scroll-area':
       example = (
         <ScrollArea
-          label='Build revisions'
+          label={t.buildRevisions}
           orientation='both'
           style={{ maxHeight: 200 }}
         >
           <table>
-            <caption>Preview build revisions</caption>
+            <caption>{t.previewBuildRevisions}</caption>
             <thead>
               <tr>
-                <th scope='col'>Service</th>
-                <th scope='col'>Start revision</th>
-                <th scope='col'>Finish revision</th>
+                <th scope='col'>{t.service}</th>
+                <th scope='col'>{t.startRevision}</th>
+                <th scope='col'>{t.finishRevision}</th>
               </tr>
             </thead>
             <tbody>

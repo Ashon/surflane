@@ -10,14 +10,10 @@ import {
   Table,
 } from '@surflane/ui'
 import { Link } from './router'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/ContentFoundation'
 
 type Locale = 'ko-KR' | 'en-US'
-const instants = [
-  ['2026-03-08T06:30:00Z', 'Before spring DST change'],
-  ['2026-03-08T07:30:00Z', 'After spring DST change'],
-  ['2026-11-01T05:30:00Z', 'First autumn 01:30'],
-  ['2026-11-01T06:30:00Z', 'Second autumn 01:30'],
-]
 const messages = {
   // Korean-locale sample messages, kept in Korean to show full-sentence localization.
   'ko-KR': {
@@ -53,39 +49,37 @@ const messages = {
       'Relative time uses a fixed preview reference. The absolute time is shown too.',
   },
 }
-const copyExamples = [
+// Bilingual sample sentences for the writing table, kept as-is in both locales.
+const copySamples: string[][] = [
+  ['Start deployment', '배포 시작'],
+  ['Deployment in progress', '배포 진행 중'],
   [
-    'Action',
-    'Start deployment',
-    '배포 시작',
-    'Name the specific action and object.',
-  ],
-  [
-    'Progress',
-    'Deployment in progress',
-    '배포 진행 중',
-    "Don't describe work in progress as complete.",
-  ],
-  [
-    'Empty result',
     'No runs match these filters. Clear filters to see all runs.',
     '조건에 맞는 실행이 없습니다. 필터를 초기화해 전체 실행을 확인하세요.',
-    'Distinguish no data from no matching results.',
   ],
   [
-    'Permission',
     'You cannot deploy to this environment. Ask a project administrator for access.',
     '이 환경에 배포할 권한이 없습니다. 프로젝트 관리자에게 권한을 요청하세요.',
-    'State the cause and a recovery path the user can take.',
   ],
   [
-    'Partial failure',
     '2 checks failed. Review the results before retrying.',
     '검사 2개가 실패했습니다. 결과를 확인한 뒤 다시 시도하세요.',
-    "State the scope and the next step so it isn't mistaken for full success.",
   ],
 ]
 export function ContentFoundation() {
+  const t = text[useLocale().locale]
+  const instants = [
+    ['2026-03-08T06:30:00Z', t.instantBeforeSpringDst],
+    ['2026-03-08T07:30:00Z', t.instantAfterSpringDst],
+    ['2026-11-01T05:30:00Z', t.instantFirstAutumn],
+    ['2026-11-01T06:30:00Z', t.instantSecondAutumn],
+  ]
+  const copyExamples = t.copyExamples.map(({ context, review }, index) => [
+    context,
+    copySamples[index][0],
+    copySamples[index][1],
+    review,
+  ])
   const [locale, setLocale] = useState<Locale>('en-US')
   const [timeZone, setTimeZone] = useState('Asia/Seoul')
   const [instant, setInstant] = useState(instants[0][0])
@@ -140,51 +134,34 @@ export function ContentFoundation() {
   ]
   return (
     <>
-      <nav className='page-toc' aria-label='On this page'>
+      <nav className='page-toc' aria-label={t.tocOnThisPage}>
         {[
-          'principles',
-          'formatting',
-          'language-direction',
-          'writing',
-          'application',
-        ].map((id) => (
+          ['principles', t.tocPrinciples],
+          ['formatting', t.tocFormatting],
+          ['language-direction', t.tocLanguageDirection],
+          ['writing', t.tocWriting],
+          ['application', t.tocApplication],
+        ].map(([id, label]) => (
           <a key={id} href={`#${id}`}>
-            {id
-              .split('-')
-              .map((word) => word[0].toUpperCase() + word.slice(1))
-              .join(' ')}
+            {label}
           </a>
         ))}
       </nav>
       <section id='principles'>
-        <h2>Meaning before formatting</h2>
+        <h2>{t.principlesHeading}</h2>
+        <p>{t.principlesIntro}</p>
         <p>
-          Use one term for each action, state, and object across every screen.
-          Lead with the outcome the user needs, then the next step. Keep
-          internal error codes, stack traces, and implementation terms in
-          reviewable details. Translate whole sentences as units. Never build
-          word order or plurals by joining word fragments.
-        </p>
-        <p>
-          The product sets the document's base <code>lang</code>, the user's
-          language and time zone settings, and the message translations. Pass
-          translated labels, errors, and close button names to shared
-          components. Changing the browser language doesn't translate product
-          copy.
+          {t.principlesProductBefore}
+          <code>lang</code>
+          {t.principlesProductAfter}
         </p>
       </section>
       <section id='formatting'>
-        <h2>One value, explicit locale and time zone</h2>
-        <p>
-          The locale sets number and date formats. The time zone sets the local
-          time of an instant. The settings below apply only to this example.
-          Currency stays USD and isn't converted when the locale changes.
-          Compare the skipped and repeated times around DST changes with the UTC
-          source and offset.
-        </p>
+        <h2>{t.formattingHeading}</h2>
+        <p>{t.formattingIntro}</p>
         <Grid columns={2} gap={4} className='content-preview-settings'>
           <Field.Root>
-            <Field.Label>Formatting locale</Field.Label>
+            <Field.Label>{t.formattingLocaleLabel}</Field.Label>
             <NativeSelect
               value={locale}
               onChange={(event) => setLocale(event.target.value as Locale)}
@@ -194,7 +171,7 @@ export function ContentFoundation() {
             </NativeSelect>
           </Field.Root>
           <Field.Root>
-            <Field.Label>Display time zone</Field.Label>
+            <Field.Label>{t.displayTimeZoneLabel}</Field.Label>
             <NativeSelect
               value={timeZone}
               onChange={(event) => setTimeZone(event.target.value)}
@@ -205,7 +182,7 @@ export function ContentFoundation() {
             </NativeSelect>
           </Field.Root>
           <Field.Root>
-            <Field.Label>Source instant (UTC)</Field.Label>
+            <Field.Label>{t.sourceInstantLabel}</Field.Label>
             <NativeSelect
               value={instant}
               onChange={(event) => setInstant(event.target.value)}
@@ -218,7 +195,7 @@ export function ContentFoundation() {
             </NativeSelect>
           </Field.Root>
           <Field.Root>
-            <Field.Label>Recorded run count</Field.Label>
+            <Field.Label>{t.runCountLabel}</Field.Label>
             <NativeSelect
               value={String(count)}
               onChange={(event) => setCount(Number(event.target.value))}
@@ -234,7 +211,7 @@ export function ContentFoundation() {
         <div
           className='content-format-preview'
           lang={locale}
-          aria-label='Localized format preview'
+          aria-label={t.localizedFormatPreview}
           role='group'
         >
           <dl className='content-value-list'>
@@ -248,10 +225,9 @@ export function ContentFoundation() {
           <p>{copy.reference}</p>
         </div>
         <p>
-          Source: <code data-source-instant>{instant}</code>. The relative time
-          is a local example and doesn't follow the current time. In a real
-          service, manage the refresh interval, reference time, and
-          server–client clock difference separately.
+          {t.sourceNoteBefore}
+          <code data-source-instant>{instant}</code>
+          {t.sourceNoteAfter}
         </p>
         <CodeBlock
           language='tsx'
@@ -273,36 +249,29 @@ const countLabel =
     ? messages.notAvailable
     : new Intl.NumberFormat(locale).format(count)`}
         />
-        <p>
-          The code above is a display contract. Validate invalid dates, NaN,
-          infinity, and unsupported locales or time zones at the data boundary.
-          Handle them as errors. Don't substitute zero or the current time for
-          an empty value. Date-only values, scheduled local times, durations,
-          and UTC instants are different domain values. Never parse a display
-          string back.
-        </p>
+        <p>{t.displayContractNote}</p>
       </section>
       <section id='language-direction'>
-        <h2>Language and direction are separate</h2>
+        <h2>{t.languageDirectionHeading}</h2>
         <p>
-          <code>lang</code> sets the language, and <code>dir</code> sets the
-          base reading direction. Isolate user-entered names with{' '}
-          <code>dir="auto"</code> and stable Latin-script identifiers with{' '}
-          <code>bdi dir="ltr"</code>. The RTL preview only checks layout. It
-          doesn't mean an Arabic translation is provided.
+          <code>lang</code>
+          {t.languageDirectionLangAfter}
+          <code>dir</code>
+          {t.languageDirectionDirAfter}
+          <code>dir="auto"</code>
+          {t.languageDirectionAutoAfter}
+          <code>bdi dir="ltr"</code>
+          {t.languageDirectionBdiAfter}
         </p>
         <label className='pui-choice-label'>
           <Checkbox.Root checked={rtl} onCheckedChange={setRtl}>
             <Checkbox.Indicator />
           </Checkbox.Root>
-          RTL preview
+          {t.rtlPreview}
         </label>
         <Field.Root className='content-name-field'>
-          <Field.Label>Resource name preview</Field.Label>
-          <Field.Description>
-            Try a long name, Korean or Arabic text, or text that looks like
-            HTML. Input is shown only as text and is never submitted.
-          </Field.Description>
+          <Field.Label>{t.resourceNameLabel}</Field.Label>
+          <Field.Description>{t.resourceNameDescription}</Field.Description>
           <Input
             dir='auto'
             value={resourceName}
@@ -315,16 +284,16 @@ const countLabel =
             dir={rtl ? 'rtl' : 'ltr'}
             lang='en'
             role='group'
-            aria-label='Mixed direction preview'
+            aria-label={t.mixedDirectionPreview}
           >
             <p>
-              Project:{' '}
+              {t.previewProject}{' '}
               <bdi dir='auto' data-resource-name>
-                {resourceName || 'Untitled preview'}
+                {resourceName || t.untitledPreview}
               </bdi>
             </p>
             <p>
-              Resource ID:{' '}
+              {t.previewResourceId}{' '}
               <bdi dir='ltr' className='content-identifier'>
                 demo-e2e-42/platform-api-production
               </bdi>
@@ -337,32 +306,20 @@ const countLabel =
             </p>
           </div>
         </DirectionProvider>
-        <p>
-          Prefer wrapping and logical (start/end) spacing. In errors and
-          confirmations, don't hide names, amounts, or key identifiers behind an
-          ellipsis or a hover-only tooltip. When a table truncates, keep the
-          full text reachable by keyboard and touch.
-        </p>
+        <p>{t.truncationNote}</p>
       </section>
       <section id='writing'>
-        <h2>Write the outcome and a useful next step</h2>
-        <Table.Container
-          label='Interface writing examples'
-          orientation='horizontal'
-        >
+        <h2>{t.writingHeading}</h2>
+        <Table.Container label={t.writingTableLabel} orientation='horizontal'>
           <Table.Root>
-            <Table.Caption>
-              The same complete sentences in English and Korean
-            </Table.Caption>
+            <Table.Caption>{t.writingTableCaption}</Table.Caption>
             <Table.Head>
               <Table.Row>
-                {['Context', 'English', 'Korean sample', 'Review'].map(
-                  (label) => (
-                    <Table.HeaderCell key={label} scope='col'>
-                      {label}
-                    </Table.HeaderCell>
-                  ),
-                )}
+                {t.writingColumns.map((label) => (
+                  <Table.HeaderCell key={label} scope='col'>
+                    {label}
+                  </Table.HeaderCell>
+                ))}
               </Table.Row>
             </Table.Head>
             <Table.Body>
@@ -377,47 +334,27 @@ const countLabel =
             </Table.Body>
           </Table.Root>
         </Table.Container>
-        <p>
-          A recoverable error connects the cause, the fix, and the preserved
-          input. Keep Field.Error, InlineMessage, and result records
-          persistently visible. Never rely on a Toast alone to report a failure
-          or a recovery path. Report success only when the work has actually
-          completed.
-        </p>
+        <p>{t.writingErrorNote}</p>
       </section>
       <section id='application'>
-        <h2>Content implementation rules</h2>
+        <h2>{t.applicationHeading}</h2>
         <ul>
-          <li>
-            Preserve user-entered names and identifiers exactly as entered. Show
-            occurrence times with the selected time zone and offset.
-          </li>
-          <li>
-            Keep identifiers, quantities, and units distinct. Zero and an
-            unknown quantity are different states.
-          </li>
-          <li>
-            Preserve the content language and proper names. Localize date
-            formats and link purpose.
-          </li>
-          <li>
-            Pass the same locale and time zone to SSR and the client, so the
-            first render matches.
-          </li>
+          {t.implementationRules.map((rule) => (
+            <li key={rule}>{rule}</li>
+          ))}
         </ul>
         <p>
-          See also the shared guidance on{' '}
-          <Link href='/foundations/typography'>typography</Link>,{' '}
+          {t.seeAlsoIntro}{' '}
+          <Link href='/foundations/typography'>{t.seeAlsoTypography}</Link>,{' '}
           <Link href='/foundations/accessibility'>
-            label, error, and focus contracts
+            {t.seeAlsoAccessibility}
           </Link>
-          , <Link href='/components/number-field'>Number Field locale</Link>,
-          and <Link href='/components/toast'>persistent recovery paths</Link>.
-          This page doesn't mean the whole product is translated, external
-          services are connected, or production rollout is complete.
+          , <Link href='/components/number-field'>{t.seeAlsoNumberField}</Link>,{' '}
+          {t.seeAlsoAnd} <Link href='/components/toast'>{t.seeAlsoToast}</Link>
+          {t.seeAlsoOutro}
         </p>
         <p>
-          References:{' '}
+          {t.referencesLabel}{' '}
           <a href='https://402.ecma-international.org/'>
             ECMA-402: Intl formatting
           </a>

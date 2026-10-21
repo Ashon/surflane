@@ -9,6 +9,8 @@ import {
   Checkbox,
   DirectionProvider,
 } from '@surflane/ui'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/InputExtensionExamples'
 export { inputExtensionExampleIds } from './exampleGroups'
 const suggestions = [
   'staging deployment',
@@ -53,24 +55,25 @@ function serialize(form: HTMLFormElement) {
   )
 }
 export function InputExtensionExample({ id }: { id: string }) {
+  const t = text[useLocale().locale]
   const [disabled, setDisabled] = useState(false),
     [readOnly, setReadOnly] = useState(false),
     [cancelReset, setCancelReset] = useState(false),
     [cancelChange, setCancelChange] = useState(false),
-    [result, setResult] = useState('No form submitted.')
+    [result, setResult] = useState(t.noFormSubmitted)
   const [rtl, setRtl] = useState(false)
   const [tag, setTag] = useState('Operations'),
     [weight, setWeight] = useState(25),
-    [committed, setCommitted] = useState('No value committed.')
+    [committed, setCommitted] = useState(t.noValueCommitted)
   if (id === 'autocomplete')
     return (
       <div className='example-stack'>
         <div className='actions'>
           <Toggle checked={disabled} onChange={setDisabled}>
-            Disable suggestions
+            {t.disableSuggestions}
           </Toggle>
           <Toggle checked={readOnly} onChange={setReadOnly}>
-            Read only
+            {t.readOnly}
           </Toggle>
         </div>
         <Form
@@ -84,10 +87,8 @@ export function InputExtensionExample({ id }: { id: string }) {
           }}
         >
           <Field.Root name='query'>
-            <Field.Label>Pipeline search</Field.Label>
-            <Field.Description>
-              Suggestions are optional. Any nonempty search text is valid.
-            </Field.Description>
+            <Field.Label>{t.pipelineSearch}</Field.Label>
+            <Field.Description>{t.suggestionsDescription}</Field.Description>
             <Autocomplete.Root
               name='query'
               items={suggestions}
@@ -100,14 +101,12 @@ export function InputExtensionExample({ id }: { id: string }) {
               }}
             >
               <Autocomplete.InputGroup>
-                <Autocomplete.Input placeholder='Search pipelines…' />
+                <Autocomplete.Input placeholder={t.searchPipelines} />
                 <Autocomplete.Clear />
                 <Autocomplete.Trigger />
               </Autocomplete.InputGroup>
               <Autocomplete.Content>
-                <Autocomplete.Empty>
-                  No suggestions. Your search text still works.
-                </Autocomplete.Empty>
+                <Autocomplete.Empty>{t.noSuggestions}</Autocomplete.Empty>
                 <Autocomplete.List>
                   {(text: string) => (
                     <Autocomplete.Item key={text} value={text}>
@@ -120,18 +119,15 @@ export function InputExtensionExample({ id }: { id: string }) {
             <Field.Error />
           </Field.Root>
           <div className='actions'>
-            <Button type='submit'>Submit search</Button>
+            <Button type='submit'>{t.submitSearch}</Button>
             <Button type='reset' variant='outline'>
-              Reset search
+              {t.resetSearch}
             </Button>
           </div>
         </Form>
         <Field.Root name='tag'>
-          <Field.Label>Controlled search tag</Field.Label>
-          <Field.Description>
-            Object suggestions supply labels. The input stays free text. This
-            field belongs to the form above.
-          </Field.Description>
+          <Field.Label>{t.controlledSearchTag}</Field.Label>
+          <Field.Description>{t.tagDescription}</Field.Description>
           <Autocomplete.Root
             name='tag'
             form='autocomplete-example-form'
@@ -143,11 +139,11 @@ export function InputExtensionExample({ id }: { id: string }) {
             readOnly={readOnly}
           >
             <Autocomplete.InputGroup>
-              <Autocomplete.Input placeholder='Search or enter a tag…' />
-              <Autocomplete.Trigger aria-label='Show tags' />
+              <Autocomplete.Input placeholder={t.searchOrEnterTag} />
+              <Autocomplete.Trigger aria-label={t.showTags} />
             </Autocomplete.InputGroup>
             <Autocomplete.Content>
-              <Autocomplete.Empty>No suggested tags.</Autocomplete.Empty>
+              <Autocomplete.Empty>{t.noSuggestedTags}</Autocomplete.Empty>
               <Autocomplete.List>
                 {(item: (typeof tags)[number]) => (
                   <Autocomplete.Item key={item.id} value={item}>
@@ -161,10 +157,10 @@ export function InputExtensionExample({ id }: { id: string }) {
         </Field.Root>
         <div className='actions'>
           <Button variant='outline' onClick={() => setCancelReset((v) => !v)}>
-            {cancelReset ? 'Allow reset' : 'Cancel reset'}
+            {cancelReset ? t.allowReset : t.cancelReset}
           </Button>
           <Button variant='outline' onClick={() => setCancelChange((v) => !v)}>
-            {cancelChange ? 'Allow query changes' : 'Cancel query changes'}
+            {cancelChange ? t.allowQueryChanges : t.cancelQueryChanges}
           </Button>
         </div>
         <p role='status'>{result}</p>
@@ -175,10 +171,10 @@ export function InputExtensionExample({ id }: { id: string }) {
       <div className='example-stack' dir={rtl ? 'rtl' : 'ltr'}>
         <div className='actions'>
           <Toggle checked={disabled} onChange={setDisabled}>
-            Disable sliders
+            {t.disableSliders}
           </Toggle>
           <Toggle checked={rtl} onChange={setRtl}>
-            Right to left
+            {t.rightToLeft}
           </Toggle>
         </div>
         <Form
@@ -202,18 +198,20 @@ export function InputExtensionExample({ id }: { id: string }) {
               if (cancelChange) event.cancel()
             }}
             onValueCommitted={(value) =>
-              setCommitted(`${value} workers committed.`)
+              setCommitted(t.workersCommitted(value))
             }
           >
-            <Slider.Label>Parallel workers</Slider.Label>
-            <Slider.Value>{(_, values) => `${values[0]} workers`}</Slider.Value>
+            <Slider.Label>{t.parallelWorkers}</Slider.Label>
+            <Slider.Value>
+              {(_, values) => t.workersValue(values[0])}
+            </Slider.Value>
             <Slider.Control>
               <Slider.Track>
                 <Slider.Indicator />
               </Slider.Track>
               <Slider.Thumb
                 aria-valuetext={undefined}
-                getAriaValueText={(_, value) => `${value} workers`}
+                getAriaValueText={(_, value) => t.workersValue(value)}
               />
             </Slider.Control>
           </Slider.Root>
@@ -227,7 +225,7 @@ export function InputExtensionExample({ id }: { id: string }) {
             thumbCollisionBehavior='none'
             disabled={disabled}
           >
-            <Slider.Label>Rollout window</Slider.Label>
+            <Slider.Label>{t.rolloutWindow}</Slider.Label>
             <Slider.Value>
               {(_, values) => `${values[0]}–${values[1]}%`}
             </Slider.Value>
@@ -237,13 +235,13 @@ export function InputExtensionExample({ id }: { id: string }) {
               </Slider.Track>
               <Slider.Thumb
                 index={0}
-                aria-label='Minimum coverage'
-                getAriaValueText={(_, v) => `${v} percent`}
+                aria-label={t.minimumCoverage}
+                getAriaValueText={(_, v) => t.percent(v)}
               />
               <Slider.Thumb
                 index={1}
-                aria-label='Maximum coverage'
-                getAriaValueText={(_, v) => `${v} percent`}
+                aria-label={t.maximumCoverage}
+                getAriaValueText={(_, v) => t.percent(v)}
               />
             </Slider.Control>
           </Slider.Root>
@@ -256,19 +254,19 @@ export function InputExtensionExample({ id }: { id: string }) {
             step={5}
             disabled={disabled}
           >
-            <Slider.Label>Coverage weight</Slider.Label>
+            <Slider.Label>{t.coverageWeight}</Slider.Label>
             <Slider.Value>{(_, values) => `${values[0]}%`}</Slider.Value>
             <Slider.Control>
               <Slider.Track>
                 <Slider.Indicator />
               </Slider.Track>
-              <Slider.Thumb getAriaValueText={(_, v) => `${v} percent`} />
+              <Slider.Thumb getAriaValueText={(_, v) => t.percent(v)} />
             </Slider.Control>
           </Slider.Root>
           <Field.Root name='exactWeight'>
-            <Field.Label>Exact percentage</Field.Label>
+            <Field.Label>{t.exactPercentage}</Field.Label>
             <Field.Description>
-              Type a value instead of dragging.
+              {t.typeValueInsteadOfDragging}
             </Field.Description>
             <NumberField.Root
               name='exactWeight'
@@ -280,16 +278,16 @@ export function InputExtensionExample({ id }: { id: string }) {
               disabled={disabled}
             >
               <NumberField.Group>
-                <NumberField.Decrement aria-label='Decrease percentage' />
+                <NumberField.Decrement aria-label={t.decreasePercentage} />
                 <NumberField.Input />
-                <NumberField.Increment aria-label='Increase percentage' />
+                <NumberField.Increment aria-label={t.increasePercentage} />
               </NumberField.Group>
             </NumberField.Root>
           </Field.Root>
           <div className='actions'>
-            <Button type='submit'>Submit slider values</Button>
+            <Button type='submit'>{t.submitSliderValues}</Button>
             <Button type='reset' variant='outline'>
-              Reset sliders
+              {t.resetSliders}
             </Button>
           </div>
         </Form>
@@ -302,7 +300,7 @@ export function InputExtensionExample({ id }: { id: string }) {
           orientation='vertical'
           disabled={disabled}
         >
-          <Slider.Label>Priority</Slider.Label>
+          <Slider.Label>{t.priority}</Slider.Label>
           <Slider.Value />
           <Slider.Control>
             <Slider.Track>
@@ -313,10 +311,10 @@ export function InputExtensionExample({ id }: { id: string }) {
         </Slider.Root>
         <div className='actions'>
           <Button variant='outline' onClick={() => setCancelReset((v) => !v)}>
-            {cancelReset ? 'Allow reset' : 'Cancel reset'}
+            {cancelReset ? t.allowReset : t.cancelReset}
           </Button>
           <Button variant='outline' onClick={() => setCancelChange((v) => !v)}>
-            {cancelChange ? 'Allow worker changes' : 'Cancel worker changes'}
+            {cancelChange ? t.allowWorkerChanges : t.cancelWorkerChanges}
           </Button>
         </div>
         <p role='status'>

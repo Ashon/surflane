@@ -7,6 +7,8 @@ import {
   Button,
   Checkbox,
 } from '@surflane/ui'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/AdvancedFormExamples'
 export { advancedFormExampleIds } from './exampleGroups'
 const regions = [
   'Staging web',
@@ -15,11 +17,6 @@ const regions = [
   'Reserved environment',
   // Korean sample: exercises Hangul filtering and IME composition.
   '서울 스테이징 환경',
-]
-const roles = [
-  { value: 'reader', label: 'Reader' },
-  { value: 'operator', label: 'Operator' },
-  { value: 'auditor', label: 'Auditor' },
 ]
 function Flags({
   disabled,
@@ -32,25 +29,32 @@ function Flags({
   setDisabled: (v: boolean) => void
   setReadOnly: (v: boolean) => void
 }) {
+  const t = text[useLocale().locale]
   return (
     <div className='actions'>
       <label className='pui-choice-label'>
         <Checkbox.Root checked={disabled} onCheckedChange={setDisabled}>
           <Checkbox.Indicator />
         </Checkbox.Root>
-        Disable controls
+        {t.disableControls}
       </label>
       <label className='pui-choice-label'>
         <Checkbox.Root checked={readOnly} onCheckedChange={setReadOnly}>
           <Checkbox.Indicator />
         </Checkbox.Root>
-        Read only
+        {t.readOnly}
       </label>
     </div>
   )
 }
 export function AdvancedFormExample({ id }: { id: string }) {
-  const [result, setResult] = useState('No form submitted.'),
+  const t = text[useLocale().locale]
+  const roles = [
+    { value: 'reader', label: t.roleReader },
+    { value: 'operator', label: t.roleOperator },
+    { value: 'auditor', label: t.roleAuditor },
+  ]
+  const [result, setResult] = useState(t.noFormSubmitted),
     [disabled, setDisabled] = useState(false),
     [readOnly, setReadOnly] = useState(false),
     [cancelReset, setCancelReset] = useState(false),
@@ -82,10 +86,8 @@ export function AdvancedFormExample({ id }: { id: string }) {
           }}
         >
           <Field.Root name='environment'>
-            <Field.Label>Target environment</Field.Label>
-            <Field.Description>
-              Choose one environment. Reserved environment is unavailable.
-            </Field.Description>
+            <Field.Label>{t.targetEnvironment}</Field.Label>
+            <Field.Description>{t.chooseOneEnvironment}</Field.Description>
             <Combobox.Root
               items={regions}
               name='environment'
@@ -98,12 +100,12 @@ export function AdvancedFormExample({ id }: { id: string }) {
               }}
             >
               <Combobox.InputGroup>
-                <Combobox.Input placeholder='Search environments…' />
+                <Combobox.Input placeholder={t.searchEnvironments} />
                 <Combobox.Clear />
                 <Combobox.Trigger />
               </Combobox.InputGroup>
               <Combobox.Content>
-                <Combobox.Empty>No matching environments.</Combobox.Empty>
+                <Combobox.Empty>{t.noMatchingEnvironments}</Combobox.Empty>
                 <Combobox.List>
                   {(region: string) => (
                     <Combobox.Item
@@ -121,10 +123,8 @@ export function AdvancedFormExample({ id }: { id: string }) {
             <Field.Error />
           </Field.Root>
           <Field.Root name='roles'>
-            <Field.Label>Test user roles</Field.Label>
-            <Field.Description>
-              Choose one or more roles. Remove each from its chip.
-            </Field.Description>
+            <Field.Label>{t.testUserRoles}</Field.Label>
+            <Field.Description>{t.chooseOneOrMoreRoles}</Field.Description>
             <Combobox.Root
               items={roles}
               name='roles'
@@ -141,18 +141,18 @@ export function AdvancedFormExample({ id }: { id: string }) {
                         <Combobox.Chip key={role.value}>
                           {role.label}
                           <Combobox.ChipRemove
-                            aria-label={`Remove ${role.label}`}
+                            aria-label={t.removeRole(role.label)}
                           />
                         </Combobox.Chip>
                       ))
                     }
                   </Combobox.Value>
-                  <Combobox.Input placeholder='Search roles…' />
+                  <Combobox.Input placeholder={t.searchRoles} />
                 </Combobox.Chips>
-                <Combobox.Trigger aria-label='Show roles' />
+                <Combobox.Trigger aria-label={t.showRoles} />
               </Combobox.InputGroup>
               <Combobox.Content>
-                <Combobox.Empty>No matching roles.</Combobox.Empty>
+                <Combobox.Empty>{t.noMatchingRoles}</Combobox.Empty>
                 <Combobox.List>
                   {(role: (typeof roles)[number]) => (
                     <Combobox.Item key={role.value} value={role}>
@@ -166,16 +166,16 @@ export function AdvancedFormExample({ id }: { id: string }) {
             <Field.Error />
           </Field.Root>
           <div className='actions'>
-            <Button type='submit'>Submit selection</Button>
+            <Button type='submit'>{t.submitSelection}</Button>
             <Button type='reset' variant='outline'>
-              Reset selection
+              {t.resetSelection}
             </Button>
           </div>
         </Form>
         <Field.Root name='controlledEnvironment'>
-          <Field.Label>Controlled environment</Field.Label>
+          <Field.Label>{t.controlledEnvironment}</Field.Label>
           <Field.Description>
-            Submits with the form above. The parent keeps its value on reset.
+            {t.controlledEnvironmentDescription}
           </Field.Description>
           <Combobox.Root
             items={regions}
@@ -187,11 +187,11 @@ export function AdvancedFormExample({ id }: { id: string }) {
             readOnly={readOnly}
           >
             <Combobox.InputGroup>
-              <Combobox.Input placeholder='Search linked environments…' />
-              <Combobox.Trigger aria-label='Show linked environments' />
+              <Combobox.Input placeholder={t.searchLinkedEnvironments} />
+              <Combobox.Trigger aria-label={t.showLinkedEnvironments} />
             </Combobox.InputGroup>
             <Combobox.Content>
-              <Combobox.Empty>No matching linked environments.</Combobox.Empty>
+              <Combobox.Empty>{t.noMatchingLinkedEnvironments}</Combobox.Empty>
               <Combobox.List>
                 {(region: string) => (
                   <Combobox.Item
@@ -209,12 +209,10 @@ export function AdvancedFormExample({ id }: { id: string }) {
         </Field.Root>
         <div className='actions'>
           <Button variant='outline' onClick={() => setCancelReset((v) => !v)}>
-            {cancelReset ? 'Allow reset' : 'Cancel reset'}
+            {cancelReset ? t.allowReset : t.cancelReset}
           </Button>
           <Button variant='outline' onClick={() => setCancelChanges((v) => !v)}>
-            {cancelChanges
-              ? 'Allow selection changes'
-              : 'Cancel selection changes'}
+            {cancelChanges ? t.allowSelectionChanges : t.cancelSelectionChanges}
           </Button>
         </div>
         <p role='status'>{result}</p>
@@ -230,10 +228,8 @@ export function AdvancedFormExample({ id }: { id: string }) {
         }}
       >
         <Field.Root name='attempts'>
-          <Field.Label>Retry attempts</Field.Label>
-          <Field.Description>
-            Choose 1–8 attempts. Arrow keys and step buttons change by one.
-          </Field.Description>
+          <Field.Label>{t.retryAttempts}</Field.Label>
+          <Field.Description>{t.chooseAttempts}</Field.Description>
           <NumberField.Root
             name='attempts'
             defaultValue={2}
@@ -248,18 +244,16 @@ export function AdvancedFormExample({ id }: { id: string }) {
             }}
           >
             <NumberField.Group>
-              <NumberField.Decrement aria-label='Decrease attempts' />
-              <NumberField.Input placeholder='Attempts' />
-              <NumberField.Increment aria-label='Increase attempts' />
+              <NumberField.Decrement aria-label={t.decreaseAttempts} />
+              <NumberField.Input placeholder={t.attemptsPlaceholder} />
+              <NumberField.Increment aria-label={t.increaseAttempts} />
             </NumberField.Group>
           </NumberField.Root>
           <Field.Error />
         </Field.Root>
         <Field.Root name='budget'>
-          <Field.Label>Budget preview</Field.Label>
-          <Field.Description>
-            In US dollars. The form submits the numeric value.
-          </Field.Description>
+          <Field.Label>{t.budgetPreview}</Field.Label>
+          <Field.Description>{t.budgetDescription}</Field.Description>
           <NumberField.Root
             name='budget'
             defaultValue={1250.5}
@@ -271,18 +265,16 @@ export function AdvancedFormExample({ id }: { id: string }) {
             readOnly={readOnly}
           >
             <NumberField.Group>
-              <NumberField.Decrement aria-label='Decrease budget' />
+              <NumberField.Decrement aria-label={t.decreaseBudget} />
               <NumberField.Input />
-              <NumberField.Increment aria-label='Increase budget' />
+              <NumberField.Increment aria-label={t.increaseBudget} />
             </NumberField.Group>
           </NumberField.Root>
           <Field.Error />
         </Field.Root>
         <Field.Root name='controlled'>
-          <Field.Label>Controlled concurrency</Field.Label>
-          <Field.Description>
-            The parent owns this value, including reset decisions.
-          </Field.Description>
+          <Field.Label>{t.controlledConcurrency}</Field.Label>
+          <Field.Description>{t.concurrencyDescription}</Field.Description>
           <NumberField.Root
             name='controlled'
             value={controlled}
@@ -293,26 +285,26 @@ export function AdvancedFormExample({ id }: { id: string }) {
             readOnly={readOnly}
           >
             <NumberField.Group>
-              <NumberField.Decrement aria-label='Decrease concurrency' />
+              <NumberField.Decrement aria-label={t.decreaseConcurrency} />
               <NumberField.Input />
-              <NumberField.Increment aria-label='Increase concurrency' />
+              <NumberField.Increment aria-label={t.increaseConcurrency} />
             </NumberField.Group>
           </NumberField.Root>
           <Field.Error />
         </Field.Root>
         <div className='actions'>
-          <Button type='submit'>Submit numbers</Button>
+          <Button type='submit'>{t.submitNumbers}</Button>
           <Button type='reset' variant='outline'>
-            Reset numbers
+            {t.resetNumbers}
           </Button>
         </div>
       </Form>
       <div className='actions'>
         <Button variant='outline' onClick={() => setCancelReset((v) => !v)}>
-          {cancelReset ? 'Allow reset' : 'Cancel reset'}
+          {cancelReset ? t.allowReset : t.cancelReset}
         </Button>
         <Button variant='outline' onClick={() => setCancelChanges((v) => !v)}>
-          {cancelChanges ? 'Allow number changes' : 'Cancel number changes'}
+          {cancelChanges ? t.allowNumberChanges : t.cancelNumberChanges}
         </Button>
       </div>
       <p role='status'>{result}</p>

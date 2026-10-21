@@ -15,6 +15,8 @@ import {
   Icon,
 } from '@surflane/ui'
 import { Link } from './router'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/DataTableExample'
 const resources = [
   {
     id: 'workspace',
@@ -96,6 +98,7 @@ const collator = new Intl.Collator('en', {
   sensitivity: 'base',
 })
 export function DataTableExample() {
+  const t = text[useLocale().locale]
   const [mode, setMode] = useState<Mode>('ready'),
     [query, setQuery] = useState(''),
     [product, setProduct] = useState('all')
@@ -186,7 +189,7 @@ export function DataTableExample() {
     >
       <Button
         variant='ghost'
-        aria-label={`Sort by ${label}`}
+        aria-label={t.sortBy(label)}
         onClick={() => updateSort(key)}
       >
         {label}
@@ -203,7 +206,7 @@ export function DataTableExample() {
   return (
     <div className='data-table-example'>
       <label className='data-table-state'>
-        Preview table state
+        {t.previewTableState}
         <NativeSelect
           value={mode}
           onChange={(event) => {
@@ -221,7 +224,7 @@ export function DataTableExample() {
         </NativeSelect>
       </label>
       <FilterBar.Root
-        label='Filter table resources'
+        label={t.filterTableResources}
         onSubmit={(event) => event.preventDefault()}
         onReset={(event) => {
           event.preventDefault()
@@ -230,7 +233,7 @@ export function DataTableExample() {
       >
         <FilterBar.Controls>
           <FilterBar.Field width='search'>
-            Search resources
+            {t.searchResources}
             <Input
               ref={input}
               type='search'
@@ -239,13 +242,13 @@ export function DataTableExample() {
                 setQuery(event.target.value)
                 setPage(1)
               }}
-              placeholder='Name, product, or environment…'
+              placeholder={t.searchPlaceholder}
               aria-controls={resultId}
               disabled={!ready}
             />
           </FilterBar.Field>
           <FilterBar.Field>
-            Product
+            {t.product}
             <NativeSelect
               value={product}
               disabled={!ready}
@@ -254,7 +257,7 @@ export function DataTableExample() {
                 setPage(1)
               }}
             >
-              <option value='all'>All products</option>
+              <option value='all'>{t.allProducts}</option>
               {['Workspace', 'Inventory', 'Documentation'].map((value) => (
                 <option key={value}>{value}</option>
               ))}
@@ -262,20 +265,25 @@ export function DataTableExample() {
           </FilterBar.Field>
           <FilterBar.Actions>
             <Button type='reset' variant='outline' disabled={!ready || !active}>
-              Clear table filters
+              {t.clearFilters}
             </Button>
           </FilterBar.Actions>
         </FilterBar.Controls>
         <FilterBar.Summary>
           {ready
-            ? `${filtered.length} of ${resources.length} resources / ${selected.length} selected / ${hiddenSelections} outside this page`
+            ? t.summary(
+                filtered.length,
+                resources.length,
+                selected.length,
+                hiddenSelections,
+              )
             : mode === 'loading'
-              ? 'Loading table preview'
+              ? t.loadingPreview
               : mode === 'error'
-                ? 'Table request failed'
+                ? t.requestFailed
                 : mode === 'permission'
-                  ? 'Resource access required'
-                  : 'No registered resources'}
+                  ? t.accessRequired
+                  : t.noRegistered}
         </FilterBar.Summary>
       </FilterBar.Root>
       <div id={resultId}>
@@ -285,13 +293,13 @@ export function DataTableExample() {
               <Spinner size='sm' decorative />
             </InlineMessage.Icon>
             <InlineMessage.Content>
-              <InlineMessage.Title>Loading table preview</InlineMessage.Title>
+              <InlineMessage.Title>{t.loadingPreview}</InlineMessage.Title>
               <InlineMessage.Description>
-                This preview waits until you complete it.
+                {t.loadingDescription}
               </InlineMessage.Description>
               <InlineMessage.Actions>
                 <Button variant='outline' onClick={recover}>
-                  Complete table preview
+                  {t.completePreview}
                 </Button>
               </InlineMessage.Actions>
             </InlineMessage.Content>
@@ -299,51 +307,45 @@ export function DataTableExample() {
         ) : mode === 'error' ? (
           <InlineMessage.Root tone='danger'>
             <InlineMessage.Content>
-              <InlineMessage.Title>
-                Resources could not be loaded
-              </InlineMessage.Title>
+              <InlineMessage.Title>{t.loadFailedTitle}</InlineMessage.Title>
               <InlineMessage.Description>
-                Your filters and selection are kept.
+                {t.keptDescription}
               </InlineMessage.Description>
               <InlineMessage.Actions>
                 <Button variant='outline' onClick={recover}>
-                  Retry table preview
+                  {t.retryPreview}
                 </Button>
               </InlineMessage.Actions>
             </InlineMessage.Content>
           </InlineMessage.Root>
         ) : mode === 'permission' ? (
           <EmptyState.Root>
-            <EmptyState.Title>Resource access required</EmptyState.Title>
+            <EmptyState.Title>{t.accessRequired}</EmptyState.Title>
             <EmptyState.Description>
-              The access scope changed, so the selection was cleared.
+              {t.accessDescription}
             </EmptyState.Description>
             <EmptyState.Actions>
               <Button variant='outline' onClick={recover}>
-                Restore preview access
+                {t.restoreAccess}
               </Button>
             </EmptyState.Actions>
           </EmptyState.Root>
         ) : mode === 'empty' || !filtered.length ? (
           <EmptyState.Root>
             <EmptyState.Title>
-              {mode === 'empty'
-                ? 'No registered resources'
-                : 'No matching resources'}
+              {mode === 'empty' ? t.noRegistered : t.noMatching}
             </EmptyState.Title>
             <EmptyState.Description>
               {mode === 'empty'
-                ? 'This is an initial empty-state example.'
-                : 'Change the search or product filter to see more rows.'}
+                ? t.emptyExampleDescription
+                : t.changeFilterDescription}
             </EmptyState.Description>
             <EmptyState.Actions>
               <Button
                 variant='outline'
                 onClick={mode === 'empty' ? recover : resetFilters}
               >
-                {mode === 'empty'
-                  ? 'Restore table preview'
-                  : 'Reset table filters'}
+                {mode === 'empty' ? t.restorePreview : t.resetFilters}
               </Button>
             </EmptyState.Actions>
           </EmptyState.Root>
@@ -360,33 +362,31 @@ export function DataTableExample() {
                     )
                     setReviewed((old) => [...new Set([...old, ...ids])])
                     setSelected([])
-                    setNotice(
-                      `${ids.length} resources marked reviewed in this preview.`,
-                    )
+                    setNotice(t.markedReviewed(ids.length))
                   }}
                 >
-                  Mark {selected.length} selected reviewed
+                  {t.markReviewed(selected.length)}
                 </Button>
                 <Button
                   variant='ghost'
                   disabled={!selected.length}
                   onClick={() => {
                     setSelected([])
-                    setNotice('Selection cleared.')
+                    setNotice(t.selectionCleared)
                   }}
                 >
-                  Clear selection
+                  {t.clearSelection}
                 </Button>
               </div>
               <Menu.Root>
                 <Menu.Trigger render={<Button variant='outline' />}>
-                  Columns
+                  {t.columns}
                 </Menu.Trigger>
                 <Menu.Portal>
                   <Menu.Content>
                     <Menu.CheckboxItem checked disabled>
                       <Menu.CheckboxItemIndicator />
-                      Name (required)
+                      {t.nameRequired}
                     </Menu.CheckboxItem>
                     {(['product', 'region'] as const).map((key) => (
                       <Menu.CheckboxItem
@@ -396,7 +396,7 @@ export function DataTableExample() {
                         onCheckedChange={(checked) => column(key, checked)}
                       >
                         <Menu.CheckboxItemIndicator />
-                        {key === 'product' ? 'Product' : 'Environment'}
+                        {key === 'product' ? t.product : t.environment}
                       </Menu.CheckboxItem>
                     ))}
                   </Menu.Content>
@@ -404,18 +404,16 @@ export function DataTableExample() {
               </Menu.Root>
             </div>
             <Table.Container
-              label='Resource table horizontal scroll'
+              label={t.tableScrollLabel}
               orientation='horizontal'
             >
               <Table.Root className='data-table-preview'>
-                <Table.Caption>
-                  Resource inventory / local data table preview
-                </Table.Caption>
+                <Table.Caption>{t.caption}</Table.Caption>
                 <Table.Head>
                   <Table.Row>
                     <Table.HeaderCell scope='col'>
                       <Checkbox.Root
-                        aria-label='Select manageable rows on this page'
+                        aria-label={t.selectManageableRows}
                         checked={
                           selectable.length > 0 &&
                           pageSelected.length === selectable.length
@@ -436,10 +434,10 @@ export function DataTableExample() {
                         <Checkbox.Indicator />
                       </Checkbox.Root>
                     </Table.HeaderCell>
-                    {sortHeader('name', 'Name')}
-                    {columns.product && sortHeader('product', 'Product')}
-                    {columns.region && sortHeader('region', 'Environment')}
-                    <Table.HeaderCell scope='col'>State</Table.HeaderCell>
+                    {sortHeader('name', t.name)}
+                    {columns.product && sortHeader('product', t.product)}
+                    {columns.region && sortHeader('region', t.environment)}
+                    <Table.HeaderCell scope='col'>{t.state}</Table.HeaderCell>
                   </Table.Row>
                 </Table.Head>
                 <Table.Body>
@@ -450,7 +448,7 @@ export function DataTableExample() {
                     >
                       <Table.Cell>
                         <Checkbox.Root
-                          aria-label={`Select ${row.name}`}
+                          aria-label={t.selectRow(row.name)}
                           checked={selected.includes(row.id)}
                           disabled={!row.manage}
                           onCheckedChange={(checked) => toggle(row.id, checked)}
@@ -478,10 +476,10 @@ export function DataTableExample() {
                           }
                         >
                           {!row.manage
-                            ? 'Read-only'
+                            ? t.readOnly
                             : reviewed.includes(row.id)
-                              ? 'Reviewed'
-                              : 'Needs review'}
+                              ? t.reviewed
+                              : t.needsReview}
                         </StatusBadge>
                       </Table.Cell>
                     </Table.Row>
@@ -491,7 +489,7 @@ export function DataTableExample() {
             </Table.Container>
             <div className='data-table-pagination'>
               <label>
-                Rows per page
+                {t.rowsPerPage}
                 <NativeSelect
                   value={String(size)}
                   onChange={(event) => {
@@ -510,19 +508,20 @@ export function DataTableExample() {
                 page={current}
                 pageCount={pageCount}
                 onPageChange={setPage}
-                aria-label='Resource result pages'
+                aria-label={t.resultPages}
               />
             </div>
             <p>
-              {(current - 1) * size + 1}–
-              {Math.min(current * size, filtered.length)} of {filtered.length}{' '}
-              resources. Header selection applies only to manageable rows on
-              this page.
+              {t.footer(
+                (current - 1) * size + 1,
+                Math.min(current * size, filtered.length),
+                filtered.length,
+              )}
             </p>
           </>
         )}
       </div>
-      <p role='status' aria-label='Table action result'>
+      <p role='status' aria-label={t.actionResultLabel}>
         {notice}
       </p>
     </div>

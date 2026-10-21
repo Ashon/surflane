@@ -512,12 +512,22 @@ export function PointerBlueprint() {
       const screen = { left: 0, top: 0, right: innerWidth, bottom: innerHeight }
       // The roaming probe covers the part of the area on screen, not its scrolled length.
       const roam = intersect(area!.getBoundingClientRect(), screen)
+      // Keep the roaming spotlight off blurred chrome such as the top rail: any
+      // change over a backdrop-filter makes the browser redo the blur every frame.
+      // The rail's own anchored probe is small and stays cheap.
+      const avoid = document.querySelector<HTMLElement>(
+        '[data-blueprint-ambient-avoid]',
+      )
+      const avoidBottom = avoid?.getClientRects().length
+        ? avoid.getBoundingClientRect().bottom -
+          (parseFloat(getComputedStyle(avoid, '::before').bottom) || 0)
+        : -Infinity
       const seconds = now / 1000
       return probes.map(({ periods: [tx, ty], phases: [px, py], ...probe }) => {
         let left = roam.left,
-          top = roam.top,
+          top = Math.max(roam.top, avoidBottom + probe.reach - ambientInset),
           width = Math.max(0, roam.right - roam.left),
-          height = Math.max(0, roam.bottom - roam.top),
+          height = Math.max(0, roam.bottom - top),
           inset = ambientInset
         if (probe.anchored && anchor?.getClientRects().length) {
           const box = anchor.getBoundingClientRect()

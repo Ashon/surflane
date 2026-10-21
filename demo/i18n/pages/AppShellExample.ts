@@ -1,0 +1,83 @@
+import type { Locale } from '../../i18n'
+
+const en = {
+  overview: 'Overview',
+  resources: 'Resources',
+  activity: 'Activity',
+  settings: 'Settings',
+  navAria: 'Workspace navigation',
+  mobileNavAria: 'Mobile workspace navigation',
+  savedView: (n: number) => `Saved view ${n}`,
+  resourcesLongLabel:
+    'Resources / services and deployment pipelines by environment',
+  accountMenuAria: 'Preview user account menu',
+  previewUser: 'Preview user',
+  viewPreviewProfile: 'View preview profile',
+  switchTheme: 'Switch theme',
+  overflowNavigation: 'Overflow navigation',
+  longWorkspaceContent: 'Long workspace content',
+  longNavigationLabels: 'Long navigation labels',
+  readOnlyNavigation: 'Read-only navigation',
+  openNavAria: 'Open workspace navigation',
+  workspaceNavigation: 'Workspace navigation',
+  sheetDescription: 'Choose a local preview page.',
+  closeNav: 'Close workspace navigation',
+  closeMenu: 'Close menu',
+  sidebarAria: 'Example workspace sidebar',
+  expandSidebar: 'Expand workspace sidebar',
+  collapseSidebar: 'Collapse workspace sidebar',
+  destinationsLabel: 'Workspace destinations',
+  workspaceGroup: 'Workspace',
+  contentLabel: 'Workspace content',
+  previewDescription: (profile: string) =>
+    `${profile} / local workspace preview`,
+  separateNote:
+    'Navigation and content stay separate. Icons keep their horizontal position when the sidebar collapses.',
+  productNote:
+    'The product manages accounts, permissions, routes, and data requests.',
+  sectionHeading: (n: number) => `Workspace section ${n}`,
+  scrollSample:
+    'Sample content to test scrolling. Navigation and the account footer stay available while it scrolls.',
+  previewProfileStatus: 'Preview profile / no account service is connected.',
+}
+export const text: Record<Locale, typeof en> = {
+  en,
+  ko: {
+    overview: '개요',
+    resources: '리소스',
+    activity: '활동',
+    settings: '설정',
+    navAria: '작업 공간 내비게이션',
+    mobileNavAria: '모바일 작업 공간 내비게이션',
+    savedView: (n: number) => `저장된 보기 ${n}`,
+    resourcesLongLabel: '리소스 / 환경별 서비스 및 배포 파이프라인',
+    accountMenuAria: '미리보기 사용자 계정 메뉴',
+    previewUser: '미리보기 사용자',
+    viewPreviewProfile: '미리보기 프로필 보기',
+    switchTheme: '테마 전환',
+    overflowNavigation: '내비게이션 오버플로',
+    longWorkspaceContent: '긴 작업 공간 콘텐츠',
+    longNavigationLabels: '긴 내비게이션 레이블',
+    readOnlyNavigation: '읽기 전용 내비게이션',
+    openNavAria: '작업 공간 내비게이션 열기',
+    workspaceNavigation: '작업 공간 내비게이션',
+    sheetDescription: '로컬 미리보기 페이지를 선택하세요.',
+    closeNav: '작업 공간 내비게이션 닫기',
+    closeMenu: '메뉴 닫기',
+    sidebarAria: '예시 작업 공간 사이드바',
+    expandSidebar: '작업 공간 사이드바 펼치기',
+    collapseSidebar: '작업 공간 사이드바 접기',
+    destinationsLabel: '작업 공간 이동 대상',
+    workspaceGroup: '작업 공간',
+    contentLabel: '작업 공간 콘텐츠',
+    previewDescription: (profile: string) =>
+      `${profile} / 로컬 작업 공간 미리보기`,
+    separateNote:
+      '내비게이션과 콘텐츠는 분리된 상태로 유지됩니다. 사이드바를 접어도 아이콘의 가로 위치는 그대로 유지됩니다.',
+    productNote: '제품이 계정, 권한, 라우트, 데이터 요청을 관리합니다.',
+    sectionHeading: (n: number) => `작업 공간 섹션 ${n}`,
+    scrollSample:
+      '스크롤 테스트용 예시 콘텐츠입니다. 스크롤해도 내비게이션과 계정 푸터는 계속 사용할 수 있습니다.',
+    previewProfileStatus: '미리보기 프로필 / 연결된 계정 서비스가 없습니다.',
+  },
+}

@@ -15,35 +15,36 @@ import {
   type StatusTone,
 } from '@surflane/ui'
 import { Link, withBase } from './router'
-
-const destinations: [string, IconName][] = [
-  ['Overview', 'monitor'],
-  ['Services', 'copy'],
-  ['Deployments', 'play'],
-  ['Settings', 'settings'],
-]
-const deployments: [string, string, StatusTone, string][] = [
-  ['platform-api', 'production', 'success', 'Healthy'],
-  ['auth-gateway', 'production', 'progress', 'Deploying'],
-  ['billing-service', 'staging', 'success', 'Healthy'],
-  ['search-indexer', 'staging', 'danger', 'Failed'],
-  ['notification-worker', 'development', 'success', 'Healthy'],
-]
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/LandingHero'
 
 export function LandingHero() {
+  const t = text[useLocale().locale]
+  const destinations: [string, IconName][] = [
+    [t.overview, 'monitor'],
+    [t.services, 'copy'],
+    [t.deployments, 'play'],
+    [t.settings, 'settings'],
+  ]
+  const deployments: [string, string, StatusTone, string][] = [
+    ['platform-api', 'production', 'success', t.healthy],
+    ['auth-gateway', 'production', 'progress', t.deploying],
+    ['billing-service', 'staging', 'success', t.healthy],
+    ['search-indexer', 'staging', 'danger', t.failed],
+    ['notification-worker', 'development', 'success', t.healthy],
+  ]
   return (
     // The hero heading is the page title on "/", so route changes focus it like any page header.
     <section className='landing-hero' aria-labelledby='page-title'>
       <div className='landing-hero-copy'>
         <Text variant='label' color='secondary' className='landing-eyebrow'>
-          Design system for platform development
+          {t.eyebrow}
         </Text>
         <Heading level={1} size='display' id='page-title' tabIndex={-1}>
-          The interface layer for platform teams.
+          {t.title}
         </Heading>
         <Text variant='reading' color='secondary'>
-          Tokens, accessible React components, and tested patterns for consoles,
-          dashboards, and developer tools. Ready for Server Components.
+          {t.lead}
         </Text>
         <div className='actions'>
           <Link
@@ -52,7 +53,7 @@ export function LandingHero() {
             data-size='large'
             href='/components'
           >
-            Browse components
+            {t.browse}
           </Link>
           <a
             className='pui-button'
@@ -60,14 +61,14 @@ export function LandingHero() {
             data-size='large'
             href='https://github.com/Ashon/surflane/blob/main/docs/frameworks.md'
           >
-            Read the quick start
+            {t.quickStart}
           </a>
         </div>
         <CodeBlock
           className='landing-install'
-          label='Install'
+          label={t.install}
           code='npm i @surflane/ui @surflane/design-tokens'
-          copyLabel='Copy install command'
+          copyLabel={t.copyInstall}
         />
       </div>
       <div
@@ -113,7 +114,7 @@ export function LandingHero() {
                     href='#'
                     label={label}
                     icon={<Icon name={icon} decorative />}
-                    aria-current={label === 'Deployments' ? 'page' : undefined}
+                    aria-current={label === t.deployments ? 'page' : undefined}
                   />
                 ))}
               </nav>
@@ -136,23 +137,27 @@ export function LandingHero() {
                 <PageHeader
                   size='page'
                   level={2}
-                  title='Deployments'
-                  description='Services across production, staging, and development.'
+                  title={t.pageTitle}
+                  description={t.pageDescription}
                   actions={
                     <Button variant='primary' size='small'>
-                      New deployment
+                      {t.newDeployment}
                     </Button>
                   }
                 />
-                <Table.Container label='Recent deployments'>
+                <Table.Container label={t.tableLabel}>
                   <Table.Root>
                     <Table.Head>
                       <Table.Row>
-                        <Table.HeaderCell scope='col'>Service</Table.HeaderCell>
                         <Table.HeaderCell scope='col'>
-                          Environment
+                          {t.service}
                         </Table.HeaderCell>
-                        <Table.HeaderCell scope='col'>Status</Table.HeaderCell>
+                        <Table.HeaderCell scope='col'>
+                          {t.environment}
+                        </Table.HeaderCell>
+                        <Table.HeaderCell scope='col'>
+                          {t.status}
+                        </Table.HeaderCell>
                       </Table.Row>
                     </Table.Head>
                     <Table.Body>

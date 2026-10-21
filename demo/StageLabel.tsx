@@ -1,7 +1,9 @@
 import React from 'react'
 import { Badge } from '@surflane/ui'
-import { stageLabels, type CatalogItem } from './catalog'
+import { type CatalogItem } from './catalog'
+import { useCatalogText } from './catalogText'
 export function StageLabel({ item }: { item: CatalogItem }) {
+  const text = useCatalogText()
   return (
     <Badge
       className='catalog-stage'
@@ -14,7 +16,7 @@ export function StageLabel({ item }: { item: CatalogItem }) {
             : 'neutral'
       }
     >
-      {stageLabels[item.stage]}
+      {text.stage(item.stage)}
     </Badge>
   )
 }

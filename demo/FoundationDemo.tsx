@@ -17,12 +17,15 @@ import {
   Button,
   Select,
 } from '@surflane/ui'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/FoundationDemo'
 
 export function FoundationDemo({
   view = 'all',
 }: {
   view?: 'all' | 'layout' | 'typography'
 }) {
+  const t = text[useLocale().locale]
   const [profile, setProfile] = useState('workspace'),
     [density, setDensity] = useState('comfortable'),
     [guides, setGuides] = useState(true)
@@ -33,36 +36,32 @@ export function FoundationDemo({
       {view !== 'typography' && (
         <section aria-labelledby='layout-title' id='layout'>
           <h2 id='layout-title'>
-            {view === 'all' ? 'Layout' : 'Workspace and reading'}
+            {view === 'all' ? t.layoutHeadingAll : t.layoutHeadingSplit}
           </h2>
-          <Text color='secondary'>
-            Build structure from content alignment and whitespace, not nested
-            backgrounds. Compare width, spacing, and information density between
-            workspace and documentation screens.
-          </Text>
+          <Text color='secondary'>{t.layoutIntro}</Text>
           <div className='foundation-controls'>
             <label>
-              Layout profile
+              {t.layoutProfile}
               <Select
-                aria-label='Layout profile'
+                aria-label={t.layoutProfile}
                 value={profile}
                 onValueChange={setProfile}
                 options={[
-                  { value: 'workspace', label: 'Workspace / operations' },
-                  { value: 'reading', label: 'Reading / documentation' },
-                  { value: 'wide', label: 'Wide / comparison' },
+                  { value: 'workspace', label: t.profileWorkspace },
+                  { value: 'reading', label: t.profileReading },
+                  { value: 'wide', label: t.profileWide },
                 ]}
               />
             </label>
             <label>
-              Density
+              {t.density}
               <Select
-                aria-label='Layout density'
+                aria-label={t.layoutDensity}
                 value={density}
                 onValueChange={setDensity}
                 options={[
-                  { value: 'comfortable', label: 'Comfortable / 24px' },
-                  { value: 'compact', label: 'Compact / 16px' },
+                  { value: 'comfortable', label: t.densityComfortable },
+                  { value: 'compact', label: t.densityCompact },
                 ]}
               />
             </label>
@@ -85,9 +84,9 @@ export function FoundationDemo({
                   level={3}
                   size={compact ? 'page' : 'title'}
                   breadcrumb={
-                    <nav aria-label='Layout preview breadcrumb'>
+                    <nav aria-label={t.layoutBreadcrumb}>
                       <Inline gap={2}>
-                        <a href='#layout'>Platform services</a>
+                        <a href='#layout'>{t.platformServices}</a>
                         <svg
                           width='14'
                           height='14'
@@ -101,21 +100,21 @@ export function FoundationDemo({
                         </svg>
                         <Text as='span' variant='caption'>
                           {profile === 'reading'
-                            ? 'Documentation'
-                            : 'Deployments'}
+                            ? t.crumbDocumentation
+                            : t.crumbDeployments}
                         </Text>
                       </Inline>
                     </nav>
                   }
                   title={
                     profile === 'reading'
-                      ? 'Environment access'
-                      : 'Platform workspace'
+                      ? t.pageHeadingEnvAccess
+                      : t.pageHeadingWorkspace
                   }
                   description={
                     profile === 'reading'
-                      ? 'Read the rules for environment access and deployment.'
-                      : 'Select environments, review pipeline runs, and check deployment results.'
+                      ? t.pageDescEnvAccess
+                      : t.pageDescWorkspace
                   }
                   actions={
                     <Button
@@ -123,7 +122,7 @@ export function FoundationDemo({
                       aria-pressed={guides}
                       onClick={() => setGuides(!guides)}
                     >
-                      Grid guides
+                      {t.gridGuides}
                     </Button>
                   }
                 />
@@ -134,15 +133,11 @@ export function FoundationDemo({
                     data-testid='layout-grid'
                   >
                     {[
-                      [
-                        'Environments',
-                        '03',
-                        'Development, staging, production',
-                      ],
-                      ['Service checks', '87', 'Checks ready for review'],
-                      ['Recent runs', '12', 'Pipeline runs and build logs'],
+                      [t.statEnvironments, '03', t.statEnvironmentsDesc],
+                      [t.statServiceChecks, '87', t.statServiceChecksDesc],
+                      [t.statRecentRuns, '12', t.statRecentRunsDesc],
                       ...(profile === 'wide'
-                        ? [['Clusters', '03', 'Comparison by cluster']]
+                        ? [[t.statClusters, '03', t.statClustersDesc]]
                         : []),
                     ].map(([name, value, desc]) => (
                       <div className='foundation-stat' key={name}>
@@ -158,23 +153,13 @@ export function FoundationDemo({
                   </Grid>
                 ) : (
                   <Prose data-testid='reading-preview'>
+                    <p>{t.readingPara1}</p>
+                    <h4>{t.readingHeading}</h4>
                     <p>
-                      Documentation and operational tools share one design
-                      language but differ in information density. Documentation
-                      favors sentence flow and the rhythm of long-form reading.
+                      {t.readingPara2Intro} <code>environment_id</code>{' '}
+                      {t.readingPara2Tail}
                     </p>
-                    <h4>How services move between environments</h4>
-                    <p>
-                      Review service permissions with the deployment policy.
-                      Korean text uses Pretendard and Latin text uses Manrope.
-                      Identifiers such as <code>environment_id</code> use a
-                      monospace font.
-                    </p>
-                    <p>
-                      Read the policy, check the release notes, and confirm who
-                      can deploy. This preview keeps the reading measure
-                      separate from the workspace width.
-                    </p>
+                    <p>{t.readingPara3}</p>
                   </Prose>
                 )}
               </Stack>
@@ -182,8 +167,7 @@ export function FoundationDemo({
           </div>
           <div className='foundation-widths'>
             <Text variant='caption' color='muted'>
-              Reading 52rem / Workspace 75rem / Wide 96rem / Base grid 4 / 6 /
-              12 columns / Gutter 16 / 24px
+              {t.widthSpec}
             </Text>
           </div>
         </section>
@@ -195,20 +179,14 @@ export function FoundationDemo({
       {view !== 'layout' && (
         <section aria-labelledby='typography-title' id='typography'>
           <h2 id='typography-title'>
-            {view === 'all' ? 'Typography' : 'Specimens and scale'}
+            {view === 'all' ? t.typographyHeadingAll : t.typographyHeadingSplit}
           </h2>
-          <Text color='secondary'>
-            Manrope / Pretendard / JetBrains Mono. Use weights 400 and 500.
-            Choose the visual role and the HTML heading level separately.
-            Antialiasing, kerning, and optical sizing hints apply everywhere.
-            Faux bold is never synthesized. Actual rendering varies by browser
-            and display.
-          </Text>
+          <Text color='secondary'>{t.typographyIntro}</Text>
           <div className='font-specimens'>
             <Surface>
               <Stack gap={3}>
                 <Text variant='caption' color='muted'>
-                  Display / Manrope + Pretendard / English and Korean sample
+                  {t.displaySpecimenCaption}
                 </Text>
                 <Heading level={3} size='display'>
                   Platform engineering
@@ -221,7 +199,7 @@ export function FoundationDemo({
             <Surface>
               <Stack gap={3}>
                 <Text variant='caption' color='muted'>
-                  Body / Manrope + Pretendard / English and Korean sample
+                  {t.bodySpecimenCaption}
                 </Text>
                 <Text id='specimen-latin'>
                   Ship every service through the same pipeline.
@@ -235,19 +213,15 @@ export function FoundationDemo({
           </div>
           <Surface>
             <Text variant='caption' color='muted'>
-              Size headings by role: 30–40px for primary screen titles, 24/32px
-              for page titles, and 32–40px for reading-focused titles. Shared
-              role and profile tokens connect them without forcing one size on
-              every heading. The samples below mix Korean (Hangul) and English
-              to show both scripts at each size.
+              {t.headingSizingNote}
             </Text>
           </Surface>
-          <div className='type-scale' aria-label='Typography roles'>
+          <div className='type-scale' aria-label={t.typographyRoles}>
             {[
-              ['Title', '32 / 40', 'title', 'Service overview'],
-              ['Page', '24 / 32', 'page', 'Deployment details'],
-              ['Section', '20 / 28', 'section', 'Release policy'],
-              ['Subsection', '16 / 24', 'subsection', 'Build logs'],
+              [t.roleTitle, '32 / 40', 'title', 'Service overview'],
+              [t.rolePage, '24 / 32', 'page', 'Deployment details'],
+              [t.roleSection, '20 / 28', 'section', 'Release policy'],
+              [t.roleSubsection, '16 / 24', 'subsection', 'Build logs'],
             ].map(([name, size, variant]) => (
               <div className='type-scale-row' key={name}>
                 <Text
@@ -265,12 +239,12 @@ export function FoundationDemo({
               </div>
             ))}
             {[
-              ['Body', '14 / 22', 'body'],
-              ['Reading', '16 / 28', 'reading'],
-              ['Table', '13 / 20', 'table'],
-              ['Caption', '12 / 18', 'caption'],
-              ['Code', '13 / 20', 'mono'],
-              ['Metric', '24 / 28', 'metric'],
+              [t.roleBody, '14 / 22', 'body'],
+              [t.roleReading, '16 / 28', 'reading'],
+              [t.roleTable, '13 / 20', 'table'],
+              [t.roleCaption, '12 / 18', 'caption'],
+              [t.roleCode, '13 / 20', 'mono'],
+              [t.roleMetric, '24 / 28', 'metric'],
             ].map(([name, size, variant]) => (
               <div className='type-scale-row' key={name}>
                 <Text

@@ -4,6 +4,8 @@ import { ComponentExample } from './ComponentExamples'
 import { exampleOwnsFrame } from './exampleGroups'
 import type { CatalogItem } from './catalog'
 import { withBase } from './router'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/ComponentSizePreview'
 export const componentSizes = ['small', 'default', 'large'] as const
 export const sizeLabels = {
   small: 'Small',
@@ -17,14 +19,20 @@ export function ComponentSizePreview({
   item: CatalogItem
   toggleTheme: () => void
 }) {
+  const t = text[useLocale().locale]
   const [size, setSize] = useState<ComponentSize>('default')
+  const labels = {
+    small: t.sizeSmall,
+    default: t.sizeDefault,
+    large: t.sizeLarge,
+  }
   return (
     <>
       {item.kind === 'component' && (
         <div className='component-size-controls'>
           <div
             role='group'
-            aria-label='Component preview size'
+            aria-label={t.groupLabel}
             className='component-size-options'
           >
             {componentSizes.map((value) => (
@@ -32,18 +40,17 @@ export function ComponentSizePreview({
                 key={value}
                 variant='ghost'
                 aria-pressed={size === value}
-                aria-label={`Preview size: ${sizeLabels[value]}`}
+                aria-label={t.previewSize(labels[value])}
                 onClick={() => setSize(value)}
               >
-                {sizeLabels[value]}
+                {labels[value]}
               </Button>
             ))}
           </div>
           <p>
-            Compare the same example at each size. Switching keeps input values
-            and selection state.{' '}
+            {t.description}{' '}
             <a href={withBase('/foundations/layout#component-sizes')}>
-              Size guidance and comparisons
+              {t.sizeGuidance}
             </a>
           </p>
         </div>

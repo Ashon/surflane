@@ -1,6 +1,8 @@
 import React, { lazy, type ComponentType } from 'react'
 import { exampleGroupFor, type ExampleGroup } from './exampleGroups'
 import { DeferredContent } from './DeferredContent'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/ComponentExamples'
 type ExampleProps = { id: string; toggleTheme: () => void }
 const views: Record<ExampleGroup, ComponentType<ExampleProps>> = {
   richContent: lazy(() =>
@@ -144,7 +146,8 @@ const views: Record<ExampleGroup, ComponentType<ExampleProps>> = {
 }
 export function ComponentExample(props: ExampleProps) {
   const group = exampleGroupFor(props.id)
-  if (!group) return <p role='alert'>No example is registered for this item.</p>
+  const t = text[useLocale().locale]
+  if (!group) return <p role='alert'>{t.noExampleRegistered}</p>
   const View = views[group]
   return (
     <DeferredContent key={props.id} scope='preview'>

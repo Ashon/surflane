@@ -1,0 +1,58 @@
+# Contributing to Surflane
+
+Set up and run the project as [Develop](README.md#develop) describes. Word catalog text by [Writing for Surflane](docs/writing.md).
+
+## Write catalog text in English and Korean
+
+The catalog reads in English and Korean. English is the default and the source. Korean lives in overlays beside it. Add or change both languages in the same pull request.
+
+### Where text lives
+
+| Text                                                            | English                             | Korean                                                             |
+| --------------------------------------------------------------- | ----------------------------------- | ------------------------------------------------------------------ |
+| Catalog interface: rail, sidebar, page header and shared labels | `en` in `demo/messages.ts`          | `ko` in the same file                                              |
+| Catalog names, summaries, groups and stages                     | `demo/catalog.ts`                   | `demo/i18n/catalog.ko.ts`, keyed by page path, group name or stage |
+| Component and pattern docs: `usage`, `avoid`, `keyboard`, props | `demo/*Docs.ts`                     | `demo/i18n/docs/*.ko.ts`, keyed by item id; props by prop name     |
+| Page and example text                                           | `en` in `demo/i18n/pages/<Page>.ts` | `ko` in the same file                                              |
+
+A new `demo/i18n/docs/*.ko.ts` file loads without registration.
+
+### Rules
+
+- **Keep visible and accessible text out of JSX.** This covers headings, labels, `aria-label`, `aria-valuetext`, `title`, `placeholder`, toasts and validation errors. Put the text in the page's overlay and read it with `const t = text[useLocale().locale]`.
+- **Give a new page its own overlay.** Name it after the page file:
+
+  ```ts
+  import type { Locale } from '../../i18n'
+
+  const en = {
+    title: 'Deployments',
+    rows: (n: number) => `${n.toLocaleString('en-US')} rows`,
+  }
+  export const text: Record<Locale, typeof en> = {
+    en,
+    ko: {
+      title: '배포',
+      rows: (n: number) => `${n.toLocaleString('ko-KR')}개 행`,
+    },
+  }
+  ```
+
+- **Make text that holds a value a function.** Korean orders words differently, so don't join fragments such as `count + ' rows'`. Format numbers and dates inside the function with that language's locale, `en-US` or `ko-KR`.
+- **Keep the same keys and arguments in both languages.** The type check fails on a missing Korean key in the interface or a page overlay. The catalog and docs overlays fall back to English instead, so nothing warns you there. Add those Korean entries yourself.
+- **Keep API names in English.** Component names stay English in Korean text; foundation and pattern names are translated. Write prop, part, token and key names as the API spells them, and keep values such as `44px` and `4.5:1` unchanged.
+- **Leave package defaults in English.** Built-in labels in `packages/ui` are English, and products pass their own.
+- **Expect some text to stay English.** `llms.txt` and the Markdown page copies are generated from the English sources. Catalog `criteria` and `basis` have no Korean overlay yet.
+
+### Korean style
+
+- Describe in the formal declarative: "숫자 추세를 비교합니다."
+- Give instructions with "-하세요".
+- Pair each "don't" with its alternative, as in English: "누락 값을 0으로 대체하지 마세요. 대신 null을 전달하세요."
+- Use one Korean term per concept. Reuse the term the catalog already uses.
+
+### Check both languages
+
+- Switch languages with the rail button. It shows the other language: 가 on English pages, A on Korean pages.
+- Run `npm run check:catalog`. It type-checks the catalog, including the interface and page overlays.
+- Tests find controls by their English names, so update a test whenever an English name changes. `tests/i18n.spec.ts` renders every catalog page in Korean and fails on any page error. Run it with the tests for the pages you changed.

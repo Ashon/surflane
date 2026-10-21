@@ -2,100 +2,103 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Button, CodeBlock, StatusBadge, Table } from '@surflane/ui'
 import { Link } from './router'
 import { contrastRatio } from './contrast'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/ColorFoundation'
 
-const pairs: [string, string, string, number][] = [
-  ...[
-    'plain',
-    'comment',
-    'keyword',
-    'string',
-    'number',
-    'function',
-    'tag',
-    'attribute',
-    'punctuation',
-  ].map((role): [string, string, string, number] => [
-    `Syntax: ${role}`,
-    `--syntax-${role}`,
-    '--code-bg',
-    4.5,
-  ]),
-  ['Title', '--ink', '--canvas', 4.5],
-  ['Body', '--ink-body', '--canvas', 4.5],
-  ['Secondary text', '--ink-muted', '--canvas', 4.5],
-  ['Inset content', '--ink-body', '--surface', 4.5],
-  ['Selected content', '--ink', '--selected', 4.5],
-  ['Error text on selection', '--status-danger-fg', '--selected', 4.5],
-  ['Brand action', '--on-brand', '--brand', 4.5],
-  ['Brand text / link', '--brand-ink', '--canvas', 4.5],
-  ...['neutral', 'success', 'danger', 'caution', 'progress'].map(
-    (tone): [string, string, string, number] => [
-      `Status: ${tone}`,
-      `--status-${tone}-fg`,
-      `--status-${tone}-bg`,
-      4.5,
-    ],
-  ),
-  ...['neutral', 'success', 'danger', 'caution', 'progress'].map(
-    (tone): [string, string, string, number] => [
-      `Badge: ${tone}`,
-      `--status-${tone}-fg`,
-      `--badge-${tone}-bg`,
-      4.5,
-    ],
-  ),
-  ['Text selection', '--selection-foreground', '--selection-background', 4.5],
-  ['Chrome text', '--ink-body', '--chrome', 4.5],
-  ['Input text', '--ink', '--control-background', 4.5],
-  ['Input placeholder', '--control-placeholder', '--control-background', 4.5],
-  ['Input hover text', '--ink', '--control-hover-background', 4.5],
-  ['Focused input text', '--ink', '--control-focus-background', 4.5],
-  ['Tooltip', '--tooltip-foreground', '--tooltip-background', 4.5],
-  [
-    'Choice mark',
-    '--control-choice-selected-fg',
-    '--control-choice-selected-bg',
-    3,
-  ],
-  [
-    'Choice hover mark',
-    '--control-choice-selected-fg',
-    '--control-choice-selected-hover-bg',
-    3,
-  ],
-  ['Input boundary', '--control-border', '--canvas', 3],
-  ['Input boundary / inside', '--control-border', '--control-background', 3],
-  ['Input hover boundary', '--control-hover-border', '--canvas', 3],
-  [
-    'Input hover boundary / inside',
-    '--control-hover-border',
-    '--control-hover-background',
-    3,
-  ],
-  ['Input focus / outside', '--control-focus', '--canvas', 3],
-  ['Input focus / inside', '--control-focus', '--control-focus-background', 3],
-  ['Choice boundary', '--control-choice-border', '--canvas', 3],
-  ['Choice hover boundary', '--control-choice-hover-border', '--canvas', 3],
-  [
-    'Choice selected boundary',
-    '--control-choice-selected-border',
-    '--canvas',
-    3,
-  ],
-  ['Error boundary', '--status-danger-fg', '--canvas', 3],
-  ...[1, 2, 3].map((index): [string, string, string, number] => [
-    `Chart series ${index}`,
-    `--chart-series-${index}`,
-    '--canvas',
-    3,
-  ]),
-]
 type Measurement = {
   ratio: number | null
   foreground: string
   background: string
 }
 export function ColorFoundation() {
+  const t = text[useLocale().locale]
+  const pairs: [string, string, string, number][] = [
+    ...[
+      'plain',
+      'comment',
+      'keyword',
+      'string',
+      'number',
+      'function',
+      'tag',
+      'attribute',
+      'punctuation',
+    ].map((role): [string, string, string, number] => [
+      t.syntax(role),
+      `--syntax-${role}`,
+      '--code-bg',
+      4.5,
+    ]),
+    [t.title, '--ink', '--canvas', 4.5],
+    [t.body, '--ink-body', '--canvas', 4.5],
+    [t.secondaryText, '--ink-muted', '--canvas', 4.5],
+    [t.insetContent, '--ink-body', '--surface', 4.5],
+    [t.selectedContent, '--ink', '--selected', 4.5],
+    [t.errorTextOnSelection, '--status-danger-fg', '--selected', 4.5],
+    [t.brandAction, '--on-brand', '--brand', 4.5],
+    [t.brandTextLink, '--brand-ink', '--canvas', 4.5],
+    ...['neutral', 'success', 'danger', 'caution', 'progress'].map(
+      (tone): [string, string, string, number] => [
+        t.status(tone),
+        `--status-${tone}-fg`,
+        `--status-${tone}-bg`,
+        4.5,
+      ],
+    ),
+    ...['neutral', 'success', 'danger', 'caution', 'progress'].map(
+      (tone): [string, string, string, number] => [
+        t.badge(tone),
+        `--status-${tone}-fg`,
+        `--badge-${tone}-bg`,
+        4.5,
+      ],
+    ),
+    [t.textSelection, '--selection-foreground', '--selection-background', 4.5],
+    [t.chromeText, '--ink-body', '--chrome', 4.5],
+    [t.inputText, '--ink', '--control-background', 4.5],
+    [t.inputPlaceholder, '--control-placeholder', '--control-background', 4.5],
+    [t.inputHoverText, '--ink', '--control-hover-background', 4.5],
+    [t.focusedInputText, '--ink', '--control-focus-background', 4.5],
+    [t.tooltip, '--tooltip-foreground', '--tooltip-background', 4.5],
+    [
+      t.choiceMark,
+      '--control-choice-selected-fg',
+      '--control-choice-selected-bg',
+      3,
+    ],
+    [
+      t.choiceHoverMark,
+      '--control-choice-selected-fg',
+      '--control-choice-selected-hover-bg',
+      3,
+    ],
+    [t.inputBoundary, '--control-border', '--canvas', 3],
+    [t.inputBoundaryInside, '--control-border', '--control-background', 3],
+    [t.inputHoverBoundary, '--control-hover-border', '--canvas', 3],
+    [
+      t.inputHoverBoundaryInside,
+      '--control-hover-border',
+      '--control-hover-background',
+      3,
+    ],
+    [t.inputFocusOutside, '--control-focus', '--canvas', 3],
+    [t.inputFocusInside, '--control-focus', '--control-focus-background', 3],
+    [t.choiceBoundary, '--control-choice-border', '--canvas', 3],
+    [t.choiceHoverBoundary, '--control-choice-hover-border', '--canvas', 3],
+    [
+      t.choiceSelectedBoundary,
+      '--control-choice-selected-border',
+      '--canvas',
+      3,
+    ],
+    [t.errorBoundary, '--status-danger-fg', '--canvas', 3],
+    ...[1, 2, 3].map((index): [string, string, string, number] => [
+      t.chartSeries(index),
+      `--chart-series-${index}`,
+      '--canvas',
+      3,
+    ]),
+  ]
   const root = useRef<HTMLDivElement>(null)
   const [measurements, setMeasurements] = useState<Measurement[]>([])
   const [forcedColors, setForcedColors] = useState(false)
@@ -147,90 +150,62 @@ export function ColorFoundation() {
   }, [])
   return (
     <>
-      <nav className='page-toc' aria-label='On this page'>
-        {['roles', 'contrast', 'states', 'application'].map((id) => (
+      <nav className='page-toc' aria-label={t.onThisPage}>
+        {t.nav.map(({ id, label }) => (
           <a key={id} href={`#${id}`}>
-            {id[0].toUpperCase() + id.slice(1)}
+            {label}
           </a>
         ))}
       </nav>
       <section id='roles'>
-        <h2>Semantic roles</h2>
-        <p>
-          Reference roles, not color names. Each token resolves to a readable
-          combination in both the light and dark themes.
-        </p>
+        <h2>{t.rolesHeading}</h2>
+        <p>{t.rolesIntro}</p>
         <dl className='color-role-list'>
           <div>
-            <dt>Surface</dt>
+            <dt>{t.surfaceRole}</dt>
             <dd>
-              Use <code>--chrome</code> for the outer app, <code>--canvas</code>{' '}
-              for content, and <code>--surface</code> for inner surfaces such as
-              code and lists. Don't keep nesting cards.
+              {t.surfaceUse} <code>--chrome</code>
+              {t.surfaceChromeRest} <code>--canvas</code>
+              {t.surfaceCanvasRest} <code>--surface</code>
+              {t.surfaceSurfaceRest}
             </dd>
           </div>
           <div>
-            <dt>Text</dt>
+            <dt>{t.textRole}</dt>
             <dd>
-              Use <code>--ink</code> for headings, <code>--ink-body</code> for
-              body text, and <code>--ink-muted</code> for descriptions.
-              Descriptions keep readable contrast too.
+              {t.textUse} <code>--ink</code>
+              {t.textInkRest} <code>--ink-body</code>
+              {t.textInkBodyRest} <code>--ink-muted</code>
+              {t.textInkMutedRest}
             </dd>
           </div>
           <div>
-            <dt>Brand</dt>
+            <dt>{t.brandRole}</dt>
             <dd>
-              <code>--brand</code> fills primary actions, and{' '}
-              <code>--on-brand</code> is the text on it. In the light theme,
-              don't set small text in green on white. Give links{' '}
-              <code>--brand-ink</code> and an underline.
+              <code>--brand</code>
+              {t.brandFills} <code>--on-brand</code>
+              {t.brandOnIt} <code>--brand-ink</code>
+              {t.brandInkRest}
             </dd>
           </div>
           <div>
-            <dt>Boundary</dt>
+            <dt>{t.boundaryRole}</dt>
             <dd>
-              <code>--line</code> is a decorative divider. Parts that identify
-              controls, such as input boundaries and focus, use{' '}
-              <code>--control-border</code> and <code>--control-focus</code>.
-              They're checked separately against adjacent surfaces.
+              <code>--line</code>
+              {t.boundaryLineRest} <code>--control-border</code>
+              {t.boundaryBorderRest} <code>--control-focus</code>
+              {t.boundaryFocusRest}
             </dd>
           </div>
         </dl>
       </section>
       <section id='contrast'>
-        <h2>Live color contrast</h2>
-        <p>
-          Colors are defined and transitioned in OKLCH. Contrast is calculated
-          from WCAG relative luminance in linear sRGB. The color model doesn't
-          change the contrast criteria.
-        </p>
-        <p>
-          Keep each surface step at least 1.05:1 from the one it sits on, so no
-          layer disappears into its background. Surfaces step from the chrome to
-          the sheet, then to recessed surfaces, the code well, hover, and
-          selection. Place recessed surfaces on the sheet. On the chrome, use
-          the sheet tone.
-        </p>
-        <p>
-          Normal text needs 4.5:1 and large text needs 3:1. Large text is at
-          least 18pt (24 CSS px), or at least 14pt (about 18.67 CSS px) when
-          bold. Text rows use the normal-text threshold. Input boundary, focus
-          border, and selection mark rows need 3:1 against the adjacent color.
-        </p>
-        <p>
-          Ratios are approximate: they come from the current theme's computed
-          colors, converted to 8-bit sRGB pixels. Ratios display rounded to two
-          decimal places, but results use the unrounded value. The check skips
-          transparent colors, gradients, images, ancestor opacity, overlap,
-          anti-aliasing, and some interaction states. Recheck borderline values
-          and real products with a separate tool.
-        </p>
-        {forcedColors && (
-          <p role='status'>
-            Forced colors mode is active. The user's system colors take
-            precedence, so token contrast checks are skipped.
-          </p>
-        )}
+        <h2>{t.contrastHeading}</h2>
+        <p>{t.contrastIntro}</p>
+        <p>{t.contrastSteps}</p>
+        <p>{t.contrastThresholds}</p>
+        <p>{t.contrastApprox}</p>
+        {forcedColors && <p role='status'>{t.forcedColorsStatus}</p>}
         <div
           ref={root}
           data-color-measured={
@@ -238,23 +213,14 @@ export function ColorFoundation() {
           }
         >
           <Table.Container
-            label='Semantic color contrast'
+            label={t.contrastTableLabel}
             orientation='horizontal'
           >
             <Table.Root>
-              <Table.Caption>
-                Text, control boundaries, and status indicators in the current
-                theme
-              </Table.Caption>
+              <Table.Caption>{t.contrastTableCaption}</Table.Caption>
               <Table.Head>
                 <Table.Row>
-                  {[
-                    'Role',
-                    'Foreground / background',
-                    'Approx. ratio',
-                    'Requirement',
-                    'Result',
-                  ].map((label) => (
+                  {t.columns.map((label) => (
                     <Table.HeaderCell key={label} scope='col'>
                       {label}
                     </Table.HeaderCell>
@@ -303,20 +269,20 @@ export function ColorFoundation() {
                           <span data-color-ratio>
                             {value?.ratio != null
                               ? `${value.ratio.toFixed(2)}:1`
-                              : 'Not evaluated'}
+                              : t.notEvaluated}
                           </span>
                         </Table.Cell>
                         <Table.Cell>
                           {threshold === 4.5
-                            ? 'Text / 4.5:1'
-                            : 'Non-text / 3:1'}
+                            ? t.textThreshold
+                            : t.nonTextThreshold}
                         </Table.Cell>
                         <Table.Cell data-color-verdict>
                           {value?.ratio != null
                             ? value.ratio >= threshold
-                              ? 'Meets threshold'
-                              : 'Review required'
-                            : 'Not evaluated'}
+                              ? t.meetsThreshold
+                              : t.reviewRequired
+                            : t.notEvaluated}
                         </Table.Cell>
                       </Table.Row>
                     )
@@ -327,59 +293,40 @@ export function ColorFoundation() {
           </Table.Container>
         </div>
         <p data-color-summary>
-          {
+          {t.summary(
             measurements.filter(
               (value, index) =>
                 value.ratio != null && value.ratio >= pairs[index][3],
-            ).length
-          }{' '}
-          / {pairs.length} pairs meet their threshold. Forced colors and
-          unsupported colors are excluded.
+            ).length,
+            pairs.length,
+          )}
         </p>
-        <p>
-          Control boundaries, and the icons or lines required to identify state,
-          need at least 3:1 against adjacent colors. Don't apply this rule
-          wholesale to decorative dividers, secondary badge surfaces, or
-          disabled controls. Compare each state's indicator with its adjacent
-          surface, not the pre-hover color with the hover color. The solid
-          border identifies focus. The faint outer glow is secondary.
-        </p>
+        <p>{t.indicatorContrast}</p>
         <p>
           <a href='https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html'>
-            WCAG 1.4.3 — Text contrast
+            {t.wcagTextContrast}
           </a>
           {' / '}
           <a href='https://www.w3.org/WAI/WCAG22/understanding/non-text-contrast.html'>
-            WCAG 1.4.11 — Non-text contrast
+            {t.wcagNonTextContrast}
           </a>
         </p>
       </section>
       <section id='states'>
-        <h2>State beyond color</h2>
-        <p>
-          Text selection pairs an opaque neutral gray surface with a text color,
-          both tuned to the theme. A translucent highlight would overlap body,
-          code, or status surfaces and change the contrast. Drag to select the
-          sentence below.
-        </p>
-        <p data-selection-sample>
-          Selected text stays comfortable to read across surfaces.
-        </p>
-        <p>
-          Show status with a label, an SVG icon, and position. Use the full
-          border and background, not an accent on one side of a rounded surface.
-          Context and wording also tell brand actions apart from success states.
-        </p>
+        <h2>{t.statesHeading}</h2>
+        <p>{t.statesIntro}</p>
+        <p data-selection-sample>{t.selectionSample}</p>
+        <p>{t.statusIndicators}</p>
         <div
           className='actions'
           role='group'
-          aria-label='Semantic status examples'
+          aria-label={t.statusExamplesLabel}
         >
-          <StatusBadge tone='success'>Passed</StatusBadge>
-          <StatusBadge tone='danger'>Failed</StatusBadge>
-          <StatusBadge tone='caution'>Needs review</StatusBadge>
-          <StatusBadge tone='progress'>Running</StatusBadge>
-          <StatusBadge>Not started</StatusBadge>
+          <StatusBadge tone='success'>{t.passed}</StatusBadge>
+          <StatusBadge tone='danger'>{t.failed}</StatusBadge>
+          <StatusBadge tone='caution'>{t.needsReview}</StatusBadge>
+          <StatusBadge tone='progress'>{t.running}</StatusBadge>
+          <StatusBadge>{t.notStarted}</StatusBadge>
         </div>
         <div className='actions'>
           <Button
@@ -387,44 +334,32 @@ export function ColorFoundation() {
               document.getElementById('contrast')?.scrollIntoView()
             }
           >
-            Inspect contrast
+            {t.inspectContrast}
           </Button>
-          <Link href='/components/badge'>Badge usage and API</Link>
+          <Link href='/components/badge'>{t.badgeUsage}</Link>
         </div>
-        <p>
-          These statuses are static examples. Announce real asynchronous results
-          once, where they're needed. Keep errors and recovery actions in the
-          page content.
-        </p>
+        <p>{t.staticStatusesNote}</p>
       </section>
       <section id='application'>
-        <h2>Apply semantic color roles</h2>
+        <h2>{t.applicationHeading}</h2>
         <ul>
-          <li>
-            Show task results with a status name and an icon. For a failure, add
-            the reason and a recovery action.
-          </li>
-          <li>
-            Keep data status distinct from user selection. Show selection with
-            checkboxes or a selected surface, and actions with clear buttons.
-          </li>
-          <li>
-            Keep underlines on links in body text. Keep code and secondary
-            descriptions at readable contrast too.
-          </li>
+          <li>{t.tipStatusResults}</li>
+          <li>{t.tipSelection}</li>
+          <li>{t.tipLinks}</li>
         </ul>
         <CodeBlock
           language='css'
-          label='Semantic color example'
+          label={t.codeExampleLabel}
           code={
             '.resource-summary {\n  color: var(--ink-body);\n  background: var(--surface);\n}\n.resource-summary a {\n  color: var(--brand-ink);\n  text-decoration: underline;\n}'
           }
         />
         <p>
-          Don't copy color values into products. Reference tokens instead: see
-          the <Link href='/tokens?q=--ink'>token browser</Link> and{' '}
-          <Link href='/components/inline-message'>Inline message</Link> for real
-          tokens and usage examples.
+          {t.applyFooterStart}{' '}
+          <Link href='/tokens?q=--ink'>{t.tokenBrowserLink}</Link>
+          {t.applyFooterMid}{' '}
+          <Link href='/components/inline-message'>{t.inlineMessageLink}</Link>
+          {t.applyFooterEnd}
         </p>
       </section>
     </>

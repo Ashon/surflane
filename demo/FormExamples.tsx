@@ -13,9 +13,12 @@ import {
   RadioGroup,
   Switch,
 } from '@surflane/ui'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/FormExamples'
 export { formExampleIds } from './exampleGroups'
 export function FormExample({ id }: { id: string }) {
-  const [result, setResult] = useState('No preview action taken.')
+  const t = text[useLocale().locale]
+  const [result, setResult] = useState(t.noPreviewActionTaken)
   const [disabled, setDisabled] = useState(false)
   const [serverErrors, setServerErrors] = useState<Record<string, string>>({})
   const submit = (values: Record<string, unknown>) =>
@@ -32,23 +35,21 @@ export function FormExample({ id }: { id: string }) {
   }
   const project = (
     <Field.Root name='project'>
-      <Field.Label>Project name</Field.Label>
+      <Field.Label>{t.projectNameLabel}</Field.Label>
       <Field.Control
         required
         pattern={'[a-z0-9\\-]+'}
         placeholder='demo-e2e-01'
       />
-      <Field.Description>
-        Use lowercase letters, numbers, and hyphens.
-      </Field.Description>
+      <Field.Description>{t.projectNameDescription}</Field.Description>
       <Field.Error />
     </Field.Root>
   )
   const buttons = (
     <div className='actions'>
-      <Button type='submit'>Submit preview</Button>
+      <Button type='submit'>{t.submitPreview}</Button>
       <Button type='reset' variant='outline'>
-        Reset preview
+        {t.resetPreview}
       </Button>
     </div>
   )
@@ -70,25 +71,25 @@ export function FormExample({ id }: { id: string }) {
             aria-pressed={disabled}
             onClick={() => setDisabled(!disabled)}
           >
-            {disabled ? 'Enable group' : 'Disable group'}
+            {disabled ? t.enableGroup : t.disableGroup}
           </Button>
           <Form onFormSubmit={submit}>
             <Fieldset.Root disabled={disabled}>
-              <Fieldset.Legend>Deployment target</Fieldset.Legend>
+              <Fieldset.Legend>{t.deploymentTarget}</Fieldset.Legend>
               {project}
               <Field.Root name='environment'>
-                <Field.Label>Environment</Field.Label>
+                <Field.Label>{t.environment}</Field.Label>
                 <Select
                   name='environment'
-                  aria-label='Environment'
+                  aria-label={t.environment}
                   defaultValue='staging'
                   options={[
-                    { value: 'staging', label: 'Staging' },
-                    { value: 'production', label: 'Production' },
+                    { value: 'staging', label: t.staging },
+                    { value: 'production', label: t.production },
                   ]}
                 />
                 <Field.Description>
-                  Select the environment to deploy to.
+                  {t.selectEnvironmentToDeploy}
                 </Field.Description>
               </Field.Root>
             </Fieldset.Root>
@@ -104,33 +105,32 @@ export function FormExample({ id }: { id: string }) {
           errors={serverErrors}
           onReset={() => {
             setServerErrors({})
-            setResult('Preview reset.')
+            setResult(t.previewReset)
           }}
         >
           {project}
           <Field.Root name='description'>
-            <Field.Label>Description</Field.Label>
+            <Field.Label>{t.description}</Field.Label>
             <Field.Control
               render={<Textarea rows={3} />}
-              placeholder='Describe the purpose of the deployment.'
+              placeholder={t.deploymentPurposePlaceholder}
             />
           </Field.Root>
           <div className='actions'>
-            <Button type='submit'>Submit preview</Button>
+            <Button type='submit'>{t.submitPreview}</Button>
             <Button type='reset' variant='outline'>
-              Reset preview
+              {t.resetPreview}
             </Button>
             <Button
               type='button'
               variant='outline'
               onClick={() =>
                 setServerErrors({
-                  project:
-                    'This name is already in use. Enter a different name.',
+                  project: t.nameAlreadyInUse,
                 })
               }
             >
-              Preview server error
+              {t.previewServerError}
             </Button>
           </div>
         </Form>
@@ -140,23 +140,21 @@ export function FormExample({ id }: { id: string }) {
       example = (
         <Form onFormSubmit={submit}>
           <Field.Root name='description'>
-            <Field.Label>Description</Field.Label>
+            <Field.Label>{t.description}</Field.Label>
             <Field.Control
               render={<Textarea rows={4} />}
               required
               maxLength={240}
-              placeholder='Enter multiple lines of Korean and English text.'
+              placeholder={t.textareaPlaceholder}
             />
-            <Field.Description>
-              Up to 240 characters. Drag the bottom handle to change the height.
-            </Field.Description>
+            <Field.Description>{t.textareaDescription}</Field.Description>
             <Field.Error />
           </Field.Root>
           <Field.Root disabled>
-            <Field.Label>Disabled notes</Field.Label>
+            <Field.Label>{t.disabledNotes}</Field.Label>
             <Field.Control
               render={<Textarea rows={2} />}
-              placeholder='Unavailable'
+              placeholder={t.unavailable}
             />
           </Field.Root>
           {buttons}
@@ -178,25 +176,25 @@ export function FormExample({ id }: { id: string }) {
               >
                 <Checkbox.Indicator />
               </Checkbox.Root>
-              <span>Clean up temporary accounts</span>
+              <span>{t.cleanUpTemporaryAccounts}</span>
             </label>
             <label className='pui-choice-label'>
               <Checkbox.Root indeterminate readOnly>
                 <Checkbox.Indicator />
               </Checkbox.Root>
-              <span>Partial selection</span>
+              <span>{t.partialSelection}</span>
             </label>
             <label className='pui-choice-label'>
               <Checkbox.Root defaultChecked readOnly>
                 <Checkbox.Indicator />
               </Checkbox.Root>
-              <span>Read-only selection</span>
+              <span>{t.readOnlySelection}</span>
             </label>
             <label className='pui-choice-label'>
               <Checkbox.Root disabled>
                 <Checkbox.Indicator />
               </Checkbox.Root>
-              <span>Unavailable option</span>
+              <span>{t.unavailableOption}</span>
             </label>
           </div>
           {buttons}
@@ -207,21 +205,21 @@ export function FormExample({ id }: { id: string }) {
       example = (
         <Form onSubmit={submitNative}>
           <Fieldset.Root>
-            <Fieldset.Legend>Environments</Fieldset.Legend>
+            <Fieldset.Legend>{t.environments}</Fieldset.Legend>
             <CheckboxGroup
               allValues={['staging', 'production']}
               defaultValue={['staging']}
-              aria-label='Environments'
+              aria-label={t.environments}
             >
               <label className='pui-choice-label'>
                 <Checkbox.Root parent>
                   <Checkbox.Indicator />
                 </Checkbox.Root>
-                <span>All environments</span>
+                <span>{t.allEnvironments}</span>
               </label>
               {[
-                ['staging', 'Staging'],
-                ['production', 'Production'],
+                ['staging', t.staging],
+                ['production', t.production],
               ].map(([value, label]) => (
                 <label className='pui-choice-label' key={value}>
                   <Checkbox.Root name='environments' value={value}>
@@ -240,29 +238,29 @@ export function FormExample({ id }: { id: string }) {
       example = (
         <Form onSubmit={submitNative}>
           <Fieldset.Root>
-            <Fieldset.Legend>Log source</Fieldset.Legend>
+            <Fieldset.Legend>{t.logSource}</Fieldset.Legend>
             <RadioGroup
               name='source'
               defaultValue='live'
-              aria-label='Log source'
+              aria-label={t.logSource}
             >
               <label className='pui-choice-label'>
                 <Radio.Root value='live'>
                   <Radio.Indicator />
                 </Radio.Root>
-                <span>Actual DEMO</span>
+                <span>{t.actualDemo}</span>
               </label>
               <label className='pui-choice-label'>
                 <Radio.Root value='simulation'>
                   <Radio.Indicator />
                 </Radio.Root>
-                <span>Simulation</span>
+                <span>{t.simulation}</span>
               </label>
               <label className='pui-choice-label'>
                 <Radio.Root value='unavailable' disabled>
                   <Radio.Indicator />
                 </Radio.Root>
-                <span>Unavailable source</span>
+                <span>{t.unavailableSource}</span>
               </label>
             </RadioGroup>
           </Fieldset.Root>
@@ -283,23 +281,23 @@ export function FormExample({ id }: { id: string }) {
               >
                 <Switch.Thumb />
               </Switch.Root>
-              <span>Refresh run status</span>
+              <span>{t.refreshRunStatus}</span>
             </label>
             <label className='pui-choice-label'>
               <Switch.Root readOnly defaultChecked>
                 <Switch.Thumb />
               </Switch.Root>
-              <span>Read-only setting</span>
+              <span>{t.readOnlySetting}</span>
             </label>
             <label className='pui-choice-label'>
               <Switch.Root disabled>
                 <Switch.Thumb />
               </Switch.Root>
-              <span>Unavailable setting</span>
+              <span>{t.unavailableSetting}</span>
             </label>
           </div>
           <p className='catalog-preview-note'>
-            These settings change only in this preview.
+            {t.settingsChangeOnlyInPreview}
           </p>
           {buttons}
         </Form>

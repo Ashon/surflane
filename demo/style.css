@@ -1566,7 +1566,7 @@ body,
   block-size: 100%;
   margin-inline: auto;
   display: grid;
-  grid-template-columns: var(--catalog-sidebar-width) minmax(0, 1fr) 40px;
+  grid-template-columns: var(--catalog-sidebar-width) minmax(0, 1fr) 40px 40px;
   gap: var(--catalog-column-gap);
   align-items: center;
 }
@@ -1596,7 +1596,8 @@ body,
   transition: background-color var(--duration-fast) var(--ease-out);
 }
 .catalog-primary a:hover,
-.catalog-toprail .catalog-theme-toggle:hover:not(:disabled) {
+.catalog-toprail .catalog-theme-toggle:hover:not(:disabled),
+.catalog-toprail .catalog-locale-toggle:hover:not(:disabled) {
   background: color-mix(in srgb, var(--selected) 45%, transparent);
 }
 .catalog-primary a[aria-current] {
@@ -1712,7 +1713,8 @@ body,
   }
 }
 
-.catalog-toprail .catalog-theme-toggle {
+.catalog-toprail .catalog-theme-toggle,
+.catalog-toprail .catalog-locale-toggle {
   justify-self: end;
   inline-size: 40px;
   block-size: 40px;
@@ -1721,12 +1723,21 @@ body,
   color: var(--ink-body);
   transition: background-color var(--duration-fast) var(--ease-out);
 }
+/* The language the button switches to, in its own script, so readers of
+   that language can find it: 가 on English pages, A on Korean pages. */
+.catalog-locale-glyph {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+}
 .catalog-toprail .catalog-theme-toggle:hover:not(:disabled) {
   filter: none;
 }
 @media (prefers-reduced-motion: reduce) {
   .catalog-primary a,
-  .catalog-toprail .catalog-theme-toggle {
+  .catalog-toprail .catalog-theme-toggle,
+  .catalog-toprail .catalog-locale-toggle {
     transition: none;
   }
 }
@@ -1806,7 +1817,8 @@ body,
 
 @media (prefers-reduced-transparency: reduce) {
   .catalog-primary a:hover,
-  .catalog-toprail .catalog-theme-toggle:hover:not(:disabled) {
+  .catalog-toprail .catalog-theme-toggle:hover:not(:disabled),
+  .catalog-toprail .catalog-locale-toggle:hover:not(:disabled) {
     background: color-mix(in srgb, var(--selected) 45%, var(--chrome));
   }
   .catalog-primary a[aria-current] {
@@ -1815,7 +1827,8 @@ body,
 }
 @media (forced-colors: active) {
   .catalog-primary a:hover,
-  .catalog-toprail .catalog-theme-toggle:hover:not(:disabled) {
+  .catalog-toprail .catalog-theme-toggle:hover:not(:disabled),
+  .catalog-toprail .catalog-locale-toggle:hover:not(:disabled) {
     background: ButtonFace;
   }
   .catalog-primary a[aria-current] {
@@ -2787,7 +2800,7 @@ body,
     --catalog-rail-height: 120px;
   }
   .catalog-toprail-inner {
-    grid-template-columns: minmax(0, 1fr) 44px 44px;
+    grid-template-columns: minmax(0, 1fr) 44px 44px 44px;
     grid-template-rows: 58px 44px;
     align-content: start;
     gap: 0 4px;
@@ -2796,6 +2809,13 @@ body,
     grid-column: 1;
     grid-row: 1;
     justify-self: start;
+  }
+  .catalog-toprail .catalog-locale-toggle {
+    grid-column: 3;
+    grid-row: 1;
+    inline-size: 44px;
+    block-size: 44px;
+    min-block-size: 44px;
   }
   .catalog-toprail .catalog-theme-toggle {
     grid-column: 2;
@@ -2806,7 +2826,7 @@ body,
   }
   .catalog-toprail .catalog-navigation-toggle {
     display: inline-flex;
-    grid-column: 3;
+    grid-column: 4;
     grid-row: 1;
     inline-size: 44px;
     block-size: 44px;

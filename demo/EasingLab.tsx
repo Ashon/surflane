@@ -1,13 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Button, Field, NativeSelect, Slider, Table } from '@surflane/ui'
-
-const roles = [
-  ['--motion-ease', 'State feedback'],
-  ['--motion-spatial-ease', 'Panel movement'],
-  ['--toast-stack-ease', 'Toast stack'],
-  ['--ease-in', 'Acceleration comparison'],
-  ['linear', 'Linear comparison'],
-]
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/EasingLab'
 function points(value: string): number[] | null {
   const match = value.match(/^cubic-bezier\(([^)]+)\)$/)
   return match ? match[1].split(',').map(Number) : null
@@ -27,6 +21,14 @@ export function easedProgress(time: number, curve: number[] | null) {
   return bezier((low + high) / 2, curve[1], curve[3])
 }
 export function EasingLab() {
+  const t = text[useLocale().locale]
+  const roles: [string, string][] = [
+    ['--motion-ease', t.stateFeedback],
+    ['--motion-spatial-ease', t.panelMovement],
+    ['--toast-stack-ease', t.toastStack],
+    ['--ease-in', t.accelerationComparison],
+    ['linear', t.linearComparison],
+  ]
   const [role, setRole] = useState('--motion-ease')
   const [duration, setDuration] = useState(200)
   const [easing, setEasing] = useState('linear')
@@ -125,16 +127,11 @@ export function EasingLab() {
   }
   return (
     <section id='easing'>
-      <h2>Easing: time and progress</h2>
-      <p>
-        Duration is the total time. Easing is how fast the change progresses
-        over that time. Two 200ms transitions can still differ in speed at the
-        start and end. In the curve below, the horizontal axis is time and the
-        vertical axis is movement progress.
-      </p>
+      <h2>{t.title}</h2>
+      <p>{t.intro}</p>
       <div className='easing-controls'>
         <Field.Root>
-          <Field.Label>Easing role</Field.Label>
+          <Field.Label>{t.easingRole}</Field.Label>
           <NativeSelect
             value={role}
             onChange={(event) => setRole(event.target.value)}
@@ -147,14 +144,14 @@ export function EasingLab() {
           </NativeSelect>
         </Field.Root>
         <Field.Root>
-          <Field.Label>Preview duration</Field.Label>
+          <Field.Label>{t.previewDuration}</Field.Label>
           <NativeSelect
             value={duration}
             onChange={(event) => setDuration(Number(event.target.value))}
           >
             {[120, 200, 320, 420, 600].map((value) => (
               <option key={value} value={value}>
-                {value}ms{value === 600 ? ' (slow preview)' : ''}
+                {value}ms{value === 600 ? t.slowPreviewSuffix : ''}
               </option>
             ))}
           </NativeSelect>
@@ -162,7 +159,7 @@ export function EasingLab() {
       </div>
       <p>
         <code data-easing-value>{easing}</code>,{' '}
-        {reduced ? 'Reduced motion: static preview' : 'Motion preview enabled'}
+        {reduced ? t.reducedMotionStatus : t.motionPreviewEnabled}
       </p>
       <div className='easing-visuals'>
         <svg
@@ -170,12 +167,8 @@ export function EasingLab() {
           role='img'
           aria-labelledby='easing-graph-title easing-graph-description'
         >
-          <title id='easing-graph-title'>Time to movement progress curve</title>
-          <desc id='easing-graph-description'>
-            Horizontal axis: elapsed time from 0 to 100 percent. Vertical axis:
-            movement progress from 0 to 100 percent. The marker follows the
-            preview time slider.
-          </desc>
+          <title id='easing-graph-title'>{t.graphTitle}</title>
+          <desc id='easing-graph-description'>{t.graphDescription}</desc>
           <path
             d='M40 20 V220 H240 M40 220 L240 20'
             fill='none'
@@ -209,7 +202,7 @@ export function EasingLab() {
             0%
           </text>
           <text x='206' y='244'>
-            100% time
+            {t.timeAxisLabel}
           </text>
           <text x='0' y='16'>
             100%
@@ -228,7 +221,7 @@ export function EasingLab() {
             max={100}
             step={1}
           >
-            <Slider.Label>Preview time</Slider.Label>
+            <Slider.Label>{t.previewTime}</Slider.Label>
             <Slider.Value>
               {(_, values) => `${Math.round(values[0])}%`}
             </Slider.Value>

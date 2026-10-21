@@ -8,6 +8,8 @@ import {
   Tree,
   type TreeNode,
 } from '@surflane/ui'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/TreeExample'
 const small: TreeNode[] = [
   {
     id: 'projects',
@@ -57,6 +59,7 @@ const large: TreeNode[] = Array.from({ length: 100 }, (_, group) => ({
   })),
 }))
 export function TreeExample() {
+  const t = text[useLocale().locale]
   const datasetControl = useRef<HTMLButtonElement>(null)
   const [dataset, setDataset] = useState('resources'),
     [mode, setMode] = useState<'single' | 'multiple'>('single')
@@ -103,21 +106,21 @@ export function TreeExample() {
     <div className='example-stack tree-example'>
       <div className='tree-preview-settings'>
         <label>
-          Preview dataset
+          {t.previewDataset}
           <NativeSelect
             ref={datasetControl}
             value={dataset}
             onChange={(event) => changeDataset(event.target.value)}
           >
-            <option value='resources'>Resources</option>
-            <option value='large'>Large tree / 10,100 nodes</option>
-            <option value='empty'>Empty</option>
-            <option value='loading'>Loading</option>
-            <option value='error'>Error</option>
+            <option value='resources'>{t.datasetResources}</option>
+            <option value='large'>{t.datasetLarge}</option>
+            <option value='empty'>{t.datasetEmpty}</option>
+            <option value='loading'>{t.datasetLoading}</option>
+            <option value='error'>{t.datasetError}</option>
           </NativeSelect>
         </label>
         <label>
-          Selection mode
+          {t.selectionMode}
           <NativeSelect
             value={mode}
             onChange={(event) => {
@@ -125,17 +128,17 @@ export function TreeExample() {
               setSelected([])
             }}
           >
-            <option value='single'>Single</option>
-            <option value='multiple'>Multiple</option>
+            <option value='single'>{t.modeSingle}</option>
+            <option value='multiple'>{t.modeMultiple}</option>
           </NativeSelect>
         </label>
       </div>
       <div className='actions'>
         {(
           [
-            ['Long labels', long, setLong],
-            ['Right to left', rtl, setRtl],
-            ['Virtualize rows', virtualized, setVirtualized],
+            [t.longLabels, long, setLong],
+            [t.rightToLeft, rtl, setRtl],
+            [t.virtualizeRows, virtualized, setVirtualized],
           ] as const
         ).map(([label, checked, change]) => (
           <label className='pui-choice-label' key={label}>
@@ -148,7 +151,7 @@ export function TreeExample() {
       </div>
       <div className='actions'>
         <Button variant='outline' onClick={() => setExpanded([])}>
-          Collapse all preview groups
+          {t.collapseAll}
         </Button>
         <Button
           variant='outline'
@@ -160,7 +163,7 @@ export function TreeExample() {
             )
           }
         >
-          Expand all preview groups
+          {t.expandAll}
         </Button>
         <Button
           variant='ghost'
@@ -171,30 +174,26 @@ export function TreeExample() {
             datasetControl.current?.focus()
           }}
         >
-          Remove selected preview nodes
+          {t.removeSelected}
         </Button>
       </div>
-      <p>
-        {labels.size.toLocaleString('en-US')} loaded nodes. Selection and
-        expansion are local. Reserved environment can't be selected.
-      </p>
+      <p>{t.loadedNodes(labels.size)}</p>
       {dataset === 'loading' ? (
         <InlineMessage.Root tone='progress' role='status'>
           <Spinner size='sm' />
           <InlineMessage.Content>
-            <InlineMessage.Title>Loading hierarchy preview</InlineMessage.Title>
+            <InlineMessage.Title>{t.loadingTitle}</InlineMessage.Title>
             <InlineMessage.Description>
-              No service request is sent. Change the preview dataset to inspect
-              a result.
+              {t.loadingDescription}
             </InlineMessage.Description>
           </InlineMessage.Content>
         </InlineMessage.Root>
       ) : dataset === 'error' ? (
         <InlineMessage.Root tone='danger' role='alert'>
           <InlineMessage.Content>
-            <InlineMessage.Title>Hierarchy unavailable</InlineMessage.Title>
+            <InlineMessage.Title>{t.errorTitle}</InlineMessage.Title>
             <InlineMessage.Description>
-              This local example shows a failed load.
+              {t.errorDescription}
             </InlineMessage.Description>
             <InlineMessage.Actions>
               <Button
@@ -203,7 +202,7 @@ export function TreeExample() {
                   datasetControl.current?.focus()
                 }}
               >
-                Retry local tree
+                {t.retryLocalTree}
               </Button>
             </InlineMessage.Actions>
           </InlineMessage.Content>
@@ -211,7 +210,7 @@ export function TreeExample() {
       ) : (
         <Tree
           nodes={nodes}
-          label='Resource hierarchy'
+          label={t.treeLabel}
           selectedIds={selected}
           onSelectedIdsChange={setSelected}
           expandedIds={expanded}
@@ -219,14 +218,14 @@ export function TreeExample() {
           selectionMode={mode}
           virtualized={virtualized}
           dir={rtl ? 'rtl' : 'ltr'}
-          emptyLabel='No resources in this preview.'
+          emptyLabel={t.emptyLabel}
           height={352}
         />
       )}
-      <p role='status' aria-label='Tree selection'>
+      <p role='status' aria-label={t.treeSelectionLabel}>
         {selected.length
-          ? `Selected: ${selected.map((id) => labels.get(id) ?? id).join(', ')}`
-          : 'No selected resources.'}
+          ? t.selected(selected.map((id) => labels.get(id) ?? id).join(', '))
+          : t.noSelected}
       </p>
     </div>
   )

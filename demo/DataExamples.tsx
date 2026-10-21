@@ -10,6 +10,8 @@ import {
   InlineMessage,
   Spinner,
 } from '@surflane/ui'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/DataExamples'
 export { dataExampleIds } from './exampleGroups'
 const environments = [
   {
@@ -48,6 +50,7 @@ function SearchMark() {
   )
 }
 function EmptyPreview() {
+  const t = text[useLocale().locale]
   const [mode, setMode] = useState<'empty' | 'search' | 'permission'>('empty')
   const [created, setCreated] = useState(false),
     [notice, setNotice] = useState('')
@@ -62,7 +65,7 @@ function EmptyPreview() {
             setNotice('')
           }}
         >
-          Initial empty
+          {t.initialEmpty}
         </Button>
         <Button
           variant='outline'
@@ -72,7 +75,7 @@ function EmptyPreview() {
             setNotice('')
           }}
         >
-          No search results
+          {t.noSearchResults}
         </Button>
         <Button
           variant='outline'
@@ -82,19 +85,17 @@ function EmptyPreview() {
             setNotice('')
           }}
         >
-          Permission required
+          {t.permissionRequired}
         </Button>
       </div>
       {created ? (
-        <List.Root aria-label='Registered preview environments'>
+        <List.Root aria-label={t.registeredPreviewEnvironments}>
           <List.Item>
             <List.Content>
-              <List.Title>New environment preview</List.Title>
-              <List.Description>
-                Local example only. No resource was created.
-              </List.Description>
+              <List.Title>{t.newEnvironmentPreview}</List.Title>
+              <List.Description>{t.localExampleOnly}</List.Description>
             </List.Content>
-            <StatusBadge tone='success'>Configured</StatusBadge>
+            <StatusBadge tone='success'>{t.configured}</StatusBadge>
           </List.Item>
         </List.Root>
       ) : (
@@ -104,46 +105,44 @@ function EmptyPreview() {
           </EmptyState.Icon>
           <EmptyState.Title>
             {mode === 'empty'
-              ? 'No environments registered'
+              ? t.noEnvironmentsRegistered
               : mode === 'search'
-                ? 'No matching environments'
-                : 'Environment access required'}
+                ? t.noMatchingEnvironments
+                : t.environmentAccessRequired}
           </EmptyState.Title>
           <EmptyState.Description>
             {mode === 'empty'
-              ? 'Register an environment to start deploying.'
+              ? t.registerEnvironmentHint
               : mode === 'search'
-                ? 'Try another name or clear the current filters.'
-                : 'Ask an environment administrator to grant access.'}
+                ? t.tryAnotherNameOrClearFilters
+                : t.askAdminForAccess}
           </EmptyState.Description>
           <EmptyState.Actions>
             {mode === 'empty' ? (
               <Button
                 onClick={() => {
                   setCreated(true)
-                  setNotice('Preview environment added.')
+                  setNotice(t.previewEnvironmentAdded)
                 }}
               >
-                Register preview environment
+                {t.registerPreviewEnvironment}
               </Button>
             ) : mode === 'search' ? (
               <Button
                 variant='outline'
                 onClick={() => {
                   setMode('empty')
-                  setNotice('Filters cleared.')
+                  setNotice(t.filtersCleared)
                 }}
               >
-                Clear filters
+                {t.clearFilters}
               </Button>
             ) : (
               <Button
                 variant='outline'
-                onClick={() =>
-                  setNotice('Access request previewed. No message was sent.')
-                }
+                onClick={() => setNotice(t.accessRequestPreviewed)}
               >
-                Preview access request
+                {t.previewAccessRequest}
               </Button>
             )}
           </EmptyState.Actions>
@@ -156,6 +155,7 @@ function EmptyPreview() {
   )
 }
 function MessagePreview() {
+  const t = text[useLocale().locale]
   const [state, setState] = useState<'error' | 'pending' | 'success'>('error')
   const [notice, setNotice] = useState('')
   const tone =
@@ -169,17 +169,17 @@ function MessagePreview() {
         <InlineMessage.Content>
           <InlineMessage.Title>
             {state === 'error'
-              ? 'Environment discovery failed'
+              ? t.environmentDiscoveryFailed
               : state === 'pending'
-                ? 'Retrying environment discovery'
-                : 'Environment discovery complete'}
+                ? t.retryingEnvironmentDiscovery
+                : t.environmentDiscoveryComplete}
           </InlineMessage.Title>
           <InlineMessage.Description>
             {state === 'error'
-              ? "The preview endpoint didn't respond. Check the connection and retry."
+              ? t.endpointNoResponse
               : state === 'pending'
-                ? 'Waiting for a result. Use the controls below to resolve it.'
-                : 'Three environments are available in this local preview.'}
+                ? t.waitingForResult
+                : t.threeEnvironmentsAvailable}
           </InlineMessage.Description>
           <InlineMessage.Actions>
             <Button
@@ -187,21 +187,21 @@ function MessagePreview() {
               onClick={() => {
                 if (state === 'error') {
                   setState('pending')
-                  setNotice('Retry in progress.')
+                  setNotice(t.retryInProgress)
                 } else if (state === 'pending') {
                   setState('success')
-                  setNotice('Discovery succeeded.')
+                  setNotice(t.discoverySucceeded)
                 } else {
                   setState('error')
-                  setNotice('Error example restored.')
+                  setNotice(t.errorExampleRestored)
                 }
               }}
             >
               {state === 'error'
-                ? 'Retry preview'
+                ? t.retryPreview
                 : state === 'pending'
-                  ? 'Complete retry'
-                  : 'Reset error example'}
+                  ? t.completeRetry
+                  : t.resetErrorExample}
             </Button>
             {state === 'pending' && (
               <>
@@ -209,10 +209,10 @@ function MessagePreview() {
                   variant='ghost'
                   onClick={() => {
                     setState('error')
-                    setNotice('Discovery failed again. Retry when ready.')
+                    setNotice(t.discoveryFailedAgain)
                   }}
                 >
-                  Fail retry
+                  {t.failRetry}
                 </Button>
               </>
             )}
@@ -225,18 +225,18 @@ function MessagePreview() {
       <InlineMessage.Root tone='caution'>
         <InlineMessage.Icon tone='caution' />
         <InlineMessage.Content>
-          <InlineMessage.Title>Credentials expire soon</InlineMessage.Title>
+          <InlineMessage.Title>{t.credentialsExpireSoon}</InlineMessage.Title>
           <InlineMessage.Description>
-            Renew credentials before the next scheduled run.
+            {t.renewCredentialsBeforeRun}
           </InlineMessage.Description>
         </InlineMessage.Content>
       </InlineMessage.Root>
       <InlineMessage.Root>
         <InlineMessage.Icon />
         <InlineMessage.Content>
-          <InlineMessage.Title>Local examples</InlineMessage.Title>
+          <InlineMessage.Title>{t.localExamples}</InlineMessage.Title>
           <InlineMessage.Description>
-            These controls don't contact DEMO or create resources.
+            {t.controlsNoContact}
           </InlineMessage.Description>
         </InlineMessage.Content>
       </InlineMessage.Root>
@@ -244,6 +244,7 @@ function MessagePreview() {
   )
 }
 export function DataExample({ id }: { id: string }) {
+  const t = text[useLocale().locale]
   const [query, setQuery] = useState(''),
     [ascending, setAscending] = useState(true)
   const [selected, setSelected] = useState<string[]>([]),
@@ -262,11 +263,11 @@ export function DataExample({ id }: { id: string }) {
   return (
     <div className='example-stack'>
       <label>
-        Filter environments
+        {t.filterEnvironments}
         <Input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder='Search by environment name'
+          placeholder={t.searchByEnvironmentName}
         />
       </label>
       {rows.length === 0 ? (
@@ -274,25 +275,23 @@ export function DataExample({ id }: { id: string }) {
           <EmptyState.Icon aria-hidden='true'>
             <SearchMark />
           </EmptyState.Icon>
-          <EmptyState.Title>No matching environments</EmptyState.Title>
+          <EmptyState.Title>{t.noMatchingEnvironments}</EmptyState.Title>
           <EmptyState.Description>
-            Clear the search to see registered environments.
+            {t.clearSearchToSeeEnvironments}
           </EmptyState.Description>
           <EmptyState.Actions>
             <Button variant='outline' onClick={() => setQuery('')}>
-              Clear search
+              {t.clearSearch}
             </Button>
           </EmptyState.Actions>
         </EmptyState.Root>
       ) : id === 'table' ? (
-        <Table.Container label='Environment comparison'>
+        <Table.Container label={t.environmentComparison}>
           <Table.Root style={{ minWidth: 720 }}>
-            <Table.Caption>
-              Registered environments — local preview
-            </Table.Caption>
+            <Table.Caption>{t.registeredEnvironmentsCaption}</Table.Caption>
             <Table.Head>
               <Table.Row>
-                <Table.HeaderCell scope='col'>Selection</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>{t.selection}</Table.HeaderCell>
                 <Table.HeaderCell
                   scope='col'
                   aria-sort={ascending ? 'ascending' : 'descending'}
@@ -301,7 +300,7 @@ export function DataExample({ id }: { id: string }) {
                     variant='ghost'
                     onClick={() => setAscending((v) => !v)}
                   >
-                    Name
+                    {t.name}
                     <svg
                       width='14'
                       height='14'
@@ -315,11 +314,11 @@ export function DataExample({ id }: { id: string }) {
                     </svg>
                   </Button>
                 </Table.HeaderCell>
-                <Table.HeaderCell scope='col'>Cluster</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>{t.cluster}</Table.HeaderCell>
                 <Table.HeaderCell scope='col'>
-                  Discovered services
+                  {t.discoveredServices}
                 </Table.HeaderCell>
-                <Table.HeaderCell scope='col'>Actions</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>{t.actions}</Table.HeaderCell>
               </Table.Row>
             </Table.Head>
             <Table.Body>
@@ -327,7 +326,7 @@ export function DataExample({ id }: { id: string }) {
                 <Table.Row key={row.id} selected={selected.includes(row.id)}>
                   <Table.Cell>
                     <Checkbox.Root
-                      aria-label={`Select ${row.name}`}
+                      aria-label={t.selectEnvironment(row.name)}
                       checked={selected.includes(row.id)}
                       onCheckedChange={(checked) => toggle(row.id, checked)}
                     >
@@ -342,12 +341,10 @@ export function DataExample({ id }: { id: string }) {
                       variant='outline'
                       size='sm'
                       onClick={() =>
-                        setInspected(
-                          `${row.name}: ${row.count} services discovered.`,
-                        )
+                        setInspected(t.servicesDiscovered(row.name, row.count))
                       }
                     >
-                      Inspect {row.name}
+                      {t.inspectEnvironment(row.name)}
                     </Button>
                   </Table.Cell>
                 </Table.Row>
@@ -356,11 +353,11 @@ export function DataExample({ id }: { id: string }) {
           </Table.Root>
         </Table.Container>
       ) : (
-        <List.Root aria-label='Registered environments'>
+        <List.Root aria-label={t.registeredEnvironments}>
           {rows.map((row) => (
             <List.Item key={row.id} selected={selected.includes(row.id)}>
               <Checkbox.Root
-                aria-label={`Select ${row.name}`}
+                aria-label={t.selectEnvironment(row.name)}
                 checked={selected.includes(row.id)}
                 onCheckedChange={(checked) => toggle(row.id, checked)}
               >
@@ -369,30 +366,26 @@ export function DataExample({ id }: { id: string }) {
               <List.Content>
                 <List.Title>{row.name}</List.Title>
                 <List.Description>
-                  {row.region} / {row.count} discovered services
+                  {t.discoveredServicesInRegion(row.region, row.count)}
                 </List.Description>
               </List.Content>
               <List.Actions>
-                <StatusBadge tone='success'>Configured</StatusBadge>
+                <StatusBadge tone='success'>{t.configured}</StatusBadge>
                 <Button
                   variant='outline'
                   size='sm'
                   onClick={() =>
-                    setInspected(
-                      `${row.name}: ${row.count} services discovered.`,
-                    )
+                    setInspected(t.servicesDiscovered(row.name, row.count))
                   }
                 >
-                  Inspect {row.name}
+                  {t.inspectEnvironment(row.name)}
                 </Button>
               </List.Actions>
             </List.Item>
           ))}
         </List.Root>
       )}
-      <p role='status'>
-        {selected.length} selected. {inspected}
-      </p>
+      <p role='status'>{t.selectedSummary(selected.length, inspected)}</p>
     </div>
   )
 }

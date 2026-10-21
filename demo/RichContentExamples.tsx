@@ -8,6 +8,8 @@ import {
   SyntaxHighlighter,
   Textarea,
 } from '@surflane/ui'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/RichContentExamples'
 const examples: Record<string, string> = {
   tsx: `import { Button } from '@surflane/ui'
 
@@ -58,6 +60,7 @@ retries: 3
 [^scope]: This is a local rendering example.
 `
 export function RichContentExample({ id }: { id: string }) {
+  const t = text[useLocale().locale]
   const [language, setLanguage] = useState('tsx')
   const [code, setCode] = useState(examples.tsx)
   const [source, setSource] = useState(markdownExampleSource)
@@ -68,11 +71,11 @@ export function RichContentExample({ id }: { id: string }) {
     return (
       <div className='example-stack'>
         <div className='markdown-demo-toolbar'>
-          <div role='group' aria-label='Markdown view' className='actions'>
+          <div role='group' aria-label={t.markdownView} className='actions'>
             {[
-              ['split', 'Side by side'],
-              ['source', 'Source'],
-              ['preview', 'Preview'],
+              ['split', t.sideBySide],
+              ['source', t.source],
+              ['preview', t.preview],
             ].map(([value, label]) => (
               <Button
                 key={value}
@@ -85,7 +88,7 @@ export function RichContentExample({ id }: { id: string }) {
             ))}
           </div>
           <span className='markdown-demo-hint'>
-            Edit source to update the preview
+            {t.editSourceToUpdatePreview}
           </span>
         </div>
         <div className='markdown-workbench' data-view={view}>
@@ -93,9 +96,9 @@ export function RichContentExample({ id }: { id: string }) {
             <Field.Root>
               <div className='markdown-pane-heading'>
                 <Field.Label htmlFor='markdown-source'>
-                  Markdown source
+                  {t.markdownSource}
                 </Field.Label>
-                <span>Markdown</span>
+                <span>{t.markdown}</span>
               </div>
               <Textarea
                 id='markdown-source'
@@ -108,17 +111,17 @@ export function RichContentExample({ id }: { id: string }) {
           </div>
           <div className='markdown-preview-pane' hidden={view === 'source'}>
             <div className='markdown-pane-heading'>
-              <span>Rendered preview</span>
-              <span>Live</span>
+              <span>{t.renderedPreview}</span>
+              <span>{t.live}</span>
             </div>
             <ScrollArea
               orientation='vertical'
-              label='Rendered Markdown example'
+              label={t.renderedMarkdownExample}
               className='markdown-preview-scroll'
             >
               <Markdown
                 source={source}
-                label='Markdown preview'
+                label={t.markdownPreview}
                 codeWrap={wrap}
                 headingLevel={3}
               />
@@ -126,7 +129,7 @@ export function RichContentExample({ id }: { id: string }) {
                 <div className='markdown-second-preview'>
                   <Markdown
                     source={source}
-                    label='Second Markdown preview'
+                    label={t.secondMarkdownPreview}
                     codeWrap={wrap}
                     headingLevel={3}
                   />
@@ -140,21 +143,21 @@ export function RichContentExample({ id }: { id: string }) {
             variant='outline'
             onClick={() => setSource(markdownExampleSource)}
           >
-            Restore Markdown example
+            {t.restoreMarkdownExample}
           </Button>
           <Button
             variant='outline'
             aria-pressed={wrap}
             onClick={() => setWrap((value) => !value)}
           >
-            Wrap code lines
+            {t.wrapCodeLines}
           </Button>
           <Button
             variant='outline'
             aria-pressed={duplicate}
             onClick={() => setDuplicate((value) => !value)}
           >
-            Compare two instances
+            {t.compareTwoInstances}
           </Button>
         </div>
       </div>
@@ -162,18 +165,15 @@ export function RichContentExample({ id }: { id: string }) {
   return (
     <div className='example-stack'>
       <div className='syntax-theme-intro'>
-        <strong>Platform Quiet</strong>
-        <p>
-          Restrained color on a neutral background separates code structure from
-          values. Light and dark themes use the same semantic roles.
-        </p>
-        <ul className='syntax-theme-legend' aria-label='Syntax color roles'>
+        <strong>{t.platformQuiet}</strong>
+        <p>{t.introParagraph}</p>
+        <ul className='syntax-theme-legend' aria-label={t.syntaxColorRoles}>
           {[
-            ['keyword', 'Keyword'],
-            ['string', 'String'],
-            ['function', 'Function / type'],
-            ['number', 'Number'],
-            ['comment', 'Comment'],
+            ['keyword', t.keyword],
+            ['string', t.string],
+            ['function', t.functionType],
+            ['number', t.number],
+            ['comment', t.comment],
           ].map(([role, label]) => (
             <li key={role}>
               <code data-syntax={role}>{label}</code>
@@ -182,7 +182,7 @@ export function RichContentExample({ id }: { id: string }) {
         </ul>
       </div>
       <Field.Root>
-        <Field.Label htmlFor='syntax-language'>Source language</Field.Label>
+        <Field.Label htmlFor='syntax-language'>{t.sourceLanguage}</Field.Label>
         <NativeSelect
           id='syntax-language'
           value={language}
@@ -194,14 +194,14 @@ export function RichContentExample({ id }: { id: string }) {
           {Object.keys(examples).map((value) => (
             <option key={value} value={value}>
               {value === 'unsupported'
-                ? 'Unsupported / plain fallback'
+                ? t.unsupportedPlainFallback
                 : value.toUpperCase()}
             </option>
           ))}
         </NativeSelect>
       </Field.Root>
       <Field.Root>
-        <Field.Label htmlFor='syntax-source'>Source code</Field.Label>
+        <Field.Label htmlFor='syntax-source'>{t.sourceCode}</Field.Label>
         <Textarea
           id='syntax-source'
           className='rich-source-editor'
@@ -215,16 +215,16 @@ export function RichContentExample({ id }: { id: string }) {
           aria-pressed={wrap}
           onClick={() => setWrap((value) => !value)}
         >
-          Wrap source lines
+          {t.wrapSourceLines}
         </Button>
         <Button variant='outline' onClick={() => setCode(examples[language])}>
-          Restore source
+          {t.restoreSource}
         </Button>
       </div>
       <SyntaxHighlighter
         code={code}
         language={language}
-        label='Highlighted source preview'
+        label={t.highlightedSourcePreview}
         wrap={wrap}
       />
     </div>

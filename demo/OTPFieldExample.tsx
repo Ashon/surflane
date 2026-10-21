@@ -7,6 +7,8 @@ import {
   Checkbox,
   DirectionProvider,
 } from '@surflane/ui'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/OTPFieldExample'
 function Flag({
   checked,
   onChange,
@@ -32,12 +34,11 @@ function Slots({
   prefix: string
   grouped?: boolean
 }) {
+  const t = text[useLocale().locale]
   const input = (index: number) => (
     <OTPField.Input
       key={index}
-      aria-label={
-        index === 0 ? undefined : `${prefix} character ${index + 1} of 6`
-      }
+      aria-label={index === 0 ? undefined : t.character(prefix, index)}
     />
   )
   return grouped ? (
@@ -51,6 +52,7 @@ function Slots({
   )
 }
 export function OTPFieldExample() {
+  const t = text[useLocale().locale]
   const [backup, setBackup] = useState('A7C9XZ'),
     [mask, setMask] = useState(false),
     [disabled, setDisabled] = useState(false),
@@ -63,21 +65,21 @@ export function OTPFieldExample() {
     [rejected, setRejected] = useState(0),
     [generation, setGeneration] = useState(0)
   const [errors, setErrors] = useState<Record<string, string>>({}),
-    [result, setResult] = useState('No verification submitted.')
+    [result, setResult] = useState(t.noVerificationSubmitted)
   return (
     <div className='example-stack'>
       <div className='actions'>
         <Flag checked={disabled} onChange={setDisabled}>
-          Disable codes
+          {t.disableCodes}
         </Flag>
         <Flag checked={readOnly} onChange={setReadOnly}>
-          Read only
+          {t.readOnly}
         </Flag>
         <Flag checked={mask} onChange={setMask}>
-          Mask characters
+          {t.maskCharacters}
         </Flag>
         <Flag checked={rtl} onChange={setRtl}>
-          RTL preview
+          {t.rtlPreview}
         </Flag>
       </div>
       <DirectionProvider direction={rtl ? 'rtl' : 'ltr'}>
@@ -92,23 +94,16 @@ export function OTPFieldExample() {
               event.preventDefault()
               const data = new FormData(event.currentTarget)
               if (data.get('verificationCode') === '000000') {
-                setErrors({
-                  verificationCode:
-                    'This example code was rejected. Request a new code.',
-                })
+                setErrors({ verificationCode: t.rejectedExampleCode })
                 return
               }
               setErrors({})
-              setResult(
-                `Verification submitted. Recovery code included: ${data.has('recoveryCode') ? 'yes' : 'no'}.`,
-              )
+              setResult(t.verificationSubmitted(data.has('recoveryCode')))
             }}
           >
             <Field.Root name='verificationCode' key={generation}>
-              <Field.Label>Verification code</Field.Label>
-              <Field.Description>
-                Enter 6 digits. This local preview sends no code to a server.
-              </Field.Description>
+              <Field.Label>{t.verificationCode}</Field.Label>
+              <Field.Description>{t.verificationDescription}</Field.Description>
               <OTPField.Root
                 length={6}
                 required
@@ -122,25 +117,21 @@ export function OTPFieldExample() {
                 onValueInvalid={() => setRejected((n) => n + 1)}
                 onValueComplete={() => setComplete((n) => n + 1)}
               >
-                <Slots prefix='Verification' grouped />
+                <Slots prefix={t.verification} grouped />
               </OTPField.Root>
               <Field.Error />
             </Field.Root>
             <div className='actions'>
-              <Button type='submit'>Verify preview</Button>
+              <Button type='submit'>{t.verifyPreview}</Button>
               <Button type='reset' variant='outline'>
-                Reset codes
+                {t.resetCodes}
               </Button>
               <Button
                 variant='ghost'
                 type='button'
-                onClick={() =>
-                  setErrors({
-                    verificationCode: 'Code expired. Request a new code.',
-                  })
-                }
+                onClick={() => setErrors({ verificationCode: t.codeExpired })}
               >
-                Expire code
+                {t.expireCode}
               </Button>
               <Button
                 variant='ghost'
@@ -148,21 +139,16 @@ export function OTPFieldExample() {
                 onClick={() => {
                   setErrors({})
                   setGeneration((n) => n + 1)
-                  setResult(
-                    'New local code requested. Verification input cleared.',
-                  )
+                  setResult(t.newLocalCodeRequested)
                 }}
               >
-                Request new code
+                {t.requestNewCode}
               </Button>
             </div>
           </Form>
           <Field.Root name='recoveryCode'>
-            <Field.Label>Recovery code</Field.Label>
-            <Field.Description>
-              A controlled value of uppercase letters and digits. This field
-              belongs to the form above.
-            </Field.Description>
+            <Field.Label>{t.recoveryCode}</Field.Label>
+            <Field.Description>{t.recoveryDescription}</Field.Description>
             <OTPField.Root
               length={6}
               form='otp-preview-form'
@@ -177,7 +163,7 @@ export function OTPFieldExample() {
               readOnly={readOnly}
               mask={mask}
             >
-              <Slots prefix='Recovery' />
+              <Slots prefix={t.recovery} />
             </OTPField.Root>
             <Field.Error />
           </Field.Root>
@@ -185,19 +171,16 @@ export function OTPFieldExample() {
       </DirectionProvider>
       <div className='actions'>
         <Flag checked={cancelChanges} onChange={setCancelChanges}>
-          Cancel code changes
+          {t.cancelCodeChanges}
         </Flag>
         <Flag checked={cancelReset} onChange={setCancelReset}>
-          Cancel reset
+          {t.cancelReset}
         </Flag>
         <Flag checked={autoSubmit} onChange={setAutoSubmit}>
-          Submit when complete
+          {t.submitWhenComplete}
         </Flag>
       </div>
-      <p role='status'>
-        {result} Completion events: {complete}. Rejected input events:{' '}
-        {rejected}.
-      </p>
+      <p role='status'>{t.status(result, complete, rejected)}</p>
     </div>
   )
 }

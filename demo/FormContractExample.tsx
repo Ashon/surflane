@@ -7,6 +7,8 @@ import {
   Radio,
   Switch,
 } from '@surflane/ui'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/FormContractExample'
 const initial = {
   cleanup: true,
   refresh: true,
@@ -14,9 +16,10 @@ const initial = {
   regions: ['staging'],
 }
 export function FormContractExample() {
+  const t = text[useLocale().locale]
   const [model, setModel] = useState(initial),
     [reject, setReject] = useState(false),
-    [result, setResult] = useState('No contract action taken.')
+    [result, setResult] = useState(t.noActionTaken)
   function change<Key extends keyof typeof initial>(
     key: Key,
     value: (typeof initial)[Key],
@@ -24,18 +27,15 @@ export function FormContractExample() {
   ) {
     if (reject) {
       event.cancel()
-      setResult('Change canceled by caller.')
+      setResult(t.changeCanceledByCaller)
       return
     }
     setModel((previous) => ({ ...previous, [key]: value }))
   }
   return (
     <div className='form-contract-example example-stack'>
-      <h3>Controlled values and external form ownership</h3>
-      <p>
-        The calling screen owns the values. Native reset doesn't overwrite
-        controlled values. An explicit restore action resets the model.
-      </p>
+      <h3>{t.title}</h3>
+      <p>{t.description}</p>
       <form
         id='reset-contract-form'
         onSubmit={(event) => {
@@ -52,19 +52,19 @@ export function FormContractExample() {
         }}
       >
         <div className='actions'>
-          <Button type='submit'>Submit contract</Button>
+          <Button type='submit'>{t.submitContract}</Button>
           <Button variant='outline' type='reset'>
-            Native reset
+            {t.nativeReset}
           </Button>
           <Button
             variant='outline'
             type='button'
             onClick={() => {
               setModel(initial)
-              setResult('Controlled model restored.')
+              setResult(t.modelRestored)
             }}
           >
-            Restore initial model
+            {t.restoreInitialModel}
           </Button>
           <Button
             type='button'
@@ -72,7 +72,7 @@ export function FormContractExample() {
             aria-pressed={reject}
             onClick={() => setReject(!reject)}
           >
-            Reject changes
+            {t.rejectChanges}
           </Button>
         </div>
       </form>
@@ -86,7 +86,7 @@ export function FormContractExample() {
         >
           <Checkbox.Indicator />
         </Checkbox.Root>
-        <span>Controlled cleanup</span>
+        <span>{t.controlledCleanup}</span>
       </label>
       <label className='pui-choice-label'>
         <Switch.Root
@@ -99,21 +99,21 @@ export function FormContractExample() {
         >
           <Switch.Thumb />
         </Switch.Root>
-        <span>Controlled refresh</span>
+        <span>{t.controlledRefresh}</span>
       </label>
       <RadioGroup
         value={model.source}
         onValueChange={(next, event) => change('source', next, event)}
         name='controlledSource'
         form='reset-contract-form'
-        aria-label='Controlled source'
+        aria-label={t.controlledSource}
         ref={(node) => {
           node?.setAttribute('data-contract-ref', 'connected')
         }}
       >
         {[
-          ['live', 'Live'],
-          ['simulation', 'Simulation'],
+          ['live', t.live],
+          ['simulation', t.simulation],
         ].map(([value, label]) => (
           <label className='pui-choice-label' key={value}>
             <Radio.Root value={value}>
@@ -126,18 +126,18 @@ export function FormContractExample() {
       <CheckboxGroup
         value={model.regions}
         onValueChange={(next, event) => change('regions', next, event)}
-        aria-label='Controlled environments'
+        aria-label={t.controlledEnvironments}
         allValues={['staging', 'production']}
       >
         <label className='pui-choice-label'>
           <Checkbox.Root parent>
             <Checkbox.Indicator />
           </Checkbox.Root>
-          <span>All controlled environments</span>
+          <span>{t.allControlledEnvironments}</span>
         </label>
         {[
-          ['staging', 'Controlled Staging'],
-          ['production', 'Controlled Production'],
+          ['staging', t.controlledStaging],
+          ['production', t.controlledProduction],
         ].map(([value, label]) => (
           <label className='pui-choice-label' key={value}>
             <Checkbox.Root

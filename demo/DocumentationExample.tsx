@@ -10,6 +10,8 @@ import {
   Prose,
 } from '@surflane/ui'
 import { Link } from './router'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/DocumentationExample'
 const sections = ['prepare', 'configure', 'next'] as const
 type Section = (typeof sections)[number]
 // The Korean copy is a deliberate locale sample for the language switcher.
@@ -93,7 +95,8 @@ export function DocumentationExample() {
     [contentsOpen, setContentsOpen] = useState(true),
     [active, setActive] = useState<Section>('prepare')
   const article = useRef<HTMLElement>(null)
-  const text = copy[locale]
+  const copyText = copy[locale]
+  const t = text[useLocale().locale]
   useEffect(() => {
     const viewport = article.current?.closest<HTMLElement>(
       '.catalog-document-scroll',
@@ -126,43 +129,43 @@ export function DocumentationExample() {
     <div className='documentation-example'>
       <div className='documentation-settings actions'>
         <label>
-          Document language
+          {t.documentLanguage}
           <NativeSelect
             value={locale}
             onChange={(event) => setLocale(event.target.value as 'ko' | 'en')}
           >
-            <option value='en'>English</option>
-            <option value='ko'>Korean</option>
+            <option value='en'>{t.english}</option>
+            <option value='ko'>{t.korean}</option>
           </NativeSelect>
         </label>
         <label className='pui-choice-label'>
           <Checkbox.Root checked={long} onCheckedChange={setLong}>
             <Checkbox.Indicator />
           </Checkbox.Root>
-          Long document
+          {t.longDocument}
         </label>
         <label className='pui-choice-label'>
           <Checkbox.Root checked={wrap} onCheckedChange={setWrap}>
             <Checkbox.Indicator />
           </Checkbox.Root>
-          Wrap sample code
+          {t.wrapSampleCode}
         </label>
       </div>
       <div className='documentation-layout'>
         <aside className='documentation-toc' lang={locale}>
           <Collapsible.Root open={contentsOpen} onOpenChange={setContentsOpen}>
             <Collapsible.Trigger render={<Button variant='ghost' />}>
-              {text.contents}
+              {copyText.contents}
             </Collapsible.Trigger>
             <Collapsible.Panel>
-              <nav aria-label={text.contents}>
+              <nav aria-label={copyText.contents}>
                 {sections.map((id) => (
                   <a
                     key={id}
                     href={`#guide-preview-${id}`}
                     aria-current={active === id ? 'location' : undefined}
                   >
-                    {text[id]}
+                    {copyText[id]}
                   </a>
                 ))}
               </nav>
@@ -173,76 +176,76 @@ export function DocumentationExample() {
           ref={article}
           className='documentation-article'
           lang={locale}
-          aria-label={text.title}
+          aria-label={copyText.title}
         >
           <PageHeader
-            title={text.title}
-            description={text.description}
+            title={copyText.title}
+            description={copyText.description}
             level={3}
             size='document'
           />
           <p className='documentation-meta'>
-            <time dateTime='2026-10-17'>{text.updated}</time>
+            <time dateTime='2026-10-17'>{copyText.updated}</time>
           </p>
           <Prose>
             <section aria-labelledby='guide-preview-prepare'>
               <h4 id='guide-preview-prepare' tabIndex={-1}>
-                {text.prepare}
+                {copyText.prepare}
               </h4>
-              <p>{text.intro}</p>
+              <p>{copyText.intro}</p>
               <ol>
-                {text.steps.map((step) => (
+                {copyText.steps.map((step) => (
                   <li key={step}>{step}</li>
                 ))}
               </ol>
               <InlineMessage.Root tone='neutral'>
                 <InlineMessage.Content>
-                  <InlineMessage.Title>{text.note}</InlineMessage.Title>
+                  <InlineMessage.Title>{copyText.note}</InlineMessage.Title>
                   <InlineMessage.Description>
-                    {text.noteBody}
+                    {copyText.noteBody}
                   </InlineMessage.Description>
                 </InlineMessage.Content>
               </InlineMessage.Root>
               {long &&
                 Array.from({ length: 3 }, (_, index) => (
                   <p key={index}>
-                    {text.continuation} {text.long}
+                    {copyText.continuation} {copyText.long}
                   </p>
                 ))}
             </section>
             <section aria-labelledby='guide-preview-configure'>
               <h4 id='guide-preview-configure' tabIndex={-1}>
-                {text.configure}
+                {copyText.configure}
               </h4>
-              <p>{text.config}</p>
+              <p>{copyText.config}</p>
               <CodeBlock
                 code={documentationSampleCode}
-                label={text.code}
+                label={copyText.code}
                 language='typescript'
                 wrap={wrap}
-                copyLabel={text.copy}
-                copiedLabel={text.copied}
-                copyErrorLabel={text.copyError}
+                copyLabel={copyText.copy}
+                copiedLabel={copyText.copied}
+                copyErrorLabel={copyText.copyError}
               />
               {long &&
                 Array.from({ length: 3 }, (_, index) => (
-                  <p key={index}>{text.continuation}</p>
+                  <p key={index}>{copyText.continuation}</p>
                 ))}
             </section>
             <section aria-labelledby='guide-preview-next'>
               <h4 id='guide-preview-next' tabIndex={-1}>
-                {text.next}
+                {copyText.next}
               </h4>
-              <p>{text.nextBody}</p>
+              <p>{copyText.nextBody}</p>
               <ul>
                 <li>
                   <Link className='pui-link' href='/patterns/form-workflow'>
-                    {text.workflow}
+                    {copyText.workflow}
                   </Link>
                 </li>
                 <li>
                   <Link className='pui-link' href='/foundations/accessibility'>
-                    {text.accessibility}
+                    {copyText.accessibility}
                   </Link>
                 </li>
               </ul>

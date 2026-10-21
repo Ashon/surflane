@@ -21,6 +21,8 @@ import {
   type CalendarDateTime,
   type ZonedDateTime,
 } from '@internationalized/date'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/DatePickerExample'
 
 const initialDate = () => parseDate('2026-10-20')
 const initialRange = () => ({
@@ -29,6 +31,7 @@ const initialRange = () => ({
 })
 const initialZoned = () => parseZonedDateTime('2026-10-20T09:00[Asia/Seoul]')
 export function DatePickerExample() {
+  const t = text[useLocale().locale]
   const [locale, setLocale] = useState('en-US')
   const [disabled, setDisabled] = useState(false),
     [readOnly, setReadOnly] = useState(false),
@@ -39,7 +42,7 @@ export function DatePickerExample() {
     end: CalendarDate
   } | null>(initialRange)
   const [zoned, setZoned] = useState<ZonedDateTime | null>(initialZoned)
-  const [result, setResult] = useState('No local form submitted.')
+  const [result, setResult] = useState(t.noLocalFormSubmitted)
   const [zone, setZone] = useState('America/New_York')
   const [wall, setWall] = useState<CalendarDateTime | null>(() =>
     parseDateTime('2026-11-01T01:30'),
@@ -54,7 +57,7 @@ export function DatePickerExample() {
     <div className='date-picker-example'>
       <div className='foundation-controls'>
         <label>
-          Locale
+          {t.locale}
           <NativeSelect
             value={locale}
             onChange={(e) => setLocale(e.target.value)}
@@ -68,46 +71,44 @@ export function DatePickerExample() {
           <Checkbox.Root checked={disabled} onCheckedChange={setDisabled}>
             <Checkbox.Indicator />
           </Checkbox.Root>
-          <span>Disable date controls</span>
+          <span>{t.disableDateControls}</span>
         </label>
         <label className='pui-choice-label'>
           <Checkbox.Root checked={readOnly} onCheckedChange={setReadOnly}>
             <Checkbox.Indicator />
           </Checkbox.Root>
-          <span>Read only</span>
+          <span>{t.readOnly}</span>
         </label>
         <label className='pui-choice-label'>
           <Checkbox.Root checked={weekends} onCheckedChange={setWeekends}>
             <Checkbox.Indicator />
           </Checkbox.Root>
-          <span>Unavailable weekends</span>
+          <span>{t.unavailableWeekends}</span>
         </label>
       </div>
       <DateLocaleProvider locale={locale}>
         <div lang={locale} dir={locale.startsWith('ar') ? 'rtl' : 'ltr'}>
           <form
             className='pui-form'
-            aria-label='Date and time preview'
+            aria-label={t.dateTimePreview}
             onSubmit={(event) => {
               event.preventDefault()
               setResult(
                 JSON.stringify(
                   Object.fromEntries(new FormData(event.currentTarget)),
-                ) + ` | zoned instant: ${zoned?.toAbsoluteString() ?? 'none'}`,
+                ) + ` | ${t.zonedInstant(zoned?.toAbsoluteString() ?? t.none)}`,
               )
             }}
             onReset={() => {
               setDate(initialDate())
               setRange(initialRange())
               setZoned(initialZoned())
-              setResult(
-                'Form reset. This example restores the controlled values.',
-              )
+              setResult(t.formReset)
             }}
           >
             <DatePicker
               ref={fieldRef}
-              label='Run date'
+              label={t.runDate}
               name='runDate'
               value={date}
               onChange={setDate}
@@ -121,11 +122,11 @@ export function DatePickerExample() {
                   ? (value) => [0, 6].includes(getDayOfWeek(value, 'en-US'))
                   : undefined
               }
-              description='October–December 2026. Enter segments or open the calendar.'
-              errorMessage='Choose an available date between October 1 and December 31, 2026.'
+              description={t.runDateDescription}
+              errorMessage={t.runDateError}
             />
             <DateRangePicker
-              label='Release window'
+              label={t.releaseWindow}
               startName='rangeStart'
               endName='rangeEnd'
               value={range}
@@ -140,11 +141,11 @@ export function DatePickerExample() {
                   ? (value) => [0, 6].includes(getDayOfWeek(value, 'en-US'))
                   : undefined
               }
-              description='Start and end are inclusive. Unavailable days cannot be crossed.'
-              errorMessage='Choose an ordered, available date range within October–December 2026.'
+              description={t.releaseWindowDescription}
+              errorMessage={t.releaseWindowError}
             />
             <TimeField
-              label='Start time'
+              label={t.startTime}
               name='startTime'
               defaultValue={new Time(9, 30)}
               minValue={new Time(9)}
@@ -153,11 +154,11 @@ export function DatePickerExample() {
               isRequired
               isDisabled={disabled}
               isReadOnly={readOnly}
-              description='09:00–18:00. Wall-clock time, with no assumed date or time zone.'
-              errorMessage='Enter a time from 09:00 through 18:00.'
+              description={t.startTimeDescription}
+              errorMessage={t.startTimeError}
             />
             <DatePicker
-              label='Zoned execution'
+              label={t.zonedExecution}
               name='execution'
               value={zoned}
               onChange={setZoned}
@@ -165,21 +166,21 @@ export function DatePickerExample() {
               hourCycle={24}
               isDisabled={disabled}
               isReadOnly={readOnly}
-              description='The time-zone abbreviation stays visible. Changing the display zone keeps the instant.'
+              description={t.zonedExecutionDescription}
             />
             <div className='actions'>
               <Button type='submit' disabled={disabled || readOnly}>
-                Submit local dates
+                {t.submitLocalDates}
               </Button>
               <Button type='reset' variant='outline'>
-                Reset local dates
+                {t.resetLocalDates}
               </Button>
               <Button
                 variant='ghost'
                 disabled={disabled || readOnly}
                 onClick={() => setDate(null)}
               >
-                Clear run date
+                {t.clearRunDate}
               </Button>
               <Button
                 variant='ghost'
@@ -196,35 +197,36 @@ export function DatePickerExample() {
                   )
                 }
               >
-                Change display zone
+                {t.changeDisplayZone}
               </Button>
             </div>
-            <p role='status' aria-label='Date form result'>
+            <p role='status' aria-label={t.dateFormResult}>
               {result}
             </p>
             <p data-date-value>
-              Run date: {date?.toString() ?? 'none'}; range:{' '}
-              {range
-                ? `${range.start.toString()} / ${range.end.toString()}`
-                : 'none'}
+              {t.runDateStatus(
+                date?.toString() ?? t.none,
+                range
+                  ? `${range.start.toString()} / ${range.end.toString()}`
+                  : t.none,
+              )}
             </p>
             <p data-zoned-value>
-              {zoned?.toString() ?? 'No zoned date'}; instant:{' '}
-              {zoned?.toAbsoluteString() ?? 'none'}
+              {t.zonedValueStatus(
+                zoned?.toString() ?? t.noZonedDate,
+                zoned?.toAbsoluteString() ?? t.none,
+              )}
             </p>
           </form>
           <section
             className='pui-stack date-time-resolution'
             aria-labelledby='local-time-heading'
           >
-            <h3 id='local-time-heading'>Resolve a local time explicitly</h3>
-            <p>
-              A calendar date isn't an instant. A local date and time needs an
-              IANA zone. DST gaps and repeated times need a stated policy.
-            </p>
+            <h3 id='local-time-heading'>{t.resolveLocalTimeHeading}</h3>
+            <p>{t.resolveLocalTimeIntro}</p>
             <div className='foundation-controls'>
               <label>
-                Time zone
+                {t.timeZone}
                 <NativeSelect
                   value={zone}
                   onChange={(e) => {
@@ -238,7 +240,7 @@ export function DatePickerExample() {
                 </NativeSelect>
               </label>
               <label>
-                DST disambiguation
+                {t.dstDisambiguation}
                 <NativeSelect
                   value={policy}
                   onChange={(e) => {
@@ -247,14 +249,14 @@ export function DatePickerExample() {
                     setZoneError('')
                   }}
                 >
-                  <option value='reject'>Reject gaps and overlaps</option>
-                  <option value='earlier'>Explicit earlier instant</option>
-                  <option value='later'>Explicit later instant</option>
+                  <option value='reject'>{t.rejectGapsOverlaps}</option>
+                  <option value='earlier'>{t.explicitEarlierInstant}</option>
+                  <option value='later'>{t.explicitLaterInstant}</option>
                 </NativeSelect>
               </label>
             </div>
             <DatePicker
-              label='Local wall time'
+              label={t.localWallTime}
               value={wall}
               onChange={(value) => {
                 setWall(value)
@@ -263,13 +265,13 @@ export function DatePickerExample() {
               }}
               granularity='minute'
               hourCycle={24}
-              description='No time zone is assumed while editing these segments.'
+              description={t.localWallTimeDescription}
             />
             <div className='actions'>
               <Button
                 onClick={() => {
                   if (!wall) {
-                    setZoneError('Enter a complete local date and time.')
+                    setZoneError(t.enterCompleteLocalDateTime)
                     return
                   }
                   try {
@@ -277,13 +279,11 @@ export function DatePickerExample() {
                     setZoneError('')
                   } catch {
                     setResolved(null)
-                    setZoneError(
-                      'This local time is skipped or occurs twice in this zone. Choose an explicit earlier or later policy, or another local time.',
-                    )
+                    setZoneError(t.dstAmbiguousError)
                   }
                 }}
               >
-                Resolve local time
+                {t.resolveLocalTime}
               </Button>
               <Button
                 variant='outline'
@@ -294,7 +294,7 @@ export function DatePickerExample() {
                   setZoneError('')
                 }}
               >
-                DST overlap
+                {t.dstOverlap}
               </Button>
               <Button
                 variant='outline'
@@ -305,7 +305,7 @@ export function DatePickerExample() {
                   setZoneError('')
                 }}
               >
-                DST gap
+                {t.dstGap}
               </Button>
               <Button
                 variant='outline'
@@ -315,7 +315,7 @@ export function DatePickerExample() {
                   setZoneError('')
                 }}
               >
-                Normal local time
+                {t.normalLocalTime}
               </Button>
             </div>
             {zoneError && (
@@ -323,7 +323,7 @@ export function DatePickerExample() {
                 <InlineMessage.Icon tone='danger' />
                 <InlineMessage.Content>
                   <InlineMessage.Title>
-                    Local time needs a decision
+                    {t.localTimeNeedsDecision}
                   </InlineMessage.Title>
                   <InlineMessage.Description>
                     {zoneError}
@@ -331,10 +331,13 @@ export function DatePickerExample() {
                 </InlineMessage.Content>
               </InlineMessage.Root>
             )}
-            <p role='status' aria-label='Resolved local time'>
+            <p role='status' aria-label={t.resolvedLocalTime}>
               {resolved
-                ? `${resolved.toString()} | instant: ${resolved.toAbsoluteString()}`
-                : 'No instant resolved.'}
+                ? t.resolvedInstantStatus(
+                    resolved.toString(),
+                    resolved.toAbsoluteString(),
+                  )
+                : t.noInstantResolved}
             </p>
           </section>
         </div>

@@ -14,9 +14,10 @@ import {
   Checkbox,
   Select,
   Button,
-  type StatusTone,
 } from '@surflane/ui'
 import { withBase } from './router'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/NavigationExamples'
 export { navigationExampleIds } from './exampleGroups'
 function Toggle({
   checked,
@@ -37,6 +38,7 @@ function Toggle({
   )
 }
 function TabsExample() {
+  const t = text[useLocale().locale]
   const [selected, setSelected] = useState<string | number | null>('overview'),
     [automatic, setAutomatic] = useState(false),
     [hold, setHold] = useState(false),
@@ -47,23 +49,23 @@ function TabsExample() {
     <div className='example-stack'>
       <div className='grid'>
         <label>
-          Tab orientation
+          {t.tabOrientation}
           <Select
-            aria-label='Tab orientation'
+            aria-label={t.tabOrientation}
             value={orientation}
             onValueChange={(v) => setOrientation(v as typeof orientation)}
             options={[
-              { value: 'horizontal', label: 'Horizontal' },
-              { value: 'vertical', label: 'Vertical' },
+              { value: 'horizontal', label: t.horizontal },
+              { value: 'vertical', label: t.vertical },
             ]}
           />
         </label>
         <div>
           <Toggle checked={automatic} onChange={setAutomatic}>
-            Activate on focus
+            {t.activateOnFocus}
           </Toggle>
           <Toggle checked={hold} onChange={setHold}>
-            Prevent tab changes
+            {t.preventTabChanges}
           </Toggle>
         </div>
       </div>
@@ -78,34 +80,38 @@ function TabsExample() {
           setSelected(value)
         }}
       >
-        <Tabs.List aria-label='Deployment sections' activateOnFocus={automatic}>
-          <Tabs.Tab value='overview'>Overview</Tabs.Tab>
-          <Tabs.Tab value='logs'>Logs</Tabs.Tab>
+        <Tabs.List
+          aria-label={t.deploymentSections}
+          activateOnFocus={automatic}
+        >
+          <Tabs.Tab value='overview'>{t.overview}</Tabs.Tab>
+          <Tabs.Tab value='logs'>{t.logs}</Tabs.Tab>
           <Tabs.Tab value='unavailable' disabled>
-            Unavailable
+            {t.unavailable}
           </Tabs.Tab>
-          <Tabs.Tab value='history'>History</Tabs.Tab>
+          <Tabs.Tab value='history'>{t.history}</Tabs.Tab>
           <Tabs.Indicator />
         </Tabs.List>
         <Tabs.Panel value='overview' keepMounted>
-          <p>Review the environment and deployment scope.</p>
+          <p>{t.reviewEnvironmentAndDeploymentScope}</p>
           <label>
-            Preview note
-            <Input placeholder='Note retained across tabs' />
+            {t.previewNote}
+            <Input placeholder={t.noteRetainedAcrossTabs} />
           </label>
         </Tabs.Panel>
         <Tabs.Panel value='logs' keepMounted>
-          <p>Review the build logs for the selected pipeline run.</p>
-          <StatusBadge tone='success'>Passed</StatusBadge>
+          <p>{t.reviewBuildLogsForSelectedPipelineRun}</p>
+          <StatusBadge tone='success'>{t.passed}</StatusBadge>
         </Tabs.Panel>
         <Tabs.Panel value='history' keepMounted>
-          <p>Review recent runs and change history.</p>
+          <p>{t.reviewRecentRunsAndChangeHistory}</p>
         </Tabs.Panel>
       </Tabs.Root>
     </div>
   )
 }
 function AccordionExample() {
+  const t = text[useLocale().locale]
   const [multiple, setMultiple] = useState(false),
     [open, setOpen] = useState<string[]>(['identity'])
   return (
@@ -117,7 +123,7 @@ function AccordionExample() {
           if (!next) setOpen((old) => old.slice(0, 1))
         }}
       >
-        Allow multiple sections
+        {t.allowMultipleSections}
       </Toggle>
       <Accordion.Root
         value={open}
@@ -127,49 +133,50 @@ function AccordionExample() {
       >
         <Accordion.Item value='identity'>
           <Accordion.Header>
-            <Accordion.Trigger>Identity controls</Accordion.Trigger>
+            <Accordion.Trigger>{t.identityControls}</Accordion.Trigger>
           </Accordion.Header>
           <Accordion.Panel>
-            <p>Check service account permissions and team isolation.</p>
+            <p>{t.checkServiceAccountPermissionsAndTeamIsolation}</p>
             <label>
-              Case note
-              <Input placeholder='Retained while collapsed' />
+              {t.caseNote}
+              <Input placeholder={t.retainedWhileCollapsed} />
             </label>
           </Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item value='environments'>
           <Accordion.Header>
-            <Accordion.Trigger>Environment access</Accordion.Trigger>
+            <Accordion.Trigger>{t.environmentAccess}</Accordion.Trigger>
           </Accordion.Header>
           <Accordion.Panel>
-            <p>Compare access for allowed and blocked environments.</p>
-            <StatusBadge tone='neutral'>Not run</StatusBadge>
+            <p>{t.compareAccessForAllowedAndBlockedEnvironments}</p>
+            <StatusBadge tone='neutral'>{t.notRun}</StatusBadge>
           </Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item value='unavailable' disabled>
           <Accordion.Header>
-            <Accordion.Trigger>Unavailable policy</Accordion.Trigger>
+            <Accordion.Trigger>{t.unavailablePolicy}</Accordion.Trigger>
           </Accordion.Header>
-          <Accordion.Panel>Unavailable preview.</Accordion.Panel>
+          <Accordion.Panel>{t.unavailablePreview}</Accordion.Panel>
         </Accordion.Item>
       </Accordion.Root>
     </div>
   )
 }
 function CollapsibleExample() {
+  const t = text[useLocale().locale]
   const [disabled, setDisabled] = useState(false)
   return (
     <div className='example-stack'>
       <Toggle checked={disabled} onChange={setDisabled}>
-        Disable disclosure
+        {t.disableDisclosure}
       </Toggle>
       <Collapsible.Root disabled={disabled}>
-        <Collapsible.Trigger>Technical details</Collapsible.Trigger>
+        <Collapsible.Trigger>{t.technicalDetails}</Collapsible.Trigger>
         <Collapsible.Panel keepMounted>
-          <p>Review deployment results and redacted build logs.</p>
+          <p>{t.reviewDeploymentResultsAndRedactedBuildLogs}</p>
           <label>
-            Build note
-            <Input placeholder='Retained while collapsed' />
+            {t.buildNote}
+            <Input placeholder={t.retainedWhileCollapsed} />
           </label>
         </Collapsible.Panel>
       </Collapsible.Root>
@@ -177,6 +184,7 @@ function CollapsibleExample() {
   )
 }
 function AvatarExample() {
+  const t = text[useLocale().locale]
   const [broken, setBroken] = useState(false),
     [loading, setLoading] = useState('idle')
   return (
@@ -184,8 +192,8 @@ function AvatarExample() {
       <Inline gap={3}>
         <Avatar.Root
           role='img'
-          aria-label='Preview profile'
-          aria-description='Online'
+          aria-label={t.previewProfile}
+          aria-description={t.online}
           size='lg'
         >
           <Avatar.Image
@@ -200,60 +208,25 @@ function AvatarExample() {
           <Avatar.Fallback aria-hidden='true'>CG</Avatar.Fallback>
           <Avatar.Status aria-hidden='true' />
         </Avatar.Root>
-        <Avatar.Root role='img' aria-label='Documentation preview user'>
+        <Avatar.Root role='img' aria-label={t.documentationPreviewUser}>
           <Avatar.Fallback aria-hidden='true'>CD</Avatar.Fallback>
         </Avatar.Root>
-        <Avatar.Root role='img' aria-label='Unknown preview user' size='sm'>
+        <Avatar.Root role='img' aria-label={t.unknownPreviewUser} size='sm'>
           <Avatar.Fallback aria-hidden='true' />
         </Avatar.Root>
       </Inline>
       <Inline gap={3}>
         <Button variant='outline' onClick={() => setBroken(!broken)}>
-          {broken ? 'Restore preview image' : 'Preview broken image'}
+          {broken ? t.restorePreviewImage : t.previewBrokenImage}
         </Button>
       </Inline>
-      <p role='status'>Image status: {loading}</p>
+      <p role='status'>{t.imageStatus(loading)}</p>
     </div>
   )
 }
-const badgeStates: {
-  value: string
-  label: string
-  tone: StatusTone
-  description: string
-}[] = [
-  {
-    value: 'passed',
-    label: 'Passed',
-    tone: 'success',
-    description: 'All checks passed.',
-  },
-  {
-    value: 'error',
-    label: 'Error',
-    tone: 'danger',
-    description: 'Review the error and try again.',
-  },
-  {
-    value: 'warning',
-    label: 'Warning',
-    tone: 'caution',
-    description: 'Needs further review.',
-  },
-  {
-    value: 'running',
-    label: 'Running',
-    tone: 'progress',
-    description: 'Deployment is in progress.',
-  },
-  {
-    value: 'pending',
-    label: 'Not run',
-    tone: 'neutral',
-    description: 'Not run yet.',
-  },
-]
 function BadgeExample() {
+  const t = text[useLocale().locale]
+  const badgeStates = t.badgeStates
   const [value, setValue] = useState('passed')
   const state = badgeStates.find((s) => s.value === value)!
   return (
@@ -264,12 +237,12 @@ function BadgeExample() {
             {s.label}
           </StatusBadge>
         ))}
-        <Badge>3 environments</Badge>
+        <Badge>{t.threeEnvironments}</Badge>
       </div>
       <label>
-        Status preview
+        {t.statusPreview}
         <Select
-          aria-label='Status preview'
+          aria-label={t.statusPreview}
           value={value}
           onValueChange={setValue}
           options={badgeStates.map((s) => ({ value: s.value, label: s.label }))}
@@ -283,29 +256,31 @@ function BadgeExample() {
   )
 }
 function SeparatorExample() {
+  const t = text[useLocale().locale]
   const [inset, setInset] = useState(false)
   return (
     <div className='example-stack'>
       <Toggle checked={inset} onChange={setInset}>
-        Use inset separator
+        {t.useInsetSeparator}
       </Toggle>
-      <p>Environment overview</p>
+      <p>{t.environmentOverview}</p>
       <Separator inset={inset} />
-      <p>Deployment details</p>
+      <p>{t.deploymentDetails}</p>
       <div className='actions'>
-        <span>Staging</span>
+        <span>{t.staging}</span>
         <Separator orientation='vertical' />
-        <span>Production</span>
+        <span>{t.production}</span>
       </div>
     </div>
   )
 }
 function LinkExample() {
+  const t = text[useLocale().locale]
   return (
     <div className='example-stack'>
       <p>
         <TextLink href='#link-preview-target'>
-          Inspect preview destination
+          {t.inspectPreviewDestination}
         </TextLink>
       </p>
       <p>
@@ -314,29 +289,30 @@ function LinkExample() {
           target='_blank'
           rel='noreferrer'
         >
-          Base UI documentation (opens in a new tab)
+          {t.baseUIDocumentationOpensInNewTab}
         </TextLink>
       </p>
       <p id='link-preview-target' tabIndex={-1}>
-        Preview destination. Native anchors keep their browser behavior.
+        {t.previewDestinationNativeAnchorsKeepBrowserBehavior}
       </p>
     </div>
   )
 }
 function BreadcrumbExample() {
+  const t = text[useLocale().locale]
   return (
     <div className='example-stack'>
-      <Breadcrumbs.Root aria-label='Project breadcrumb'>
+      <Breadcrumbs.Root aria-label={t.projectBreadcrumb}>
         <Breadcrumbs.List>
           <Breadcrumbs.Item>
             <Breadcrumbs.Link href='#breadcrumb-preview-target'>
-              Platform services
+              {t.platformServices}
             </Breadcrumbs.Link>
           </Breadcrumbs.Item>
           <Breadcrumbs.Item>
             <Breadcrumbs.Separator />
             <Breadcrumbs.Link href='#breadcrumb-preview-target'>
-              Projects
+              {t.projects}
             </Breadcrumbs.Link>
           </Breadcrumbs.Item>
           <Breadcrumbs.Item>
@@ -346,8 +322,7 @@ function BreadcrumbExample() {
         </Breadcrumbs.List>
       </Breadcrumbs.Root>
       <p id='breadcrumb-preview-target' tabIndex={-1}>
-        Shows the project path as an ordered list. The current location can stay
-        unlinked.
+        {t.showsProjectPathAsOrderedList}
       </p>
     </div>
   )

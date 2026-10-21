@@ -9,6 +9,8 @@ import {
   Checkbox,
   DirectionProvider,
 } from '@surflane/ui'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/CommandExamples'
 export { commandExampleIds } from './exampleGroups'
 function Glyph({ kind }: { kind: 'pin' | 'refresh' | 'list' | 'grid' }) {
   return (
@@ -54,6 +56,7 @@ function Flag({
   )
 }
 export function CommandExample({ id }: { id: string }) {
+  const t = text[useLocale().locale]
   const [disabled, setDisabled] = useState(false),
     [vertical, setVertical] = useState(false),
     [rtl, setRtl] = useState(false),
@@ -64,19 +67,19 @@ export function CommandExample({ id }: { id: string }) {
     [visible, setVisible] = useState<string[]>(['requests', 'errors']),
     [passed, setPassed] = useState(true),
     [density, setDensity] = useState('comfortable')
-  const [message, setMessage] = useState('No command executed.')
+  const [message, setMessage] = useState(t.noCommandExecuted)
   const flags = (
     <div className='actions'>
       <Flag checked={disabled} onChange={setDisabled}>
-        Disable commands
+        {t.disableCommands}
       </Flag>
       {id !== 'toggle' && (
         <>
           <Flag checked={vertical} onChange={setVertical}>
-            Vertical layout
+            {t.verticalLayout}
           </Flag>
           <Flag checked={rtl} onChange={setRtl}>
-            Right to left
+            {t.rightToLeft}
           </Flag>
         </>
       )}
@@ -94,11 +97,11 @@ export function CommandExample({ id }: { id: string }) {
                 event.cancel()
                 return
               }
-              setMessage(pressed ? 'Logs pinned.' : 'Logs unpinned.')
+              setMessage(pressed ? t.logsPinned : t.logsUnpinned)
             }}
           >
             <Glyph kind='pin' />
-            Pin logs
+            {t.pinLogs}
           </Toggle>
           <Toggle
             pressed={timings}
@@ -108,21 +111,21 @@ export function CommandExample({ id }: { id: string }) {
               else setTimings(next)
             }}
           >
-            Show timings
+            {t.showTimings}
           </Toggle>
-          <Toggle disabled>Unavailable mode</Toggle>
+          <Toggle disabled>{t.unavailableMode}</Toggle>
         </div>
         <Button variant='outline' onClick={() => setCancel((v) => !v)}>
-          {cancel ? 'Allow changes' : 'Cancel changes'}
+          {cancel ? t.allowChanges : t.cancelChanges}
         </Button>
-        <p>Controlled timings: {timings ? 'shown' : 'hidden'}</p>
+        <p>{timings ? t.controlledTimingsShown : t.controlledTimingsHidden}</p>
       </>
     )
   else if (id === 'toggle-group')
     example = (
       <>
         <ToggleGroup
-          aria-label='Log source'
+          aria-label={t.logSource}
           orientation={vertical ? 'vertical' : 'horizontal'}
           value={source}
           disabled={disabled}
@@ -131,30 +134,32 @@ export function CommandExample({ id }: { id: string }) {
             else setSource(next)
           }}
         >
-          <Toggle value='live'>Live</Toggle>
-          <Toggle value='simulation'>Simulation</Toggle>
+          <Toggle value='live'>{t.live}</Toggle>
+          <Toggle value='simulation'>{t.simulation}</Toggle>
           <Toggle value='unavailable' disabled>
-            Unavailable
+            {t.unavailable}
           </Toggle>
         </ToggleGroup>
         <ToggleGroup
-          aria-label='Visible log details'
+          aria-label={t.visibleLogDetails}
           orientation={vertical ? 'vertical' : 'horizontal'}
           value={visible}
           multiple
           disabled={disabled}
           onValueChange={setVisible}
         >
-          <Toggle value='requests'>Requests</Toggle>
-          <Toggle value='errors'>Errors</Toggle>
-          <Toggle value='timings'>Timings</Toggle>
+          <Toggle value='requests'>{t.requests}</Toggle>
+          <Toggle value='errors'>{t.errors}</Toggle>
+          <Toggle value='timings'>{t.timings}</Toggle>
         </ToggleGroup>
         <Button variant='outline' onClick={() => setCancel((v) => !v)}>
-          {cancel ? 'Allow source changes' : 'Cancel source changes'}
+          {cancel ? t.allowSourceChanges : t.cancelSourceChanges}
         </Button>
         <p>
-          Source: {source.join(', ') || 'none'} / Visible:{' '}
-          {visible.join(', ') || 'none'}
+          {t.sourceLine(
+            source.join(', ') || t.none,
+            visible.join(', ') || t.none,
+          )}
         </p>
       </>
     )
@@ -162,54 +167,51 @@ export function CommandExample({ id }: { id: string }) {
     example = (
       <>
         <Toolbar.Root
-          aria-label='Run tools'
+          aria-label={t.runTools}
           orientation={vertical ? 'vertical' : 'horizontal'}
           disabled={disabled}
         >
           <Toolbar.Group>
-            <Toolbar.Button onClick={() => setMessage('Run list refreshed.')}>
+            <Toolbar.Button onClick={() => setMessage(t.runListRefreshed)}>
               <Glyph kind='refresh' />
-              Refresh
+              {t.refresh}
             </Toolbar.Button>
             <Toolbar.Button
               render={<Toggle pressed={pinned} onPressedChange={setPinned} />}
             >
               <Glyph kind='pin' />
-              Pin results
+              {t.pinResults}
             </Toolbar.Button>
             <Toolbar.Button
               disabled
-              onClick={() => setMessage('Unavailable delete executed.')}
+              onClick={() => setMessage(t.unavailableDeleteExecuted)}
             >
-              Delete runs
+              {t.deleteRuns}
             </Toolbar.Button>
           </Toolbar.Group>
           <Toolbar.Separator />
           <Toolbar.Input
-            aria-label='Filter services'
-            placeholder='Search services…'
-            onChange={(e) => setMessage(`Tool filter: ${e.target.value}`)}
+            aria-label={t.filterServices}
+            placeholder={t.searchServices}
+            onChange={(e) => setMessage(t.toolFilter(e.target.value))}
           />
           <Menu.Root>
             <Toolbar.Button render={<Menu.Trigger />}>
-              More actions
+              {t.moreActions}
             </Toolbar.Button>
             <Menu.Portal>
               <Menu.Content align='start'>
-                <Menu.Item onClick={() => setMessage('Log export previewed.')}>
-                  Export logs
+                <Menu.Item onClick={() => setMessage(t.logExportPreviewed)}>
+                  {t.exportLogs}
                 </Menu.Item>
-                <Menu.Item disabled>Delete environment</Menu.Item>
+                <Menu.Item disabled>{t.deleteEnvironment}</Menu.Item>
               </Menu.Content>
             </Menu.Portal>
           </Menu.Root>
-          <Toolbar.Link href='#toolbar-help'>Toolbar help</Toolbar.Link>
+          <Toolbar.Link href='#toolbar-help'>{t.toolbarHelp}</Toolbar.Link>
         </Toolbar.Root>
-        <p>Pinned results: {pinned ? 'yes' : 'no'}</p>
-        <p id='toolbar-help'>
-          Arrow keys move between toolbar controls. The search input keeps its
-          native editing keys.
-        </p>
+        <p>{t.pinnedResultsLine(pinned)}</p>
+        <p id='toolbar-help'>{t.toolbarHelpNote}</p>
       </>
     )
   else
@@ -217,34 +219,32 @@ export function CommandExample({ id }: { id: string }) {
       <>
         <Menubar
           key={vertical ? 'vertical' : 'horizontal'}
-          aria-label='Deployment commands'
+          aria-label={t.deploymentCommands}
           modal={false}
           orientation={vertical ? 'vertical' : 'horizontal'}
           disabled={disabled}
         >
           <Menu.Root>
-            <Menu.Trigger>Run</Menu.Trigger>
+            <Menu.Trigger>{t.run}</Menu.Trigger>
             <Menu.Portal>
               <Menu.Content align='start'>
                 <Menu.Item
-                  onClick={() => setMessage('New deployment preview prepared.')}
+                  onClick={() => setMessage(t.newDeploymentPreviewPrepared)}
                 >
-                  New preview
+                  {t.newPreview}
                 </Menu.Item>
-                <Menu.Item onClick={() => setMessage('Log export previewed.')}>
-                  Export logs
+                <Menu.Item onClick={() => setMessage(t.logExportPreviewed)}>
+                  {t.exportLogs}
                 </Menu.Item>
-                <Menu.Item disabled>Delete runs</Menu.Item>
+                <Menu.Item disabled>{t.deleteRuns}</Menu.Item>
                 <Menu.SubmenuRoot>
-                  <Menu.SubmenuTrigger>More tools</Menu.SubmenuTrigger>
+                  <Menu.SubmenuTrigger>{t.moreTools}</Menu.SubmenuTrigger>
                   <Menu.Portal>
                     <Menu.Content align='start'>
                       <Menu.Item
-                        onClick={() =>
-                          setMessage('Package validation previewed.')
-                        }
+                        onClick={() => setMessage(t.packageValidationPreviewed)}
                       >
-                        Validate package
+                        {t.validatePackage}
                       </Menu.Item>
                     </Menu.Content>
                   </Menu.Portal>
@@ -253,44 +253,41 @@ export function CommandExample({ id }: { id: string }) {
             </Menu.Portal>
           </Menu.Root>
           <Menu.Root>
-            <Menu.Trigger>View</Menu.Trigger>
+            <Menu.Trigger>{t.view}</Menu.Trigger>
             <Menu.Portal>
               <Menu.Content align='start'>
                 <Menu.CheckboxItem checked={passed} onCheckedChange={setPassed}>
                   <Menu.CheckboxItemIndicator />
-                  Show passed checks
+                  {t.showPassedChecks}
                 </Menu.CheckboxItem>
                 <Menu.Separator />
                 <Menu.RadioGroup value={density} onValueChange={setDensity}>
-                  <Menu.GroupLabel>Detail level</Menu.GroupLabel>
+                  <Menu.GroupLabel>{t.detailLevel}</Menu.GroupLabel>
                   <Menu.RadioItem value='compact'>
                     <Menu.RadioItemIndicator />
-                    Compact
+                    {t.compact}
                   </Menu.RadioItem>
                   <Menu.RadioItem value='comfortable'>
                     <Menu.RadioItemIndicator />
-                    Comfortable
+                    {t.comfortable}
                   </Menu.RadioItem>
                 </Menu.RadioGroup>
               </Menu.Content>
             </Menu.Portal>
           </Menu.Root>
           <Menu.Root>
-            <Menu.Trigger>Help</Menu.Trigger>
+            <Menu.Trigger>{t.help}</Menu.Trigger>
             <Menu.Portal>
               <Menu.Content align='start'>
-                <Menu.LinkItem href='#command-help'>Command help</Menu.LinkItem>
+                <Menu.LinkItem href='#command-help'>
+                  {t.commandHelp}
+                </Menu.LinkItem>
               </Menu.Content>
             </Menu.Portal>
           </Menu.Root>
         </Menubar>
-        <p>
-          Passed checks: {passed ? 'visible' : 'hidden'} / Detail: {density}
-        </p>
-        <p id='command-help'>
-          Menus group the application commands. These previews run no remote
-          work.
-        </p>
+        <p>{t.passedChecksLine(passed, density)}</p>
+        <p id='command-help'>{t.commandHelpNote}</p>
       </>
     )
   return (

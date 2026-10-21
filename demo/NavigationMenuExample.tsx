@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { NavigationMenu, Checkbox, DirectionProvider } from '@surflane/ui'
 import { withBase } from './router'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/NavigationMenuExample'
 function Flag({
   checked,
   onChange,
@@ -20,6 +22,7 @@ function Flag({
   )
 }
 export function NavigationMenuExample() {
+  const t = text[useLocale().locale]
   const [value, setValue] = useState<'products' | 'learn' | null>(null)
   const [rtl, setRtl] = useState(false),
     [vertical, setVertical] = useState(false),
@@ -29,40 +32,40 @@ export function NavigationMenuExample() {
   const links = [
     {
       id: 'workspace',
-      title: 'Workspace',
-      description: 'Manage services, pipelines, and deployments.',
+      title: t.workspace,
+      description: t.workspaceDescription,
     },
     {
       id: 'inventory',
-      title: 'Inventory',
-      description: 'Explore the service inventory and its dependencies.',
+      title: t.inventory,
+      description: t.inventoryDescription,
     },
     {
       id: 'docs',
-      title: 'Documentation',
-      description: 'Read shared guides and product documentation.',
+      title: t.documentation,
+      description: t.documentationDescription,
     },
   ]
   return (
     <div className='example-stack'>
       <div className='actions'>
         <Flag checked={rtl} onChange={setRtl}>
-          RTL preview
+          {t.rtlPreview}
         </Flag>
         <Flag checked={vertical} onChange={setVertical}>
-          Vertical navigation
+          {t.verticalNavigation}
         </Flag>
         <Flag checked={disabled} onChange={setDisabled}>
-          Disable Learn
+          {t.disableLearn}
         </Flag>
         <Flag checked={cancel} onChange={setCancel}>
-          Cancel changes
+          {t.cancelChanges}
         </Flag>
       </div>
       <DirectionProvider direction={rtl ? 'rtl' : 'ltr'}>
         <div dir={rtl ? 'rtl' : 'ltr'}>
           <NavigationMenu.Root<'products' | 'learn'>
-            aria-label='Platform navigation'
+            aria-label={t.platformNavigation}
             value={value}
             orientation={vertical ? 'vertical' : 'horizontal'}
             onValueChange={(next, details) => {
@@ -72,7 +75,7 @@ export function NavigationMenuExample() {
           >
             <NavigationMenu.List>
               <NavigationMenu.Item value='products'>
-                <NavigationMenu.Trigger>Products</NavigationMenu.Trigger>
+                <NavigationMenu.Trigger>{t.products}</NavigationMenu.Trigger>
                 <NavigationMenu.Content>
                   <div className='navigation-demo-links'>
                     {links.map((link) => (
@@ -92,37 +95,35 @@ export function NavigationMenuExample() {
               </NavigationMenu.Item>
               <NavigationMenu.Item value='learn'>
                 <NavigationMenu.Trigger disabled={disabled}>
-                  Learn
+                  {t.learn}
                 </NavigationMenu.Trigger>
                 <NavigationMenu.Content>
                   <div className='navigation-demo-links'>
                     <NavigationMenu.Link href='#navigation-guide' closeOnClick>
-                      <strong>Deployment guide</strong>
-                      <span>
-                        Understand deployment policies by environment.
-                      </span>
+                      <strong>{t.deploymentGuide}</strong>
+                      <span>{t.deploymentGuideDescription}</span>
                     </NavigationMenu.Link>
                     <NavigationMenu.Link
                       href={withBase('/foundations/layout')}
                       closeOnClick
                     >
-                      <strong>Layout foundations</strong>
-                      <span>
-                        Inspect shared spacing, grid, and content widths.
-                      </span>
+                      <strong>{t.layoutFoundations}</strong>
+                      <span>{t.layoutFoundationsDescription}</span>
                     </NavigationMenu.Link>
                   </div>
                 </NavigationMenu.Content>
               </NavigationMenu.Item>
               <NavigationMenu.Item>
                 <NavigationMenu.Link href='#navigation-guide' closeOnClick>
-                  Guide
+                  {t.guide}
                 </NavigationMenu.Link>
               </NavigationMenu.Item>
             </NavigationMenu.List>
             <NavigationMenu.Portal>
               <NavigationMenu.Positioner sideOffset={8} collisionPadding={12}>
-                <NavigationMenu.Popup aria-label='Platform navigation destinations'>
+                <NavigationMenu.Popup
+                  aria-label={t.platformNavigationDestinations}
+                >
                   <NavigationMenu.Viewport />
                 </NavigationMenu.Popup>
               </NavigationMenu.Positioner>
@@ -130,9 +131,7 @@ export function NavigationMenuExample() {
           </NavigationMenu.Root>
         </div>
       </DirectionProvider>
-      <p role='status'>
-        Open section: {value ?? 'none'}. Current product: {current}.
-      </p>
+      <p role='status'>{t.status(value ?? t.none, current)}</p>
       <div className='navigation-demo-destinations'>
         {links.map((link) => (
           <section
@@ -148,13 +147,10 @@ export function NavigationMenuExample() {
         <section
           id='navigation-guide'
           tabIndex={-1}
-          aria-label='Deployment guide'
+          aria-label={t.deploymentGuide}
         >
-          <strong>Deployment guide</strong>
-          <p>
-            Check which environments a policy allows or blocks. Keep redacted
-            logs.
-          </p>
+          <strong>{t.deploymentGuide}</strong>
+          <p>{t.guideSectionDescription}</p>
         </section>
       </div>
     </div>

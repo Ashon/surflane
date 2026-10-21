@@ -8,21 +8,24 @@ import {
   DirectionProvider,
   type StatusTone,
 } from '@surflane/ui'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/ToastExample'
 // This manager is deliberately outside React, while the hook below reads its Provider state.
 const anchoredManager = Toast.createToastManager<{ source: string }>()
 export function ToastExample() {
+  const t = text[useLocale().locale]
   const [presentation, setPresentation] = useState('stack')
   return (
     <div className='example-stack'>
       <label className='toast-duration'>
-        Notification presentation
+        {t.presentationLabel}
         <NativeSelect
           value={presentation}
           onChange={(event) => setPresentation(event.target.value)}
         >
-          <option value='stack'>Global stack</option>
-          <option value='list'>Expanded list</option>
-          <option value='anchored'>Anchored feedback</option>
+          <option value='stack'>{t.presentationGlobalStack}</option>
+          <option value='list'>{t.presentationExpandedList}</option>
+          <option value='anchored'>{t.presentationAnchoredFeedback}</option>
         </NativeSelect>
       </label>
       {presentation !== 'anchored' ? (
@@ -38,6 +41,7 @@ export function ToastExample() {
   )
 }
 function AnchoredDemo() {
+  const t = text[useLocale().locale]
   const anchor = useRef<HTMLButtonElement>(null)
   const { toasts } = Toast.useToastManager<{ source: string }>()
   return (
@@ -47,8 +51,8 @@ function AnchoredDemo() {
         onClick={() =>
           anchoredManager.add({
             id: 'anchored-preview',
-            title: 'Link feedback preview',
-            description: 'This notification stays near its trigger.',
+            title: t.linkFeedbackTitle,
+            description: t.linkFeedbackDescription,
             timeout: 0,
             data: { source: 'outside-react-manager' },
             positionerProps: {
@@ -60,17 +64,11 @@ function AnchoredDemo() {
           })
         }
       >
-        Show anchored feedback
+        {t.showAnchoredFeedback}
       </Button>
-      <p>
-        Anchored notifications use a separate Provider. This example mounts one
-        Provider at a time.
-      </p>
+      <p>{t.anchoredIntro}</p>
       <Toast.Portal>
-        <Toast.Viewport
-          layout='anchored'
-          aria-label='Anchored preview notifications'
-        >
+        <Toast.Viewport layout='anchored' aria-label={t.anchoredViewportLabel}>
           {toasts.map((toast) => (
             <Toast.Positioner
               key={toast.id}
@@ -94,6 +92,7 @@ function AnchoredDemo() {
   )
 }
 function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
+  const t = text[useLocale().locale]
   const manager = Toast.useToastManager<{ source: string }>()
   const [duration, setDuration] = useState(5000),
     [archived, setArchived] = useState(false),
@@ -107,8 +106,8 @@ function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
     sequence.current++
     manager.add({
       id: 'export-preview',
-      title: 'Export preview ready',
-      description: `Prepared sample export ${sequence.current}.`,
+      title: t.exportPreviewReady,
+      description: t.preparedSampleExport(sequence.current),
       type: 'success',
       timeout: duration,
       data: { source: 'export-preview' },
@@ -118,12 +117,12 @@ function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
     setArchived(true)
     manager.add({
       id: 'archive-preview',
-      title: 'Preview item archived',
-      description: 'Undo restores the local preview item.',
+      title: t.previewItemArchived,
+      description: t.undoRestores,
       type: 'info',
       timeout: 0,
       actionProps: {
-        children: 'Undo',
+        children: t.undo,
         onClick: () => {
           setArchived(false)
           manager.close('archive-preview')
@@ -138,7 +137,7 @@ function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
         timers.current.delete(timer)
         if (fail) {
           setError(true)
-          reject(new Error('Preview export failed'))
+          reject(new Error(t.previewExportFailed))
         } else resolve()
       }, 500)
       timers.current.add(timer)
@@ -146,20 +145,20 @@ function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
     void manager
       .promise(promise, {
         loading: {
-          title: 'Preparing export preview',
-          description: 'Waiting for the sample task.',
+          title: t.preparingExportPreview,
+          description: t.waitingForSampleTask,
           type: 'progress',
           timeout: 0,
         },
         success: {
-          title: 'Export task complete',
-          description: 'The sample export is ready.',
+          title: t.exportTaskComplete,
+          description: t.sampleExportReady,
           type: 'success',
           timeout: duration,
         },
         error: {
-          title: 'Export preview failed',
-          description: 'Retry from the persistent message on this page.',
+          title: t.exportPreviewFailed,
+          description: t.retryFromPersistentMessage,
           type: 'error',
           timeout: 0,
         },
@@ -170,74 +169,70 @@ function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
     <div className='example-stack'>
       <div className='toast-demo-settings'>
         <label className='toast-duration'>
-          Notification duration
+          {t.durationLabel}
           <NativeSelect
             value={String(duration)}
             onChange={(event) => setDuration(Number(event.target.value))}
           >
-            <option value='5000'>5 seconds</option>
-            <option value='1500'>1.5 seconds — timing preview</option>
-            <option value='0'>Until dismissed</option>
+            <option value='5000'>{t.duration5s}</option>
+            <option value='1500'>{t.duration1_5s}</option>
+            <option value='0'>{t.durationUntilDismissed}</option>
           </NativeSelect>
         </label>
         <label className='pui-choice-label'>
           <Checkbox.Root checked={fail} onCheckedChange={setFail}>
             <Checkbox.Indicator />
           </Checkbox.Root>
-          Fail async preview
+          {t.failAsyncPreview}
         </label>
         <label className='pui-choice-label'>
           <Checkbox.Root checked={rtl} onCheckedChange={setRtl}>
             <Checkbox.Indicator />
           </Checkbox.Root>
-          RTL notifications
+          {t.rtlNotifications}
         </label>
       </div>
       <div className='toast-demo-actions'>
-        <Button onClick={addNotice}>Show success</Button>
+        <Button onClick={addNotice}>{t.showSuccess}</Button>
         <Button variant='outline' onClick={archive}>
-          Archive preview item
+          {t.archivePreviewItem}
         </Button>
         <Button variant='outline' onClick={task}>
-          Preview async task
+          {t.previewAsyncTask}
         </Button>
         <Button
           variant='outline'
           onClick={() => {
             for (let n = 1; n <= 4; n++)
               manager.add({
-                title: `Batch notification ${n}`,
-                description: 'The newest 3 stay visible.',
+                title: t.batchNotification(n),
+                description: t.newest3StayVisible,
                 timeout: duration,
               })
           }}
         >
-          Show batch
+          {t.showBatch}
         </Button>
         <Button
           variant='outline'
           onClick={() =>
             manager.add({
               id: 'urgent-preview',
-              title: 'Attention preview',
-              description: 'This notification needs immediate attention.',
+              title: t.attentionPreview,
+              description: t.needsImmediateAttention,
               type: 'caution',
               priority: 'high',
               timeout: 0,
             })
           }
         >
-          Show urgent notice
+          {t.showUrgentNotice}
         </Button>
         <Button variant='outline' onClick={() => manager.close()}>
-          Dismiss all
+          {t.dismissAll}
         </Button>
       </div>
-      <p>
-        Item status: {archived ? 'archived' : 'available'}. Repeated success
-        updates one notification. F6 moves focus to notifications. Escape closes
-        the focused notification.
-      </p>
+      <p>{t.itemStatus(archived)}</p>
       {archived && (
         <Button
           variant='outline'
@@ -246,7 +241,7 @@ function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
             manager.close('archive-preview')
           }}
         >
-          Restore preview item
+          {t.restorePreviewItem}
         </Button>
       )}
       {error && (
@@ -254,14 +249,14 @@ function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
           <InlineMessage.Icon tone='danger' />
           <InlineMessage.Content>
             <InlineMessage.Title>
-              Export preview needs attention
+              {t.exportPreviewNeedsAttention}
             </InlineMessage.Title>
             <InlineMessage.Description>
-              The task failed. This message remains after the toast closes.
+              {t.taskFailedMessage}
             </InlineMessage.Description>
             <InlineMessage.Actions>
               <Button variant='outline' onClick={task}>
-                Retry export preview
+                {t.retryExportPreview}
               </Button>
             </InlineMessage.Actions>
           </InlineMessage.Content>
@@ -272,7 +267,7 @@ function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
           <Toast.Viewport
             layout={layout}
             dir={rtl ? 'rtl' : 'ltr'}
-            aria-label='Preview notifications'
+            aria-label={t.previewNotificationsLabel}
           >
             {manager.toasts.map((toast) => {
               const tone: StatusTone =

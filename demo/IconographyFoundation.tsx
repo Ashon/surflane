@@ -1,36 +1,34 @@
 import React, { useState } from 'react'
 import { Button, CodeBlock, Icon, iconNames, Select, Table } from '@surflane/ui'
 import { Link } from './router'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/IconographyFoundation'
 export function IconographyFoundation() {
+  const t = text[useLocale().locale]
   const [count, setCount] = useState(0),
     [direction, setDirection] = useState('ltr')
   return (
     <>
-      <nav className='page-toc' aria-label='On this page'>
-        {['principles', 'library', 'semantics', 'direction', 'application'].map(
-          (id) => (
-            <a key={id} href={`#${id}`}>
-              {id[0].toUpperCase() + id.slice(1)}
-            </a>
-          ),
-        )}
+      <nav className='page-toc' aria-label={t.onThisPage}>
+        {t.nav.map(({ id, label }) => (
+          <a key={id} href={`#${id}`}>
+            {label}
+          </a>
+        ))}
       </nav>
       <section id='principles'>
-        <h2>One visual language</h2>
-        <p>
-          Draw icons as SVG shapes with a 24×24 viewBox, currentColor, and the
-          shared stroke width. Don't substitute special characters, emoji, or
-          icon fonts for UI symbols. Product logos and illustrations are
-          separate assets.
-        </p>
-        <Table.Container label='Icon design tokens' orientation='horizontal'>
+        <h2>{t.principlesTitle}</h2>
+        <p>{t.principlesIntro}</p>
+        <Table.Container label={t.tableLabel} orientation='horizontal'>
           <Table.Root>
-            <Table.Caption>Icon size and alignment</Table.Caption>
+            <Table.Caption>{t.caption}</Table.Caption>
             <Table.Head>
               <Table.Row>
-                <Table.HeaderCell scope='col'>Token</Table.HeaderCell>
-                <Table.HeaderCell scope='col'>Usage</Table.HeaderCell>
-                <Table.HeaderCell scope='col'>Example</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>{t.tokenHeader}</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>{t.usageHeader}</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>
+                  {t.exampleHeader}
+                </Table.HeaderCell>
               </Table.Row>
             </Table.Head>
             <Table.Body>
@@ -43,10 +41,10 @@ export function IconographyFoundation() {
                   </Table.HeaderCell>
                   <Table.Cell>
                     {size === 'sm'
-                      ? '16px / compact controls'
+                      ? t.sizeSm
                       : size === 'md'
-                        ? '20px / general UI'
-                        : '24px / emphasis'}
+                        ? t.sizeMd
+                        : t.sizeLg}
                   </Table.Cell>
                   <Table.Cell>
                     <Icon name='search' size={size} data-icon-specimen={size} />
@@ -59,29 +57,18 @@ export function IconographyFoundation() {
                     <code>--icon-stroke-width</code>
                   </Link>
                 </Table.HeaderCell>
-                <Table.Cell>
-                  1.7 / viewBox units, scales with icon size
-                </Table.Cell>
-                <Table.Cell>Round caps / joins</Table.Cell>
+                <Table.Cell>{t.strokeWidthUsage}</Table.Cell>
+                <Table.Cell>{t.strokeCaps}</Table.Cell>
               </Table.Row>
             </Table.Body>
           </Table.Root>
         </Table.Container>
-        <p>
-          Make the parent control the click target, not the icon. Inside
-          buttons, use flex alignment and the shared gap. Inline, align icons to
-          the text baseline. Keep the parent's click target and focus ring when
-          you resize the icon.
-        </p>
+        <p>{t.principlesClosing}</p>
       </section>
       <section id='library'>
-        <h2>Shared vocabulary</h2>
-        <p>
-          The shared Icon currently provides {iconNames.length} shapes. To add
-          one, put it in the shared source with a name and usage guidance, then
-          test it. This list doesn't replace a full icon library.
-        </p>
-        <ul className='icon-gallery' aria-label='Shared icon vocabulary'>
+        <h2>{t.libraryTitle}</h2>
+        <p>{t.libraryIntro(iconNames.length)}</p>
+        <ul className='icon-gallery' aria-label={t.galleryLabel}>
           {iconNames.map((name) => (
             <li key={name}>
               <Icon name={name} size='md' />
@@ -91,54 +78,50 @@ export function IconographyFoundation() {
         </ul>
       </section>
       <section id='semantics'>
-        <h2>Names belong to meaning</h2>
-        <p>
-          An icon next to text is decorative by default. Give an icon-only
-          button an aria-label that describes its action, and hide the SVG. A
-          Tooltip doesn't replace the accessible name. For a meaningful
-          standalone graphic, set decorative=false with label.
-        </p>
+        <h2>{t.semanticsTitle}</h2>
+        <p>{t.semanticsIntro}</p>
         <div className='actions'>
           <Button variant='outline' onClick={() => setCount((n) => n + 1)}>
             <Icon name='plus' />
-            Increment preview
+            {t.incrementPreview}
           </Button>
           <Button
             variant='outline'
             size='icon'
-            aria-label='Reset preview'
+            aria-label={t.resetPreview}
             onClick={() => setCount(0)}
           >
             <Icon name='close' />
           </Button>
         </div>
-        <p role='status'>Local count: {count}</p>
+        <p role='status'>{t.localCount(count)}</p>
         <p className='icon-inline-example'>
           <Icon
             name='info'
             decorative={false}
-            label='Supplementary information'
+            label={t.supplementaryInfoLabel}
           />
-          A standalone icon with an explicit name.
+          {t.standaloneIconNote}
         </p>
         <p>
-          The button is the focusable element. Don't add tabIndex or a separate
-          click behavior to the SVG. Show status with both an icon and text, and
-          prefer <Link href='/components/badge'>StatusBadge</Link>.
+          {t.semanticsClosingStart}
+          <Link href='/components/badge'>{t.statusBadgeLink}</Link>
+          {t.semanticsClosingEnd}
         </p>
-        <h3>Primitive contract</h3>
+        <h3>{t.primitiveContractTitle}</h3>
         <p>
-          <code>name</code> takes a value from the shared list above.{' '}
-          <code>size</code> is sm (the default, 16px), md, or lg.{' '}
-          <code>decorative</code> defaults to true. A meaningful standalone SVG
-          sets <code>decorative=false</code> with a non-empty <code>label</code>
-          . The ref points to the SVGSVGElement. Compose it with className,
-          style, and data attributes. If you override styles, recheck size,
-          contrast, and direction.
+          <code>name</code>
+          {t.primitiveNameRest} <code>size</code>
+          {t.primitiveSizeRest} <code>decorative</code>
+          {t.primitiveDecorativeRest}
+          <code>decorative=false</code>
+          {t.primitiveLabelRest}
+          <code>label</code>
+          {t.primitiveRefRest}
         </p>
         <CodeBlock
           language='tsx'
-          label='Accessible icon examples'
+          label={t.codeLabel}
           code={`import { Icon, Button } from '@surflane/ui'
 
 <Button>
@@ -152,23 +135,17 @@ export function IconographyFoundation() {
         />
       </section>
       <section id='direction'>
-        <h2>Logical direction</h2>
-        <p>
-          Only the logical-direction icons, arrow-back and chevron-forward,
-          mirror with the DOM dir. Search, play, copy, external link, and
-          expand-down icons don't mirror. For keyboard direction in Base UI
-          controls, also set the product's DirectionProvider to the same
-          direction.
-        </p>
+        <h2>{t.directionTitle}</h2>
+        <p>{t.directionIntro}</p>
         <label>
-          Preview direction
+          {t.previewDirectionLabel}
           <Select
-            aria-label='Preview direction'
+            aria-label={t.previewDirectionLabel}
             value={direction}
             onValueChange={(value) => setDirection(value ?? 'ltr')}
             options={[
-              { value: 'ltr', label: 'Left to right' },
-              { value: 'rtl', label: 'Right to left' },
+              { value: 'ltr', label: t.ltrOption },
+              { value: 'rtl', label: t.rtlOption },
             ]}
           />
         </label>
@@ -179,57 +156,39 @@ export function IconographyFoundation() {
         >
           <span>
             <Icon name='arrow-back' />
-            Back
+            {t.back}
           </span>
           <span>
-            Next
+            {t.next}
             <Icon name='chevron-forward' />
           </span>
           <span>
             <Icon name='external-link' />
-            External link
+            {t.externalLink}
           </span>
         </div>
-        <p>Static markers for comparing direction. They don't navigate.</p>
+        <p>{t.directionPreviewNote}</p>
       </section>
       <section id='application'>
-        <h2>Icon implementation rules</h2>
+        <h2>{t.applicationTitle}</h2>
         <ul>
-          <li>
-            Use the same symbol for the same action. Keep the status name on
-            result states.
-          </li>
-          <li>
-            Include the target and the action in an icon button's accessible
-            name. Don't shrink the hit area when you make the icon smaller.
-          </li>
-          <li>
-            Use the code copy and external link symbols consistently. Wording
-            and link purpose must stay clear even when the SVG isn't visible.
-          </li>
+          <li>{t.rule1}</li>
+          <li>{t.rule2}</li>
+          <li>{t.rule3}</li>
         </ul>
-        <p>
-          Color follows the parent's currentColor. Don't force-override the
-          user's high-contrast colors. Check that required symbols have enough
-          contrast against the adjacent background. Don't distinguish states by
-          color alone.
-        </p>
+        <p>{t.applicationNote}</p>
         <p>
           <a href='https://design-system.w3.org/styles/svg-icons.html'>
-            W3C — SVG icons
+            {t.w3cSvgIcons}
           </a>
           {' / '}
           <a href='https://www.w3.org/WAI/tutorials/images/functional/'>
-            WAI — Functional images
+            {t.waiFunctionalImages}
           </a>
           {' / '}
-          <Link href='/foundations/color'>Color and contrast</Link>
+          <Link href='/foundations/color'>{t.colorContrastLink}</Link>
         </p>
-        <p>
-          This page covers the shared primitive and guidance added so far. It
-          doesn't mean every existing product and component SVG has moved to
-          this API.
-        </p>
+        <p>{t.closingNote}</p>
       </section>
     </>
   )
