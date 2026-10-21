@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
-import { readFileSync, existsSync } from 'node:fs'
-import { resolve } from 'node:path'
+import { readFileSync, readdirSync, existsSync } from 'node:fs'
+import { dirname, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { gzipSync } from 'node:zlib'
 import { build } from 'esbuild'
@@ -13,7 +13,14 @@ for (const name of ['ui', 'tokens']) {
       ? [target]
       : Object.values(target))
       assert(
-        existsSync(resolve(root, file)),
+        file.includes('*')
+          ? // A subpath pattern needs at least one matching file.
+            readdirSync(resolve(root, dirname(file))).some((name) =>
+              new RegExp(
+                `^${file.split('/').pop().replace('.', '\\.').replace('*', '.+')}$`,
+              ).test(name),
+            )
+          : existsSync(resolve(root, file)),
         `${pkg.name}${entry}: missing ${file}`,
       )
   }

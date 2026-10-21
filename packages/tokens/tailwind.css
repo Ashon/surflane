@@ -82,6 +82,7 @@
   --color-status-success-bg: var(--status-success-bg);
   --color-status-success-border: var(--status-success-border);
   --color-status-success-fg: var(--status-success-fg);
+  --color-success: var(--success);
   --color-surface: var(--surface);
   --color-syntax-attribute: var(--syntax-attribute);
   --color-syntax-comment: var(--syntax-comment);

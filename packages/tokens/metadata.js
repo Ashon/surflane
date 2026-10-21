@@ -31,7 +31,7 @@ export function category(name) {
 export function type(name) {
   if (/^--(font|weight|tracking|type)/.test(name)) return 'typography'
   if (
-    /^(--chrome|--canvas|--surface|--code-bg|--hover|--selected|--line|--ink.*|--syntax-.+|--brand.*|--on-brand|--caution|--danger|--grid-minor|--grid-major|--guide|--skeleton.*)$/.test(
+    /^(--chrome|--canvas|--surface|--code-bg|--hover|--selected|--line|--ink.*|--syntax-.+|--brand.*|--on-brand|--success|--caution|--danger|--grid-minor|--grid-major|--guide|--skeleton.*)$/.test(
       name,
     ) ||
     /--(status-.+-(fg|bg|border)|badge-.+-bg|menu-.+|tooltip-.+|chart-series-\d+|selection-(background|foreground)|interaction-.+|control-(border|background|hover-.+|focus.*|placeholder|disabled-background|choice-(border|hover-border|selected-.+))|scrollbar-(track|thumb.*))$/.test(
@@ -87,6 +87,8 @@ export const descriptions = {
   '--ink-body': 'Body text and descriptions',
   '--ink-muted': 'Captions and secondary information',
   '--brand': 'Surface for primary actions and limited emphasis',
+  '--success':
+    'Base color for success status. It matches the default accent, and accent themes leave it unchanged',
   '--brand-ink':
     'Link and brand text color with contrast against the background',
   '--font-display':

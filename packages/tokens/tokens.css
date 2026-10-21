@@ -58,6 +58,9 @@
   ); /* Accent cyan 25%. Text selection. Tints only the background and leaves the text color unchanged */
 
   /* Base status palette. In UI, use the semantic foreground/background/border tokens below. */
+  --success: oklch(
+    0.82 0.12 210
+  ); /* Accent cyan by default; accent themes leave it */
   --caution: oklch(0.88362398 0.17366333 93.66977695); /* Yellow 50 */
   --danger: oklch(0.64886666 0.23697091 26.97276512); /* Red 50 */
 
@@ -97,6 +100,10 @@
   --brand-tint: oklch(
     0.82 0.12 210 / 0.30196078
   ); /* Accent cyan 30%. Needs to be slightly stronger on white to look equally visible */
+
+  --success: oklch(
+    0.82 0.12 210
+  ); /* Accent cyan by default; accent themes leave it */
 
   --caution: oklch(0.88362398 0.17366333 93.66977695);
   --danger: oklch(0.64886666 0.23697091 26.97276512);
@@ -203,15 +210,16 @@
   --control-placeholder: var(--ink-muted);
 }
 
-/* Semantic status colors derive from the existing brand palette. */
+/* Semantic status colors derive from the base status palette. Success has its own
+ * base, so an accent theme never recolors it. */
 :root,
 [data-theme] {
-  --status-success-fg: var(--brand);
+  --status-success-fg: var(--success);
   --status-success-bg: oklch(
-    from color-mix(in srgb, var(--brand) 9%, var(--canvas)) l c h / alpha
+    from color-mix(in srgb, var(--success) 9%, var(--canvas)) l c h / alpha
   );
   --status-success-border: oklch(
-    from color-mix(in srgb, var(--brand) 32%, var(--canvas)) l c h / alpha
+    from color-mix(in srgb, var(--success) 32%, var(--canvas)) l c h / alpha
   );
   --status-danger-fg: oklch(
     from color-mix(in srgb, var(--danger) 48%, var(--ink)) l c h / alpha
@@ -247,13 +255,13 @@
 :root[data-theme='light'],
 [data-theme='light'] {
   --status-success-fg: oklch(
-    from color-mix(in srgb, var(--brand) 25%, var(--ink)) l c h / alpha
+    from color-mix(in srgb, var(--success) 25%, var(--ink)) l c h / alpha
   );
   --status-success-bg: oklch(
-    from color-mix(in srgb, var(--brand) 9%, var(--canvas)) l c h / alpha
+    from color-mix(in srgb, var(--success) 9%, var(--canvas)) l c h / alpha
   );
   --status-success-border: oklch(
-    from color-mix(in srgb, var(--brand) 25%, var(--line)) l c h / alpha
+    from color-mix(in srgb, var(--success) 25%, var(--line)) l c h / alpha
   );
   --status-danger-fg: oklch(
     from color-mix(in srgb, var(--danger) 65%, var(--ink)) l c h / alpha
@@ -358,6 +366,10 @@
       0.82 0.12 210 / 0.30196078
     ); /* Accent cyan 30%. Needs to be slightly stronger on white to look equally visible */
 
+    --success: oklch(
+      0.82 0.12 210
+    ); /* Accent cyan by default; accent themes leave it */
+
     --caution: oklch(0.88362398 0.17366333 93.66977695);
     --danger: oklch(0.64886666 0.23697091 26.97276512);
 
@@ -372,13 +384,13 @@
       oklch(0.2368845 0.00973297 248.23792711 / 0.18);
 
     --status-success-fg: oklch(
-      from color-mix(in srgb, var(--brand) 25%, var(--ink)) l c h / alpha
+      from color-mix(in srgb, var(--success) 25%, var(--ink)) l c h / alpha
     );
     --status-success-bg: oklch(
-      from color-mix(in srgb, var(--brand) 9%, var(--canvas)) l c h / alpha
+      from color-mix(in srgb, var(--success) 9%, var(--canvas)) l c h / alpha
     );
     --status-success-border: oklch(
-      from color-mix(in srgb, var(--brand) 25%, var(--line)) l c h / alpha
+      from color-mix(in srgb, var(--success) 25%, var(--line)) l c h / alpha
     );
     --status-danger-fg: oklch(
       from color-mix(in srgb, var(--danger) 65%, var(--ink)) l c h / alpha

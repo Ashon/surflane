@@ -74,6 +74,57 @@ Utilities read the tokens through `var()`, so they follow `data-theme`, includin
 
 `npm run check:tailwind` compiles this setup with Tailwind CSS v4, checks every mapped utility and verifies the layer order and `dark:` in Chromium.
 
+## Themes
+
+A theme changes three inputs: the neutral tint, the accent and the radius scale. Lightness never changes, so text keeps the contrast the default palette was measured for. Build and preview one in the [theme builder](https://surflane.page/foundations/themes).
+
+Import a preset file after the tokens. Neutral, accent and radius files combine freely:
+
+```css
+@import '@surflane/design-tokens/tokens.css';
+@import '@surflane/design-tokens/themes/stone.css';
+@import '@surflane/design-tokens/themes/accent-violet.css';
+@import '@surflane/design-tokens/themes/radius-small.css';
+```
+
+| Input   | Files                                                                           |
+| ------- | ------------------------------------------------------------------------------- |
+| Neutral | `slate.css` (default), `neutral.css`, `zinc.css`, `stone.css`                   |
+| Accent  | `accent-cyan.css` (default), `-blue`, `-violet`, `-green`, `-amber`, `-rose`    |
+| Radius  | `radius-none.css`, `radius-small.css`, `radius-default.css`, `radius-large.css` |
+
+For your own inputs, generate the CSS with `@surflane/design-tokens/theme-builder`:
+
+```ts
+import { createTheme, themeCss } from '@surflane/design-tokens/theme-builder'
+
+const css = themeCss(
+  createTheme({
+    neutral: { hue: 70, chroma: 0.6 },
+    accent: { hue: 150, chroma: 0.14 },
+    radius: 0.6,
+  }),
+)
+```
+
+- Theme files mirror the contexts in `tokens.css`, so `data-theme` and scoped theme regions keep working. Load them after the tokens; with Tailwind, import them into `layer(theme)` right after `tokens.css`.
+- Accent chroma is clamped to the sRGB gamut at the accent's fixed lightness. `contrastRatio(foreground, background)` measures any pair.
+- Success keeps its own color, `--success`, whatever the accent.
+
+## shadcn/ui
+
+`@surflane/design-tokens/shadcn.css` maps the shadcn/ui variables, such as `--background`, `--primary`, `--border` and `--radius`, to Surflane tokens. shadcn components then follow every Surflane theme, including scoped `data-theme` regions.
+
+```css
+@import 'tailwindcss';
+@import '@surflane/design-tokens/tokens.css' layer(theme);
+@import '@surflane/design-tokens/themes/stone.css' layer(theme);
+@import '@surflane/design-tokens/shadcn.css' layer(theme);
+@import '@surflane/design-tokens/tailwind.css';
+```
+
+In your shadcn CSS, keep the `@theme inline` block and delete the `:root` and `.dark` color blocks and the `@custom-variant dark` line. Unlayered variables there would override the bridge. Switch light and dark with `data-theme`; `tailwind.css` makes `dark:` follow it. The bridge only reads Surflane tokens and never redefines one.
+
 ## React Server Components
 
 Every `@surflane/ui` module is a client module (`"use client"`). Server Components can import and render Surflane components and pass serializable props, including React elements such as `render={<Button />}`.
