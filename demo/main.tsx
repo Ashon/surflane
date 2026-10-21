@@ -213,13 +213,14 @@ function App() {
   useEffect(() => {
     document.title = title === 'Surflane' ? title : title + ' | Surflane'
     setNavigationOpen(false)
-    const primary = document.querySelector<HTMLElement>(
-      '.catalog-primary a[aria-current]',
-    )
-    const primaryViewport = document.querySelector<HTMLElement>(
-      '.catalog-primary-viewport',
-    )
-    if (primary && primaryViewport) {
+    const reveal = () => {
+      const primary = document.querySelector<HTMLElement>(
+        '.catalog-primary a[aria-current]',
+      )
+      const primaryViewport = document.querySelector<HTMLElement>(
+        '.catalog-primary-viewport',
+      )
+      if (!primary || !primaryViewport) return
       const link = primary.getBoundingClientRect(),
         viewport = primaryViewport.getBoundingClientRect()
       if (link.left < viewport.left)
@@ -227,6 +228,9 @@ function App() {
       else if (link.right > viewport.right)
         primaryViewport.scrollLeft += link.right - viewport.right
     }
+    reveal()
+    // Web fonts widen the tabs once they load; reveal the current tab again then.
+    void document.fonts.ready.then(reveal)
     if (firstRoute.current) {
       firstRoute.current = false
       return
