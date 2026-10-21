@@ -73,6 +73,30 @@ test('narrow rail reveals active sections and contextual navigation closes after
   ).toBe(true)
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([])
 })
+test.describe('touch rail', () => {
+  test.use({ hasTouch: true, isMobile: true })
+  test('a tap on the lower edge of an overflowing rail tab opens it instead of hitting the scrollbar', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/components')
+    await waitForCatalogReady(page)
+    await expect(page.locator('.catalog-primary-scroll')).toHaveAttribute(
+      'data-overflow-x-end',
+    )
+    const link = page
+      .getByRole('navigation', { name: 'Primary navigation' })
+      .getByRole('link', { name: 'Foundations', exact: true })
+    const bounds = (await link.boundingBox())!
+    // The 10px horizontal scrollbar overlays the tabs' lower edge.
+    await page.touchscreen.tap(
+      bounds.x + bounds.width / 2,
+      bounds.y + bounds.height - 4,
+    )
+    await waitForCatalogReady(page)
+    await expect(page).toHaveURL(/\/foundations$/)
+  })
+})
 
 test('one rail button rotates themes and persists the choice across reloads', async ({
   page,

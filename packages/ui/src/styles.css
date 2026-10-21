@@ -300,6 +300,14 @@
 .pui-scrollbar:hover .pui-scroll-thumb {
   opacity: 0.8;
 }
+/* On touch-only screens a scrollbar is a position indicator, as native mobile
+ * scrollbars are: content scrolls by swiping, so the bar overlaying its edge
+ * never takes a tap meant for the link or control beneath it. */
+@media (hover: none) and (pointer: coarse) {
+  .pui-scrollbar {
+    pointer-events: none;
+  }
+}
 @media (forced-colors: active) {
   .pui-scrollbar {
     opacity: 1;
