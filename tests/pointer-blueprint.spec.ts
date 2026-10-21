@@ -819,3 +819,37 @@ test('guides in a scroll area paint on a layer inside its content that takes no 
   expect(own).toBeGreaterThan(0)
   expect(await extent()).toEqual(before)
 })
+
+test('a guide continues past the edge of its scroll area instead of stopping there', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.goto('/components/table')
+  await waitForCatalogReady(page)
+  const region = page.getByRole('region', {
+    name: 'Environment comparison',
+    exact: true,
+  })
+  const row = page.locator('[data-preview-size] tbody tr').nth(1)
+  await row.scrollIntoViewIfNeeded()
+  const area = (await region.boundingBox())!,
+    box = (await row.boundingBox())!
+  await page.mouse.move(box.x + 20, box.y + box.height / 2)
+  const alpha = (x: number, y: number) =>
+    page
+      .locator('.pointer-blueprint')
+      .evaluate(
+        (node, point) =>
+          (node as HTMLCanvasElement)
+            .getContext('2d')!
+            .getImageData(Math.floor(point.x), Math.floor(point.y), 1, 1)
+            .data[3],
+        { x, y },
+      )
+  // The row's top edge, just inside the table's scroll area and just outside it:
+  // the table's layer draws one, the document's layer continues the other.
+  await expect.poll(() => alpha(area.x + 6, box.y)).toBeGreaterThan(20)
+  await expect.poll(() => alpha(area.x - 6, box.y)).toBeGreaterThan(20)
+  expect(await row.boundingBox()).toEqual(box)
+})

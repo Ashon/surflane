@@ -61,12 +61,17 @@ const targets = [
   '.actions',
 ].join(',')
 type Bounds = { left: number; top: number; right: number; bottom: number }
-type Guide = { bounds: Bounds; clip: Bounds }
+// edges: where the element shows; an edge outside it is not drawn.
+// exclude: an inner scroll area whose own layer draws that part of the lines.
+type Guide = { bounds: Bounds; edges: Bounds; exclude: Bounds | null }
 type Point = { x: number; y: number }
 // Guides paint on surfaces. The window surface is the fixed canvas over everything
 // outside scroll areas. Each scroll area gets a layer inside its own content: its guides
 // are kept relative to that layer, so they move with whatever moves the content, even
 // a rubber-band bounce or overscroll stretch that no scroll event or script can see.
+// A container never cuts a line: a layer is clipped by its area, so every scroll area
+// around an element draws the part of the element's lines inside it, and the next
+// area out, or the window, continues them past its edge.
 type Surface = {
   area: HTMLElement | null
   host: HTMLElement | null
@@ -239,10 +244,28 @@ export function PointerBlueprint() {
         right: innerWidth,
         bottom: innerHeight,
       }
-      // Clip chains run up to the window, for what is visible now, and up to the
-      // element's scroll area, whose own overflow clips that area's layer.
-      const toWindow = new WeakMap<Element, Bounds>(),
-        toArea = new WeakMap<Element, Bounds>()
+      // Clip chains run up to the window: they decide which edges are visible now.
+      const toWindow = new WeakMap<Element, Bounds>()
+      // A scroll area's visible box, where its own layer draws.
+      const viewports = new Map<HTMLElement, Bounds>()
+      const viewportOf = (scroller: HTMLElement) => {
+        let box = viewports.get(scroller)
+        if (!box) {
+          const rect = scroller.getBoundingClientRect()
+          const left = rect.left + scroller.clientLeft,
+            top = rect.top + scroller.clientTop
+          box = {
+            left,
+            top,
+            right: left + scroller.clientWidth,
+            bottom: top + scroller.clientHeight,
+          }
+          viewports.set(scroller, box)
+        }
+        return box
+      }
+      const outer = (element: Element) =>
+        element.parentElement?.closest<HTMLElement>(scrollArea) ?? null
       const clipFor = (
         element: Element | null,
         stop: Element | null,
@@ -286,32 +309,34 @@ export function PointerBlueprint() {
           if (!observed.has(element)) resize.observe(element)
           const bounds = element.getBoundingClientRect()
           if (bounds.width < 2 || bounds.height < 2) continue
-          const visible = intersect(
-            bounds,
-            clipFor(element.parentElement, null, toWindow),
-          )
+          const edges = clipFor(element.parentElement, null, toWindow)
+          const visible = intersect(bounds, edges)
           if (visible.right <= visible.left || visible.bottom <= visible.top)
             continue
-          const area =
-            element.parentElement?.closest<HTMLElement>(scrollArea) ?? null
-          if (!area) {
-            fixed[key].push({
-              bounds,
-              clip: clipFor(element.parentElement, null, toWindow),
-            })
-            continue
+          // Innermost area first; each area leaves the part inside the previous one
+          // to that area's layer.
+          let inner: Bounds | null = null
+          for (
+            let scroller = outer(element);
+            scroller;
+            scroller = outer(scroller)
+          ) {
+            const surface = layerFor(scroller)
+            if (surface.host!.isConnected) {
+              if (!surface.pointer.length && !surface.ambient.length) {
+                const origin = surface.host!.getBoundingClientRect()
+                surface.origin = { x: origin.left, y: origin.top }
+              }
+              const { x, y } = surface.origin
+              surface[key].push({
+                bounds: shifted(bounds, -x, -y),
+                edges: shifted(edges, -x, -y),
+                exclude: inner && shifted(inner, -x, -y),
+              })
+            }
+            inner = viewportOf(scroller)
           }
-          const surface = layerFor(area)
-          if (!surface.host!.isConnected) continue
-          if (!surface.pointer.length && !surface.ambient.length) {
-            const origin = surface.host!.getBoundingClientRect()
-            surface.origin = { x: origin.left, y: origin.top }
-          }
-          const { x, y } = surface.origin
-          surface[key].push({
-            bounds: shifted(bounds, -x, -y),
-            clip: shifted(clipFor(element.parentElement, area, toArea), -x, -y),
-          })
+          fixed[key].push({ bounds, edges, exclude: inner })
         }
       }
       pointerMeasured = pointerActive()
@@ -351,20 +376,16 @@ export function PointerBlueprint() {
       // Nothing outside the spotlight's square survives the mask, so neither
       // the strokes nor the mask touch the rest of the canvas. The square sits
       // on whole device pixels: a partly covered edge pixel would escape the mask.
-      const left = (Math.floor((point.x - reach) * dpr) - 1) / dpr,
-        top = (Math.floor((point.y - reach) * dpr) - 1) / dpr,
-        size = (Math.ceil(reach * 2 * dpr) + 2) / dpr
+      const square = {
+        left: (Math.floor((point.x - reach) * dpr) - 1) / dpr,
+        top: (Math.floor((point.y - reach) * dpr) - 1) / dpr,
+        size: (Math.ceil(reach * 2 * dpr) + 2) / dpr,
+      }
       context.save()
       context.beginPath()
-      context.rect(left, top, size, size)
+      context.rect(square.left, square.top, square.size, square.size)
       context.clip()
-      const stroke = (
-        x1: number,
-        y1: number,
-        x2: number,
-        y2: number,
-        clip: Bounds,
-      ) => {
+      const stroke = (x1: number, y1: number, x2: number, y2: number) => {
         const length = Math.hypot(x2 - x1, y2 - y1)
         if (length < 1 / dpr) return
         // The opaque plateau includes the DOM edge plus its 12px crosshair.
@@ -376,47 +397,55 @@ export function PointerBlueprint() {
         gradient.addColorStop(1 - end, ink)
         gradient.addColorStop(1, 'transparent')
         context.strokeStyle = gradient
+        // The fade belongs to the complete line; the canvas and the cut-out of an
+        // inner area hide parts of it without restarting the fade.
         context.beginPath()
-        // Keep the fade anchored to the complete line, even where the viewport
-        // or a scroller clips its tail. Clipping must not restart the fade.
-        const clipX = (value: number) =>
-          snap(Math.max(clip.left, Math.min(clip.right, value)))
-        const clipY = (value: number) =>
-          snap(Math.max(clip.top, Math.min(clip.bottom, value)))
-        context.moveTo(clipX(x1), clipY(y1))
-        context.lineTo(clipX(x2), clipY(y2))
+        context.moveTo(x1, y1)
+        context.lineTo(x2, y2)
         context.stroke()
       }
       for (const guide of list) {
         const bounds = shifted(guide.bounds, shift.x, shift.y),
-          clip = shifted(guide.clip, shift.x, shift.y)
-        const visible = intersect(bounds, clip)
+          edges = shifted(guide.edges, shift.x, shift.y)
+        const visible = intersect(bounds, edges)
         const distance = Math.hypot(
           Math.max(visible.left - point.x, 0, point.x - visible.right),
           Math.max(visible.top - point.y, 0, point.y - visible.bottom),
         )
         if (distance > reach) continue
+        if (guide.exclude) {
+          const cut = shifted(guide.exclude, shift.x, shift.y)
+          context.save()
+          context.beginPath()
+          context.rect(square.left, square.top, square.size, square.size)
+          context.rect(
+            cut.left,
+            cut.top,
+            cut.right - cut.left,
+            cut.bottom - cut.top,
+          )
+          context.clip('evenodd')
+        }
         const { left, top, right, bottom } = bounds
         for (const y of [top, bottom]) {
-          if (y < clip.top || y > clip.bottom) continue
+          if (y < edges.top || y > edges.bottom) continue
           stroke(
             snap(left - crosshair - extension),
             snap(y),
             snap(right + crosshair + extension),
             snap(y),
-            clip,
           )
         }
         for (const x of [left, right]) {
-          if (x < clip.left || x > clip.right) continue
+          if (x < edges.left || x > edges.right) continue
           stroke(
             snap(x),
             snap(top - crosshair - extension),
             snap(x),
             snap(bottom + crosshair + extension),
-            clip,
           )
         }
+        if (guide.exclude) context.restore()
       }
       context.globalCompositeOperation = 'destination-in'
       const fade = context.createRadialGradient(
@@ -431,7 +460,7 @@ export function PointerBlueprint() {
       fade.addColorStop(0.35, `rgba(0,0,0,${0.16 * strength})`)
       fade.addColorStop(1, 'rgba(0,0,0,0)')
       context.fillStyle = fade
-      context.fillRect(left, top, size, size)
+      context.fillRect(square.left, square.top, square.size, square.size)
       context.restore()
     }
     // Composites one spotlight through a scratch canvas the size of its square.
