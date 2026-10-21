@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import { Table, CodeBlock as SharedCodeBlock } from '@surflane/ui'
 import {
   components,
@@ -14,6 +14,12 @@ import { Link } from './router'
 import { useLocale, useMessages } from './i18n'
 import { useCatalogText } from './catalogText'
 import { docsKo } from './i18n/docs'
+// Components with written guidelines and working designs, loaded with the page.
+const guidelines: Partial<
+  Record<string, React.LazyExoticComponent<() => React.JSX.Element>>
+> = {
+  table: lazy(() => import('./TableGuidelines')),
+}
 function CodeBlock({
   code,
   language = 'tsx',
@@ -53,6 +59,7 @@ export function DetailPage({
   const text = useCatalogText()
   const ko = locale === 'ko' ? docsKo[item.id] : undefined
   const doc = componentDocs[item.id]
+  const Guidelines = guidelines[item.id]
   const peers =
     item.kind === 'component'
       ? components
@@ -77,7 +84,15 @@ export function DetailPage({
         <>
           <nav className='page-toc' aria-label={messages.onThisPage}>
             {(
-              ['preview', 'usage', 'keyboard', 'code', 'api', 'tokens'] as const
+              [
+                'preview',
+                'usage',
+                ...(Guidelines ? (['guidelines'] as const) : []),
+                'keyboard',
+                'code',
+                'api',
+                'tokens',
+              ] as const
             ).map((id) => (
               <a key={id} href={'#' + id}>
                 {messages.detail.toc[id]}
@@ -112,6 +127,17 @@ export function DetailPage({
             <h3>{messages.detail.anatomy}</h3>
             <p className='catalog-anatomy'>{doc.anatomy}</p>
           </section>
+          {Guidelines && (
+            <section id='guidelines'>
+              <h2>{messages.detail.guidelines}</h2>
+              <p className='catalog-preview-note'>
+                {messages.detail.guidelinesNote}
+              </p>
+              <Suspense fallback={null}>
+                <Guidelines />
+              </Suspense>
+            </section>
+          )}
           <section id='keyboard'>
             <h2>{messages.detail.keyboard}</h2>
             <DocCopy text={ko?.keyboard ?? doc.keyboard} />

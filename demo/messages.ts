@@ -86,11 +86,20 @@ export const en = {
   security: 'Security',
   closeCatalogNavigation: 'Close catalog navigation',
   closeMenu: 'Close menu',
+  // Pagination's own defaults are English; the catalog passes these per language.
+  pagination: {
+    previous: 'Previous page',
+    next: 'Next page',
+    page: (page: number) => `Page ${page}`,
+    more: 'More pages',
+    summary: (page: number, count: number) => `Page ${page} of ${count}`,
+  },
   detail: {
     baseUiReference: 'Base UI reference',
     toc: {
       preview: 'Preview',
       usage: 'Usage',
+      guidelines: 'Guidelines',
       keyboard: 'Keyboard',
       code: 'Code',
       api: 'API',
@@ -100,6 +109,9 @@ export const en = {
     previewNote:
       "Local preview. It doesn't affect real accounts, environments, or run data.",
     usage: 'Usage',
+    guidelines: 'Guidelines',
+    guidelinesNote:
+      'Rules for real screens, each with a working design. The designs use the shipped parts and stay local.',
     sizeLead: 'Size:',
     sizeNote:
       'resizes the whole composition, including portals. The default size is Default.',

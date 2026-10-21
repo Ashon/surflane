@@ -3114,3 +3114,100 @@ body,
     block-size: 360px;
   }
 }
+
+/* Component guidelines: each rule set is followed by a working design. */
+.table-guidelines {
+  display: grid;
+  gap: var(--space-10);
+  min-inline-size: 0;
+}
+.table-guideline {
+  display: grid;
+  gap: var(--space-4);
+  min-inline-size: 0;
+}
+.table-guideline > h3 {
+  margin: 0;
+}
+.table-guideline-rules {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding-inline-start: 1.25em;
+}
+.table-guideline-preview {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-3);
+  min-inline-size: 0;
+}
+.table-guideline-preview > :is(.pui-scroll-root, .table-guideline-pair) {
+  justify-self: stretch;
+}
+.table-guideline-pair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: var(--space-10);
+}
+/* Side-by-side comparisons fit their half; the catalog's 800px table minimum would scroll them. */
+.table-guideline-pair table {
+  min-width: 0;
+}
+.table-guideline-pair figure {
+  display: grid;
+  gap: var(--space-2);
+  min-inline-size: 0;
+  margin: 0;
+}
+.table-guideline-pair figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  color: var(--ink-body);
+  font-size: var(--type-caption-size);
+}
+.table-guideline-verdict {
+  font-weight: 500;
+}
+[data-verdict='do'] .table-guideline-verdict {
+  color: var(--status-success-fg);
+}
+[data-verdict='dont'] .table-guideline-verdict {
+  color: var(--status-danger-fg);
+}
+.table-guideline-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+.table-guideline-toolbar > span {
+  margin-inline-end: var(--space-2);
+}
+.table-guideline-status {
+  min-block-size: 1.5em;
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: var(--type-caption-size);
+}
+.table-guideline-identifier {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  max-inline-size: 100%;
+}
+.table-guideline-identifier .pui-table-truncate {
+  max-inline-size: 44ch;
+}
+.table-guideline-check {
+  inline-size: 1%;
+}
+.table-guideline-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.table-guideline-bounded {
+  max-block-size: 280px;
+}

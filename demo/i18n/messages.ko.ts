@@ -79,11 +79,19 @@ export const ko: Messages = {
   security: '보안',
   closeCatalogNavigation: '카탈로그 내비게이션 닫기',
   closeMenu: '메뉴 닫기',
+  pagination: {
+    previous: '이전 페이지',
+    next: '다음 페이지',
+    page: (page: number) => `${page}페이지`,
+    more: '더 많은 페이지',
+    summary: (page: number, count: number) => `${count}페이지 중 ${page}페이지`,
+  },
   detail: {
     baseUiReference: 'Base UI 참조',
     toc: {
       preview: '미리보기',
       usage: '사용법',
+      guidelines: '가이드라인',
       keyboard: '키보드',
       code: '코드',
       api: 'API',
@@ -93,6 +101,9 @@ export const ko: Messages = {
     previewNote:
       '로컬 미리보기입니다. 실제 계정, 환경, 실행 데이터에는 영향을 주지 않습니다.',
     usage: '사용법',
+    guidelines: '가이드라인',
+    guidelinesNote:
+      '실제 화면에 적용하는 규칙과, 규칙마다 동작하는 시안입니다. 시안은 배포되는 부품을 사용하며 로컬에서만 동작합니다.',
     sizeLead: '크기:',
     sizeNote:
       '포털까지 포함해 구성 전체의 크기를 바꿉니다. 기본 크기는 Default입니다.',

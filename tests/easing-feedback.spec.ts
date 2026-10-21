@@ -114,7 +114,7 @@ test('table sorting has inset hover surface and inline progress replaces its sta
 }) => {
   await page.goto('/components/table')
   await waitForCatalogReady(page)
-  const sort = page.getByRole('button', { name: /Name/ })
+  const sort = page.locator('#preview').getByRole('button', { name: /Name/ })
   await sort.hover()
   await expect(sort).toHaveCSS('padding-left', '12px')
   await expect(sort).toHaveCSS('padding-right', '12px')

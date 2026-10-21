@@ -15,7 +15,7 @@ import {
   Icon,
 } from '@surflane/ui'
 import { Link } from './router'
-import { useLocale } from './i18n'
+import { useLocale, useMessages } from './i18n'
 import { text } from './i18n/pages/DataTableExample'
 const resources = [
   {
@@ -99,6 +99,7 @@ const collator = new Intl.Collator('en', {
 })
 export function DataTableExample() {
   const t = text[useLocale().locale]
+  const messages = useMessages()
   const [mode, setMode] = useState<Mode>('ready'),
     [query, setQuery] = useState(''),
     [product, setProduct] = useState('all')
@@ -509,6 +510,7 @@ export function DataTableExample() {
                 pageCount={pageCount}
                 onPageChange={setPage}
                 aria-label={t.resultPages}
+                labels={messages.pagination}
               />
             </div>
             <p>

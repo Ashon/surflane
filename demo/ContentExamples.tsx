@@ -8,12 +8,13 @@ import {
   StatusBadge,
   Input,
 } from '@surflane/ui'
-import { useLocale } from './i18n'
+import { useLocale, useMessages } from './i18n'
 import { text } from './i18n/pages/ContentExamples'
 export { contentExampleIds } from './exampleGroups'
 const task = `# Local preview — no remote resources are created\nname: platform-api\nenvironment: demo-main\nchecks:\n  - access.identity-control\n  - access.env-allow\n  - access.env-deny\nlabels:\n  purpose: "한글과 공백을 보존하는 실행 예제"\n  reference: "https://demo.example.invalid/api/deployments/environments/staging/projects/demo-e2e-01/build-logs?include=identity,roles,permissions,service-endpoints"\n`
 function PaginationExample() {
   const t = text[useLocale().locale]
+  const messages = useMessages()
   const [page, setPage] = useState(1),
     [query, setQuery] = useState(''),
     [disabled, setDisabled] = useState(false)
@@ -65,6 +66,7 @@ function PaginationExample() {
         onPageChange={setPage}
         disabled={disabled}
         aria-label={t.pipelineRunPages}
+        labels={messages.pagination}
       />
       <p role='status'>
         {filtered.length === 0
@@ -93,6 +95,7 @@ function PaginationExample() {
         pageCount={5}
         getPageHref={(n) => `#pagination-page-${n}`}
         aria-label={t.documentationPages}
+        labels={messages.pagination}
       />
     </div>
   )

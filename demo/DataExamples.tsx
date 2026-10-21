@@ -292,30 +292,14 @@ export function DataExample({ id }: { id: string }) {
             <Table.Head>
               <Table.Row>
                 <Table.HeaderCell scope='col'>{t.selection}</Table.HeaderCell>
-                <Table.HeaderCell
-                  scope='col'
-                  aria-sort={ascending ? 'ascending' : 'descending'}
+                <Table.SortHeader
+                  sort={ascending ? 'ascending' : 'descending'}
+                  onSort={() => setAscending((v) => !v)}
                 >
-                  <Button
-                    variant='ghost'
-                    onClick={() => setAscending((v) => !v)}
-                  >
-                    {t.name}
-                    <svg
-                      width='14'
-                      height='14'
-                      viewBox='0 0 24 24'
-                      fill='none'
-                      stroke='currentColor'
-                      strokeWidth='1.5'
-                      aria-hidden='true'
-                    >
-                      <path d={ascending ? 'm6 15 6-6 6 6' : 'm6 9 6 6 6-6'} />
-                    </svg>
-                  </Button>
-                </Table.HeaderCell>
+                  {t.name}
+                </Table.SortHeader>
                 <Table.HeaderCell scope='col'>{t.cluster}</Table.HeaderCell>
-                <Table.HeaderCell scope='col'>
+                <Table.HeaderCell scope='col' numeric>
                   {t.discoveredServices}
                 </Table.HeaderCell>
                 <Table.HeaderCell scope='col'>{t.actions}</Table.HeaderCell>
@@ -335,7 +319,7 @@ export function DataExample({ id }: { id: string }) {
                   </Table.Cell>
                   <Table.HeaderCell scope='row'>{row.name}</Table.HeaderCell>
                   <Table.Cell>{row.region}</Table.Cell>
-                  <Table.Cell>{row.count}</Table.Cell>
+                  <Table.Cell numeric>{row.count}</Table.Cell>
                   <Table.Cell>
                     <Button
                       variant='outline'

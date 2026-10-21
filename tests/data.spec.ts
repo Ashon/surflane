@@ -17,7 +17,7 @@ test('Table preserves headers and caption, sorts with keyboard, and selects thro
   await expect(name).toHaveAttribute('scope', 'col')
   await expect(name).toHaveAttribute('aria-sort', 'ascending')
   await expect(table.getByRole('rowheader').first()).toHaveText('DEMO main')
-  const sort = page.getByRole('button', { name: 'Name', exact: true })
+  const sort = table.getByRole('button', { name: 'Name', exact: true })
   await sort.focus()
   await page.keyboard.press('Enter')
   await expect(name).toHaveAttribute('aria-sort', 'descending')
