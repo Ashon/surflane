@@ -2720,11 +2720,11 @@
   border-radius: 0;
 }
 /* The page surface: concentric with the shell, inset on every side but the
- * sidebar's. It fills the content height when the shell has a definite one. */
+ * sidebar's. Stretch or size it from its container: a percentage height here
+ * would resolve against a scroll content that sizes from the page itself. */
 .pui-app-shell-page {
   box-sizing: border-box;
   min-inline-size: 0;
-  min-block-size: calc(100% - 2 * var(--app-shell-inset));
   margin: var(--app-shell-inset);
   margin-inline-start: 0;
   padding: var(--space-6);
@@ -2741,7 +2741,6 @@
     padding: var(--space-4);
   }
   .pui-app-shell:has(> .pui-app-shell-header) .pui-app-shell-page {
-    min-block-size: calc(100% - var(--app-shell-inset));
     margin-block-start: 0;
   }
 }
