@@ -110,11 +110,15 @@ test('catalog text and portal controls stay within the 500 maximum and code stay
     expect(offenders, route).toEqual([])
   }
   await page.getByRole('combobox', { name: 'Formatting locale' }).click()
+  // Wait for the popup, or the loop below checks no options at all.
+  await expect(page.getByRole('option').first()).toBeVisible()
   for (const option of await page.getByRole('option').all()) {
     const css = await option.evaluate((el) => {
       const s = getComputedStyle(el)
       return {
-        tracking: parseFloat(s.letterSpacing),
+        // Chrome serializes zero tracking as "normal".
+        tracking:
+          s.letterSpacing === 'normal' ? 0 : parseFloat(s.letterSpacing),
         size: parseFloat(s.fontSize),
         weight: Number(s.fontWeight),
       }
