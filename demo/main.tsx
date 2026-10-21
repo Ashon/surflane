@@ -79,7 +79,14 @@ import {
   rememberCatalogScrollPosition,
   withBase,
 } from './router'
-import { LocaleProvider, localeNames, useLocale, useMessages } from './i18n'
+import {
+  documentLocale,
+  loadKorean,
+  LocaleProvider,
+  localeNames,
+  useLocale,
+  useMessages,
+} from './i18n'
 import { useCatalogText } from './catalogText'
 import '@surflane/design-tokens/tokens.css'
 import '@surflane/design-tokens/controls.css'
@@ -664,8 +671,18 @@ function App() {
     </>
   )
 }
-createRoot(document.getElementById('root')!).render(
-  <LocaleProvider>
-    <App />
-  </LocaleProvider>,
-)
+const root = createRoot(document.getElementById('root')!)
+const render = () =>
+  root.render(
+    <LocaleProvider>
+      <App />
+    </LocaleProvider>,
+  )
+// Korean readers wait for the Korean chunk, so the first paint is already in Korean.
+if (documentLocale() === 'ko')
+  loadKorean().then(render, (error) => {
+    console.error(error)
+    document.documentElement.lang = 'en'
+    render()
+  })
+else render()

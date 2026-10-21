@@ -10,12 +10,12 @@ The catalog reads in English and Korean. English is the default and the source. 
 
 | Text                                                            | English                             | Korean                                                             |
 | --------------------------------------------------------------- | ----------------------------------- | ------------------------------------------------------------------ |
-| Catalog interface: rail, sidebar, page header and shared labels | `en` in `demo/messages.ts`          | `ko` in the same file                                              |
+| Catalog interface: rail, sidebar, page header and shared labels | `en` in `demo/messages.ts`          | `demo/i18n/messages.ko.ts`                                         |
 | Catalog names, summaries, groups and stages                     | `demo/catalog.ts`                   | `demo/i18n/catalog.ko.ts`, keyed by page path, group name or stage |
 | Component and pattern docs: `usage`, `avoid`, `keyboard`, props | `demo/*Docs.ts`                     | `demo/i18n/docs/*.ko.ts`, keyed by item id; props by prop name     |
 | Page and example text                                           | `en` in `demo/i18n/pages/<Page>.ts` | `ko` in the same file                                              |
 
-A new `demo/i18n/docs/*.ko.ts` file loads without registration.
+A new `demo/i18n/docs/*.ko.ts` file loads without registration. The interface text and catalog data load as one Korean chunk through `demo/i18n/ko.ts`, only when a reader chooses Korean, so keep them out of the initial bundle: import them only from that file.
 
 ### Rules
 
