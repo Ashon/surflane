@@ -9,7 +9,7 @@
 
 A design system for platform development. Surflane connects reusable React components, framework-neutral tokens and application patterns with an [interactive catalog](https://surflane.page) of implementation guidance and working examples.
 
-The catalog contains 10 foundations, 58 components and 12 patterns. Availability describes implemented examples, not accessibility certification. All application names, accounts, services and data in examples are fictional.
+The catalog contains 11 foundations, 58 components and 12 patterns. Availability describes implemented examples, not accessibility certification. All application names, accounts, services and data in examples are fictional.
 
 ## Develop
 

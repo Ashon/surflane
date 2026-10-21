@@ -14,6 +14,7 @@ export const catalogKo: {
     '/foundations/iconography': '아이콘',
     '/foundations/interaction': '인터랙션 / 상태',
     '/foundations/motion': '모션 / 테마',
+    '/foundations/themes': '테마',
     '/foundations/accessibility': '접근성',
     '/foundations/content': '콘텐츠 / 현지화',
     '/foundations/layers': '레이어 / 높이',
@@ -41,6 +42,8 @@ export const catalogKo: {
     '/foundations/interaction':
       '포인터, 키보드, 선택, 비활성, 비동기 상태와 복구를 정의합니다.',
     '/foundations/motion': '테마 동기화, 등장, 퇴장, 축소 모션을 정의합니다.',
+    '/foundations/themes':
+      '중립색 톤, 강조색, 모서리 크기로 테마를 만들고 대비를 보고합니다.',
     '/foundations/accessibility':
       '의미 구조, 포커스, 키보드, 확대, 상태 알림을 다룹니다.',
     '/foundations/content':

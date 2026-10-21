@@ -3211,3 +3211,171 @@ body,
 .table-guideline-bounded {
   max-block-size: 280px;
 }
+
+/* Theme builder: inputs beside a live preview whose tokens come from the inputs. */
+.theme-foundation {
+  display: grid;
+  gap: var(--space-4);
+  min-inline-size: 0;
+}
+.theme-foundation > h2 {
+  margin-block-start: var(--space-8);
+}
+.theme-builder {
+  display: grid;
+  grid-template-columns: minmax(15rem, 18rem) minmax(0, 1fr);
+  align-items: start;
+  gap: var(--space-8);
+  margin-block-start: var(--space-4);
+}
+@media (max-width: 1100px) {
+  .theme-builder {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.theme-inputs {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-6);
+  min-inline-size: 0;
+}
+.theme-inputs fieldset {
+  display: grid;
+  gap: var(--space-3);
+  justify-self: stretch;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.theme-inputs legend {
+  margin-block-end: var(--space-1);
+  padding: 0;
+  color: var(--ink);
+  font-weight: 500;
+}
+.theme-hint {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: var(--type-caption-size);
+}
+.theme-presets {
+  flex-wrap: wrap;
+}
+.theme-swatch {
+  flex: none;
+  inline-size: 12px;
+  block-size: 12px;
+  border-radius: var(--radius-full);
+  box-shadow: inset 0 0 0 1px oklch(0 0 0 / 0.16);
+}
+.theme-stage {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-3);
+  min-inline-size: 0;
+}
+/* The preview sets its own tokens inline, so it frames itself with them. */
+.theme-preview {
+  box-sizing: border-box;
+  justify-self: stretch;
+  block-size: 520px;
+  min-inline-size: 0;
+  padding: 3px;
+  border: 1px solid var(--line);
+  --workspace-shell-radius: calc(var(--radius-md) + var(--space-3));
+  border-radius: calc(var(--workspace-shell-radius) + var(--space-1));
+  background: var(--chrome);
+  color: var(--ink-body);
+}
+.theme-preview .pui-app-shell {
+  block-size: 100%;
+  border-radius: var(--workspace-shell-radius);
+  overflow: hidden;
+}
+.theme-preview-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-4) var(--space-4) var(--space-6);
+}
+.theme-preview-brand svg {
+  flex: none;
+  inline-size: 24px;
+  block-size: 24px;
+}
+.theme-preview-brand rect {
+  fill: var(--brand);
+}
+.theme-preview-brand path {
+  fill: none;
+  stroke: var(--on-brand);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.theme-preview-brand path:first-of-type {
+  fill: var(--on-brand);
+}
+.theme-preview-brand span {
+  display: grid;
+}
+.theme-preview-brand small {
+  color: var(--ink-muted);
+  font-size: var(--type-caption-size);
+}
+.theme-preview nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-inline: var(--space-4);
+}
+.theme-preview-sheet {
+  box-sizing: border-box;
+  block-size: calc(100% - 2 * var(--space-3));
+  margin: var(--space-3) var(--space-3) var(--space-3) 0;
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  overflow: auto;
+  background: var(--canvas);
+  border-radius: var(--radius-md);
+}
+.theme-preview-sheet table {
+  min-width: 0;
+}
+.theme-preview-sheet :is(th, td) {
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+.theme-preview .pui-app-shell-content {
+  container: theme-preview / inline-size;
+}
+/* A narrow preview drops the environment column instead of clipping status. */
+@container theme-preview (max-width: 600px) {
+  .theme-preview-sheet :is(th, td):nth-child(3) {
+    display: none;
+  }
+}
+.theme-preview-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-6);
+}
+.theme-preview-controls .pui-input {
+  inline-size: 14rem;
+}
+.theme-preview .theme-preview-choice {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-2);
+}
+.theme-pair-tokens {
+  display: block;
+  color: var(--ink-muted);
+  font-size: var(--type-caption-size);
+  font-weight: var(--weight-regular);
+}

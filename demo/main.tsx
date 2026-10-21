@@ -38,6 +38,7 @@ const MotionFoundation = lazy(() =>
     default: module.MotionFoundation,
   })),
 )
+const ThemeFoundation = lazy(() => import('./ThemeFoundation'))
 const ColorFoundation = lazy(() =>
   import('./ColorFoundation').then((module) => ({
     default: module.ColorFoundation,
@@ -316,6 +317,7 @@ function App() {
   else if (route === '/foundations/motion')
     content = <MotionFoundation toggleTheme={toggleTheme} />
   else if (route === '/foundations/color') content = <ColorFoundation />
+  else if (route === '/foundations/themes') content = <ThemeFoundation />
   else if (route === '/foundations/layout')
     content = <FoundationDemo view='layout' />
   else if (route === '/foundations/typography')

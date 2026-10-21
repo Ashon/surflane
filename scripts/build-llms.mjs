@@ -142,6 +142,7 @@ const intro = [
   '- In React Server Components, use flat part names such as `DialogRoot` instead of `Dialog.Root`.',
   '- `SizeProvider size="small"` resizes a whole composition, including portals.',
   '- Style with tokens through `var(--token-name)`, never raw values. With Tailwind CSS v4, import `@surflane/design-tokens/tailwind.css`.',
+  '- To theme, import a preset after `tokens.css`, such as `@surflane/design-tokens/themes/stone.css` or `themes/accent-violet.css`, or generate CSS with `createTheme` and `themeCss` from `@surflane/design-tokens/theme-builder`. For shadcn/ui, import `@surflane/design-tokens/shadcn.css`.',
   '- Give each control a name that describes its purpose, connect errors to their controls, and signal state with more than color.',
 ]
 

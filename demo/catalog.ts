@@ -763,6 +763,12 @@ export const foundations: CatalogItem[] = [
     'available',
   ],
   [
+    'themes',
+    'Themes',
+    'Builds a theme from a neutral tint, an accent, and a radius scale, and reports contrast.',
+    'available',
+  ],
+  [
     'iconography',
     'Iconography',
     'Defines SVG size, stroke, alignment, and accessible names.',
