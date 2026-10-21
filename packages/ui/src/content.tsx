@@ -114,6 +114,8 @@ export const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
       clearTimeout(timer.current)
       setState('idle')
     }, [code])
+    const resting = React.useRef(true)
+    resting.current = state === 'idle'
     // The button keeps its resting width, so the feedback never moves the toolbar.
     React.useLayoutEffect(() => {
       const element = button.current
@@ -123,8 +125,9 @@ export const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
         element.style.minInlineSize = `${element.getBoundingClientRect().width}px`
       }
       measure()
+      // Fonts can finish loading after a copy; the result label must not set the width.
       document.fonts?.ready.then(() => {
-        if (mounted.current) measure()
+        if (mounted.current && resting.current) measure()
       })
     }, [copyLabel, state])
     async function copy() {
