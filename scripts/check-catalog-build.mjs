@@ -30,7 +30,9 @@ const chunks = [...initial]
   })
 const initialJSBytes = chunks.reduce((sum, chunk) => sum + chunk.bytes, 0),
   initialJSGzip = chunks.reduce((sum, chunk) => sum + chunk.gzip, 0)
-const budget = 384 * 1024
+// Lowered from 384 KiB in 0.3.x, after module splitting and the deferred guide overlay
+// brought the initial JS to about 323 KiB.
+const budget = 336 * 1024
 assert(
   initialJSBytes <= budget,
   `Initial catalog JS ${initialJSBytes} exceeds ${budget} byte budget`,

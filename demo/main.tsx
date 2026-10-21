@@ -5,9 +5,14 @@ import { Button, Breadcrumbs, ScrollArea, PageHeader } from '@surflane/ui'
 import { transitionTheme } from '@surflane/design-tokens/theme-transition'
 import { Overview } from './OverviewPage'
 import { LandingHero } from './LandingHero'
-import { PointerBlueprint } from './PointerBlueprint'
 import { DeferredContent } from './DeferredContent'
 const MobileCatalogNavigation = lazy(() => import('./MobileCatalogNavigation'))
+// The decorative guide overlay waits for the first screen anyway; it loads after it.
+const PointerBlueprint = lazy(() =>
+  import('./PointerBlueprint').then((module) => ({
+    default: module.PointerBlueprint,
+  })),
+)
 const LayersFoundation = lazy(() =>
   import('./LayersFoundation').then((module) => ({
     default: module.LayersFoundation,
@@ -424,7 +429,9 @@ function App() {
   )
   return (
     <>
-      <PointerBlueprint />
+      <Suspense fallback={null}>
+        <PointerBlueprint />
+      </Suspense>
       <a className='catalog-skip' href='#main-content'>
         {messages.skipToContent}
       </a>

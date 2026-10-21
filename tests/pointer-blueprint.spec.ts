@@ -1,5 +1,12 @@
-import { test, expect, type Locator } from '@playwright/test'
-import { waitForCatalogReady } from './catalog-ready'
+import { test, expect, type Locator, type Page } from '@playwright/test'
+import { waitForCatalogReady as catalogReady } from './catalog-ready'
+
+// The guide overlay loads after the first screen. Wait for it, so a test's first
+// pointer move is not spent before the overlay listens.
+async function waitForCatalogReady(page: Page) {
+  await catalogReady(page)
+  await expect(page.locator('.pointer-blueprint')).toHaveCount(1)
+}
 
 // Guides inside a scroll area paint on that area's own layer. Pixel reads from the
 // window canvas return what the page shows: every layer, clipped by the areas
