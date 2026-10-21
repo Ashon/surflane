@@ -1,7 +1,7 @@
 'use client'
 import * as React from 'react'
 import { ScrollArea as BaseScrollArea } from '@base-ui/react/scroll-area'
-export const ScrollArea = React.forwardRef<
+export const ScrollArea = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<'div'> & {
     label?: string

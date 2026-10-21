@@ -53,15 +53,15 @@ function ComboboxRoot<
     </BaseCombobox.Root>
   )
 }
-const ComboPopup = part<
+const ComboPopup = /* @__PURE__ */ part<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseCombobox.Popup>
 >(BaseCombobox.Popup, 'pui-combobox-popup')
-const ComboPositioner = part<
+const ComboPositioner = /* @__PURE__ */ part<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseCombobox.Positioner>
 >(BaseCombobox.Positioner, 'pui-positioner')
-const ComboContent = React.forwardRef<
+const ComboContent = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseCombobox.Popup> & {
     positionerProps?: React.ComponentPropsWithoutRef<
@@ -77,7 +77,7 @@ const ComboContent = React.forwardRef<
     </BaseCombobox.Portal>
   )
 })
-const ComboTrigger = React.forwardRef<
+const ComboTrigger = /* @__PURE__ */ React.forwardRef<
   HTMLButtonElement,
   React.ComponentPropsWithoutRef<typeof BaseCombobox.Trigger>
 >(function ComboTrigger({ children, className, ...props }, ref) {
@@ -92,7 +92,7 @@ const ComboTrigger = React.forwardRef<
     </BaseCombobox.Trigger>
   )
 })
-const ComboClear = React.forwardRef<
+const ComboClear = /* @__PURE__ */ React.forwardRef<
   HTMLButtonElement,
   React.ComponentPropsWithoutRef<typeof BaseCombobox.Clear>
 >(function ComboClear({ children, className, ...props }, ref) {
@@ -107,7 +107,7 @@ const ComboClear = React.forwardRef<
     </BaseCombobox.Clear>
   )
 })
-const ComboIndicator = React.forwardRef<
+const ComboIndicator = /* @__PURE__ */ React.forwardRef<
   HTMLSpanElement,
   React.ComponentPropsWithoutRef<typeof BaseCombobox.ItemIndicator>
 >(function ComboIndicator({ children, className, ...props }, ref) {
@@ -122,7 +122,7 @@ const ComboIndicator = React.forwardRef<
     </BaseCombobox.ItemIndicator>
   )
 })
-const ComboRemove = React.forwardRef<
+const ComboRemove = /* @__PURE__ */ React.forwardRef<
   HTMLButtonElement,
   React.ComponentPropsWithoutRef<typeof BaseCombobox.ChipRemove>
 >(function ComboRemove({ children, className, ...props }, ref) {
@@ -146,52 +146,52 @@ export const Combobox = {
   Clear: ComboClear,
   ItemIndicator: ComboIndicator,
   ChipRemove: ComboRemove,
-  Input: part<
+  Input: /* @__PURE__ */ part<
     HTMLInputElement,
     React.ComponentPropsWithoutRef<typeof BaseCombobox.Input>
   >(BaseCombobox.Input, 'pui-input pui-combobox-input'),
-  InputGroup: part<
+  InputGroup: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseCombobox.InputGroup>
   >(BaseCombobox.InputGroup, 'pui-combobox-group'),
-  List: part<
+  List: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseCombobox.List>
   >(BaseCombobox.List, 'pui-combobox-list scroll-area'),
-  Item: part<
+  Item: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseCombobox.Item>
   >(BaseCombobox.Item, 'pui-combobox-item'),
-  Empty: part<
+  Empty: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseCombobox.Empty>
   >(BaseCombobox.Empty, 'pui-combobox-empty'),
-  Status: part<
+  Status: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseCombobox.Status>
   >(BaseCombobox.Status, 'pui-combobox-status'),
-  Group: part<
+  Group: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseCombobox.Group>
   >(BaseCombobox.Group, 'pui-combobox-section'),
-  GroupLabel: part<
+  GroupLabel: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseCombobox.GroupLabel>
   >(BaseCombobox.GroupLabel, 'pui-combobox-section-label'),
-  Separator: part<
+  Separator: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseCombobox.Separator>
   >(BaseCombobox.Separator, 'pui-combobox-separator'),
-  Chips: part<
+  Chips: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseCombobox.Chips>
   >(BaseCombobox.Chips, 'pui-combobox-chips'),
-  Chip: part<
+  Chip: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseCombobox.Chip>
   >(BaseCombobox.Chip, 'pui-combobox-chip'),
 }
-const NumberRoot = React.forwardRef<
+const NumberRoot = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseNumberField.Root>
 >(function NumberRoot(
@@ -219,7 +219,7 @@ const NumberRoot = React.forwardRef<
     />
   )
 })
-const NumberIncrement = React.forwardRef<
+const NumberIncrement = /* @__PURE__ */ React.forwardRef<
   HTMLButtonElement,
   React.ComponentPropsWithoutRef<typeof BaseNumberField.Increment>
 >(function NumberIncrement({ className, children, ...props }, ref) {
@@ -234,7 +234,7 @@ const NumberIncrement = React.forwardRef<
     </BaseNumberField.Increment>
   )
 })
-const NumberDecrement = React.forwardRef<
+const NumberDecrement = /* @__PURE__ */ React.forwardRef<
   HTMLButtonElement,
   React.ComponentPropsWithoutRef<typeof BaseNumberField.Decrement>
 >(function NumberDecrement({ className, children, ...props }, ref) {
@@ -254,15 +254,15 @@ export const NumberField = {
   Root: NumberRoot,
   Increment: NumberIncrement,
   Decrement: NumberDecrement,
-  Group: part<
+  Group: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseNumberField.Group>
   >(BaseNumberField.Group, 'pui-number-group'),
-  Input: part<
+  Input: /* @__PURE__ */ part<
     HTMLInputElement,
     React.ComponentPropsWithoutRef<typeof BaseNumberField.Input>
   >(BaseNumberField.Input, 'pui-number-input'),
-  ScrubArea: part<
+  ScrubArea: /* @__PURE__ */ part<
     HTMLSpanElement,
     React.ComponentPropsWithoutRef<typeof BaseNumberField.ScrubArea>
   >(BaseNumberField.ScrubArea, 'pui-number-scrub'),

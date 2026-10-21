@@ -11,7 +11,7 @@ const gapStyle = (
     ...(gap === undefined ? {} : { '--layout-gap': `var(--space-${gap})` }),
     ...style,
   }) as React.CSSProperties
-export const Container = React.forwardRef<
+export const Container = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'> & {
     width?: 'workspace' | 'reading' | 'wide' | 'full'
@@ -26,7 +26,7 @@ export const Container = React.forwardRef<
     />
   )
 })
-export const Stack = React.forwardRef<
+export const Stack = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'> & { gap?: Space }
 >(function Stack({ gap, className, style, ...props }, ref) {
@@ -39,7 +39,7 @@ export const Stack = React.forwardRef<
     />
   )
 })
-export const Inline = React.forwardRef<
+export const Inline = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'> & {
     gap?: Space
@@ -56,7 +56,7 @@ export const Inline = React.forwardRef<
     />
   )
 })
-export const Grid = React.forwardRef<
+export const Grid = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'> & {
     gap?: Space
@@ -83,7 +83,7 @@ export const Grid = React.forwardRef<
   )
 })
 /** Spans are explicit at each viewport breakpoint; placement follows DOM order. */
-export const GridItem = React.forwardRef<
+export const GridItem = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'> & {
     span?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
@@ -110,7 +110,7 @@ export const GridItem = React.forwardRef<
     />
   )
 })
-export const Surface = React.forwardRef<
+export const Surface = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'> & { tone?: 'canvas' | 'subtle'; padding?: Space }
 >(function Surface(
@@ -236,7 +236,7 @@ export function PageHeader({
     </Root>
   )
 }
-export const Prose = React.forwardRef<
+export const Prose = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'>
 >(function Prose({ className, ...props }, ref) {

@@ -37,7 +37,7 @@ const AutocompleteRoot: typeof BaseAutocomplete.Root =
       </BaseAutocomplete.Root>
     )
   }
-const AutoTrigger = React.forwardRef<
+const AutoTrigger = /* @__PURE__ */ React.forwardRef<
   HTMLButtonElement,
   React.ComponentPropsWithoutRef<typeof BaseAutocomplete.Trigger>
 >(function AutoTrigger({ className, children, ...props }, ref) {
@@ -64,7 +64,7 @@ const AutoTrigger = React.forwardRef<
     </BaseAutocomplete.Trigger>
   )
 })
-const AutoClear = React.forwardRef<
+const AutoClear = /* @__PURE__ */ React.forwardRef<
   HTMLButtonElement,
   React.ComponentPropsWithoutRef<typeof BaseAutocomplete.Clear>
 >(function AutoClear(props, ref) {
@@ -84,15 +84,15 @@ export const Autocomplete = {
   GroupLabel: Combobox.GroupLabel,
   Clear: AutoClear,
   Trigger: AutoTrigger,
-  InputGroup: part<
+  InputGroup: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseAutocomplete.InputGroup>
   >(BaseAutocomplete.InputGroup, 'pui-combobox-group'),
-  Item: part<
+  Item: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseAutocomplete.Item>
   >(BaseAutocomplete.Item, 'pui-combobox-item'),
-  Separator: part<
+  Separator: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseAutocomplete.Separator>
   >(BaseAutocomplete.Separator, 'pui-combobox-separator'),
@@ -132,27 +132,27 @@ function SliderRoot<Value extends number | readonly number[]>({
 export const Slider = {
   ...BaseSlider,
   Root: SliderRoot,
-  Label: part<
+  Label: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseSlider.Label>
   >(BaseSlider.Label, 'pui-slider-label'),
-  Value: part<
+  Value: /* @__PURE__ */ part<
     HTMLOutputElement,
     React.ComponentPropsWithoutRef<typeof BaseSlider.Value>
   >(BaseSlider.Value, 'pui-slider-value'),
-  Control: part<
+  Control: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseSlider.Control>
   >(BaseSlider.Control, 'pui-slider-control'),
-  Track: part<
+  Track: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseSlider.Track>
   >(BaseSlider.Track, 'pui-slider-track'),
-  Indicator: part<
+  Indicator: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseSlider.Indicator>
   >(BaseSlider.Indicator, 'pui-slider-indicator'),
-  Thumb: part<
+  Thumb: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseSlider.Thumb>
   >(BaseSlider.Thumb, 'pui-slider-thumb'),

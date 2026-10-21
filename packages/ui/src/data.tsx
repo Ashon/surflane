@@ -4,18 +4,18 @@ import { Button } from './button.js'
 import { part } from './parts.js'
 import { ScrollArea } from './scroll-area.js'
 
-const TableContainer = React.forwardRef<
+const TableContainer = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof ScrollArea> & { label: string }
 >(function TableContainer(props, ref) {
   return <ScrollArea {...props} ref={ref} />
 })
-const RootPart = part<
+const RootPart = /* @__PURE__ */ part<
   HTMLTableElement,
   React.ComponentPropsWithoutRef<'table'>
 >('table', 'pui-table')
 export type TableDensity = 'default' | 'compact'
-const TableRoot = React.forwardRef<
+const TableRoot = /* @__PURE__ */ React.forwardRef<
   HTMLTableElement,
   React.ComponentPropsWithoutRef<typeof RootPart> & {
     /** compact tightens rows for scanning many records with a pointer. */
@@ -42,23 +42,23 @@ const layout = ({ align, numeric }: CellLayout) => ({
   'data-align': numeric ? 'end' : align,
   'data-numeric': numeric || undefined,
 })
-const HeaderCellPart = part<
+const HeaderCellPart = /* @__PURE__ */ part<
   HTMLTableCellElement,
   React.ComponentPropsWithoutRef<'th'>
 >('th', 'pui-table-cell pui-table-header')
-const CellPart = part<
+const CellPart = /* @__PURE__ */ part<
   HTMLTableCellElement,
   React.ComponentPropsWithoutRef<'td'>
 >('td', 'pui-table-cell')
 // align replaces the obsolete HTML align attribute of th and td.
-const TableHeaderCell = React.forwardRef<
+const TableHeaderCell = /* @__PURE__ */ React.forwardRef<
   HTMLTableCellElement,
   Omit<React.ComponentPropsWithoutRef<typeof HeaderCellPart>, 'align'> &
     CellLayout
 >(function TableHeaderCell({ align, numeric, ...props }, ref) {
   return <HeaderCellPart {...props} {...layout({ align, numeric })} ref={ref} />
 })
-const TableCell = React.forwardRef<
+const TableCell = /* @__PURE__ */ React.forwardRef<
   HTMLTableCellElement,
   Omit<React.ComponentPropsWithoutRef<typeof CellPart>, 'align'> & CellLayout
 >(function TableCell({ align, numeric, ...props }, ref) {
@@ -92,7 +92,7 @@ function SortIcon({ sort }: { sort?: TableSort }) {
   )
 }
 /** A column header whose button sorts the column. aria-sort names the order on the sorted column only. */
-const TableSortHeader = React.forwardRef<
+const TableSortHeader = /* @__PURE__ */ React.forwardRef<
   HTMLTableCellElement,
   Omit<
     React.ComponentPropsWithoutRef<typeof TableHeaderCell>,
@@ -128,7 +128,7 @@ const TableSortHeader = React.forwardRef<
   )
 })
 /** One-line text that ends in an ellipsis. String content also becomes the title. */
-const TableTruncate = React.forwardRef<
+const TableTruncate = /* @__PURE__ */ React.forwardRef<
   HTMLSpanElement,
   React.ComponentPropsWithoutRef<'span'>
 >(function TableTruncate({ className, title, children, ...props }, ref) {
@@ -144,7 +144,7 @@ const TableTruncate = React.forwardRef<
   )
 })
 /** A full-width body row for loading, empty, error and permission messages. It has no hover. */
-const TableMessage = React.forwardRef<
+const TableMessage = /* @__PURE__ */ React.forwardRef<
   HTMLTableCellElement,
   React.ComponentPropsWithoutRef<'td'> & { colSpan: number }
 >(function TableMessage({ className, ...props }, ref) {
@@ -160,7 +160,7 @@ const TableMessage = React.forwardRef<
     </tr>
   )
 })
-const TableRow = React.forwardRef<
+const TableRow = /* @__PURE__ */ React.forwardRef<
   HTMLTableRowElement,
   React.ComponentPropsWithoutRef<'tr'> & { selected?: boolean }
 >(function TableRow({ selected, className, ...props }, ref) {
@@ -176,22 +176,22 @@ const TableRow = React.forwardRef<
 export const Table = {
   Container: TableContainer,
   Root: TableRoot,
-  Caption: part<
+  Caption: /* @__PURE__ */ part<
     HTMLTableCaptionElement,
     React.ComponentPropsWithoutRef<'caption'>
   >('caption', 'pui-table-caption'),
-  Head: part<HTMLTableSectionElement, React.ComponentPropsWithoutRef<'thead'>>(
-    'thead',
-    'pui-table-head',
-  ),
-  Body: part<HTMLTableSectionElement, React.ComponentPropsWithoutRef<'tbody'>>(
-    'tbody',
-    'pui-table-body',
-  ),
-  Foot: part<HTMLTableSectionElement, React.ComponentPropsWithoutRef<'tfoot'>>(
-    'tfoot',
-    'pui-table-foot',
-  ),
+  Head: /* @__PURE__ */ part<
+    HTMLTableSectionElement,
+    React.ComponentPropsWithoutRef<'thead'>
+  >('thead', 'pui-table-head'),
+  Body: /* @__PURE__ */ part<
+    HTMLTableSectionElement,
+    React.ComponentPropsWithoutRef<'tbody'>
+  >('tbody', 'pui-table-body'),
+  Foot: /* @__PURE__ */ part<
+    HTMLTableSectionElement,
+    React.ComponentPropsWithoutRef<'tfoot'>
+  >('tfoot', 'pui-table-foot'),
   Row: TableRow,
   HeaderCell: TableHeaderCell,
   SortHeader: TableSortHeader,
@@ -199,7 +199,7 @@ export const Table = {
   Truncate: TableTruncate,
   Message: TableMessage,
 }
-const ListRoot = React.forwardRef<
+const ListRoot = /* @__PURE__ */ React.forwardRef<
   HTMLUListElement,
   React.ComponentPropsWithoutRef<'ul'>
 >(function ListRoot({ className, ...props }, ref) {
@@ -212,7 +212,7 @@ const ListRoot = React.forwardRef<
     />
   )
 })
-const ListItem = React.forwardRef<
+const ListItem = /* @__PURE__ */ React.forwardRef<
   HTMLLIElement,
   React.ComponentPropsWithoutRef<'li'> & { selected?: boolean }
 >(function ListItem({ selected, className, ...props }, ref) {
@@ -228,22 +228,22 @@ const ListItem = React.forwardRef<
 export const List = {
   Root: ListRoot,
   Item: ListItem,
-  Content: part<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
-    'div',
-    'pui-list-content',
-  ),
-  Title: part<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
-    'div',
-    'pui-list-title',
-  ),
-  Description: part<HTMLParagraphElement, React.ComponentPropsWithoutRef<'p'>>(
-    'p',
-    'pui-list-description',
-  ),
-  Actions: part<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
-    'div',
-    'pui-list-actions',
-  ),
+  Content: /* @__PURE__ */ part<
+    HTMLDivElement,
+    React.ComponentPropsWithoutRef<'div'>
+  >('div', 'pui-list-content'),
+  Title: /* @__PURE__ */ part<
+    HTMLDivElement,
+    React.ComponentPropsWithoutRef<'div'>
+  >('div', 'pui-list-title'),
+  Description: /* @__PURE__ */ part<
+    HTMLParagraphElement,
+    React.ComponentPropsWithoutRef<'p'>
+  >('p', 'pui-list-description'),
+  Actions: /* @__PURE__ */ part<
+    HTMLDivElement,
+    React.ComponentPropsWithoutRef<'div'>
+  >('div', 'pui-list-actions'),
 }
 
 // Flat names for React Server Components, which cannot dot into client exports.

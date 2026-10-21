@@ -94,30 +94,34 @@ export type IconProps = Omit<
 > &
   Semantics & { name: IconName; size?: 'sm' | 'md' | 'lg' }
 /** Static SVG only. Actions, focus, accessible button names and hit targets belong to the parent control. */
-export const Icon = React.forwardRef<SVGSVGElement, IconProps>(function Icon(
-  { name, size = 'sm', decorative = true, label, className, ...props },
-  ref,
-) {
-  return (
-    <svg
-      {...props}
-      ref={ref}
-      className={['pui-icon', className].filter(Boolean).join(' ')}
-      data-size={size}
-      data-directional={
-        name === 'chevron-forward' || name === 'arrow-back' ? 'true' : undefined
-      }
-      viewBox='0 0 24 24'
-      fill='none'
-      stroke='currentColor'
-      strokeLinecap='round'
-      strokeLinejoin='round'
-      focusable='false'
-      aria-hidden={decorative ? true : undefined}
-      role={decorative ? undefined : 'img'}
-      aria-label={decorative ? undefined : label}
-    >
-      {shapes[name]}
-    </svg>
-  )
-})
+export const Icon = /* @__PURE__ */ React.forwardRef<SVGSVGElement, IconProps>(
+  function Icon(
+    { name, size = 'sm', decorative = true, label, className, ...props },
+    ref,
+  ) {
+    return (
+      <svg
+        {...props}
+        ref={ref}
+        className={['pui-icon', className].filter(Boolean).join(' ')}
+        data-size={size}
+        data-directional={
+          name === 'chevron-forward' || name === 'arrow-back'
+            ? 'true'
+            : undefined
+        }
+        viewBox='0 0 24 24'
+        fill='none'
+        stroke='currentColor'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        focusable='false'
+        aria-hidden={decorative ? true : undefined}
+        role={decorative ? undefined : 'img'}
+        aria-label={decorative ? undefined : label}
+      >
+        {shapes[name]}
+      </svg>
+    )
+  },
+)

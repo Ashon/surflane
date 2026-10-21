@@ -194,7 +194,7 @@ function optionList(children: React.ReactNode): SelectOption[] {
   })
 }
 /** Transitional HTML-option adapter. Submitted values use Base UI's native hidden input. */
-export const NativeSelect = React.forwardRef<
+export const NativeSelect = /* @__PURE__ */ React.forwardRef<
   HTMLButtonElement,
   Omit<React.ComponentPropsWithoutRef<'select'>, 'size' | 'multiple'> & {
     size?: ComponentSizeAlias

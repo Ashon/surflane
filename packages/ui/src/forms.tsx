@@ -10,30 +10,30 @@ import { Radio as BaseRadio } from '@base-ui/react/radio'
 import { RadioGroup as BaseRadioGroup } from '@base-ui/react/radio-group'
 import { Switch as BaseSwitch } from '@base-ui/react/switch'
 
-const ChoiceResetPaint = React.createContext(0)
+const ChoiceResetPaint = /* @__PURE__ */ React.createContext(0)
 
 import { skin, part } from './parts.js'
-const FieldRoot = part<
+const FieldRoot = /* @__PURE__ */ part<
   React.ComponentRef<typeof BaseField.Root>,
   React.ComponentPropsWithoutRef<typeof BaseField.Root>
 >(BaseField.Root, 'pui-field')
-const FieldLabel = part<
+const FieldLabel = /* @__PURE__ */ part<
   React.ComponentRef<typeof BaseField.Label>,
   React.ComponentPropsWithoutRef<typeof BaseField.Label>
 >(BaseField.Label, 'pui-field-label')
-const FieldControl = part<
+const FieldControl = /* @__PURE__ */ part<
   React.ComponentRef<typeof BaseField.Control>,
   React.ComponentPropsWithoutRef<typeof BaseField.Control>
 >(BaseField.Control, 'pui-input')
-const FieldDescription = part<
+const FieldDescription = /* @__PURE__ */ part<
   React.ComponentRef<typeof BaseField.Description>,
   React.ComponentPropsWithoutRef<typeof BaseField.Description>
 >(BaseField.Description, 'pui-field-description')
-const FieldError = part<
+const FieldError = /* @__PURE__ */ part<
   React.ComponentRef<typeof BaseField.Error>,
   React.ComponentPropsWithoutRef<typeof BaseField.Error>
 >(BaseField.Error, 'pui-field-error')
-const FieldItem = part<
+const FieldItem = /* @__PURE__ */ part<
   React.ComponentRef<typeof BaseField.Item>,
   React.ComponentPropsWithoutRef<typeof BaseField.Item>
 >(BaseField.Item, 'pui-field-item')
@@ -48,11 +48,11 @@ export const Field = {
 }
 export const Fieldset = {
   ...BaseFieldset,
-  Root: part<
+  Root: /* @__PURE__ */ part<
     React.ComponentRef<typeof BaseFieldset.Root>,
     React.ComponentPropsWithoutRef<typeof BaseFieldset.Root>
   >(BaseFieldset.Root, 'pui-fieldset'),
-  Legend: part<
+  Legend: /* @__PURE__ */ part<
     React.ComponentRef<typeof BaseFieldset.Legend>,
     React.ComponentPropsWithoutRef<typeof BaseFieldset.Legend>
   >(BaseFieldset.Legend, 'pui-fieldset-legend'),
@@ -62,7 +62,7 @@ export function Form<
 >({ className, ...props }: BaseForm.Props<Values>) {
   return <BaseForm<Values> {...props} className={skin('pui-form', className)} />
 }
-export const Textarea = React.forwardRef<
+export const Textarea = /* @__PURE__ */ React.forwardRef<
   HTMLTextAreaElement,
   React.ComponentPropsWithoutRef<'textarea'> & { size?: ComponentSize }
 >(function Textarea({ className, size, ...props }, ref) {
@@ -79,7 +79,7 @@ export const Textarea = React.forwardRef<
   )
 })
 import { useRootRef, useResetValue } from './form-state.js'
-const CheckboxRoot = React.forwardRef<
+const CheckboxRoot = /* @__PURE__ */ React.forwardRef<
   React.ComponentRef<typeof BaseCheckbox.Root>,
   React.ComponentPropsWithoutRef<typeof BaseCheckbox.Root>
 >(function CheckboxRoot(
@@ -115,7 +115,7 @@ const CheckboxRoot = React.forwardRef<
     />
   )
 })
-const CheckboxIndicator = React.forwardRef<
+const CheckboxIndicator = /* @__PURE__ */ React.forwardRef<
   React.ComponentRef<typeof BaseCheckbox.Indicator>,
   React.ComponentPropsWithoutRef<typeof BaseCheckbox.Indicator>
 >(function CheckboxIndicator({ className, children, ...props }, ref) {
@@ -147,7 +147,7 @@ export const Checkbox = {
   Root: CheckboxRoot,
   Indicator: CheckboxIndicator,
 }
-export const CheckboxGroup = React.forwardRef<
+export const CheckboxGroup = /* @__PURE__ */ React.forwardRef<
   React.ComponentRef<typeof BaseCheckboxGroup>,
   React.ComponentPropsWithoutRef<typeof BaseCheckboxGroup>
 >(function CheckboxGroup(
@@ -207,7 +207,7 @@ export function RadioGroup<Value = string>({
     </ChoiceResetPaint.Provider>
   )
 }
-const RadioRoot = React.forwardRef<
+const RadioRoot = /* @__PURE__ */ React.forwardRef<
   React.ComponentRef<typeof BaseRadio.Root>,
   React.ComponentPropsWithoutRef<typeof BaseRadio.Root>
 >(function RadioRoot({ className, ...props }, ref) {
@@ -223,12 +223,12 @@ const RadioRoot = React.forwardRef<
 export const Radio = {
   ...BaseRadio,
   Root: RadioRoot,
-  Indicator: part<
+  Indicator: /* @__PURE__ */ part<
     React.ComponentRef<typeof BaseRadio.Indicator>,
     React.ComponentPropsWithoutRef<typeof BaseRadio.Indicator>
   >(BaseRadio.Indicator, 'pui-radio-indicator'),
 }
-const SwitchRoot = React.forwardRef<
+const SwitchRoot = /* @__PURE__ */ React.forwardRef<
   React.ComponentRef<typeof BaseSwitch.Root>,
   React.ComponentPropsWithoutRef<typeof BaseSwitch.Root>
 >(function SwitchRoot(
@@ -266,7 +266,7 @@ const SwitchRoot = React.forwardRef<
 export const Switch = {
   ...BaseSwitch,
   Root: SwitchRoot,
-  Thumb: part<
+  Thumb: /* @__PURE__ */ part<
     React.ComponentRef<typeof BaseSwitch.Thumb>,
     React.ComponentPropsWithoutRef<typeof BaseSwitch.Thumb>
   >(BaseSwitch.Thumb, 'pui-switch-thumb'),

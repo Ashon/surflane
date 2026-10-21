@@ -3,7 +3,7 @@ import * as React from 'react'
 import { useToneTransition } from './tone-transition.js'
 import { part } from './parts.js'
 import { type StatusTone, StatusIcon } from './status.js'
-const MessageRoot = React.forwardRef<
+const MessageRoot = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<'div'> & { tone?: StatusTone }
 >(function MessageRoot({ tone = 'neutral', className, ...props }, ref) {
@@ -17,7 +17,7 @@ const MessageRoot = React.forwardRef<
     />
   )
 })
-const MessageIcon = React.forwardRef<
+const MessageIcon = /* @__PURE__ */ React.forwardRef<
   HTMLSpanElement,
   React.ComponentPropsWithoutRef<'span'> & { tone?: StatusTone }
 >(function MessageIcon(
@@ -38,24 +38,24 @@ const MessageIcon = React.forwardRef<
 export const InlineMessage = {
   Root: MessageRoot,
   Icon: MessageIcon,
-  Content: part<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
-    'div',
-    'pui-message-content',
-  ),
-  Title: part<HTMLElement, React.ComponentPropsWithoutRef<'strong'>>(
-    'strong',
-    'pui-message-title',
-  ),
-  Description: part<HTMLParagraphElement, React.ComponentPropsWithoutRef<'p'>>(
-    'p',
-    'pui-message-description',
-  ),
-  Actions: part<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
-    'div',
-    'pui-message-actions',
-  ),
+  Content: /* @__PURE__ */ part<
+    HTMLDivElement,
+    React.ComponentPropsWithoutRef<'div'>
+  >('div', 'pui-message-content'),
+  Title: /* @__PURE__ */ part<
+    HTMLElement,
+    React.ComponentPropsWithoutRef<'strong'>
+  >('strong', 'pui-message-title'),
+  Description: /* @__PURE__ */ part<
+    HTMLParagraphElement,
+    React.ComponentPropsWithoutRef<'p'>
+  >('p', 'pui-message-description'),
+  Actions: /* @__PURE__ */ part<
+    HTMLDivElement,
+    React.ComponentPropsWithoutRef<'div'>
+  >('div', 'pui-message-actions'),
 }
-const EmptyTitle = React.forwardRef<
+const EmptyTitle = /* @__PURE__ */ React.forwardRef<
   HTMLHeadingElement,
   React.ComponentPropsWithoutRef<'h3'> & { level?: 2 | 3 | 4 | 5 | 6 }
 >(function EmptyTitle({ level = 3, className, ...props }, ref) {
@@ -66,23 +66,23 @@ const EmptyTitle = React.forwardRef<
   })
 })
 export const EmptyState = {
-  Root: part<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
-    'div',
-    'pui-empty',
-  ),
-  Icon: part<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
-    'div',
-    'pui-empty-icon',
-  ),
+  Root: /* @__PURE__ */ part<
+    HTMLDivElement,
+    React.ComponentPropsWithoutRef<'div'>
+  >('div', 'pui-empty'),
+  Icon: /* @__PURE__ */ part<
+    HTMLDivElement,
+    React.ComponentPropsWithoutRef<'div'>
+  >('div', 'pui-empty-icon'),
   Title: EmptyTitle,
-  Description: part<HTMLParagraphElement, React.ComponentPropsWithoutRef<'p'>>(
-    'p',
-    'pui-empty-description',
-  ),
-  Actions: part<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
-    'div',
-    'pui-empty-actions',
-  ),
+  Description: /* @__PURE__ */ part<
+    HTMLParagraphElement,
+    React.ComponentPropsWithoutRef<'p'>
+  >('p', 'pui-empty-description'),
+  Actions: /* @__PURE__ */ part<
+    HTMLDivElement,
+    React.ComponentPropsWithoutRef<'div'>
+  >('div', 'pui-empty-actions'),
 }
 
 // Flat names for React Server Components, which cannot dot into client exports.

@@ -3,7 +3,7 @@ import * as React from 'react'
 const skin = (base: string, extra?: string) =>
   [base, extra].filter(Boolean).join(' ')
 /** Layout only. Routing, session, theme and mobile disclosure belong to the caller. */
-const Root = React.forwardRef<
+const Root = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<'div'> & {
     collapsed?: boolean
@@ -23,7 +23,7 @@ const Root = React.forwardRef<
     />
   )
 })
-const Header = React.forwardRef<
+const Header = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<'div'>
 >(function AppShellHeader({ className, ...props }, ref) {
@@ -35,7 +35,7 @@ const Header = React.forwardRef<
     />
   )
 })
-const Sidebar = React.forwardRef<
+const Sidebar = /* @__PURE__ */ React.forwardRef<
   HTMLElement,
   React.ComponentPropsWithoutRef<'aside'>
 >(function AppShellSidebar({ className, ...props }, ref) {
@@ -47,7 +47,7 @@ const Sidebar = React.forwardRef<
     />
   )
 })
-const Content = React.forwardRef<
+const Content = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<'div'>
 >(function AppShellContent({ className, ...props }, ref) {
@@ -63,7 +63,7 @@ const Content = React.forwardRef<
  * The page surface inside a workspace Content. It insets from the shell on every
  * side but the sidebar's; without the sidebar, on narrow screens, it insets evenly.
  */
-const Page = React.forwardRef<
+const Page = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<'div'>
 >(function AppShellPage({ className, ...props }, ref) {
@@ -75,7 +75,7 @@ const Page = React.forwardRef<
     />
   )
 })
-const Footer = React.forwardRef<
+const Footer = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<'div'>
 >(function AppShellFooter({ className, ...props }, ref) {
@@ -87,7 +87,7 @@ const Footer = React.forwardRef<
     />
   )
 })
-const Label = React.forwardRef<
+const Label = /* @__PURE__ */ React.forwardRef<
   HTMLSpanElement,
   React.ComponentPropsWithoutRef<'span'>
 >(function AppShellLabel({ className, ...props }, ref) {
@@ -99,7 +99,7 @@ const Label = React.forwardRef<
     />
   )
 })
-const Link = React.forwardRef<
+const Link = /* @__PURE__ */ React.forwardRef<
   HTMLAnchorElement,
   Omit<React.ComponentPropsWithoutRef<'a'>, 'children'> & {
     icon: React.ReactNode

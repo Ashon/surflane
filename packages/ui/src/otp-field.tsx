@@ -4,7 +4,7 @@ import { useRender } from '@base-ui/react/use-render'
 import { OTPField as BaseOTPField } from '@base-ui/react/otp-field'
 import { part, skin } from './parts.js'
 import { useResetValue, useRootRef } from './form-state.js'
-const Root = React.forwardRef<
+const Root = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseOTPField.Root>
 >(function Root(
@@ -33,7 +33,7 @@ const Root = React.forwardRef<
     />
   )
 })
-const Separator = React.forwardRef<
+const Separator = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseOTPField.Separator>
 >(function Separator({ className, ...props }, ref) {
@@ -71,7 +71,7 @@ function SlotElement({
     },
   })
 }
-const Input = React.forwardRef<
+const Input = /* @__PURE__ */ React.forwardRef<
   HTMLInputElement,
   React.ComponentPropsWithoutRef<typeof BaseOTPField.Input>
 >(function Input({ render, className, ...props }, ref) {
@@ -90,10 +90,10 @@ export const OTPField = {
   ...BaseOTPField,
   Root,
   Input,
-  Group: part<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
-    'div',
-    'pui-otp-group',
-  ),
+  Group: /* @__PURE__ */ part<
+    HTMLDivElement,
+    React.ComponentPropsWithoutRef<'div'>
+  >('div', 'pui-otp-group'),
   Separator,
 }
 

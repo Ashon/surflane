@@ -3,7 +3,7 @@ import * as React from 'react'
 import { useComponentSize, type ComponentSizeAlias } from './sizing.js'
 import { Input as BaseInput } from '@base-ui/react/input'
 const cx = (...v: (string | undefined | false)[]) => v.filter(Boolean).join(' ')
-export const Input = React.forwardRef<
+export const Input = /* @__PURE__ */ React.forwardRef<
   HTMLInputElement,
   Omit<React.ComponentPropsWithoutRef<'input'>, 'size'> & {
     size?: number | ComponentSizeAlias

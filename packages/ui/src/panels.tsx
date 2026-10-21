@@ -10,11 +10,11 @@ import { Drawer as BaseDrawer } from '@base-ui/react/drawer'
 
 export type PanelSide = 'left' | 'right' | 'top' | 'bottom'
 type PanelOptions = { size?: ComponentSizeAlias; closeLabel?: string }
-const SheetSide = React.createContext({
+const SheetSide = /* @__PURE__ */ React.createContext({
   side: 'right' as PanelSide,
   modal: true as boolean | 'trap-focus',
 })
-const DrawerSide = React.createContext({
+const DrawerSide = /* @__PURE__ */ React.createContext({
   side: 'bottom' as PanelSide,
   modal: true as boolean | 'trap-focus',
 })
@@ -69,7 +69,7 @@ function DrawerRoot({
     </DrawerSide.Provider>
   )
 }
-const SheetContent = React.forwardRef<
+const SheetContent = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseDialog.Popup> & PanelOptions
 >(function SheetContent(
@@ -116,7 +116,7 @@ const SheetContent = React.forwardRef<
     </BaseDialog.Portal>
   )
 })
-const DrawerContent = React.forwardRef<
+const DrawerContent = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseDrawer.Popup> & PanelOptions
 >(function DrawerContent(
@@ -173,13 +173,14 @@ const DrawerContent = React.forwardRef<
 function Header({ className, ...props }: React.ComponentProps<'div'>) {
   return <div {...props} className={cx('pui-panel-header', className)} />
 }
-const Body = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'>>(
-  function Body({ className, ...props }, ref) {
-    return (
-      <div {...props} ref={ref} className={cx('pui-panel-body', className)} />
-    )
-  },
-)
+const Body = /* @__PURE__ */ React.forwardRef<
+  HTMLDivElement,
+  React.ComponentProps<'div'>
+>(function Body({ className, ...props }, ref) {
+  return (
+    <div {...props} ref={ref} className={cx('pui-panel-body', className)} />
+  )
+})
 function Footer({ className, ...props }: React.ComponentProps<'div'>) {
   return <div {...props} className={cx('pui-panel-footer', className)} />
 }

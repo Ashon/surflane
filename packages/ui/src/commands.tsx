@@ -41,32 +41,32 @@ export function ToggleGroup<Value extends string>({
 }
 export const Toolbar = {
   ...BaseToolbar,
-  Root: part<
+  Root: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseToolbar.Root>
   >(BaseToolbar.Root, 'pui-toolbar'),
-  Group: part<
+  Group: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseToolbar.Group>
   >(BaseToolbar.Group, 'pui-toolbar-group'),
-  Button: part<
+  Button: /* @__PURE__ */ part<
     HTMLButtonElement,
     React.ComponentPropsWithoutRef<typeof BaseToolbar.Button>
   >(BaseToolbar.Button, 'pui-button pui-toolbar-button'),
-  Link: part<
+  Link: /* @__PURE__ */ part<
     HTMLAnchorElement,
     React.ComponentPropsWithoutRef<typeof BaseToolbar.Link>
   >(BaseToolbar.Link, 'pui-button pui-toolbar-link'),
-  Input: part<
+  Input: /* @__PURE__ */ part<
     HTMLInputElement,
     React.ComponentPropsWithoutRef<typeof BaseToolbar.Input>
   >(BaseToolbar.Input, 'pui-input pui-toolbar-input'),
-  Separator: part<
+  Separator: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseToolbar.Separator>
   >(BaseToolbar.Separator, 'pui-toolbar-separator'),
 }
-export const Menubar = part<
+export const Menubar = /* @__PURE__ */ part<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseMenubar>
 >(BaseMenubar, 'pui-menubar')

@@ -182,17 +182,15 @@ export {
 
 export {
   Tabs,
-  Accordion,
-  Collapsible,
-  Avatar,
-  Separator,
-  Link,
-  Breadcrumbs,
   TabsIndicator,
   TabsList,
   TabsPanel,
   TabsRoot,
   TabsTab,
+} from './tabs.js'
+export {
+  Accordion,
+  Collapsible,
   AccordionHeader,
   AccordionItem,
   AccordionPanel,
@@ -201,10 +199,18 @@ export {
   CollapsiblePanel,
   CollapsibleRoot,
   CollapsibleTrigger,
+} from './disclosure.js'
+export {
+  Avatar,
   AvatarFallback,
   AvatarImage,
   AvatarRoot,
   AvatarStatus,
+} from './avatar.js'
+export {
+  Separator,
+  Link,
+  Breadcrumbs,
   BreadcrumbsRoot,
   BreadcrumbsList,
   BreadcrumbsItem,

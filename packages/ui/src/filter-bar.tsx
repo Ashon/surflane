@@ -3,7 +3,7 @@ import * as React from 'react'
 const cx = (base: string, extra?: string) =>
   [base, extra].filter(Boolean).join(' ')
 /** Layout only: filtering, routing and async results remain controlled by the caller. */
-const Root = React.forwardRef<
+const Root = /* @__PURE__ */ React.forwardRef<
   HTMLFormElement,
   React.ComponentPropsWithoutRef<'form'> & { label: string }
 >(function FilterBarRoot({ label, className, ...props }, ref) {
@@ -17,7 +17,7 @@ const Root = React.forwardRef<
     />
   )
 })
-const Controls = React.forwardRef<
+const Controls = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<'div'>
 >(function FilterBarControls({ className, ...props }, ref) {
@@ -29,7 +29,7 @@ const Controls = React.forwardRef<
     />
   )
 })
-const Field = React.forwardRef<
+const Field = /* @__PURE__ */ React.forwardRef<
   HTMLLabelElement,
   React.ComponentPropsWithoutRef<'label'> & { width?: 'search' | 'filter' }
 >(function FilterBarField({ width = 'filter', className, ...props }, ref) {
@@ -42,7 +42,7 @@ const Field = React.forwardRef<
     />
   )
 })
-const Actions = React.forwardRef<
+const Actions = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<'div'>
 >(function FilterBarActions({ className, ...props }, ref) {
@@ -54,7 +54,7 @@ const Actions = React.forwardRef<
     />
   )
 })
-const Summary = React.forwardRef<
+const Summary = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<'div'>
 >(function FilterBarSummary({ className, ...props }, ref) {

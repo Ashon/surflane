@@ -3,7 +3,7 @@ import * as React from 'react'
 
 export type ComponentSize = 'small' | 'default' | 'large'
 export type ComponentSizeAlias = ComponentSize | 'sm' | 'md' | 'lg'
-export const ComponentSizeContext = React.createContext<
+export const ComponentSizeContext = /* @__PURE__ */ React.createContext<
   ComponentSize | undefined
 >(undefined)
 export function normalizeSize(

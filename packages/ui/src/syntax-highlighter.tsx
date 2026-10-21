@@ -40,7 +40,7 @@ export type SyntaxHighlighterProps = Omit<
   wrap?: boolean
 }
 /** Rendering remains selectable React text; it never inserts executable HTML. */
-export const SyntaxHighlighter = React.forwardRef<
+export const SyntaxHighlighter = /* @__PURE__ */ React.forwardRef<
   HTMLElement,
   SyntaxHighlighterProps
 >(function SyntaxHighlighter(

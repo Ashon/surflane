@@ -13,7 +13,7 @@ function Root<Value>(props: BaseNavigationMenu.Root.Props<Value>) {
     />
   )
 }
-const Trigger = React.forwardRef<
+const Trigger = /* @__PURE__ */ React.forwardRef<
   HTMLButtonElement,
   React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.Trigger> & {
     indicator?: React.ReactNode
@@ -51,35 +51,35 @@ export const NavigationMenu = {
   ...BaseNavigationMenu,
   Root,
   Trigger,
-  List: part<
+  List: /* @__PURE__ */ part<
     HTMLUListElement,
     React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.List>
   >(BaseNavigationMenu.List, 'pui-navigation-list'),
-  Item: part<
+  Item: /* @__PURE__ */ part<
     HTMLLIElement,
     React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.Item>
   >(BaseNavigationMenu.Item, 'pui-navigation-item'),
-  Link: part<
+  Link: /* @__PURE__ */ part<
     HTMLAnchorElement,
     React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.Link>
   >(BaseNavigationMenu.Link, 'pui-navigation-link'),
-  Content: part<
+  Content: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.Content>
   >(BaseNavigationMenu.Content, 'pui-navigation-content'),
-  Positioner: part<
+  Positioner: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.Positioner>
   >(BaseNavigationMenu.Positioner, 'pui-positioner pui-navigation-positioner'),
-  Popup: part<
+  Popup: /* @__PURE__ */ part<
     HTMLElement,
     React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.Popup>
   >(BaseNavigationMenu.Popup, 'pui-navigation-popup'),
-  Viewport: part<
+  Viewport: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.Viewport>
   >(BaseNavigationMenu.Viewport, 'pui-navigation-viewport'),
-  Icon: React.forwardRef<
+  Icon: /* @__PURE__ */ React.forwardRef<
     HTMLSpanElement,
     React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.Icon>
   >(function Icon({ children, className, ...props }, ref) {

@@ -18,26 +18,27 @@ export type ButtonProps = React.ComponentProps<typeof BaseButton> & {
   variant?: ButtonVariant
   size?: ButtonSize
 }
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  function Button({ className, variant = 'default', size, ...props }, ref) {
-    const scheme = useComponentSize(
-      size === 'icon-sm' || size === 'icon-xs'
-        ? 'small'
-        : size === 'icon-lg'
-          ? 'large'
-          : size === 'xs' || size === 'icon'
-            ? undefined
-            : (size as ComponentSizeAlias | undefined),
-    )
-    return (
-      <BaseButton
-        ref={ref}
-        {...props}
-        className={skin('pui-button', className)}
-        data-variant={variant}
-        data-size={size}
-        data-ui-size={scheme}
-      />
-    )
-  },
-)
+export const Button = /* @__PURE__ */ React.forwardRef<
+  HTMLButtonElement,
+  ButtonProps
+>(function Button({ className, variant = 'default', size, ...props }, ref) {
+  const scheme = useComponentSize(
+    size === 'icon-sm' || size === 'icon-xs'
+      ? 'small'
+      : size === 'icon-lg'
+        ? 'large'
+        : size === 'xs' || size === 'icon'
+          ? undefined
+          : (size as ComponentSizeAlias | undefined),
+  )
+  return (
+    <BaseButton
+      ref={ref}
+      {...props}
+      className={skin('pui-button', className)}
+      data-variant={variant}
+      data-size={size}
+      data-ui-size={scheme}
+    />
+  )
+})

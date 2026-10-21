@@ -2,15 +2,15 @@
 import * as React from 'react'
 import { Menu as BaseMenu } from '@base-ui/react/menu'
 import { skin, part } from './parts.js'
-const MenuPopup = part<
+const MenuPopup = /* @__PURE__ */ part<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseMenu.Popup>
 >(BaseMenu.Popup, 'pui-menu')
-const MenuPositioner = part<
+const MenuPositioner = /* @__PURE__ */ part<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseMenu.Positioner>
 >(BaseMenu.Positioner, 'pui-positioner')
-const MenuContent = React.forwardRef<
+const MenuContent = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseMenu.Popup> &
     Pick<
@@ -39,7 +39,7 @@ const MenuContent = React.forwardRef<
     </MenuPositioner>
   )
 })
-const MenuTrigger = React.forwardRef<
+const MenuTrigger = /* @__PURE__ */ React.forwardRef<
   HTMLButtonElement,
   React.ComponentPropsWithoutRef<typeof BaseMenu.Trigger>
 >(function MenuTrigger({ className, ...props }, ref) {
@@ -52,7 +52,7 @@ const MenuTrigger = React.forwardRef<
     />
   )
 })
-const CheckboxIndicator = React.forwardRef<
+const CheckboxIndicator = /* @__PURE__ */ React.forwardRef<
   HTMLSpanElement,
   React.ComponentPropsWithoutRef<typeof BaseMenu.CheckboxItemIndicator>
 >(function CheckboxIndicator({ className, children, ...props }, ref) {
@@ -79,7 +79,7 @@ const CheckboxIndicator = React.forwardRef<
     </BaseMenu.CheckboxItemIndicator>
   )
 })
-const RadioIndicator = React.forwardRef<
+const RadioIndicator = /* @__PURE__ */ React.forwardRef<
   HTMLSpanElement,
   React.ComponentPropsWithoutRef<typeof BaseMenu.RadioItemIndicator>
 >(function RadioIndicator({ className, children, ...props }, ref) {
@@ -104,7 +104,7 @@ const RadioIndicator = React.forwardRef<
     </BaseMenu.RadioItemIndicator>
   )
 })
-const SubmenuTrigger = React.forwardRef<
+const SubmenuTrigger = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseMenu.SubmenuTrigger> & {
     indicator?: React.ReactNode
@@ -145,31 +145,31 @@ export const Menu = {
   CheckboxItemIndicator: CheckboxIndicator,
   RadioItemIndicator: RadioIndicator,
   SubmenuTrigger,
-  Item: part<
+  Item: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseMenu.Item>
   >(BaseMenu.Item, 'pui-menu-item'),
-  LinkItem: part<
+  LinkItem: /* @__PURE__ */ part<
     HTMLAnchorElement,
     React.ComponentPropsWithoutRef<typeof BaseMenu.LinkItem>
   >(BaseMenu.LinkItem, 'pui-menu-item'),
-  CheckboxItem: part<
+  CheckboxItem: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseMenu.CheckboxItem>
   >(BaseMenu.CheckboxItem, 'pui-menu-item pui-menu-check-item'),
-  RadioItem: part<
+  RadioItem: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseMenu.RadioItem>
   >(BaseMenu.RadioItem, 'pui-menu-item pui-menu-check-item'),
-  GroupLabel: part<
+  GroupLabel: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseMenu.GroupLabel>
   >(BaseMenu.GroupLabel, 'pui-menu-group-label'),
-  Separator: part<
+  Separator: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseMenu.Separator>
   >(BaseMenu.Separator, 'pui-menu-separator'),
-  Input: part<
+  Input: /* @__PURE__ */ part<
     HTMLInputElement,
     React.ComponentPropsWithoutRef<typeof BaseMenu.Input>
   >(BaseMenu.Input, 'pui-input'),

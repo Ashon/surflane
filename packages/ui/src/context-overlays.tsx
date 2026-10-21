@@ -5,11 +5,11 @@ import { PreviewCard as BasePreviewCard } from '@base-ui/react/preview-card'
 import { Menu } from './menu.js'
 import { part, skin } from './parts.js'
 
-const ContextPositioner = part<
+const ContextPositioner = /* @__PURE__ */ part<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseContextMenu.Positioner>
 >(BaseContextMenu.Positioner, 'pui-positioner')
-const ContextContent = React.forwardRef<
+const ContextContent = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseContextMenu.Popup> & {
     positionerProps?: React.ComponentPropsWithoutRef<
@@ -26,7 +26,7 @@ const ContextContent = React.forwardRef<
 /** Same menu anatomy and styling, with the context-specific cursor positioner. */
 export const ContextMenu = {
   ...BaseContextMenu,
-  Trigger: part<
+  Trigger: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseContextMenu.Trigger>
   >(BaseContextMenu.Trigger, 'pui-context-trigger'),
@@ -43,12 +43,12 @@ export const ContextMenu = {
   Separator: Menu.Separator,
   SubmenuTrigger: Menu.SubmenuTrigger,
 }
-const PreviewPositioner = part<
+const PreviewPositioner = /* @__PURE__ */ part<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BasePreviewCard.Positioner>
 >(BasePreviewCard.Positioner, 'pui-positioner')
 // The preview is visual enhancement; its destination is the accessible interface.
-const PreviewPopup = React.forwardRef<
+const PreviewPopup = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BasePreviewCard.Popup>
 >(function PreviewPopup({ className, ...props }, ref) {
@@ -73,7 +73,7 @@ function PreviewTrigger<Payload>(
     />
   )
 }
-const PreviewContent = React.forwardRef<
+const PreviewContent = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BasePreviewCard.Popup> & {
     positionerProps?: React.ComponentPropsWithoutRef<
