@@ -9,7 +9,7 @@ export default defineConfig({
     "app-shell.spec.ts",
     "button-variants.spec.ts",
   ],
-  workers: process.env.CI ? 2 : 1,
+  fullyParallel: true,
   retries: 0,
   reporter: [["list"], ["html", { open: "never" }]],
   use: { baseURL: "http://127.0.0.1:8067", trace: "retain-on-failure" },
