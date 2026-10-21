@@ -2,6 +2,17 @@
 
 `@surflane/design-tokens` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## 0.2.1
+
+### Fixed
+
+- `ScrollArea` scrollbars no longer take taps on touch-only screens (`(hover: none) and (pointer: coarse)`).
+  - The 10px bar overlays the edge of its content and caught pointer events even while hidden. A tap on a link or control under it hit the bar instead.
+  - The bar still shows while content scrolls, as native mobile scrollbars do. Content scrolls by swiping.
+  - With a mouse or trackpad, the bar can still be dragged.
+
+`@surflane/design-tokens` has no changes in this release.
+
 ## 0.2.0
 
 ### Added

@@ -1,6 +1,6 @@
 {
   "name": "@surflane/design-tokens",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Framework-neutral Surflane design tokens: OKLCH color roles, spacing, typography, sizing and motion as CSS custom properties.",
   "keywords": [
     "design-system",
