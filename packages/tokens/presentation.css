@@ -352,6 +352,80 @@
   margin-inline-start: calc(-1 * var(--space-3));
 }
 
+/* Column alignment. Numbers align to the end with tabular figures, so digits
+ * line up down the column; the header follows its column. */
+.pui-table-cell[data-align='center'] {
+  text-align: center;
+}
+.pui-table-cell[data-align='end'] {
+  text-align: end;
+}
+.pui-table-cell[data-numeric] {
+  font-variant-numeric: tabular-nums;
+}
+.pui-table-header[data-align='end'] > .pui-button {
+  margin-inline: 0 calc(-1 * var(--space-3));
+}
+
+/* Sort headers show their icon on every sortable column, so sorting is
+ * discoverable without hovering. An end-aligned column puts the icon before
+ * the label, so the label's end lines up with the numbers below it. */
+.pui-table-sort {
+  gap: var(--space-1);
+  font-weight: inherit;
+  color: inherit;
+}
+.pui-table-header[data-align='end'] > .pui-table-sort {
+  flex-direction: row-reverse;
+}
+.pui-table-sort-icon {
+  flex: none;
+  color: var(--ink-muted);
+}
+.pui-table-sort[data-sort] .pui-table-sort-icon {
+  color: var(--ink);
+}
+
+/* Compact density: 4px row padding and 2px between rows, for scanning many
+ * records with a pointer. It overrides the component size's cell padding. */
+.pui-table[data-density='compact'] {
+  border-spacing: 0 2px;
+}
+.pui-table[data-density='compact'] .pui-table-cell {
+  padding: var(--space-1) var(--space-3);
+}
+.pui-table[data-density='compact'] .pui-table-sort {
+  height: auto;
+  min-height: 28px;
+}
+
+/* A sticky header needs a Container with a bounded block size that scrolls
+ * vertically. --table-surface matches the surface behind the table. */
+.pui-table[data-sticky-header]
+  > .pui-table-head
+  > .pui-table-row
+  > .pui-table-cell {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+  background: var(--table-surface, var(--canvas));
+  box-shadow: inset 0 -1px var(--line);
+}
+
+.pui-table-truncate {
+  display: inline-block;
+  max-inline-size: 32ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+
+/* Loading, empty, error and permission messages span every column. */
+.pui-table-body > .pui-table-message-row:is(:hover, :focus-within) > * {
+  background: none;
+}
+
 /* Cards use one surface; children provide hierarchy without extra frames. */
 .pui-card {
   display: grid;

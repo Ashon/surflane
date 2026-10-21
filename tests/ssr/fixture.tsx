@@ -715,23 +715,32 @@ function Data() {
   return (
     <section data-ssr='data'>
       <Table.Container label='Berth comparison'>
-        <Table.Root>
+        <Table.Root density='compact' stickyHeader>
           <Table.Caption>Berths</Table.Caption>
           <Table.Head>
             <Table.Row>
-              <Table.HeaderCell scope='col'>Name</Table.HeaderCell>
-              <Table.HeaderCell scope='col'>Cranes</Table.HeaderCell>
+              <Table.SortHeader sort='ascending' onSort={() => {}}>
+                Name
+              </Table.SortHeader>
+              <Table.HeaderCell scope='col' numeric>
+                Cranes
+              </Table.HeaderCell>
               <Table.HeaderCell scope='col'>State</Table.HeaderCell>
             </Table.Row>
           </Table.Head>
           <Table.Body>
             {berths.map((berth) => (
               <Table.Row key={berth.id} selected={berth.id === 'north-pier'}>
-                <Table.HeaderCell scope='row'>{berth.name}</Table.HeaderCell>
-                <Table.Cell>{berth.cranes}</Table.Cell>
+                <Table.HeaderCell scope='row'>
+                  <Table.Truncate>{berth.name}</Table.Truncate>
+                </Table.HeaderCell>
+                <Table.Cell numeric>{berth.cranes}</Table.Cell>
                 <Table.Cell>{berth.state}</Table.Cell>
               </Table.Row>
             ))}
+          </Table.Body>
+          <Table.Body>
+            <Table.Message colSpan={3}>No other berths are open.</Table.Message>
           </Table.Body>
           <Table.Foot>
             <Table.Row>

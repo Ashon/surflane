@@ -249,14 +249,24 @@ export {
   TableFoot,
   TableRow,
   TableHeaderCell,
+  TableSortHeader,
   TableCell,
+  TableTruncate,
+  TableMessage,
   ListRoot,
   ListItem,
   ListContent,
   ListTitle,
   ListDescription,
   ListActions,
+  type TableDensity,
+  type TableSort,
 } from './data.js'
+export {
+  useTableSelection,
+  type TableSelectionOptions,
+  type TableSelectionCheckbox,
+} from './table-selection.js'
 export {
   InlineMessage,
   EmptyState,

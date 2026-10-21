@@ -29,6 +29,13 @@ const shapes = {
     </>
   ),
   menu: <path d='M4 6h16M4 12h16M4 18h16' />,
+  more: (
+    <>
+      <circle cx='5' cy='12' r='1' />
+      <circle cx='12' cy='12' r='1' />
+      <circle cx='19' cy='12' r='1' />
+    </>
+  ),
   sun: (
     <>
       <circle cx='12' cy='12' r='4' />
