@@ -202,10 +202,12 @@ test('mobile touch swipe dismisses the drawer', async ({ browser }) => {
       type: 'touchStart',
       touchPoints: [{ x, y }],
     })
+    // Drag to the bottom edge: a slow, short drag correctly keeps the drawer open,
+    // and a loaded CI runner can stretch these moves into a slow one.
     for (let i = 1; i <= 12; i++)
       await client.send('Input.dispatchTouchEvent', {
         type: 'touchMove',
-        touchPoints: [{ x, y: y + (Math.min(300, 840 - y) * i) / 12 }],
+        touchPoints: [{ x, y: y + ((840 - y) * i) / 12 }],
       })
     await client.send('Input.dispatchTouchEvent', {
       type: 'touchEnd',
