@@ -133,7 +133,10 @@ export function LandingHero() {
               </AppShell.Footer>
             </AppShell.Sidebar>
             <AppShell.Content>
-              <div className='landing-console-sheet' data-blueprint-guide>
+              <AppShell.Page
+                className='landing-console-sheet'
+                data-blueprint-guide
+              >
                 <PageHeader
                   size='page'
                   level={2}
@@ -175,7 +178,7 @@ export function LandingHero() {
                     </Table.Body>
                   </Table.Root>
                 </Table.Container>
-              </div>
+              </AppShell.Page>
             </AppShell.Content>
           </AppShell.Root>
         </SizeProvider>

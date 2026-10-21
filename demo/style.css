@@ -2266,26 +2266,12 @@ body,
   display: grid;
   min-block-size: 100%;
 }
-.app-shell-workspace-sheet {
-  min-inline-size: 0;
-  margin: var(--app-shell-inset) var(--app-shell-inset) var(--app-shell-inset) 0;
-  padding: var(--space-6);
-  background: var(--canvas);
-  border-radius: max(
-    0px,
-    calc(var(--app-shell-radius) - var(--app-shell-inset))
-  );
-}
 .app-shell-content-viewport section {
   margin-block: var(--space-6);
 }
 @media (max-width: 760px) {
   .app-shell-preview[data-layout='workspace'] {
     block-size: 560px;
-  }
-  .app-shell-workspace-sheet {
-    margin: 0 var(--app-shell-inset) var(--app-shell-inset);
-    padding: var(--space-4);
   }
   .app-shell-mobile-brand {
     display: flex;
@@ -3010,8 +2996,9 @@ body,
   background: var(--chrome);
 }
 .landing-console .pui-app-shell {
+  /* The shell radius drives the page's concentric radius too. */
+  --app-shell-radius: var(--workspace-shell-radius);
   block-size: 100%;
-  border-radius: var(--workspace-shell-radius);
   overflow: hidden;
 }
 /* The logo and the avatar sit on the navigation's icon column (24px marks centred on
@@ -3055,16 +3042,12 @@ body,
   padding-inline: var(--space-4);
 }
 .landing-console-sheet {
-  box-sizing: border-box;
-  block-size: calc(100% - 2 * var(--space-3));
-  margin: var(--space-3) var(--space-3) var(--space-3) 0;
-  padding: var(--space-6);
+  /* AppShell.Page sets the insets and surface; the console is a fixed frame. */
+  block-size: calc(100% - 2 * var(--app-shell-inset));
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
   overflow: hidden;
-  background: var(--canvas);
-  border-radius: var(--radius-md);
 }
 /* The console's table keeps each row on one line, like a real console. When its
  * content area narrows, the environment column steps aside and long service
@@ -3289,8 +3272,9 @@ body,
   color: var(--ink-body);
 }
 .theme-preview .pui-app-shell {
+  /* The shell radius drives the page's concentric radius too. */
+  --app-shell-radius: var(--workspace-shell-radius);
   block-size: 100%;
-  border-radius: var(--workspace-shell-radius);
   overflow: hidden;
 }
 .theme-preview-brand {
@@ -3298,6 +3282,10 @@ body,
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-4) var(--space-4) var(--space-4) var(--space-6);
+}
+/* In the phone header the mark lines up with the page's edge. */
+.theme-preview .pui-app-shell-header .theme-preview-brand {
+  padding-inline: var(--app-shell-inset);
 }
 .theme-preview-brand svg {
   flex: none;
@@ -3331,16 +3319,12 @@ body,
   padding-inline: var(--space-4);
 }
 .theme-preview-sheet {
-  box-sizing: border-box;
-  block-size: calc(100% - 2 * var(--space-3));
-  margin: var(--space-3) var(--space-3) var(--space-3) 0;
-  padding: var(--space-6);
+  /* AppShell.Page sets the insets and surface; the preview is a fixed frame. */
+  block-size: calc(100% - 2 * var(--app-shell-inset));
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
   overflow: auto;
-  background: var(--canvas);
-  border-radius: var(--radius-md);
 }
 .theme-preview-sheet table {
   min-width: 0;

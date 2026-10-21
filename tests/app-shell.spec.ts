@@ -273,7 +273,7 @@ test('the workspace surface grows through the scroll boundary and closes only at
         name: 'Workspace content',
         exact: true,
       })
-      const surface = page.locator('.app-shell-workspace-sheet')
+      const surface = page.locator('.app-shell-preview .pui-app-shell-page')
       await long.uncheck()
       await viewport.evaluate((el) => (el.scrollTop = 0))
       await expect

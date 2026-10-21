@@ -37,6 +37,7 @@ export const appShellDocsKo: Record<string, DocKo> = {
         '펼친 너비; header: 216px / 64px; workspace: 224px / 72px',
       'Header / Sidebar / Content / Footer':
         '네이티브 속성, className, refs를 가진 레이아웃 슬롯',
+      Page: 'workspace Content 안의 페이지 표면: 사이드바 쪽을 뺀 모든 면에 셸과 간격을 둡니다. ≤760px에서 사이드바가 없으면 양쪽 간격이 같고, 모바일 Header 바로 아래에서는 위 간격 없이 붙습니다. 반경 = max(0, radius - inset)',
       Link: '네이티브 anchor: href, icon, label, aria-current, ref, 이벤트 핸들러',
       Label: '펼침 시 줄임표; 접힘 시 시각적으로 숨김',
       'Mobile navigation':

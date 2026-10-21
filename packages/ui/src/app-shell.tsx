@@ -59,6 +59,22 @@ const Content = React.forwardRef<
     />
   )
 })
+/**
+ * The page surface inside a workspace Content. It insets from the shell on every
+ * side but the sidebar's; without the sidebar, on narrow screens, it insets evenly.
+ */
+const Page = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentPropsWithoutRef<'div'>
+>(function AppShellPage({ className, ...props }, ref) {
+  return (
+    <div
+      {...props}
+      ref={ref}
+      className={skin('pui-app-shell-page', className)}
+    />
+  )
+})
 const Footer = React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<'div'>
@@ -104,7 +120,16 @@ const Link = React.forwardRef<
     </a>
   )
 })
-export const AppShell = { Root, Header, Sidebar, Content, Footer, Label, Link }
+export const AppShell = {
+  Root,
+  Header,
+  Sidebar,
+  Content,
+  Page,
+  Footer,
+  Label,
+  Link,
+}
 
 // Flat names for React Server Components, which cannot dot into client exports.
 export const {
@@ -112,6 +137,7 @@ export const {
   Header: AppShellHeader,
   Sidebar: AppShellSidebar,
   Content: AppShellContent,
+  Page: AppShellPage,
   Footer: AppShellFooter,
   Label: AppShellLabel,
   Link: AppShellLink,

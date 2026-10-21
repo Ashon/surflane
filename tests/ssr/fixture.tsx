@@ -882,7 +882,9 @@ function Shell() {
         </AppShell.Sidebar>
         <AppShell.Content>
           <ScrollArea orientation='vertical' label='Workspace content'>
-            <Text>Workspace body</Text>
+            <AppShell.Page>
+              <Text>Workspace body</Text>
+            </AppShell.Page>
           </ScrollArea>
         </AppShell.Content>
       </AppShell.Root>

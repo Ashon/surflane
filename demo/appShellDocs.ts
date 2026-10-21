@@ -21,7 +21,7 @@ export const appShellDocs: Record<string, ComponentDoc> = {
       "Don't fade the sidebar edge with a blur that blurs text.",
     ],
     anatomy:
-      'AppShell.Root(layout=workspace) → mobile Header + Sidebar(brand, boundary toggle, ScrollArea(nav links), Footer(account + theme)) + Content(ScrollArea); mobile: bottom Sheet(Header(Title, Description), Body(nav links), Footer(account, Close menu))',
+      'AppShell.Root(layout=workspace) → mobile Header + Sidebar(brand, boundary toggle, ScrollArea(nav links), Footer(account + theme)) + Content(ScrollArea → Page); mobile: bottom Sheet(Header(Title, Description), Body(nav links), Footer(account, Close menu))',
     keyboard: [
       'Tab and Shift+Tab reach native links and buttons. Enter follows a link.',
       'The mobile bottom Sheet opens on the current destination. Choosing a destination closes the Sheet and moves focus to the new content heading.',
@@ -68,7 +68,7 @@ export const appShellDocs: Record<string, ComponentDoc> = {
   </AppShell.Sidebar>
   <AppShell.Content>
     <ScrollArea orientation='vertical' label='Workspace content'>
-      <div className='workspace-sheet'>{children}</div>
+      <AppShell.Page>{children}</AppShell.Page>
     </ScrollArea>
   </AppShell.Content>
 </AppShell.Root>
@@ -102,6 +102,11 @@ export const appShellDocs: Record<string, ComponentDoc> = {
         'Header / Sidebar / Content / Footer',
         'layout slots with native attributes, className, and refs',
         'div / aside / div / div',
+      ],
+      [
+        'Page',
+        "the page surface in a workspace Content: inset from the shell on every side but the sidebar's, evenly without the sidebar at ≤760px and flush below a mobile Header; radius = max(0, radius - inset)",
+        'div',
       ],
       [
         'Link',

@@ -2719,6 +2719,32 @@
   background: transparent;
   border-radius: 0;
 }
+/* The page surface: concentric with the shell, inset on every side but the
+ * sidebar's. It fills the content height when the shell has a definite one. */
+.pui-app-shell-page {
+  box-sizing: border-box;
+  min-inline-size: 0;
+  min-block-size: calc(100% - 2 * var(--app-shell-inset));
+  margin: var(--app-shell-inset);
+  margin-inline-start: 0;
+  padding: var(--space-6);
+  background: var(--canvas);
+  border-radius: max(
+    0px,
+    calc(var(--app-shell-radius) - var(--app-shell-inset))
+  );
+}
+/* Without the sidebar the page insets evenly. Below a mobile header it starts flush. */
+@media (max-width: 760px) {
+  .pui-app-shell-page {
+    margin: var(--app-shell-inset);
+    padding: var(--space-4);
+  }
+  .pui-app-shell:has(> .pui-app-shell-header) .pui-app-shell-page {
+    min-block-size: calc(100% - var(--app-shell-inset));
+    margin-block-start: 0;
+  }
+}
 .pui-app-shell[data-layout='workspace'] .pui-app-shell-footer {
   padding: var(--space-4);
 }

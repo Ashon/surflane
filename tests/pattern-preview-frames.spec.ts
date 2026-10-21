@@ -52,7 +52,7 @@ test('nested shell surfaces reduce radius by their inset with preview controls o
   await page.goto('/patterns/app-shell')
   await waitForCatalogReady(page)
   const shell = page.locator('.app-shell-preview'),
-    sheet = page.locator('.app-shell-workspace-sheet'),
+    sheet = page.locator('.app-shell-preview .pui-app-shell-page'),
     frame = page.locator('.catalog-example-frame[data-kind="pattern"]')
   await expect(frame.getByRole('combobox')).toHaveCount(0)
   await expect(frame.getByRole('checkbox')).toHaveCount(0)

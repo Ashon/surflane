@@ -121,6 +121,22 @@ function Presets<Name extends string>({
     </ToggleGroup>
   )
 }
+function Brand({ workspace }: { workspace: string }) {
+  return (
+    <div className='theme-preview-brand'>
+      <svg viewBox='0 0 24 24' aria-hidden='true'>
+        <rect width='24' height='24' rx='6' />
+        <path d='m6.5 9.5 5.5-3 5.5 3-5.5 3z' />
+        <path d='m6.5 12.75 5.5 3 5.5-3' />
+        <path d='m6.5 15.75 5.5 3 5.5-3' />
+      </svg>
+      <span>
+        <AppShell.Label>Acme Platform</AppShell.Label>
+        <small>{workspace}</small>
+      </span>
+    </div>
+  )
+}
 const deployments = [
   ['checkout-api', 'production', 184, 'success'],
   ['search-indexer', 'staging', 412, 'caution'],
@@ -148,19 +164,12 @@ function Preview({
     >
       <SizeProvider size='small'>
         <AppShell.Root layout='workspace'>
+          {/* Phones hide the sidebar; the header keeps the product visible. */}
+          <AppShell.Header>
+            <Brand workspace={t.workspace} />
+          </AppShell.Header>
           <AppShell.Sidebar>
-            <div className='theme-preview-brand'>
-              <svg viewBox='0 0 24 24' aria-hidden='true'>
-                <rect width='24' height='24' rx='6' />
-                <path d='m6.5 9.5 5.5-3 5.5 3-5.5 3z' />
-                <path d='m6.5 12.75 5.5 3 5.5-3' />
-                <path d='m6.5 15.75 5.5 3 5.5-3' />
-              </svg>
-              <span>
-                <AppShell.Label>Acme Platform</AppShell.Label>
-                <small>{t.workspace}</small>
-              </span>
-            </div>
+            <Brand workspace={t.workspace} />
             <nav aria-label='Acme Platform'>
               {(
                 [
@@ -182,7 +191,7 @@ function Preview({
             </nav>
           </AppShell.Sidebar>
           <AppShell.Content>
-            <div className='theme-preview-sheet'>
+            <AppShell.Page className='theme-preview-sheet'>
               <PageHeader
                 size='page'
                 level={3}
@@ -286,7 +295,7 @@ function Preview({
                   </Table.Body>
                 </Table.Root>
               </Table.Container>
-            </div>
+            </AppShell.Page>
           </AppShell.Content>
         </AppShell.Root>
       </SizeProvider>

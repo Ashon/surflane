@@ -481,6 +481,7 @@ export {
   AppShellHeader,
   AppShellSidebar,
   AppShellContent,
+  AppShellPage,
   AppShellFooter,
   AppShellLabel,
   AppShellLink,

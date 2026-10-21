@@ -304,7 +304,7 @@ export function AppShellExample({
               rootClassName='app-shell-content-scroll'
               className='app-shell-content-viewport'
             >
-              <div className='app-shell-workspace-sheet'>
+              <AppShell.Page>
                 <PageHeader
                   title={view}
                   level={3}
@@ -321,7 +321,7 @@ export function AppShellExample({
                     </section>
                   ))}
                 {account && <p role='status'>{t.previewProfileStatus}</p>}
-              </div>
+              </AppShell.Page>
             </ScrollArea>
           </AppShell.Content>
         </AppShell.Root>
