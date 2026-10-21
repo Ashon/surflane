@@ -2,7 +2,36 @@
 
 `@surflane/design-tokens` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
-## 0.2.1
+## 0.3.0
+
+0.2.1 was prepared but never published; its fix ships here.
+
+### Added
+
+- Themes. A theme changes three inputs: the neutral tint, the accent and the radius scale. Lightness never changes, so text keeps the contrast the default palette was measured for. Build one in the [theme builder](https://surflane.page/foundations/themes).
+  - `@surflane/design-tokens/themes/*.css`: presets to load after `tokens.css`. Neutral, accent and radius files combine freely.
+    - Neutral: `slate.css` (default), `neutral.css`, `zinc.css`, `stone.css`.
+    - Accent: `accent-cyan.css` (default), `accent-blue.css`, `accent-violet.css`, `accent-green.css`, `accent-amber.css`, `accent-rose.css`.
+    - Radius: `radius-none.css`, `radius-small.css`, `radius-default.css`, `radius-large.css`.
+  - `@surflane/design-tokens/theme-builder`: `createTheme({ neutral, accent, radius })` and `themeCss(theme)` generate the same CSS for your own inputs. Accent chroma is clamped to the sRGB gamut. `contrastRatio` and `maxChroma` measure any color.
+  - Theme files mirror the contexts in `tokens.css`, so `data-theme` and scoped theme regions keep working.
+- `@surflane/design-tokens/shadcn.css` maps the shadcn/ui variables, such as `--background`, `--primary`, `--border` and `--radius`, plus the chart and sidebar variables, to Surflane tokens. shadcn components then follow Surflane themes. See [shadcn/ui](https://github.com/Ashon/surflane/blob/main/docs/frameworks.md#shadcnui).
+- `--success`, the base for the success status colors. It equals the default accent, and accent themes leave it unchanged. Tailwind maps it to `success` utilities.
+- Table parts for data-heavy screens. They are opt-in; existing tables render as before.
+  - `Table.Root`: `density="compact"` sets 4px cell padding and 2px between rows. `stickyHeader` keeps the header in view inside a `Table.Container` with a bounded height and `orientation="both"`; `--table-surface` sets the header background.
+  - `numeric` on `Table.HeaderCell` and `Table.Cell` aligns to the end with tabular figures.
+  - `Table.SortHeader`: a column header with a sort button. Every sortable column shows its icon, and only the sorted column carries `aria-sort`. End-aligned columns put the icon before the label.
+  - `Table.Truncate` keeps one line with an ellipsis; string content becomes the title. `Table.Message` is a full-width body row for loading, empty, error and permission messages, without hover.
+  - `useTableSelection` keeps selection by row ID across pages, sorting and filters. It returns the page checkbox props (selectable rows on the current page only), each row's checkbox props and `hiddenCount` for selections on other pages.
+  - Flat exports: `TableSortHeader`, `TableTruncate`, `TableMessage`.
+  - `presentation.css` styles these through data attributes, so plain HTML tables can use them too.
+- `Icon` name `more`, for row action menus.
+- `AppShell.Page` (`AppShellPage`): the page surface inside a workspace `AppShell.Content`. It insets from the shell on every side but the sidebar's, with a radius concentric with the shell. Up to 760px, without the sidebar, it insets evenly and starts flush below a mobile `Header`. Before, callers wrote this surface themselves.
+
+### Changed
+
+- The success status colors (`--status-success-*`) derive from `--success` instead of `--brand`. Their default values are unchanged.
+- `align` on `Table.HeaderCell` and `Table.Cell` takes `start`, `center` or `end`. It no longer passes through the obsolete HTML `align` attribute.
 
 ### Fixed
 
@@ -10,8 +39,6 @@
   - The 10px bar overlays the edge of its content and caught pointer events even while hidden. A tap on a link or control under it hit the bar instead.
   - The bar still shows while content scrolls, as native mobile scrollbars do. Content scrolls by swiping.
   - With a mouse or trackpad, the bar can still be dragged.
-
-`@surflane/design-tokens` has no changes in this release.
 
 ## 0.2.0
 
