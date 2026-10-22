@@ -209,8 +209,11 @@ export function PointerBlueprint() {
       ambientFrameId = 0,
       lastAmbientPaint = 0,
       idle = 0
+    /** True while a mouse button is held over the page. */
+    let dragging = false
     const pointerActive = () => pointer !== null && (desired > 0 || opacity > 0)
     const ambientAllowed = (now: number) =>
+      !dragging &&
       area !== null &&
       ambientReady &&
       areaVisible &&
@@ -692,8 +695,10 @@ export function PointerBlueprint() {
       if (!frame && !stopped) frame = requestAnimationFrame(paint)
     }
     const invalidate = () => {
-      updateArea()
       dirty = true
+      // A drag changes the DOM every frame; measure once it ends, not during it.
+      if (dragging) return
+      updateArea()
       if (
         (pointer && desired) ||
         ambientOpacity > 0 ||
@@ -718,9 +723,20 @@ export function PointerBlueprint() {
       schedule()
     }
     const move = (event: PointerEvent) => {
+      // A held button or a touching finger is a drag on a control, not a look at
+      // the layout: the guides and the ambient probes step aside until it ends.
+      if (event.buttons) {
+        dragging = true
+        hide()
+        return
+      }
       if (event.pointerType !== 'mouse' || forced.matches) {
         hide()
         return
+      }
+      if (dragging) {
+        dragging = false
+        invalidate()
       }
       if (!pointerMeasured) dirty = true
       pointer = { x: event.clientX, y: event.clientY }
@@ -792,6 +808,13 @@ export function PointerBlueprint() {
     function eventDown(event: PointerEvent) {
       if (event.pointerType !== 'mouse') hide()
     }
+    const eventUp = () => {
+      if (!dragging) return
+      dragging = false
+      invalidate()
+    }
+    document.addEventListener('pointerup', eventUp, { passive: true })
+    document.addEventListener('pointercancel', eventUp, { passive: true })
     document.addEventListener('keydown', hide, true)
     document.addEventListener('scroll', scroll, {
       capture: true,
@@ -832,6 +855,8 @@ export function PointerBlueprint() {
       document.removeEventListener('pointermove', move)
       document.removeEventListener('pointerout', leave)
       document.removeEventListener('pointerdown', eventDown)
+      document.removeEventListener('pointerup', eventUp)
+      document.removeEventListener('pointercancel', eventUp)
       document.removeEventListener('keydown', hide, true)
       document.removeEventListener('scroll', scroll, true)
       document.removeEventListener('transitionend', invalidate, true)
