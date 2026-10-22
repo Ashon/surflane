@@ -6,7 +6,7 @@ import { waitForCatalogReady } from './catalog-ready'
 test.use({ reducedMotion: 'reduce' })
 test('icon tokens belong to shape metadata and vocabulary names are unique', () => {
   expect(new Set(iconNames).size).toBe(iconNames.length)
-  expect(iconNames).toHaveLength(29)
+  expect(iconNames).toHaveLength(30)
   for (const name of [
     '--icon-size-sm',
     '--icon-size-md',

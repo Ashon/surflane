@@ -325,3 +325,44 @@ test('the workspace surface grows through the scroll boundary and closes only at
     }
   }
 })
+
+test('the shell keeps and remembers its sidebar state, with a shortcut and rail tooltips', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.goto('/patterns/app-shell')
+  await waitForCatalogReady(page)
+  const shell = page.locator('.app-shell-preview')
+  const sidebar = page.getByRole('complementary', {
+    name: 'Example workspace sidebar',
+  })
+  const toggle = page.getByRole('button', {
+    name: 'Collapse workspace sidebar',
+    exact: true,
+  })
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true')
+  await expect(toggle).toHaveAttribute(
+    'aria-controls',
+    (await sidebar.getAttribute('id'))!,
+  )
+  // The toggle's tooltip names the shortcut.
+  await toggle.hover()
+  await expect(page.locator('.pui-tooltip')).toContainText(/⌘B|Ctrl\+B/)
+  // The shortcut toggles from anywhere but a text field.
+  await page.locator('body').click({ position: { x: 5, y: 5 } })
+  await page.keyboard.press('ControlOrMeta+b')
+  await expect(shell).toHaveAttribute('data-sidebar', 'collapsed')
+  // On the rail, a link's name appears as a tooltip.
+  await sidebar.getByRole('link', { name: 'Resources', exact: true }).hover()
+  await expect(page.locator('.pui-tooltip')).toHaveText('Resources')
+  // The state survives a reload.
+  await page.reload()
+  await waitForCatalogReady(page)
+  await expect(shell).toHaveAttribute('data-sidebar', 'collapsed')
+  await page
+    .getByRole('button', { name: 'Expand workspace sidebar', exact: true })
+    .click()
+  await expect(shell).toHaveAttribute('data-sidebar', 'expanded')
+  await sidebar.getByRole('link', { name: 'Resources', exact: true }).hover()
+  await expect(page.locator('.pui-tooltip')).toHaveCount(0)
+})

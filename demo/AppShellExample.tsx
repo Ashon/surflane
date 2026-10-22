@@ -34,8 +34,7 @@ export function AppShellExample({
   const [longLabels, setLongLabels] = useState(false),
     [readOnly, setReadOnly] = useState(false)
   const sidebar = useRef<HTMLElement>(null)
-  const [collapsed, setCollapsed] = useState(false),
-    [mobileOpen, setMobileOpen] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
   const [view, setView] = useState(t.overview),
     [account, setAccount] = useState(false)
   const heading = useRef<HTMLHeadingElement>(null),
@@ -203,7 +202,7 @@ export function AppShellExample({
       >
         <AppShell.Root
           layout='workspace'
-          collapsed={collapsed}
+          persist='surflane-preview-sidebar'
           className='app-shell-preview'
         >
           <AppShell.Header>
@@ -282,17 +281,10 @@ export function AppShellExample({
                 {profile}
               </AppShell.Label>
             </div>
-            <Button
-              variant='ghost'
-              size='icon'
+            <AppShell.SidebarToggle
               className='app-shell-collapse'
-              aria-expanded={!collapsed}
-              aria-controls={`${previewId}-navigation`}
-              aria-label={collapsed ? t.expandSidebar : t.collapseSidebar}
-              onClick={() => setCollapsed(!collapsed)}
-            >
-              <Icon name='menu' decorative />
-            </Button>
+              labels={{ collapse: t.collapseSidebar, expand: t.expandSidebar }}
+            />
             <ScrollArea
               orientation='vertical'
               label={t.destinationsLabel}

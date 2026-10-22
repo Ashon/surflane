@@ -78,7 +78,7 @@ export function LandingHero() {
       >
         {/* A product screen shown at reduced scale: compact controls, a page-size title. */}
         <SizeProvider size='small'>
-          <AppShell.Root layout='workspace'>
+          <AppShell.Root layout='workspace' shortcut={false}>
             <AppShell.Sidebar data-blueprint-guide>
               {/* A fictional product: Acme is the customary placeholder company. */}
               <div className='landing-console-brand' data-blueprint-guide>

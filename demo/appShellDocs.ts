@@ -3,7 +3,7 @@ export const appShellDocs: Record<string, ComponentDoc> = {
   'app-shell': {
     usage: [
       'Use the workspace layout to pair main content with a sidebar that holds a brand, a collapse toggle, and an account at the bottom. For documentation sites that need a global top rail, use the default header layout.',
-      'AppShell provides the layout and native link styles. The caller owns the collapsed state, routes, account, and theme.',
+      'AppShell provides the layout and native link styles; the caller owns routes, account, and theme. The shell keeps the collapsed state itself: SidebarToggle collapses the sidebar, ⌘B (Ctrl+B elsewhere) does too outside text fields, persist remembers the state in localStorage, and on the rail each Link shows its name as a tooltip. Pass collapsed and onCollapsedChange to control the state, or read a cookie into defaultCollapsed so a server-rendered first paint is right.',
       'The workspace sidebar collapses from 224px to 72px, and icons keep their positions. Center the 24px product mark on the navigation icon column.',
       'Set the product name on one line in the subsection role (Manrope 500, 16/24, --ink, default tracking), starting on the link label line. A long name truncates with an ellipsis and keeps its full text in title.',
       'An optional second line names the workspace in the caption role (12/18, --ink-muted). The account row mirrors the brand with a 24px Avatar and the name at body weight.',
@@ -19,6 +19,7 @@ export const appShellDocs: Record<string, ComponentDoc> = {
       "Don't hide the desktop sidebar on mobile without other navigation. Provide a replacement, such as a bottom Sheet.",
       "Don't expect the layout module to handle permissions or sign-in. Handle them in the application.",
       "Don't fade the sidebar edge with a blur that blurs text.",
+      "Don't give two shells on one page the shortcut. Set shortcut={false} on any shell that only illustrates, such as a mockup.",
     ],
     anatomy:
       'AppShell.Root(layout=workspace) → mobile Header + Sidebar(brand, boundary toggle, ScrollArea(nav links), Footer(account + theme)) + Content(ScrollArea → Page); mobile: bottom Sheet(Header(Title, Description), Body(nav links), Footer(account, Close menu))',
@@ -26,7 +27,7 @@ export const appShellDocs: Record<string, ComponentDoc> = {
       'Tab and Shift+Tab reach native links and buttons. Enter follows a link.',
       'The mobile bottom Sheet opens on the current destination. Choosing a destination closes the Sheet and moves focus to the new content heading.',
       "Base UI handles the Sheet's open button, Escape, focus trapping, and focus restoration on close. In a real product, the router owns navigation, back navigation, and scroll restoration.",
-      'The toggle sets aria-expanded and aria-controls. Links keep a clear accessible name when collapsed.',
+      'SidebarToggle sets aria-expanded and aria-controls, and its tooltip names the shortcut. ⌘B or Ctrl+B toggles the sidebar unless focus is in a text field. Collapsed links keep their accessible names and show them as tooltips on hover and focus.',
     ],
     tokens: [
       '--space-3',
@@ -38,24 +39,18 @@ export const appShellDocs: Record<string, ComponentDoc> = {
       '--radius-full',
       '--control-focus',
     ],
-    code: `import { AppShell, ScrollArea, Button } from '@surflane/ui'
+    code: `import { AppShell, ScrollArea } from '@surflane/ui'
 
-<AppShell.Root layout='workspace' collapsed={collapsed}>
+<AppShell.Root layout='workspace' persist='workspace-sidebar'>
   <AppShell.Header>
     {mobileBrand}
     {mobileNavigationTrigger}
   </AppShell.Header>
   <AppShell.Sidebar aria-label='Workspace'>
     {brand}
-    <Button
-      aria-expanded={!collapsed}
-      aria-controls='workspace-nav'
-      onClick={() => setCollapsed(!collapsed)}
-    >
-      Toggle sidebar
-    </Button>
+    <AppShell.SidebarToggle />
     <ScrollArea orientation='vertical' label='Workspace destinations'>
-      <nav id='workspace-nav' aria-label='Workspace navigation'>
+      <nav aria-label='Workspace navigation'>
         <AppShell.Link
           href='/resources'
           label='Resources'
@@ -89,9 +84,29 @@ export const appShellDocs: Record<string, ComponentDoc> = {
         'header',
       ],
       [
-        'Root.collapsed',
-        'controlled sidebar width; labels remain accessible',
-        'false',
+        'Root.collapsed / defaultCollapsed / onCollapsedChange',
+        'controlled or uncontrolled collapsed state; labels stay accessible',
+        '— / false / —',
+      ],
+      [
+        'Root.persist',
+        'localStorage key that remembers the state; server-rendered apps read a cookie into defaultCollapsed instead',
+        '—',
+      ],
+      [
+        'Root.shortcut',
+        '⌘B or Ctrl+B toggles the sidebar outside text fields; one shell per page',
+        'true',
+      ],
+      [
+        'SidebarToggle.labels',
+        '{ collapse, expand }: the button name and tooltip in each state',
+        'Collapse sidebar / Expand sidebar',
+      ],
+      [
+        'Root style --app-shell-rail-width',
+        'the collapsed rail width',
+        'header 64px / workspace 72px',
       ],
       [
         'Root style --app-shell-sidebar-width',
@@ -110,7 +125,7 @@ export const appShellDocs: Record<string, ComponentDoc> = {
       ],
       [
         'Link',
-        'native anchor: href, icon, label, aria-current, ref, and event handlers',
+        'native anchor: href, icon, label, aria-current, ref, and event handlers; on the collapsed rail, label is also a tooltip',
         'caller-owned route',
       ],
       [

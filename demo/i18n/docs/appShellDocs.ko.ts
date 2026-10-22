@@ -4,7 +4,7 @@ export const appShellDocsKo: Record<string, DocKo> = {
   'app-shell': {
     usage: [
       '워크스페이스 레이아웃을 사용해 메인 콘텐츠와 사이드바를 짝지으세요. 사이드바에는 브랜드, 접기 토글, 하단 계정이 들어갑니다. 전역 상단 레일이 필요한 문서 사이트에는 기본 header 레이아웃을 사용하세요.',
-      'AppShell은 레이아웃과 네이티브 링크 스타일을 제공합니다. 접힘 상태, 라우트, 계정, 테마는 호출하는 쪽이 소유합니다.',
+      'AppShell은 레이아웃과 네이티브 링크 스타일을 제공하고, 라우트, 계정, 테마는 호출하는 쪽이 소유합니다. 접힘 상태는 셸이 직접 관리합니다. SidebarToggle이나 텍스트 입력 밖에서 누른 ⌘B(다른 OS에서는 Ctrl+B)가 사이드바를 접고, persist는 상태를 localStorage에 기억하며, 레일에서는 각 Link가 이름을 툴팁으로 보여 줍니다. 상태를 직접 제어하려면 collapsed와 onCollapsedChange를 주고, 서버 렌더링에서 첫 화면을 맞추려면 쿠키를 읽어 defaultCollapsed로 넘기세요.',
       '워크스페이스 사이드바는 224px에서 72px로 접히며 아이콘은 위치를 유지합니다. 24px 제품 마크를 내비게이션 아이콘 열에 중앙 정렬하세요.',
       '제품 이름은 subsection 역할(Manrope 500, 16/24, --ink, 기본 tracking)로 한 줄에 설정하세요. 링크 라벨 줄에서 시작합니다. 긴 이름은 줄임표로 잘리고 전체 텍스트를 title에 유지합니다.',
       '선택적 두 번째 줄은 caption 역할(12/18, --ink-muted)로 워크스페이스 이름을 표시합니다. 계정 행은 24px Avatar와 body weight 이름으로 브랜드를 반영합니다.',
@@ -20,25 +20,33 @@ export const appShellDocsKo: Record<string, DocKo> = {
       '다른 내비게이션 없이 모바일에서 데스크톱 사이드바를 숨기지 마세요. 하단 Sheet 같은 대체재를 제공하세요.',
       '레이아웃 모듈이 권한이나 로그인을 처리하리라 기대하지 마세요. 애플리케이션에서 처리하세요.',
       '텍스트를 흐리게 하는 블러로 사이드바 가장자리를 페이드하지 마세요.',
+      '한 페이지의 두 셸에 단축키를 주지 마세요. 모형처럼 보여 주기만 하는 셸에는 shortcut={false}를 주세요.',
     ],
     keyboard: [
       'Tab과 Shift+Tab은 네이티브 링크와 버튼에 도달합니다. Enter는 링크를 따릅니다.',
       '모바일 하단 Sheet는 현재 목적지에서 열립니다. 목적지를 선택하면 Sheet가 닫히고 포커스가 새 콘텐츠 heading으로 이동합니다.',
       'Base UI가 Sheet의 열기 버튼, Escape, 포커스 트래핑, 닫힘 시 포커스 복원을 처리합니다. 실제 제품에서는 라우터가 내비게이션, 뒤로 가기, 스크롤 복원을 소유합니다.',
-      '토글은 aria-expanded와 aria-controls를 설정합니다. 링크는 접혀 있어도 명확한 접근성 이름을 유지합니다.',
+      'SidebarToggle은 aria-expanded와 aria-controls를 설정하고, 툴팁에 단축키를 보여 줍니다. 텍스트 입력 밖에서는 ⌘B나 Ctrl+B로 사이드바를 접고 폅니다. 접힌 링크는 접근성 이름을 유지하고, 호버와 포커스 때 이름을 툴팁으로 보여 줍니다.',
     ],
     props: {
       'Root style --app-shell-radius / --app-shell-inset':
         '외부 표면 반경과 간격; 내부 반경 = max(0, radius - inset)',
       'Root.layout':
         'header(전역 레일) / workspace(사이드바 브랜드, 모바일 전용 header)',
-      'Root.collapsed': '제어된 사이드바 너비; 라벨은 접근 가능하게 유지',
+      'Root.collapsed / defaultCollapsed / onCollapsedChange':
+        '제어형 또는 비제어형 접힘 상태; 라벨은 접근 가능하게 유지',
+      'Root.persist':
+        '상태를 기억하는 localStorage 키. 서버 렌더링 앱은 대신 쿠키를 읽어 defaultCollapsed로 넘깁니다',
+      'Root.shortcut':
+        '텍스트 입력 밖에서 ⌘B나 Ctrl+B로 사이드바를 접고 폅니다. 페이지당 셸 하나만',
+      'SidebarToggle.labels': '{ collapse, expand }: 상태별 버튼 이름이자 툴팁',
+      'Root style --app-shell-rail-width': '접힌 레일의 너비',
       'Root style --app-shell-sidebar-width':
         '펼친 너비; header: 216px / 64px; workspace: 224px / 72px',
       'Header / Sidebar / Content / Footer':
         '네이티브 속성, className, refs를 가진 레이아웃 슬롯',
       Page: 'workspace Content 안의 페이지 표면: 사이드바 쪽을 뺀 모든 면에 셸과 간격을 둡니다. ≤760px에서 사이드바가 없으면 양쪽 간격이 같고, 모바일 Header 바로 아래에서는 위 간격 없이 붙습니다. 반경 = max(0, radius - inset)',
-      Link: '네이티브 anchor: href, icon, label, aria-current, ref, 이벤트 핸들러',
+      Link: '네이티브 anchor: href, icon, label, aria-current, ref, 이벤트 핸들러. 접힌 레일에서는 label이 툴팁으로도 뜹니다',
       Label: '펼침 시 줄임표; 접힘 시 시각적으로 숨김',
       'Mobile navigation':
         '호출자가 제공한 Sheet(≤760px); 데스크톱 Sidebar는 숨김',

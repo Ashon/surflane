@@ -164,7 +164,7 @@ function Preview({
       aria-label={t.previewLabel}
     >
       <SizeProvider size='small'>
-        <AppShell.Root layout='workspace'>
+        <AppShell.Root layout='workspace' shortcut={false}>
           {/* Phones hide the sidebar; the header keeps the product visible. */}
           <AppShell.Header>
             <Brand workspace={t.workspace} />

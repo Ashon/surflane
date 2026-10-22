@@ -16,6 +16,8 @@
 - An `info` status tone for Badge, StatusBadge, InlineMessage and Toast, in blue, apart from the cyan of success.
 - `toast()` shows a toast from anywhere, inside React or out, with one `<Toaster />` in the app. `toast.success`, `error`, `warning`, `info` and `loading` pick the tone; `toast.promise` turns a loading toast into success or error; `toast.update` and `toast.dismiss` take the ID a call returns. `action: { label, onClick }` adds a button. `createToaster()` makes a helper with its own manager for a separate region.
 - Tooltip's `label` takes any content, not only a string, and `shortcut` sets a keyboard shortcut apart after it, such as `⌘B`.
+- AppShell keeps the sidebar's collapsed state unless you control it. `defaultCollapsed`, `onCollapsedChange` and `persist` (a localStorage key) manage it, and ⌘B or Ctrl+B toggles it outside text fields (`shortcut={false}` turns that off). `AppShell.SidebarToggle` is the button: it sets `aria-expanded` and `aria-controls`, and its tooltip names the shortcut. On the collapsed rail each `AppShell.Link` shows its name as a tooltip, and `--app-shell-rail-width` sets the rail's width.
+- Icon gains `sidebar`.
 - Tokens:
   - `--info` and `--status-info-*`.
   - `--trend-up`, `--trend-down` and the `--trend-up-*`, `--trend-down-*` and `--trend-flat-fg` roles. Markets that read red as a rise set `--trend-up` and `--trend-down` the other way round.

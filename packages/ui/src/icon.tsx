@@ -30,6 +30,12 @@ const shapes = {
     </>
   ),
   menu: <path d='M4 6h16M4 12h16M4 18h16' />,
+  sidebar: (
+    <>
+      <rect x='3' y='4' width='18' height='16' rx='2' />
+      <path d='M9 4v16' />
+    </>
+  ),
   more: (
     <>
       <circle cx='5' cy='12' r='1' />
