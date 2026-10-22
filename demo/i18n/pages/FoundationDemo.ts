@@ -44,13 +44,13 @@ const en = {
   typographyHeadingAll: 'Typography',
   typographyHeadingSplit: 'Specimens and scale',
   typographyIntro:
-    'Manrope / Pretendard / JetBrains Mono. Use weights 400 and 500. Choose the visual role and the HTML heading level separately. Antialiasing, kerning, and optical sizing hints apply everywhere. Faux bold is never synthesized. Actual rendering varies by browser and display.',
+    "Manrope / Pretendard / JetBrains Mono. Use weights 400 and 500. Choose the visual role and the HTML heading level separately. Each role sets size, leading and tracking. Neither typeface has an optical size axis, so headings tighten as they grow and captions open slightly. Korean wraps between words, and its word spaces take Pretendard's width. Faux bold is never synthesized. Actual rendering varies by browser and display.",
   displaySpecimenCaption:
     'Display / Manrope + Pretendard / English and Korean sample',
   bodySpecimenCaption:
     'Body / Manrope + Pretendard / English and Korean sample',
   headingSizingNote:
-    'Size headings by role: 30–40px for primary screen titles, 24/32px for page titles, and 32–40px for reading-focused titles. Shared role and profile tokens connect them without forcing one size on every heading. The samples below mix Korean (Hangul) and English to show both scripts at each size.',
+    'Size headings by role: a screen title uses display, which grows from 32 to 40px with the screen, a page heading is 24/32px and a section heading 20/28px. Shared role tokens connect them without forcing one size on every heading. The samples below mix Korean (Hangul) and English to show both scripts at each size.',
   typographyRoles: 'Typography roles',
   roleTitle: 'Title',
   rolePage: 'Page',
@@ -58,7 +58,8 @@ const en = {
   roleSubsection: 'Subsection',
   roleBody: 'Body',
   roleReading: 'Reading',
-  roleTable: 'Table',
+  roleTable: 'Compact',
+  roleLabel: 'Label',
   roleCaption: 'Caption',
   roleCode: 'Code',
   roleMetric: 'Metric',
@@ -109,12 +110,12 @@ export const text: Record<Locale, typeof en> = {
     typographyHeadingAll: '타이포그래피',
     typographyHeadingSplit: '견본과 타입 스케일',
     typographyIntro:
-      'Manrope / Pretendard / JetBrains Mono. 웨이트는 400과 500을 사용하세요. 시각 역할과 HTML 제목 레벨은 각각 따로 선택하세요. 안티앨리어싱, 커닝, 옵티컬 사이징 힌트가 모든 곳에 적용됩니다. 유사 볼드는 합성하지 않습니다. 실제 렌더링은 브라우저와 디스플레이에 따라 달라집니다.',
+      'Manrope / Pretendard / JetBrains Mono. 웨이트는 400과 500을 사용하세요. 시각 역할과 HTML 제목 레벨은 각각 따로 선택하세요. 역할마다 크기, 행간, 자간이 정해져 있습니다. 두 글꼴 모두 옵티컬 사이즈 축이 없어서 제목은 커질수록 자간을 좁히고 캡션은 조금 넓힙니다. 한국어는 어절 단위로 줄을 바꾸고, 단어 사이 공백은 Pretendard 폭을 따릅니다. 유사 볼드는 합성하지 않습니다. 실제 렌더링은 브라우저와 디스플레이에 따라 달라집니다.',
     displaySpecimenCaption:
       'Display / Manrope + Pretendard / 영어와 한국어 견본',
     bodySpecimenCaption: 'Body / Manrope + Pretendard / 영어와 한국어 견본',
     headingSizingNote:
-      '역할에 따라 제목 크기를 정합니다: 주 화면 제목은 30–40px, 페이지 제목은 24/32px, 읽기 중심 제목은 32–40px입니다. 공유된 역할과 프로필 토큰이 모든 제목에 하나의 크기를 강요하지 않으면서 이들을 연결합니다. 아래 견본은 각 크기에서 두 문자 체계를 모두 보여 주기 위해 한국어(한글)와 영어를 섞었습니다.',
+      '역할에 따라 제목 크기를 정합니다. 화면 제목은 화면 폭에 따라 32px에서 40px까지 커지는 display를 쓰고, 페이지 제목은 24/32px, 섹션 제목은 20/28px입니다. 공유된 역할 토큰이 모든 제목에 하나의 크기를 강요하지 않으면서 이들을 연결합니다. 아래 견본은 각 크기에서 두 문자 체계를 모두 보여 주기 위해 한국어(한글)와 영어를 섞었습니다.',
     typographyRoles: '타이포그래피 역할',
     roleTitle: '제목',
     rolePage: '페이지',
@@ -122,7 +123,8 @@ export const text: Record<Locale, typeof en> = {
     roleSubsection: '하위 섹션',
     roleBody: '본문',
     roleReading: '읽기',
-    roleTable: '표',
+    roleTable: '작은 본문',
+    roleLabel: '라벨',
     roleCaption: '캡션',
     roleCode: '코드',
     roleMetric: '지표',

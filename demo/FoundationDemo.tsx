@@ -193,7 +193,7 @@ export function FoundationDemo({
                   <br />
                   <span lang='ko'>플랫폼 개발의 공통 언어</span>
                 </Heading>
-                <Text variant='caption'>40/48 → 32/38.4px</Text>
+                <Text variant='caption'>40/48 → 32/38.4px, −0.02em</Text>
               </Stack>
             </Surface>
             <Surface>
@@ -218,9 +218,9 @@ export function FoundationDemo({
           </Surface>
           <div className='type-scale' aria-label={t.typographyRoles}>
             {[
-              [t.roleTitle, '32 / 40', 'title', 'Service overview'],
-              [t.rolePage, '24 / 32', 'page', 'Deployment details'],
-              [t.roleSection, '20 / 28', 'section', 'Release policy'],
+              [t.roleTitle, '32 / 40, −0.02em', 'title', 'Service overview'],
+              [t.rolePage, '24 / 32, −0.01em', 'page', 'Deployment details'],
+              [t.roleSection, '20 / 28, −0.01em', 'section', 'Release policy'],
               [t.roleSubsection, '16 / 24', 'subsection', 'Build logs'],
             ].map(([name, size, variant]) => (
               <div className='type-scale-row' key={name}>
@@ -241,10 +241,11 @@ export function FoundationDemo({
             {[
               [t.roleBody, '14 / 22', 'body'],
               [t.roleReading, '16 / 28', 'reading'],
+              [t.roleLabel, '14 / 20', 'label'],
               [t.roleTable, '13 / 20', 'table'],
-              [t.roleCaption, '12 / 18', 'caption'],
+              [t.roleCaption, '12 / 18, +0.01em', 'caption'],
               [t.roleCode, '13 / 20', 'mono'],
-              [t.roleMetric, '24 / 28', 'metric'],
+              [t.roleMetric, '24 / 28, −0.01em', 'metric'],
             ].map(([name, size, variant]) => (
               <div className='type-scale-row' key={name}>
                 <Text

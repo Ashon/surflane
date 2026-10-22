@@ -91,7 +91,7 @@ import '@surflane/design-tokens/typography.css'
 <Heading level={3} size='subsection'>
   Card subhead
 </Heading>
-<Text variant='caption'>400 / Manrope / 0</Text>
+<Text variant='caption'>400 / Manrope / +0.01em</Text>
 <Text variant='mono'>400 / JetBrains Mono / 0</Text>`}
       />
     </section>

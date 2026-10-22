@@ -16,8 +16,8 @@ export const pageHeaderDocs: Record<string, ComponentDoc> = {
       '--space-4',
       '--space-2',
       '--type-title-size',
-      '--type-workspace-title-size',
-      '--type-document-title-size',
+      '--type-display-size',
+      '--type-display-tracking',
     ],
     code: `import { PageHeader, Button } from '@surflane/ui'
 
