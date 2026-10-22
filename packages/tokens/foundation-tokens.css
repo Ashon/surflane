@@ -17,6 +17,8 @@
     --layout-gutter: var(--space-6);
     --layout-columns: 12;
     --layout-description-measure: 68ch;
+    /* About 70 Latin or 50 Hangul characters per line of reading text. */
+    --layout-reading-measure: 54ch;
     /* Type roles: size, unitless leading and tracking. Leading falls as size grows,
      * and stays at 1.5 or more for text that wraps, which Korean needs. Manrope and
      * Pretendard have no optical size axis, so tracking tightens headings and opens

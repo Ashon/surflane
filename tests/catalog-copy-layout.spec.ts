@@ -45,7 +45,7 @@ test('the mobile rail keeps one 18px step around the mark and the tabs', async (
   expect(tabs.y - mark.y - mark.height).toBe(18)
   expect(sheet.y - tabs.y - tabs.height).toBe(18)
 })
-test('section paragraphs fill UI content width and long copy wraps naturally across page families', async ({
+test('manual copy reads in the reading role at the reading measure and wraps naturally across page families', async ({
   page,
 }) => {
   for (const width of [1440, 1024, 320]) {
@@ -62,19 +62,28 @@ test('section paragraphs fill UI content width and long copy wraps naturally acr
       await page.goto(route)
       await waitForCatalogReady(page)
       const measurements = await page
-        .locator('.catalog-page-body > section > p')
+        .locator('.catalog-page-body > section > p:not([class])')
         .evaluateAll((nodes) =>
-          nodes.map((p) => ({
-            width: p.getBoundingClientRect().width,
-            parent: p.parentElement!.clientWidth,
-            clipped:
-              p.scrollWidth > p.clientWidth + 1 ||
-              p.scrollHeight > p.clientHeight + 1,
-          })),
+          nodes.map((p) => {
+            const style = getComputedStyle(p)
+            return {
+              width: p.getBoundingClientRect().width,
+              // The reading measure, or the column when it is narrower.
+              expected: Math.min(
+                p.parentElement!.clientWidth,
+                parseFloat(style.maxInlineSize),
+              ),
+              type: `${style.fontSize}/${style.lineHeight}`,
+              clipped:
+                p.scrollWidth > p.clientWidth + 1 ||
+                p.scrollHeight > p.clientHeight + 1,
+            }
+          }),
         )
       expect(measurements.length).toBeGreaterThan(0)
       for (const item of measurements) {
-        expect(item.width).toBeCloseTo(item.parent, 0)
+        expect(item.width).toBeCloseTo(item.expected, 0)
+        expect(item.type).toBe('16px/28px')
         expect(item.clipped).toBe(false)
       }
       expect(

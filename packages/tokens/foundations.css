@@ -205,6 +205,11 @@
   .pui-prose > * {
     margin-block: 0 var(--space-4);
   }
+  /* Text blocks keep the reading measure, however deep in sections; tables, code and
+   * images use the full width, and components inside prose lay out their own text. */
+  .pui-prose :is(p, ul, ol, blockquote):not(.pui-prose [class*='pui-'] *) {
+    max-inline-size: var(--layout-reading-measure);
+  }
   .pui-prose > :last-child {
     margin-bottom: 0;
   }

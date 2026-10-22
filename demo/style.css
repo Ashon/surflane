@@ -1523,9 +1523,34 @@ body,
   }
 }
 
-.catalog-page-header .pui-page-header-description {
-  max-inline-size: none;
-  max-width: none;
+/* Manual copy reads in the reading role at the reading measure. Notes, anatomy, link
+ * rows, definition lists and components keep their own roles. */
+.catalog-page-header .pui-page-header-description,
+.catalog-page-body
+  > section
+  > :is(
+    p:not([class]),
+    ul:not([class]),
+    ol:not([class]),
+    .install-checks,
+    .catalog-rules
+  ) {
+  max-inline-size: var(--layout-reading-measure);
+  font-size: var(--type-reading-size);
+  line-height: var(--type-reading-leading);
+  letter-spacing: var(--type-reading-tracking);
+}
+.catalog-page-body
+  > section
+  > :is(
+    p:not([class]),
+    ul:not([class]),
+    ol:not([class]),
+    .install-checks,
+    .catalog-rules
+  )
+  code {
+  font-size: 0.875em;
 }
 
 .resource-list-example {

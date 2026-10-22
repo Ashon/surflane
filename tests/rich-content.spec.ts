@@ -1,5 +1,9 @@
 import { test, expect } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
+import React from 'react'
+import { renderToStaticMarkup } from 'react-dom/server'
+import { Markdown } from '../packages/ui/dist/markdown.js'
+import { InlineMessage, Prose } from '../packages/ui/dist/index.js'
 import { catalog, itemHref } from '../demo/catalog'
 import { waitForCatalogReady } from './catalog-ready'
 test.use({ reducedMotion: 'reduce' })
@@ -131,6 +135,99 @@ test('Markdown composes GFM, scoped headings, independent code copy and safe URL
   await expect(article.locator('code[data-language="html"]')).toContainText(
     '<script>literal source</script>',
   )
+})
+
+test('Markdown text keeps the reading measure while tables use the full width', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.goto('/components/markdown')
+  await waitForCatalogReady(page)
+  const html = renderToStaticMarkup(
+    React.createElement(Markdown, {
+      label: 'Measure fixture',
+      source: [
+        'Deploy every service through the same pipeline, so each release follows one reviewed path from build to production and nothing skips a check on the way.',
+        '',
+        '- Review the plan and confirm who can deploy before the window opens for the team.',
+        '',
+        '| Service | Owner | Region | Status | Updated |',
+        '| --- | --- | --- | --- | --- |',
+        '| platform-api | Platform | ap-northeast-2 | Healthy | 2026-10-22 |',
+      ].join('\n'),
+    }),
+  )
+  // Prose with sections and a component inside, as documentation pages compose it.
+  const prose = renderToStaticMarkup(
+    React.createElement(
+      Prose,
+      { id: 'prose-fixture' },
+      React.createElement(
+        'section',
+        null,
+        React.createElement(
+          'p',
+          { id: 'prose-text' },
+          'Section text. '.repeat(20),
+        ),
+      ),
+      React.createElement(
+        InlineMessage.Root,
+        null,
+        React.createElement(
+          InlineMessage.Content,
+          null,
+          React.createElement(
+            InlineMessage.Description,
+            { id: 'prose-message' },
+            'Message text. '.repeat(20),
+          ),
+        ),
+      ),
+    ),
+  )
+  await page.locator('#main-content').evaluate((el, html) => {
+    const fixture = document.createElement('div')
+    fixture.style.inlineSize = '900px'
+    fixture.innerHTML = html
+    el.append(fixture)
+  }, html + prose)
+  const measure = await page
+    .locator('#prose-text')
+    .evaluate((el) => parseFloat(getComputedStyle(el).maxInlineSize))
+  expect((await page.locator('#prose-text').boundingBox())!.width).toBeCloseTo(
+    measure,
+    0,
+  )
+  expect(
+    await page
+      .locator('#prose-message')
+      .evaluate((el) => getComputedStyle(el).maxInlineSize),
+  ).toBe('none')
+  const layout = await page
+    .getByRole('article', { name: 'Measure fixture', exact: true })
+    .evaluate((root) => ({
+      article: root.getBoundingClientRect().width,
+      text: [...root.querySelectorAll(':scope > :is(p, ul)')].map((el) => {
+        const style = getComputedStyle(el)
+        return {
+          width: el.getBoundingClientRect().width,
+          measure: parseFloat(style.maxInlineSize),
+          type: `${style.fontSize}/${style.lineHeight}`,
+        }
+      }),
+      table: root
+        .querySelector('.pui-table')!
+        .closest('.pui-scroll-root')!
+        .getBoundingClientRect().width,
+    }))
+  expect(layout.text).toHaveLength(2)
+  for (const block of layout.text) {
+    expect(block.width).toBeCloseTo(block.measure, 0)
+    expect(block.type).toBe('16px/28px')
+  }
+  expect(layout.article).toBeGreaterThan(layout.text[0].measure)
+  expect(layout.table).toBeCloseTo(layout.article, 0)
 })
 
 test('every site code block selects a real grammar and keeps the original copyable source', async ({

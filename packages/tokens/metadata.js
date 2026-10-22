@@ -107,6 +107,8 @@ export const descriptions = {
   '--font-code': 'JetBrains Mono for identifiers and code → Korean fallback',
   '--layout-workspace': 'Default maximum content width for operational tools',
   '--layout-reading': 'Maximum width for documentation body text',
+  '--layout-reading-measure':
+    'Line length for reading text: about 70 Latin or 50 Hangul characters',
   '--layout-wide': 'Maximum width for dense tables and comparison screens',
   '--layout-gutter': 'Grid gutter that responds to screen size',
   '--layout-columns': 'Base grid: 12 → 6 → 4 columns',

@@ -4,6 +4,10 @@
 
 ## Unreleased
 
+### Added
+
+- `--layout-reading-measure` (54ch) holds reading text to about 70 Latin or 50 Hangul characters per line. Paragraphs, lists and quotes in `Prose` and `Markdown` keep to it, while tables, code and images still use the full reading width. The catalog's manual copy uses the same measure with the reading role (16/28).
+
 ### Changed
 
 - Type roles set tracking alongside size and leading, as `--type-<role>-tracking`. Neither Manrope nor Pretendard has an optical size axis, so the roles adjust tracking by size:

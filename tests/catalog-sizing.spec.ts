@@ -27,7 +27,7 @@ test('Foundations fills the viewport while keeping its two-column index near the
   expect(second.x).toBeGreaterThan(first.x + first.width)
   expect(third.y).toBeGreaterThan(first.y)
 })
-test('forms stay bounded while section descriptions fill their available width', async ({
+test('forms stay bounded and section descriptions stop at the reading measure', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1920, height: 1000 })
@@ -56,9 +56,14 @@ test('forms stay bounded while section descriptions fill their available width',
     return actions.top - field.bottom
   })
   expect(gap).toBeCloseTo(24, 0)
-  const paragraph = await page.locator('#principles > p').first().boundingBox()
-  const section = await page.locator('#principles').boundingBox()
-  expect(paragraph!.width).toBeCloseTo(section!.width, 0)
+  const paragraph = page.locator('#principles > p').first()
+  const width = (await paragraph.boundingBox())!.width
+  const section = (await page.locator('#principles').boundingBox())!.width
+  const measure = await paragraph.evaluate((p) =>
+    parseFloat(getComputedStyle(p).maxInlineSize),
+  )
+  expect(width).toBeCloseTo(Math.min(section, measure), 0)
+  expect(width).toBeLessThan(section)
 })
 test('mobile index and forms keep a single bounded column with natural height', async ({
   page,
