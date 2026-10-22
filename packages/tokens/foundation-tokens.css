@@ -154,6 +154,17 @@
     --size-avatar-small: 24px;
     --size-avatar-default: 36px;
     --size-avatar-large: 48px;
+    /* Overlay widths. An overlay's size prop sets its width and its content density;
+     * without one, it keeps the default width and the surrounding density. */
+    --size-dialog-small: 420px;
+    --size-dialog-default: 640px;
+    --size-dialog-large: 840px;
+    --size-panel-small: 320px;
+    --size-panel-default: 440px;
+    --size-panel-large: 640px;
+    --size-popover-small: 240px;
+    --size-popover-default: 320px;
+    --size-popover-large: 480px;
     --size-spinner-small: 14px;
     --size-spinner-default: 20px;
     --size-spinner-large: 28px;

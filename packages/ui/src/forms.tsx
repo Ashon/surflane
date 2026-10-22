@@ -1,6 +1,10 @@
 'use client'
 import * as React from 'react'
-import { useComponentSize, type ComponentSize } from './sizing.js'
+import {
+  useComponentSize,
+  type ComponentSize,
+  type ComponentSizeAlias,
+} from './sizing.js'
 import { Field as BaseField } from '@base-ui/react/field'
 import { Fieldset as BaseFieldset } from '@base-ui/react/fieldset'
 import { Form as BaseForm } from '@base-ui/react/form'
@@ -62,16 +66,19 @@ export function Form<
 >({ className, ...props }: BaseForm.Props<Values>) {
   return <BaseForm<Values> {...props} className={skin('pui-form', className)} />
 }
+/** A multi-line text field. Inside Field.Root it takes the label, description and
+ * error from the field, as Input does. */
 export const Textarea = /* @__PURE__ */ React.forwardRef<
   HTMLTextAreaElement,
-  React.ComponentPropsWithoutRef<'textarea'> & { size?: ComponentSize }
->(function Textarea({ className, size, ...props }, ref) {
+  React.ComponentPropsWithoutRef<'textarea'> & { size?: ComponentSizeAlias }
+>(function Textarea({ className, size, rows, cols, wrap, ...props }, ref) {
   const scheme = useComponentSize(size)
   return (
-    <textarea
+    <BaseField.Control
+      {...(props as React.ComponentPropsWithoutRef<typeof BaseField.Control>)}
+      ref={ref as unknown as React.Ref<HTMLInputElement>}
       data-ui-size={scheme}
-      {...props}
-      ref={ref}
+      render={<textarea rows={rows} cols={cols} wrap={wrap} />}
       className={['pui-input pui-textarea', className]
         .filter(Boolean)
         .join(' ')}
@@ -79,11 +86,14 @@ export const Textarea = /* @__PURE__ */ React.forwardRef<
   )
 })
 import { useRootRef, useResetValue } from './form-state.js'
+/** Choice controls follow the surrounding size; `size` sets one control's scale. */
+type ChoiceSize = { size?: ComponentSizeAlias }
 const CheckboxRoot = /* @__PURE__ */ React.forwardRef<
   React.ComponentRef<typeof BaseCheckbox.Root>,
-  React.ComponentPropsWithoutRef<typeof BaseCheckbox.Root>
+  React.ComponentPropsWithoutRef<typeof BaseCheckbox.Root> & ChoiceSize
 >(function CheckboxRoot(
   {
+    size,
     checked,
     defaultChecked = false,
     onCheckedChange,
@@ -94,6 +104,7 @@ const CheckboxRoot = /* @__PURE__ */ React.forwardRef<
   ref,
 ) {
   React.useContext(ChoiceResetPaint)
+  const scheme = useComponentSize(size)
   const [element, attach] = useRootRef<HTMLElement>(ref)
   const [selected, setSelected] = useResetValue(
     checked,
@@ -104,6 +115,7 @@ const CheckboxRoot = /* @__PURE__ */ React.forwardRef<
   return (
     <BaseCheckbox.Root
       {...props}
+      data-ui-size={size ? scheme : undefined}
       form={form}
       ref={attach}
       checked={selected}
@@ -209,12 +221,14 @@ export function RadioGroup<Value = string>({
 }
 const RadioRoot = /* @__PURE__ */ React.forwardRef<
   React.ComponentRef<typeof BaseRadio.Root>,
-  React.ComponentPropsWithoutRef<typeof BaseRadio.Root>
->(function RadioRoot({ className, ...props }, ref) {
+  React.ComponentPropsWithoutRef<typeof BaseRadio.Root> & ChoiceSize
+>(function RadioRoot({ size, className, ...props }, ref) {
   React.useContext(ChoiceResetPaint)
+  const scheme = useComponentSize(size)
   return (
     <BaseRadio.Root
       {...props}
+      data-ui-size={size ? scheme : undefined}
       ref={ref}
       className={skin('pui-radio', className)}
     />
@@ -230,9 +244,10 @@ export const Radio = {
 }
 const SwitchRoot = /* @__PURE__ */ React.forwardRef<
   React.ComponentRef<typeof BaseSwitch.Root>,
-  React.ComponentPropsWithoutRef<typeof BaseSwitch.Root>
+  React.ComponentPropsWithoutRef<typeof BaseSwitch.Root> & ChoiceSize
 >(function SwitchRoot(
   {
+    size,
     checked,
     defaultChecked = false,
     onCheckedChange,
@@ -242,6 +257,7 @@ const SwitchRoot = /* @__PURE__ */ React.forwardRef<
   },
   ref,
 ) {
+  const scheme = useComponentSize(size)
   const [element, attach] = useRootRef<HTMLElement>(ref)
   const [selected, setSelected] = useResetValue(
     checked,
@@ -252,6 +268,7 @@ const SwitchRoot = /* @__PURE__ */ React.forwardRef<
   return (
     <BaseSwitch.Root
       {...props}
+      data-ui-size={size ? scheme : undefined}
       form={form}
       ref={attach}
       checked={selected}
@@ -271,6 +288,56 @@ export const Switch = {
     React.ComponentPropsWithoutRef<typeof BaseSwitch.Thumb>
   >(BaseSwitch.Thumb, 'pui-switch-thumb'),
 }
+
+export type ChoiceLabelProps = Omit<
+  React.ComponentPropsWithoutRef<'label'>,
+  'children'
+> & {
+  /** The Checkbox, Radio or Switch the label names. */
+  control: React.ReactElement<{
+    'aria-labelledby'?: string
+    'aria-describedby'?: string
+  }>
+  /** The label text; it alone names the control. */
+  children: React.ReactNode
+  /** A longer explanation, read as the control's description. */
+  description?: React.ReactNode
+}
+/** A checkbox, radio or switch with its label, and an optional description below it.
+ * The whole label toggles the control; the control sits on the first line. */
+export const ChoiceLabel = /* @__PURE__ */ React.forwardRef<
+  HTMLLabelElement,
+  ChoiceLabelProps
+>(function ChoiceLabel(
+  { control, children, description, className, ...props },
+  ref,
+) {
+  const id = React.useId()
+  return (
+    <label
+      {...props}
+      ref={ref}
+      className={['pui-choice-label', className].filter(Boolean).join(' ')}
+    >
+      <span className='pui-choice-control'>
+        {React.cloneElement(control, {
+          'aria-labelledby': control.props['aria-labelledby'] ?? `${id}-label`,
+          'aria-describedby':
+            control.props['aria-describedby'] ??
+            (description ? `${id}-description` : undefined),
+        })}
+      </span>
+      <span className='pui-choice-text'>
+        <span id={`${id}-label`}>{children}</span>
+        {description && (
+          <span className='pui-choice-description' id={`${id}-description`}>
+            {description}
+          </span>
+        )}
+      </span>
+    </label>
+  )
+})
 
 // Flat names for React Server Components, which cannot dot into client exports.
 export {

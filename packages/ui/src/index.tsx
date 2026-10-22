@@ -9,6 +9,8 @@ export {
   type ButtonVariant,
   type ButtonSize,
   type ButtonProps,
+  LinkButton,
+  type LinkButtonProps,
 } from './button.js'
 export { Slot } from './slot.js'
 export { Input } from './input.js'
@@ -18,6 +20,7 @@ export {
   NativeSelectOption,
   NativeSelectOptGroup,
   type SelectOption,
+  type SelectGroup,
   type SelectProps,
 } from './select.js'
 export {
@@ -163,6 +166,8 @@ export {
   Radio,
   RadioGroup,
   Switch,
+  ChoiceLabel,
+  type ChoiceLabelProps,
   FieldControl,
   FieldDescription,
   FieldError,
@@ -210,6 +215,7 @@ export {
 export {
   Separator,
   Link,
+  type LinkProps,
   Breadcrumbs,
   BreadcrumbsRoot,
   BreadcrumbsList,

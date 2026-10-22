@@ -6,6 +6,14 @@
 
 ### Added
 
+- `ChoiceLabel` pairs a Checkbox, Radio or Switch with its label and an optional `description`. The label text alone names the control, the description is read as its description, and the control sits on the first line.
+- `LinkButton` gives a link Button's `variant` and `size` and stays a link for assistive technology. `Link` and `LinkButton` take a router's link element as `render`, such as `<Link render={<NextLink href='/docs' />}>`.
+- Dialog and AlertDialog `Content` take `size`: small, default and large are 420, 640 and 840px wide, and set the density inside. Popover `Content` takes `size` too (240, 320 and 480px), and `Popover.Title` and `Popover.Description` are styled. An overlay without `size` keeps its default width and the surrounding density. For a width alone, set `--dialog-width`, `--popover-width` or `--panel-width`.
+- Sheet and Drawer `Content` take `flush`, which attaches the panel to its edge with square corners there, as a mobile bottom sheet sits.
+- `Table.Container` takes `bleed`, which hangs the table by its cell inset so cell text lines up with the text around it.
+- Select options can be groups, `{ label, options }`, shown under a heading. NativeSelect keeps optgroup labels the same way. Select forwards `ref` to its trigger.
+- Checkbox, Radio and Switch take `size`. Without it they follow the surrounding size.
+- Overlay width tokens: `--size-dialog-*`, `--size-popover-*` and `--size-panel-*`.
 - Focus and target tokens: `--focus-ring-width`, `--focus-ring-offset`, `--focus-ring-inset` and `--control-focus-ring-size`, and `--control-target-size` (44px).
 - `--layout-reading-measure` (54ch) holds reading text to about 70 Latin or 50 Hangul characters per line. Paragraphs, lists and quotes in `Prose` and `Markdown` keep to it, while tables, code and images still use the full reading width. The catalog's manual copy uses the same measure with the reading role (16/28).
 
@@ -38,6 +46,8 @@
   - The corners take the control radius.
 - Dialog and panel chrome uses the spacing scale and one close button clearance: the control height plus 16px on each side. Dialog headers clear the close button by 68px instead of 72px, and close buttons sit at the inline end in right-to-left text.
 - Switch derives its padding and thumb travel from the switch tokens.
+- Textarea is a Field control: inside Field.Root it takes the label, description and error, as Input does. It also accepts the size aliases.
+- A popover fits its content up to 320px, or its `size` width, instead of up to the viewport width.
 - `check:package` fails when a component stylesheet selects a class that no component renders. It also caps the literal lengths left in package CSS at 129, so the count can only fall.
 
 ## 0.4.0

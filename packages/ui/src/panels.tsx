@@ -10,7 +10,13 @@ import { Dialog as BaseDialog } from '@base-ui/react/dialog'
 import { Drawer as BaseDrawer } from '@base-ui/react/drawer'
 
 export type PanelSide = 'left' | 'right' | 'top' | 'bottom'
-type PanelOptions = { size?: ComponentSizeAlias; closeLabel?: string }
+type PanelOptions = {
+  size?: ComponentSizeAlias
+  closeLabel?: string
+  /** Attaches the panel to its edge: no gap, and square corners on that edge, as a
+   * mobile bottom sheet sits. */
+  flush?: boolean
+}
 const SheetSide = /* @__PURE__ */ React.createContext({
   side: 'right' as PanelSide,
   modal: true as boolean | 'trap-focus',
@@ -74,7 +80,7 @@ const SheetContent = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseDialog.Popup> & PanelOptions
 >(function SheetContent(
-  { size, closeLabel = 'Close panel', className, children, ...props },
+  { size, flush, closeLabel = 'Close panel', className, children, ...props },
   ref,
 ) {
   const scheme = useComponentSize(size)
@@ -85,21 +91,18 @@ const SheetContent = /* @__PURE__ */ React.forwardRef<
         {modal === true && (
           <BaseDialog.Backdrop className='pui-panel-backdrop' />
         )}
-        <div className='pui-panel-viewport' data-side={side}>
+        <div
+          className='pui-panel-viewport'
+          data-side={side}
+          data-flush={flush || undefined}
+        >
           <BaseDialog.Popup
             {...props}
             ref={ref}
             className={skin('pui-panel', className)}
             data-side={side}
-            data-size={
-              size
-                ? normalizeSize(size) === 'small'
-                  ? 'sm'
-                  : normalizeSize(size) === 'large'
-                    ? 'lg'
-                    : 'md'
-                : 'md'
-            }
+            data-size={normalizeSize(size) ?? 'default'}
+            data-flush={flush || undefined}
           >
             <BaseDialog.Close
               className='pui-panel-close pui-icon-button'
@@ -118,7 +121,7 @@ const DrawerContent = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseDrawer.Popup> & PanelOptions
 >(function DrawerContent(
-  { size, closeLabel = 'Close panel', className, children, ...props },
+  { size, flush, closeLabel = 'Close panel', className, children, ...props },
   ref,
 ) {
   const scheme = useComponentSize(size)
@@ -132,21 +135,18 @@ const DrawerContent = /* @__PURE__ */ React.forwardRef<
           {modal === true && (
             <BaseDrawer.Backdrop className='pui-panel-backdrop' />
           )}
-          <BaseDrawer.Viewport className='pui-panel-viewport' data-side={side}>
+          <BaseDrawer.Viewport
+            className='pui-panel-viewport'
+            data-side={side}
+            data-flush={flush || undefined}
+          >
             <BaseDrawer.Popup
               {...props}
               ref={ref}
               className={skin('pui-panel pui-drawer', className)}
               data-side={side}
-              data-size={
-                size
-                  ? normalizeSize(size) === 'small'
-                    ? 'sm'
-                    : normalizeSize(size) === 'large'
-                      ? 'lg'
-                      : 'md'
-                  : 'lg'
-              }
+              data-size={normalizeSize(size) ?? 'large'}
+              data-flush={flush || undefined}
             >
               <div className='pui-drawer-handle' aria-hidden='true' />
               <BaseDrawer.Close

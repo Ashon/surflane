@@ -61,6 +61,22 @@ Chart, DatePicker, Markdown, Tree and syntax highlighting build on larger librar
 
 `CodeBlock` and `SyntaxHighlighter` render plain text by default. Wrap the app, or any subtree, in `<SyntaxHighlighting>` to color tokens; the engine and each grammar load on first use. In Next.js, render it in `app/layout.tsx`: it is a client component that takes server-rendered children.
 
+## Router links
+
+`Link` and `LinkButton` render an anchor. Pass your router's link element as `render`: the router keeps client navigation, and Surflane adds the styling.
+
+```tsx
+import NextLink from 'next/link'
+import { Link, LinkButton } from '@surflane/ui'
+
+<Link render={<NextLink href='/docs' />}>Read the docs</Link>
+<LinkButton variant='primary' render={<NextLink href='/projects/new' />}>
+  New project
+</LinkButton>
+```
+
+With React Router, render `<NavLink to='/docs' />`. `LinkButton` takes Button's `variant` and `size` but stays a link for assistive technology, so use it for navigation and keep `Button` for actions.
+
 ## Cascade layers
 
 Every Surflane stylesheet puts its rules in four [cascade layers](https://developer.mozilla.org/docs/Web/CSS/@layer), lowest first:

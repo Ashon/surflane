@@ -6,9 +6,22 @@ import { ScrollArea } from './scroll-area.js'
 
 const TableContainer = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
-  React.ComponentPropsWithoutRef<typeof ScrollArea> & { label: string }
->(function TableContainer(props, ref) {
-  return <ScrollArea {...props} ref={ref} />
+  React.ComponentPropsWithoutRef<typeof ScrollArea> & {
+    label: string
+    /** Hangs the table into the gutter by its cell inset, so cell text lines up with
+     * the text around it and a row's hover reaches past it evenly on both sides. */
+    bleed?: boolean
+  }
+>(function TableContainer({ bleed, rootClassName, ...props }, ref) {
+  return (
+    <ScrollArea
+      {...props}
+      ref={ref}
+      rootClassName={[bleed && 'pui-table-bleed', rootClassName]
+        .filter(Boolean)
+        .join(' ')}
+    />
+  )
 })
 const RootPart = /* @__PURE__ */ part<
   HTMLTableElement,

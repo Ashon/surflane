@@ -1,6 +1,7 @@
 'use client'
 import * as React from 'react'
 import { Separator as BaseSeparator } from '@base-ui/react/separator'
+import { useRender } from '@base-ui/react/use-render'
 import { Chevron } from './chevron.js'
 import { skin } from './parts.js'
 export const Separator = /* @__PURE__ */ React.forwardRef<
@@ -16,17 +17,22 @@ export const Separator = /* @__PURE__ */ React.forwardRef<
     />
   )
 })
+export type LinkProps = Omit<useRender.ComponentProps<'a'>, 'ref'>
+/** A text link. Pass a router's link element as `render`, such as
+ * `<Link render={<NextLink href='/docs' />}>Docs</Link>`, to keep client navigation. */
 export const Link = /* @__PURE__ */ React.forwardRef<
   HTMLAnchorElement,
-  React.ComponentPropsWithoutRef<'a'>
->(function Link({ className, ...props }, ref) {
-  return (
-    <a
-      {...props}
-      ref={ref}
-      className={['pui-link', className].filter(Boolean).join(' ')}
-    />
-  )
+  LinkProps
+>(function Link({ render, className, ...props }, ref) {
+  return useRender({
+    defaultTagName: 'a',
+    render,
+    ref,
+    props: {
+      ...props,
+      className: ['pui-link', className].filter(Boolean).join(' '),
+    },
+  })
 })
 const BreadcrumbRoot = /* @__PURE__ */ React.forwardRef<
   HTMLElement,

@@ -1,6 +1,6 @@
 'use client'
 import * as React from 'react'
-import { skin } from './parts.js'
+import { sizeName, skin } from './parts.js'
 import { useDialogFocusBoundary } from './dialog-focus.js'
 import { useComponentSize, type ComponentSizeAlias } from './sizing.js'
 import { Dialog as BaseDialog } from '@base-ui/react/dialog'
@@ -38,12 +38,15 @@ const DialogCloseButton = /* @__PURE__ */ React.forwardRef<
 const DialogContent = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseDialog.Popup> & {
+    /** Width and density: small 420px, default 640px, large 840px. */
+    size?: ComponentSizeAlias
     closeLabel?: string
     closeDisabled?: boolean
     focusBoundaryLabel?: string
   }
 >(function DialogContent(
   {
+    size,
     className,
     children,
     closeLabel = 'Close dialog',
@@ -53,13 +56,14 @@ const DialogContent = /* @__PURE__ */ React.forwardRef<
   },
   ref,
 ) {
-  const scheme = useComponentSize()
+  const scheme = useComponentSize(size)
   const portalRef = useDialogFocusBoundary(focusBoundaryLabel)
   return (
     <BaseDialog.Portal ref={portalRef}>
       <BaseDialog.Backdrop className='pui-dialog-backdrop' />
       <BaseDialog.Popup
         data-ui-size={scheme}
+        data-size={sizeName(size)}
         {...props}
         ref={ref}
         className={skin('pui-dialog-popup pui-dialog-content', className)}
@@ -96,19 +100,27 @@ export const Dialog = {
 const AlertDialogContent = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseAlertDialog.Popup> & {
+    /** Width and density; an alert dialog is small unless set. */
+    size?: ComponentSizeAlias
     focusBoundaryLabel?: string
   }
 >(function AlertDialogContent(
-  { className, focusBoundaryLabel = 'Continue dialog navigation', ...props },
+  {
+    size,
+    className,
+    focusBoundaryLabel = 'Continue dialog navigation',
+    ...props
+  },
   ref,
 ) {
-  const scheme = useComponentSize()
+  const scheme = useComponentSize(size)
   const portalRef = useDialogFocusBoundary(focusBoundaryLabel)
   return (
     <BaseAlertDialog.Portal ref={portalRef}>
       <BaseAlertDialog.Backdrop className='pui-dialog-backdrop' />
       <BaseAlertDialog.Popup
         data-ui-size={scheme}
+        data-size={sizeName(size)}
         {...props}
         ref={ref}
         className={skin(

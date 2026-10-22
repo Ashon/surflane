@@ -64,7 +64,7 @@ console.log(
 // Other lengths and durations move to tokens over time. The count may only fall: lower
 // it when values move to tokens, never raise it. 0, 1px hairlines and @media
 // conditions stay literal.
-const literalCeiling = 129
+const literalCeiling = 125
 const literalLengths = typeSheets
   .map((file) => readFileSync(file, 'utf8').replace(/\/\*[\s\S]*?\*\//g, ''))
   .flatMap((css) => css.split('\n'))
@@ -85,8 +85,8 @@ console.log(
   `@surflane: ${literalLengths.length} literal lengths remain (ceiling ${literalCeiling})`,
 )
 // Every class a component stylesheet selects is one a component renders, so a renamed
-// part cannot leave rules behind. pui-choice-label is a documented CSS-only helper.
-const cssOnlyClasses = new Set(['pui-choice-label'])
+// part cannot leave rules behind.
+const cssOnlyClasses = new Set()
 const componentSource = readdirSync('packages/ui/src')
   .filter((name) => /\.tsx?$/.test(name))
   .map((name) => readFileSync(`packages/ui/src/${name}`, 'utf8'))

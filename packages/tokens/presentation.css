@@ -402,6 +402,19 @@
   .pui-table[data-density='compact'] .pui-table-cell {
     padding: var(--space-1) var(--space-3);
   }
+  /* A bleeding container hangs by the cell inset, which density and size set; it
+     outranks the scroll root's own width cap. */
+  .pui-scroll-root.pui-table-bleed {
+    --table-bleed: var(--space-4);
+    max-inline-size: none;
+    margin-inline: calc(-1 * var(--table-bleed));
+  }
+  :where([data-ui-size], [data-ui-size] *).pui-scroll-root.pui-table-bleed {
+    --table-bleed: var(--ui-table-padding-x);
+  }
+  .pui-scroll-root.pui-table-bleed:has(.pui-table[data-density='compact']) {
+    --table-bleed: var(--space-3);
+  }
   .pui-table[data-density='compact'] .pui-table-sort {
     height: auto;
     min-height: 28px;

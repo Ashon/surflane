@@ -39,8 +39,17 @@ export type SelectOption = {
   label: React.ReactNode
   disabled?: boolean
 }
-export type SelectProps = {
+/** Options under a visible heading, like an HTML optgroup. */
+export type SelectGroup = {
+  label: React.ReactNode
   options: SelectOption[]
+}
+const isGroup = (item: SelectOption | SelectGroup): item is SelectGroup =>
+  'options' in item
+const flatten = (items: (SelectOption | SelectGroup)[]) =>
+  items.flatMap((item) => (isGroup(item) ? item.options : [item]))
+export type SelectProps = {
+  options: (SelectOption | SelectGroup)[]
   value?: string
   defaultValue?: string
   onValueChange?: (value: string) => void
@@ -58,18 +67,26 @@ export type SelectProps = {
   'aria-describedby'?: string
   'aria-invalid'?: React.AriaAttributes['aria-invalid']
 }
-export function Select({
-  options,
-  value,
-  defaultValue,
-  onValueChange,
-  className,
-  inputRef,
-  triggerRef,
-  size,
-  ...props
-}: SelectProps) {
+/** A single-choice list. The ref reaches the trigger button, as triggerRef does. */
+export const Select = /* @__PURE__ */ React.forwardRef<
+  HTMLButtonElement,
+  SelectProps
+>(function Select(
+  {
+    options: items,
+    value,
+    defaultValue,
+    onValueChange,
+    className,
+    inputRef,
+    triggerRef,
+    size,
+    ...props
+  },
+  ref,
+) {
   const scheme = useComponentSize(size)
+  const options = flatten(items)
   const [localValue, setLocalValue] = React.useState(
     defaultValue ?? options[0]?.value ?? '',
   )
@@ -125,7 +142,11 @@ export function Select({
       >
         <BaseSelect.Trigger
           {...aria}
-          ref={triggerRef}
+          ref={(node) => {
+            for (const target of [ref, triggerRef])
+              if (typeof target === 'function') target(node)
+              else if (target) target.current = node
+          }}
           className='pui-select-trigger form-control'
           data-value={selected}
         >
@@ -145,20 +166,18 @@ export function Select({
               data-ui-size={scheme}
             >
               <BaseSelect.List>
-                {options.map((o) => (
-                  <BaseSelect.Item
-                    className='pui-select-item'
-                    value={o.value}
-                    data-option-value={o.value}
-                    disabled={o.disabled}
-                    key={o.value}
-                  >
-                    <BaseSelect.ItemIndicator className='pui-select-check'>
-                      <Check />
-                    </BaseSelect.ItemIndicator>
-                    <BaseSelect.ItemText>{o.label}</BaseSelect.ItemText>
-                  </BaseSelect.Item>
-                ))}
+                {items.map((item, index) =>
+                  isGroup(item) ? (
+                    <BaseSelect.Group className='pui-select-group' key={index}>
+                      <BaseSelect.GroupLabel className='pui-select-group-label'>
+                        {item.label}
+                      </BaseSelect.GroupLabel>
+                      {item.options.map(renderOption)}
+                    </BaseSelect.Group>
+                  ) : (
+                    renderOption(item)
+                  ),
+                )}
               </BaseSelect.List>
             </BaseSelect.Popup>
           </BaseSelect.Positioner>
@@ -166,8 +185,24 @@ export function Select({
       </BaseSelect.Root>
     </span>
   )
+})
+function renderOption(option: SelectOption) {
+  return (
+    <BaseSelect.Item
+      className='pui-select-item'
+      value={option.value}
+      data-option-value={option.value}
+      disabled={option.disabled}
+      key={option.value}
+    >
+      <BaseSelect.ItemIndicator className='pui-select-check'>
+        <Check />
+      </BaseSelect.ItemIndicator>
+      <BaseSelect.ItemText>{option.label}</BaseSelect.ItemText>
+    </BaseSelect.Item>
+  )
 }
-function optionList(children: React.ReactNode): SelectOption[] {
+function optionList(children: React.ReactNode): (SelectOption | SelectGroup)[] {
   return React.Children.toArray(children).flatMap((child) => {
     if (
       !React.isValidElement<{
@@ -179,12 +214,10 @@ function optionList(children: React.ReactNode): SelectOption[] {
     )
       return []
     const p = child.props
-    if (
-      child.type === React.Fragment ||
-      child.type === 'optgroup' ||
-      child.type === NativeSelectOptGroup
-    )
-      return optionList(p.children)
+    if (child.type === React.Fragment) return optionList(p.children)
+    // An optgroup keeps its label as a visible group heading.
+    if (child.type === 'optgroup' || child.type === NativeSelectOptGroup)
+      return [{ label: p.label, options: flatten(optionList(p.children)) }]
     return [
       {
         value: String(p.value ?? p.children ?? ''),

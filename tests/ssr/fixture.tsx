@@ -76,6 +76,8 @@ import {
   TooltipProvider,
   iconNames,
   syntaxLanguages,
+  ChoiceLabel,
+  LinkButton,
 } from '@surflane/ui'
 import { Chart, type ChartDatum } from '@surflane/ui/chart'
 import {
@@ -216,6 +218,10 @@ function Controls() {
       <Button variant='destructive' size='small'>
         Release berth
       </Button>
+      <LinkButton variant='outline' href='/berths'>
+        Open berths
+      </LinkButton>
+      <Link render={<a href='/pilots' />}>Pilot roster</Link>
       <Input
         name='vessel'
         aria-label='Vessel name'
@@ -256,15 +262,19 @@ function Controls() {
           </Field.Root>
           <Field.Root name='notes'>
             <Field.Label>Notes</Field.Label>
-            <Field.Control render={<Textarea rows={3} />} />
+            <Textarea rows={3} />
           </Field.Root>
         </Fieldset.Root>
-        <label className='pui-choice-label'>
-          <Checkbox.Root name='tug' defaultChecked>
-            <Checkbox.Indicator />
-          </Checkbox.Root>
-          <span>Request a tug</span>
-        </label>
+        <ChoiceLabel
+          description='The harbour office confirms within an hour.'
+          control={
+            <Checkbox.Root name='tug' defaultChecked size='small'>
+              <Checkbox.Indicator />
+            </Checkbox.Root>
+          }
+        >
+          Request a tug
+        </ChoiceLabel>
         <CheckboxGroup
           allValues={['north', 'east']}
           defaultValue={['north']}

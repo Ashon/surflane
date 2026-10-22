@@ -42,6 +42,8 @@ const markers = {
     'pui-field',
     'pui-textarea',
     'pui-checkbox',
+    'pui-choice-label',
+    'pui-choice-description',
     'pui-radio',
     'pui-switch',
     'pui-number-field',
