@@ -1,34 +1,9 @@
 import React, { useState } from 'react'
-import {
-  NavigationMenu,
-  Checkbox,
-  DirectionProvider,
-  ChoiceLabel,
-} from '@surflane/ui'
+import { NavigationMenu, DirectionProvider } from '@surflane/ui'
+import { Flag } from './Flag'
 import { withBase } from './router'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/NavigationMenuExample'
-function Flag({
-  checked,
-  onChange,
-  children,
-}: {
-  checked: boolean
-  onChange: (value: boolean) => void
-  children: React.ReactNode
-}) {
-  return (
-    <ChoiceLabel
-      control={
-        <Checkbox.Root checked={checked} onCheckedChange={onChange}>
-          <Checkbox.Indicator />
-        </Checkbox.Root>
-      }
-    >
-      {children}
-    </ChoiceLabel>
-  )
-}
 export function NavigationMenuExample() {
   const t = text[useLocale().locale]
   const [value, setValue] = useState<'products' | 'learn' | null>(null)

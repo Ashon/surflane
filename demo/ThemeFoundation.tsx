@@ -9,7 +9,6 @@ import {
   Input,
   PageHeader,
   SizeProvider,
-  Slider,
   StatusBadge,
   Switch,
   Table,
@@ -28,6 +27,7 @@ import {
   type Theme,
 } from '@surflane/design-tokens/theme-builder'
 import { useLocale } from './i18n'
+import { SliderField } from './SliderField'
 import { text } from './i18n/pages/ThemeFoundation'
 
 type Copy = (typeof text)['en']
@@ -47,42 +47,6 @@ const defaults: Inputs = {
 // The default slate keeps each step's own hue; the slider starts at its average.
 const slateHue = 248
 const accentLightness = 0.82
-function SliderField({
-  label,
-  value,
-  min,
-  max,
-  step,
-  format,
-  onChange,
-}: {
-  label: string
-  value: number
-  min: number
-  max: number
-  step: number
-  format: (value: number) => string
-  onChange: (value: number) => void
-}) {
-  return (
-    <Slider.Root
-      value={value}
-      min={min}
-      max={max}
-      step={step}
-      onValueChange={(next) => onChange(Array.isArray(next) ? next[0] : next)}
-    >
-      <Slider.Label>{label}</Slider.Label>
-      <Slider.Value>{(_, values) => format(values[0])}</Slider.Value>
-      <Slider.Control>
-        <Slider.Track>
-          <Slider.Indicator />
-        </Slider.Track>
-        <Slider.Thumb getAriaValueText={(_, next) => format(next)} />
-      </Slider.Control>
-    </Slider.Root>
-  )
-}
 function Presets<Name extends string>({
   label,
   names,

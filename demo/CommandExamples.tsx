@@ -6,10 +6,9 @@ import {
   Menubar,
   Menu,
   Button,
-  Checkbox,
   DirectionProvider,
-  ChoiceLabel,
 } from '@surflane/ui'
+import { Flag } from './Flag'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/CommandExamples'
 export { commandExampleIds } from './exampleGroups'
@@ -36,27 +35,6 @@ function Glyph({ kind }: { kind: 'pin' | 'refresh' | 'list' | 'grid' }) {
         }
       />
     </svg>
-  )
-}
-function Flag({
-  checked,
-  onChange,
-  children,
-}: {
-  checked: boolean
-  onChange: (v: boolean) => void
-  children: React.ReactNode
-}) {
-  return (
-    <ChoiceLabel
-      control={
-        <Checkbox.Root checked={checked} onCheckedChange={onChange}>
-          <Checkbox.Indicator />
-        </Checkbox.Root>
-      }
-    >
-      {children}
-    </ChoiceLabel>
   )
 }
 export function CommandExample({ id }: { id: string }) {

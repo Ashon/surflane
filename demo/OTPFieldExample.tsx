@@ -1,36 +1,8 @@
 import React, { useState } from 'react'
-import {
-  OTPField,
-  Field,
-  Form,
-  Button,
-  Checkbox,
-  DirectionProvider,
-  ChoiceLabel,
-} from '@surflane/ui'
+import { OTPField, Field, Form, Button, DirectionProvider } from '@surflane/ui'
+import { Flag } from './Flag'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/OTPFieldExample'
-function Flag({
-  checked,
-  onChange,
-  children,
-}: {
-  checked: boolean
-  onChange: (value: boolean) => void
-  children: React.ReactNode
-}) {
-  return (
-    <ChoiceLabel
-      control={
-        <Checkbox.Root checked={checked} onCheckedChange={onChange}>
-          <Checkbox.Indicator />
-        </Checkbox.Root>
-      }
-    >
-      {children}
-    </ChoiceLabel>
-  )
-}
 function Slots({
   prefix,
   grouped = false,

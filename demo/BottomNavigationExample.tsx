@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import {
   BottomNavigation,
-  Checkbox,
-  ChoiceLabel,
   DirectionProvider,
   Heading,
   Icon,
@@ -10,29 +8,9 @@ import {
   ScrollArea,
   type IconName,
 } from '@surflane/ui'
+import { Flag } from './Flag'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/BottomNavigationExample'
-function Flag({
-  checked,
-  onChange,
-  children,
-}: {
-  checked: boolean
-  onChange: (value: boolean) => void
-  children: React.ReactNode
-}) {
-  return (
-    <ChoiceLabel
-      control={
-        <Checkbox.Root checked={checked} onCheckedChange={onChange}>
-          <Checkbox.Indicator />
-        </Checkbox.Root>
-      }
-    >
-      {children}
-    </ChoiceLabel>
-  )
-}
 type Destination = 'runs' | 'schedule' | 'activity' | 'account'
 const icons: Record<Destination, IconName> = {
   runs: 'play',

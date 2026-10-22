@@ -1,35 +1,8 @@
 import React, { useState } from 'react'
-import {
-  FileUpload,
-  Form,
-  Button,
-  Checkbox,
-  type UploadTransport,
-  ChoiceLabel,
-} from '@surflane/ui'
+import { FileUpload, Form, Button, type UploadTransport } from '@surflane/ui'
+import { Flag } from './Flag'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/FileUploadExample'
-function Flag({
-  checked,
-  onChange,
-  children,
-}: {
-  checked: boolean
-  onChange: (value: boolean) => void
-  children: React.ReactNode
-}) {
-  return (
-    <ChoiceLabel
-      control={
-        <Checkbox.Root checked={checked} onCheckedChange={onChange}>
-          <Checkbox.Indicator />
-        </Checkbox.Root>
-      }
-    >
-      {children}
-    </ChoiceLabel>
-  )
-}
 export function FileUploadExample() {
   const t = text[useLocale().locale]
   const [disabled, setDisabled] = useState(false),
