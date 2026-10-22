@@ -13,8 +13,9 @@ import {
   YAxis,
   type DotProps,
 } from 'recharts'
-import { Table } from './data.js'
+import { Table } from './table.js'
 import { Button } from './button.js'
+import { cx } from './parts.js'
 
 export type ChartDatum = {
   id: string
@@ -231,7 +232,7 @@ export const Chart = /* @__PURE__ */ React.forwardRef<HTMLElement, ChartProps>(
       <figure
         {...props}
         ref={ref}
-        className={['pui-chart', className].filter(Boolean).join(' ')}
+        className={cx('pui-chart', className)}
         aria-labelledby={`${id}-title`}
       >
         <figcaption className='pui-chart-caption'>

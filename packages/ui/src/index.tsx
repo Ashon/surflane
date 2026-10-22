@@ -1,9 +1,10 @@
 'use client'
-export {
-  SizeProvider,
-  type ComponentSize,
-  type ComponentSizeAlias,
-} from './sizing.js'
+// One entry per catalog page: each module is also its own entry point, such as
+// @surflane/ui/checkbox. Chart, DatePicker, Markdown, Tree and syntax highlighting
+// need optional packages, so they live only on their own entry points:
+// @surflane/ui/chart, /date-picker, /markdown, /tree and /syntax-highlighting.
+
+// Actions
 export {
   Button,
   type ButtonVariant,
@@ -12,17 +13,144 @@ export {
   LinkButton,
   type LinkButtonProps,
 } from './button.js'
-export { Slot } from './slot.js'
+export {
+  Toolbar,
+  ToolbarButton,
+  ToolbarGroup,
+  ToolbarInput,
+  ToolbarLink,
+  ToolbarRoot,
+  ToolbarSeparator,
+} from './toolbar.js'
+
+// Forms
 export { Input } from './input.js'
 export {
   Select,
-  NativeSelect,
-  NativeSelectOption,
-  NativeSelectOptGroup,
   type SelectOption,
   type SelectGroup,
   type SelectProps,
 } from './select.js'
+export {
+  NativeSelect,
+  NativeSelectOption,
+  NativeSelectOptGroup,
+} from './native-select.js'
+export {
+  Field,
+  FieldControl,
+  FieldDescription,
+  FieldError,
+  FieldItem,
+  FieldLabel,
+  FieldRoot,
+  FieldValidity,
+} from './field.js'
+export { Fieldset, FieldsetLegend, FieldsetRoot } from './fieldset.js'
+export { Form } from './form.js'
+export { Textarea } from './textarea.js'
+export {
+  Combobox,
+  ComboboxArrow,
+  ComboboxBackdrop,
+  ComboboxChip,
+  ComboboxChipRemove,
+  ComboboxChips,
+  ComboboxClear,
+  ComboboxCollection,
+  ComboboxEmpty,
+  ComboboxGroup,
+  ComboboxGroupLabel,
+  ComboboxIcon,
+  ComboboxInput,
+  ComboboxInputGroup,
+  ComboboxItem,
+  ComboboxItemIndicator,
+  ComboboxLabel,
+  ComboboxList,
+  ComboboxPopup,
+  ComboboxPortal,
+  ComboboxPositioner,
+  ComboboxRoot,
+  ComboboxRow,
+  ComboboxSeparator,
+  ComboboxStatus,
+  ComboboxTrigger,
+  ComboboxValue,
+  ComboboxContent,
+} from './combobox.js'
+export {
+  Autocomplete,
+  AutocompleteArrow,
+  AutocompleteBackdrop,
+  AutocompleteClear,
+  AutocompleteCollection,
+  AutocompleteEmpty,
+  AutocompleteGroup,
+  AutocompleteGroupLabel,
+  AutocompleteIcon,
+  AutocompleteInput,
+  AutocompleteInputGroup,
+  AutocompleteItem,
+  AutocompleteList,
+  AutocompletePopup,
+  AutocompletePortal,
+  AutocompletePositioner,
+  AutocompleteRoot,
+  AutocompleteRow,
+  AutocompleteSeparator,
+  AutocompleteStatus,
+  AutocompleteTrigger,
+  AutocompleteValue,
+  AutocompleteContent,
+} from './autocomplete.js'
+export {
+  NumberField,
+  NumberFieldDecrement,
+  NumberFieldGroup,
+  NumberFieldIncrement,
+  NumberFieldInput,
+  NumberFieldRoot,
+  NumberFieldScrubArea,
+  NumberFieldScrubAreaCursor,
+} from './number-field.js'
+export {
+  Slider,
+  SliderControl,
+  SliderIndicator,
+  SliderLabel,
+  SliderRoot,
+  SliderThumb,
+  SliderTrack,
+  SliderValue,
+} from './slider.js'
+export {
+  OTPField,
+  OTPFieldInput,
+  OTPFieldRoot,
+  OTPFieldSeparator,
+  OTPFieldGroup,
+} from './otp-field.js'
+export {
+  FileUpload,
+  type FileUploadProps,
+  type UploadTransport,
+  type FileUploadLabels,
+  type FileChangeDetails,
+  type FileRejection,
+  type UploadState,
+} from './file-upload.js'
+
+// Selection
+export { Checkbox, CheckboxIndicator, CheckboxRoot } from './checkbox.js'
+export { CheckboxGroup } from './checkbox-group.js'
+export { Radio, RadioGroup, RadioIndicator, RadioRoot } from './radio-group.js'
+export { Switch, SwitchRoot, SwitchThumb } from './switch.js'
+export { Toggle } from './toggle.js'
+export { ToggleGroup } from './toggle-group.js'
+export { ChoiceLabel, type ChoiceLabelProps } from './choice-label.js'
+
+// Overlays
 export {
   Popover,
   PopoverArrow,
@@ -39,39 +167,6 @@ export {
   PopoverViewport,
   PopoverContent,
 } from './popover.js'
-export { Tooltip, TooltipProvider } from './tooltip.js'
-export {
-  Dialog,
-  AlertDialog,
-  DialogBackdrop,
-  DialogClose,
-  DialogDescription,
-  DialogHandle,
-  DialogPopup,
-  DialogPortal,
-  DialogRoot,
-  DialogTitle,
-  DialogTrigger,
-  DialogViewport,
-  DialogContent,
-  DialogHeader,
-  DialogBody,
-  DialogFooter,
-  DialogCloseButton,
-  AlertDialogBackdrop,
-  AlertDialogClose,
-  AlertDialogDescription,
-  AlertDialogHandle,
-  AlertDialogPopup,
-  AlertDialogPortal,
-  AlertDialogRoot,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-  AlertDialogViewport,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogFooter,
-} from './dialog.js'
 export {
   Menu,
   MenuArrow,
@@ -102,302 +197,8 @@ export {
   MenuViewport,
   MenuContent,
 } from './menu.js'
-export { ScrollArea } from './scroll-area.js'
-export {
-  Sheet,
-  Drawer,
-  type PanelSide,
-  SheetBackdrop,
-  SheetClose,
-  SheetDescription,
-  SheetHandle,
-  SheetPopup,
-  SheetPortal,
-  SheetRoot,
-  SheetTitle,
-  SheetTrigger,
-  SheetViewport,
-  SheetContent,
-  SheetHeader,
-  SheetBody,
-  SheetFooter,
-  DrawerBackdrop,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHandle,
-  DrawerIndent,
-  DrawerIndentBackground,
-  DrawerPopup,
-  DrawerPortal,
-  DrawerProvider,
-  DrawerRoot,
-  DrawerSwipeArea,
-  DrawerTitle,
-  DrawerTrigger,
-  DrawerViewport,
-  DrawerVirtualKeyboardProvider,
-  DrawerPrimitiveContent,
-  DrawerHeader,
-  DrawerBody,
-  DrawerFooter,
-} from './panels.js'
-export {
-  Container,
-  Stack,
-  Inline,
-  Grid,
-  GridItem,
-  Surface,
-  type SurfaceKind,
-  Heading,
-  Text,
-  PageHeader,
-  Prose,
-  type Space,
-} from './foundations.js'
-
-export {
-  Field,
-  Fieldset,
-  Form,
-  Textarea,
-  Checkbox,
-  CheckboxGroup,
-  Radio,
-  RadioGroup,
-  Switch,
-  ChoiceLabel,
-  type ChoiceLabelProps,
-  FieldControl,
-  FieldDescription,
-  FieldError,
-  FieldItem,
-  FieldLabel,
-  FieldRoot,
-  FieldValidity,
-  FieldsetLegend,
-  FieldsetRoot,
-  CheckboxIndicator,
-  CheckboxRoot,
-  RadioIndicator,
-  RadioRoot,
-  SwitchRoot,
-  SwitchThumb,
-} from './forms.js'
-
-export {
-  Tabs,
-  TabsIndicator,
-  TabsList,
-  TabsPanel,
-  TabsRoot,
-  TabsTab,
-} from './tabs.js'
-export {
-  Accordion,
-  Collapsible,
-  AccordionHeader,
-  AccordionItem,
-  AccordionPanel,
-  AccordionRoot,
-  AccordionTrigger,
-  CollapsiblePanel,
-  CollapsibleRoot,
-  CollapsibleTrigger,
-} from './disclosure.js'
-export {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  AvatarRoot,
-  AvatarStatus,
-} from './avatar.js'
-export {
-  Separator,
-  Link,
-  type LinkProps,
-  Breadcrumbs,
-  BreadcrumbsRoot,
-  BreadcrumbsList,
-  BreadcrumbsItem,
-  BreadcrumbsLink,
-  BreadcrumbsSeparator,
-  BreadcrumbsCurrent,
-} from './navigation.js'
-export {
-  Badge,
-  StatusBadge,
-  type BadgeProps,
-  type StatusTone,
-} from './status.js'
-
-export {
-  Progress,
-  Meter,
-  Spinner,
-  Skeleton,
-  type SpinnerProps,
-  type SkeletonProps,
-  ProgressIndicator,
-  ProgressLabel,
-  ProgressRoot,
-  ProgressTrack,
-  ProgressValue,
-  MeterIndicator,
-  MeterLabel,
-  MeterRoot,
-  MeterTrack,
-  MeterValue,
-} from './feedback.js'
-
-export {
-  Table,
-  List,
-  TableContainer,
-  TableRoot,
-  TableCaption,
-  TableHead,
-  TableBody,
-  TableFoot,
-  TableRow,
-  TableHeaderCell,
-  TableSortHeader,
-  TableCell,
-  TableTruncate,
-  TableMessage,
-  ListRoot,
-  ListItem,
-  ListContent,
-  ListTitle,
-  ListDescription,
-  ListActions,
-  type TableDensity,
-  type TableSort,
-} from './data.js'
-export {
-  useTableSelection,
-  type TableSelectionOptions,
-  type TableSelectionCheckbox,
-} from './table-selection.js'
-export {
-  InlineMessage,
-  EmptyState,
-  InlineMessageRoot,
-  InlineMessageIcon,
-  InlineMessageContent,
-  InlineMessageTitle,
-  InlineMessageDescription,
-  InlineMessageActions,
-  EmptyStateRoot,
-  EmptyStateIcon,
-  EmptyStateTitle,
-  EmptyStateDescription,
-  EmptyStateActions,
-} from './messages.js'
-
-export {
-  Card,
-  CodeBlock,
-  type CodeBlockProps,
-  CardRoot,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardBody,
-  CardFooter,
-} from './content.js'
-export { Pagination, type PaginationProps } from './pagination.js'
-
-export {
-  Combobox,
-  NumberField,
-  ComboboxArrow,
-  ComboboxBackdrop,
-  ComboboxChip,
-  ComboboxChipRemove,
-  ComboboxChips,
-  ComboboxClear,
-  ComboboxCollection,
-  ComboboxEmpty,
-  ComboboxGroup,
-  ComboboxGroupLabel,
-  ComboboxIcon,
-  ComboboxInput,
-  ComboboxInputGroup,
-  ComboboxItem,
-  ComboboxItemIndicator,
-  ComboboxLabel,
-  ComboboxList,
-  ComboboxPopup,
-  ComboboxPortal,
-  ComboboxPositioner,
-  ComboboxRoot,
-  ComboboxRow,
-  ComboboxSeparator,
-  ComboboxStatus,
-  ComboboxTrigger,
-  ComboboxValue,
-  ComboboxContent,
-  NumberFieldDecrement,
-  NumberFieldGroup,
-  NumberFieldIncrement,
-  NumberFieldInput,
-  NumberFieldRoot,
-  NumberFieldScrubArea,
-  NumberFieldScrubAreaCursor,
-} from './advanced-forms.js'
-
-export {
-  Autocomplete,
-  Slider,
-  AutocompleteArrow,
-  AutocompleteBackdrop,
-  AutocompleteClear,
-  AutocompleteCollection,
-  AutocompleteEmpty,
-  AutocompleteGroup,
-  AutocompleteGroupLabel,
-  AutocompleteIcon,
-  AutocompleteInput,
-  AutocompleteInputGroup,
-  AutocompleteItem,
-  AutocompleteList,
-  AutocompletePopup,
-  AutocompletePortal,
-  AutocompletePositioner,
-  AutocompleteRoot,
-  AutocompleteRow,
-  AutocompleteSeparator,
-  AutocompleteStatus,
-  AutocompleteTrigger,
-  AutocompleteValue,
-  AutocompleteContent,
-  SliderControl,
-  SliderIndicator,
-  SliderLabel,
-  SliderRoot,
-  SliderThumb,
-  SliderTrack,
-  SliderValue,
-} from './input-extensions.js'
-export { DirectionProvider } from '@base-ui/react/direction-provider'
-
-export {
-  Toggle,
-  ToggleGroup,
-  Toolbar,
-  Menubar,
-  ToolbarButton,
-  ToolbarGroup,
-  ToolbarInput,
-  ToolbarLink,
-  ToolbarRoot,
-  ToolbarSeparator,
-} from './commands.js'
 export {
   ContextMenu,
-  PreviewCard,
   ContextMenuArrow,
   ContextMenuBackdrop,
   ContextMenuCheckboxItem,
@@ -418,6 +219,10 @@ export {
   ContextMenuSubmenuTrigger,
   ContextMenuTrigger,
   ContextMenuContent,
+} from './context-menu.js'
+export { Tooltip, TooltipProvider } from './tooltip.js'
+export {
+  PreviewCard,
   PreviewCardArrow,
   PreviewCardBackdrop,
   PreviewCardHandle,
@@ -428,7 +233,106 @@ export {
   PreviewCardTrigger,
   PreviewCardViewport,
   PreviewCardContent,
-} from './context-overlays.js'
+} from './preview-card.js'
+export {
+  Dialog,
+  DialogBackdrop,
+  DialogClose,
+  DialogDescription,
+  DialogHandle,
+  DialogPopup,
+  DialogPortal,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  DialogViewport,
+  DialogContent,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+  DialogCloseButton,
+} from './dialog.js'
+export {
+  AlertDialog,
+  AlertDialogBackdrop,
+  AlertDialogClose,
+  AlertDialogDescription,
+  AlertDialogHandle,
+  AlertDialogPopup,
+  AlertDialogPortal,
+  AlertDialogRoot,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  AlertDialogViewport,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+} from './alert-dialog.js'
+export {
+  Sheet,
+  SheetBackdrop,
+  SheetClose,
+  SheetDescription,
+  SheetHandle,
+  SheetPopup,
+  SheetPortal,
+  SheetRoot,
+  SheetTitle,
+  SheetTrigger,
+  SheetViewport,
+  SheetContent,
+  SheetHeader,
+  SheetBody,
+  SheetFooter,
+  type PanelSide,
+} from './sheet.js'
+export {
+  Drawer,
+  DrawerBackdrop,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHandle,
+  DrawerIndent,
+  DrawerIndentBackground,
+  DrawerPopup,
+  DrawerPortal,
+  DrawerProvider,
+  DrawerRoot,
+  DrawerSwipeArea,
+  DrawerTitle,
+  DrawerTrigger,
+  DrawerViewport,
+  DrawerVirtualKeyboardProvider,
+  DrawerPrimitiveContent,
+  DrawerHeader,
+  DrawerBody,
+  DrawerFooter,
+} from './drawer.js'
+
+// Navigation
+export {
+  Tabs,
+  TabsIndicator,
+  TabsList,
+  TabsPanel,
+  TabsRoot,
+  TabsTab,
+} from './tabs.js'
+export {
+  Accordion,
+  AccordionHeader,
+  AccordionItem,
+  AccordionPanel,
+  AccordionRoot,
+  AccordionTrigger,
+} from './accordion.js'
+export {
+  Collapsible,
+  CollapsiblePanel,
+  CollapsibleRoot,
+  CollapsibleTrigger,
+} from './collapsible.js'
 export {
   NavigationMenu,
   NavigationMenuArrow,
@@ -445,13 +349,99 @@ export {
   NavigationMenuTrigger,
   NavigationMenuViewport,
 } from './navigation-menu.js'
+export { Menubar } from './menubar.js'
+export { Link, type LinkProps } from './link.js'
 export {
-  OTPField,
-  OTPFieldInput,
-  OTPFieldRoot,
-  OTPFieldSeparator,
-  OTPFieldGroup,
-} from './otp-field.js'
+  Breadcrumbs,
+  BreadcrumbsRoot,
+  BreadcrumbsList,
+  BreadcrumbsItem,
+  BreadcrumbsLink,
+  BreadcrumbsSeparator,
+  BreadcrumbsCurrent,
+} from './breadcrumbs.js'
+export { Pagination, type PaginationProps } from './pagination.js'
+
+// Data display
+export {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  AvatarRoot,
+  AvatarStatus,
+} from './avatar.js'
+export {
+  Badge,
+  StatusBadge,
+  type BadgeProps,
+  type StatusTone,
+} from './badge.js'
+export {
+  Card,
+  CardRoot,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardBody,
+  CardFooter,
+} from './card.js'
+export {
+  Table,
+  TableContainer,
+  TableRoot,
+  TableCaption,
+  TableHead,
+  TableBody,
+  TableFoot,
+  TableRow,
+  TableHeaderCell,
+  TableSortHeader,
+  TableCell,
+  TableTruncate,
+  TableMessage,
+  type TableDensity,
+  type TableSort,
+  useTableSelection,
+  type TableSelectionOptions,
+  type TableSelectionCheckbox,
+} from './table.js'
+export { CodeBlock, type CodeBlockProps } from './code.js'
+export {
+  SyntaxHighlighter,
+  syntaxLanguages,
+  type SyntaxHighlighterProps,
+} from './syntax-highlighter.js'
+export {
+  List,
+  ListRoot,
+  ListItem,
+  ListContent,
+  ListTitle,
+  ListDescription,
+  ListActions,
+} from './list.js'
+
+// Structure
+export { ScrollArea } from './scroll-area.js'
+export { Separator } from './separator.js'
+
+// Feedback
+export {
+  Progress,
+  ProgressIndicator,
+  ProgressLabel,
+  ProgressRoot,
+  ProgressTrack,
+  ProgressValue,
+} from './progress.js'
+export {
+  Meter,
+  MeterIndicator,
+  MeterLabel,
+  MeterRoot,
+  MeterTrack,
+  MeterValue,
+} from './meter.js'
 export {
   Toast,
   type ToastRootProps,
@@ -471,23 +461,47 @@ export {
   ToastText,
 } from './toast.js'
 export {
-  FileUpload,
-  type FileUploadProps,
-  type UploadTransport,
-  type FileUploadLabels,
-  type FileChangeDetails,
-  type FileRejection,
-  type UploadState,
-} from './file-upload.js'
+  InlineMessage,
+  InlineMessageRoot,
+  InlineMessageIcon,
+  InlineMessageContent,
+  InlineMessageTitle,
+  InlineMessageDescription,
+  InlineMessageActions,
+} from './inline-message.js'
+export { Spinner, type SpinnerProps } from './spinner.js'
+export { Skeleton, type SkeletonProps } from './skeleton.js'
+export {
+  EmptyState,
+  EmptyStateRoot,
+  EmptyStateIcon,
+  EmptyStateTitle,
+  EmptyStateDescription,
+  EmptyStateActions,
+} from './empty-state.js'
+
+// Foundations
+export {
+  Container,
+  Stack,
+  Inline,
+  Grid,
+  GridItem,
+  Surface,
+  type SurfaceKind,
+  type Space,
+} from './layout.js'
+export { Heading, Text, Prose } from './typography.js'
 export { Icon, iconNames, type IconName, type IconProps } from './icon.js'
 export {
-  FilterBar,
-  FilterBarRoot,
-  FilterBarControls,
-  FilterBarField,
-  FilterBarActions,
-  FilterBarSummary,
-} from './filter-bar.js'
+  SizeProvider,
+  type ComponentSize,
+  type ComponentSizeAlias,
+} from './sizing.js'
+export { DirectionProvider } from '@base-ui/react/direction-provider'
+export { Slot } from './slot.js'
+
+// Patterns
 export {
   AppShell,
   AppShellRoot,
@@ -499,11 +513,12 @@ export {
   AppShellLabel,
   AppShellLink,
 } from './app-shell.js'
-// Chart, DatePicker, Markdown, Tree and syntax highlighting need optional packages, so
-// they live on their own entry points: @surflane/ui/chart, /date-picker, /markdown, /tree
-// and /syntax-highlighting.
+export { PageHeader } from './page-header.js'
 export {
-  SyntaxHighlighter,
-  syntaxLanguages,
-  type SyntaxHighlighterProps,
-} from './syntax-highlighter.js'
+  FilterBar,
+  FilterBarRoot,
+  FilterBarControls,
+  FilterBarField,
+  FilterBarActions,
+  FilterBarSummary,
+} from './filter-bar.js'

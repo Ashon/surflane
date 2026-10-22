@@ -1,8 +1,9 @@
 'use client'
 import * as React from 'react'
+import { Icon } from './icon.js'
 import { useComponentSize } from './sizing.js'
 import { Toast as BaseToast } from '@base-ui/react/toast'
-import { part, skin } from './parts.js'
+import { part, skin, cx } from './parts.js'
 import { StatusIcon, type StatusTone } from './status.js'
 const ToneContext = /* @__PURE__ */ React.createContext<StatusTone>('neutral')
 export type ToastRootProps = React.ComponentPropsWithoutRef<
@@ -22,17 +23,17 @@ const Root = /* @__PURE__ */ React.forwardRef<HTMLDivElement, ToastRootProps>(
     )
   },
 )
-const Icon = /* @__PURE__ */ React.forwardRef<
+const ToneIcon = /* @__PURE__ */ React.forwardRef<
   HTMLSpanElement,
   React.ComponentPropsWithoutRef<'span'> & { tone?: StatusTone }
->(function Icon({ tone, children, className, ...props }, ref) {
+>(function ToastIcon({ tone, children, className, ...props }, ref) {
   const inherited = React.useContext(ToneContext)
   return (
     <span
       {...props}
       ref={ref}
       aria-hidden='true'
-      className={['pui-toast-icon', className].filter(Boolean).join(' ')}
+      className={cx('pui-toast-icon', className)}
     >
       {children ?? <StatusIcon tone={tone ?? inherited} />}
     </span>
@@ -53,19 +54,7 @@ const Close = /* @__PURE__ */ React.forwardRef<
       ref={ref}
       className={skin('pui-button pui-toast-close', className)}
     >
-      {children ?? (
-        <svg
-          width='16'
-          height='16'
-          viewBox='0 0 24 24'
-          fill='none'
-          stroke='currentColor'
-          strokeWidth='1.6'
-          aria-hidden='true'
-        >
-          <path d='m6 6 12 12M18 6 6 18' />
-        </svg>
-      )}
+      {children ?? <Icon name='close' />}
     </BaseToast.Close>
   )
 })
@@ -174,7 +163,7 @@ const Viewport = /* @__PURE__ */ React.forwardRef<
 export const Toast = {
   ...BaseToast,
   Root,
-  Icon,
+  Icon: ToneIcon,
   Close,
   Action,
   Viewport,
@@ -197,7 +186,7 @@ export const Toast = {
   Positioner: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseToast.Positioner>
-  >(BaseToast.Positioner, 'pui-positioner'),
+  >(BaseToast.Positioner, 'pui-positioner', { portal: true }),
 }
 
 // Flat names for React Server Components, which cannot dot into client exports.

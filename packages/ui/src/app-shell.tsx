@@ -1,7 +1,6 @@
 'use client'
 import * as React from 'react'
-const skin = (base: string, extra?: string) =>
-  [base, extra].filter(Boolean).join(' ')
+import { cx } from './parts.js'
 /** Layout only. Routing, session, theme and mobile disclosure belong to the caller. */
 const Root = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
@@ -19,7 +18,7 @@ const Root = /* @__PURE__ */ React.forwardRef<
       ref={ref}
       data-layout={layout}
       data-sidebar={collapsed ? 'collapsed' : 'expanded'}
-      className={skin('pui-app-shell', className)}
+      className={cx('pui-app-shell', className)}
     />
   )
 })
@@ -31,7 +30,7 @@ const Header = /* @__PURE__ */ React.forwardRef<
     <div
       {...props}
       ref={ref}
-      className={skin('pui-app-shell-header', className)}
+      className={cx('pui-app-shell-header', className)}
     />
   )
 })
@@ -43,7 +42,7 @@ const Sidebar = /* @__PURE__ */ React.forwardRef<
     <aside
       {...props}
       ref={ref}
-      className={skin('pui-app-shell-sidebar', className)}
+      className={cx('pui-app-shell-sidebar', className)}
     />
   )
 })
@@ -55,7 +54,7 @@ const Content = /* @__PURE__ */ React.forwardRef<
     <div
       {...props}
       ref={ref}
-      className={skin('pui-app-shell-content', className)}
+      className={cx('pui-app-shell-content', className)}
     />
   )
 })
@@ -68,11 +67,7 @@ const Page = /* @__PURE__ */ React.forwardRef<
   React.ComponentPropsWithoutRef<'div'>
 >(function AppShellPage({ className, ...props }, ref) {
   return (
-    <div
-      {...props}
-      ref={ref}
-      className={skin('pui-app-shell-page', className)}
-    />
+    <div {...props} ref={ref} className={cx('pui-app-shell-page', className)} />
   )
 })
 const Footer = /* @__PURE__ */ React.forwardRef<
@@ -83,7 +78,7 @@ const Footer = /* @__PURE__ */ React.forwardRef<
     <div
       {...props}
       ref={ref}
-      className={skin('pui-app-shell-footer', className)}
+      className={cx('pui-app-shell-footer', className)}
     />
   )
 })
@@ -95,7 +90,7 @@ const Label = /* @__PURE__ */ React.forwardRef<
     <span
       {...props}
       ref={ref}
-      className={skin('pui-app-shell-label', className)}
+      className={cx('pui-app-shell-label', className)}
     />
   )
 })
@@ -111,7 +106,7 @@ const Link = /* @__PURE__ */ React.forwardRef<
       {...props}
       ref={ref}
       aria-label={props['aria-label'] ?? label}
-      className={skin('pui-app-shell-link', className)}
+      className={cx('pui-app-shell-link', className)}
     >
       <span className='pui-app-shell-icon' aria-hidden='true'>
         {icon}

@@ -3,6 +3,7 @@ import * as React from 'react'
 import { ScrollArea } from './scroll-area.js'
 import { SyntaxEngineContext } from './syntax-context.js'
 import type { SyntaxToken } from './syntax-engine.js'
+import { cx } from './parts.js'
 export const syntaxLanguages = [
   'tsx',
   'jsx',
@@ -96,7 +97,7 @@ export const SyntaxHighlighter = /* @__PURE__ */ React.forwardRef<
     <code
       {...props}
       ref={ref}
-      className={['pui-syntax', className].filter(Boolean).join(' ')}
+      className={cx('pui-syntax', className)}
       data-language={lang}
       data-highlighted={valid ? 'true' : 'false'}
     >

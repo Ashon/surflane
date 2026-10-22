@@ -1,8 +1,8 @@
 'use client'
 import * as React from 'react'
+import { cx } from './parts.js'
 import { useComponentSize, type ComponentSizeAlias } from './sizing.js'
 import { Input as BaseInput } from '@base-ui/react/input'
-const cx = (...v: (string | undefined | false)[]) => v.filter(Boolean).join(' ')
 export const Input = /* @__PURE__ */ React.forwardRef<
   HTMLInputElement,
   Omit<React.ComponentPropsWithoutRef<'input'>, 'size'> & {
@@ -23,7 +23,7 @@ export const Input = /* @__PURE__ */ React.forwardRef<
       data-disabled={props.disabled || undefined}
     >
       {leadingIcon && (
-        <span className='pui-control-icon control-icon' aria-hidden='true'>
+        <span className='pui-control-icon' aria-hidden='true'>
           {leadingIcon}
         </span>
       )}

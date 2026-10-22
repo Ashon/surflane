@@ -1,7 +1,8 @@
 'use client'
 import * as React from 'react'
+import { Icon } from './icon.js'
 import { Button } from './button.js'
-import { part } from './parts.js'
+import { part, cx } from './parts.js'
 import { ScrollArea } from './scroll-area.js'
 
 const TableContainer = /* @__PURE__ */ React.forwardRef<
@@ -17,9 +18,7 @@ const TableContainer = /* @__PURE__ */ React.forwardRef<
     <ScrollArea
       {...props}
       ref={ref}
-      rootClassName={[bleed && 'pui-table-bleed', rootClassName]
-        .filter(Boolean)
-        .join(' ')}
+      rootClassName={cx(bleed && 'pui-table-bleed', rootClassName)}
     />
   )
 })
@@ -80,28 +79,16 @@ const TableCell = /* @__PURE__ */ React.forwardRef<
 export type TableSort = 'ascending' | 'descending'
 function SortIcon({ sort }: { sort?: TableSort }) {
   return (
-    <svg
+    <Icon
+      name={
+        sort === 'ascending'
+          ? 'arrow-up'
+          : sort === 'descending'
+            ? 'arrow-down'
+            : 'sort'
+      }
       className='pui-table-sort-icon'
-      width='16'
-      height='16'
-      viewBox='0 0 24 24'
-      fill='none'
-      stroke='currentColor'
-      strokeWidth='1.6'
-      strokeLinecap='round'
-      strokeLinejoin='round'
-      aria-hidden='true'
-    >
-      <path
-        d={
-          sort === 'ascending'
-            ? 'M12 19V5m-6 6 6-6 6 6'
-            : sort === 'descending'
-              ? 'M12 5v14m-6-6 6 6 6-6'
-              : 'm8 9 4-4 4 4m-8 6 4 4 4-4'
-        }
-      />
-    </svg>
+    />
   )
 }
 /** A column header whose button sorts the column. aria-sort names the order on the sorted column only. */
@@ -125,7 +112,7 @@ const TableSortHeader = /* @__PURE__ */ React.forwardRef<
       ref={ref}
       scope='col'
       aria-sort={sort}
-      className={['pui-table-sort-header', className].filter(Boolean).join(' ')}
+      className={cx('pui-table-sort-header', className)}
     >
       <Button
         variant='ghost'
@@ -150,7 +137,7 @@ const TableTruncate = /* @__PURE__ */ React.forwardRef<
       {...props}
       ref={ref}
       title={title ?? (typeof children === 'string' ? children : undefined)}
-      className={['pui-table-truncate', className].filter(Boolean).join(' ')}
+      className={cx('pui-table-truncate', className)}
     >
       {children}
     </span>
@@ -166,9 +153,7 @@ const TableMessage = /* @__PURE__ */ React.forwardRef<
       <td
         {...props}
         ref={ref}
-        className={['pui-table-cell pui-table-message', className]
-          .filter(Boolean)
-          .join(' ')}
+        className={cx('pui-table-cell pui-table-message', className)}
       />
     </tr>
   )
@@ -182,7 +167,7 @@ const TableRow = /* @__PURE__ */ React.forwardRef<
       {...props}
       ref={ref}
       data-selected={selected || undefined}
-      className={['pui-table-row', className].filter(Boolean).join(' ')}
+      className={cx('pui-table-row', className)}
     />
   )
 })
@@ -212,57 +197,8 @@ export const Table = {
   Truncate: TableTruncate,
   Message: TableMessage,
 }
-const ListRoot = /* @__PURE__ */ React.forwardRef<
-  HTMLUListElement,
-  React.ComponentPropsWithoutRef<'ul'>
->(function ListRoot({ className, ...props }, ref) {
-  return (
-    <ul
-      role='list'
-      {...props}
-      ref={ref}
-      className={['pui-list', className].filter(Boolean).join(' ')}
-    />
-  )
-})
-const ListItem = /* @__PURE__ */ React.forwardRef<
-  HTMLLIElement,
-  React.ComponentPropsWithoutRef<'li'> & { selected?: boolean }
->(function ListItem({ selected, className, ...props }, ref) {
-  return (
-    <li
-      {...props}
-      ref={ref}
-      data-selected={selected || undefined}
-      className={['pui-list-item', className].filter(Boolean).join(' ')}
-    />
-  )
-})
-export const List = {
-  Root: ListRoot,
-  Item: ListItem,
-  Content: /* @__PURE__ */ part<
-    HTMLDivElement,
-    React.ComponentPropsWithoutRef<'div'>
-  >('div', 'pui-list-content'),
-  Title: /* @__PURE__ */ part<
-    HTMLDivElement,
-    React.ComponentPropsWithoutRef<'div'>
-  >('div', 'pui-list-title'),
-  Description: /* @__PURE__ */ part<
-    HTMLParagraphElement,
-    React.ComponentPropsWithoutRef<'p'>
-  >('p', 'pui-list-description'),
-  Actions: /* @__PURE__ */ part<
-    HTMLDivElement,
-    React.ComponentPropsWithoutRef<'div'>
-  >('div', 'pui-list-actions'),
-}
-
 // Flat names for React Server Components, which cannot dot into client exports.
 export {
-  ListRoot,
-  ListItem,
   TableContainer,
   TableRoot,
   TableRow,
@@ -273,14 +209,13 @@ export {
   TableMessage,
 }
 export const {
-  Content: ListContent,
-  Title: ListTitle,
-  Description: ListDescription,
-  Actions: ListActions,
-} = List
-export const {
   Caption: TableCaption,
   Head: TableHead,
   Body: TableBody,
   Foot: TableFoot,
 } = Table
+export {
+  useTableSelection,
+  type TableSelectionOptions,
+  type TableSelectionCheckbox,
+} from './table-selection.js'

@@ -1,53 +1,11 @@
 'use client'
 import * as React from 'react'
-import { Surface } from './foundations.js'
-import { part } from './parts.js'
+import { Icon } from './icon.js'
+import { cx } from './parts.js'
 import { Button } from './button.js'
 import { SyntaxHighlighter } from './syntax-highlighter.js'
 import { ScrollArea } from './scroll-area.js'
-const CardRoot = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<typeof Surface>
->(function CardRoot({ className, padding, ...props }, ref) {
-  return (
-    <Surface
-      {...props}
-      padding={padding}
-      ref={ref}
-      className={['pui-card', className].filter(Boolean).join(' ')}
-    />
-  )
-})
-const CardTitle = /* @__PURE__ */ React.forwardRef<
-  HTMLHeadingElement,
-  React.ComponentPropsWithoutRef<'h3'> & { level?: 2 | 3 | 4 | 5 | 6 }
->(function CardTitle({ level = 3, className, ...props }, ref) {
-  return React.createElement(`h${level}`, {
-    ...props,
-    ref,
-    className: ['pui-card-title', className].filter(Boolean).join(' '),
-  })
-})
-export const Card = {
-  Root: CardRoot,
-  Header: /* @__PURE__ */ part<
-    HTMLDivElement,
-    React.ComponentPropsWithoutRef<'div'>
-  >('div', 'pui-card-header'),
-  Title: CardTitle,
-  Description: /* @__PURE__ */ part<
-    HTMLParagraphElement,
-    React.ComponentPropsWithoutRef<'p'>
-  >('p', 'pui-card-description'),
-  Body: /* @__PURE__ */ part<
-    HTMLDivElement,
-    React.ComponentPropsWithoutRef<'div'>
-  >('div', 'pui-card-body'),
-  Footer: /* @__PURE__ */ part<
-    HTMLDivElement,
-    React.ComponentPropsWithoutRef<'div'>
-  >('div', 'pui-card-footer'),
-}
+
 export type CodeBlockProps = Omit<
   React.ComponentPropsWithoutRef<'div'>,
   'children' | 'onCopy'
@@ -61,18 +19,7 @@ export type CodeBlockProps = Omit<
   copyErrorLabel?: string
   onCopy?: (code: string) => void | Promise<void>
 }
-const copyIcons = {
-  idle: (
-    <>
-      <rect x='8' y='8' width='12' height='12' rx='2' />
-      <path d='M16 8V4H4v12h4' />
-    </>
-  ),
-  copied: <path d='m5 12.5 4.5 4.5L19 7.5' />,
-  failed: (
-    <path d='M12 7v6m0 4v.01M4.5 12a7.5 7.5 0 1 0 15 0 7.5 7.5 0 0 0-15 0' />
-  ),
-}
+const copyIcons = { idle: 'copy', copied: 'check', failed: 'alert' } as const
 // Feedback stays inside the copy button and returns to the action after this long.
 const copyFeedbackDuration = 2000
 export const CodeBlock = /* @__PURE__ */ React.forwardRef<
@@ -160,7 +107,7 @@ export const CodeBlock = /* @__PURE__ */ React.forwardRef<
       {...props}
       ref={ref}
       data-wrap={wrap || undefined}
-      className={['pui-code-block', className].filter(Boolean).join(' ')}
+      className={cx('pui-code-block', className)}
     >
       <div className='pui-code-toolbar'>
         <span className='pui-code-label'>
@@ -179,21 +126,11 @@ export const CodeBlock = /* @__PURE__ */ React.forwardRef<
           data-copy-state={icon === 'idle' ? undefined : icon}
           data-copy-used={used || undefined}
         >
-          <svg
+          <Icon
             key={icon}
+            name={copyIcons[icon]}
             className='pui-code-copy-icon'
-            width='14'
-            height='14'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='1.6'
-            strokeLinecap='round'
-            strokeLinejoin='round'
-            aria-hidden='true'
-          >
-            {copyIcons[icon]}
-          </svg>
+          />
           {/* The label is the result: screen readers hear it change in place. */}
           <span aria-live='polite'>
             <span key={icon} className='pui-code-copy-label'>
@@ -214,12 +151,3 @@ export const CodeBlock = /* @__PURE__ */ React.forwardRef<
     </div>
   )
 })
-
-// Flat names for React Server Components, which cannot dot into client exports.
-export { CardRoot, CardTitle }
-export const {
-  Header: CardHeader,
-  Description: CardDescription,
-  Body: CardBody,
-  Footer: CardFooter,
-} = Card

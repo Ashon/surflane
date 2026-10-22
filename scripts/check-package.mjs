@@ -105,6 +105,18 @@ assert.deepEqual(deadClasses, [], `Selected but never rendered: ${deadClasses}`)
 console.log(
   `@surflane/ui: all ${selectedClasses.size} selected classes are rendered by a component`,
 )
+// Components render only pui- classes, so an app's own .form-control or .scroll-area
+// never styles them.
+const unprefixed = [
+  ...new Set(
+    (componentSource.match(/'[a-z][a-z0-9 -]*'/g) ?? [])
+      .map((literal) => literal.slice(1, -1).split(' '))
+      .filter((names) => names.some((name) => name.startsWith('pui-')))
+      .flat()
+      .filter((name) => !name.startsWith('pui-')),
+  ),
+]
+assert.deepEqual(unprefixed, [], `Unprefixed classes: ${unprefixed}`)
 const ui = JSON.parse(readFileSync('packages/ui/package.json', 'utf8'))
 let flatNames = 0
 for (const [entry, target] of Object.entries(ui.exports)) {
@@ -126,6 +138,71 @@ for (const [entry, target] of Object.entries(ui.exports)) {
   }
 }
 console.log(`@surflane/ui: ${flatNames} namespace parts have flat exports`)
+// Each catalog page that documents a module is its entry point: /components/checkbox
+// is @surflane/ui/checkbox. Internal modules have no entry point.
+const internalModules = [
+  'index',
+  'parts',
+  'choice',
+  'panel',
+  'status',
+  'form-state',
+  'dialog-focus',
+  'syntax-context',
+  'syntax-engine',
+  'tone-transition',
+  'table-selection',
+]
+const utilityEntries = [
+  'choice-label',
+  'icon',
+  'sizing',
+  'slot',
+  'syntax-highlighting',
+]
+const sourceFiles = readdirSync('packages/ui/src').filter((name) =>
+  /\.tsx?$/.test(name),
+)
+const publicModules = sourceFiles
+  .map((name) => name.replace(/\.tsx?$/, ''))
+  .filter((name) => !internalModules.includes(name))
+const entries = Object.keys(ui.exports)
+  .filter((entry) => entry !== '.' && !/\.(css|json)$/.test(entry))
+  .map((entry) => entry.slice(2))
+assert.deepEqual(
+  entries.toSorted(),
+  publicModules.toSorted(),
+  'Each public module needs an entry point, and each entry point a module',
+)
+const { components, patterns, foundations } = await import('../demo/catalog.ts')
+const pages = new Set(
+  [...components, ...patterns, ...foundations].map(({ id }) => id),
+)
+const unnamed = entries.filter(
+  (entry) => !pages.has(entry) && !utilityEntries.includes(entry),
+)
+assert.deepEqual(unnamed, [], `Entry points without a catalog page: ${unnamed}`)
+const unexported = components
+  .filter(({ id, stage }) => stage !== 'planned' && !entries.includes(id))
+  .map(({ id }) => id)
+assert.deepEqual(
+  unexported,
+  [],
+  `Catalog components without an entry point: ${unexported}`,
+)
+console.log(
+  `@surflane/ui: ${entries.length} entry points, one per catalog page or utility`,
+)
+// Glyphs come from Icon. Inline SVG stays only for marks that are not glyphs: the
+// checkbox tick, the menu radio dot, the spinner and chart legend swatches.
+const svgModules = sourceFiles.filter((name) =>
+  /<svg\b/.test(readFileSync(`packages/ui/src/${name}`, 'utf8')),
+)
+assert.deepEqual(
+  svgModules.toSorted(),
+  ['chart.tsx', 'checkbox.tsx', 'icon.tsx', 'menu.tsx', 'spinner.tsx'],
+  `Inline SVG outside Icon: ${svgModules}`,
+)
 // Optional peers stay off the root entry, including its dynamic imports: an app that
 // installs none of them must still bundle every root export.
 const optionalPeers = Object.entries(ui.peerDependenciesMeta ?? {})

@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Button as BaseButton } from '@base-ui/react/button'
 import { useRender } from '@base-ui/react/use-render'
 import { useComponentSize, type ComponentSizeAlias } from './sizing.js'
-import { sizeName, skin } from './parts.js'
+import { sizeName, skin, cx } from './parts.js'
 /** Visual priority. `default` remains a compatibility alias of `primary`. */
 export type ButtonVariant =
   | 'primary'
@@ -67,7 +67,7 @@ export const LinkButton = /* @__PURE__ */ React.forwardRef<
     ref,
     props: {
       ...props,
-      className: ['pui-button', className].filter(Boolean).join(' '),
+      className: cx('pui-button', className),
       'data-variant': variant,
       'data-size': sizeName(size),
       'data-ui-size': scheme,

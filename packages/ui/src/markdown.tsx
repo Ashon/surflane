@@ -2,10 +2,11 @@
 import * as React from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { CodeBlock } from './content.js'
-import { Table } from './data.js'
+import { CodeBlock } from './code.js'
+import { Table } from './table.js'
 import type { Components } from 'react-markdown'
 import type { Root, Element, RootContent } from 'hast'
+import { cx } from './parts.js'
 export type MarkdownProps = Omit<
   React.ComponentPropsWithoutRef<'div'>,
   'children'
@@ -198,9 +199,7 @@ export const Markdown = /* @__PURE__ */ React.forwardRef<
       {...props}
       ref={ref}
       role='article'
-      className={['pui-prose pui-markdown', className]
-        .filter(Boolean)
-        .join(' ')}
+      className={cx('pui-prose pui-markdown', className)}
       aria-label={label}
     >
       <ReactMarkdown

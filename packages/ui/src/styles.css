@@ -1219,16 +1219,15 @@
   }
   .pui-disclosure-chevron {
     flex: none;
-    transition: transform var(--duration-fast) var(--ease-out);
+    transition: rotate var(--duration-fast) var(--ease-out);
   }
+  /* The chevron mirrors itself in right-to-left text, so it turns the other way to
+     point down when open. */
   .pui-disclosure-trigger[data-panel-open] > .pui-disclosure-chevron {
-    transform: rotate(90deg);
-  }
-  .pui-disclosure-trigger:dir(rtl) > .pui-disclosure-chevron {
-    transform: rotate(180deg);
+    rotate: 90deg;
   }
   .pui-disclosure-trigger:dir(rtl)[data-panel-open] > .pui-disclosure-chevron {
-    transform: rotate(90deg);
+    rotate: -90deg;
   }
   .pui-accordion-panel,
   .pui-collapsible-panel {
@@ -1894,9 +1893,6 @@
   .pui-submenu-arrow {
     flex: none;
     margin-inline-start: var(--space-3);
-  }
-  .pui-menu-submenu-trigger:dir(rtl) .pui-submenu-arrow {
-    transform: rotate(180deg);
   }
   @media (max-width: 760px), (pointer: coarse) {
     .pui-menu-item {
@@ -2950,8 +2946,8 @@
   .pui-tree-toggle svg[data-expanded] {
     rotate: 90deg;
   }
-  .pui-tree:dir(rtl) .pui-tree-toggle svg:not([data-expanded]) {
-    rotate: 180deg;
+  .pui-tree:dir(rtl) .pui-tree-toggle svg[data-expanded] {
+    rotate: -90deg;
   }
   .pui-tree-label {
     min-inline-size: 0;
@@ -3240,9 +3236,6 @@
   }
   .pui-calendar-day[data-focus-visible][data-selected] {
     outline-color: var(--ink);
-  }
-  .pui-calendar:dir(rtl) .pui-calendar-nav svg {
-    transform: scaleX(-1);
   }
 
   @media (prefers-reduced-motion: reduce) {

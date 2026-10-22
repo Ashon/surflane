@@ -1,9 +1,10 @@
 'use client'
 import * as React from 'react'
-import { Field } from './forms.js'
+import { Icon } from './icon.js'
+import { Field } from './field.js'
 import { Button } from './button.js'
-import { Progress } from './feedback.js'
-import { StatusBadge } from './status.js'
+import { Progress } from './progress.js'
+import { StatusBadge } from './badge.js'
 import { skin } from './parts.js'
 import { useResetValue, useRootRef } from './form-state.js'
 export type UploadState =
@@ -462,17 +463,7 @@ export const FileUpload = /* @__PURE__ */ React.forwardRef<
           data-variant='outline'
           data-disabled={disabled || undefined}
         >
-          <svg
-            width='16'
-            height='16'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='1.6'
-            aria-hidden='true'
-          >
-            <path d='M12 16V3m-5 5 5-5 5 5M4 16v5h16v-5' />
-          </svg>
+          <Icon name='upload' />
           {labels.choose}
         </label>
         <p className='pui-file-drop-hint'>{labels.drop}</p>

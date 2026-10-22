@@ -1,39 +1,10 @@
 'use client'
 import * as React from 'react'
+import { Icon } from './icon.js'
 import { useComponentSize, type ComponentSizeAlias } from './sizing.js'
 import { Select as BaseSelect } from '@base-ui/react/select'
-import { sizeName } from './parts.js'
-const cx = (...v: (string | undefined | false)[]) => v.filter(Boolean).join(' ')
-function Chevron() {
-  return (
-    <svg
-      width='16'
-      height='16'
-      viewBox='0 0 24 24'
-      fill='none'
-      stroke='currentColor'
-      strokeWidth='1.7'
-      aria-hidden='true'
-    >
-      <path d='m7 10 5 5 5-5' />
-    </svg>
-  )
-}
-function Check() {
-  return (
-    <svg
-      width='14'
-      height='14'
-      viewBox='0 0 24 24'
-      fill='none'
-      stroke='currentColor'
-      strokeWidth='1.7'
-      aria-hidden='true'
-    >
-      <path d='m5 12 4 4L19 6' />
-    </svg>
-  )
-}
+import { sizeName, cx } from './parts.js'
+
 export type SelectOption = {
   value: string
   label: React.ReactNode
@@ -126,7 +97,7 @@ export const Select = /* @__PURE__ */ React.forwardRef<
   const { name, form, required, disabled, id, ...aria } = props
   return (
     <span
-      className={cx('pui-select control-shell select-control', className)}
+      className={cx('pui-select', className)}
       data-size={sizeName(size)}
       data-ui-size={scheme}
       data-disabled={disabled || undefined}
@@ -152,12 +123,12 @@ export const Select = /* @__PURE__ */ React.forwardRef<
         <BaseSelect.Trigger
           {...aria}
           ref={setTrigger}
-          className='pui-select-trigger form-control'
+          className='pui-select-trigger'
           data-value={selected}
         >
           <BaseSelect.Value />
-          <BaseSelect.Icon className='pui-select-icon select-chevron'>
-            <Chevron />
+          <BaseSelect.Icon className='pui-select-icon'>
+            <Icon name='chevron-down' />
           </BaseSelect.Icon>
         </BaseSelect.Trigger>
         <BaseSelect.Portal>
@@ -201,91 +172,9 @@ function renderOption(option: SelectOption) {
       key={option.value}
     >
       <BaseSelect.ItemIndicator className='pui-select-check'>
-        <Check />
+        <Icon name='check' />
       </BaseSelect.ItemIndicator>
       <BaseSelect.ItemText>{option.label}</BaseSelect.ItemText>
     </BaseSelect.Item>
   )
-}
-function optionList(children: React.ReactNode): (SelectOption | SelectGroup)[] {
-  return React.Children.toArray(children).flatMap((child) => {
-    if (
-      !React.isValidElement<{
-        value?: string | number
-        children?: React.ReactNode
-        disabled?: boolean
-        label?: string
-      }>(child)
-    )
-      return []
-    const p = child.props
-    if (child.type === React.Fragment) return optionList(p.children)
-    // An optgroup keeps its label as a visible group heading.
-    if (child.type === 'optgroup' || child.type === NativeSelectOptGroup)
-      return [{ label: p.label, options: flatten(optionList(p.children)) }]
-    return [
-      {
-        value: String(p.value ?? p.children ?? ''),
-        label: p.label ?? p.children,
-        disabled: p.disabled,
-      },
-    ]
-  })
-}
-/** Transitional HTML-option adapter. Submitted values use Base UI's native hidden input. */
-export const NativeSelect = /* @__PURE__ */ React.forwardRef<
-  HTMLButtonElement,
-  Omit<React.ComponentPropsWithoutRef<'select'>, 'size' | 'multiple'> & {
-    size?: ComponentSizeAlias
-  }
->(function NativeSelect(
-  { children, onChange, value, defaultValue, className, size, ...props },
-  ref,
-) {
-  const input = React.useRef<HTMLInputElement>(null)
-  const options = optionList(children)
-  return (
-    <Select
-      options={options}
-      value={value === undefined ? undefined : String(value)}
-      defaultValue={
-        defaultValue === undefined ? undefined : String(defaultValue)
-      }
-      className={className}
-      size={size}
-      inputRef={input}
-      triggerRef={ref}
-      name={props.name}
-      form={props.form}
-      disabled={props.disabled}
-      required={props.required}
-      id={props.id}
-      aria-label={props['aria-label']}
-      aria-labelledby={props['aria-labelledby']}
-      aria-describedby={props['aria-describedby']}
-      aria-invalid={props['aria-invalid']}
-      onValueChange={(next) => {
-        if (!onChange) return
-        const target = input.current
-        if (!target) return
-        const setter = Object.getOwnPropertyDescriptor(
-          HTMLInputElement.prototype,
-          'value',
-        )?.set
-        setter?.call(target, next)
-        const event = new Event('change', { bubbles: true })
-        Object.defineProperties(event, {
-          target: { value: target },
-          currentTarget: { value: target },
-        })
-        onChange(event as unknown as React.ChangeEvent<HTMLSelectElement>)
-      }}
-    />
-  )
-})
-export function NativeSelectOption(props: React.ComponentProps<'option'>) {
-  return <option {...props} />
-}
-export function NativeSelectOptGroup(props: React.ComponentProps<'optgroup'>) {
-  return <optgroup {...props} />
 }

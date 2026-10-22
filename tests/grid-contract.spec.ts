@@ -1,8 +1,8 @@
 import React from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { test, expect } from '@playwright/test'
-import { Grid, GridItem } from '../packages/ui/dist/foundations.js'
-import { Card } from '../packages/ui/dist/content.js'
+import { Grid, GridItem } from '../packages/ui/dist/layout.js'
+import { Card } from '../packages/ui/dist/card.js'
 import { waitForCatalogReady } from './catalog-ready'
 test('nested equal-card grids own their column count and layout spans clamp to the active track count', async ({
   page,

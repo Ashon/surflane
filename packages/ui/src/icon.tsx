@@ -1,5 +1,6 @@
 'use client'
 import * as React from 'react'
+import { cx } from './parts.js'
 const shapes = {
   search: (
     <>
@@ -49,9 +50,26 @@ const shapes = {
       <path d='M8 21h8m-4-4v4' />
     </>
   ),
+  minus: <path d='M5 12h14' />,
+  'minus-circle': (
+    <>
+      <circle cx='12' cy='12' r='9' />
+      <path d='M8 12h8' />
+    </>
+  ),
+  clock: (
+    <>
+      <circle cx='12' cy='12' r='9' />
+      <path d='M12 7v6l4 2' />
+    </>
+  ),
   'chevron-down': <path d='m7 10 5 5 5-5' />,
   'chevron-forward': <path d='m9 6 6 6-6 6' />,
+  'chevron-back': <path d='m15 6-6 6 6 6' />,
   'arrow-back': <path d='M20 12H4m7-7-7 7 7 7' />,
+  'arrow-up': <path d='M12 19V5m-6 6 6-6 6 6' />,
+  'arrow-down': <path d='M12 5v14m-6-6 6 6 6-6' />,
+  sort: <path d='m8 9 4-4 4 4m-8 6 4 4 4-4' />,
   'external-link': (
     <>
       <path d='M14 3h7v7m0-7L10 14M10 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5' />
@@ -64,6 +82,19 @@ const shapes = {
     </>
   ),
   play: <path d='m7 3 14 9-14 9V3Z' />,
+  upload: <path d='M12 16V3m-5 5 5-5 5 5M4 16v5h16v-5' />,
+  calendar: (
+    <>
+      <rect x='3' y='5' width='18' height='16' rx='3' />
+      <path d='M7 3v4m10-4v4M3 11h18m-12 4h2' />
+    </>
+  ),
+  user: (
+    <>
+      <circle cx='12' cy='8' r='4' />
+      <path d='M4 21v-2a8 8 0 0 1 16 0v2' />
+    </>
+  ),
   settings: (
     <>
       <path d='M4 6h16M4 12h16M4 18h16M9 3v6m6 0v6m-6 0v6' />
@@ -72,6 +103,12 @@ const shapes = {
 }
 export type IconName = keyof typeof shapes
 export const iconNames: readonly IconName[] = Object.keys(shapes) as IconName[]
+// These point along the reading direction, so they mirror in right-to-left text.
+const directional = new Set<IconName>([
+  'chevron-forward',
+  'chevron-back',
+  'arrow-back',
+])
 type Semantics =
   { decorative?: true; label?: never } | { decorative: false; label: string }
 export type IconProps = Omit<
@@ -103,13 +140,9 @@ export const Icon = /* @__PURE__ */ React.forwardRef<SVGSVGElement, IconProps>(
       <svg
         {...props}
         ref={ref}
-        className={['pui-icon', className].filter(Boolean).join(' ')}
+        className={cx('pui-icon', className)}
         data-size={size}
-        data-directional={
-          name === 'chevron-forward' || name === 'arrow-back'
-            ? 'true'
-            : undefined
-        }
+        data-directional={directional.has(name) ? 'true' : undefined}
         viewBox='0 0 24 24'
         fill='none'
         stroke='currentColor'

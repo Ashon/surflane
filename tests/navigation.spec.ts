@@ -358,10 +358,11 @@ test('navigation examples reflow with enlarged text and retain RTL structure', a
   await page.goto('/components/breadcrumbs')
   await waitForCatalogReady(page)
   await page.evaluate(() => (document.documentElement.dir = 'rtl'))
+  // The separator chevron mirrors itself in right-to-left text.
   expect(
     await page
       .locator('.component-example .pui-breadcrumb-separator svg')
       .first()
       .evaluate((el) => getComputedStyle(el).transform),
-  ).toBe('matrix(-1, 0, 0, -1, 0, 0)')
+  ).toBe('matrix(-1, 0, 0, 1, 0, 0)')
 })

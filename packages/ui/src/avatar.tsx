@@ -1,5 +1,6 @@
 'use client'
 import * as React from 'react'
+import { Icon } from './icon.js'
 import { Avatar as BaseAvatar } from '@base-ui/react/avatar'
 import { useComponentSize, type ComponentSizeAlias } from './sizing.js'
 import { sizeName, skin, part } from './parts.js'
@@ -20,22 +21,6 @@ const AvatarRoot = /* @__PURE__ */ React.forwardRef<
     />
   )
 })
-function Person() {
-  return (
-    <svg
-      width='18'
-      height='18'
-      viewBox='0 0 24 24'
-      fill='none'
-      stroke='currentColor'
-      strokeWidth='1.5'
-      aria-hidden='true'
-    >
-      <circle cx='12' cy='8' r='4' />
-      <path d='M4 21v-2a8 8 0 0 1 16 0v2' />
-    </svg>
-  )
-}
 const AvatarFallback = /* @__PURE__ */ React.forwardRef<
   React.ComponentRef<typeof BaseAvatar.Fallback>,
   React.ComponentPropsWithoutRef<typeof BaseAvatar.Fallback>
@@ -46,7 +31,7 @@ const AvatarFallback = /* @__PURE__ */ React.forwardRef<
       ref={ref}
       className={skin('pui-avatar-fallback', className)}
     >
-      {children ?? <Person />}
+      {children ?? <Icon name='user' />}
     </BaseAvatar.Fallback>
   )
 })

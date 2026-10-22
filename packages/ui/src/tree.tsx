@@ -1,5 +1,6 @@
 'use client'
 import * as React from 'react'
+import { Icon } from './icon.js'
 import { useComponentSize, type ComponentSize } from './sizing.js'
 import {
   buildProxiedInstance,
@@ -13,6 +14,7 @@ import {
   type Virtualizer,
 } from '@tanstack/react-virtual'
 import { ScrollArea } from './scroll-area.js'
+import { cx } from './parts.js'
 
 export type TreeNode = {
   id: string
@@ -365,7 +367,7 @@ export function Tree({
       tabIndex={-1}
       ref={viewport}
       scrollChain='contain'
-      rootClassName={['pui-tree-scroll', className].filter(Boolean).join(' ')}
+      rootClassName={cx('pui-tree-scroll', className)}
       dir={dir}
       rootStyle={{ blockSize: height, direction: dir }}
       className='pui-tree-viewport'
@@ -442,18 +444,10 @@ export function Tree({
                       else item.expand()
                     }}
                   >
-                    <svg
-                      aria-hidden='true'
-                      width='14'
-                      height='14'
-                      viewBox='0 0 24 24'
-                      fill='none'
-                      stroke='currentColor'
-                      strokeWidth='1.6'
+                    <Icon
+                      name='chevron-forward'
                       data-expanded={item.isExpanded() || undefined}
-                    >
-                      <path d='m9 5 7 7-7 7' />
-                    </svg>
+                    />
                   </button>
                 ) : (
                   <span className='pui-tree-leaf' aria-hidden='true' />

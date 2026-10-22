@@ -41,7 +41,7 @@ export function Example() {
 }
 ```
 
-Compound components are available both as namespaces (`Dialog.Root`) and as flat names (`DialogRoot`). Use flat names in React Server Components, which cannot dot into client exports. Subpath entry points such as `@surflane/ui/button` and `@surflane/ui/dialog` keep bundles small.
+Compound components are available both as namespaces (`Dialog.Root`) and as flat names (`DialogRoot`). Use flat names in React Server Components, which cannot dot into client exports. Every component also has its own entry point, named after its page in the catalog, such as `@surflane/ui/checkbox` or `@surflane/ui/sheet`.
 
 ## Optional components
 

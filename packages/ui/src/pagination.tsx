@@ -1,6 +1,8 @@
 'use client'
 import * as React from 'react'
+import { Icon } from './icon.js'
 import { Button } from './button.js'
+import { cx } from './parts.js'
 type CommonPaginationProps = Omit<
   React.ComponentPropsWithoutRef<'nav'>,
   'children'
@@ -22,22 +24,6 @@ export type PaginationProps = CommonPaginationProps &
     | { getPageHref: (page: number) => string; onPageChange?: never }
     | { getPageHref?: never; onPageChange: (page: number) => void }
   )
-function Chevron({ next = false }: { next?: boolean }) {
-  return (
-    <svg
-      className='pui-pagination-arrow'
-      width='16'
-      height='16'
-      viewBox='0 0 24 24'
-      fill='none'
-      stroke='currentColor'
-      strokeWidth='1.6'
-      aria-hidden='true'
-    >
-      <path d={next ? 'm9 6 6 6-6 6' : 'm15 6-6 6 6 6'} />
-    </svg>
-  )
-}
 export const Pagination = /* @__PURE__ */ React.forwardRef<
   HTMLElement,
   PaginationProps
@@ -123,13 +109,13 @@ export const Pagination = /* @__PURE__ */ React.forwardRef<
       {...props}
       ref={ref}
       aria-label={ariaLabel}
-      className={['pui-pagination', className].filter(Boolean).join(' ')}
+      className={cx('pui-pagination', className)}
     >
       {control(
         Math.max(1, current - 1),
         labels?.previous ?? 'Previous page',
         <>
-          <Chevron />
+          <Icon name='chevron-back' className='pui-pagination-arrow' />
           <span>{labels?.previous ?? 'Previous page'}</span>
         </>,
         current === 1,
@@ -144,17 +130,7 @@ export const Pagination = /* @__PURE__ */ React.forwardRef<
               control(item, labels?.page?.(item) ?? `Page ${item}`, item)
             ) : (
               <span className='pui-pagination-gap'>
-                <svg
-                  width='16'
-                  height='16'
-                  viewBox='0 0 24 24'
-                  fill='currentColor'
-                  aria-hidden='true'
-                >
-                  <circle cx='5' cy='12' r='1.5' />
-                  <circle cx='12' cy='12' r='1.5' />
-                  <circle cx='19' cy='12' r='1.5' />
-                </svg>
+                <Icon name='more' />
                 <span className='pui-feedback-sr'>
                   {labels?.more ?? 'More pages'}
                 </span>
@@ -168,7 +144,7 @@ export const Pagination = /* @__PURE__ */ React.forwardRef<
         labels?.next ?? 'Next page',
         <>
           <span>{labels?.next ?? 'Next page'}</span>
-          <Chevron next />
+          <Icon name='chevron-forward' className='pui-pagination-arrow' />
         </>,
         current === count,
       )}

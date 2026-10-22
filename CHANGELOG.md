@@ -17,6 +17,8 @@
 - ContextMenu, PreviewCard, Combobox and Autocomplete `Content` take `side`, `align`, `sideOffset` and `collisionPadding` directly, as Popover and Menu do; `positionerProps` stays as a deprecated alias. Tooltip takes `side`, `align` and `sideOffset`.
 - Surface and Card take `surface` (`subtle` or `canvas`) for their background. `tone` stays as a deprecated alias, so `tone` keeps one meaning, a status color.
 - Chart takes `labels` for all of its text, replacing `missingLabel` and `emptyLabel`, which stay as deprecated aliases. FileUpload's `labels` gains `uploadError`, the message when an upload fails without one of its own.
+- Every component, pattern and foundation module has its own entry point, named after its catalog page: `@surflane/ui/checkbox`, `@surflane/ui/sheet`, `@surflane/ui/app-shell`. There were 15 entry points; there are 68. The root entry exports the same names as before.
+- Icon gains `minus`, `minus-circle`, `clock`, `chevron-back`, `arrow-up`, `arrow-down`, `sort`, `upload`, `calendar` and `user`.
 - Overlay width tokens: `--size-dialog-*`, `--size-popover-*` and `--size-panel-*`.
 - Focus and target tokens: `--focus-ring-width`, `--focus-ring-offset`, `--focus-ring-inset` and `--control-focus-ring-size`, and `--control-target-size` (44px).
 - `--layout-reading-measure` (54ch) holds reading text to about 70 Latin or 50 Hangul characters per line. Paragraphs, lists and quotes in `Prose` and `Markdown` keep to it, while tables, code and images still use the full reading width. The catalog's manual copy uses the same measure with the reading role (16/28).
@@ -53,6 +55,17 @@
 - Textarea is a Field control: inside Field.Root it takes the label, description and error, as Input does. It also accepts the size aliases.
 - A popover fits its content up to 320px, or its `size` width, instead of up to the viewport width.
 - `check:package` fails when a component stylesheet selects a class that no component renders. It also caps the literal lengths left in package CSS at 129, so the count can only fall.
+- Components draw their glyphs with Icon, so every glyph takes `--icon-stroke-width` (1.7) and round caps. Strokes of 1.5, 1.6 and 2 move to 1.7.
+  - The Select check and the Tree toggle grow from 14 to 16px.
+  - A Badge's status icon takes the badge's text size, 12px instead of 13px.
+  - The Avatar fallback glyph is half the avatar's size: 18px at the default size, as before, and larger or smaller with the avatar.
+  - Chevrons that point along the reading direction mirror themselves in right-to-left text, so components no longer turn them one by one.
+  - The checkbox tick, the menu radio dot, the spinner and chart legend swatches stay their own marks.
+- `check:package` fails when a public module has no entry point or an entry point has no catalog page, and when a component renders a class without the `pui-` prefix or draws a glyph outside Icon.
+
+### Removed
+
+- Unprefixed classes that components rendered beside their `pui-` classes, and that no stylesheet selected: `control-shell`, `select-control`, `form-control`, `select-chevron`, `control-icon` and `scroll-area`. An app's own `.form-control` or `.scroll-area` rules no longer reach Surflane parts.
 
 ## 0.4.0
 

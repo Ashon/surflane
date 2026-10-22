@@ -1,15 +1,16 @@
 'use client'
 import * as React from 'react'
+import { Icon } from './icon.js'
 import { Menu as BaseMenu } from '@base-ui/react/menu'
 import { OwnPortal, part, scopedPortal, skin } from './parts.js'
 const MenuPopup = /* @__PURE__ */ part<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseMenu.Popup>
->(BaseMenu.Popup, 'pui-menu')
+>(BaseMenu.Popup, 'pui-menu', { portal: true })
 const MenuPositioner = /* @__PURE__ */ part<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseMenu.Positioner>
->(BaseMenu.Positioner, 'pui-positioner')
+>(BaseMenu.Positioner, 'pui-positioner', { portal: true })
 const MenuContent = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseMenu.Popup> &
@@ -65,19 +66,7 @@ const CheckboxIndicator = /* @__PURE__ */ React.forwardRef<
       ref={ref}
       className={skin('pui-menu-indicator', className)}
     >
-      {children ?? (
-        <svg
-          width='16'
-          height='16'
-          viewBox='0 0 24 24'
-          fill='none'
-          stroke='currentColor'
-          strokeWidth='1.6'
-          aria-hidden='true'
-        >
-          <path d='m5 12 4 4L19 6' />
-        </svg>
-      )}
+      {children ?? <Icon name='check' />}
     </BaseMenu.CheckboxItemIndicator>
   )
 })
@@ -122,18 +111,7 @@ const SubmenuTrigger = /* @__PURE__ */ React.forwardRef<
       {indicator === false
         ? null
         : (indicator ?? (
-            <svg
-              className='pui-submenu-arrow'
-              width='16'
-              height='16'
-              viewBox='0 0 24 24'
-              fill='none'
-              stroke='currentColor'
-              strokeWidth='1.6'
-              aria-hidden='true'
-            >
-              <path d='m9 6 6 6-6 6' />
-            </svg>
+            <Icon name='chevron-forward' className='pui-submenu-arrow' />
           ))}
     </BaseMenu.SubmenuTrigger>
   )

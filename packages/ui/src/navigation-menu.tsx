@@ -1,5 +1,6 @@
 'use client'
 import * as React from 'react'
+import { Icon } from './icon.js'
 import { NavigationMenu as BaseNavigationMenu } from '@base-ui/react/navigation-menu'
 import { part, skin } from './parts.js'
 function Root<Value>(props: BaseNavigationMenu.Root.Props<Value>) {
@@ -31,17 +32,7 @@ const Trigger = /* @__PURE__ */ React.forwardRef<
         ? null
         : (indicator ?? (
             <BaseNavigationMenu.Icon className='pui-navigation-icon'>
-              <svg
-                width='16'
-                height='16'
-                viewBox='0 0 24 24'
-                fill='none'
-                stroke='currentColor'
-                strokeWidth='1.6'
-                aria-hidden='true'
-              >
-                <path d='m6 9 6 6 6-6' />
-              </svg>
+              <Icon name='chevron-down' />
             </BaseNavigationMenu.Icon>
           ))}
     </BaseNavigationMenu.Trigger>
@@ -70,11 +61,13 @@ export const NavigationMenu = {
   Positioner: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.Positioner>
-  >(BaseNavigationMenu.Positioner, 'pui-positioner pui-navigation-positioner'),
+  >(BaseNavigationMenu.Positioner, 'pui-positioner pui-navigation-positioner', {
+    portal: true,
+  }),
   Popup: /* @__PURE__ */ part<
     HTMLElement,
     React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.Popup>
-  >(BaseNavigationMenu.Popup, 'pui-navigation-popup'),
+  >(BaseNavigationMenu.Popup, 'pui-navigation-popup', { portal: true }),
   Viewport: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.Viewport>
@@ -82,26 +75,14 @@ export const NavigationMenu = {
   Icon: /* @__PURE__ */ React.forwardRef<
     HTMLSpanElement,
     React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.Icon>
-  >(function Icon({ children, className, ...props }, ref) {
+  >(function NavigationMenuIcon({ children, className, ...props }, ref) {
     return (
       <BaseNavigationMenu.Icon
         {...props}
         ref={ref}
         className={skin('pui-navigation-icon', className)}
       >
-        {children ?? (
-          <svg
-            width='16'
-            height='16'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='1.6'
-            aria-hidden='true'
-          >
-            <path d='m6 9 6 6 6-6' />
-          </svg>
-        )}
+        {children ?? <Icon name='chevron-down' />}
       </BaseNavigationMenu.Icon>
     )
   }),

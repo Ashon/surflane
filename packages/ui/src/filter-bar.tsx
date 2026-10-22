@@ -1,7 +1,6 @@
 'use client'
 import * as React from 'react'
-const cx = (base: string, extra?: string) =>
-  [base, extra].filter(Boolean).join(' ')
+import { cx } from './parts.js'
 /** Layout only: filtering, routing and async results remain controlled by the caller. */
 const Root = /* @__PURE__ */ React.forwardRef<
   HTMLFormElement,

@@ -1,5 +1,6 @@
 'use client'
 import * as React from 'react'
+import { Icon } from './icon.js'
 import { useComponentSize } from './sizing.js'
 import {
   DatePicker as AriaDatePicker,
@@ -91,18 +92,7 @@ function FieldHelp({
 function CalendarButton() {
   return (
     <Button className='pui-date-trigger'>
-      <svg
-        width='16'
-        height='16'
-        viewBox='0 0 24 24'
-        fill='none'
-        stroke='currentColor'
-        strokeWidth='1.7'
-        aria-hidden='true'
-      >
-        <rect x='3' y='5' width='18' height='16' rx='3' />
-        <path d='M7 3v4m10-4v4M3 11h18m-12 4h2' />
-      </svg>
+      <Icon name='calendar' />
     </Button>
   )
 }
@@ -112,31 +102,11 @@ function CalendarContents() {
     <>
       <div className='pui-calendar-header'>
         <Button slot='previous' className='pui-calendar-nav'>
-          <svg
-            width='16'
-            height='16'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='1.7'
-            aria-hidden='true'
-          >
-            <path d='m15 6-6 6 6 6' />
-          </svg>
+          <Icon name='chevron-back' />
         </Button>
         <Heading className='pui-calendar-heading' />
         <Button slot='next' className='pui-calendar-nav'>
-          <svg
-            width='16'
-            height='16'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='1.7'
-            aria-hidden='true'
-          >
-            <path d='m9 6 6 6-6 6' />
-          </svg>
+          <Icon name='chevron-forward' />
         </Button>
       </div>
       <CalendarGrid className='pui-calendar-grid' weekdayStyle='short'>

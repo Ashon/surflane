@@ -1,8 +1,8 @@
 'use client'
 import * as React from 'react'
+import { cx } from './parts.js'
+
 export type Space = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 8 | 10 | 12 | 16 | 20
-const cx = (...values: (string | undefined)[]) =>
-  values.filter(Boolean).join(' ')
 const gapStyle = (
   gap: Space | undefined,
   style: React.CSSProperties | undefined,
@@ -140,112 +140,4 @@ export const Surface = /* @__PURE__ */ React.forwardRef<
       }
     />
   )
-})
-export function Heading({
-  level = 2,
-  size = 'section',
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLHeadingElement> & {
-  level?: 1 | 2 | 3 | 4 | 5 | 6
-  size?:
-    | 'display'
-    | 'title'
-    | 'page'
-    | 'section'
-    | 'subsection'
-    | 'workspace'
-    | 'document'
-}) {
-  const Tag = `h${level}` as 'h1'
-  return (
-    <Tag {...props} className={cx('pui-heading', className)} data-size={size} />
-  )
-}
-export function Text({
-  as: Tag = 'p',
-  variant = 'body',
-  color = 'primary',
-  weight = 'regular',
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLElement> & {
-  as?: 'p' | 'span' | 'div'
-  variant?:
-    'body' | 'reading' | 'table' | 'caption' | 'label' | 'mono' | 'metric'
-  color?: 'primary' | 'secondary' | 'muted'
-  weight?: 'regular' | 'medium'
-}) {
-  return (
-    <Tag
-      {...props}
-      className={cx('pui-text', className)}
-      data-variant={variant}
-      data-color={color}
-      data-weight={weight}
-    />
-  )
-}
-export function PageHeader({
-  as: Root = 'div',
-  headingProps,
-  actionsLabel,
-  title,
-  description,
-  breadcrumb,
-  actions,
-  level = 1,
-  size = 'title',
-  className,
-  ...props
-}: Omit<React.ComponentProps<'div'>, 'title'> & {
-  as?: 'div' | 'header'
-  headingProps?: Omit<
-    React.HTMLAttributes<HTMLHeadingElement>,
-    'children' | 'dangerouslySetInnerHTML'
-  >
-  actionsLabel?: string
-  title: React.ReactNode
-  description?: React.ReactNode
-  breadcrumb?: React.ReactNode
-  actions?: React.ReactNode
-  level?: 1 | 2 | 3 | 4 | 5 | 6
-  size?: 'title' | 'page' | 'workspace' | 'document'
-}) {
-  return (
-    <Root {...props} className={cx('pui-page-header', className)}>
-      {breadcrumb != null && breadcrumb !== false && breadcrumb !== '' && (
-        <div className='pui-page-header-breadcrumb'>{breadcrumb}</div>
-      )}
-      <div className='pui-page-header-content'>
-        <div className='pui-page-header-copy'>
-          <Heading {...headingProps} level={level} size={size}>
-            {title}
-          </Heading>
-          {description != null &&
-            description !== false &&
-            description !== '' && (
-              <Text color='secondary' className='pui-page-header-description'>
-                {description}
-              </Text>
-            )}
-        </div>
-        {actions != null && actions !== false && actions !== '' && (
-          <div
-            className='pui-page-header-actions'
-            role={actionsLabel ? 'group' : undefined}
-            aria-label={actionsLabel}
-          >
-            {actions}
-          </div>
-        )}
-      </div>
-    </Root>
-  )
-}
-export const Prose = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  React.ComponentProps<'div'>
->(function Prose({ className, ...props }, ref) {
-  return <div {...props} ref={ref} className={cx('pui-prose', className)} />
 })

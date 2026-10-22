@@ -44,9 +44,9 @@
       "types": "./dist/button.d.ts",
       "import": "./dist/button.js"
     },
-    "./slot": {
-      "types": "./dist/slot.d.ts",
-      "import": "./dist/slot.js"
+    "./toolbar": {
+      "types": "./dist/toolbar.d.ts",
+      "import": "./dist/toolbar.js"
     },
     "./input": {
       "types": "./dist/input.d.ts",
@@ -56,37 +56,169 @@
       "types": "./dist/select.d.ts",
       "import": "./dist/select.js"
     },
-    "./popover": {
-      "types": "./dist/popover.d.ts",
-      "import": "./dist/popover.js"
+    "./native-select": {
+      "types": "./dist/native-select.d.ts",
+      "import": "./dist/native-select.js"
     },
-    "./tooltip": {
-      "types": "./dist/tooltip.d.ts",
-      "import": "./dist/tooltip.js"
+    "./field": {
+      "types": "./dist/field.d.ts",
+      "import": "./dist/field.js"
     },
-    "./dialog": {
-      "types": "./dist/dialog.d.ts",
-      "import": "./dist/dialog.js"
+    "./fieldset": {
+      "types": "./dist/fieldset.d.ts",
+      "import": "./dist/fieldset.js"
     },
-    "./sizing": {
-      "types": "./dist/sizing.d.ts",
-      "import": "./dist/sizing.js"
+    "./form": {
+      "types": "./dist/form.d.ts",
+      "import": "./dist/form.js"
     },
-    "./chart": {
-      "types": "./dist/chart.d.ts",
-      "import": "./dist/chart.js"
+    "./textarea": {
+      "types": "./dist/textarea.d.ts",
+      "import": "./dist/textarea.js"
+    },
+    "./combobox": {
+      "types": "./dist/combobox.d.ts",
+      "import": "./dist/combobox.js"
+    },
+    "./autocomplete": {
+      "types": "./dist/autocomplete.d.ts",
+      "import": "./dist/autocomplete.js"
+    },
+    "./number-field": {
+      "types": "./dist/number-field.d.ts",
+      "import": "./dist/number-field.js"
+    },
+    "./slider": {
+      "types": "./dist/slider.d.ts",
+      "import": "./dist/slider.js"
+    },
+    "./otp-field": {
+      "types": "./dist/otp-field.d.ts",
+      "import": "./dist/otp-field.js"
     },
     "./date-picker": {
       "types": "./dist/date-picker.d.ts",
       "import": "./dist/date-picker.js"
     },
-    "./tree": {
-      "types": "./dist/tree.d.ts",
-      "import": "./dist/tree.js"
+    "./file-upload": {
+      "types": "./dist/file-upload.d.ts",
+      "import": "./dist/file-upload.js"
     },
-    "./markdown": {
-      "types": "./dist/markdown.d.ts",
-      "import": "./dist/markdown.js"
+    "./checkbox": {
+      "types": "./dist/checkbox.d.ts",
+      "import": "./dist/checkbox.js"
+    },
+    "./checkbox-group": {
+      "types": "./dist/checkbox-group.d.ts",
+      "import": "./dist/checkbox-group.js"
+    },
+    "./radio-group": {
+      "types": "./dist/radio-group.d.ts",
+      "import": "./dist/radio-group.js"
+    },
+    "./switch": {
+      "types": "./dist/switch.d.ts",
+      "import": "./dist/switch.js"
+    },
+    "./toggle": {
+      "types": "./dist/toggle.d.ts",
+      "import": "./dist/toggle.js"
+    },
+    "./toggle-group": {
+      "types": "./dist/toggle-group.d.ts",
+      "import": "./dist/toggle-group.js"
+    },
+    "./choice-label": {
+      "types": "./dist/choice-label.d.ts",
+      "import": "./dist/choice-label.js"
+    },
+    "./popover": {
+      "types": "./dist/popover.d.ts",
+      "import": "./dist/popover.js"
+    },
+    "./menu": {
+      "types": "./dist/menu.d.ts",
+      "import": "./dist/menu.js"
+    },
+    "./context-menu": {
+      "types": "./dist/context-menu.d.ts",
+      "import": "./dist/context-menu.js"
+    },
+    "./tooltip": {
+      "types": "./dist/tooltip.d.ts",
+      "import": "./dist/tooltip.js"
+    },
+    "./preview-card": {
+      "types": "./dist/preview-card.d.ts",
+      "import": "./dist/preview-card.js"
+    },
+    "./dialog": {
+      "types": "./dist/dialog.d.ts",
+      "import": "./dist/dialog.js"
+    },
+    "./alert-dialog": {
+      "types": "./dist/alert-dialog.d.ts",
+      "import": "./dist/alert-dialog.js"
+    },
+    "./sheet": {
+      "types": "./dist/sheet.d.ts",
+      "import": "./dist/sheet.js"
+    },
+    "./drawer": {
+      "types": "./dist/drawer.d.ts",
+      "import": "./dist/drawer.js"
+    },
+    "./tabs": {
+      "types": "./dist/tabs.d.ts",
+      "import": "./dist/tabs.js"
+    },
+    "./accordion": {
+      "types": "./dist/accordion.d.ts",
+      "import": "./dist/accordion.js"
+    },
+    "./collapsible": {
+      "types": "./dist/collapsible.d.ts",
+      "import": "./dist/collapsible.js"
+    },
+    "./navigation-menu": {
+      "types": "./dist/navigation-menu.d.ts",
+      "import": "./dist/navigation-menu.js"
+    },
+    "./menubar": {
+      "types": "./dist/menubar.d.ts",
+      "import": "./dist/menubar.js"
+    },
+    "./link": {
+      "types": "./dist/link.d.ts",
+      "import": "./dist/link.js"
+    },
+    "./breadcrumbs": {
+      "types": "./dist/breadcrumbs.d.ts",
+      "import": "./dist/breadcrumbs.js"
+    },
+    "./pagination": {
+      "types": "./dist/pagination.d.ts",
+      "import": "./dist/pagination.js"
+    },
+    "./avatar": {
+      "types": "./dist/avatar.d.ts",
+      "import": "./dist/avatar.js"
+    },
+    "./badge": {
+      "types": "./dist/badge.d.ts",
+      "import": "./dist/badge.js"
+    },
+    "./card": {
+      "types": "./dist/card.d.ts",
+      "import": "./dist/card.js"
+    },
+    "./table": {
+      "types": "./dist/table.d.ts",
+      "import": "./dist/table.js"
+    },
+    "./code": {
+      "types": "./dist/code.d.ts",
+      "import": "./dist/code.js"
     },
     "./syntax-highlighter": {
       "types": "./dist/syntax-highlighter.d.ts",
@@ -96,10 +228,94 @@
       "types": "./dist/syntax-highlighting.d.ts",
       "import": "./dist/syntax-highlighting.js"
     },
+    "./markdown": {
+      "types": "./dist/markdown.d.ts",
+      "import": "./dist/markdown.js"
+    },
+    "./list": {
+      "types": "./dist/list.d.ts",
+      "import": "./dist/list.js"
+    },
+    "./tree": {
+      "types": "./dist/tree.d.ts",
+      "import": "./dist/tree.js"
+    },
+    "./chart": {
+      "types": "./dist/chart.d.ts",
+      "import": "./dist/chart.js"
+    },
+    "./scroll-area": {
+      "types": "./dist/scroll-area.d.ts",
+      "import": "./dist/scroll-area.js"
+    },
+    "./separator": {
+      "types": "./dist/separator.d.ts",
+      "import": "./dist/separator.js"
+    },
+    "./progress": {
+      "types": "./dist/progress.d.ts",
+      "import": "./dist/progress.js"
+    },
+    "./meter": {
+      "types": "./dist/meter.d.ts",
+      "import": "./dist/meter.js"
+    },
+    "./toast": {
+      "types": "./dist/toast.d.ts",
+      "import": "./dist/toast.js"
+    },
+    "./inline-message": {
+      "types": "./dist/inline-message.d.ts",
+      "import": "./dist/inline-message.js"
+    },
+    "./spinner": {
+      "types": "./dist/spinner.d.ts",
+      "import": "./dist/spinner.js"
+    },
+    "./skeleton": {
+      "types": "./dist/skeleton.d.ts",
+      "import": "./dist/skeleton.js"
+    },
+    "./empty-state": {
+      "types": "./dist/empty-state.d.ts",
+      "import": "./dist/empty-state.js"
+    },
+    "./layout": {
+      "types": "./dist/layout.d.ts",
+      "import": "./dist/layout.js"
+    },
+    "./typography": {
+      "types": "./dist/typography.d.ts",
+      "import": "./dist/typography.js"
+    },
+    "./icon": {
+      "types": "./dist/icon.d.ts",
+      "import": "./dist/icon.js"
+    },
+    "./sizing": {
+      "types": "./dist/sizing.d.ts",
+      "import": "./dist/sizing.js"
+    },
+    "./slot": {
+      "types": "./dist/slot.d.ts",
+      "import": "./dist/slot.js"
+    },
+    "./app-shell": {
+      "types": "./dist/app-shell.d.ts",
+      "import": "./dist/app-shell.js"
+    },
+    "./page-header": {
+      "types": "./dist/page-header.d.ts",
+      "import": "./dist/page-header.js"
+    },
+    "./filter-bar": {
+      "types": "./dist/filter-bar.d.ts",
+      "import": "./dist/filter-bar.js"
+    },
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\" && tsc -p tsconfig.json",
     "prepack": "npm run build"
   },
   "dependencies": {

@@ -1,6 +1,7 @@
 'use client'
 import * as React from 'react'
 import { ScrollArea as BaseScrollArea } from '@base-ui/react/scroll-area'
+import { cx } from './parts.js'
 export const ScrollArea = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<'div'> & {
@@ -34,7 +35,7 @@ export const ScrollArea = /* @__PURE__ */ React.forwardRef<
   }
   return (
     <BaseScrollArea.Root
-      className={['pui-scroll-root', rootClassName].filter(Boolean).join(' ')}
+      className={cx('pui-scroll-root', rootClassName)}
       style={rootStyle}
       onPointerMoveCapture={(event) => {
         if (event.pointerType === 'touch') return
@@ -71,9 +72,7 @@ export const ScrollArea = /* @__PURE__ */ React.forwardRef<
       <BaseScrollArea.Viewport
         {...props}
         ref={ref}
-        className={['pui-scroll-viewport scroll-area', className]
-          .filter(Boolean)
-          .join(' ')}
+        className={cx('pui-scroll-viewport', className)}
         role={role}
         aria-label={label}
         tabIndex={tabIndex}

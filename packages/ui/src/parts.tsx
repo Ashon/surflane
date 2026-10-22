@@ -6,6 +6,10 @@ import {
   type ComponentSizeAlias,
 } from './sizing.js'
 import * as React from 'react'
+/** Joins class names, skipping empty ones. */
+export function cx(...classes: (string | false | null | undefined)[]) {
+  return classes.filter(Boolean).join(' ')
+}
 /** The data-size value: a short alias (sm, md, lg) renders as its full name, so both
  * spellings meet the same CSS; other values such as xs or icon pass through. */
 export function sizeName<Size extends string>(size?: Size) {
@@ -19,13 +23,20 @@ export function skin<State>(
   custom?: string | ((state: State) => string | undefined),
 ) {
   if (typeof custom === 'function')
-    return (state: State) => [base, custom(state)].filter(Boolean).join(' ')
-  return [base, custom].filter(Boolean).join(' ')
+    return (state: State) => cx(base, custom(state))
+  return cx(base, custom)
 }
+/** A styled Base UI part or element. A portal part renders outside the tree that sets
+ * data-ui-size, so it always carries the size scheme; other parts carry it only when
+ * size is set. */
 export function part<
   Element extends HTMLElement,
   Props extends { className?: unknown },
->(Component: React.ElementType, base: string) {
+>(
+  Component: React.ElementType,
+  base: string,
+  { portal = false }: { portal?: boolean } = {},
+) {
   return React.forwardRef<
     Element,
     Omit<Props, 'size'> & { size?: ComponentSize }
@@ -34,13 +45,10 @@ export function part<
       size?: ComponentSize
     }
     const scheme = useComponentSize(size)
-    const portal = /positioner|popup|^pui-menu$|navigation-menu-viewport/.test(
-      base,
-    )
     const classes =
       typeof className === 'function'
-        ? (state: unknown) => [base, className(state)].filter(Boolean).join(' ')
-        : [base, className].filter(Boolean).join(' ')
+        ? (state: unknown) => cx(base, className(state))
+        : cx(base, className as string | undefined)
     const element = (
       <Component
         {...rest}
@@ -95,3 +103,8 @@ export function defined<Props extends object>(props: Props): Partial<Props> {
     Object.entries(props).filter(([, value]) => value !== undefined),
   ) as Partial<Props>
 }
+/** The placement props a popup Content passes to its Positioner. */
+export type Placement<Positioner extends React.ElementType> = Pick<
+  React.ComponentPropsWithoutRef<Positioner>,
+  'side' | 'align' | 'sideOffset' | 'collisionPadding'
+>

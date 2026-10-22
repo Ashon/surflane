@@ -1,38 +1,10 @@
 'use client'
 import * as React from 'react'
+import { Icon } from './icon.js'
 import { Combobox as BaseCombobox } from '@base-ui/react/combobox'
-import { NumberField as BaseNumberField } from '@base-ui/react/number-field'
 import { OwnPortal, defined, part, scopedPortal, skin } from './parts.js'
-import { useRootRef, useResetValue } from './form-state.js'
-function Mark({
-  kind,
-}: {
-  kind: 'check' | 'clear' | 'expand' | 'plus' | 'minus'
-}) {
-  const path =
-    kind === 'check'
-      ? 'm5 12 4 4L19 6'
-      : kind === 'clear'
-        ? 'm6 6 12 12M6 18 18 6'
-        : kind === 'expand'
-          ? 'm6 9 6 6 6-6'
-          : kind === 'plus'
-            ? 'M5 12h14M12 5v14'
-            : 'M5 12h14'
-  return (
-    <svg
-      width='16'
-      height='16'
-      viewBox='0 0 24 24'
-      fill='none'
-      stroke='currentColor'
-      strokeWidth='1.6'
-      aria-hidden='true'
-    >
-      <path d={path} />
-    </svg>
-  )
-}
+import { useResetValue } from './form-state.js'
+
 function ComboboxRoot<
   Value,
   Multiple extends boolean | undefined = false,
@@ -56,11 +28,11 @@ function ComboboxRoot<
 const ComboPopup = /* @__PURE__ */ part<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseCombobox.Popup>
->(BaseCombobox.Popup, 'pui-combobox-popup')
+>(BaseCombobox.Popup, 'pui-combobox-popup', { portal: true })
 const ComboPositioner = /* @__PURE__ */ part<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseCombobox.Positioner>
->(BaseCombobox.Positioner, 'pui-positioner')
+>(BaseCombobox.Positioner, 'pui-positioner', { portal: true })
 const ComboContent = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseCombobox.Popup> &
@@ -100,7 +72,7 @@ const ComboTrigger = /* @__PURE__ */ React.forwardRef<
       ref={ref}
       className={skin('pui-combobox-action', className)}
     >
-      {children ?? <Mark kind='expand' />}
+      {children ?? <Icon name='chevron-down' />}
     </BaseCombobox.Trigger>
   )
 })
@@ -115,7 +87,7 @@ const ComboClear = /* @__PURE__ */ React.forwardRef<
       ref={ref}
       className={skin('pui-combobox-action', className)}
     >
-      {children ?? <Mark kind='clear' />}
+      {children ?? <Icon name='close' />}
     </BaseCombobox.Clear>
   )
 })
@@ -130,7 +102,7 @@ const ComboIndicator = /* @__PURE__ */ React.forwardRef<
       ref={ref}
       className={skin('pui-combobox-indicator', className)}
     >
-      {children ?? <Mark kind='check' />}
+      {children ?? <Icon name='check' />}
     </BaseCombobox.ItemIndicator>
   )
 })
@@ -144,7 +116,7 @@ const ComboRemove = /* @__PURE__ */ React.forwardRef<
       ref={ref}
       className={skin('pui-combobox-chip-remove', className)}
     >
-      {children ?? <Mark kind='clear' />}
+      {children ?? <Icon name='close' />}
     </BaseCombobox.ChipRemove>
   )
 })
@@ -170,7 +142,7 @@ export const Combobox = {
   List: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseCombobox.List>
-  >(BaseCombobox.List, 'pui-combobox-list scroll-area'),
+  >(BaseCombobox.List, 'pui-combobox-list'),
   Item: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseCombobox.Item>
@@ -204,83 +176,6 @@ export const Combobox = {
     React.ComponentPropsWithoutRef<typeof BaseCombobox.Chip>
   >(BaseCombobox.Chip, 'pui-combobox-chip'),
 }
-const NumberRoot = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<typeof BaseNumberField.Root>
->(function NumberRoot(
-  { value, defaultValue, onValueChange, className, form, ...props },
-  ref,
-) {
-  const [element, attach] = useRootRef(ref)
-  const [numeric, setNumeric] = useResetValue(
-    value,
-    defaultValue ?? null,
-    element,
-    form,
-  )
-  return (
-    <BaseNumberField.Root
-      {...props}
-      form={form}
-      ref={attach}
-      value={numeric}
-      className={skin('pui-number-field', className)}
-      onValueChange={(next, event) => {
-        onValueChange?.(next, event)
-        if (value === undefined && !event.isCanceled) setNumeric(next)
-      }}
-    />
-  )
-})
-const NumberIncrement = /* @__PURE__ */ React.forwardRef<
-  HTMLButtonElement,
-  React.ComponentPropsWithoutRef<typeof BaseNumberField.Increment>
->(function NumberIncrement({ className, children, ...props }, ref) {
-  return (
-    <BaseNumberField.Increment
-      aria-label='Increase value'
-      {...props}
-      ref={ref}
-      className={skin('pui-number-step', className)}
-    >
-      {children ?? <Mark kind='plus' />}
-    </BaseNumberField.Increment>
-  )
-})
-const NumberDecrement = /* @__PURE__ */ React.forwardRef<
-  HTMLButtonElement,
-  React.ComponentPropsWithoutRef<typeof BaseNumberField.Decrement>
->(function NumberDecrement({ className, children, ...props }, ref) {
-  return (
-    <BaseNumberField.Decrement
-      aria-label='Decrease value'
-      {...props}
-      ref={ref}
-      className={skin('pui-number-step', className)}
-    >
-      {children ?? <Mark kind='minus' />}
-    </BaseNumberField.Decrement>
-  )
-})
-export const NumberField = {
-  ...BaseNumberField,
-  Root: NumberRoot,
-  Increment: NumberIncrement,
-  Decrement: NumberDecrement,
-  Group: /* @__PURE__ */ part<
-    HTMLDivElement,
-    React.ComponentPropsWithoutRef<typeof BaseNumberField.Group>
-  >(BaseNumberField.Group, 'pui-number-group'),
-  Input: /* @__PURE__ */ part<
-    HTMLInputElement,
-    React.ComponentPropsWithoutRef<typeof BaseNumberField.Input>
-  >(BaseNumberField.Input, 'pui-number-input'),
-  ScrubArea: /* @__PURE__ */ part<
-    HTMLSpanElement,
-    React.ComponentPropsWithoutRef<typeof BaseNumberField.ScrubArea>
-  >(BaseNumberField.ScrubArea, 'pui-number-scrub'),
-}
-
 // Flat names for React Server Components, which cannot dot into client exports.
 export { ComboboxRoot }
 export const {
@@ -311,12 +206,3 @@ export const {
   Value: ComboboxValue,
   Content: ComboboxContent,
 } = Combobox
-export const {
-  Decrement: NumberFieldDecrement,
-  Group: NumberFieldGroup,
-  Increment: NumberFieldIncrement,
-  Input: NumberFieldInput,
-  Root: NumberFieldRoot,
-  ScrubArea: NumberFieldScrubArea,
-  ScrubAreaCursor: NumberFieldScrubAreaCursor,
-} = NumberField

@@ -57,7 +57,7 @@ Surfaces establish hierarchy, with outlines reserved for boundaries and explicit
 
 These principles evolve through explicit design decisions and working examples. New direction belongs in the relevant foundation, component or pattern, with its tokens and interaction guidance kept in sync.
 
-Root imports remain available. Explicit entry points include button, input, select, slot, popover, tooltip, dialog, sizing, chart, markdown and syntax-highlighter. Every namespace part also has a flat export with the same component, for example `Dialog.Trigger` and `DialogTrigger`. Button variants are primary, secondary, outline, ghost, destructive and link; default aliases primary. Component docs and live examples describe their detailed API.
+Every component also has its own entry point, named after its catalog page: `@surflane/ui/checkbox` is the [Checkbox](https://surflane.page/components/checkbox) page, `@surflane/ui/app-shell` the [App shell](https://surflane.page/patterns/app-shell) pattern. Root imports remain available. Every namespace part also has a flat export with the same component, for example `Dialog.Trigger` and `DialogTrigger`. Button variants are primary, secondary, outline, ghost, destructive and link; default aliases primary. Component docs and live examples describe their detailed API.
 
 ## Artifacts and release checks
 
