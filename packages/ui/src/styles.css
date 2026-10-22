@@ -3384,8 +3384,11 @@
     text-underline-offset: 3px;
   }
   .pui-chart-table .pui-scroll-root {
-    max-height: 320px;
     margin-top: var(--space-2);
+  }
+  /* The data table scrolls inside a bounded region, so long series stay compact. */
+  .pui-chart-table .pui-scroll-viewport {
+    max-block-size: 320px;
   }
   @media (max-width: 760px), (pointer: coarse) {
     .pui-chart-legend-button {

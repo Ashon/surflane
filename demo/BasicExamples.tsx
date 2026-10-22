@@ -216,25 +216,23 @@ export function BasicExample({
           <Popover.Trigger render={<Button variant='outline' />}>
             {t.inspectAccount}
           </Popover.Trigger>
-          <Popover.Portal>
-            <Popover.Content>
-              <Stack gap={4} className='spacing-example'>
-                <Stack gap={1} className='spacing-example'>
-                  <Popover.Title>{t.previewAccount}</Popover.Title>
-                  <Popover.Description>{t.reviewDetails}</Popover.Description>
-                </Stack>
-                <label>
-                  {t.nickname}
-                  <Input placeholder={t.displayName} />
-                </label>
-                <Inline gap={2}>
-                  <Popover.Close render={<Button variant='outline' />}>
-                    {t.done}
-                  </Popover.Close>
-                </Inline>
+          <Popover.Content>
+            <Stack gap={4} className='spacing-example'>
+              <Stack gap={1} className='spacing-example'>
+                <Popover.Title>{t.previewAccount}</Popover.Title>
+                <Popover.Description>{t.reviewDetails}</Popover.Description>
               </Stack>
-            </Popover.Content>
-          </Popover.Portal>
+              <label>
+                {t.nickname}
+                <Input placeholder={t.displayName} />
+              </label>
+              <Inline gap={2}>
+                <Popover.Close render={<Button variant='outline' />}>
+                  {t.done}
+                </Popover.Close>
+              </Inline>
+            </Stack>
+          </Popover.Content>
         </Popover.Root>
       )
       break

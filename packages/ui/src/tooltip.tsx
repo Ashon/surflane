@@ -24,12 +24,18 @@ export function TooltipProvider({
 export function Tooltip({
   label,
   enabled = true,
+  side = 'right',
+  align,
+  sideOffset = 10,
   children,
 }: {
   label: string
   enabled?: boolean
   children: React.ReactElement
-}) {
+} & Pick<
+  React.ComponentPropsWithoutRef<typeof BaseTooltip.Positioner>,
+  'side' | 'align' | 'sideOffset'
+>) {
   const scheme = useComponentSize()
   if (!enabled) return children
   return (
@@ -37,8 +43,9 @@ export function Tooltip({
       <BaseTooltip.Trigger render={children} />
       <BaseTooltip.Portal>
         <BaseTooltip.Positioner
-          side='right'
-          sideOffset={10}
+          side={side}
+          align={align}
+          sideOffset={sideOffset}
           collisionPadding={8}
           className='pui-positioner pui-tooltip-positioner'
         >

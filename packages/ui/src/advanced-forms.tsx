@@ -2,7 +2,7 @@
 import * as React from 'react'
 import { Combobox as BaseCombobox } from '@base-ui/react/combobox'
 import { NumberField as BaseNumberField } from '@base-ui/react/number-field'
-import { skin, part } from './parts.js'
+import { OwnPortal, defined, part, scopedPortal, skin } from './parts.js'
 import { useRootRef, useResetValue } from './form-state.js'
 function Mark({
   kind,
@@ -63,18 +63,30 @@ const ComboPositioner = /* @__PURE__ */ part<
 >(BaseCombobox.Positioner, 'pui-positioner')
 const ComboContent = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
-  React.ComponentPropsWithoutRef<typeof BaseCombobox.Popup> & {
-    positionerProps?: React.ComponentPropsWithoutRef<
-      typeof BaseCombobox.Positioner
-    >
-  }
->(function ComboContent({ positionerProps, ...props }, ref) {
+  React.ComponentPropsWithoutRef<typeof BaseCombobox.Popup> &
+    Pick<
+      React.ComponentPropsWithoutRef<typeof BaseCombobox.Positioner>,
+      'side' | 'align' | 'sideOffset' | 'collisionPadding'
+    > & {
+      /** @deprecated Pass side, align, sideOffset and collisionPadding directly. */
+      positionerProps?: React.ComponentPropsWithoutRef<
+        typeof BaseCombobox.Positioner
+      >
+    }
+>(function ComboContent(
+  { side, align, sideOffset, collisionPadding, positionerProps, ...props },
+  ref,
+) {
   return (
-    <BaseCombobox.Portal>
-      <ComboPositioner sideOffset={6} {...positionerProps}>
+    <OwnPortal portal={BaseCombobox.Portal}>
+      <ComboPositioner
+        sideOffset={6}
+        {...positionerProps}
+        {...defined({ side, align, sideOffset, collisionPadding })}
+      >
         <ComboPopup {...props} ref={ref} />
       </ComboPositioner>
-    </BaseCombobox.Portal>
+    </OwnPortal>
   )
 })
 const ComboTrigger = /* @__PURE__ */ React.forwardRef<
@@ -139,6 +151,7 @@ const ComboRemove = /* @__PURE__ */ React.forwardRef<
 export const Combobox = {
   ...BaseCombobox,
   Root: ComboboxRoot,
+  Portal: /* @__PURE__ */ scopedPortal(BaseCombobox.Portal),
   Content: ComboContent,
   Popup: ComboPopup,
   Positioner: ComboPositioner,

@@ -24,7 +24,7 @@ export const contentDocs: Record<string, ComponentDoc> = {
   </Card.Footer>
 </Card.Root>`,
     props: [
-      ['Root.tone', 'subtle | canvas', 'subtle'],
+      ['Root.surface', 'subtle | canvas; tone is the earlier name', 'subtle'],
       ['Root.padding', 'shared Space token step', '6 (24px)'],
       ['Title.level', '2 | 3 | 4 | 5 | 6', '3'],
       ['Header / Body / Footer', 'native div props', '—'],

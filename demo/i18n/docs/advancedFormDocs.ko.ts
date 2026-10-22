@@ -18,7 +18,7 @@ export const advancedFormDocsKo: Record<string, DocKo> = {
       'Root.multiple': 'Chips / ChipRemove로 배열 선택',
       'Root.itemToStringLabel / itemToStringValue': '객체 표시 / 제출 매핑',
       'Root.inputValue / onInputValueChange': '제어되는 검색 쿼리',
-      'Content.positionerProps': 'side / align / sideOffset / 충돌 옵션',
+      'Content.side / align / sideOffset / collisionPadding': '팝업 배치',
       'Root.name / form / required / disabled / readOnly':
         '폼 소유권과 컨트롤 상태',
       'Form reset':

@@ -87,6 +87,15 @@ export const Select = /* @__PURE__ */ React.forwardRef<
 ) {
   const scheme = useComponentSize(size)
   const options = flatten(items)
+  // One stable callback, so the trigger ref is not detached on every render.
+  const setTrigger = React.useCallback(
+    (node: HTMLButtonElement | null) => {
+      for (const target of [ref, triggerRef])
+        if (typeof target === 'function') target(node)
+        else if (target) target.current = node
+    },
+    [ref, triggerRef],
+  )
   const [localValue, setLocalValue] = React.useState(
     defaultValue ?? options[0]?.value ?? '',
   )
@@ -142,11 +151,7 @@ export const Select = /* @__PURE__ */ React.forwardRef<
       >
         <BaseSelect.Trigger
           {...aria}
-          ref={(node) => {
-            for (const target of [ref, triggerRef])
-              if (typeof target === 'function') target(node)
-              else if (target) target.current = node
-          }}
+          ref={setTrigger}
           className='pui-select-trigger form-control'
           data-value={selected}
         >

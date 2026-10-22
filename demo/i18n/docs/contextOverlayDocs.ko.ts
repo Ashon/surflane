@@ -13,7 +13,7 @@ export const contextOverlayDocsKo: Record<string, DocKo> = {
       'Root.disabled':
         '컨텍스트 열기 비활성화. 보이는 Menu는 별도로 유지됩니다.',
       Trigger: 'div; 오른쪽 클릭 또는 500ms 길게 누르기',
-      'Content.positionerProps': '커서를 인식하는 ContextMenu.Positioner props',
+      'Content.side / align / sideOffset / collisionPadding': '커서 기준 배치',
       'Content / Popup': '전달된 div ref, 상태 className, 렌더 구성',
       'Item / CheckboxItem / RadioItem / SubmenuTrigger':
         'Menu와 동일한 스타일 파트와 SVG 표시기',
@@ -33,7 +33,8 @@ export const contextOverlayDocsKo: Record<string, DocKo> = {
       'Trigger.delay / closeDelay': '열기/닫기 지연(밀리초)',
       'createHandle<Payload> / Trigger.payload':
         '타입이 지정된 분리 또는 다중 트리거',
-      'Content.positionerProps': 'side, align, anchor, 충돌 옵션',
+      'Content.side / align / sideOffset / collisionPadding':
+        '트리거 기준 배치',
       'Content / Popup': '전달된 div ref와 상태 의존 className',
     },
   },

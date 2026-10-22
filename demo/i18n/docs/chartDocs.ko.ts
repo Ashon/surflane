@@ -35,8 +35,8 @@ export const chartDocsKo: Record<string, DocKo> = {
         'Intl 숫자 locale / 선택적 유한 값 포맷터(단위 추가)',
       'hiddenSeries / defaultHiddenSeries / onHiddenSeriesChange':
         '제어 또는 비제어 숨김 키; 콜백이 다음 키를 요청',
-      'missingLabel / emptyLabel':
-        '누락 또는 비유한 값, 숫자 측정값이 없는 경우의 텍스트 대안',
+      labels:
+        '차트가 보여 주거나 알리는 텍스트: missing, empty, noSeries, showAll, keyboardHelp, values, viewTable, table, tableCaption',
       'ref / className / figure props':
         '루트 HTMLElement ref와 네이티브 figure 속성',
     },

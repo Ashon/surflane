@@ -1,7 +1,7 @@
 'use client'
 import * as React from 'react'
 import { Menu as BaseMenu } from '@base-ui/react/menu'
-import { skin, part } from './parts.js'
+import { OwnPortal, part, scopedPortal, skin } from './parts.js'
 const MenuPopup = /* @__PURE__ */ part<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseMenu.Popup>
@@ -29,14 +29,16 @@ const MenuContent = /* @__PURE__ */ React.forwardRef<
   ref,
 ) {
   return (
-    <MenuPositioner
-      align={align}
-      side={side}
-      sideOffset={sideOffset}
-      collisionPadding={collisionPadding}
-    >
-      <MenuPopup {...props} ref={ref} className={className} />
-    </MenuPositioner>
+    <OwnPortal portal={BaseMenu.Portal}>
+      <MenuPositioner
+        align={align}
+        side={side}
+        sideOffset={sideOffset}
+        collisionPadding={collisionPadding}
+      >
+        <MenuPopup {...props} ref={ref} className={className} />
+      </MenuPositioner>
+    </OwnPortal>
   )
 })
 const MenuTrigger = /* @__PURE__ */ React.forwardRef<
@@ -136,8 +138,11 @@ const SubmenuTrigger = /* @__PURE__ */ React.forwardRef<
     </BaseMenu.SubmenuTrigger>
   )
 })
+/** Content brings its own portal; Portal stays for wrapping it, or raw parts. */
+const MenuPortal = /* @__PURE__ */ scopedPortal(BaseMenu.Portal)
 export const Menu = {
   ...BaseMenu,
+  Portal: MenuPortal,
   Content: MenuContent,
   Popup: MenuPopup,
   Positioner: MenuPositioner,
@@ -176,7 +181,7 @@ export const Menu = {
 }
 
 // Flat names for React Server Components, which cannot dot into client exports.
-export { MenuPopup, MenuPositioner, MenuTrigger, MenuContent }
+export { MenuPopup, MenuPositioner, MenuTrigger, MenuContent, MenuPortal }
 export const {
   Arrow: MenuArrow,
   Backdrop: MenuBackdrop,
@@ -192,7 +197,6 @@ export const {
   Item: MenuItem,
   LinkItem: MenuLinkItem,
   List: MenuList,
-  Portal: MenuPortal,
   RadioGroup: MenuRadioGroup,
   RadioItem: MenuRadioItem,
   RadioItemIndicator: MenuRadioItemIndicator,

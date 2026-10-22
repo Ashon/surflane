@@ -149,6 +149,7 @@ export {
   Grid,
   GridItem,
   Surface,
+  type SurfaceKind,
   Heading,
   Text,
   PageHeader,

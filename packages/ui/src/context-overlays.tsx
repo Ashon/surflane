@@ -3,24 +3,38 @@ import * as React from 'react'
 import { ContextMenu as BaseContextMenu } from '@base-ui/react/context-menu'
 import { PreviewCard as BasePreviewCard } from '@base-ui/react/preview-card'
 import { Menu } from './menu.js'
-import { part, skin } from './parts.js'
+import { OwnPortal, defined, part, scopedPortal, skin } from './parts.js'
 
 const ContextPositioner = /* @__PURE__ */ part<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseContextMenu.Positioner>
 >(BaseContextMenu.Positioner, 'pui-positioner')
+type Placement<Positioner extends React.ElementType> = Pick<
+  React.ComponentPropsWithoutRef<Positioner>,
+  'side' | 'align' | 'sideOffset' | 'collisionPadding'
+>
 const ContextContent = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
-  React.ComponentPropsWithoutRef<typeof BaseContextMenu.Popup> & {
-    positionerProps?: React.ComponentPropsWithoutRef<
-      typeof BaseContextMenu.Positioner
-    >
-  }
->(function ContextContent({ positionerProps, ...props }, ref) {
+  React.ComponentPropsWithoutRef<typeof BaseContextMenu.Popup> &
+    Placement<typeof BaseContextMenu.Positioner> & {
+      /** @deprecated Pass side, align, sideOffset and collisionPadding directly. */
+      positionerProps?: React.ComponentPropsWithoutRef<
+        typeof BaseContextMenu.Positioner
+      >
+    }
+>(function ContextContent(
+  { side, align, sideOffset, collisionPadding, positionerProps, ...props },
+  ref,
+) {
   return (
-    <ContextPositioner {...positionerProps}>
-      <Menu.Popup {...props} ref={ref} />
-    </ContextPositioner>
+    <OwnPortal portal={BaseContextMenu.Portal}>
+      <ContextPositioner
+        {...positionerProps}
+        {...defined({ side, align, sideOffset, collisionPadding })}
+      >
+        <Menu.Popup {...props} ref={ref} />
+      </ContextPositioner>
+    </OwnPortal>
   )
 })
 /** Same menu anatomy and styling, with the context-specific cursor positioner. */
@@ -30,6 +44,7 @@ export const ContextMenu = {
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseContextMenu.Trigger>
   >(BaseContextMenu.Trigger, 'pui-context-trigger'),
+  Portal: /* @__PURE__ */ scopedPortal(BaseContextMenu.Portal),
   Positioner: ContextPositioner,
   Content: ContextContent,
   Popup: Menu.Popup,
@@ -75,24 +90,33 @@ function PreviewTrigger<Payload>(
 }
 const PreviewContent = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
-  React.ComponentPropsWithoutRef<typeof BasePreviewCard.Popup> & {
-    positionerProps?: React.ComponentPropsWithoutRef<
-      typeof BasePreviewCard.Positioner
-    >
-  }
->(function PreviewContent({ positionerProps, ...props }, ref) {
+  React.ComponentPropsWithoutRef<typeof BasePreviewCard.Popup> &
+    Placement<typeof BasePreviewCard.Positioner> & {
+      /** @deprecated Pass side, align, sideOffset and collisionPadding directly. */
+      positionerProps?: React.ComponentPropsWithoutRef<
+        typeof BasePreviewCard.Positioner
+      >
+    }
+>(function PreviewContent(
+  { side, align, sideOffset, collisionPadding, positionerProps, ...props },
+  ref,
+) {
   return (
-    <PreviewPositioner
-      sideOffset={8}
-      collisionPadding={12}
-      {...positionerProps}
-    >
-      <PreviewPopup {...props} ref={ref} />
-    </PreviewPositioner>
+    <OwnPortal portal={BasePreviewCard.Portal}>
+      <PreviewPositioner
+        sideOffset={8}
+        collisionPadding={12}
+        {...positionerProps}
+        {...defined({ side, align, sideOffset, collisionPadding })}
+      >
+        <PreviewPopup {...props} ref={ref} />
+      </PreviewPositioner>
+    </OwnPortal>
   )
 })
 export const PreviewCard = {
   ...BasePreviewCard,
+  Portal: /* @__PURE__ */ scopedPortal(BasePreviewCard.Portal),
   Trigger: PreviewTrigger,
   Positioner: PreviewPositioner,
   Popup: PreviewPopup,

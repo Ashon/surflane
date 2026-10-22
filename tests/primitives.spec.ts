@@ -165,3 +165,42 @@ test('Select groups options under visible headings and submits the chosen value'
       .evaluate((form: HTMLFormElement) => new FormData(form).get('region')),
   ).toBe('ap-northeast-1')
 })
+
+test('popup Content portals itself once, with or without a Portal around it', async ({
+  page,
+}) => {
+  const portals = (popup: string) =>
+    page
+      .locator(popup)
+      .first()
+      .evaluate((el) => {
+        let count = 0
+        let host: Element | null = null
+        for (let n = el.parentElement; n; n = n.parentElement)
+          if (n.hasAttribute('data-base-ui-portal')) {
+            count += 1
+            host = n
+          }
+        return { count, inBody: host?.parentElement === document.body }
+      })
+  // The Popover example renders Content alone; the confirmation one keeps Portal.
+  await page.goto('/components/popover')
+  await waitForCatalogReady(page)
+  await page.locator('[data-preview-size] button').first().click()
+  expect(await portals('.pui-popover')).toEqual({ count: 1, inBody: true })
+  await page.keyboard.press('Escape')
+  await page.goto('/components/menu')
+  await waitForCatalogReady(page)
+  await page
+    .locator('[data-preview-size] button[aria-haspopup="menu"]')
+    .first()
+    .click()
+  expect(await portals('.pui-menu')).toEqual({ count: 1, inBody: true })
+  // The interaction lab's confirmation keeps <Popover.Portal> around Content.
+  await page.goto('/patterns/interaction-lab')
+  await waitForCatalogReady(page)
+  await page
+    .getByRole('button', { name: 'Preview reset confirmation', exact: true })
+    .click()
+  expect(await portals('.pui-popover')).toEqual({ count: 1, inBody: true })
+})

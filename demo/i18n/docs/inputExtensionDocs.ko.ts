@@ -15,7 +15,7 @@ export const inputExtensionDocsKo: Record<string, DocKo> = {
         '평면/그룹 제안; 호출하는 쪽 소유의 원격 결과',
       'Root.itemToStringValue': '표시/입력 텍스트로의 객체 변환',
       'Root.submitOnItemClick': '제안 선택 시 제출',
-      'Content.positionerProps': '팝업 배치 옵션',
+      'Content.side / align / sideOffset / collisionPadding': '팝업 배치',
       'Root.name / form / required / disabled / readOnly':
         '네이티브 폼 소유권, 초기화, 검증',
     },

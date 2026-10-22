@@ -21,7 +21,7 @@ export const contextOverlayDocs: Record<string, ComponentDoc> = {
 <ContextMenu.Root>
   <ContextMenu.Trigger>Log preview</ContextMenu.Trigger>
   <ContextMenu.Portal>
-    <ContextMenu.Content positionerProps={{ collisionPadding: 12 }}>
+    <ContextMenu.Content collisionPadding={12}>
       <ContextMenu.Item onClick={openLogs}>Open logs</ContextMenu.Item>
     </ContextMenu.Content>
   </ContextMenu.Portal>
@@ -50,8 +50,8 @@ export const contextOverlayDocs: Record<string, ComponentDoc> = {
       ],
       ['Trigger', 'div; right-click or 500ms long press', 'non-focusable'],
       [
-        'Content.positionerProps',
-        'cursor-aware ContextMenu.Positioner props',
+        'Content.side / align / sideOffset / collisionPadding',
+        'placement around the cursor',
         'Base UI defaults',
       ],
       [
@@ -89,7 +89,7 @@ export const contextOverlayDocs: Record<string, ComponentDoc> = {
     Deployment policy guide
   </PreviewCard.Trigger>
   <PreviewCard.Portal>
-    <PreviewCard.Content positionerProps={{ sideOffset: 8 }}>
+    <PreviewCard.Content sideOffset={8}>
       <strong>Deployment policy guide</strong>
       <p>Check allowed and blocked environments with temporary tokens.</p>
     </PreviewCard.Content>
@@ -113,8 +113,8 @@ export const contextOverlayDocs: Record<string, ComponentDoc> = {
         '—',
       ],
       [
-        'Content.positionerProps',
-        'side, align, anchor, and collision options',
+        'Content.side / align / sideOffset / collisionPadding',
+        'placement around the trigger',
         'sideOffset=8; collisionPadding=12',
       ],
       [

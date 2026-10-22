@@ -57,3 +57,41 @@ export function part<
     )
   })
 }
+
+/** True inside a namespace's own Portal, so a Content that brings its portal adds no
+ * second one. Each Content resets it, so a nested popup portals itself. */
+const PortalScope = /* @__PURE__ */ React.createContext(false)
+/** A namespace Portal that marks its subtree as already portalled. */
+export function scopedPortal<Portal extends React.ElementType>(
+  BasePortal: Portal,
+): Portal {
+  const Scoped = React.forwardRef(function Portal(props: object, ref) {
+    return (
+      <PortalScope.Provider value={true}>
+        {React.createElement(BasePortal, { ...props, ref })}
+      </PortalScope.Provider>
+    )
+  })
+  return Scoped as unknown as Portal
+}
+/** Renders a Content's positioner in its portal, unless a namespace Portal holds it. */
+export function OwnPortal({
+  portal: BasePortal,
+  children,
+}: {
+  portal: React.ElementType
+  children: React.ReactNode
+}) {
+  const inside = React.useContext(PortalScope)
+  const content = (
+    <PortalScope.Provider value={false}>{children}</PortalScope.Provider>
+  )
+  return inside ? content : <BasePortal>{content}</BasePortal>
+}
+
+/** Drops undefined entries, so explicit placement props override defaults only when set. */
+export function defined<Props extends object>(props: Props): Partial<Props> {
+  return Object.fromEntries(
+    Object.entries(props).filter(([, value]) => value !== undefined),
+  ) as Partial<Props>
+}

@@ -457,7 +457,7 @@
     background: var(--surface);
     color: var(--ink-body);
   }
-  .pui-card[data-tone='canvas'] {
+  .pui-card:is([data-surface='canvas'], [data-tone='canvas']) {
     background: var(--canvas);
   }
   .pui-card-header {

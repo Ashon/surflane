@@ -93,9 +93,9 @@ const data: ChartDatum[] = [
         'uncontrolled / []',
       ],
       [
-        'missingLabel / emptyLabel',
-        'text alternatives for missing or non-finite values, and for no numeric measurements',
-        'Not available / No numeric measurements to display.',
+        'labels',
+        'text the chart shows or announces: missing, empty, noSeries, showAll, keyboardHelp, values, viewTable, table, tableCaption',
+        'English',
       ],
       [
         'ref / className / figure props',

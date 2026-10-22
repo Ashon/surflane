@@ -88,7 +88,7 @@ export function ContextOverlayExample({ id }: { id: string }) {
               <ContextMenu.Portal>
                 <ContextMenu.Content
                   aria-label={t.logContextActions}
-                  positionerProps={{ collisionPadding: 12 }}
+                  collisionPadding={12}
                 >
                   <Items
                     pinned={pinned}

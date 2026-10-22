@@ -37,11 +37,39 @@ export type ChartProps = Omit<
   height?: number
   locale?: string
   formatValue?: (value: number) => string
+  /** Text the chart shows or announces; pass translations here. */
+  labels?: Partial<ChartLabels>
+  /** @deprecated Use labels.missing. */
   missingLabel?: string
+  /** @deprecated Use labels.empty. */
   emptyLabel?: string
   hiddenSeries?: readonly string[]
   defaultHiddenSeries?: readonly string[]
   onHiddenSeriesChange?: (keys: string[]) => void
+}
+export type ChartLabels = {
+  missing: string
+  empty: string
+  noSeries: string
+  showAll: string
+  keyboardHelp: string
+  values: (title: string) => string
+  viewTable: string
+  table: (title: string) => string
+  tableCaption: (unit: string) => string
+}
+const chartLabels: ChartLabels = {
+  missing: 'Not available',
+  empty: 'No numeric measurements to display.',
+  noSeries: 'No series selected.',
+  showAll: 'Show all series',
+  keyboardHelp:
+    'Focus the chart and use Left/Right to inspect points. Escape clears details. The data table includes every series.',
+  values: (title) => `${title} values`,
+  viewTable: 'View data table',
+  table: (title) => `${title} data table`,
+  tableCaption: (unit) =>
+    `All input measurements, including hidden series. Unit: ${unit}.`,
 }
 const dashes = [undefined, '7 4', '2 4', '10 3 2 3', '12 5', '4 3']
 const colorFor = (index: number) => `var(--chart-series-${(index % 3) + 1})`
@@ -108,8 +136,9 @@ export const Chart = /* @__PURE__ */ React.forwardRef<HTMLElement, ChartProps>(
       height = 280,
       locale = 'en-US',
       formatValue,
-      missingLabel = 'Not available',
-      emptyLabel = 'No numeric measurements to display.',
+      labels,
+      missingLabel,
+      emptyLabel,
       hiddenSeries,
       defaultHiddenSeries = [],
       onHiddenSeriesChange,
@@ -118,6 +147,12 @@ export const Chart = /* @__PURE__ */ React.forwardRef<HTMLElement, ChartProps>(
     },
     ref,
   ) {
+    const text: ChartLabels = {
+      ...chartLabels,
+      ...(missingLabel === undefined ? {} : { missing: missingLabel }),
+      ...(emptyLabel === undefined ? {} : { empty: emptyLabel }),
+      ...labels,
+    }
     const id = React.useId().replace(/[^a-zA-Z0-9_-]/g, '_')
     const [internalHidden, setInternalHidden] =
       React.useState<readonly string[]>(defaultHiddenSeries)
@@ -147,7 +182,7 @@ export const Chart = /* @__PURE__ */ React.forwardRef<HTMLElement, ChartProps>(
     const format = (value: number | null | undefined) =>
       typeof value === 'number' && Number.isFinite(value)
         ? `${formatValue ? formatValue(value) : number.format(value)} ${unit}`
-        : missingLabel
+        : text.missing
     const rows = React.useMemo(() => {
       const ids = new Set<string>(),
         keys = new Set<string>()
@@ -266,8 +301,7 @@ export const Chart = /* @__PURE__ */ React.forwardRef<HTMLElement, ChartProps>(
         {hasValues ? (
           <>
             <p className='pui-chart-help' id={`${id}-keys`}>
-              Focus the chart and use Left/Right to inspect points. Escape
-              clears details. The data table includes every series.
+              {text.keyboardHelp}
             </p>
             <div
               className='pui-chart-plot'
@@ -455,7 +489,7 @@ export const Chart = /* @__PURE__ */ React.forwardRef<HTMLElement, ChartProps>(
           <div className='pui-chart-empty' role='status'>
             {visible.length === 0 && series.length > 0 ? (
               <>
-                <p>No series selected.</p>
+                <p>{text.noSeries}</p>
                 <Button
                   variant='outline'
                   onClick={() => {
@@ -463,11 +497,11 @@ export const Chart = /* @__PURE__ */ React.forwardRef<HTMLElement, ChartProps>(
                     changeHidden([])
                   }}
                 >
-                  Show all series
+                  {text.showAll}
                 </Button>
               </>
             ) : (
-              <p>{emptyLabel}</p>
+              <p>{text.empty}</p>
             )}
           </div>
         )}
@@ -477,21 +511,18 @@ export const Chart = /* @__PURE__ */ React.forwardRef<HTMLElement, ChartProps>(
           role='status'
           aria-live='polite'
           aria-atomic='true'
-          aria-label={`${title} values`}
+          aria-label={text.values(title)}
           hidden={!hasValues}
         />
         <details className='pui-chart-table'>
-          <summary>View data table</summary>
+          <summary>{text.viewTable}</summary>
           <Table.Container
-            label={`${title} data table`}
+            label={text.table(title)}
             orientation='both'
             scrollChain='contain'
-            style={{ maxHeight: 320 }}
           >
             <Table.Root>
-              <Table.Caption>
-                All input measurements, including hidden series. Unit: {unit}.
-              </Table.Caption>
+              <Table.Caption>{text.tableCaption(unit)}</Table.Caption>
               <Table.Head>
                 <Table.Row>
                   <Table.HeaderCell scope='col'>{xLabel}</Table.HeaderCell>

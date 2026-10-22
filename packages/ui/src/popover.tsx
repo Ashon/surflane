@@ -1,6 +1,6 @@
 'use client'
 import * as React from 'react'
-import { part, sizeName, skin } from './parts.js'
+import { OwnPortal, part, scopedPortal, sizeName, skin } from './parts.js'
 import { useComponentSize, type ComponentSizeAlias } from './sizing.js'
 import { Popover as BasePopover } from '@base-ui/react/popover'
 function PopoverContent({
@@ -22,20 +22,22 @@ function PopoverContent({
   }) {
   const scheme = useComponentSize(size)
   return (
-    <BasePopover.Positioner
-      side={side}
-      align={align}
-      sideOffset={sideOffset}
-      collisionPadding={collisionPadding}
-      className='pui-positioner'
-    >
-      <BasePopover.Popup
-        data-ui-size={scheme}
-        data-size={sizeName(size)}
-        {...props}
-        className={skin('pui-popover', className)}
-      />
-    </BasePopover.Positioner>
+    <OwnPortal portal={BasePopover.Portal}>
+      <BasePopover.Positioner
+        side={side}
+        align={align}
+        sideOffset={sideOffset}
+        collisionPadding={collisionPadding}
+        className='pui-positioner'
+      >
+        <BasePopover.Popup
+          data-ui-size={scheme}
+          data-size={sizeName(size)}
+          {...props}
+          className={skin('pui-popover', className)}
+        />
+      </BasePopover.Positioner>
+    </OwnPortal>
   )
 }
 const PopoverTitle = /* @__PURE__ */ part<
@@ -46,22 +48,24 @@ const PopoverDescription = /* @__PURE__ */ part<
   HTMLParagraphElement,
   React.ComponentPropsWithoutRef<typeof BasePopover.Description>
 >(BasePopover.Description, 'pui-popover-description')
+/** Content brings its own portal; Portal stays for wrapping it, or raw parts. */
+const PopoverPortal = /* @__PURE__ */ scopedPortal(BasePopover.Portal)
 export const Popover = {
   ...BasePopover,
+  Portal: PopoverPortal,
   Content: PopoverContent,
   Title: PopoverTitle,
   Description: PopoverDescription,
 }
 
 // Flat names for React Server Components, which cannot dot into client exports.
-export { PopoverContent, PopoverTitle, PopoverDescription }
+export { PopoverContent, PopoverTitle, PopoverDescription, PopoverPortal }
 export const {
   Arrow: PopoverArrow,
   Backdrop: PopoverBackdrop,
   Close: PopoverClose,
   Handle: PopoverHandle,
   Popup: PopoverPopup,
-  Portal: PopoverPortal,
   Positioner: PopoverPositioner,
   Root: PopoverRoot,
   Trigger: PopoverTrigger,

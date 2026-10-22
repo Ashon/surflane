@@ -69,8 +69,8 @@ export const advancedFormDocs: Record<string, ComponentDoc> = {
         'Base UI managed',
       ],
       [
-        'Content.positionerProps',
-        'side / align / sideOffset / collision options',
+        'Content.side / align / sideOffset / collisionPadding',
+        'popup placement',
         'sideOffset=6',
       ],
       [

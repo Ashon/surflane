@@ -39,6 +39,8 @@ export type FileUploadLabels = {
   failed: (file: File) => string
   reset: string
   progress: (file: File) => string
+  /** Shown when an upload fails and getUploadError gives no message. */
+  uploadError: string
 }
 const labelsDefault: FileUploadLabels = {
   choose: 'Choose files',
@@ -62,6 +64,7 @@ const labelsDefault: FileUploadLabels = {
   failed: (file) => `${file.name}: upload failed.`,
   reset: 'Files reset.',
   progress: (file) => `${file.name} upload progress`,
+  uploadError: 'Upload failed. Try again.',
 }
 export type FileUploadProps = Omit<
   React.ComponentPropsWithoutRef<typeof Field.Root>,
@@ -372,7 +375,7 @@ export const FileUpload = /* @__PURE__ */ React.forwardRef<
       }
     } catch (error) {
       if (current()) {
-        let message = 'Upload failed. Try again.'
+        let message = labels.uploadError
         try {
           message = getUploadError?.(error) || message
         } catch {}

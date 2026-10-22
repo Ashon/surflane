@@ -13,6 +13,10 @@
 - `Table.Container` takes `bleed`, which hangs the table by its cell inset so cell text lines up with the text around it.
 - Select options can be groups, `{ label, options }`, shown under a heading. NativeSelect keeps optgroup labels the same way. Select forwards `ref` to its trigger.
 - Checkbox, Radio and Switch take `size`. Without it they follow the surrounding size.
+- Popover, Menu, ContextMenu, PreviewCard, Combobox and Autocomplete `Content` bring their own portal, as Dialog's does. A `Portal` around them keeps working without adding a second one.
+- ContextMenu, PreviewCard, Combobox and Autocomplete `Content` take `side`, `align`, `sideOffset` and `collisionPadding` directly, as Popover and Menu do; `positionerProps` stays as a deprecated alias. Tooltip takes `side`, `align` and `sideOffset`.
+- Surface and Card take `surface` (`subtle` or `canvas`) for their background. `tone` stays as a deprecated alias, so `tone` keeps one meaning, a status color.
+- Chart takes `labels` for all of its text, replacing `missingLabel` and `emptyLabel`, which stay as deprecated aliases. FileUpload's `labels` gains `uploadError`, the message when an upload fails without one of its own.
 - Overlay width tokens: `--size-dialog-*`, `--size-popover-*` and `--size-panel-*`.
 - Focus and target tokens: `--focus-ring-width`, `--focus-ring-offset`, `--focus-ring-inset` and `--control-focus-ring-size`, and `--control-target-size` (44px).
 - `--layout-reading-measure` (54ch) holds reading text to about 70 Latin or 50 Hangul characters per line. Paragraphs, lists and quotes in `Prose` and `Markdown` keep to it, while tables, code and images still use the full reading width. The catalog's manual copy uses the same measure with the reading role (16/28).

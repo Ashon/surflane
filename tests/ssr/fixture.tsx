@@ -180,7 +180,7 @@ function Foundations() {
           </Inline>
           <Grid columns={3} gap={4}>
             <GridItem span={4}>
-              <Surface tone='subtle' padding={4}>
+              <Surface surface='subtle' padding={4}>
                 <Text as='span' variant='metric'>
                   42
                 </Text>

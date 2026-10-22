@@ -70,7 +70,8 @@
     background: var(--surface);
     color: var(--ink);
   }
-  .pui-surface[data-tone='canvas'] {
+  /* data-tone is the earlier name of data-surface. */
+  .pui-surface:is([data-surface='canvas'], [data-tone='canvas']) {
     background: var(--canvas);
     border-radius: var(--radius-sheet);
   }

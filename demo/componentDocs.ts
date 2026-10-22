@@ -208,7 +208,7 @@ import NextLink from 'next/link'
     keyboard:
       'The Trigger opens the popover and moves focus inside. Escape or an outside click closes it and returns focus to the Trigger.',
     anatomy:
-      'Root → Trigger + Portal → Content(Positioner + Popup) → Title / Description / Close',
+      'Root → Trigger + Content(Portal + Positioner + Popup) → Title / Description / Close',
     tokens: [
       '--menu-border',
       '--shadow-float',
@@ -221,12 +221,10 @@ import NextLink from 'next/link'
 
 <Popover.Root>
   <Popover.Trigger render={<Button />}>Inspect</Popover.Trigger>
-  <Popover.Portal>
-    <Popover.Content>
-      <Popover.Title>Account</Popover.Title>
-      <Popover.Description>Preview details.</Popover.Description>
-    </Popover.Content>
-  </Popover.Portal>
+  <Popover.Content>
+    <Popover.Title>Account</Popover.Title>
+    <Popover.Description>Preview details.</Popover.Description>
+  </Popover.Content>
 </Popover.Root>`,
     props: [
       [
@@ -254,19 +252,18 @@ import NextLink from 'next/link'
     avoid: "Don't use Menu to choose a form value. Use Select instead.",
     keyboard:
       'Arrow keys, Home, End, and typing move between items. Enter or Space activates an item. Escape closes the menu.',
-    anatomy: 'Root → Trigger + Portal → Content → Item / Group / Separator',
+    anatomy:
+      'Root → Trigger + Content(Portal + Positioner + Popup) → Item / Group / Separator',
     tokens: ['--menu-border', '--shadow-float', '--selected'],
     code: `import { Menu, Button } from '@surflane/ui'
 
 <Menu.Root>
   <Menu.Trigger render={<Button />}>Actions</Menu.Trigger>
-  <Menu.Portal>
-    <Menu.Content>
-      <Menu.Item className='pui-select-item' onClick={inspect}>
-        Inspect
-      </Menu.Item>
-    </Menu.Content>
-  </Menu.Portal>
+  <Menu.Content>
+    <Menu.Item className='pui-select-item' onClick={inspect}>
+      Inspect
+    </Menu.Item>
+  </Menu.Content>
 </Menu.Root>`,
     props: [
       ['Content.align / sideOffset', 'Base UI positioner props', 'end / 6'],
@@ -296,6 +293,11 @@ import NextLink from 'next/link'
     props: [
       ['label', 'string', 'required'],
       ['enabled', 'boolean', 'true'],
+      [
+        'side / align / sideOffset',
+        'placement around the trigger',
+        'right / center / 10',
+      ],
       ['children', 'single ReactElement', 'required'],
     ],
   },
@@ -523,14 +525,12 @@ import NextLink from 'next/link'
 // Compose Popover + Button; no standalone Confirm export.
 <Popover.Root open={open} onOpenChange={setOpen}>
   <Popover.Trigger render={<Button />}>Reset filters</Popover.Trigger>
-  <Popover.Portal>
-    <Popover.Content>
-      <Popover.Title>Reset filters?</Popover.Title>
-      <Popover.Description>Restore default filters.</Popover.Description>
-      <Popover.Close render={<Button />}>Keep filters</Popover.Close>
-      <Button onClick={reset}>Reset filters</Button>
-    </Popover.Content>
-  </Popover.Portal>
+  <Popover.Content>
+    <Popover.Title>Reset filters?</Popover.Title>
+    <Popover.Description>Restore default filters.</Popover.Description>
+    <Popover.Close render={<Button />}>Keep filters</Popover.Close>
+    <Button onClick={reset}>Reset filters</Button>
+  </Popover.Content>
 </Popover.Root>`,
     props: [['Composition', 'Popover + Button', 'no standalone export']],
   },

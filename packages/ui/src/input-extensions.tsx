@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Autocomplete as BaseAutocomplete } from '@base-ui/react/autocomplete'
 import { Slider as BaseSlider } from '@base-ui/react/slider'
 import { Combobox } from './advanced-forms.js'
-import { skin, part } from './parts.js'
+import { part, scopedPortal, skin } from './parts.js'
 import { useResetValue, useRootRef } from './form-state.js'
 const AutocompleteRoot: typeof BaseAutocomplete.Root =
   function AutocompleteRoot({
@@ -73,6 +73,7 @@ const AutoClear = /* @__PURE__ */ React.forwardRef<
 export const Autocomplete = {
   ...BaseAutocomplete,
   Root: AutocompleteRoot,
+  Portal: /* @__PURE__ */ scopedPortal(BaseAutocomplete.Portal),
   Content: Combobox.Content,
   Popup: Combobox.Popup,
   Positioner: Combobox.Positioner,

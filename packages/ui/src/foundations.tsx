@@ -110,11 +110,18 @@ export const GridItem = /* @__PURE__ */ React.forwardRef<
     />
   )
 })
+export type SurfaceKind = 'canvas' | 'subtle'
 export const Surface = /* @__PURE__ */ React.forwardRef<
   HTMLDivElement,
-  React.ComponentProps<'div'> & { tone?: 'canvas' | 'subtle'; padding?: Space }
+  React.ComponentProps<'div'> & {
+    /** The background: subtle sits on the sheet, canvas matches it. */
+    surface?: SurfaceKind
+    /** @deprecated Use surface; tone names a status color elsewhere. */
+    tone?: SurfaceKind
+    padding?: Space
+  }
 >(function Surface(
-  { tone = 'subtle', padding, className, style, ...props },
+  { surface, tone, padding, className, style, ...props },
   ref,
 ) {
   return (
@@ -122,7 +129,7 @@ export const Surface = /* @__PURE__ */ React.forwardRef<
       {...props}
       ref={ref}
       className={cx('pui-surface', className)}
-      data-tone={tone}
+      data-surface={surface ?? tone ?? 'subtle'}
       style={
         {
           ...(padding === undefined

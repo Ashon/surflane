@@ -59,7 +59,11 @@ export const inputExtensionDocs: Record<string, ComponentDoc> = {
         'automatic for {label,value}',
       ],
       ['Root.submitOnItemClick', 'submit when a suggestion is chosen', 'false'],
-      ['Content.positionerProps', 'popup placement options', 'sideOffset=6'],
+      [
+        'Content.side / align / sideOffset / collisionPadding',
+        'popup placement',
+        'sideOffset=6',
+      ],
       [
         'Root.name / form / required / disabled / readOnly',
         'native form ownership, reset, and validation',
