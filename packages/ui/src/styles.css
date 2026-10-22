@@ -792,6 +792,20 @@
       border-color var(--duration-fast) var(--ease-out),
       box-shadow var(--duration-fast) var(--ease-out);
   }
+  /* With no text inside, an inline control rests on the baseline, above the middle of a
+   * table row. In a cell it becomes a block, so the cell centers it exactly, and it
+   * still follows the cell's alignment. Put a labelled control in a pui-choice-label. */
+  .pui-table-cell > :is(.pui-checkbox, .pui-radio, .pui-switch) {
+    display: flex;
+  }
+  .pui-table-cell[data-align='center']
+    > :is(.pui-checkbox, .pui-radio, .pui-switch) {
+    margin-inline: auto;
+  }
+  .pui-table-cell[data-align='end']
+    > :is(.pui-checkbox, .pui-radio, .pui-switch) {
+    margin-inline-start: auto;
+  }
   .pui-checkbox:hover:not([data-disabled], [data-readonly]),
   .pui-radio:hover:not([data-disabled], [data-readonly]),
   .pui-switch:hover:not([data-disabled], [data-readonly]) {

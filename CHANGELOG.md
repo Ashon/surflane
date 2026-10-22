@@ -23,6 +23,10 @@
 - `themeCss` output starts with the layer order statement and wraps its rules in `@layer surflane.themes`. `layerOrder` exports the statement.
 - With Tailwind CSS v4, the docs import every Surflane stylesheet, including theme presets and `shadcn.css`, with `layer(components)`: above Preflight, below utilities. The `layer(theme)` imports from 0.3.0 keep working.
 
+### Fixed
+
+- Checkboxes, radios and switches in table cells center on the row. They rested on the text baseline, 2 to 3px above the middle, in every table and data table.
+
 ### Migration
 
 - Import Chart, DatePicker, Markdown and Tree from their entry points, and install the libraries they need. Wrap the app in `<SyntaxHighlighting>` to keep highlighted code.
