@@ -41,6 +41,7 @@ const ready = new Set([
   'card',
   'code',
   'pagination',
+  'bottom-navigation',
   'table',
   'list',
   'stat',
@@ -308,6 +309,13 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
     2,
   ],
   [
+    'bottom-navigation',
+    'Bottom navigation',
+    'Navigation',
+    "Puts a phone's main destinations along the bottom edge.",
+    2,
+  ],
+  [
     'avatar',
     'Avatar',
     'Data display',
@@ -460,6 +468,7 @@ const nonBase = new Set([
   'link',
   'breadcrumbs',
   'pagination',
+  'bottom-navigation',
   'badge',
   'card',
   'table',
@@ -541,6 +550,10 @@ const specializedCriteria: Record<string, string[]> = {
     'An accessible name that states the trend, gaps for missing values, and no interaction',
   ],
   'otp-field': ['Code paste, autofill, deletion, errors, expiry, and resend'],
+  'bottom-navigation': [
+    'Three to five destinations, the current one marked, badges with a spoken meaning',
+    'Safe-area padding, content padded by its height, and hidden where the sidebar shows',
+  ],
   toast: [
     'aria-live priority, duration, pause on hover/focus, duplicates, and actions',
   ],

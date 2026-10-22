@@ -8,6 +8,10 @@ const en = {
     ['--menu-background', 'Opaque surface for menus, select lists, and toasts'],
     ['--shadow-sheet', 'Subtle separation for the content sheet'],
     ['--shadow-float', 'Depth for transient popups and notifications'],
+    [
+      '--layer-chrome',
+      'Fixed app chrome, such as BottomNavigation, under every overlay',
+    ],
     ['--layer-backdrop', 'Blocking backdrop behind a Dialog'],
     ['--layer-dialog', 'Positioner for Dialog and Sheet/Drawer'],
     ['--layer-popup', 'Menus, select lists, popovers, and toasts'],
@@ -117,6 +121,10 @@ export const text: Record<Locale, typeof en> = {
       ['--menu-background', '메뉴, 선택 목록, 토스트용 불투명 면'],
       ['--shadow-sheet', '콘텐츠 시트를 은은하게 구분'],
       ['--shadow-float', '일시적 팝업과 알림의 깊이'],
+      [
+        '--layer-chrome',
+        'BottomNavigation 같은 고정 앱 크롬, 모든 오버레이 아래',
+      ],
       ['--layer-backdrop', 'Dialog 뒤의 배경 차단 면'],
       ['--layer-dialog', 'Dialog와 Sheet/Drawer의 Positioner'],
       ['--layer-popup', '메뉴, 선택 목록, Popover, 토스트'],

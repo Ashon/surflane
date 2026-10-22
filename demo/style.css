@@ -928,6 +928,32 @@ body,
   white-space: nowrap;
 }
 
+/* A phone-width screen: the content scrolls between the title and BottomNavigation,
+ * which sits in the flow here; an app keeps it fixed and pads the content instead. */
+.bottom-nav-preview {
+  display: flex;
+  flex-direction: column;
+  inline-size: 100%;
+  max-inline-size: 390px;
+  block-size: 520px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--canvas);
+}
+.bottom-nav-preview-title {
+  margin: 0;
+  padding: var(--space-4) var(--space-4) var(--space-2);
+}
+.bottom-nav-preview-body {
+  flex: 1;
+  min-block-size: 0;
+}
+.bottom-nav-preview-viewport {
+  block-size: 100%;
+  padding-inline: var(--space-4);
+}
+
 /* Stack spacing owns the rhythm; native paragraph margins must not double it. */
 .example-stack > p {
   margin: 0;

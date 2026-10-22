@@ -55,6 +55,10 @@ export const descriptions = {
     "Opaque text selection surface in each theme's neutral gray",
   '--selection-foreground':
     'Text color that keeps contrast on the text selection surface',
+  '--layer-chrome':
+    'Global layer for fixed app chrome, such as BottomNavigation, below every overlay',
+  '--size-bottom-navigation':
+    'Height of BottomNavigation above the safe area; pad scrolling content by it',
   '--layer-backdrop': 'Global layer for the Dialog backdrop',
   '--layer-dialog': 'Global layer for Dialog and Sheet/Drawer positioners',
   '--layer-popup': 'Global layer for select lists, menus, popovers and toasts',

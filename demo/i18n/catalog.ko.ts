@@ -94,6 +94,8 @@ export const catalogKo: {
     '/components/link': '명확한 대상으로 이동합니다.',
     '/components/breadcrumbs': '현재 위치와 상위 경로를 보여 줍니다.',
     '/components/pagination': '큰 결과 집합을 페이지로 나눕니다.',
+    '/components/bottom-navigation':
+      '휴대폰의 주요 목적지를 화면 아래쪽에 둡니다.',
     '/components/avatar': '사용자와 그룹 이미지를 폴백과 함께 보여 줍니다.',
     '/components/badge': '상태를 색, 아이콘, 텍스트로 함께 보여 줍니다.',
     '/components/card': '관련 정보만 한 표면에 그룹화합니다.',

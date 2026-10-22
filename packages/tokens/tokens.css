@@ -519,6 +519,7 @@
 
   :root,
   [data-theme] {
+    --layer-chrome: 1000;
     --layer-backdrop: 1090;
     --layer-dialog: 1100;
     --layer-popup: 1200;

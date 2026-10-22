@@ -1,0 +1,144 @@
+/* Bottom navigation, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+
+@layer surflane.components {
+  /* The phone's chrome along the bottom edge, as the sidebar is on wider screens. It
+     shows where AppShell hides the sidebar, and pads the home indicator's safe area. */
+  .pui-bottom-nav {
+    box-sizing: border-box;
+    display: none;
+    inline-size: 100%;
+    padding-block-end: env(safe-area-inset-bottom, 0px);
+    border-block-start: 1px solid var(--line);
+    background: var(--chrome);
+  }
+  .pui-bottom-nav[data-visible='always'] {
+    display: block;
+  }
+  @media (max-width: 760px) {
+    .pui-bottom-nav {
+      display: block;
+    }
+  }
+  .pui-bottom-nav[data-position='fixed'] {
+    position: fixed;
+    inset-inline: 0;
+    inset-block-end: 0;
+    z-index: var(--layer-chrome);
+  }
+  .pui-bottom-nav-list {
+    display: flex;
+    block-size: var(--size-bottom-navigation);
+    margin: 0;
+    padding: 0 var(--space-1);
+    list-style: none;
+  }
+  .pui-bottom-nav-entry {
+    display: flex;
+    flex: 1 1 0;
+    min-inline-size: 0;
+  }
+  .pui-bottom-nav-item {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-1);
+    min-inline-size: 0;
+    min-block-size: var(--control-target-size);
+    color: var(--ink-muted);
+    font: var(--weight-medium)
+      var(--type-caption-size)/var(--type-caption-leading) var(--font-body);
+    letter-spacing: var(--type-caption-tracking);
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* The icon sits in a pill: the current destination fills it, touch presses it. */
+  .pui-bottom-nav-icon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-1) var(--space-4);
+    border-radius: var(--radius-full);
+    transition: background-color var(--duration-fast) var(--ease-out);
+  }
+  /* Icons take the medium size here unless their own size prop sets one. */
+  .pui-bottom-nav-icon > .pui-icon:not([data-size]) {
+    width: var(--icon-size-md);
+    height: var(--icon-size-md);
+  }
+  .pui-bottom-nav-item[aria-current='page'] {
+    color: var(--ink);
+  }
+  .pui-bottom-nav-item[aria-current='page'] .pui-bottom-nav-icon {
+    background: var(--selected);
+  }
+  @media (hover: hover) {
+    .pui-bottom-nav-item:hover .pui-bottom-nav-icon {
+      background-image: linear-gradient(
+        var(--interaction-hover-bg),
+        var(--interaction-hover-bg)
+      );
+    }
+  }
+  .pui-bottom-nav-item:active .pui-bottom-nav-icon {
+    background-image: linear-gradient(
+      var(--interaction-active-bg),
+      var(--interaction-active-bg)
+    );
+  }
+  .pui-bottom-nav-item:focus-visible {
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-inset);
+    border-radius: var(--radius-md);
+  }
+  .pui-bottom-nav-label {
+    max-inline-size: 100%;
+    padding-inline: var(--space-1);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  /* A count or a dot at the pill's top corner, in the danger color. */
+  .pui-bottom-nav-badge {
+    position: absolute;
+    inset-block-start: calc(-1 * var(--space-1));
+    inset-inline-start: calc(50% + var(--space-1));
+    box-sizing: border-box;
+    min-inline-size: calc(var(--type-caption-leading) * 1em);
+    padding-inline: var(--space-1);
+    border-radius: var(--radius-full);
+    background: var(--status-danger-fg);
+    color: var(--canvas);
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+  }
+  .pui-bottom-nav-badge[data-dot] {
+    inset-block-start: 0;
+    min-inline-size: 0;
+    inline-size: var(--space-2);
+    block-size: var(--space-2);
+    padding: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pui-bottom-nav-icon {
+      transition: none;
+    }
+  }
+  @media (forced-colors: active) {
+    .pui-bottom-nav {
+      border-block-start-color: CanvasText;
+    }
+    .pui-bottom-nav-item[aria-current='page'] .pui-bottom-nav-icon {
+      outline: 1px solid Highlight;
+    }
+    .pui-bottom-nav-badge {
+      border: 1px solid CanvasText;
+    }
+  }
+}

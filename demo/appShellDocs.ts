@@ -16,7 +16,7 @@ export const appShellDocs: Record<string, ComponentDoc> = {
     avoid: [
       "Don't force an icon sidebar on every product. A documentation sidebar can stay text-first.",
       "Don't give links a menu role. Mark the current page with aria-current, not aria-expanded.",
-      "Don't hide the desktop sidebar on mobile without other navigation. Provide a replacement, such as a bottom Sheet.",
+      "Don't hide the desktop sidebar on mobile without other navigation. Provide a replacement, such as a bottom Sheet or BottomNavigation.",
       "Don't expect the layout module to handle permissions or sign-in. Handle them in the application.",
       "Don't fade the sidebar edge with a blur that blurs text.",
       "Don't give two shells on one page the shortcut. Set shortcut={false} on any shell that only illustrates, such as a mockup.",

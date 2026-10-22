@@ -78,6 +78,7 @@
     "./link.css": "./dist/css/link.css",
     "./breadcrumbs.css": "./dist/css/breadcrumbs.css",
     "./pagination.css": "./dist/css/pagination.css",
+    "./bottom-navigation.css": "./dist/css/bottom-navigation.css",
     "./avatar.css": "./dist/css/avatar.css",
     "./badge.css": "./dist/css/badge.css",
     "./card.css": "./dist/css/card.css",
@@ -265,6 +266,10 @@
     "./pagination": {
       "types": "./dist/pagination.d.ts",
       "import": "./dist/pagination.js"
+    },
+    "./bottom-navigation": {
+      "types": "./dist/bottom-navigation.d.ts",
+      "import": "./dist/bottom-navigation.js"
     },
     "./avatar": {
       "types": "./dist/avatar.d.ts",

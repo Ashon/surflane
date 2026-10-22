@@ -143,6 +143,11 @@ const views: Record<ExampleGroup, ComponentType<ExampleProps>> = {
       default: module.NavigationMenuExample,
     })),
   ),
+  bottomNavigation: lazy(() =>
+    import('./BottomNavigationExample').then((module) => ({
+      default: module.BottomNavigationExample,
+    })),
+  ),
 }
 export function ComponentExample(props: ExampleProps) {
   const group = exampleGroupFor(props.id)

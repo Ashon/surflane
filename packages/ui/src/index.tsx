@@ -361,6 +361,13 @@ export {
   BreadcrumbsCurrent,
 } from './breadcrumbs.js'
 export { Pagination, type PaginationProps } from './pagination.js'
+export {
+  BottomNavigation,
+  BottomNavigationRoot,
+  BottomNavigationItem,
+  type BottomNavigationRootProps,
+  type BottomNavigationItemProps,
+} from './bottom-navigation.js'
 
 // Data display
 export {

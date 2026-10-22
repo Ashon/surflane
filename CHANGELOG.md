@@ -6,7 +6,7 @@
 
 ### Added
 
-- Component stylesheets. Every component, pattern and foundation with styles has one at its entry point's path with `.css`, such as `@surflane/ui/button.css`: 68 in all. Each brings the tokens and the styles of everything its component renders, so an app can ship only the styles it uses. The published stylesheets are flat lists of rule files, each listed once, so a toolchain that keeps duplicate imports never repeats them; with Tailwind CSS, import `all.css`. One component's stylesheet is about 30 KB, 6 KB gzipped; `all.css` is 146 KB, 21 KB gzipped. See [Component stylesheets](https://github.com/Ashon/surflane/blob/main/docs/frameworks.md#component-stylesheets).
+- Component stylesheets. Every component, pattern and foundation with styles has one at its entry point's path with `.css`, such as `@surflane/ui/button.css`: 69 in all. Each brings the tokens and the styles of everything its component renders, so an app can ship only the styles it uses. The published stylesheets are flat lists of rule files, each listed once, so a toolchain that keeps duplicate imports never repeats them; with Tailwind CSS, import `all.css`. One component's stylesheet is about 30 KB, 6 KB gzipped; `all.css` is 146 KB, 21 KB gzipped. See [Component stylesheets](https://github.com/Ashon/surflane/blob/main/docs/frameworks.md#component-stylesheets).
 - `@surflane/design-tokens` splits `presentation.css` and `foundations.css` the same way, as `presentation/*.css` and `foundations/*.css`.
 - `Stat` shows a key figure. `Label`, `Value`, `Change` and `Caption` render a description list. `Change` takes the change as a number, shows its sign and an arrow, and colors it by direction; `lowerIsBetter` swaps the colors for measures such as latency.
 - `Sparkline` draws a small trend line for a card or a table cell, without recharts: 24, 32 or 48px tall, with an optional baseline and end marker. Missing values leave gaps, and `label` names the line for assistive technology.
@@ -17,11 +17,13 @@
 - `toast()` shows a toast from anywhere, inside React or out, with one `<Toaster />` in the app. `toast.success`, `error`, `warning`, `info` and `loading` pick the tone; `toast.promise` turns a loading toast into success or error; `toast.update` and `toast.dismiss` take the ID a call returns. `action: { label, onClick }` adds a button. `createToaster()` makes a helper with its own manager for a separate region.
 - Tooltip's `label` takes any content, not only a string, and `shortcut` sets a keyboard shortcut apart after it, such as `⌘B`.
 - AppShell keeps the sidebar's collapsed state unless you control it. `defaultCollapsed`, `onCollapsedChange` and `persist` (a localStorage key) manage it, and ⌘B or Ctrl+B toggles it outside text fields (`shortcut={false}` turns that off). `AppShell.SidebarToggle` is the button: it sets `aria-expanded` and `aria-controls`, and its tooltip names the shortcut. On the collapsed rail each `AppShell.Link` shows its name as a tooltip, and `--app-shell-rail-width` sets the rail's width.
+- `BottomNavigation` puts a phone app's three to five main destinations along the bottom edge. `BottomNavigation.Item` is a link, with a router's link as `render`: an icon above a label, `current` for the page you're on, and a `badge` count (up to 99+) or dot with a spoken `badgeLabel`. It shows at 760px and narrower, where AppShell hides its sidebar, unless `visible="always"`; it stays fixed above the safe area unless `position="static"`.
 - Icon gains `sidebar`.
 - Tokens:
   - `--info` and `--status-info-*`.
   - `--trend-up`, `--trend-down` and the `--trend-up-*`, `--trend-down-*` and `--trend-flat-fg` roles. Markets that read red as a rise set `--trend-up` and `--trend-down` the other way round.
   - `--chart-category-1` to `-6`.
+  - `--size-bottom-navigation`, BottomNavigation's height, to pad content by, and `--layer-chrome`, for fixed app chrome under every overlay.
   - Every new text color meets 4.5:1, and every category color 3:1, in both themes.
 
 ### Changed

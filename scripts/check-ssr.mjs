@@ -95,7 +95,12 @@ const markers = {
     'pui-chart-table',
   ],
   content: ['pui-code-block', 'pui-syntax', 'pui-markdown'],
-  shell: ['pui-app-shell', 'pui-app-shell-sidebar', 'pui-app-shell-link'],
+  shell: [
+    'pui-app-shell',
+    'pui-app-shell-sidebar',
+    'pui-app-shell-link',
+    'pui-bottom-nav',
+  ],
 }
 
 const root = resolve(import.meta.dirname, '..')

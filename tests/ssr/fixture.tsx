@@ -5,6 +5,7 @@ import {
   Autocomplete,
   Avatar,
   Badge,
+  BottomNavigation,
   Breadcrumbs,
   Button,
   Card,
@@ -900,6 +901,21 @@ function Shell() {
           </ScrollArea>
         </AppShell.Content>
       </AppShell.Root>
+      <BottomNavigation.Root aria-label='Harbor'>
+        <BottomNavigation.Item
+          href='/harbor/berths'
+          icon={<Icon name='menu' />}
+          label='Berths'
+          current
+        />
+        <BottomNavigation.Item
+          href='/harbor/arrivals'
+          icon={<Icon name='clock' />}
+          label='Arrivals'
+          badge={120}
+          badgeLabel='120 waiting'
+        />
+      </BottomNavigation.Root>
     </section>
   )
 }

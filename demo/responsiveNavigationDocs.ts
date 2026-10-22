@@ -6,6 +6,7 @@ export const responsiveNavigationDocs: Record<string, ComponentDoc> = {
       "The mobile Sheet matches the catalog's own bottom-sheet menu. It rises from the bottom edge, opens on the current destination, and ends with a full-width Close menu button within thumb reach.",
       "An open Sheet closes and moves focus on the same matchMedia condition as AppShell's 760px breakpoint.",
       "The catalog itself uses a global top rail and a collapsible contextual sidebar. Choose the structure that fits your product's screens.",
+      'When an app has three to five main destinations, BottomNavigation keeps them on the bottom edge at the same breakpoint, one tap away, and the Sheet can hold the rest.',
       'The example reuses the App shell module. Turn on Long navigation labels or Read-only navigation to try them.',
     ],
     avoid: [

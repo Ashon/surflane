@@ -17,6 +17,7 @@ import { fileUploadDocs } from './fileUploadDocs'
 import { toastDocs } from './toastDocs'
 import { otpFieldDocs } from './otpFieldDocs'
 import { navigationMenuDocs } from './navigationMenuDocs'
+import { bottomNavigationDocs } from './bottomNavigationDocs'
 import { contextOverlayDocs } from './contextOverlayDocs'
 import { commandDocs } from './commandDocs'
 import { inputExtensionDocs } from './inputExtensionDocs'
@@ -69,6 +70,7 @@ export const componentDocs: Record<string, ComponentDoc> = {
   ...toastDocs,
   ...otpFieldDocs,
   ...navigationMenuDocs,
+  ...bottomNavigationDocs,
   ...contextOverlayDocs,
   ...commandDocs,
   ...inputExtensionDocs,

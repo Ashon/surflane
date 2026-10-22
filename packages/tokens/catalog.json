@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceHash": "ccf046ad353301cac43e29392e4e64b3324a8030f52da6414802876a51d22d76",
+  "sourceHash": "36368b5c0d8eed771b9f48ebed31591d3d5e385b5870eac170ef3cd3aacec4a3",
   "sources": [
     "tokens.css",
     "foundation-tokens.css",
@@ -28,7 +28,7 @@
           "context": ":root",
           "value": "48px",
           "file": "tokens.css",
-          "line": 575
+          "line": 576
         }
       ],
       "aliases": []
@@ -43,7 +43,7 @@
           "context": ":root",
           "value": "36px",
           "file": "tokens.css",
-          "line": 574
+          "line": 575
         }
       ],
       "aliases": []
@@ -58,7 +58,7 @@
           "context": ":root",
           "value": "24px",
           "file": "tokens.css",
-          "line": 573
+          "line": 574
         }
       ],
       "aliases": []
@@ -73,7 +73,7 @@
           "context": ":root",
           "value": "oklch(from color-mix(in srgb, var(--status-caution-fg) 3%, var(--status-caution-bg)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 615
+          "line": 616
         }
       ],
       "aliases": [
@@ -91,7 +91,7 @@
           "context": ":root",
           "value": "oklch(from color-mix(in srgb, var(--status-danger-fg) 3%, var(--status-danger-bg)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 610
+          "line": 611
         }
       ],
       "aliases": [
@@ -109,7 +109,7 @@
           "context": ":root",
           "value": "oklch(from color-mix(in srgb, var(--status-info-fg) 3%, var(--status-info-bg)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 625
+          "line": 626
         }
       ],
       "aliases": [
@@ -127,7 +127,7 @@
           "context": ":root",
           "value": "var(--status-neutral-bg)",
           "file": "tokens.css",
-          "line": 600
+          "line": 601
         }
       ],
       "aliases": [
@@ -144,7 +144,7 @@
           "context": ":root",
           "value": "var(--status-progress-bg)",
           "file": "tokens.css",
-          "line": 624
+          "line": 625
         }
       ],
       "aliases": [
@@ -161,7 +161,7 @@
           "context": ":root",
           "value": "oklch(from color-mix(in srgb, var(--status-success-fg) 3%, var(--status-success-bg)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 601
+          "line": 602
         }
       ],
       "aliases": [
@@ -314,19 +314,19 @@
           "context": ":root",
           "value": "oklch(0.76 0.12 250)",
           "file": "tokens.css",
-          "line": 642
+          "line": 643
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.5 0.14 255)",
           "file": "tokens.css",
-          "line": 651
+          "line": 652
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
           "value": "oklch(0.5 0.14 255)",
           "file": "tokens.css",
-          "line": 660
+          "line": 661
         }
       ],
       "aliases": []
@@ -341,19 +341,19 @@
           "context": ":root",
           "value": "oklch(0.78 0.11 185)",
           "file": "tokens.css",
-          "line": 643
+          "line": 644
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.52 0.09 190)",
           "file": "tokens.css",
-          "line": 652
+          "line": 653
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
           "value": "oklch(0.52 0.09 190)",
           "file": "tokens.css",
-          "line": 661
+          "line": 662
         }
       ],
       "aliases": []
@@ -368,19 +368,19 @@
           "context": ":root",
           "value": "oklch(0.8 0.14 135)",
           "file": "tokens.css",
-          "line": 644
+          "line": 645
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.52 0.12 140)",
           "file": "tokens.css",
-          "line": 653
+          "line": 654
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
           "value": "oklch(0.52 0.12 140)",
           "file": "tokens.css",
-          "line": 662
+          "line": 663
         }
       ],
       "aliases": []
@@ -395,19 +395,19 @@
           "context": ":root",
           "value": "oklch(0.82 0.13 80)",
           "file": "tokens.css",
-          "line": 645
+          "line": 646
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.56 0.12 70)",
           "file": "tokens.css",
-          "line": 654
+          "line": 655
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
           "value": "oklch(0.56 0.12 70)",
           "file": "tokens.css",
-          "line": 663
+          "line": 664
         }
       ],
       "aliases": []
@@ -422,19 +422,19 @@
           "context": ":root",
           "value": "oklch(0.74 0.14 25)",
           "file": "tokens.css",
-          "line": 646
+          "line": 647
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.54 0.17 25)",
           "file": "tokens.css",
-          "line": 655
+          "line": 656
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
           "value": "oklch(0.54 0.17 25)",
           "file": "tokens.css",
-          "line": 664
+          "line": 665
         }
       ],
       "aliases": []
@@ -449,19 +449,19 @@
           "context": ":root",
           "value": "oklch(0.74 0.12 310)",
           "file": "tokens.css",
-          "line": 647
+          "line": 648
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.5 0.15 310)",
           "file": "tokens.css",
-          "line": 656
+          "line": 657
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
           "value": "oklch(0.5 0.15 310)",
           "file": "tokens.css",
-          "line": 665
+          "line": 666
         }
       ],
       "aliases": []
@@ -476,7 +476,7 @@
           "context": ":root",
           "value": "var(--brand-ink)",
           "file": "tokens.css",
-          "line": 634
+          "line": 635
         }
       ],
       "aliases": [
@@ -493,7 +493,7 @@
           "context": ":root",
           "value": "var(--ink-body)",
           "file": "tokens.css",
-          "line": 635
+          "line": 636
         }
       ],
       "aliases": [
@@ -510,7 +510,7 @@
           "context": ":root",
           "value": "var(--ink-muted)",
           "file": "tokens.css",
-          "line": 636
+          "line": 637
         }
       ],
       "aliases": [
@@ -652,7 +652,7 @@
           "context": ":root",
           "value": "oklch(from color-mix(in srgb, var(--ink-muted) 60%, var(--line)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 544
+          "line": 545
         }
       ],
       "aliases": [
@@ -670,7 +670,7 @@
           "context": ":root",
           "value": "oklch(from color-mix(in srgb, var(--ink-muted) 75%, var(--line)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 547
+          "line": 548
         }
       ],
       "aliases": [
@@ -688,7 +688,7 @@
           "context": ":root",
           "value": "6px",
           "file": "tokens.css",
-          "line": 543
+          "line": 544
         }
       ],
       "aliases": []
@@ -703,7 +703,7 @@
           "context": ":root",
           "value": "var(--brand)",
           "file": "tokens.css",
-          "line": 550
+          "line": 551
         }
       ],
       "aliases": [
@@ -720,7 +720,7 @@
           "context": ":root",
           "value": "oklch(from color-mix(in srgb, var(--control-choice-selected-bg) 54%, var(--control-choice-selected-fg)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 556
+          "line": 557
         }
       ],
       "aliases": [
@@ -738,7 +738,7 @@
           "context": ":root",
           "value": "var(--on-brand)",
           "file": "tokens.css",
-          "line": 565
+          "line": 566
         }
       ],
       "aliases": [
@@ -755,7 +755,7 @@
           "context": ":root",
           "value": "color-mix(in oklch, var(--brand) 90%, var(--on-brand))",
           "file": "tokens.css",
-          "line": 551
+          "line": 552
         }
       ],
       "aliases": [
@@ -773,7 +773,7 @@
           "context": ":root",
           "value": "20px",
           "file": "tokens.css",
-          "line": 542
+          "line": 543
         }
       ],
       "aliases": []
@@ -1023,7 +1023,7 @@
           "context": ":root",
           "value": "22px",
           "file": "tokens.css",
-          "line": 567
+          "line": 568
         }
       ],
       "aliases": []
@@ -1038,7 +1038,7 @@
           "context": ":root",
           "value": "14px",
           "file": "tokens.css",
-          "line": 568
+          "line": 569
         }
       ],
       "aliases": []
@@ -1053,7 +1053,7 @@
           "context": ":root",
           "value": "36px",
           "file": "tokens.css",
-          "line": 566
+          "line": 567
         }
       ],
       "aliases": []
@@ -1110,7 +1110,7 @@
           "context": ":root",
           "value": "var(--motion-enter)",
           "file": "tokens.css",
-          "line": 532
+          "line": 533
         }
       ],
       "aliases": [
@@ -1127,7 +1127,7 @@
           "context": ":root",
           "value": "8px",
           "file": "tokens.css",
-          "line": 533
+          "line": 534
         }
       ],
       "aliases": []
@@ -1142,7 +1142,7 @@
           "context": ":root",
           "value": "0ms",
           "file": "tokens.css",
-          "line": 534
+          "line": 535
         }
       ],
       "aliases": []
@@ -1764,6 +1764,21 @@
           "context": ":root",
           "value": "1090",
           "file": "tokens.css",
+          "line": 523
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--layer-chrome",
+      "category": "Layers",
+      "type": "value",
+      "description": "Global layer for fixed app chrome, such as BottomNavigation, below every overlay",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "1000",
+          "file": "tokens.css",
           "line": 522
         }
       ],
@@ -1779,7 +1794,7 @@
           "context": ":root",
           "value": "1100",
           "file": "tokens.css",
-          "line": 523
+          "line": 524
         }
       ],
       "aliases": []
@@ -1794,7 +1809,7 @@
           "context": ":root",
           "value": "1200",
           "file": "tokens.css",
-          "line": 524
+          "line": 525
         }
       ],
       "aliases": []
@@ -1809,7 +1824,7 @@
           "context": ":root",
           "value": "1300",
           "file": "tokens.css",
-          "line": 525
+          "line": 526
         }
       ],
       "aliases": []
@@ -2505,7 +2520,7 @@
           "context": ":root",
           "value": "var(--selected)",
           "file": "tokens.css",
-          "line": 582
+          "line": 583
         }
       ],
       "aliases": [
@@ -2522,7 +2537,7 @@
           "context": ":root",
           "value": "var(--ink)",
           "file": "tokens.css",
-          "line": 583
+          "line": 584
         }
       ],
       "aliases": [
@@ -2655,7 +2670,7 @@
           "context": ":root",
           "value": "12px",
           "file": "foundation-tokens.css",
-          "line": 178
+          "line": 179
         }
       ],
       "aliases": []
@@ -2670,7 +2685,7 @@
           "context": ":root",
           "value": "13px",
           "file": "foundation-tokens.css",
-          "line": 179
+          "line": 180
         }
       ],
       "aliases": []
@@ -2685,7 +2700,7 @@
           "context": ":root",
           "value": "12px",
           "file": "foundation-tokens.css",
-          "line": 177
+          "line": 178
         }
       ],
       "aliases": []
@@ -2700,7 +2715,7 @@
           "context": ":root",
           "value": "9px",
           "file": "foundation-tokens.css",
-          "line": 175
+          "line": 176
         }
       ],
       "aliases": []
@@ -2715,7 +2730,7 @@
           "context": ":root",
           "value": "12px",
           "file": "foundation-tokens.css",
-          "line": 176
+          "line": 177
         }
       ],
       "aliases": []
@@ -2730,7 +2745,7 @@
           "context": ":root",
           "value": "7px",
           "file": "foundation-tokens.css",
-          "line": 174
+          "line": 175
         }
       ],
       "aliases": []
@@ -2745,7 +2760,7 @@
           "context": ":root",
           "value": "4px",
           "file": "foundation-tokens.css",
-          "line": 172
+          "line": 173
         }
       ],
       "aliases": []
@@ -2760,7 +2775,7 @@
           "context": ":root",
           "value": "6px",
           "file": "foundation-tokens.css",
-          "line": 173
+          "line": 174
         }
       ],
       "aliases": []
@@ -2775,7 +2790,22 @@
           "context": ":root",
           "value": "2px",
           "file": "foundation-tokens.css",
-          "line": 171
+          "line": 172
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "name": "--size-bottom-navigation",
+      "category": "Controls",
+      "type": "value",
+      "description": "Height of BottomNavigation above the safe area; pad scrolling content by it",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "56px",
+          "file": "foundation-tokens.css",
+          "line": 159
         }
       ],
       "aliases": []
@@ -2925,7 +2955,7 @@
           "context": ":root",
           "value": "12px",
           "file": "foundation-tokens.css",
-          "line": 212
+          "line": 213
         }
       ],
       "aliases": []
@@ -2940,7 +2970,7 @@
           "context": ":root",
           "value": "16px",
           "file": "foundation-tokens.css",
-          "line": 213
+          "line": 214
         }
       ],
       "aliases": []
@@ -2955,7 +2985,7 @@
           "context": ":root",
           "value": "8px",
           "file": "foundation-tokens.css",
-          "line": 211
+          "line": 212
         }
       ],
       "aliases": []
@@ -3060,7 +3090,7 @@
           "context": ":root",
           "value": "640px",
           "file": "foundation-tokens.css",
-          "line": 160
+          "line": 161
         }
       ],
       "aliases": []
@@ -3075,7 +3105,7 @@
           "context": ":root",
           "value": "840px",
           "file": "foundation-tokens.css",
-          "line": 161
+          "line": 162
         }
       ],
       "aliases": []
@@ -3090,7 +3120,7 @@
           "context": ":root",
           "value": "420px",
           "file": "foundation-tokens.css",
-          "line": 159
+          "line": 160
         }
       ],
       "aliases": []
@@ -3105,7 +3135,7 @@
           "context": ":root",
           "value": "20px",
           "file": "foundation-tokens.css",
-          "line": 209
+          "line": 210
         }
       ],
       "aliases": []
@@ -3120,7 +3150,7 @@
           "context": ":root",
           "value": "28px",
           "file": "foundation-tokens.css",
-          "line": 210
+          "line": 211
         }
       ],
       "aliases": []
@@ -3135,7 +3165,7 @@
           "context": ":root",
           "value": "12px",
           "file": "foundation-tokens.css",
-          "line": 208
+          "line": 209
         }
       ],
       "aliases": []
@@ -3240,7 +3270,7 @@
           "context": ":root",
           "value": "8px",
           "file": "foundation-tokens.css",
-          "line": 181
+          "line": 182
         }
       ],
       "aliases": []
@@ -3255,7 +3285,7 @@
           "context": ":root",
           "value": "10px",
           "file": "foundation-tokens.css",
-          "line": 182
+          "line": 183
         }
       ],
       "aliases": []
@@ -3270,7 +3300,7 @@
           "context": ":root",
           "value": "6px",
           "file": "foundation-tokens.css",
-          "line": 180
+          "line": 181
         }
       ],
       "aliases": []
@@ -3375,7 +3405,7 @@
           "context": ":root",
           "value": "44px",
           "file": "foundation-tokens.css",
-          "line": 187
+          "line": 188
         }
       ],
       "aliases": []
@@ -3390,7 +3420,7 @@
           "context": ":root",
           "value": "52px",
           "file": "foundation-tokens.css",
-          "line": 188
+          "line": 189
         }
       ],
       "aliases": []
@@ -3405,7 +3435,7 @@
           "context": ":root",
           "value": "36px",
           "file": "foundation-tokens.css",
-          "line": 186
+          "line": 187
         }
       ],
       "aliases": []
@@ -3420,7 +3450,7 @@
           "context": ":root",
           "value": "440px",
           "file": "foundation-tokens.css",
-          "line": 163
+          "line": 164
         }
       ],
       "aliases": []
@@ -3435,7 +3465,7 @@
           "context": ":root",
           "value": "640px",
           "file": "foundation-tokens.css",
-          "line": 164
+          "line": 165
         }
       ],
       "aliases": []
@@ -3450,7 +3480,7 @@
           "context": ":root",
           "value": "320px",
           "file": "foundation-tokens.css",
-          "line": 162
+          "line": 163
         }
       ],
       "aliases": []
@@ -3465,7 +3495,7 @@
           "context": ":root",
           "value": "320px",
           "file": "foundation-tokens.css",
-          "line": 166
+          "line": 167
         }
       ],
       "aliases": []
@@ -3480,7 +3510,7 @@
           "context": ":root",
           "value": "480px",
           "file": "foundation-tokens.css",
-          "line": 167
+          "line": 168
         }
       ],
       "aliases": []
@@ -3495,7 +3525,7 @@
           "context": ":root",
           "value": "240px",
           "file": "foundation-tokens.css",
-          "line": 165
+          "line": 166
         }
       ],
       "aliases": []
@@ -3555,7 +3585,7 @@
           "context": ":root",
           "value": "20px",
           "file": "foundation-tokens.css",
-          "line": 184
+          "line": 185
         }
       ],
       "aliases": []
@@ -3570,7 +3600,7 @@
           "context": ":root",
           "value": "24px",
           "file": "foundation-tokens.css",
-          "line": 185
+          "line": 186
         }
       ],
       "aliases": []
@@ -3585,7 +3615,7 @@
           "context": ":root",
           "value": "16px",
           "file": "foundation-tokens.css",
-          "line": 183
+          "line": 184
         }
       ],
       "aliases": []
@@ -3600,7 +3630,7 @@
           "context": ":root",
           "value": "6px",
           "file": "foundation-tokens.css",
-          "line": 206
+          "line": 207
         }
       ],
       "aliases": []
@@ -3615,7 +3645,7 @@
           "context": ":root",
           "value": "8px",
           "file": "foundation-tokens.css",
-          "line": 207
+          "line": 208
         }
       ],
       "aliases": []
@@ -3630,7 +3660,7 @@
           "context": ":root",
           "value": "4px",
           "file": "foundation-tokens.css",
-          "line": 205
+          "line": 206
         }
       ],
       "aliases": []
@@ -3645,7 +3675,7 @@
           "context": ":root",
           "value": "20px",
           "file": "foundation-tokens.css",
-          "line": 169
+          "line": 170
         }
       ],
       "aliases": []
@@ -3660,7 +3690,7 @@
           "context": ":root",
           "value": "28px",
           "file": "foundation-tokens.css",
-          "line": 170
+          "line": 171
         }
       ],
       "aliases": []
@@ -3675,7 +3705,7 @@
           "context": ":root",
           "value": "14px",
           "file": "foundation-tokens.css",
-          "line": 168
+          "line": 169
         }
       ],
       "aliases": []
@@ -3960,7 +3990,7 @@
           "context": ":root",
           "value": "12px",
           "file": "foundation-tokens.css",
-          "line": 193
+          "line": 194
         }
       ],
       "aliases": []
@@ -3975,7 +4005,7 @@
           "context": ":root",
           "value": "16px",
           "file": "foundation-tokens.css",
-          "line": 194
+          "line": 195
         }
       ],
       "aliases": []
@@ -3990,7 +4020,7 @@
           "context": ":root",
           "value": "8px",
           "file": "foundation-tokens.css",
-          "line": 192
+          "line": 193
         }
       ],
       "aliases": []
@@ -4005,7 +4035,7 @@
           "context": ":root",
           "value": "12px",
           "file": "foundation-tokens.css",
-          "line": 199
+          "line": 200
         }
       ],
       "aliases": []
@@ -4020,7 +4050,7 @@
           "context": ":root",
           "value": "16px",
           "file": "foundation-tokens.css",
-          "line": 200
+          "line": 201
         }
       ],
       "aliases": []
@@ -4035,7 +4065,7 @@
           "context": ":root",
           "value": "10px",
           "file": "foundation-tokens.css",
-          "line": 198
+          "line": 199
         }
       ],
       "aliases": []
@@ -4050,7 +4080,7 @@
           "context": ":root",
           "value": "8px",
           "file": "foundation-tokens.css",
-          "line": 196
+          "line": 197
         }
       ],
       "aliases": []
@@ -4065,7 +4095,7 @@
           "context": ":root",
           "value": "10px",
           "file": "foundation-tokens.css",
-          "line": 197
+          "line": 198
         }
       ],
       "aliases": []
@@ -4080,7 +4110,7 @@
           "context": ":root",
           "value": "6px",
           "file": "foundation-tokens.css",
-          "line": 195
+          "line": 196
         }
       ],
       "aliases": []
@@ -4095,7 +4125,7 @@
           "context": ":root",
           "value": "44px",
           "file": "foundation-tokens.css",
-          "line": 190
+          "line": 191
         }
       ],
       "aliases": []
@@ -4110,7 +4140,7 @@
           "context": ":root",
           "value": "52px",
           "file": "foundation-tokens.css",
-          "line": 191
+          "line": 192
         }
       ],
       "aliases": []
@@ -4125,7 +4155,7 @@
           "context": ":root",
           "value": "36px",
           "file": "foundation-tokens.css",
-          "line": 189
+          "line": 190
         }
       ],
       "aliases": []
@@ -4356,7 +4386,7 @@
           "context": ":root",
           "value": "var(--space-1)",
           "file": "tokens.css",
-          "line": 576
+          "line": 577
         }
       ],
       "aliases": [
@@ -4893,7 +4923,7 @@
           "context": ":root",
           "value": "var(--syntax-plain)",
           "file": "tokens.css",
-          "line": 680
+          "line": 681
         }
       ],
       "aliases": [
@@ -4910,13 +4940,13 @@
           "context": ":root",
           "value": "oklch(0.7 0.012 250)",
           "file": "tokens.css",
-          "line": 674
+          "line": 675
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.47 0.012 250)",
           "file": "tokens.css",
-          "line": 685
+          "line": 686
         }
       ],
       "aliases": []
@@ -4931,13 +4961,13 @@
           "context": ":root",
           "value": "oklch(0.81 0.075 245)",
           "file": "tokens.css",
-          "line": 678
+          "line": 679
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.44 0.075 245)",
           "file": "tokens.css",
-          "line": 689
+          "line": 690
         }
       ],
       "aliases": []
@@ -4952,13 +4982,13 @@
           "context": ":root",
           "value": "oklch(0.78 0.08 295)",
           "file": "tokens.css",
-          "line": 675
+          "line": 676
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.43 0.08 295)",
           "file": "tokens.css",
-          "line": 686
+          "line": 687
         }
       ],
       "aliases": []
@@ -4973,13 +5003,13 @@
           "context": ":root",
           "value": "oklch(0.82 0.075 80)",
           "file": "tokens.css",
-          "line": 677
+          "line": 678
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.43 0.075 80)",
           "file": "tokens.css",
-          "line": 688
+          "line": 689
         }
       ],
       "aliases": []
@@ -4994,7 +5024,7 @@
           "context": ":root",
           "value": "var(--ink-body)",
           "file": "tokens.css",
-          "line": 673
+          "line": 674
         }
       ],
       "aliases": [
@@ -5011,7 +5041,7 @@
           "context": ":root",
           "value": "var(--syntax-comment)",
           "file": "tokens.css",
-          "line": 681
+          "line": 682
         }
       ],
       "aliases": [
@@ -5028,13 +5058,13 @@
           "context": ":root",
           "value": "oklch(0.8 0.065 150)",
           "file": "tokens.css",
-          "line": 676
+          "line": 677
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.43 0.065 150)",
           "file": "tokens.css",
-          "line": 687
+          "line": 688
         }
       ],
       "aliases": []
@@ -5049,7 +5079,7 @@
           "context": ":root",
           "value": "var(--syntax-function)",
           "file": "tokens.css",
-          "line": 679
+          "line": 680
         }
       ],
       "aliases": [
@@ -5100,7 +5130,7 @@
           "context": ":root",
           "value": "320ms",
           "file": "tokens.css",
-          "line": 535
+          "line": 536
         }
       ],
       "aliases": []
@@ -5115,7 +5145,7 @@
           "context": ":root",
           "value": "360ms",
           "file": "tokens.css",
-          "line": 536
+          "line": 537
         }
       ],
       "aliases": []
@@ -5130,7 +5160,7 @@
           "context": ":root",
           "value": "cubic-bezier(0.22, 0.61, 0.36, 1)",
           "file": "tokens.css",
-          "line": 537
+          "line": 538
         }
       ],
       "aliases": []
@@ -5145,7 +5175,7 @@
           "context": ":root",
           "value": "var(--ink)",
           "file": "tokens.css",
-          "line": 526
+          "line": 527
         }
       ],
       "aliases": [
@@ -5162,7 +5192,7 @@
           "context": ":root",
           "value": "var(--canvas)",
           "file": "tokens.css",
-          "line": 527
+          "line": 528
         }
       ],
       "aliases": [

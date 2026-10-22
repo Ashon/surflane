@@ -78,6 +78,7 @@ export const exampleGroups = {
   toast: ['toast'],
   otp: ['otp-field'],
   navigationMenu: ['navigation-menu'],
+  bottomNavigation: ['bottom-navigation'],
   pageHeader: ['page-header'],
   filterBar: ['filter-bar'],
   resourceList: ['resource-list'],

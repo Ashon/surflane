@@ -7,6 +7,7 @@ export const responsiveNavigationDocsKo: Record<string, DocKo> = {
       '모바일 시트는 카탈로그 자체의 바텀 시트 메뉴와 일치합니다. 아래쪽 가장자리에서 올라오고, 현재 목적지에서 열리며, 엄지가 닿는 범위 안에 전체 너비 Close menu 버튼으로 끝납니다.',
       '열린 시트는 AppShell의 760px 브레이크포인트와 같은 matchMedia 조건에서 닫히고 포커스가 이동합니다.',
       '카탈로그 자체는 전역 상단 레일과 접을 수 있는 문맥 사이드바를 사용합니다. 제품 화면에 맞는 구조를 고르세요.',
+      '앱의 주요 목적지가 3~5개라면 BottomNavigation이 같은 브레이크포인트에서 이를 아래쪽 가장자리에 두어 한 번에 닿게 하고, 나머지는 Sheet에 둘 수 있습니다.',
       '예시는 App shell 모듈을 재사용합니다. Long navigation labels 또는 Read-only navigation 을 켜서 확인해 보세요.',
     ],
     avoid: [

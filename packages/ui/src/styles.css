@@ -72,6 +72,7 @@
 @import './markdown.css';
 @import './separator.css';
 @import './pagination.css';
+@import './bottom-navigation.css';
 @import './page-header.css';
 @import './native-select.css';
 @import './autocomplete.css';
