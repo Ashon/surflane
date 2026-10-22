@@ -76,6 +76,14 @@
       "types": "./dist/chart.d.ts",
       "import": "./dist/chart.js"
     },
+    "./date-picker": {
+      "types": "./dist/date-picker.d.ts",
+      "import": "./dist/date-picker.js"
+    },
+    "./tree": {
+      "types": "./dist/tree.d.ts",
+      "import": "./dist/tree.js"
+    },
     "./markdown": {
       "types": "./dist/markdown.d.ts",
       "import": "./dist/markdown.js"
@@ -84,6 +92,10 @@
       "types": "./dist/syntax-highlighter.d.ts",
       "import": "./dist/syntax-highlighter.js"
     },
+    "./syntax-highlighting": {
+      "types": "./dist/syntax-highlighting.d.ts",
+      "import": "./dist/syntax-highlighting.js"
+    },
     "./package.json": "./package.json"
   },
   "scripts": {
@@ -91,21 +103,56 @@
     "prepack": "npm run build"
   },
   "dependencies": {
-    "@base-ui/react": "1.9.0",
+    "@base-ui/react": "1.9.0"
+  },
+  "peerDependencies": {
+    "@headless-tree/core": "^1.8.0",
+    "@headless-tree/react": "^1.8.0",
+    "@surflane/design-tokens": "^0.3.0",
+    "@tanstack/react-virtual": "^3.14.21",
+    "react": "^19.0.0",
+    "react-aria-components": "^1.22.1",
+    "react-dom": "^19.0.0",
+    "react-markdown": "^10.1.0",
+    "recharts": "^3.10.1",
+    "remark-gfm": "^4.0.1",
+    "shiki": "^4.5.0"
+  },
+  "peerDependenciesMeta": {
+    "@headless-tree/core": {
+      "optional": true
+    },
+    "@headless-tree/react": {
+      "optional": true
+    },
+    "@tanstack/react-virtual": {
+      "optional": true
+    },
+    "react-aria-components": {
+      "optional": true
+    },
+    "react-markdown": {
+      "optional": true
+    },
+    "recharts": {
+      "optional": true
+    },
+    "remark-gfm": {
+      "optional": true
+    },
+    "shiki": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
     "@headless-tree/core": "1.8.0",
     "@headless-tree/react": "1.8.0",
-    "@internationalized/date": "3.12.4",
     "@tanstack/react-virtual": "3.14.21",
     "react-aria-components": "1.22.1",
     "react-markdown": "10.1.0",
     "recharts": "3.10.1",
     "remark-gfm": "4.0.1",
     "shiki": "4.5.0"
-  },
-  "peerDependencies": {
-    "@surflane/design-tokens": "^0.3.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
   },
   "publishConfig": {
     "access": "public"

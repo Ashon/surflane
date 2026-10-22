@@ -43,6 +43,20 @@ export function Example() {
 
 Compound components are available both as namespaces (`Dialog.Root`) and as flat names (`DialogRoot`). Use flat names in React Server Components, which cannot dot into client exports. Subpath entry points such as `@surflane/ui/button` and `@surflane/ui/dialog` keep bundles small.
 
+## Optional components
+
+Chart, DatePicker, Markdown, Tree and syntax highlighting have their own entry points, and their libraries are optional peer dependencies. Install a library only when you use its component:
+
+| Import                                                                                             | Install                                                            |
+| -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| `Chart` from `@surflane/ui/chart`                                                                  | `recharts`                                                         |
+| `DatePicker`, `DateRangePicker`, `TimeField`, `DateLocaleProvider` from `@surflane/ui/date-picker` | `react-aria-components`                                            |
+| `Markdown` from `@surflane/ui/markdown`                                                            | `react-markdown remark-gfm`                                        |
+| `Tree` from `@surflane/ui/tree`                                                                    | `@headless-tree/core @headless-tree/react @tanstack/react-virtual` |
+| `SyntaxHighlighting` from `@surflane/ui/syntax-highlighting`                                       | `shiki`                                                            |
+
+`CodeBlock` and `SyntaxHighlighter` render plain text until a `<SyntaxHighlighting>` provider wraps them.
+
 ## Frameworks
 
 Next.js (App Router), React Router, Astro and Vite are verified in CI with example applications. See [framework integration](https://github.com/Ashon/surflane/blob/main/docs/frameworks.md) and [examples](https://github.com/Ashon/surflane/tree/main/examples).

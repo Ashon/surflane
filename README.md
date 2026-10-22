@@ -36,7 +36,7 @@ The catalog ships in English and Korean. Read [CONTRIBUTING.md](CONTRIBUTING.md)
 - `@surflane/design-tokens`: framework-neutral color, spacing, typography, sizing and motion tokens.
 - `@surflane/ui`: React components built on Base UI, plus data, chart, code and Markdown components.
 
-Both packages are released together with the same version under the `@surflane` npm scope. Install them with `npm install @surflane/ui @surflane/design-tokens`; the packages are ESM-only and require React 19.
+Both packages are released together with the same version under the `@surflane` npm scope. Install them with `npm install @surflane/ui @surflane/design-tokens`; the packages are ESM-only and require React 19. Chart, DatePicker, Markdown, Tree and syntax highlighting are separate entry points whose libraries you install only when you use them; see [optional components](docs/frameworks.md#optional-components).
 
 ```tsx
 import '@surflane/ui/all.css';

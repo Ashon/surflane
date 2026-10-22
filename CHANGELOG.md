@@ -10,6 +10,10 @@
 
 ### Changed
 
+- Chart, DatePicker, Markdown, Tree and syntax highlighting moved to their own entry points, and their libraries became optional peer dependencies. Install a library only when you use its component. A fresh install of both packages drops from 186 packages and 164 MB to 14 packages and 32 MB, React included.
+  - `Chart` imports from `@surflane/ui/chart` (needs `recharts`); `DatePicker`, `DateRangePicker`, `TimeField` and `DateLocaleProvider` from `@surflane/ui/date-picker` (`react-aria-components`); `Markdown` from `@surflane/ui/markdown` (`react-markdown`, `remark-gfm`); `Tree` from `@surflane/ui/tree` (`@headless-tree/core`, `@headless-tree/react`, `@tanstack/react-virtual`).
+  - `CodeBlock` and `SyntaxHighlighter` stay in the root entry and render plain text by default. `SyntaxHighlighting` from `@surflane/ui/syntax-highlighting` turns highlighting on for everything inside it; it needs `shiki`.
+  - `check:package` fails if the root entry reaches an optional peer, including through a dynamic import.
 - Every stylesheet in both packages puts its rules in cascade layers, lowest first: `surflane.tokens`, `surflane.themes`, `surflane.base` and `surflane.components`. Each file starts with the same `@layer` order statement, so the order holds whichever file loads first. See [Cascade layers](https://github.com/Ashon/surflane/blob/main/docs/frameworks.md#cascade-layers).
   - Unlayered application CSS now overrides Surflane whatever its specificity. Before, a Surflane selector with higher specificity won.
   - Theme presets and `themeCss` output sit in `surflane.themes`, so they override the tokens in any import order.
@@ -20,6 +24,7 @@
 
 ### Migration
 
+- Import Chart, DatePicker, Markdown and Tree from their entry points, and install the libraries they need. Wrap the app in `<SyntaxHighlighting>` to keep highlighted code.
 - Element rules in your global CSS, such as `button`, `a` or `body` rules from a starter template or a reset, now override Surflane components. Remove them, or move them into a layer declared before Surflane's: `@layer reset, surflane;` at the top of the stylesheet, then `@layer reset { … }`.
 
 ## 0.3.0

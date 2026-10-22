@@ -8,7 +8,6 @@ import {
   Breadcrumbs,
   Button,
   Card,
-  Chart,
   Checkbox,
   CheckboxGroup,
   CodeBlock,
@@ -16,9 +15,6 @@ import {
   Combobox,
   Container,
   ContextMenu,
-  DateLocaleProvider,
-  DatePicker,
-  DateRangePicker,
   Dialog,
   DirectionProvider,
   Drawer,
@@ -37,7 +33,6 @@ import {
   Input,
   Link,
   List,
-  Markdown,
   Menu,
   Menubar,
   Meter,
@@ -73,19 +68,24 @@ import {
   Tabs,
   Text,
   Textarea,
-  TimeField,
   Toast,
   Toggle,
   ToggleGroup,
   Toolbar,
   Tooltip,
   TooltipProvider,
-  Tree,
   iconNames,
   syntaxLanguages,
-  type ChartDatum,
-  type TreeNode,
 } from '@surflane/ui'
+import { Chart, type ChartDatum } from '@surflane/ui/chart'
+import {
+  DateLocaleProvider,
+  DatePicker,
+  DateRangePicker,
+  TimeField,
+} from '@surflane/ui/date-picker'
+import { Markdown } from '@surflane/ui/markdown'
+import { Tree, type TreeNode } from '@surflane/ui/tree'
 
 // Fictional data for a harbor logistics workspace.
 const berths = [

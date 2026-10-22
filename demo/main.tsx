@@ -2,6 +2,7 @@ import React, { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { flushSync } from 'react-dom'
 import { Button, Breadcrumbs, ScrollArea, PageHeader } from '@surflane/ui'
+import { SyntaxHighlighting } from '@surflane/ui/syntax-highlighting'
 import { transitionTheme } from '@surflane/design-tokens/theme-transition'
 import { Overview } from './OverviewPage'
 import { LandingHero } from './LandingHero'
@@ -689,7 +690,9 @@ const root = createRoot(document.getElementById('root')!)
 const render = () =>
   root.render(
     <LocaleProvider>
-      <App />
+      <SyntaxHighlighting>
+        <App />
+      </SyntaxHighlighting>
     </LocaleProvider>,
   )
 // Korean readers wait for the Korean chunk, so the first paint is already in Korean.

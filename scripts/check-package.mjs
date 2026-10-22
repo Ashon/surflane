@@ -54,6 +54,53 @@ for (const [entry, target] of Object.entries(ui.exports)) {
   }
 }
 console.log(`@surflane/ui: ${flatNames} namespace parts have flat exports`)
+// Optional peers stay off the root entry, including its dynamic imports: an app that
+// installs none of them must still bundle every root export.
+const optionalPeers = Object.entries(ui.peerDependenciesMeta ?? {})
+  .filter(([, meta]) => meta.optional)
+  .map(([name]) => name)
+const reachesPeers = async (entry) => {
+  const reached = new Set()
+  await build({
+    stdin: { contents: `export * from '${entry}';`, resolveDir: process.cwd() },
+    bundle: true,
+    write: false,
+    format: 'esm',
+    platform: 'browser',
+    logLevel: 'silent',
+    external: ['react', 'react-dom', 'react/jsx-runtime'],
+    loader: { '.css': 'empty' },
+    plugins: [
+      {
+        name: 'optional-peers',
+        setup(build) {
+          build.onResolve({ filter: /^[@a-z]/ }, ({ path, importer }) => {
+            const peer = optionalPeers.find(
+              (name) => path === name || path.startsWith(`${name}/`),
+            )
+            if (!peer) return
+            reached.add(`${peer} (from ${importer.split('packages/ui/')[1]})`)
+            return { path, external: true }
+          })
+        },
+      },
+    ],
+  })
+  return [...reached]
+}
+const rootPeers = await reachesPeers('@surflane/ui')
+assert.equal(
+  rootPeers.length,
+  0,
+  `@surflane/ui reaches optional peers: ${rootPeers.join(', ')}`,
+)
+assert(
+  (await reachesPeers('@surflane/ui/chart')).length > 0,
+  'Peer check is blind',
+)
+console.log(
+  `@surflane/ui: the root entry reaches none of ${optionalPeers.length} optional peers`,
+)
 const sizes = []
 for (const entry of ['@surflane/ui', '@surflane/ui/button']) {
   const result = await build({

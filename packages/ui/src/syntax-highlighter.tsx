@@ -1,6 +1,7 @@
 'use client'
 import * as React from 'react'
 import { ScrollArea } from './scroll-area.js'
+import { SyntaxEngineContext } from './syntax-context.js'
 import type { SyntaxToken } from './syntax-engine.js'
 export const syntaxLanguages = [
   'tsx',
@@ -39,7 +40,10 @@ export type SyntaxHighlighterProps = Omit<
   label?: string
   wrap?: boolean
 }
-/** Rendering remains selectable React text; it never inserts executable HTML. */
+/**
+ * Rendering remains selectable React text; it never inserts executable HTML. Tokens are
+ * colored inside a SyntaxHighlighting provider; without one, the code renders plain.
+ */
 export const SyntaxHighlighter = /* @__PURE__ */ React.forwardRef<
   HTMLElement,
   SyntaxHighlighterProps
@@ -55,6 +59,7 @@ export const SyntaxHighlighter = /* @__PURE__ */ React.forwardRef<
   },
   ref,
 ) {
+  const load = React.useContext(SyntaxEngineContext)
   const name = language.trim().toLowerCase()
   const lang = aliases[name] ?? name
   const [result, setResult] = React.useState<{
@@ -65,12 +70,13 @@ export const SyntaxHighlighter = /* @__PURE__ */ React.forwardRef<
   React.useEffect(() => {
     let current = true
     if (
+      !load ||
       lang === 'text' ||
       !syntaxLanguages.includes(lang as (typeof syntaxLanguages)[number]) ||
       code.length > 50000
     )
       return
-    import('./syntax-engine.js')
+    load()
       .then((engine) => engine.highlightCode(code, lang))
       .then((tokens) => {
         if (current) setResult({ code, language: lang, tokens })
@@ -81,7 +87,7 @@ export const SyntaxHighlighter = /* @__PURE__ */ React.forwardRef<
     return () => {
       current = false
     }
-  }, [code, lang])
+  }, [code, lang, load])
   const tokens =
     result?.code === code && result.language === lang ? result.tokens : null
   const eols = code.match(/\r\n|\n|\r/g) ?? []

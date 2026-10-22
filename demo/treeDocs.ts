@@ -33,7 +33,9 @@ export const treeDocs: Record<string, ComponentDoc> = {
       '--interaction-hover-bg',
       '--control-focus',
     ],
-    code: `import { Tree, type TreeNode } from '@surflane/ui'
+    code: `// Needs headless-tree and react-virtual:
+// npm install @headless-tree/core @headless-tree/react @tanstack/react-virtual
+import { Tree, type TreeNode } from '@surflane/ui/tree'
 
 const nodes: TreeNode[] = [
   {

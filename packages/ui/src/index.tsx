@@ -492,28 +492,11 @@ export {
   AppShellLabel,
   AppShellLink,
 } from './app-shell.js'
-export { Tree, type TreeNode, type TreeProps } from './tree.js'
-export {
-  DatePicker,
-  DateRangePicker,
-  TimeField,
-  DateLocaleProvider,
-  type DatePickerProps,
-  type DateRangePickerProps,
-  type TimeFieldProps,
-  type DateValue,
-  type TimeValue,
-} from './date-picker.js'
-export {
-  Chart,
-  type ChartDatum,
-  type ChartSeries,
-  type ChartProps,
-} from './chart.js'
-
+// Chart, DatePicker, Markdown, Tree and syntax highlighting need optional packages, so
+// they live on their own entry points: @surflane/ui/chart, /date-picker, /markdown, /tree
+// and /syntax-highlighting.
 export {
   SyntaxHighlighter,
   syntaxLanguages,
   type SyntaxHighlighterProps,
 } from './syntax-highlighter.js'
-export { Markdown, type MarkdownProps } from './markdown.js'

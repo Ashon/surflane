@@ -39,12 +39,13 @@ export const datePickerDocs: Record<string, ComponentDoc> = {
       '--shadow-float',
       '--layer-popup',
     ],
-    code: `import {
+    code: `// Needs React Aria Components: npm install react-aria-components
+import {
   DatePicker,
   DateRangePicker,
   TimeField,
   DateLocaleProvider,
-} from '@surflane/ui'
+} from '@surflane/ui/date-picker'
 import {
   parseDate,
   parseDateTime,

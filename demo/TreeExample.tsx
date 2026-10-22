@@ -5,9 +5,8 @@ import {
   InlineMessage,
   NativeSelect,
   Spinner,
-  Tree,
-  type TreeNode,
 } from '@surflane/ui'
+import { Tree, type TreeNode } from '@surflane/ui/tree'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/TreeExample'
 const small: TreeNode[] = [

@@ -1,14 +1,11 @@
 import React, { useRef, useState } from 'react'
+import { Button, Checkbox, InlineMessage, NativeSelect } from '@surflane/ui'
 import {
-  Button,
-  Checkbox,
   DateLocaleProvider,
   DatePicker,
   DateRangePicker,
-  InlineMessage,
-  NativeSelect,
   TimeField,
-} from '@surflane/ui'
+} from '@surflane/ui/date-picker'
 import {
   getDayOfWeek,
   parseDate,

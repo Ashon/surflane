@@ -44,6 +44,20 @@ Animate later changes with `transitionTheme` from `@surflane/design-tokens/theme
 
 `data-theme` also works on any element: `<div data-theme="dark">` renders that subtree in the dark theme inside a light page, and the reverse. Every token, including aliases such as `--control-hover-background`, resolves again inside the subtree. Use it for previews and embedded surfaces, not as a second page theme.
 
+## Optional components
+
+Chart, DatePicker, Markdown, Tree and syntax highlighting build on larger libraries. Each has its own entry point, and its library is an optional peer dependency: install it only when you use the component. The root `@surflane/ui` entry never imports them.
+
+| Import                                                                                             | Install                                                            |
+| -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| `Chart` from `@surflane/ui/chart`                                                                  | `recharts`                                                         |
+| `DatePicker`, `DateRangePicker`, `TimeField`, `DateLocaleProvider` from `@surflane/ui/date-picker` | `react-aria-components`                                            |
+| `Markdown` from `@surflane/ui/markdown`                                                            | `react-markdown remark-gfm`                                        |
+| `Tree` from `@surflane/ui/tree`                                                                    | `@headless-tree/core @headless-tree/react @tanstack/react-virtual` |
+| `SyntaxHighlighting` from `@surflane/ui/syntax-highlighting`                                       | `shiki`                                                            |
+
+`CodeBlock` and `SyntaxHighlighter` render plain text by default. Wrap the app, or any subtree, in `<SyntaxHighlighting>` to color tokens; the engine and each grammar load on first use. In Next.js, render it in `app/layout.tsx`: it is a client component that takes server-rendered children.
+
 ## Cascade layers
 
 Every Surflane stylesheet puts its rules in four [cascade layers](https://developer.mozilla.org/docs/Web/CSS/@layer), lowest first:

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Chart, Checkbox, NativeSelect, type ChartDatum } from '@surflane/ui'
+import { Checkbox, NativeSelect } from '@surflane/ui'
+import { Chart, type ChartDatum } from '@surflane/ui/chart'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/ChartExample'
 

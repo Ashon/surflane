@@ -20,10 +20,14 @@ export const richContentDocs: Record<string, ComponentDoc> = {
       '--syntax-string',
       '--syntax-comment',
     ],
-    code: `import { SyntaxHighlighter, CodeBlock } from '@surflane/ui'
+    code: `// Highlighting needs shiki: npm install shiki
+import { SyntaxHighlighter, CodeBlock } from '@surflane/ui'
+import { SyntaxHighlighting } from '@surflane/ui/syntax-highlighting'
 
-<SyntaxHighlighter code={source} language='tsx' label='Source preview' />
-<CodeBlock code={source} language='tsx' label='Copyable example' />`,
+<SyntaxHighlighting>
+  <SyntaxHighlighter code={source} language='tsx' label='Source preview' />
+  <CodeBlock code={source} language='tsx' label='Copyable example' />
+</SyntaxHighlighting>`,
     props: [
       ['code', 'original source string', 'required'],
       [
@@ -61,7 +65,8 @@ export const richContentDocs: Record<string, ComponentDoc> = {
       '--syntax-keyword',
       '--ink-body',
     ],
-    code: `import { Markdown } from '@surflane/ui'
+    code: `// Needs react-markdown and remark-gfm: npm install react-markdown remark-gfm
+import { Markdown } from '@surflane/ui/markdown'
 
 <Markdown
   source={documentSource}

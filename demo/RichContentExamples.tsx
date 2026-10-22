@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import {
   Button,
   Field,
-  Markdown,
   NativeSelect,
   ScrollArea,
   SyntaxHighlighter,
   Textarea,
 } from '@surflane/ui'
+import { Markdown } from '@surflane/ui/markdown'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/RichContentExamples'
 const examples: Record<string, string> = {

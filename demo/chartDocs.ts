@@ -39,7 +39,8 @@ export const chartDocs: Record<string, ComponentDoc> = {
       '--space-3',
       '--radius-md',
     ],
-    code: `import { Chart, type ChartDatum } from '@surflane/ui'
+    code: `// Needs recharts: npm install recharts
+import { Chart, type ChartDatum } from '@surflane/ui/chart'
 
 const data: ChartDatum[] = [
   { id: 'day-1', label: 'October 1', values: { workspace: 12, inventory: 8 } },

@@ -140,6 +140,7 @@ const intro = [
   '- Import the CSS once: `@surflane/ui/all.css` brings every stylesheet in its cascade layer. With Tailwind CSS v4, import it with `layer(components)`.',
   '- Set `data-theme="light"` or `"dark"` on `<html>` before paint. Any element can carry `data-theme` to re-theme its subtree.',
   '- In React Server Components, use flat part names such as `DialogRoot` instead of `Dialog.Root`.',
+  '- Chart, DatePicker, Markdown and Tree import from `@surflane/ui/chart`, `/date-picker`, `/markdown` and `/tree`, and need their optional peers: `recharts`, `react-aria-components`, `react-markdown` with `remark-gfm`, and `@headless-tree/core` with `@headless-tree/react` and `@tanstack/react-virtual`. Code highlights only inside `<SyntaxHighlighting>` from `@surflane/ui/syntax-highlighting`, which needs `shiki`.',
   '- `SizeProvider size="small"` resizes a whole composition, including portals.',
   '- Style with tokens through `var(--token-name)`, never raw values. With Tailwind CSS v4, import `@surflane/design-tokens/tailwind.css`.',
   '- To theme, import a preset with the stylesheets, such as `@surflane/design-tokens/themes/stone.css` or `themes/accent-violet.css`, or generate CSS with `createTheme` and `themeCss` from `@surflane/design-tokens/theme-builder`. For shadcn/ui, import `@surflane/design-tokens/shadcn.css`.',
