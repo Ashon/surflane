@@ -3,6 +3,9 @@
  * .dark color blocks from your shadcn CSS. data-theme switches light and dark,
  * and these aliases re-resolve inside scoped data-theme regions too.
  * The bridge only reads Surflane tokens; it never redefines one. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components;
+
+@layer surflane.tokens {
 :root,
 [data-theme] {
   --radius: var(--radius-md);
@@ -37,4 +40,5 @@
   --sidebar-accent-foreground: var(--ink);
   --sidebar-border: var(--line);
   --sidebar-ring: var(--control-focus);
+}
 }

@@ -29,6 +29,7 @@
   "files": [
     "dist",
     "src/styles.css",
+    "src/all.css",
     "LICENSE-MIT",
     "LICENSE-APACHE"
   ],
@@ -38,6 +39,7 @@
       "import": "./dist/index.js"
     },
     "./styles.css": "./src/styles.css",
+    "./all.css": "./src/all.css",
     "./button": {
       "types": "./dist/button.d.ts",
       "import": "./dist/button.js"

@@ -2,6 +2,26 @@
 
 `@surflane/design-tokens` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## 0.4.0
+
+### Added
+
+- `@surflane/ui/all.css` imports every Surflane stylesheet in the recommended order: `tokens.css`, `controls.css`, `foundations.css`, `typography.css` and `styles.css`. One line replaces the five imports; with Tailwind CSS v4, import it with `layer(components)`.
+
+### Changed
+
+- Every stylesheet in both packages puts its rules in cascade layers, lowest first: `surflane.tokens`, `surflane.themes`, `surflane.base` and `surflane.components`. Each file starts with the same `@layer` order statement, so the order holds whichever file loads first. See [Cascade layers](https://github.com/Ashon/surflane/blob/main/docs/frameworks.md#cascade-layers).
+  - Unlayered application CSS now overrides Surflane whatever its specificity. Before, a Surflane selector with higher specificity won.
+  - Theme presets and `themeCss` output sit in `surflane.themes`, so they override the tokens in any import order.
+  - Component styles override document typography (`.pui-typography`) and composition classes in any import order.
+  - Surflane's few `!important` declarations, for motion during a theme switch and under reduced motion and for the native scrollbar that `ScrollArea` replaces, now hold against unlayered `!important` ones.
+- `themeCss` output starts with the layer order statement and wraps its rules in `@layer surflane.themes`. `layerOrder` exports the statement.
+- With Tailwind CSS v4, the docs import every Surflane stylesheet, including theme presets and `shadcn.css`, with `layer(components)`: above Preflight, below utilities. The `layer(theme)` imports from 0.3.0 keep working.
+
+### Migration
+
+- Element rules in your global CSS, such as `button`, `a` or `body` rules from a starter template or a reset, now override Surflane components. Remove them, or move them into a layer declared before Surflane's: `@layer reset, surflane;` at the top of the stylesheet, then `@layer reset { … }`.
+
 ## 0.3.0
 
 0.2.1 was prepared but never published; its fix ships here.

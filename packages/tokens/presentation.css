@@ -1,4 +1,7 @@
 /* Opt-in native presentation classes; no React or global element reset. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components;
+
+@layer surflane.components {
 .pui-avatar {
   box-sizing: border-box;
   --avatar-size: var(--avatar-size-md);
@@ -594,7 +597,8 @@
   color: var(--status-danger-fg);
 }
 /* The result fades in where the action was, and the action fades back. */
-.pui-code-copy[data-copy-used] :is(.pui-code-copy-icon, .pui-code-copy-label) {
+.pui-code-copy[data-copy-used]
+  :is(.pui-code-copy-icon, .pui-code-copy-label) {
   animation: pui-copy-fade var(--duration-base) var(--ease-out);
 }
 @keyframes pui-copy-fade {
@@ -672,4 +676,5 @@
   :is(.pui-message, .pui-badge)[data-status-transition] {
     --pui-status-progress: 1 !important;
   }
+}
 }

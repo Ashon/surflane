@@ -84,10 +84,10 @@ const en = {
   ratio: (value: string) => `${value}:1`,
   cssTitle: 'CSS',
   cssIntro:
-    'Load this after the Surflane tokens. It mirrors the contexts in tokens.css, so data-theme regions keep working.',
+    'Load this with the Surflane tokens. It sits in the surflane.themes layer above them, so the import order does not matter, and it mirrors the contexts in tokens.css, so data-theme regions keep working.',
   presetTitle: 'Presets as files',
   presetIntro:
-    'Each preset ships as a file. Import any neutral, accent and radius file after the tokens.',
+    'Each preset ships as a file. Import any neutral, accent and radius file with the tokens.',
   builderTitle: 'Themes in code',
   builderIntro:
     'createTheme returns the same values for your own inputs, and themeCss turns them into CSS.',
@@ -187,10 +187,10 @@ export const text: Record<Locale, typeof en> = {
     ratio: (value: string) => `${value}:1`,
     cssTitle: 'CSS',
     cssIntro:
-      'Surflane 토큰 다음에 불러오세요. tokens.css와 같은 맥락을 따르므로 data-theme 영역이 그대로 동작합니다.',
+      'Surflane 토큰과 함께 불러오세요. 토큰 위의 surflane.themes 레이어에 있어 불러오는 순서와 상관없고, tokens.css와 같은 맥락을 따르므로 data-theme 영역이 그대로 동작합니다.',
     presetTitle: '파일로 제공되는 프리셋',
     presetIntro:
-      '프리셋마다 파일이 있습니다. 토큰 다음에 중립색, 강조색, 모서리 파일을 원하는 대로 불러오세요.',
+      '프리셋마다 파일이 있습니다. 토큰과 함께 중립색, 강조색, 모서리 파일을 원하는 대로 불러오세요.',
     builderTitle: '코드로 만드는 테마',
     builderIntro:
       'createTheme은 직접 정한 입력으로 같은 값을 돌려주고, themeCss는 그 값을 CSS로 바꿉니다.',

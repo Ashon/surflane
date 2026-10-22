@@ -1,14 +1,80 @@
-* {
-  box-sizing: border-box;
-}
-body {
-  margin: 0;
-  background: var(--chrome);
-  color: var(--ink);
-  font-family: var(--font-body);
-  font-weight: var(--weight-regular);
-  font-size: var(--type-body-size);
-  line-height: var(--type-body-leading);
+/* Document defaults sit in catalog.base, below Surflane's layers (see layers.css), so
+ * element rules such as th, td, header and footer never restyle a component. Catalog
+ * classes stay unlayered and win where they mean to. */
+@layer catalog.base {
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    background: var(--chrome);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-weight: var(--weight-regular);
+    font-size: var(--type-body-size);
+    line-height: var(--type-body-leading);
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: var(--tracking);
+  }
+  h1 {
+    font-size: 40px;
+    line-height: 1.2;
+    margin: 8px 0;
+  }
+  h2 {
+    font-size: 22px;
+    margin: 0 0 20px;
+  }
+  p {
+    color: var(--ink-body);
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+  }
+  output {
+    display: block;
+    overflow-wrap: anywhere;
+    margin-top: 20px;
+    font-family: var(--font-mono);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+  /* Reference and example tables keep a readable minimum and scroll horizontally; a
+   * component that sets its own minimum, such as Markdown's table, keeps it. */
+  .catalog-shell table {
+    min-width: 800px;
+  }
+  th,
+  td {
+    padding: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  code {
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  footer {
+    color: var(--ink-muted);
+    font-size: 12px;
+  }
 }
 /* Touch feedback is each item's own pressed surface, in its own shape. */
 html {
@@ -17,25 +83,6 @@ html {
 #root {
   isolation: isolate;
   padding: 12px;
-}
-h1,
-h2,
-h3 {
-  font-family: var(--font-display);
-  font-weight: 500;
-  letter-spacing: var(--tracking);
-}
-h1 {
-  font-size: 40px;
-  line-height: 1.2;
-  margin: 8px 0;
-}
-h2 {
-  font-size: 22px;
-  margin: 0 0 20px;
-}
-p {
-  color: var(--ink-body);
 }
 .sheet {
   /* One inset for the sheet edge and both sides of every section divider: a section
@@ -48,13 +95,6 @@ p {
   background: var(--canvas);
   border-radius: var(--radius-sheet);
   box-shadow: var(--shadow-sheet);
-}
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 24px;
-  margin-bottom: 40px;
 }
 .eyebrow {
   font-size: 12px;
@@ -105,12 +145,6 @@ header {
   grid-template-columns: 1fr 1fr;
   gap: 20px;
 }
-label {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  min-width: 0;
-}
 .actions {
   display: flex;
   align-items: center;
@@ -118,35 +152,11 @@ label {
   flex-wrap: wrap;
   margin-top: 20px;
 }
-output {
-  display: block;
-  overflow-wrap: anywhere;
-  margin-top: 20px;
-  font-family: var(--font-mono);
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-}
 /* Manrope's common ligature joins "--" into one dash, which misreads token names and
  * CLI flags in body text; the catalog keeps both hyphens. */
 body,
 :is(input, textarea, .pui-input, .pui-textarea) {
   font-variant-ligatures: no-common-ligatures;
-}
-/* Reference and example tables in the document keep a readable minimum and scroll horizontally. */
-.catalog-shell table {
-  min-width: 800px;
-}
-th,
-td {
-  padding: 16px;
-  border-bottom: 1px solid var(--line);
-}
-code {
-  font-family: var(--font-mono);
-  font-size: 12px;
 }
 .demo-dialog {
   width: min(500px, calc(100% - 32px));
@@ -159,10 +169,6 @@ code {
 }
 .pui-popover p {
   margin: 0 0 20px;
-}
-footer {
-  color: var(--ink-muted);
-  font-size: 12px;
 }
 @media (max-width: 760px) {
   .grid {
@@ -2083,7 +2089,6 @@ body,
 .documentation-toc nav {
   display: grid;
   gap: var(--space-1);
-  margin-block-start: var(--space-3);
 }
 .documentation-toc nav a {
   padding: var(--space-2);

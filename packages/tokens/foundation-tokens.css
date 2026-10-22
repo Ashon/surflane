@@ -1,4 +1,7 @@
 /* Additive foundations. Product-specific density remains an explicit choice. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components;
+
+@layer surflane.tokens {
 :root,
 [data-theme] {
   --space-0: 0px;
@@ -172,4 +175,5 @@
   --size-content-gap-small: 8px;
   --size-content-gap-default: 12px;
   --size-content-gap-large: 16px;
+}
 }

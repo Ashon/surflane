@@ -1,7 +1,9 @@
 // Compiles @surflane/design-tokens/tailwind.css with Tailwind CSS v4 the way
 // docs/frameworks.md recommends, then checks every mapped utility, that Tailwind
-// never redefines a Surflane token, and in Chromium that utilities override
-// Surflane component styles and that dark: follows data-theme.
+// never redefines a Surflane token, and in Chromium the layer contract: utilities
+// override Surflane, Surflane overrides Preflight, a theme preset overrides the
+// tokens, unlayered application CSS overrides everything, and dark: follows
+// data-theme.
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
@@ -9,6 +11,10 @@ import { fileURLToPath } from 'node:url'
 import postcss from 'postcss'
 import tailwind from '@tailwindcss/postcss'
 import { chromium } from 'playwright'
+import {
+  accentPresets,
+  createTheme,
+} from '@surflane/design-tokens/theme-builder'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const bridge = readFileSync(
@@ -96,22 +102,28 @@ for (const { utility, declaration } of expectations)
     `${utility} should contain "${declaration}"`,
   )
 
-// 2. The documented setup: Surflane stylesheets in layers, utilities last.
+// 2. The documented setup: every Surflane stylesheet, a theme preset and the shadcn
+// bridge in Tailwind's components layer, utilities last. The preset loads before the
+// tokens here on purpose: its layer, not its position, makes it win.
 const { css } =
-  await compile(`@import '@surflane/design-tokens/tokens.css' layer(theme);
-@import '@surflane/design-tokens/controls.css' layer(components);
-@import '@surflane/design-tokens/foundations.css' layer(components);
-@import '@surflane/design-tokens/typography.css' layer(components);
-@import '@surflane/ui/styles.css' layer(components);
+  await compile(`@import '@surflane/design-tokens/themes/accent-violet.css' layer(components);
+@import '@surflane/ui/all.css' layer(components);
+@import '@surflane/design-tokens/shadcn.css' layer(components);
 @import '@surflane/design-tokens/tailwind.css';`)
+const violet = createTheme({ accent: accentPresets.violet }).light['--brand']
 
 const browser = await chromium.launch()
 try {
   const page = await browser.newPage()
   await page.setContent(`<!doctype html>
-<html data-theme="light"><head><style>${css}</style></head>
+<html data-theme="light"><head><style>${css}</style>
+<style>.app-padding { padding-inline: 2px }</style></head>
 <body class="pui-typography">
   <button id="button" class="pui-button px-8 rounded-sheet" data-variant="primary">Run</button>
+  <button id="plain" class="pui-button" data-variant="primary">Plain</button>
+  <button id="app" class="pui-button app-padding">App</button>
+  <i id="violet" style="color: ${violet}"></i>
+  <i id="primary" style="color: var(--primary)"></i>
   <p id="text" class="text-ink-muted text-title font-display">Title</p>
   <div data-theme="dark"><span id="dark" class="dark:bg-surface">Dark</span>
     <div data-theme="light"><span id="island" class="dark:bg-surface">Light island</span></div>
@@ -131,6 +143,26 @@ try {
     await style('button', 'paddingLeft'),
     '32px',
     'px-8 overrides .pui-button',
+  )
+  // Surflane in the components layer overrides Preflight's button reset in base.
+  assert.notEqual(
+    await style('plain', 'paddingLeft'),
+    '0px',
+    '.pui-button overrides Preflight',
+  )
+  // A theme preset overrides the tokens, whichever loads first.
+  const brand = await style('violet', 'color')
+  assert.equal(
+    await style('plain', 'backgroundColor'),
+    brand,
+    'the accent preset sets --brand',
+  )
+  assert.equal(await style('primary', 'color'), brand, 'shadcn --primary')
+  // Unlayered application CSS overrides every layer.
+  assert.equal(
+    await style('app', 'paddingLeft'),
+    '2px',
+    'unlayered CSS overrides .pui-button',
   )
   assert.equal(
     await style('button', 'borderTopLeftRadius'),

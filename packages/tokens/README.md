@@ -22,7 +22,7 @@ npm install @surflane/design-tokens
 | `catalog.json`     | Generated token catalog with values, aliases and source locations                     |
 | `tailwind.css`     | Tailwind CSS v4 theme: utilities such as `bg-canvas`, `p-page` and `rounded-sheet`    |
 | `theme-transition` | `transitionTheme(update)`, a reduced-motion-aware crossfade for theme changes         |
-| `themes/*.css`     | Theme presets: neutral tints, accents and radius scales, loaded after `tokens.css`    |
+| `themes/*.css`     | Theme presets: neutral tints, accents and radius scales, layered above the tokens     |
 | `theme-builder`    | `createTheme` and `themeCss` for your own neutral, accent and radius inputs           |
 | `shadcn.css`       | shadcn/ui variables such as `--background` and `--primary` mapped to Surflane tokens  |
 
@@ -30,7 +30,9 @@ Tokens default to the dark theme. `data-theme="light"` on `<html>` selects the l
 
 A theme changes the neutral tint, the accent and the radius scale while lightness, and so contrast, stays fixed. See [Themes](https://github.com/Ashon/surflane/blob/main/docs/frameworks.md#themes), or build one in the [theme builder](https://surflane.page/foundations/themes).
 
-With Tailwind CSS v4, `tailwind.css` maps the tokens to utilities that read them, so utilities follow scoped themes too. See [Tailwind CSS v4](https://github.com/Ashon/surflane/blob/main/docs/frameworks.md#tailwind-css-v4) for the import order.
+Every stylesheet puts its rules in the `surflane.tokens`, `surflane.themes`, `surflane.base` and `surflane.components` cascade layers, so your unlayered CSS overrides them. See [Cascade layers](https://github.com/Ashon/surflane/blob/main/docs/frameworks.md#cascade-layers).
+
+With Tailwind CSS v4, `tailwind.css` maps the tokens to utilities that read them, so utilities follow scoped themes too. See [Tailwind CSS v4](https://github.com/Ashon/surflane/blob/main/docs/frameworks.md#tailwind-css-v4) for the imports.
 
 The tokens and classes work without React. With React, use them together with [`@surflane/ui`](https://www.npmjs.com/package/@surflane/ui), released with the same version.
 

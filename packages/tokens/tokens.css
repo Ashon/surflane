@@ -1,6 +1,14 @@
+/* Surflane cascade layers, lowest first. Every entry file repeats this order, so it holds
+ * whichever file loads first. Unlayered application CSS wins over all of them.
+ *   surflane.tokens      custom properties and inherited rendering hints
+ *   surflane.themes      theme presets and theme-builder output
+ *   surflane.base        composition, document typography and theme motion
+ *   surflane.components  controls, presentation classes and components */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components;
 @import './foundation-tokens.css';
 @import './typography-rendering.css';
 
+@layer surflane.tokens {
 /* Surflane theme roles. Surfaces, typography, spacing and interaction states
  * are shared between independent application and documentation examples.
  * Accent colors are configurable; selection uses neutral colors.
@@ -39,7 +47,9 @@
   --ink-muted: oklch(
     0.81668066 0.0183769 253.3626611
   ); /* Gray 50. Secondary text: table of contents, captions, descriptions, table headers */
-  --ink-body: oklch(0.91321146 0.017061 242.44074644); /* Gray 40. Body text */
+  --ink-body: oklch(
+    0.91321146 0.017061 242.44074644
+  ); /* Gray 40. Body text */
   /* Gray 10. Headings, emphasis */
   --ink: oklch(0.9781762 0.0034179 247.8580546);
 
@@ -128,7 +138,8 @@
     'Malgun Gothic';
   --font-japanese: 'Noto Sans JP Variable', 'Noto Sans JP', sans-serif;
   --font-display:
-    'Manrope Variable', var(--font-hangul), -apple-system, system-ui, sans-serif;
+    'Manrope Variable', var(--font-hangul), -apple-system, system-ui,
+    sans-serif;
   --font-body:
     'Manrope Variable', var(--font-hangul), -apple-system, BlinkMacSystemFont,
     system-ui, sans-serif;
@@ -503,16 +514,25 @@
   --badge-neutral-bg: var(--status-neutral-bg);
   --badge-success-bg: oklch(
     from
-      color-mix(in srgb, var(--status-success-fg) 3%, var(--status-success-bg))
+      color-mix(
+        in srgb,
+        var(--status-success-fg) 3%,
+        var(--status-success-bg)
+      )
       l c h / alpha
   );
   --badge-danger-bg: oklch(
-    from color-mix(in srgb, var(--status-danger-fg) 3%, var(--status-danger-bg))
+    from
+      color-mix(in srgb, var(--status-danger-fg) 3%, var(--status-danger-bg))
       l c h / alpha
   );
   --badge-caution-bg: oklch(
     from
-      color-mix(in srgb, var(--status-caution-fg) 3%, var(--status-caution-bg))
+      color-mix(
+        in srgb,
+        var(--status-caution-fg) 3%,
+        var(--status-caution-bg)
+      )
       l c h / alpha
   );
   --badge-progress-bg: var(--status-progress-bg);
@@ -547,4 +567,5 @@
   --syntax-string: oklch(0.43 0.065 150);
   --syntax-number: oklch(0.43 0.075 80);
   --syntax-function: oklch(0.44 0.075 245);
+}
 }

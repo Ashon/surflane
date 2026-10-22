@@ -21,15 +21,15 @@ Both packages are released together with the same version. Install matching vers
 
 ## 2. Import CSS once
 
-Import the stylesheets once at the application root, in this order:
+Import `@surflane/ui/all.css` once at the application root, from a stylesheet or the root module:
 
 ```css
-@import '@surflane/design-tokens/tokens.css';
-@import '@surflane/design-tokens/controls.css';
-@import '@surflane/design-tokens/foundations.css';
-@import '@surflane/design-tokens/typography.css';
-@import '@surflane/ui/styles.css';
+@import '@surflane/ui/all.css';
 ```
+
+It brings every Surflane stylesheet in the recommended order: `tokens.css`, `controls.css`, `foundations.css` and `typography.css` from `@surflane/design-tokens`, then `@surflane/ui/styles.css`. Import those files yourself to leave one out.
+
+The stylesheets put their rules in [cascade layers](#cascade-layers), so your own unlayered CSS overrides them. Remove element rules such as `button { … }` or `body { font-family: … }` that a starter template adds to its global CSS: they would override Surflane components too.
 
 Add `pui-typography` to `<body>` to apply document typography, including portalled overlays. Fonts are not bundled. Load Manrope, Pretendard, JetBrains Mono or your own families in the host, for example through `@fontsource-variable/*` packages. Without them, the token font stacks fall back to system fonts.
 
@@ -44,21 +44,48 @@ Animate later changes with `transitionTheme` from `@surflane/design-tokens/theme
 
 `data-theme` also works on any element: `<div data-theme="dark">` renders that subtree in the dark theme inside a light page, and the reverse. Every token, including aliases such as `--control-hover-background`, resolves again inside the subtree. Use it for previews and embedded surfaces, not as a second page theme.
 
+## Cascade layers
+
+Every Surflane stylesheet puts its rules in four [cascade layers](https://developer.mozilla.org/docs/Web/CSS/@layer), lowest first:
+
+| Layer                 | Contents                                          |
+| --------------------- | ------------------------------------------------- |
+| `surflane.tokens`     | Custom properties and inherited rendering hints   |
+| `surflane.themes`     | Theme presets and theme builder output            |
+| `surflane.base`       | Composition, document typography and theme motion |
+| `surflane.components` | Controls, presentation classes and components     |
+
+Each file starts with the same `@layer` order statement, so the order holds whichever file loads first. The browser compares layers before specificity:
+
+- Unlayered CSS overrides every layer. Your `.settings-title { font-size: 20px }` overrides `.pui-card-title` whatever their specificity, and so does a stray `button { … }` rule.
+- Keep a reset below Surflane by declaring its layer first. `@layer` statements may precede `@import`:
+
+  ```css
+  @layer reset, surflane;
+  @import '@surflane/ui/all.css';
+
+  @layer reset {
+    *,
+    ::before,
+    ::after {
+      box-sizing: border-box;
+    }
+  }
+  ```
+
+- `!important` reverses the order: an important declaration in a layer beats an important unlayered one. Surflane marks only a few declarations important: motion during a theme switch and under reduced motion, and the native scrollbar that ScrollArea replaces.
+
 ## Tailwind CSS v4
 
 `@surflane/design-tokens/tailwind.css` maps the tokens to Tailwind CSS v4 utilities. Tailwind stays optional: the tokens and components work without it, and the bridge adds no runtime code.
 
 ```css
 @import 'tailwindcss';
-@import '@surflane/design-tokens/tokens.css' layer(theme);
-@import '@surflane/design-tokens/controls.css' layer(components);
-@import '@surflane/design-tokens/foundations.css' layer(components);
-@import '@surflane/design-tokens/typography.css' layer(components);
-@import '@surflane/ui/styles.css' layer(components);
+@import '@surflane/ui/all.css' layer(components);
 @import '@surflane/design-tokens/tailwind.css';
 ```
 
-Import the Surflane stylesheets into Tailwind's layers. Unlayered styles win over every layer, so without `layer(components)` a utility such as `px-8` could not adjust a `.pui-button`.
+Import every Surflane stylesheet with `layer(components)`. Surflane's layers then nest inside Tailwind's `components` layer, keeping their own order: above Preflight in `base`, below utilities. A utility such as `px-8` adjusts a `.pui-button`, and Preflight's `button` reset does not. Keep `tailwind.css` itself unlayered: it holds Tailwind directives, not rules.
 
 | Tokens                                                                | Utilities                                          |
 | --------------------------------------------------------------------- | -------------------------------------------------- |
@@ -72,16 +99,16 @@ Import the Surflane stylesheets into Tailwind's layers. Unlayered styles win ove
 
 Utilities read the tokens through `var()`, so they follow `data-theme`, including scoped themes, without a `dark:` variant. When you need one, `dark:` follows the nearest `data-theme`, not the operating system. The bridge never redefines a token: Tailwind emits no theme variables for it, even where Surflane and Tailwind share a name such as `--radius-md`. Durations and layers have no Tailwind theme namespace; use them as `duration-(--duration-fast)` and `z-(--layer-dialog)`.
 
-`npm run check:tailwind` compiles this setup with Tailwind CSS v4, checks every mapped utility and verifies the layer order and `dark:` in Chromium.
+`npm run check:tailwind` compiles this setup with Tailwind CSS v4, checks every mapped utility and verifies the layer contract and `dark:` in Chromium.
 
 ## Themes
 
 A theme changes three inputs: the neutral tint, the accent and the radius scale. Lightness never changes, so text keeps the contrast the default palette was measured for. Build and preview one in the [theme builder](https://surflane.page/foundations/themes).
 
-Import a preset file after the tokens. Neutral, accent and radius files combine freely:
+Import a preset file with the tokens. Presets sit in the `surflane.themes` layer, above the tokens, so the import order does not matter. Neutral, accent and radius files combine freely:
 
 ```css
-@import '@surflane/design-tokens/tokens.css';
+@import '@surflane/ui/all.css';
 @import '@surflane/design-tokens/themes/stone.css';
 @import '@surflane/design-tokens/themes/accent-violet.css';
 @import '@surflane/design-tokens/themes/radius-small.css';
@@ -107,7 +134,7 @@ const css = themeCss(
 )
 ```
 
-- Theme files mirror the contexts in `tokens.css`, so `data-theme` and scoped theme regions keep working. Load them after the tokens; with Tailwind, import them into `layer(theme)` right after `tokens.css`.
+- Theme files mirror the contexts in `tokens.css`, so `data-theme` and scoped theme regions keep working. `themeCss` output carries the same layer statement as the presets. With Tailwind, import theme files with `layer(components)` like the other Surflane files.
 - Accent chroma is clamped to the sRGB gamut at the accent's fixed lightness. `contrastRatio(foreground, background)` measures any pair.
 - Success keeps its own color, `--success`, whatever the accent.
 
@@ -117,9 +144,9 @@ const css = themeCss(
 
 ```css
 @import 'tailwindcss';
-@import '@surflane/design-tokens/tokens.css' layer(theme);
-@import '@surflane/design-tokens/themes/stone.css' layer(theme);
-@import '@surflane/design-tokens/shadcn.css' layer(theme);
+@import '@surflane/design-tokens/tokens.css' layer(components);
+@import '@surflane/design-tokens/themes/stone.css' layer(components);
+@import '@surflane/design-tokens/shadcn.css' layer(components);
 @import '@surflane/design-tokens/tailwind.css';
 ```
 

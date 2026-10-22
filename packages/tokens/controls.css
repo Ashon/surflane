@@ -1,4 +1,7 @@
 /* Framework-neutral chrome controls. Astro retains native links and buttons. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components;
+
+@layer surflane.components {
 .pui-control-group,
 .pui-icon-button {
   box-sizing: border-box;
@@ -106,4 +109,5 @@
 .pui-control-group input:focus-visible + .pui-segment {
   outline: 2px solid var(--interaction-focus);
   outline-offset: 2px;
+}
 }

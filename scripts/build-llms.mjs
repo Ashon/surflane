@@ -137,12 +137,12 @@ const intro = [
   '',
   'Install both packages: `npm install @surflane/ui @surflane/design-tokens`. Both are ESM-only and need React 19.',
   '',
-  '- Import the CSS once, in this order: `@surflane/design-tokens/tokens.css`, `controls.css`, `foundations.css`, `typography.css`, then `@surflane/ui/styles.css`.',
+  '- Import the CSS once: `@surflane/ui/all.css` brings every stylesheet in its cascade layer. With Tailwind CSS v4, import it with `layer(components)`.',
   '- Set `data-theme="light"` or `"dark"` on `<html>` before paint. Any element can carry `data-theme` to re-theme its subtree.',
   '- In React Server Components, use flat part names such as `DialogRoot` instead of `Dialog.Root`.',
   '- `SizeProvider size="small"` resizes a whole composition, including portals.',
   '- Style with tokens through `var(--token-name)`, never raw values. With Tailwind CSS v4, import `@surflane/design-tokens/tailwind.css`.',
-  '- To theme, import a preset after `tokens.css`, such as `@surflane/design-tokens/themes/stone.css` or `themes/accent-violet.css`, or generate CSS with `createTheme` and `themeCss` from `@surflane/design-tokens/theme-builder`. For shadcn/ui, import `@surflane/design-tokens/shadcn.css`.',
+  '- To theme, import a preset with the stylesheets, such as `@surflane/design-tokens/themes/stone.css` or `themes/accent-violet.css`, or generate CSS with `createTheme` and `themeCss` from `@surflane/design-tokens/theme-builder`. For shadcn/ui, import `@surflane/design-tokens/shadcn.css`.',
   '- Give each control a name that describes its purpose, connect errors to their controls, and signal state with more than color.',
 ]
 

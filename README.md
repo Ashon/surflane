@@ -39,11 +39,7 @@ The catalog ships in English and Korean. Read [CONTRIBUTING.md](CONTRIBUTING.md)
 Both packages are released together with the same version under the `@surflane` npm scope. Install them with `npm install @surflane/ui @surflane/design-tokens`; the packages are ESM-only and require React 19.
 
 ```tsx
-import '@surflane/design-tokens/tokens.css';
-import '@surflane/design-tokens/controls.css';
-import '@surflane/design-tokens/foundations.css';
-import '@surflane/design-tokens/typography.css';
-import '@surflane/ui/styles.css';
+import '@surflane/ui/all.css';
 import { Button } from '@surflane/ui/button';
 import { Input } from '@surflane/ui/input';
 
@@ -51,7 +47,7 @@ import { Input } from '@surflane/ui/input';
 <Button variant="primary" type="submit">Save</Button>
 ```
 
-Surflane supports React Server Components, SSR and client-only apps. [Framework integration](docs/frameworks.md) covers Next.js, React Router, Astro and Vite, and [examples](examples) contains a verified app for each. In Server Components, use flat part names such as `DialogRoot` and `TabsList` instead of `Dialog.Root`.
+Surflane supports React Server Components, SSR and client-only apps. [Framework integration](docs/frameworks.md) covers Next.js, React Router, Astro, Vite, Tailwind CSS and the cascade layers, and [examples](examples) contains a verified app for each framework. In Server Components, use flat part names such as `DialogRoot` and `TabsList` instead of `Dialog.Root`.
 
 Load the fonts once in the host application. The catalog demonstrates Manrope, Pretendard, JetBrains Mono and Noto Sans JP through their independent font packages. Theme persistence, authentication, routing and application data belong to the consuming application.
 

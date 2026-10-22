@@ -570,14 +570,14 @@ const css = themeCss(theme)`}
         language='css'
         label={t.shadcnLabel}
         code={`@import 'tailwindcss';
-@import '@surflane/design-tokens/tokens.css' layer(theme);
+@import '@surflane/design-tokens/tokens.css' layer(components);
 ${files
   .map(
     (file) =>
-      `@import '@surflane/design-tokens/themes/${file}.css' layer(theme);`,
+      `@import '@surflane/design-tokens/themes/${file}.css' layer(components);`,
   )
   .join('\n')}
-@import '@surflane/design-tokens/shadcn.css' layer(theme);
+@import '@surflane/design-tokens/shadcn.css' layer(components);
 @import '@surflane/design-tokens/tailwind.css';
 
 /* In your shadcn CSS, keep @theme inline. Delete the :root and .dark

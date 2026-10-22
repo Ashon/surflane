@@ -1,4 +1,7 @@
 /* One scene, one clock. Scoped to themes; application navigation keeps its motion. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components;
+
+@layer surflane.base {
 :root {
   --theme-transition-duration: var(--duration-base);
   --theme-transition-ease: var(--ease-out);
@@ -45,4 +48,5 @@
   :root[data-theme-switching]::view-transition-new(root) {
     animation: none !important;
   }
+}
 }

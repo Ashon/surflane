@@ -1,0 +1,3 @@
+/* The catalog's cascade layer order, loaded before any other stylesheet. catalog.base
+ * holds document defaults below every Surflane layer; unlayered catalog rules win over all. */
+@layer catalog.base, surflane.tokens, surflane.themes, surflane.base, surflane.components;

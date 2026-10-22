@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 import { readFileSync } from 'node:fs'
-import postcss from 'postcss'
+import postcss, { type AtRule } from 'postcss'
 // @ts-ignore Culori is a build/test-only color conversion utility.
 import { converter, inGamut } from 'culori'
 import {
@@ -88,7 +88,13 @@ test('theme CSS keeps dark values out of light regions and mirrors the system co
       radius: radiusPresets.small,
     }),
   )
-  const rules = postcss.parse(css).nodes
+  const [order, layer] = postcss.parse(css).nodes as [AtRule, AtRule]
+  // A theme sits in the themes layer, above the tokens, whichever file loads first.
+  expect(order.toString()).toBe(
+    '@layer surflane.tokens, surflane.themes, surflane.base, surflane.components',
+  )
+  expect(`${layer.name} ${layer.params}`).toBe('layer surflane.themes')
+  const rules = layer.nodes!
   const selectors = rules.map((node) =>
     node.type === 'rule'
       ? node.selector.replace(/\s+/g, ' ')

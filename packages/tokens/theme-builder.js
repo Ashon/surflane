@@ -169,6 +169,9 @@ export function createTheme({ neutral, accent, radius } = {}) {
   return theme
 }
 
+/** The Surflane cascade layers, lowest first, as every Surflane stylesheet declares them. */
+export const layerOrder =
+  '@layer surflane.tokens, surflane.themes, surflane.base, surflane.components;'
 const block = (selectors, values, indent = '') =>
   Object.keys(values).length
     ? `${indent}${selectors.join(`,\n${indent}`)} {\n${Object.entries(values)
@@ -182,13 +185,22 @@ const block = (selectors, values, indent = '') =>
  */
 export function themeCss(theme, comment) {
   const light = theme.light
+  const rules = [
+    block([':root', '[data-theme]'], theme.shared, '  '),
+    block(
+      [':root', "[data-theme]:not([data-theme='light'])"],
+      theme.dark,
+      '  ',
+    ),
+    block([":root[data-theme='light']", "[data-theme='light']"], light, '  '),
+    Object.keys(light).length
+      ? `  @media (prefers-color-scheme: light) {\n${block([':root:not([data-theme])'], light, '    ')}  }\n`
+      : '',
+  ].join('')
+  // The themes layer sits above the tokens, so a theme wins whichever file loads first.
   return [
     comment ? `/* ${comment} */\n` : '',
-    block([':root', '[data-theme]'], theme.shared),
-    block([':root', "[data-theme]:not([data-theme='light'])"], theme.dark),
-    block([":root[data-theme='light']", "[data-theme='light']"], light),
-    Object.keys(light).length
-      ? `@media (prefers-color-scheme: light) {\n${block([':root:not([data-theme])'], light, '  ')}}\n`
-      : '',
+    `${layerOrder}\n`,
+    rules ? `@layer surflane.themes {\n${rules}}\n` : '',
   ].join('')
 }

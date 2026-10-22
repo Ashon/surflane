@@ -31,7 +31,9 @@ export declare const radiusPresets: Readonly<
 >
 /** Token values for a theme. A dimension left out keeps its defaults. */
 export declare function createTheme(input?: ThemeInput): Theme
-/** CSS that mirrors the contexts in tokens.css. Load it after the Surflane tokens. */
+/** The cascade layer order statement every Surflane stylesheet starts with. */
+export declare const layerOrder: string
+/** CSS in the surflane.themes layer that mirrors the contexts in tokens.css. It wins over the tokens whichever loads first. */
 export declare function themeCss(theme: Theme, comment?: string): string
 /** WCAG 2 contrast ratio between two opaque oklch() colors. */
 export declare function contrastRatio(

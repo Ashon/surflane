@@ -12,17 +12,13 @@ npm install @surflane/ui @surflane/design-tokens
 
 ## Usage
 
-Import the stylesheets once at the application root:
+Import the stylesheets once at the application root. `all.css` brings the tokens, controls, composition, document typography and component styles:
 
 ```css
-@import '@surflane/design-tokens/tokens.css';
-@import '@surflane/design-tokens/controls.css';
-@import '@surflane/design-tokens/foundations.css';
-@import '@surflane/design-tokens/typography.css';
-@import '@surflane/ui/styles.css';
+@import '@surflane/ui/all.css';
 ```
 
-Set `data-theme="light"` or `data-theme="dark"` on `<html>` before the first paint and add `pui-typography` to `<body>`.
+The rules sit in `surflane.*` cascade layers, so your unlayered CSS overrides them. Set `data-theme="light"` or `data-theme="dark"` on `<html>` before the first paint and add `pui-typography` to `<body>`.
 
 ```tsx
 import {

@@ -1,5 +1,6 @@
 // Install packed tarballs into each framework example, build and serve it, then
-// verify server HTML, hydration and a dialog interaction in Chromium.
+// verify server HTML, the cascade layer order after bundling, component styles,
+// hydration and a dialog interaction in Chromium.
 import { execFileSync, spawn } from 'node:child_process'
 import {
   cpSync,
@@ -176,6 +177,57 @@ try {
           .trim(),
       )
       if (!brand) throw new Error('Design tokens are not loaded')
+      // The bundler must keep the layer order: the first mention of each layer fixes it.
+      const layers = await page.evaluate(() => {
+        const order = []
+        const visit = (rules, parent = '') => {
+          for (const rule of rules) {
+            const names =
+              rule instanceof CSSLayerStatementRule
+                ? rule.nameList
+                : rule instanceof CSSLayerBlockRule
+                  ? [rule.name]
+                  : []
+            for (const name of names) {
+              const full = parent ? `${parent}.${name}` : name
+              if (!order.includes(full)) order.push(full)
+            }
+            if (rule instanceof CSSLayerBlockRule)
+              visit(
+                rule.cssRules,
+                parent ? `${parent}.${rule.name}` : rule.name,
+              )
+            else if (rule instanceof CSSImportRule && rule.styleSheet)
+              visit(rule.styleSheet.cssRules, parent)
+            else if (rule.cssRules) visit(rule.cssRules, parent)
+          }
+        }
+        for (const sheet of document.styleSheets) visit(sheet.cssRules)
+        return order.filter((name) => name.startsWith('surflane.'))
+      })
+      const expected = [
+        'surflane.tokens',
+        'surflane.themes',
+        'surflane.base',
+        'surflane.components',
+      ]
+      if (layers.join() !== expected.join())
+        throw new Error(`Layer order ${layers.join(', ')}`)
+      // Component styles apply: a primary button fills with the brand color.
+      const button = await page.evaluate(() => {
+        const probe = document.body.appendChild(document.createElement('i'))
+        probe.style.color = 'var(--brand)'
+        const brand = getComputedStyle(probe).color
+        probe.remove()
+        const style = getComputedStyle(
+          document.querySelector('.pui-button[data-variant="primary"]'),
+        )
+        return { brand, background: style.backgroundColor }
+      })
+      if (button.background !== button.brand)
+        throw new Error(
+          `Primary button background ${button.background}, expected ${button.brand}`,
+        )
       const trigger = page.getByRole('button', { name: 'Open dialog' })
       const dialog = page.getByRole('dialog', { name: 'Surflane dialog' })
       // A click before hydration does nothing; retry until the client takes over.
@@ -199,7 +251,7 @@ try {
       if (errors.length)
         throw new Error(`Browser errors:\n${errors.join('\n')}`)
       console.log(
-        `✓ ${label}: ${serverHtml ? 'server HTML, ' : ''}hydration, dialog and focus return`,
+        `✓ ${label}: ${serverHtml ? 'server HTML, ' : ''}layer order, component styles, hydration, dialog and focus return`,
       )
     } catch (error) {
       failures.push(`${label}: ${error.message}`)

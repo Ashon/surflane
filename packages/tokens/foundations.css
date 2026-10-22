@@ -1,4 +1,7 @@
 /* Opt-in, framework-neutral composition; no application-wide reset. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components;
+
+@layer surflane.base {
 .pui-container {
   box-sizing: border-box;
   width: 100%;
@@ -40,7 +43,10 @@
   --grid-inline-bleed: 0px;
   display: grid;
   margin-inline: calc(-1 * var(--grid-inline-bleed));
-  grid-template-columns: repeat(var(--layout-grid-columns, 3), minmax(0, 1fr));
+  grid-template-columns: repeat(
+    var(--layout-grid-columns, 3),
+    minmax(0, 1fr)
+  );
 }
 .pui-grid > *,
 .pui-stack > *,
@@ -318,4 +324,5 @@
         var(--layout-columns)
       );
   }
+}
 }

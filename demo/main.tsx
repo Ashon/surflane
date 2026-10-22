@@ -94,6 +94,7 @@ import {
   useMessages,
 } from './i18n'
 import { useCatalogText } from './catalogText'
+import './layers.css'
 import '@surflane/design-tokens/tokens.css'
 import '@surflane/design-tokens/controls.css'
 import '@surflane/design-tokens/motion.css'
