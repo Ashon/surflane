@@ -2,6 +2,18 @@
 
 `@surflane/design-tokens` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## Unreleased
+
+### Added
+
+- `--app-shell-page-radius` sets the radius of AppShell's page surface, 8px by default.
+- The install guide and the AppShell docs give a window-filling shell its document: `body { margin: 0; background: var(--chrome); }`, so the browser's default margin never shows around it.
+
+### Changed
+
+- AppShell's own edge is square. The shell fills the window, so its edge is the window's; a page that shows a shell inside a frame rounds and clips the frame instead. Only the page surface is rounded. `--app-shell-radius` still derives the page radius as `max(0, radius - inset)` and is deprecated: set `--app-shell-page-radius`.
+- On a phone, 760px and narrower, AppShell's page meets the screen's edges: the shell drops its inset, and the page its margin and rounding, below the mobile header.
+
 ## 0.6.0
 
 ### Added

@@ -59,20 +59,27 @@ test('nested shell surfaces reduce radius by their inset with preview controls o
   await expect(
     page.getByRole('checkbox', { name: 'Overflow navigation', exact: true }),
   ).toBeVisible()
+  const clip = page.locator('.app-shell-preview-clip')
   for (const width of [1440, 320]) {
     await page.setViewportSize({ width, height: 1000 })
-    // Inside out: a scale radius on the sheet, plus each inset on the way out.
-    await expect(sheet).toHaveCSS('border-top-left-radius', '10px')
-    await expect(shell).toHaveCSS('border-top-left-radius', '22px')
+    // Inside out: a scale radius on the sheet, the frame's clip around the square
+    // shell, then the frame itself.
+    await expect(shell).toHaveCSS('border-top-left-radius', '0px')
+    await expect(clip).toHaveCSS('border-top-left-radius', '22px')
     await expect(frame).toHaveCSS('border-top-left-radius', '26px')
-    await expect(sheet).toHaveCSS('margin-right', '12px')
+    // On a phone the page meets the edges; on a desktop it insets and rounds.
+    await expect(sheet).toHaveCSS(
+      'border-top-left-radius',
+      width === 320 ? '0px' : '10px',
+    )
+    await expect(sheet).toHaveCSS(
+      'margin-right',
+      width === 320 ? '0px' : '12px',
+    )
   }
+  await page.setViewportSize({ width: 1440, height: 1000 })
   await shell.evaluate((el) =>
-    el.style.setProperty('--app-shell-radius', '24px'),
+    el.style.setProperty('--app-shell-page-radius', '4px'),
   )
-  await expect(sheet).toHaveCSS('border-top-left-radius', '12px')
-  await shell.evaluate((el) =>
-    el.style.setProperty('--app-shell-radius', '4px'),
-  )
-  await expect(sheet).toHaveCSS('border-top-left-radius', '0px')
+  await expect(sheet).toHaveCSS('border-top-left-radius', '4px')
 })

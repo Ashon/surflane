@@ -274,6 +274,8 @@ test('the workspace surface grows through the scroll boundary and closes only at
         exact: true,
       })
       const surface = page.locator('.app-shell-preview .pui-app-shell-page')
+      // A desktop page insets 12px on each side; on a phone it meets the edges.
+      const inset = width > 760 ? 12 : 0
       await long.uncheck()
       await viewport.evaluate((el) => (el.scrollTop = 0))
       await expect
@@ -283,7 +285,7 @@ test('the workspace surface grows through the scroll boundary and closes only at
               (await surface.evaluate(
                 (el) => el.getBoundingClientRect().height,
               )) -
-              (width > 760 ? 24 : 12),
+              inset * 2,
           ),
         )
         .toBeLessThan(2)
@@ -306,13 +308,15 @@ test('the workspace surface grows through the scroll boundary and closes only at
       expect(sheet.y).toBeLessThan(frame.y)
       expect(sheet.y + sheet.height).toBeGreaterThan(frame.y + frame.height)
       await viewport.evaluate((el) => (el.scrollTop = el.scrollHeight))
-      // 12px closes the surface at the content end. Engines round scrollHeight to
-      // whole pixels, so the last scroll position can stop up to a pixel short.
+      // The inset closes the surface at the content end. Engines round scrollHeight
+      // to whole pixels, so the last scroll position can stop up to a pixel short.
       await expect
         .poll(async () => {
           const frame = (await viewport.boundingBox())!,
             sheet = (await surface.boundingBox())!
-          return Math.abs(frame.y + frame.height - sheet.y - sheet.height - 12)
+          return Math.abs(
+            frame.y + frame.height - sheet.y - sheet.height - inset,
+          )
         })
         .toBeLessThan(1)
       await expect
@@ -365,4 +369,58 @@ test('the shell keeps and remembers its sidebar state, with a shortcut and rail 
   await expect(shell).toHaveAttribute('data-sidebar', 'expanded')
   await sidebar.getByRole('link', { name: 'Resources', exact: true }).hover()
   await expect(page.locator('.pui-tooltip')).toHaveCount(0)
+})
+
+test('a shell that fills the window keeps a square edge, rounds only its page and goes flush on a phone', async ({
+  page,
+}) => {
+  const React = await import('react')
+  const { renderToStaticMarkup } = await import('react-dom/server')
+  const { AppShell } = await import('@surflane/ui')
+  const h = React.createElement
+  const markup = renderToStaticMarkup(
+    h(
+      AppShell.Root,
+      { layout: 'workspace', shortcut: false },
+      h(AppShell.Header, null, 'Harbor'),
+      h(AppShell.Sidebar, { 'aria-label': 'Harbor' }, 'Berths'),
+      h(AppShell.Content, null, h(AppShell.Page, null, 'Arrivals')),
+    ),
+  )
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/install')
+  await waitForCatalogReady(page)
+  // The install guide gives the document what a window-filling shell needs.
+  const body = page.locator('#install-app-shell')
+  await expect(body).toContainText('margin: 0;')
+  await expect(body).toContainText('background: var(--chrome);')
+  await page.evaluate((html) => {
+    const host = document.createElement('div')
+    host.style.cssText =
+      'position: fixed; inset: 0; z-index: 2000; display: grid'
+    host.innerHTML = html
+    document.body.append(host)
+  }, markup)
+  const shell = page.locator('body > div > .pui-app-shell')
+  const sheet = shell.locator('.pui-app-shell-page')
+  await expect(shell).toHaveCSS('border-top-left-radius', '0px')
+  expect(await shell.boundingBox()).toEqual({
+    x: 0,
+    y: 0,
+    width: 1440,
+    height: 900,
+  })
+  await expect(sheet).toHaveCSS('border-top-left-radius', '8px')
+  await expect(sheet).toHaveCSS('margin-top', '12px')
+  // A caller that still sets the deprecated radius keeps its page radius.
+  await shell.evaluate((el) =>
+    el.style.setProperty('--app-shell-radius', '24px'),
+  )
+  await expect(sheet).toHaveCSS('border-top-left-radius', '12px')
+  await page.setViewportSize({ width: 390, height: 844 })
+  await expect(sheet).toHaveCSS('border-top-left-radius', '0px')
+  await expect(sheet).toHaveCSS('margin-top', '0px')
+  const box = (await sheet.boundingBox())!
+  expect(box.x).toBe(0)
+  expect(box.x + box.width).toBe(390)
 })

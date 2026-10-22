@@ -200,140 +200,149 @@ export function AppShellExample({
         data-kind='pattern'
         data-content='workspace'
       >
-        <AppShell.Root
-          layout='workspace'
-          persist='surflane-preview-sidebar'
-          className='app-shell-preview'
-        >
-          <AppShell.Header>
-            <div className='app-shell-mobile-brand'>
-              <Icon name='monitor' decorative />
-              <strong>{profile}</strong>
-            </div>
-            {/* The same bottom sheet as the catalog's own mobile menu. */}
-            <Sheet.Root
-              side='bottom'
-              open={mobileOpen}
-              onOpenChange={(open) => setMobileOpen(open)}
-            >
-              <Sheet.Trigger
-                render={
-                  <Button
-                    ref={trigger}
-                    variant='ghost'
-                    size='icon'
-                    className='app-shell-mobile-trigger'
-                    aria-label={t.openNavAria}
-                    onClick={() => {
-                      selectedInPanel.current = false
-                    }}
-                  />
-                }
-              >
-                <Icon name='menu' decorative />
-              </Sheet.Trigger>
-              <Sheet.Content
-                ref={mobilePanel}
-                className='app-shell-mobile-panel navigation-sheet'
-                flush
-                aria-modal='true'
-                closeLabel={t.closeNav}
-                initialFocus={() =>
-                  mobilePanel.current?.querySelector<HTMLElement>(
-                    'a[aria-current="page"]',
-                  ) ?? true
-                }
-                finalFocus={() => {
-                  if (matchMedia('(min-width: 761px)').matches)
-                    return (
-                      sidebar.current?.querySelector<HTMLElement>(
-                        'a[aria-current="page"]',
-                      ) ?? heading.current
-                    )
-                  return selectedInPanel.current
-                    ? heading.current
-                    : trigger.current
-                }}
-              >
-                <Sheet.Header>
-                  <Sheet.Title>{t.workspaceNavigation}</Sheet.Title>
-                  <Sheet.Description>{t.sheetDescription}</Sheet.Description>
-                </Sheet.Header>
-                <Sheet.Body>{links(true)}</Sheet.Body>
-                <Sheet.Footer>
-                  {accountMenu}
-                  <Button
-                    variant='secondary'
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    {t.closeMenu}
-                  </Button>
-                </Sheet.Footer>
-              </Sheet.Content>
-            </Sheet.Root>
-          </AppShell.Header>
-          <AppShell.Sidebar ref={sidebar} aria-label={t.sidebarAria}>
-            <div className='app-shell-brand' data-blueprint-guide>
-              <span className='app-shell-brand-mark'>
-                <span className='catalog-brand-mark' aria-hidden='true' />
-              </span>
-              <AppShell.Label className='app-shell-brand-name' title={profile}>
-                {profile}
-              </AppShell.Label>
-            </div>
-            <AppShell.SidebarToggle
-              className='app-shell-collapse'
-              labels={{ collapse: t.collapseSidebar, expand: t.expandSidebar }}
-            />
-            <ScrollArea
-              orientation='vertical'
-              label={t.destinationsLabel}
-              rootClassName='app-shell-menu-scroll'
-              className='app-shell-menu-viewport'
-            >
-              <div id={`${previewId}-navigation`}>
-                <p className='app-shell-section-label'>
-                  <AppShell.Label>{t.workspaceGroup}</AppShell.Label>
-                </p>
-                {links()}
-              </div>
-            </ScrollArea>
-            <AppShell.Footer>{accountMenu}</AppShell.Footer>
-          </AppShell.Sidebar>
-          <AppShell.Content
-            id={`${previewId}-workspace`}
-            ref={(element) => {
-              heading.current = element?.querySelector('h3') ?? null
-            }}
+        {/* The frame rounds and clips the shell; the shell's own edge is square. */}
+        <div className='app-shell-preview-clip'>
+          <AppShell.Root
+            layout='workspace'
+            persist='surflane-preview-sidebar'
+            className='app-shell-preview'
           >
-            <ScrollArea
-              ref={contentViewport}
-              orientation='vertical'
-              label={t.contentLabel}
-              rootClassName='app-shell-content-scroll'
-              className='app-shell-content-viewport'
+            <AppShell.Header>
+              <div className='app-shell-mobile-brand'>
+                <Icon name='monitor' decorative />
+                <strong>{profile}</strong>
+              </div>
+              {/* The same bottom sheet as the catalog's own mobile menu. */}
+              <Sheet.Root
+                side='bottom'
+                open={mobileOpen}
+                onOpenChange={(open) => setMobileOpen(open)}
+              >
+                <Sheet.Trigger
+                  render={
+                    <Button
+                      ref={trigger}
+                      variant='ghost'
+                      size='icon'
+                      className='app-shell-mobile-trigger'
+                      aria-label={t.openNavAria}
+                      onClick={() => {
+                        selectedInPanel.current = false
+                      }}
+                    />
+                  }
+                >
+                  <Icon name='menu' decorative />
+                </Sheet.Trigger>
+                <Sheet.Content
+                  ref={mobilePanel}
+                  className='app-shell-mobile-panel navigation-sheet'
+                  flush
+                  aria-modal='true'
+                  closeLabel={t.closeNav}
+                  initialFocus={() =>
+                    mobilePanel.current?.querySelector<HTMLElement>(
+                      'a[aria-current="page"]',
+                    ) ?? true
+                  }
+                  finalFocus={() => {
+                    if (matchMedia('(min-width: 761px)').matches)
+                      return (
+                        sidebar.current?.querySelector<HTMLElement>(
+                          'a[aria-current="page"]',
+                        ) ?? heading.current
+                      )
+                    return selectedInPanel.current
+                      ? heading.current
+                      : trigger.current
+                  }}
+                >
+                  <Sheet.Header>
+                    <Sheet.Title>{t.workspaceNavigation}</Sheet.Title>
+                    <Sheet.Description>{t.sheetDescription}</Sheet.Description>
+                  </Sheet.Header>
+                  <Sheet.Body>{links(true)}</Sheet.Body>
+                  <Sheet.Footer>
+                    {accountMenu}
+                    <Button
+                      variant='secondary'
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      {t.closeMenu}
+                    </Button>
+                  </Sheet.Footer>
+                </Sheet.Content>
+              </Sheet.Root>
+            </AppShell.Header>
+            <AppShell.Sidebar ref={sidebar} aria-label={t.sidebarAria}>
+              <div className='app-shell-brand' data-blueprint-guide>
+                <span className='app-shell-brand-mark'>
+                  <span className='catalog-brand-mark' aria-hidden='true' />
+                </span>
+                <AppShell.Label
+                  className='app-shell-brand-name'
+                  title={profile}
+                >
+                  {profile}
+                </AppShell.Label>
+              </div>
+              <AppShell.SidebarToggle
+                className='app-shell-collapse'
+                labels={{
+                  collapse: t.collapseSidebar,
+                  expand: t.expandSidebar,
+                }}
+              />
+              <ScrollArea
+                orientation='vertical'
+                label={t.destinationsLabel}
+                rootClassName='app-shell-menu-scroll'
+                className='app-shell-menu-viewport'
+              >
+                <div id={`${previewId}-navigation`}>
+                  <p className='app-shell-section-label'>
+                    <AppShell.Label>{t.workspaceGroup}</AppShell.Label>
+                  </p>
+                  {links()}
+                </div>
+              </ScrollArea>
+              <AppShell.Footer>{accountMenu}</AppShell.Footer>
+            </AppShell.Sidebar>
+            <AppShell.Content
+              id={`${previewId}-workspace`}
+              ref={(element) => {
+                heading.current = element?.querySelector('h3') ?? null
+              }}
             >
-              <AppShell.Page>
-                <PageHeader
-                  title={view}
-                  level={3}
-                  headingProps={{ tabIndex: -1 }}
-                  description={t.previewDescription(profile)}
-                />
-                <p>{t.separateNote}</p>
-                <p>{t.productNote}</p>
-                {longContent &&
-                  Array.from({ length: 12 }, (_, index) => (
-                    <section key={index}>
-                      <h4>{t.sectionHeading(index + 1)}</h4>
-                      <p>{t.scrollSample}</p>
-                    </section>
-                  ))}
-                {account && <p role='status'>{t.previewProfileStatus}</p>}
-              </AppShell.Page>
-            </ScrollArea>
-          </AppShell.Content>
-        </AppShell.Root>
+              <ScrollArea
+                ref={contentViewport}
+                orientation='vertical'
+                label={t.contentLabel}
+                rootClassName='app-shell-content-scroll'
+                className='app-shell-content-viewport'
+              >
+                <AppShell.Page>
+                  <PageHeader
+                    title={view}
+                    level={3}
+                    headingProps={{ tabIndex: -1 }}
+                    description={t.previewDescription(profile)}
+                  />
+                  <p>{t.separateNote}</p>
+                  <p>{t.productNote}</p>
+                  {longContent &&
+                    Array.from({ length: 12 }, (_, index) => (
+                      <section key={index}>
+                        <h4>{t.sectionHeading(index + 1)}</h4>
+                        <p>{t.scrollSample}</p>
+                      </section>
+                    ))}
+                  {account && <p role='status'>{t.previewProfileStatus}</p>}
+                </AppShell.Page>
+              </ScrollArea>
+            </AppShell.Content>
+          </AppShell.Root>
+        </div>
       </div>
     </>
   )

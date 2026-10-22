@@ -86,6 +86,10 @@ const en = {
     tailwind: 'Add `className="px-8"` to the button: the padding grows.',
     remember: 'Switch the theme and reload: it opens in the saved theme.',
   },
+  appShellTitle: 'With AppShell',
+  appShellIntro:
+    "AppShell fills the window and its edge is square, so the document around it must not show: remove the browser's 8px body margin and paint the background in the shell's chrome. On a phone the page inside meets the screen's edges.",
+  appShellFile: 'Your global stylesheet',
   layersTitle: 'Your CSS and the layers',
   layerRules: {
     unlayered:
@@ -205,6 +209,10 @@ export const text: Record<Locale, typeof en> = {
       tailwind: '버튼에 `className="px-8"`을 더하면 안쪽 여백이 커집니다.',
       remember: '테마를 바꾸고 새로고침하면 저장된 테마로 열립니다.',
     },
+    appShellTitle: 'AppShell을 쓸 때',
+    appShellIntro:
+      'AppShell은 창 전체를 채우고 가장자리가 직각이므로, 그 바깥 문서가 보이면 안 됩니다. 브라우저의 기본 body 여백 8px를 없애고 배경을 셸의 크롬 색으로 칠하세요. 휴대폰에서는 안쪽 페이지가 화면 가장자리까지 닿습니다.',
+    appShellFile: '전역 스타일시트',
     layersTitle: '앱 CSS와 레이어',
     layerRules: {
       unlayered:

@@ -46,7 +46,7 @@ Dialog's stylesheet lists Button's, for its close button. Vite, webpack and Next
 
 The rules are the ones `all.css` brings, and they apply the same in any import order: a component's stylesheet comes after the stylesheets it includes, and size rules sit in their own layer. `styles.css` is the list of every component stylesheet. `@surflane/design-tokens` splits `presentation.css` and `foundations.css` the same way, under `presentation/` and `foundations/`.
 
-Add `pui-typography` to `<body>` to apply document typography, including portalled overlays. Fonts are not bundled. Load Manrope, Pretendard, JetBrains Mono or your own families in the host, for example through `@fontsource-variable/*` packages. Without them, the token font stacks fall back to system fonts.
+Add `pui-typography` to `<body>` to apply document typography, including portalled overlays. With AppShell, which fills the window with a square edge, also set `body { margin: 0; background: var(--chrome); }` so the browser's default margin never shows around it. Fonts are not bundled. Load Manrope, Pretendard, JetBrains Mono or your own families in the host, for example through `@fontsource-variable/*` packages. Without them, the token font stacks fall back to system fonts.
 
 ## 3. Set the theme before paint
 

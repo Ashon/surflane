@@ -9,7 +9,9 @@ export const appShellDocs: Record<string, ComponentDoc> = {
       'An optional second line names the workspace in the caption role (12/18, --ink-muted). The account row mirrors the brand with a 24px Avatar and the name at body weight.',
       'The brand and account stay fixed while the menu and main content scroll in separate ScrollAreas. The content surface spans the full scrolling content, so its bottom rounded corners appear only at the end.',
       'Main content can also scroll with the document. In a full-viewport shell with no page behind it, set scrollChain="contain" so an edge scroll doesn\'t bounce the page.',
-      'Derive each inner radius as max(0px, outer radius - inset) instead of stacking fixed values. The example starts from --radius-md (10px) for the content surface, then derives 22px for the shell (+12px inset) and 26px for the boundary (+3px padding, +1px border).',
+      "The shell fills the window, and its edge is square: it is the window's edge. Only the page surface is rounded, by --app-shell-page-radius (8px by default). Give the document no margin and the chrome background, as the install guide shows, so nothing shows around it.",
+      "On a phone (≤760px) the frame gives way: the page meets the screen's edges below the mobile header, with no inset and no rounding.",
+      'To show a shell inside a page, as this example does, let the frame round and clip it. Here the frame clips at 22px and sets --app-shell-page-radius to --radius-md (10px), so the frame, the clip and the page stay concentric: 26, 22 and 10px.',
       'The example sits in a fixed-height frame on the page, so its ScrollAreas keep the default scrollChain="auto" and hand the wheel to the page at their edges. Turn on Overflow navigation and Long workspace content to see the separate scrolling.',
       "Product selection and preview options sit outside the example boundary, and the theme switch sits in the account menu. The example's icon collapse is a product choice, and a real documentation site's sidebar is text-first.",
     ],
@@ -74,9 +76,9 @@ export const appShellDocs: Record<string, ComponentDoc> = {
 // Route, permission, session, cookie and theme ownership stay with the application.`,
     props: [
       [
-        'Root style --app-shell-radius / --app-shell-inset',
-        'outer surface radius and spacing; inner radius = max(0, radius - inset)',
-        '20px / 12px; preview radius 22px',
+        'Root style --app-shell-page-radius / --app-shell-inset',
+        "the page surface's radius and the shell's inset; the shell itself is square. --app-shell-radius still derives the page radius as max(0, radius - inset), deprecated",
+        '8px / 12px; preview 10px',
       ],
       [
         'Root.layout',
@@ -120,7 +122,7 @@ export const appShellDocs: Record<string, ComponentDoc> = {
       ],
       [
         'Page',
-        "the page surface in a workspace Content: inset from the shell on every side but the sidebar's, evenly without the sidebar at ≤760px and flush below a mobile Header; radius = max(0, radius - inset)",
+        "the page surface in a workspace Content: inset from the shell on every side but the sidebar's, rounded by --app-shell-page-radius; at ≤760px it meets the screen's edges",
         'div',
       ],
       [

@@ -23,6 +23,7 @@ import {
   installCommand,
   managers,
   resetExample,
+  appShellBody,
   type Extra,
   type Framework,
   type Manager,
@@ -328,6 +329,11 @@ export default function InstallGuide() {
             </li>
           )}
         </ul>
+      </section>
+      <section id='install-app-shell'>
+        <h2>{t.appShellTitle}</h2>
+        <Prose>{t.appShellIntro}</Prose>
+        <Code file={t.appShellFile} language='css' code={appShellBody} t={t} />
       </section>
       <section id='install-layers'>
         <h2>{t.layersTitle}</h2>

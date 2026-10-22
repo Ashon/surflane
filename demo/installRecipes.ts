@@ -448,6 +448,15 @@ export function guideFiles(setup: Setup): GuideFile[] {
   ]
 }
 
+// AppShell fills the window with a square edge, so the document around it must not
+// show: no browser margin, and the shell's chrome behind it.
+export const appShellBody = lines(
+  'body {',
+  '  margin: 0;',
+  '  background: var(--chrome);',
+  '}',
+)
+
 export const resetExample = lines(
   '@layer reset, surflane;',
   "@import '@surflane/ui/all.css';",

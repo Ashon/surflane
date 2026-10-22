@@ -10,7 +10,9 @@ export const appShellDocsKo: Record<string, DocKo> = {
       '선택적 두 번째 줄은 caption 역할(12/18, --ink-muted)로 워크스페이스 이름을 표시합니다. 계정 행은 24px Avatar와 body weight 이름으로 브랜드를 반영합니다.',
       '브랜드와 계정은 고정되어 있고, 메뉴와 메인 콘텐츠는 별도 ScrollArea에서 스크롤됩니다. 콘텐츠 표면이 전체 스크롤 콘텐츠를 덮으므로 하단 모서리 반경은 끝에서만 나타납니다.',
       '메인 콘텐츠는 문서와 함께 스크롤될 수도 있습니다. 뒤에 페이지가 없는 전체 뷰포트 셸에서는 scrollChain="contain"을 설정해 가장자리 스크롤이 페이지를 바운스하지 않게 하세요.',
-      '고정 값을 쌓는 대신 각 내부 반경을 max(0px, 외부 반경 - inset)로 파생하세요. 예시는 콘텐츠 표면에 --radius-md(10px)에서 시작해 셸은 22px(+12px inset), 경계는 26px(+3px padding, +1px border)로 파생합니다.',
+      '셸은 창 전체를 채우고 가장자리가 직각입니다. 창의 가장자리가 곧 셸의 가장자리이기 때문입니다. 둥근 것은 안쪽 페이지 면뿐이며, 반경은 --app-shell-page-radius(기본 8px)로 정합니다. 설치 가이드처럼 문서의 여백을 없애고 배경을 크롬 색으로 칠해, 셸 바깥에 아무것도 보이지 않게 하세요.',
+      '휴대폰(≤760px)에서는 틀이 물러납니다. 페이지가 모바일 헤더 아래에서 여백과 둥근 모서리 없이 화면 가장자리까지 닿습니다.',
+      '이 예시처럼 페이지 안에 셸을 보여 줄 때는 액자가 셸을 둥글게 잘라 내게 하세요. 여기서는 액자가 22px로 잘라 내고 --app-shell-page-radius를 --radius-md(10px)로 정해, 액자와 잘린 면과 페이지가 26, 22, 10px로 동심을 이룹니다.',
       '예시는 페이지의 고정 높이 프레임에 있으므로 ScrollArea는 기본 scrollChain="auto"를 유지하고 가장자리에서 휠을 페이지에 넘깁니다. Overflow 내비게이션과 Long workspace content를 켜면 별도 스크롤을 볼 수 있습니다.',
       '제품 선택과 미리보기 옵션은 예시 경계 밖에 있고, 테마 스위치는 계정 메뉴에 있습니다. 예시의 아이콘 접기는 제품 선택이며, 실제 문서 사이트의 사이드바는 텍스트 우선입니다.',
     ],
@@ -29,8 +31,8 @@ export const appShellDocsKo: Record<string, DocKo> = {
       'SidebarToggle은 aria-expanded와 aria-controls를 설정하고, 툴팁에 단축키를 보여 줍니다. 텍스트 입력 밖에서는 ⌘B나 Ctrl+B로 사이드바를 접고 폅니다. 접힌 링크는 접근성 이름을 유지하고, 호버와 포커스 때 이름을 툴팁으로 보여 줍니다.',
     ],
     props: {
-      'Root style --app-shell-radius / --app-shell-inset':
-        '외부 표면 반경과 간격; 내부 반경 = max(0, radius - inset)',
+      'Root style --app-shell-page-radius / --app-shell-inset':
+        '페이지 면의 반경과 셸의 간격. 셸 자체는 직각입니다. --app-shell-radius도 아직 max(0, radius - inset)로 페이지 반경을 정하지만 폐기 예정입니다',
       'Root.layout':
         'header(전역 레일) / workspace(사이드바 브랜드, 모바일 전용 header)',
       'Root.collapsed / defaultCollapsed / onCollapsedChange':
@@ -45,7 +47,7 @@ export const appShellDocsKo: Record<string, DocKo> = {
         '펼친 너비; header: 216px / 64px; workspace: 224px / 72px',
       'Header / Sidebar / Content / Footer':
         '네이티브 속성, className, refs를 가진 레이아웃 슬롯',
-      Page: 'workspace Content 안의 페이지 표면: 사이드바 쪽을 뺀 모든 면에 셸과 간격을 둡니다. ≤760px에서 사이드바가 없으면 양쪽 간격이 같고, 모바일 Header 바로 아래에서는 위 간격 없이 붙습니다. 반경 = max(0, radius - inset)',
+      Page: 'workspace Content 안의 페이지 표면: 사이드바 쪽을 뺀 모든 면에 셸과 간격을 두고, --app-shell-page-radius로 둥글게 합니다. ≤760px에서는 화면 가장자리까지 닿습니다.',
       Link: '네이티브 anchor: href, icon, label, aria-current, ref, 이벤트 핸들러. 접힌 레일에서는 label이 툴팁으로도 뜹니다',
       Label: '펼침 시 줄임표; 접힘 시 시각적으로 숨김',
       'Mobile navigation':

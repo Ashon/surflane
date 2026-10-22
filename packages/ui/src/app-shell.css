@@ -8,10 +8,18 @@
 @import './button.css';
 
 @layer surflane.components {
-  /* Application frame slots: navigation state and product routing remain caller-owned. */
+  /* Application frame slots: navigation state and product routing remain caller-owned.
+     The shell is never rounded: its edge is the window's, or the edge of a container
+     that frames it and clips it. Only the page surface inside it is rounded. */
   .pui-app-shell {
-    --app-shell-radius: var(--radius-sheet);
     --app-shell-inset: var(--space-3);
+    /* --app-shell-radius, if a caller still sets it, keeps deriving the page radius. */
+    --app-shell-page-radius: max(
+      0px,
+      calc(
+        var(--app-shell-radius, var(--radius-sheet)) - var(--app-shell-inset)
+      )
+    );
     --app-shell-sidebar-width: 216px;
     /* The collapsed sidebar's width. Set it on the shell for a narrower rail. */
     --app-shell-rail-width: 64px;
@@ -22,7 +30,6 @@
     min-inline-size: 0;
     padding: var(--app-shell-inset);
     background: var(--chrome);
-    border-radius: var(--app-shell-radius);
   }
   .pui-app-shell[data-sidebar='collapsed'] {
     --app-shell-sidebar-width: var(--app-shell-rail-width);
@@ -48,10 +55,7 @@
     min-block-size: 0;
     padding: var(--space-6);
     background: var(--canvas);
-    border-radius: max(
-      0px,
-      calc(var(--app-shell-radius) - var(--app-shell-inset))
-    );
+    border-radius: var(--app-shell-page-radius);
     overflow-wrap: anywhere;
   }
   .pui-app-shell-footer {
@@ -103,16 +107,24 @@
     clip-path: inset(50%);
     overflow: hidden;
   }
+  /* On a phone the frame costs more room than it gives: the page meets the screen's
+     edges, and only the header keeps its inset. */
   @media (max-width: 760px) {
     .pui-app-shell {
       grid-template-columns: minmax(0, 1fr);
       grid-template-rows: auto minmax(0, 1fr);
+      gap: 0;
+      padding: 0;
+    }
+    .pui-app-shell > .pui-app-shell-header {
+      padding: var(--app-shell-inset);
     }
     .pui-app-shell-sidebar {
       display: none;
     }
     .pui-app-shell-content {
       padding: var(--space-4);
+      border-radius: 0;
     }
   }
   @media (max-width: 760px), (pointer: coarse) {
@@ -168,19 +180,14 @@
     margin-inline-start: 0;
     padding: var(--space-6);
     background: var(--canvas);
-    border-radius: max(
-      0px,
-      calc(var(--app-shell-radius) - var(--app-shell-inset))
-    );
+    border-radius: var(--app-shell-page-radius);
   }
-  /* Without the sidebar the page insets evenly. Below a mobile header it starts flush. */
+  /* On a phone the page meets the screen's edges, below the mobile header. */
   @media (max-width: 760px) {
     .pui-app-shell-page {
-      margin: var(--app-shell-inset);
+      margin: 0;
       padding: var(--space-4);
-    }
-    .pui-app-shell:has(> .pui-app-shell-header) .pui-app-shell-page {
-      margin-block-start: 0;
+      border-radius: 0;
     }
   }
   .pui-app-shell[data-layout='workspace'] .pui-app-shell-footer {
