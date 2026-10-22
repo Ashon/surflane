@@ -2,112 +2,112 @@
 @layer surflane.tokens, surflane.themes, surflane.base, surflane.components;
 
 @layer surflane.components {
-.pui-control-group,
-.pui-icon-button {
-  box-sizing: border-box;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-  height: var(--control-height);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-full);
-  background: transparent;
-  color: var(--ink-muted);
-  font: 500 12px/1 var(--font-body);
-  flex-shrink: 0;
-}
-.pui-control-group {
-  padding: 2px;
-}
-.pui-segment {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: calc(var(--control-height) - 6px);
-  height: calc(var(--control-height) - 6px);
-  padding-inline: var(--space-2);
-  border-radius: var(--radius-full);
-  color: var(--ink-muted);
-  text-decoration: none;
-  white-space: nowrap;
-}
-.pui-icon-button {
-  width: var(--control-height);
-  cursor: pointer;
-}
-.pui-segment,
-.pui-icon-button {
-  transition:
-    background-color var(--duration-fast) var(--ease-out),
-    color var(--duration-fast) var(--ease-out);
-}
-.pui-segment,
-.pui-icon-button,
-.pui-theme-action {
-  /* Pressed layers show touch feedback in each control's shape instead. */
-  -webkit-tap-highlight-color: transparent;
-}
-.pui-segment:hover,
-.pui-icon-button:hover {
-  background: var(--interaction-hover-bg);
-  color: var(--ink);
-}
-.pui-segment:active,
-.pui-icon-button:active {
-  background: var(--interaction-active-bg);
-}
-.pui-segment[aria-current='page'] {
-  background: var(--selected);
-  color: var(--ink);
-}
-.pui-segment:focus-visible,
-.pui-icon-button:focus-visible {
-  outline: 2px solid var(--interaction-focus);
-  outline-offset: 2px;
-}
-@media (prefers-reduced-motion: reduce) {
+  .pui-control-group,
+  .pui-icon-button {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    height: var(--control-height);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-full);
+    background: transparent;
+    color: var(--ink-muted);
+    font: 500 12px/1 var(--font-body);
+    flex-shrink: 0;
+  }
+  .pui-control-group {
+    padding: 2px;
+  }
+  .pui-segment {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: calc(var(--control-height) - 6px);
+    height: calc(var(--control-height) - 6px);
+    padding-inline: var(--space-2);
+    border-radius: var(--radius-full);
+    color: var(--ink-muted);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .pui-icon-button {
+    width: var(--control-height);
+    cursor: pointer;
+  }
   .pui-segment,
   .pui-icon-button {
-    transition: none;
+    transition:
+      background-color var(--duration-fast) var(--ease-out),
+      color var(--duration-fast) var(--ease-out);
   }
-}
+  .pui-segment,
+  .pui-icon-button,
+  .pui-theme-action {
+    /* Pressed layers show touch feedback in each control's shape instead. */
+    -webkit-tap-highlight-color: transparent;
+  }
+  .pui-segment:hover,
+  .pui-icon-button:hover {
+    background: var(--interaction-hover-bg);
+    color: var(--ink);
+  }
+  .pui-segment:active,
+  .pui-icon-button:active {
+    background: var(--interaction-active-bg);
+  }
+  .pui-segment[aria-current='page'] {
+    background: var(--selected);
+    color: var(--ink);
+  }
+  .pui-segment:focus-visible,
+  .pui-icon-button:focus-visible {
+    outline: 2px solid var(--interaction-focus);
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pui-segment,
+    .pui-icon-button {
+      transition: none;
+    }
+  }
 
-.pui-theme-action {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  width: 100%;
-  min-height: var(--control-height);
-  padding: var(--space-2);
-  border: 0;
-  border-radius: var(--control-radius);
-  background: transparent;
-  color: var(--ink);
-  font: 400 14px/22px var(--font-body);
-  cursor: pointer;
-}
-.pui-theme-action:hover {
-  background: var(--interaction-hover-bg);
-}
-.pui-theme-action:active {
-  background: var(--interaction-active-bg);
-}
-.pui-theme-action:focus-visible {
-  outline: 2px solid var(--interaction-focus);
-  outline-offset: 2px;
-}
+  .pui-theme-action {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    width: 100%;
+    min-height: var(--control-height);
+    padding: var(--space-2);
+    border: 0;
+    border-radius: var(--control-radius);
+    background: transparent;
+    color: var(--ink);
+    font: 400 14px/22px var(--font-body);
+    cursor: pointer;
+  }
+  .pui-theme-action:hover {
+    background: var(--interaction-hover-bg);
+  }
+  .pui-theme-action:active {
+    background: var(--interaction-active-bg);
+  }
+  .pui-theme-action:focus-visible {
+    outline: 2px solid var(--interaction-focus);
+    outline-offset: 2px;
+  }
 
-.pui-segment {
-  min-block-size: calc(var(--control-height) - 6px);
-  font: 500 12px/1 var(--font-body);
-}
-.pui-control-group label:has(input:checked) .pui-segment {
-  background: var(--selected);
-  color: var(--ink);
-}
-.pui-control-group input:focus-visible + .pui-segment {
-  outline: 2px solid var(--interaction-focus);
-  outline-offset: 2px;
-}
+  .pui-segment {
+    min-block-size: calc(var(--control-height) - 6px);
+    font: 500 12px/1 var(--font-body);
+  }
+  .pui-control-group label:has(input:checked) .pui-segment {
+    background: var(--selected);
+    color: var(--ink);
+  }
+  .pui-control-group input:focus-visible + .pui-segment {
+    outline: 2px solid var(--interaction-focus);
+    outline-offset: 2px;
+  }
 }

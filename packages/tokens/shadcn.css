@@ -6,39 +6,39 @@
 @layer surflane.tokens, surflane.themes, surflane.base, surflane.components;
 
 @layer surflane.tokens {
-:root,
-[data-theme] {
-  --radius: var(--radius-md);
-  --background: var(--canvas);
-  --foreground: var(--ink);
-  --card: var(--canvas);
-  --card-foreground: var(--ink);
-  --popover: var(--menu-background);
-  --popover-foreground: var(--ink);
-  --primary: var(--brand);
-  --primary-foreground: var(--on-brand);
-  --secondary: var(--surface);
-  --secondary-foreground: var(--ink);
-  --muted: var(--surface);
-  --muted-foreground: var(--ink-muted);
-  --accent: var(--hover);
-  --accent-foreground: var(--ink);
-  --destructive: var(--status-danger-fg);
-  --border: var(--line);
-  --input: var(--control-border);
-  --ring: var(--control-focus);
-  --chart-1: var(--chart-series-1);
-  --chart-2: var(--chart-series-2);
-  --chart-3: var(--chart-series-3);
-  --chart-4: var(--status-caution-fg);
-  --chart-5: var(--status-success-fg);
-  --sidebar: var(--chrome);
-  --sidebar-foreground: var(--ink-body);
-  --sidebar-primary: var(--brand);
-  --sidebar-primary-foreground: var(--on-brand);
-  --sidebar-accent: var(--hover);
-  --sidebar-accent-foreground: var(--ink);
-  --sidebar-border: var(--line);
-  --sidebar-ring: var(--control-focus);
-}
+  :root,
+  [data-theme] {
+    --radius: var(--radius-md);
+    --background: var(--canvas);
+    --foreground: var(--ink);
+    --card: var(--canvas);
+    --card-foreground: var(--ink);
+    --popover: var(--menu-background);
+    --popover-foreground: var(--ink);
+    --primary: var(--brand);
+    --primary-foreground: var(--on-brand);
+    --secondary: var(--surface);
+    --secondary-foreground: var(--ink);
+    --muted: var(--surface);
+    --muted-foreground: var(--ink-muted);
+    --accent: var(--hover);
+    --accent-foreground: var(--ink);
+    --destructive: var(--status-danger-fg);
+    --border: var(--line);
+    --input: var(--control-border);
+    --ring: var(--control-focus);
+    --chart-1: var(--chart-series-1);
+    --chart-2: var(--chart-series-2);
+    --chart-3: var(--chart-series-3);
+    --chart-4: var(--status-caution-fg);
+    --chart-5: var(--status-success-fg);
+    --sidebar: var(--chrome);
+    --sidebar-foreground: var(--ink-body);
+    --sidebar-primary: var(--brand);
+    --sidebar-primary-foreground: var(--on-brand);
+    --sidebar-accent: var(--hover);
+    --sidebar-accent-foreground: var(--ink);
+    --sidebar-border: var(--line);
+    --sidebar-ring: var(--control-focus);
+  }
 }

@@ -9,352 +9,86 @@
 @import './typography-rendering.css';
 
 @layer surflane.tokens {
-/* Surflane theme roles. Surfaces, typography, spacing and interaction states
- * are shared between independent application and documentation examples.
- * Accent colors are configurable; selection uses neutral colors.
- */
+  /* Surflane theme roles. Surfaces, typography, spacing and interaction states
+   * are shared between independent application and documentation examples.
+   * Accent colors are configurable; selection uses neutral colors.
+   */
 
-/* ------------------------------------------------------------ Dark */
-:root,
-[data-theme] {
-  /* Native scrollbars, form controls and date pickers render in the theme too,
-     including inside a scoped data-theme region. */
-  color-scheme: dark;
-  /* Surfaces: chrome -> sheet -> recessed surface */
-  --chrome: oklch(
-    0.2368845 0.00973297 248.23792711
-  ); /* Gray 90. Header, sidebar, area outside the sheet */
-  --canvas: oklch(
-    0.27850211 0.01320057 253.03643104
-  ); /* Gray 80. Content sheet */
-  --surface: oklch(
-    0.2368845 0.00973297 248.23792711
-  ); /* Gray 90. Recessed surface inside the sheet: code, callouts, cards, diagrams */
-  --code-bg: oklch(
-    0.2050126 0.00860311 247.9381172
-  ); /* Gray 95. Code well, recessed below both the chrome and the sheet */
-  --hover: oklch(
-    0.31355761 0.01463569 251.36854651
-  ); /* Gray 75. Hovering an item on the chrome or the sheet */
-  --selected: oklch(
-    0.37866351 0.01730498 248.2836448
-  ); /* Gray 70. Current item on chrome; hovering a recessed surface */
-  --line: oklch(
-    0.37866351 0.01730498 248.2836448
-  ); /* Gray 70. Subtle dividers and borders */
-
-  /* Text */
-  --ink-muted: oklch(
-    0.81668066 0.0183769 253.3626611
-  ); /* Gray 50. Secondary text: table of contents, captions, descriptions, table headers */
-  --ink-body: oklch(
-    0.91321146 0.017061 242.44074644
-  ); /* Gray 40. Body text */
-  /* Gray 10. Headings, emphasis */
-  --ink: oklch(0.9781762 0.0034179 247.8580546);
-
-  /* Brand */
-  --brand: oklch(
-    0.82 0.12 210
-  ); /* Accent cyan. Surfaces and markers: primary buttons, product icons, tip markers, current table-of-contents marker */
-  --brand-ink: oklch(
-    0.82 0.12 210
-  ); /* Brand color used as text: links, current-location text, focus rings */
-  --on-brand: oklch(
-    0.2368845 0.00973297 248.23792711
-  ); /* Gray 90. Text on a brand background (dark foreground on accent) */
-  --brand-tint: oklch(
-    0.82 0.12 210 / 0.25098039
-  ); /* Accent cyan 25%. Text selection. Tints only the background and leaves the text color unchanged */
-
-  /* Base status palette. In UI, use the semantic foreground/background/border tokens below. */
-  --success: oklch(
-    0.82 0.12 210
-  ); /* Accent cyan by default; accent themes leave it */
-  --caution: oklch(0.88362398 0.17366333 93.66977695); /* Yellow 50 */
-  --danger: oklch(0.64886666 0.23697091 26.97276512); /* Red 50 */
-
-  /* Blueprint grid - the grid on the landing page and the guide to the left of text. On the sheet (Gray 80), minor
-   * cells sink one step darker while major cells and guides rise one step lighter. Guides are drawn stronger than the
-   * faint base grid (grid-base-opacity) to lead the eye to the text. The lighter Gray 50 stands out on a dark
-   * background. */
-  --grid-minor: oklch(0.2368845 0.00973297 248.23792711); /* Gray 90 */
-  --grid-major: oklch(0.37866351 0.01730498 248.2836448); /* Gray 70 */
-  --guide: oklch(0.37866351 0.01730498 248.2836448); /* Gray 70 */
-
-  --shadow-sheet: 0 1px 2px oklch(0 0 0 / 0.25);
-  --shadow-float: 0 12px 32px -8px oklch(0 0 0 / 0.5);
-}
-
-/* ---------------------------------------------------------- Light */
-:root[data-theme='light'],
-[data-theme='light'] {
-  color-scheme: light;
-  --chrome: oklch(0.9781762 0.0034179 247.8580546); /* Gray 10 */
-  --canvas: oklch(1 0 0); /* White */
-  --surface: oklch(0.9781762 0.0034179 247.8580546); /* Gray 10 */
-  --code-bg: oklch(0.95972296 0.00515149 247.87778139); /* Gray 20 */
-  --hover: oklch(0.95972296 0.00515149 247.87778139); /* Gray 20 */
-  --selected: oklch(0.93531009 0.01353396 240.96010253); /* Gray 30 */
-  --line: oklch(0.93531009 0.01353396 240.96010253); /* Gray 30 */
-
-  --ink-muted: oklch(0.37866351 0.01730498 248.2836448); /* Gray 70 */
-  --ink-body: oklch(0.27850211 0.01320057 253.03643104); /* Gray 80 */
-  --ink: oklch(0.2368845 0.00973297 248.23792711); /* Gray 90 */
-
-  --brand: oklch(0.82 0.12 210);
-  --brand-ink: oklch(
-    0.2368845 0.00973297 248.23792711
-  ); /* On light backgrounds, accent text uses ink instead. Links are distinguished by underlines */
-  --on-brand: oklch(0.2368845 0.00973297 248.23792711);
-  --brand-tint: oklch(
-    0.82 0.12 210 / 0.30196078
-  ); /* Accent cyan 30%. Needs to be slightly stronger on white to look equally visible */
-
-  --success: oklch(
-    0.82 0.12 210
-  ); /* Accent cyan by default; accent themes leave it */
-
-  --caution: oklch(0.88362398 0.17366333 93.66977695);
-  --danger: oklch(0.64886666 0.23697091 26.97276512);
-
-  --grid-minor: oklch(0.95972296 0.00515149 247.87778139); /* Gray 20 */
-  --grid-major: oklch(0.93531009 0.01353396 240.96010253); /* Gray 30 */
-  --guide: oklch(0.91321146 0.017061 242.44074644); /* Gray 40 */
-
-  --shadow-sheet:
-    0 1px 2px oklch(0.2368845 0.00973297 248.23792711 / 0.05),
-    0 10px 28px -14px oklch(0.2368845 0.00973297 248.23792711 / 0.14);
-  --shadow-float: 0 12px 32px -8px
-    oklch(0.2368845 0.00973297 248.23792711 / 0.18);
-}
-
-/* ---------------------------------------- Typeface, shape, spacing */
-:root,
-[data-theme] {
-  /* The brand typefaces (Manrope, JetBrains Mono) have no Hangul, so Hangul glyphs fall back to Pretendard. */
-  --font-hangul:
-    'Pretendard Variable', Pretendard, 'Apple SD Gothic Neo', 'Noto Sans KR',
-    'Malgun Gothic';
-  --font-japanese: 'Noto Sans JP Variable', 'Noto Sans JP', sans-serif;
-  --font-display:
-    'Manrope Variable', var(--font-hangul), -apple-system, system-ui,
-    sans-serif;
-  --font-body:
-    'Manrope Variable', var(--font-hangul), -apple-system, BlinkMacSystemFont,
-    system-ui, sans-serif;
-  --font-code:
-    'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, Consolas,
-    var(--font-hangul), monospace;
-
-  /* Brand type rules: two weights, 400 and 500 (500 maximum); tracking is the default 0, Mono 0. */
-  --weight-regular: 400;
-  --weight-medium: 500;
-  --tracking: 0;
-  --tracking-mono: 0;
-
-  /* Shape: the sheet is the most rounded, and radii get smaller as elements nest inward. */
-  --radius-sm: 6px; /* Inline code, keyboard keys */
-  --radius-md: 10px; /* Sidebar items, search, code blocks, callouts, diagrams */
-  --radius-lg: 16px; /* Cards, previous / next, landing page images */
-  --radius-sheet: 20px; /* Content sheet */
-  --radius-full: 999px; /* Buttons */
-
-  /* 4px unit */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-12: 48px;
-  --collection-inset: var(--space-4);
-
-  --sheet-inset: var(--space-3); /* Between the sheet and the window edge */
-
-  /* Layout widths. The 52rem documentation body fits about 50 Hangul characters per line; to make room for that width,
-   * the sidebars (left menu, right table of contents) are 17rem. At a 1440 window width the body is 809px, and the
-   * number of horizontally scrolling code blocks drops to about half of what it was at 720px. The landing page has no
-   * sidebars and is 75rem so two product screenshots fit side by side. */
-  --layout-content: 52rem;
-  --layout-sidebar: 17rem;
-  --layout-splash: 75rem;
-
-  /* Blueprint grid: minor cells are 24px and a major cell spans 4 minor cells. The base grid is 35% of the halo grid's
-   * strength, and the halo spreads two cells beyond an element as it fades. */
-  --grid-cell: 24px;
-  --grid-major-cell: 96px;
-  --grid-base-opacity: 0.35;
-  --grid-halo: 48px;
-  /* Text veil: clears the grid up to 8px outside the text box, then fades it back in over the next 24px. */
-  --veil-spread: var(--space-2);
-  --veil-blur: var(--space-6);
-
-  /* Motion: one short, decelerating curve. Color and surface state changes use fast, elements that appear or move use
-   * base, and only the landing page entrance uses slow. Only exits use the accelerating curve (ease-in). */
-  --duration-fast: 120ms;
-  --duration-base: 200ms;
-  --duration-slow: 360ms;
-  --ease-out: cubic-bezier(0.2, 0, 0, 1);
-  --ease-in: cubic-bezier(0.3, 0, 1, 1);
-  --logo-size: 40px; /* Default decorative size */
-}
-
-/* Shared product control tokens. */
-:root,
-[data-theme] {
-  --control-height: 36px;
-  --control-radius: 8px;
-  --control-padding-x: 10px;
-  --control-icon-size: 16px;
-  --control-icon-gap: var(--space-2);
-  --control-border: var(--control-choice-border);
-  --control-background: oklch(
-    from color-mix(in srgb, var(--line) 30%, var(--canvas)) l c h / alpha
-  );
-  --control-hover-background: var(--surface);
-  --control-hover-border: var(--control-choice-hover-border);
-  --control-focus: var(--interaction-focus);
-  --control-focus-background: var(--control-background);
-  --control-disabled-background: var(--surface);
-  --control-disabled-opacity: 0.55;
-  --control-placeholder: var(--ink-muted);
-}
-
-/* Semantic status colors derive from the base status palette. Success has its own
- * base, so an accent theme never recolors it. */
-:root,
-[data-theme] {
-  --status-success-fg: var(--success);
-  --status-success-bg: oklch(
-    from color-mix(in srgb, var(--success) 9%, var(--canvas)) l c h / alpha
-  );
-  --status-success-border: oklch(
-    from color-mix(in srgb, var(--success) 32%, var(--canvas)) l c h / alpha
-  );
-  --status-danger-fg: oklch(
-    from color-mix(in srgb, var(--danger) 48%, var(--ink)) l c h / alpha
-  );
-  --status-danger-bg: oklch(
-    from color-mix(in srgb, var(--danger) 10%, var(--canvas)) l c h / alpha
-  );
-  --status-danger-border: oklch(
-    from color-mix(in srgb, var(--danger) 38%, var(--canvas)) l c h / alpha
-  );
-  --status-caution-fg: var(--caution);
-  --status-caution-bg: oklch(
-    from color-mix(in srgb, var(--caution) 9%, var(--canvas)) l c h / alpha
-  );
-  --status-caution-border: oklch(
-    from color-mix(in srgb, var(--caution) 32%, var(--canvas)) l c h / alpha
-  );
-  --status-progress-fg: var(--ink);
-  --status-progress-bg: var(--selected);
-  --status-progress-border: var(--control-border);
-  --status-neutral-fg: var(--ink-muted);
-  --status-neutral-bg: var(--surface);
-  --status-neutral-border: var(--line);
-  /* A state layer: ink at 8% over whatever the item rests on. It lifts a hovered
-     item one visible step on the sheet, the chrome or a recessed bar alike, where
-     a fixed surface color matched the bar and vanished. One ink keeps a row's
-     cells one color, whatever each cell's text color. */
-  --interaction-hover-bg: oklch(from var(--ink) l c h / 0.08);
-  /* Pressed: the same layer, stronger, so touch shows feedback in the item's own shape. */
-  --interaction-active-bg: oklch(from var(--ink) l c h / 0.14);
-  --interaction-focus: var(--brand-ink);
-}
-:root[data-theme='light'],
-[data-theme='light'] {
-  --status-success-fg: oklch(
-    from color-mix(in srgb, var(--success) 25%, var(--ink)) l c h / alpha
-  );
-  --status-success-bg: oklch(
-    from color-mix(in srgb, var(--success) 9%, var(--canvas)) l c h / alpha
-  );
-  --status-success-border: oklch(
-    from color-mix(in srgb, var(--success) 25%, var(--line)) l c h / alpha
-  );
-  --status-danger-fg: oklch(
-    from color-mix(in srgb, var(--danger) 65%, var(--ink)) l c h / alpha
-  );
-  --status-danger-bg: oklch(
-    from color-mix(in srgb, var(--danger) 5%, var(--canvas)) l c h / alpha
-  );
-  --status-danger-border: oklch(
-    from color-mix(in srgb, var(--danger) 30%, var(--line)) l c h / alpha
-  );
-  --status-caution-fg: oklch(
-    from color-mix(in srgb, var(--caution) 25%, var(--ink)) l c h / alpha
-  );
-  --status-caution-bg: oklch(
-    from color-mix(in srgb, var(--caution) 12%, var(--canvas)) l c h / alpha
-  );
-  --status-caution-border: oklch(
-    from color-mix(in srgb, var(--caution) 45%, var(--line)) l c h / alpha
-  );
-}
-
-:root,
-[data-theme] {
-  --menu-background: var(--canvas);
-  --menu-border: var(--line);
-  --menu-hover-background: var(--surface);
-  --menu-selected-background: var(--selected);
-  --control-focus-ring: oklch(
-    from color-mix(in srgb, var(--control-focus) 20%, var(--canvas)) l c h /
-      alpha
-  );
-}
-
-:root[data-theme='light'],
-[data-theme='light'] {
-  --control-background: var(--canvas);
-}
-@media (max-width: 760px), (pointer: coarse) {
+  /* ------------------------------------------------------------ Dark */
   :root,
   [data-theme] {
-    --control-height: 44px;
+    /* Native scrollbars, form controls and date pickers render in the theme too,
+       including inside a scoped data-theme region. */
+    color-scheme: dark;
+    /* Surfaces: chrome -> sheet -> recessed surface */
+    --chrome: oklch(
+      0.2368845 0.00973297 248.23792711
+    ); /* Gray 90. Header, sidebar, area outside the sheet */
+    --canvas: oklch(
+      0.27850211 0.01320057 253.03643104
+    ); /* Gray 80. Content sheet */
+    --surface: oklch(
+      0.2368845 0.00973297 248.23792711
+    ); /* Gray 90. Recessed surface inside the sheet: code, callouts, cards, diagrams */
+    --code-bg: oklch(
+      0.2050126 0.00860311 247.9381172
+    ); /* Gray 95. Code well, recessed below both the chrome and the sheet */
+    --hover: oklch(
+      0.31355761 0.01463569 251.36854651
+    ); /* Gray 75. Hovering an item on the chrome or the sheet */
+    --selected: oklch(
+      0.37866351 0.01730498 248.2836448
+    ); /* Gray 70. Current item on chrome; hovering a recessed surface */
+    --line: oklch(
+      0.37866351 0.01730498 248.2836448
+    ); /* Gray 70. Subtle dividers and borders */
+
+    /* Text */
+    --ink-muted: oklch(
+      0.81668066 0.0183769 253.3626611
+    ); /* Gray 50. Secondary text: table of contents, captions, descriptions, table headers */
+    --ink-body: oklch(
+      0.91321146 0.017061 242.44074644
+    ); /* Gray 40. Body text */
+    /* Gray 10. Headings, emphasis */
+    --ink: oklch(0.9781762 0.0034179 247.8580546);
+
+    /* Brand */
+    --brand: oklch(
+      0.82 0.12 210
+    ); /* Accent cyan. Surfaces and markers: primary buttons, product icons, tip markers, current table-of-contents marker */
+    --brand-ink: oklch(
+      0.82 0.12 210
+    ); /* Brand color used as text: links, current-location text, focus rings */
+    --on-brand: oklch(
+      0.2368845 0.00973297 248.23792711
+    ); /* Gray 90. Text on a brand background (dark foreground on accent) */
+    --brand-tint: oklch(
+      0.82 0.12 210 / 0.25098039
+    ); /* Accent cyan 25%. Text selection. Tints only the background and leaves the text color unchanged */
+
+    /* Base status palette. In UI, use the semantic foreground/background/border tokens below. */
+    --success: oklch(
+      0.82 0.12 210
+    ); /* Accent cyan by default; accent themes leave it */
+    --caution: oklch(0.88362398 0.17366333 93.66977695); /* Yellow 50 */
+    --danger: oklch(0.64886666 0.23697091 26.97276512); /* Red 50 */
+
+    /* Blueprint grid - the grid on the landing page and the guide to the left of text. On the sheet (Gray 80), minor
+     * cells sink one step darker while major cells and guides rise one step lighter. Guides are drawn stronger than the
+     * faint base grid (grid-base-opacity) to lead the eye to the text. The lighter Gray 50 stands out on a dark
+     * background. */
+    --grid-minor: oklch(0.2368845 0.00973297 248.23792711); /* Gray 90 */
+    --grid-major: oklch(0.37866351 0.01730498 248.2836448); /* Gray 70 */
+    --guide: oklch(0.37866351 0.01730498 248.2836448); /* Gray 70 */
+
+    --shadow-sheet: 0 1px 2px oklch(0 0 0 / 0.25);
+    --shadow-float: 0 12px 32px -8px oklch(0 0 0 / 0.5);
   }
-}
 
-/* Motion roles: effects stay quick; spatial entrances get a little more room. */
-:root,
-[data-theme] {
-  --motion-feedback: 120ms;
-  --motion-reveal: 160ms;
-  --motion-enter: 200ms;
-  --motion-exit: 100ms;
-  --motion-ease: cubic-bezier(0.2, 0, 0, 1);
-  --motion-spatial-ease: cubic-bezier(0.16, 1, 0.3, 1);
-  --motion-lift: 4px;
-  --skeleton-base: oklch(
-    from color-mix(in srgb, var(--ink-muted) 14%, var(--canvas)) l c h / alpha
-  );
-  --skeleton-highlight: oklch(
-    from color-mix(in srgb, var(--ink-muted) 24%, var(--canvas)) l c h / alpha
-  );
-}
-
-:root,
-[data-theme] {
-  --scrollbar-size: 8px;
-  --scrollbar-radius: var(--radius-full);
-  --scrollbar-track: oklch(0 0 0 / 0);
-  --scrollbar-thumb: oklch(
-    from color-mix(in srgb, var(--ink-muted) 60%, var(--canvas)) l c h / alpha
-  );
-  --scrollbar-thumb-hover: var(--ink-muted);
-}
-
-@media (max-width: 760px) {
-  :root,
-  [data-theme] {
-    --collection-inset: var(--space-3);
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme]) {
+  /* ---------------------------------------------------------- Light */
+  :root[data-theme='light'],
+  [data-theme='light'] {
     color-scheme: light;
     --chrome: oklch(0.9781762 0.0034179 247.8580546); /* Gray 10 */
     --canvas: oklch(1 0 0); /* White */
@@ -393,7 +127,144 @@
       0 10px 28px -14px oklch(0.2368845 0.00973297 248.23792711 / 0.14);
     --shadow-float: 0 12px 32px -8px
       oklch(0.2368845 0.00973297 248.23792711 / 0.18);
+  }
 
+  /* ---------------------------------------- Typeface, shape, spacing */
+  :root,
+  [data-theme] {
+    /* The brand typefaces (Manrope, JetBrains Mono) have no Hangul, so Hangul glyphs fall back to Pretendard. */
+    --font-hangul:
+      'Pretendard Variable', Pretendard, 'Apple SD Gothic Neo', 'Noto Sans KR',
+      'Malgun Gothic';
+    --font-japanese: 'Noto Sans JP Variable', 'Noto Sans JP', sans-serif;
+    --font-display:
+      'Manrope Variable', var(--font-hangul), -apple-system, system-ui,
+      sans-serif;
+    --font-body:
+      'Manrope Variable', var(--font-hangul), -apple-system, BlinkMacSystemFont,
+      system-ui, sans-serif;
+    --font-code:
+      'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, Consolas,
+      var(--font-hangul), monospace;
+
+    /* Brand type rules: two weights, 400 and 500 (500 maximum); tracking is the default 0, Mono 0. */
+    --weight-regular: 400;
+    --weight-medium: 500;
+    --tracking: 0;
+    --tracking-mono: 0;
+
+    /* Shape: the sheet is the most rounded, and radii get smaller as elements nest inward. */
+    --radius-sm: 6px; /* Inline code, keyboard keys */
+    --radius-md: 10px; /* Sidebar items, search, code blocks, callouts, diagrams */
+    --radius-lg: 16px; /* Cards, previous / next, landing page images */
+    --radius-sheet: 20px; /* Content sheet */
+    --radius-full: 999px; /* Buttons */
+
+    /* 4px unit */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-12: 48px;
+    --collection-inset: var(--space-4);
+
+    --sheet-inset: var(--space-3); /* Between the sheet and the window edge */
+
+    /* Layout widths. The 52rem documentation body fits about 50 Hangul characters per line; to make room for that width,
+     * the sidebars (left menu, right table of contents) are 17rem. At a 1440 window width the body is 809px, and the
+     * number of horizontally scrolling code blocks drops to about half of what it was at 720px. The landing page has no
+     * sidebars and is 75rem so two product screenshots fit side by side. */
+    --layout-content: 52rem;
+    --layout-sidebar: 17rem;
+    --layout-splash: 75rem;
+
+    /* Blueprint grid: minor cells are 24px and a major cell spans 4 minor cells. The base grid is 35% of the halo grid's
+     * strength, and the halo spreads two cells beyond an element as it fades. */
+    --grid-cell: 24px;
+    --grid-major-cell: 96px;
+    --grid-base-opacity: 0.35;
+    --grid-halo: 48px;
+    /* Text veil: clears the grid up to 8px outside the text box, then fades it back in over the next 24px. */
+    --veil-spread: var(--space-2);
+    --veil-blur: var(--space-6);
+
+    /* Motion: one short, decelerating curve. Color and surface state changes use fast, elements that appear or move use
+     * base, and only the landing page entrance uses slow. Only exits use the accelerating curve (ease-in). */
+    --duration-fast: 120ms;
+    --duration-base: 200ms;
+    --duration-slow: 360ms;
+    --ease-out: cubic-bezier(0.2, 0, 0, 1);
+    --ease-in: cubic-bezier(0.3, 0, 1, 1);
+    --logo-size: 40px; /* Default decorative size */
+  }
+
+  /* Shared product control tokens. */
+  :root,
+  [data-theme] {
+    --control-height: 36px;
+    --control-radius: 8px;
+    --control-padding-x: 10px;
+    --control-icon-size: 16px;
+    --control-icon-gap: var(--space-2);
+    --control-border: var(--control-choice-border);
+    --control-background: oklch(
+      from color-mix(in srgb, var(--line) 30%, var(--canvas)) l c h / alpha
+    );
+    --control-hover-background: var(--surface);
+    --control-hover-border: var(--control-choice-hover-border);
+    --control-focus: var(--interaction-focus);
+    --control-focus-background: var(--control-background);
+    --control-disabled-background: var(--surface);
+    --control-disabled-opacity: 0.55;
+    --control-placeholder: var(--ink-muted);
+  }
+
+  /* Semantic status colors derive from the base status palette. Success has its own
+   * base, so an accent theme never recolors it. */
+  :root,
+  [data-theme] {
+    --status-success-fg: var(--success);
+    --status-success-bg: oklch(
+      from color-mix(in srgb, var(--success) 9%, var(--canvas)) l c h / alpha
+    );
+    --status-success-border: oklch(
+      from color-mix(in srgb, var(--success) 32%, var(--canvas)) l c h / alpha
+    );
+    --status-danger-fg: oklch(
+      from color-mix(in srgb, var(--danger) 48%, var(--ink)) l c h / alpha
+    );
+    --status-danger-bg: oklch(
+      from color-mix(in srgb, var(--danger) 10%, var(--canvas)) l c h / alpha
+    );
+    --status-danger-border: oklch(
+      from color-mix(in srgb, var(--danger) 38%, var(--canvas)) l c h / alpha
+    );
+    --status-caution-fg: var(--caution);
+    --status-caution-bg: oklch(
+      from color-mix(in srgb, var(--caution) 9%, var(--canvas)) l c h / alpha
+    );
+    --status-caution-border: oklch(
+      from color-mix(in srgb, var(--caution) 32%, var(--canvas)) l c h / alpha
+    );
+    --status-progress-fg: var(--ink);
+    --status-progress-bg: var(--selected);
+    --status-progress-border: var(--control-border);
+    --status-neutral-fg: var(--ink-muted);
+    --status-neutral-bg: var(--surface);
+    --status-neutral-border: var(--line);
+    /* A state layer: ink at 8% over whatever the item rests on. It lifts a hovered
+       item one visible step on the sheet, the chrome or a recessed bar alike, where
+       a fixed surface color matched the bar and vanished. One ink keeps a row's
+       cells one color, whatever each cell's text color. */
+    --interaction-hover-bg: oklch(from var(--ink) l c h / 0.08);
+    /* Pressed: the same layer, stronger, so touch shows feedback in the item's own shape. */
+    --interaction-active-bg: oklch(from var(--ink) l c h / 0.14);
+    --interaction-focus: var(--brand-ink);
+  }
+  :root[data-theme='light'],
+  [data-theme='light'] {
     --status-success-fg: oklch(
       from color-mix(in srgb, var(--success) 25%, var(--ink)) l c h / alpha
     );
@@ -421,151 +292,280 @@
     --status-caution-border: oklch(
       from color-mix(in srgb, var(--caution) 45%, var(--line)) l c h / alpha
     );
+  }
 
+  :root,
+  [data-theme] {
+    --menu-background: var(--canvas);
+    --menu-border: var(--line);
+    --menu-hover-background: var(--surface);
+    --menu-selected-background: var(--selected);
+    --control-focus-ring: oklch(
+      from color-mix(in srgb, var(--control-focus) 20%, var(--canvas)) l c h /
+        alpha
+    );
+  }
+
+  :root[data-theme='light'],
+  [data-theme='light'] {
     --control-background: var(--canvas);
   }
-}
-
-:root,
-[data-theme] {
-  --font-mono: var(--font-code);
-}
-
-:root,
-[data-theme] {
-  --layer-backdrop: 1090;
-  --layer-dialog: 1100;
-  --layer-popup: 1200;
-  --layer-tooltip: 1300;
-  --tooltip-background: var(--ink);
-  --tooltip-foreground: var(--canvas);
-}
-
-:root,
-[data-theme] {
-  --dialog-enter-duration: var(--motion-enter);
-  --dialog-enter-offset: 8px;
-  --dialog-exit-duration: 0ms;
-  --toast-enter-duration: 320ms;
-  --toast-stack-duration: 360ms;
-  --toast-stack-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-
-:root,
-[data-theme] {
-  --control-choice-size: 20px;
-  --control-choice-radius: 6px;
-  --control-choice-border: oklch(
-    from color-mix(in srgb, var(--ink-muted) 60%, var(--line)) l c h / alpha
-  );
-  --control-choice-hover-border: oklch(
-    from color-mix(in srgb, var(--ink-muted) 75%, var(--line)) l c h / alpha
-  );
-  --control-choice-selected-bg: var(--brand);
-  --control-choice-selected-hover-bg: color-mix(
-    in oklch,
-    var(--brand) 90%,
-    var(--on-brand)
-  );
-  --control-choice-selected-border: oklch(
-    from
-      color-mix(
-        in srgb,
-        var(--control-choice-selected-bg) 54%,
-        var(--control-choice-selected-fg)
-      )
-      l c h / alpha
-  );
-  --control-choice-selected-fg: var(--on-brand);
-  --control-switch-width: 36px;
-  --control-switch-height: 22px;
-  --control-switch-thumb: 14px;
-}
-
-:root,
-[data-theme] {
-  --avatar-size-sm: 24px;
-  --avatar-size-md: 36px;
-  --avatar-size-lg: 48px;
-  --status-badge-gap: var(--space-1);
-}
-
-/* Opaque paired text-selection colors remain readable on code, controls and status surfaces. */
-:root,
-[data-theme] {
-  --selection-background: var(--selected);
-  --selection-foreground: var(--ink);
-}
-::selection {
-  background-color: var(--selection-background);
-  color: var(--selection-foreground);
-  text-shadow: none;
-}
-@media (forced-colors: active) {
-  ::selection {
-    background-color: Highlight;
-    color: HighlightText;
+  @media (max-width: 760px), (pointer: coarse) {
+    :root,
+    [data-theme] {
+      --control-height: 44px;
+    }
   }
-}
 
-/* Small status badges use a slightly stronger face without an outline. */
-:root,
-[data-theme] {
-  --badge-neutral-bg: var(--status-neutral-bg);
-  --badge-success-bg: oklch(
-    from
-      color-mix(
-        in srgb,
-        var(--status-success-fg) 3%,
-        var(--status-success-bg)
-      )
-      l c h / alpha
-  );
-  --badge-danger-bg: oklch(
-    from
-      color-mix(in srgb, var(--status-danger-fg) 3%, var(--status-danger-bg))
-      l c h / alpha
-  );
-  --badge-caution-bg: oklch(
-    from
-      color-mix(
-        in srgb,
-        var(--status-caution-fg) 3%,
-        var(--status-caution-bg)
-      )
-      l c h / alpha
-  );
-  --badge-progress-bg: var(--status-progress-bg);
-}
+  /* Motion roles: effects stay quick; spatial entrances get a little more room. */
+  :root,
+  [data-theme] {
+    --motion-feedback: 120ms;
+    --motion-reveal: 160ms;
+    --motion-enter: 200ms;
+    --motion-exit: 100ms;
+    --motion-ease: cubic-bezier(0.2, 0, 0, 1);
+    --motion-spatial-ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --motion-lift: 4px;
+    --skeleton-base: oklch(
+      from color-mix(in srgb, var(--ink-muted) 14%, var(--canvas)) l c h / alpha
+    );
+    --skeleton-highlight: oklch(
+      from color-mix(in srgb, var(--ink-muted) 24%, var(--canvas)) l c h / alpha
+    );
+  }
 
-/* Neutral/brand strokes are distinguished by marker and dash or fill pattern. */
-:root,
-[data-theme] {
-  --chart-series-1: var(--brand-ink);
-  --chart-series-2: var(--ink-body);
-  --chart-series-3: var(--ink-muted);
-}
+  :root,
+  [data-theme] {
+    --scrollbar-size: 8px;
+    --scrollbar-radius: var(--radius-full);
+    --scrollbar-track: oklch(0 0 0 / 0);
+    --scrollbar-thumb: oklch(
+      from color-mix(in srgb, var(--ink-muted) 60%, var(--canvas)) l c h / alpha
+    );
+    --scrollbar-thumb-hover: var(--ink-muted);
+  }
 
-/* Platform Quiet: structure in cool hues, values in sage/amber; neutral details.
-   Every role, including comments, meets 4.5:1 on code, canvas and surface. */
-:root,
-[data-theme] {
-  --syntax-plain: var(--ink-body);
-  --syntax-comment: oklch(0.7 0.012 250);
-  --syntax-keyword: oklch(0.78 0.08 295);
-  --syntax-string: oklch(0.8 0.065 150);
-  --syntax-number: oklch(0.82 0.075 80);
-  --syntax-function: oklch(0.81 0.075 245);
-  --syntax-tag: var(--syntax-function);
-  --syntax-attribute: var(--syntax-plain);
-  --syntax-punctuation: var(--syntax-comment);
-}
-:root[data-theme='light'],
-[data-theme='light'] {
-  --syntax-comment: oklch(0.47 0.012 250);
-  --syntax-keyword: oklch(0.43 0.08 295);
-  --syntax-string: oklch(0.43 0.065 150);
-  --syntax-number: oklch(0.43 0.075 80);
-  --syntax-function: oklch(0.44 0.075 245);
-}
+  @media (max-width: 760px) {
+    :root,
+    [data-theme] {
+      --collection-inset: var(--space-3);
+    }
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) {
+      color-scheme: light;
+      --chrome: oklch(0.9781762 0.0034179 247.8580546); /* Gray 10 */
+      --canvas: oklch(1 0 0); /* White */
+      --surface: oklch(0.9781762 0.0034179 247.8580546); /* Gray 10 */
+      --code-bg: oklch(0.95972296 0.00515149 247.87778139); /* Gray 20 */
+      --hover: oklch(0.95972296 0.00515149 247.87778139); /* Gray 20 */
+      --selected: oklch(0.93531009 0.01353396 240.96010253); /* Gray 30 */
+      --line: oklch(0.93531009 0.01353396 240.96010253); /* Gray 30 */
+
+      --ink-muted: oklch(0.37866351 0.01730498 248.2836448); /* Gray 70 */
+      --ink-body: oklch(0.27850211 0.01320057 253.03643104); /* Gray 80 */
+      --ink: oklch(0.2368845 0.00973297 248.23792711); /* Gray 90 */
+
+      --brand: oklch(0.82 0.12 210);
+      --brand-ink: oklch(
+        0.2368845 0.00973297 248.23792711
+      ); /* On light backgrounds, accent text uses ink instead. Links are distinguished by underlines */
+      --on-brand: oklch(0.2368845 0.00973297 248.23792711);
+      --brand-tint: oklch(
+        0.82 0.12 210 / 0.30196078
+      ); /* Accent cyan 30%. Needs to be slightly stronger on white to look equally visible */
+
+      --success: oklch(
+        0.82 0.12 210
+      ); /* Accent cyan by default; accent themes leave it */
+
+      --caution: oklch(0.88362398 0.17366333 93.66977695);
+      --danger: oklch(0.64886666 0.23697091 26.97276512);
+
+      --grid-minor: oklch(0.95972296 0.00515149 247.87778139); /* Gray 20 */
+      --grid-major: oklch(0.93531009 0.01353396 240.96010253); /* Gray 30 */
+      --guide: oklch(0.91321146 0.017061 242.44074644); /* Gray 40 */
+
+      --shadow-sheet:
+        0 1px 2px oklch(0.2368845 0.00973297 248.23792711 / 0.05),
+        0 10px 28px -14px oklch(0.2368845 0.00973297 248.23792711 / 0.14);
+      --shadow-float: 0 12px 32px -8px
+        oklch(0.2368845 0.00973297 248.23792711 / 0.18);
+
+      --status-success-fg: oklch(
+        from color-mix(in srgb, var(--success) 25%, var(--ink)) l c h / alpha
+      );
+      --status-success-bg: oklch(
+        from color-mix(in srgb, var(--success) 9%, var(--canvas)) l c h / alpha
+      );
+      --status-success-border: oklch(
+        from color-mix(in srgb, var(--success) 25%, var(--line)) l c h / alpha
+      );
+      --status-danger-fg: oklch(
+        from color-mix(in srgb, var(--danger) 65%, var(--ink)) l c h / alpha
+      );
+      --status-danger-bg: oklch(
+        from color-mix(in srgb, var(--danger) 5%, var(--canvas)) l c h / alpha
+      );
+      --status-danger-border: oklch(
+        from color-mix(in srgb, var(--danger) 30%, var(--line)) l c h / alpha
+      );
+      --status-caution-fg: oklch(
+        from color-mix(in srgb, var(--caution) 25%, var(--ink)) l c h / alpha
+      );
+      --status-caution-bg: oklch(
+        from color-mix(in srgb, var(--caution) 12%, var(--canvas)) l c h / alpha
+      );
+      --status-caution-border: oklch(
+        from color-mix(in srgb, var(--caution) 45%, var(--line)) l c h / alpha
+      );
+
+      --control-background: var(--canvas);
+    }
+  }
+
+  :root,
+  [data-theme] {
+    --font-mono: var(--font-code);
+  }
+
+  :root,
+  [data-theme] {
+    --layer-backdrop: 1090;
+    --layer-dialog: 1100;
+    --layer-popup: 1200;
+    --layer-tooltip: 1300;
+    --tooltip-background: var(--ink);
+    --tooltip-foreground: var(--canvas);
+  }
+
+  :root,
+  [data-theme] {
+    --dialog-enter-duration: var(--motion-enter);
+    --dialog-enter-offset: 8px;
+    --dialog-exit-duration: 0ms;
+    --toast-enter-duration: 320ms;
+    --toast-stack-duration: 360ms;
+    --toast-stack-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  :root,
+  [data-theme] {
+    --control-choice-size: 20px;
+    --control-choice-radius: 6px;
+    --control-choice-border: oklch(
+      from color-mix(in srgb, var(--ink-muted) 60%, var(--line)) l c h / alpha
+    );
+    --control-choice-hover-border: oklch(
+      from color-mix(in srgb, var(--ink-muted) 75%, var(--line)) l c h / alpha
+    );
+    --control-choice-selected-bg: var(--brand);
+    --control-choice-selected-hover-bg: color-mix(
+      in oklch,
+      var(--brand) 90%,
+      var(--on-brand)
+    );
+    --control-choice-selected-border: oklch(
+      from
+        color-mix(
+          in srgb,
+          var(--control-choice-selected-bg) 54%,
+          var(--control-choice-selected-fg)
+        )
+        l c h / alpha
+    );
+    --control-choice-selected-fg: var(--on-brand);
+    --control-switch-width: 36px;
+    --control-switch-height: 22px;
+    --control-switch-thumb: 14px;
+  }
+
+  :root,
+  [data-theme] {
+    --avatar-size-sm: 24px;
+    --avatar-size-md: 36px;
+    --avatar-size-lg: 48px;
+    --status-badge-gap: var(--space-1);
+  }
+
+  /* Opaque paired text-selection colors remain readable on code, controls and status surfaces. */
+  :root,
+  [data-theme] {
+    --selection-background: var(--selected);
+    --selection-foreground: var(--ink);
+  }
+  ::selection {
+    background-color: var(--selection-background);
+    color: var(--selection-foreground);
+    text-shadow: none;
+  }
+  @media (forced-colors: active) {
+    ::selection {
+      background-color: Highlight;
+      color: HighlightText;
+    }
+  }
+
+  /* Small status badges use a slightly stronger face without an outline. */
+  :root,
+  [data-theme] {
+    --badge-neutral-bg: var(--status-neutral-bg);
+    --badge-success-bg: oklch(
+      from
+        color-mix(
+          in srgb,
+          var(--status-success-fg) 3%,
+          var(--status-success-bg)
+        )
+        l c h / alpha
+    );
+    --badge-danger-bg: oklch(
+      from
+        color-mix(in srgb, var(--status-danger-fg) 3%, var(--status-danger-bg))
+        l c h / alpha
+    );
+    --badge-caution-bg: oklch(
+      from
+        color-mix(
+          in srgb,
+          var(--status-caution-fg) 3%,
+          var(--status-caution-bg)
+        )
+        l c h / alpha
+    );
+    --badge-progress-bg: var(--status-progress-bg);
+  }
+
+  /* Neutral/brand strokes are distinguished by marker and dash or fill pattern. */
+  :root,
+  [data-theme] {
+    --chart-series-1: var(--brand-ink);
+    --chart-series-2: var(--ink-body);
+    --chart-series-3: var(--ink-muted);
+  }
+
+  /* Platform Quiet: structure in cool hues, values in sage/amber; neutral details.
+     Every role, including comments, meets 4.5:1 on code, canvas and surface. */
+  :root,
+  [data-theme] {
+    --syntax-plain: var(--ink-body);
+    --syntax-comment: oklch(0.7 0.012 250);
+    --syntax-keyword: oklch(0.78 0.08 295);
+    --syntax-string: oklch(0.8 0.065 150);
+    --syntax-number: oklch(0.82 0.075 80);
+    --syntax-function: oklch(0.81 0.075 245);
+    --syntax-tag: var(--syntax-function);
+    --syntax-attribute: var(--syntax-plain);
+    --syntax-punctuation: var(--syntax-comment);
+  }
+  :root[data-theme='light'],
+  [data-theme='light'] {
+    --syntax-comment: oklch(0.47 0.012 250);
+    --syntax-keyword: oklch(0.43 0.08 295);
+    --syntax-string: oklch(0.43 0.065 150);
+    --syntax-number: oklch(0.43 0.075 80);
+    --syntax-function: oklch(0.44 0.075 245);
+  }
 }

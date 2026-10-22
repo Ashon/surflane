@@ -5,13 +5,13 @@
 @layer surflane.tokens, surflane.themes, surflane.base, surflane.components;
 
 @layer surflane.tokens {
-:root,
-[data-theme] {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  font-kerning: normal;
-  font-optical-sizing: auto;
-  font-synthesis-weight: none;
-}
+  :root,
+  [data-theme] {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-kerning: normal;
+    font-optical-sizing: auto;
+    font-synthesis-weight: none;
+  }
 }

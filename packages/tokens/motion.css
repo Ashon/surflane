@@ -2,51 +2,51 @@
 @layer surflane.tokens, surflane.themes, surflane.base, surflane.components;
 
 @layer surflane.base {
-:root {
-  --theme-transition-duration: var(--duration-base);
-  --theme-transition-ease: var(--ease-out);
-}
-:root[data-theme-switching],
-:root[data-theme-switching] *,
-:root[data-theme-switching] *::before,
-:root[data-theme-switching] *::after {
-  transition: none !important;
-}
-:root[data-theme-switching] * {
-  view-transition-name: none !important;
-}
-:root[data-theme-switching]::view-transition-group(root) {
-  animation-duration: var(--theme-transition-duration);
-  animation-timing-function: var(--theme-transition-ease);
-}
-:root[data-theme-switching]::view-transition-image-pair(root) {
-  isolation: isolate;
-}
-:root[data-theme-switching]::view-transition-old(root) {
-  animation: none;
-  mix-blend-mode: normal;
-}
-:root[data-theme-switching]::view-transition-new(root) {
-  animation: pui-theme-enter var(--theme-transition-duration)
-    var(--theme-transition-ease) both;
-  mix-blend-mode: normal;
-}
-:root[data-theme-switching]::view-transition {
-  pointer-events: none;
-}
-@keyframes pui-theme-enter {
-  from {
-    opacity: 0;
+  :root {
+    --theme-transition-duration: var(--duration-base);
+    --theme-transition-ease: var(--ease-out);
   }
-  to {
-    opacity: 1;
+  :root[data-theme-switching],
+  :root[data-theme-switching] *,
+  :root[data-theme-switching] *::before,
+  :root[data-theme-switching] *::after {
+    transition: none !important;
   }
-}
-@media (prefers-reduced-motion: reduce) {
-  :root[data-theme-switching]::view-transition-group(root),
-  :root[data-theme-switching]::view-transition-old(root),
+  :root[data-theme-switching] * {
+    view-transition-name: none !important;
+  }
+  :root[data-theme-switching]::view-transition-group(root) {
+    animation-duration: var(--theme-transition-duration);
+    animation-timing-function: var(--theme-transition-ease);
+  }
+  :root[data-theme-switching]::view-transition-image-pair(root) {
+    isolation: isolate;
+  }
+  :root[data-theme-switching]::view-transition-old(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
   :root[data-theme-switching]::view-transition-new(root) {
-    animation: none !important;
+    animation: pui-theme-enter var(--theme-transition-duration)
+      var(--theme-transition-ease) both;
+    mix-blend-mode: normal;
   }
-}
+  :root[data-theme-switching]::view-transition {
+    pointer-events: none;
+  }
+  @keyframes pui-theme-enter {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :root[data-theme-switching]::view-transition-group(root),
+    :root[data-theme-switching]::view-transition-old(root),
+    :root[data-theme-switching]::view-transition-new(root) {
+      animation: none !important;
+    }
+  }
 }
