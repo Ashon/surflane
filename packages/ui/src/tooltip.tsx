@@ -21,25 +21,33 @@ export function TooltipProvider({
     </BaseTooltip.Provider>
   )
 }
-export function Tooltip({
-  label,
-  enabled = true,
-  side = 'right',
-  align,
-  sideOffset = 10,
-  children,
-}: {
-  label: string
+export type TooltipProps = {
+  /** What the trigger does, in a few words. It may hold an icon or emphasis, but
+   * nothing interactive: a tooltip never takes focus. */
+  label: React.ReactNode
+  /** A keyboard shortcut for the same action, such as '⌘B', set apart after the
+   * label. */
+  shortcut?: string
   enabled?: boolean
   children: React.ReactElement
 } & Pick<
   React.ComponentPropsWithoutRef<typeof BaseTooltip.Positioner>,
   'side' | 'align' | 'sideOffset'
->) {
+>
+export function Tooltip({
+  label,
+  shortcut,
+  enabled = true,
+  side = 'right',
+  align,
+  sideOffset = 10,
+  children,
+}: TooltipProps) {
   const scheme = useComponentSize()
-  if (!enabled) return children
+  // Disabling keeps the trigger mounted, so turning the tooltip on or off never
+  // moves focus.
   return (
-    <BaseTooltip.Root>
+    <BaseTooltip.Root disabled={!enabled}>
       <BaseTooltip.Trigger render={children} />
       <BaseTooltip.Portal>
         <BaseTooltip.Positioner
@@ -51,6 +59,7 @@ export function Tooltip({
         >
           <BaseTooltip.Popup className='pui-tooltip' data-ui-size={scheme}>
             {label}
+            {shortcut && <kbd className='pui-tooltip-shortcut'>{shortcut}</kbd>}
           </BaseTooltip.Popup>
         </BaseTooltip.Positioner>
       </BaseTooltip.Portal>

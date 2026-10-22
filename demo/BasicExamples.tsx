@@ -259,9 +259,14 @@ export function BasicExample({
     case 'tooltip':
       example = (
         <TooltipProvider delayDuration={200}>
-          <Tooltip label={t.inspectBuildLogs}>
-            <Button variant='outline'>{t.inspectLogs}</Button>
-          </Tooltip>
+          <div className='actions'>
+            <Tooltip label={t.inspectBuildLogs}>
+              <Button variant='outline'>{t.inspectLogs}</Button>
+            </Tooltip>
+            <Tooltip label={t.rerunPipeline} shortcut='⌘⇧R' side='bottom'>
+              <Button variant='outline'>{t.rerun}</Button>
+            </Tooltip>
+          </div>
         </TooltipProvider>
       )
       break

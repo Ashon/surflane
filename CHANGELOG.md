@@ -14,6 +14,7 @@
 - Chart takes `includeZero={false}` for values far from zero, such as prices: the value axis spans the data in round steps. Bars always start at zero. `palette="categorical"` colors series with six hues, for categories that color must tell apart.
 - Chart shows the active point's values in a box beside it: the date, and each visible series with its legend mark and value. Pointer, touch and the arrow keys all bring it up. It opens to the side with more room, stays inside the plot, and closes with Escape. The readout below the plot still announces the same values, so the box stays out of the accessibility tree.
 - An `info` status tone for Badge, StatusBadge, InlineMessage and Toast, in blue, apart from the cyan of success.
+- Tooltip's `label` takes any content, not only a string, and `shortcut` sets a keyboard shortcut apart after it, such as `⌘B`.
 - Tokens:
   - `--info` and `--status-info-*`.
   - `--trend-up`, `--trend-down` and the `--trend-up-*`, `--trend-down-*` and `--trend-flat-fg` roles. Markets that read red as a rise set `--trend-up` and `--trend-down` the other way round.
@@ -22,6 +23,7 @@
 
 ### Changed
 
+- Tooltip with `enabled={false}` keeps its trigger mounted, so turning the tooltip on or off never moves focus.
 - Chart's legend shares one row with the value axis name, right above the plot; the keyboard help moves below the plot. `labels` gains `inspectHint` and `noRows`, the last two strings the chart showed only in English.
 - A fifth cascade layer, `surflane.sizes`, sits above `surflane.components`. It holds the size scheme and size variants: `SizeProvider`, a component's `size`, extra-small and icon buttons, and table density. They override a component's defaults in whatever order the stylesheets load. Every stylesheet's layer order statement names the new layer, and so does the theme builder's `layerOrder`.
 - `styles.css`, `presentation.css` and `foundations.css` now import the per-component stylesheets. They bring the same rules with the same effect: the catalog renders the same at every size.

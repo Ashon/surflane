@@ -220,7 +220,7 @@ export {
   ContextMenuTrigger,
   ContextMenuContent,
 } from './context-menu.js'
-export { Tooltip, TooltipProvider } from './tooltip.js'
+export { Tooltip, TooltipProvider, type TooltipProps } from './tooltip.js'
 export {
   PreviewCard,
   PreviewCardArrow,

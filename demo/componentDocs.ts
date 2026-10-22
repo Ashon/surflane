@@ -289,9 +289,21 @@ import NextLink from 'next/link'
   <Tooltip label='Inspect the build logs'>
     <Button variant='outline'>Logs</Button>
   </Tooltip>
+  <Tooltip label='Run the pipeline again' shortcut='⌘⇧R'>
+    <Button variant='outline'>Rerun</Button>
+  </Tooltip>
 </TooltipProvider>`,
     props: [
-      ['label', 'string', 'required'],
+      [
+        'label',
+        'ReactNode: a few words, an icon or emphasis; nothing interactive',
+        'required',
+      ],
+      [
+        'shortcut',
+        "keyboard shortcut set apart after the label, such as '⌘B'",
+        '—',
+      ],
       ['enabled', 'boolean', 'true'],
       [
         'side / align / sideOffset',

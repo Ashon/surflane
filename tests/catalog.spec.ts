@@ -349,6 +349,20 @@ test('individual component examples retain selection, overlay and focus behavior
   await expect(page.locator('.pui-tooltip')).toBeVisible()
   await page.keyboard.press('Escape')
   await expect(page.locator('.pui-tooltip')).toBeHidden()
+  // A shortcut follows the label as a kbd element, in the tooltip's own face.
+  await page.keyboard.press('Tab')
+  const tip = page.locator('.pui-tooltip')
+  await expect(tip).toHaveText('Run the pipeline again⌘⇧R')
+  await expect(tip.locator('kbd.pui-tooltip-shortcut')).toHaveText('⌘⇧R')
+  expect(
+    await tip
+      .locator('kbd')
+      .evaluate(
+        (el) =>
+          getComputedStyle(el).fontFamily ===
+          getComputedStyle(el.parentElement!).fontFamily,
+      ),
+  ).toBe(true)
   await page.goto('/components/popover')
   await waitForCatalogReady(page)
   const popover = page.getByRole('button', {

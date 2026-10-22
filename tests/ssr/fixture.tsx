@@ -211,7 +211,7 @@ function Controls() {
   return (
     <section data-ssr='controls'>
       <TooltipProvider>
-        <Tooltip label='Recalculate arrival times'>
+        <Tooltip label='Recalculate arrival times' shortcut='⌘R'>
           <Button variant='outline'>Refresh ETA</Button>
         </Tooltip>
       </TooltipProvider>
