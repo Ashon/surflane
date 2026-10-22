@@ -1,4 +1,4 @@
-import React, { useEffect, useId, useRef, useState } from 'react'
+import React, { useContext, useEffect, useId, useRef, useState } from 'react'
 import {
   Table,
   Checkbox,
@@ -10,19 +10,21 @@ import {
   Pagination,
   EmptyState,
   InlineMessage,
-  Spinner,
+  Skeleton,
   StatusBadge,
-  Icon,
+  useTableSelection,
 } from '@surflane/ui'
 import { Link } from './router'
 import { useLocale, useMessages } from './i18n'
 import { text } from './i18n/pages/DataTableExample'
+import { PreviewDensityContext } from './previewOptions'
 const resources = [
   {
     id: 'workspace',
     name: 'Workspace',
     product: 'Workspace',
     region: 'production',
+    instances: 12,
     manage: true,
     href: '/patterns/app-shell',
   },
@@ -31,6 +33,7 @@ const resources = [
     name: 'Documentation',
     product: 'Documentation',
     region: 'development',
+    instances: 2,
     manage: false,
     href: '/foundations/typography',
   },
@@ -39,6 +42,7 @@ const resources = [
     name: 'Inventory main',
     product: 'Inventory',
     region: 'staging',
+    instances: 8,
     manage: true,
     href: '/components/table',
   },
@@ -47,6 +51,7 @@ const resources = [
     name: 'Environment discovery',
     product: 'Workspace',
     region: 'production',
+    instances: 24,
     manage: true,
     href: '/patterns/form-workflow',
   },
@@ -55,6 +60,7 @@ const resources = [
     name: 'Inventory review',
     product: 'Inventory',
     region: 'development',
+    instances: 3,
     manage: true,
     href: '/patterns/resource-list',
   },
@@ -63,6 +69,7 @@ const resources = [
     name: 'Layout guide',
     product: 'Documentation',
     region: 'development',
+    instances: 1,
     manage: false,
     href: '/foundations/layout',
   },
@@ -71,6 +78,7 @@ const resources = [
     name: 'Release pipeline',
     product: 'Workspace',
     region: 'staging',
+    instances: 6,
     manage: true,
     href: '/components/badge',
   },
@@ -79,6 +87,7 @@ const resources = [
     name: 'Runtime inventory',
     product: 'Inventory',
     region: 'production',
+    instances: 18,
     manage: true,
     href: '/components/list',
   },
@@ -87,19 +96,31 @@ const resources = [
     name: 'Project deployment / platform-api-abcdefghijklmnopqrstuvwxyz0123456789',
     product: 'Documentation',
     region: 'staging',
+    instances: 4,
     manage: true,
     href: '/components/code',
   },
 ]
+type Resource = (typeof resources)[number]
 type Mode = 'ready' | 'loading' | 'error' | 'permission' | 'empty'
-type SortKey = 'name' | 'product' | 'region'
+type SortKey = 'name' | 'product' | 'region' | 'instances'
+type Column = 'product' | 'region' | 'instances'
 const collator = new Intl.Collator('en', {
   numeric: true,
   sensitivity: 'base',
 })
+// Text sorts ascending first; numbers descending first, so the largest comes up.
+const firstAscending = (key: SortKey) => key !== 'instances'
+const compare = (a: Resource, b: Resource, key: SortKey) =>
+  key === 'instances'
+    ? a.instances - b.instances
+    : collator.compare(a[key], b[key])
 export function DataTableExample() {
-  const t = text[useLocale().locale]
+  const { locale } = useLocale()
+  const t = text[locale]
   const messages = useMessages()
+  const density = useContext(PreviewDensityContext)
+  const number = new Intl.NumberFormat(locale === 'ko' ? 'ko-KR' : 'en-US')
   const [mode, setMode] = useState<Mode>('ready'),
     [query, setQuery] = useState(''),
     [product, setProduct] = useState('all')
@@ -111,7 +132,11 @@ export function DataTableExample() {
     [size, setSize] = useState(3),
     [selected, setSelected] = useState<string[]>([]),
     [reviewed, setReviewed] = useState<string[]>([])
-  const [columns, setColumns] = useState({ product: true, region: true }),
+  const [columns, setColumns] = useState<Record<Column, boolean>>({
+      product: true,
+      region: true,
+      instances: true,
+    }),
     [notice, setNotice] = useState('')
   const input = useRef<HTMLInputElement>(null),
     focusSearch = useRef(false),
@@ -122,6 +147,7 @@ export function DataTableExample() {
       input.current?.focus()
     }
   }, [mode])
+  // Filter, then sort with an ID tie-break, then page.
   const filtered = resources.filter(
     (row) =>
       (product === 'all' || row.product === product) &&
@@ -129,23 +155,31 @@ export function DataTableExample() {
         .toLocaleLowerCase()
         .includes(query.trim().toLocaleLowerCase()),
   )
-  const sorted = [...filtered].sort((a, b) => {
-    const comparison = collator.compare(a[sort.key], b[sort.key])
-    return (
-      (sort.ascending ? comparison : -comparison) ||
-      collator.compare(a.id, b.id)
-    )
-  })
+  const sorted = [...filtered].sort(
+    (a, b) =>
+      (sort.ascending ? 1 : -1) * compare(a, b, sort.key) ||
+      collator.compare(a.id, b.id),
+  )
   const pageCount = Math.ceil(sorted.length / size),
     current = Math.max(1, Math.min(page, pageCount || 1)),
     rows = sorted.slice((current - 1) * size, current * size)
-  const selectable = rows.filter((row) => row.manage).map((row) => row.id),
-    pageSelected = selectable.filter((id) => selected.includes(id))
-  const hiddenSelections = selected.filter(
-    (id) => !rows.some((row) => row.id === id),
-  ).length
+  const selection = useTableSelection({
+    rows,
+    getId: (row) => row.id,
+    canSelect: (row) => row.manage,
+    selected,
+    onSelectedChange: setSelected,
+  })
   const ready = mode === 'ready',
     active = Boolean(query.trim()) || product !== 'all'
+  const labels: Record<SortKey, string> = {
+    name: t.name,
+    product: t.product,
+    region: t.environment,
+    instances: t.instances,
+  }
+  const columnCount =
+    3 + Object.values(columns).filter((visible) => visible).length
   function resetFilters() {
     setQuery('')
     setProduct('all')
@@ -157,52 +191,36 @@ export function DataTableExample() {
     setMode('ready')
   }
   function updateSort(key: SortKey) {
-    setSort((old) => ({
-      key,
-      ascending: old.key === key ? !old.ascending : true,
-    }))
+    const ascending = sort.key === key ? !sort.ascending : firstAscending(key)
+    setSort({ key, ascending })
     setPage(1)
+    setNotice(t.sortedBy(labels[key], ascending))
   }
-  function toggle(id: string, checked: boolean) {
-    setSelected((old) =>
-      checked
-        ? [...new Set([...old, id])]
-        : old.filter((value) => value !== id),
-    )
-  }
-  function column(key: 'product' | 'region', checked: boolean) {
+  function column(key: Column, checked: boolean) {
     setColumns((old) => ({ ...old, [key]: checked }))
     if (!checked && sort.key === key) {
       setSort({ key: 'name', ascending: true })
       setPage(1)
     }
   }
-  const sortHeader = (key: SortKey, label: string) => (
-    <Table.HeaderCell
-      scope='col'
-      aria-sort={
+  const sortHeader = (key: SortKey) => (
+    <Table.SortHeader
+      numeric={key === 'instances'}
+      sort={
         sort.key === key
           ? sort.ascending
             ? 'ascending'
             : 'descending'
           : undefined
       }
+      onSort={() => updateSort(key)}
+      disabled={!ready || !filtered.length}
     >
-      <Button
-        variant='ghost'
-        aria-label={t.sortBy(label)}
-        onClick={() => updateSort(key)}
-      >
-        {label}
-        {sort.key === key && (
-          <Icon
-            name='chevron-down'
-            decorative
-            style={{ transform: sort.ascending ? 'rotate(180deg)' : undefined }}
-          />
-        )}
-      </Button>
-    </Table.HeaderCell>
+      {labels[key]}
+    </Table.SortHeader>
+  )
+  const message = (content: React.ReactNode) => (
+    <Table.Message colSpan={columnCount}>{content}</Table.Message>
   )
   return (
     <div className='data-table-example'>
@@ -276,7 +294,7 @@ export function DataTableExample() {
                 filtered.length,
                 resources.length,
                 selected.length,
-                hiddenSelections,
+                selection.hiddenCount,
               )
             : mode === 'loading'
               ? t.loadingPreview
@@ -288,81 +306,26 @@ export function DataTableExample() {
         </FilterBar.Summary>
       </FilterBar.Root>
       <div id={resultId}>
-        {mode === 'loading' ? (
-          <InlineMessage.Root tone='progress'>
-            <InlineMessage.Icon tone='progress'>
-              <Spinner size='sm' decorative />
-            </InlineMessage.Icon>
-            <InlineMessage.Content>
-              <InlineMessage.Title>{t.loadingPreview}</InlineMessage.Title>
-              <InlineMessage.Description>
-                {t.loadingDescription}
-              </InlineMessage.Description>
-              <InlineMessage.Actions>
-                <Button variant='outline' onClick={recover}>
-                  {t.completePreview}
-                </Button>
-              </InlineMessage.Actions>
-            </InlineMessage.Content>
-          </InlineMessage.Root>
-        ) : mode === 'error' ? (
-          <InlineMessage.Root tone='danger'>
-            <InlineMessage.Content>
-              <InlineMessage.Title>{t.loadFailedTitle}</InlineMessage.Title>
-              <InlineMessage.Description>
-                {t.keptDescription}
-              </InlineMessage.Description>
-              <InlineMessage.Actions>
-                <Button variant='outline' onClick={recover}>
-                  {t.retryPreview}
-                </Button>
-              </InlineMessage.Actions>
-            </InlineMessage.Content>
-          </InlineMessage.Root>
-        ) : mode === 'permission' ? (
-          <EmptyState.Root>
-            <EmptyState.Title>{t.accessRequired}</EmptyState.Title>
-            <EmptyState.Description>
-              {t.accessDescription}
-            </EmptyState.Description>
-            <EmptyState.Actions>
+        <div className='data-table-toolbar'>
+          {mode === 'loading' ? (
+            <>
+              <p>{t.loadingDescription}</p>
               <Button variant='outline' onClick={recover}>
-                {t.restoreAccess}
+                {t.completePreview}
               </Button>
-            </EmptyState.Actions>
-          </EmptyState.Root>
-        ) : mode === 'empty' || !filtered.length ? (
-          <EmptyState.Root>
-            <EmptyState.Title>
-              {mode === 'empty' ? t.noRegistered : t.noMatching}
-            </EmptyState.Title>
-            <EmptyState.Description>
-              {mode === 'empty'
-                ? t.emptyExampleDescription
-                : t.changeFilterDescription}
-            </EmptyState.Description>
-            <EmptyState.Actions>
-              <Button
-                variant='outline'
-                onClick={mode === 'empty' ? recover : resetFilters}
-              >
-                {mode === 'empty' ? t.restorePreview : t.resetFilters}
-              </Button>
-            </EmptyState.Actions>
-          </EmptyState.Root>
-        ) : (
-          <>
-            <div className='data-table-toolbar'>
+            </>
+          ) : (
+            <>
               <div className='actions'>
                 <Button
                   variant='outline'
-                  disabled={!selected.length}
+                  disabled={!ready || !selected.length}
                   onClick={() => {
                     const ids = selected.filter((id) =>
                       resources.some((row) => row.id === id && row.manage),
                     )
                     setReviewed((old) => [...new Set([...old, ...ids])])
-                    setSelected([])
+                    selection.clear()
                     setNotice(t.markedReviewed(ids.length))
                   }}
                 >
@@ -370,9 +333,9 @@ export function DataTableExample() {
                 </Button>
                 <Button
                   variant='ghost'
-                  disabled={!selected.length}
+                  disabled={!ready || !selected.length}
                   onClick={() => {
-                    setSelected([])
+                    selection.clear()
                     setNotice(t.selectionCleared)
                   }}
                 >
@@ -380,7 +343,9 @@ export function DataTableExample() {
                 </Button>
               </div>
               <Menu.Root>
-                <Menu.Trigger render={<Button variant='outline' />}>
+                <Menu.Trigger
+                  render={<Button variant='outline' disabled={!ready} />}
+                >
                   {t.columns}
                 </Menu.Trigger>
                 <Menu.Portal>
@@ -389,105 +354,184 @@ export function DataTableExample() {
                       <Menu.CheckboxItemIndicator />
                       {t.nameRequired}
                     </Menu.CheckboxItem>
-                    {(['product', 'region'] as const).map((key) => (
-                      <Menu.CheckboxItem
-                        key={key}
-                        checked={columns[key]}
-                        closeOnClick={false}
-                        onCheckedChange={(checked) => column(key, checked)}
-                      >
-                        <Menu.CheckboxItemIndicator />
-                        {key === 'product' ? t.product : t.environment}
-                      </Menu.CheckboxItem>
-                    ))}
+                    {(['product', 'region', 'instances'] as const).map(
+                      (key) => (
+                        <Menu.CheckboxItem
+                          key={key}
+                          checked={columns[key]}
+                          closeOnClick={false}
+                          onCheckedChange={(checked) => column(key, checked)}
+                        >
+                          <Menu.CheckboxItemIndicator />
+                          {labels[key]}
+                        </Menu.CheckboxItem>
+                      ),
+                    )}
                   </Menu.Content>
                 </Menu.Portal>
               </Menu.Root>
-            </div>
-            <Table.Container
-              label={t.tableScrollLabel}
-              orientation='horizontal'
-            >
-              <Table.Root className='data-table-preview'>
-                <Table.Caption>{t.caption}</Table.Caption>
-                <Table.Head>
-                  <Table.Row>
-                    <Table.HeaderCell scope='col'>
-                      <Checkbox.Root
-                        aria-label={t.selectManageableRows}
-                        checked={
-                          selectable.length > 0 &&
-                          pageSelected.length === selectable.length
-                        }
-                        indeterminate={
-                          pageSelected.length > 0 &&
-                          pageSelected.length < selectable.length
-                        }
-                        disabled={!selectable.length}
-                        onCheckedChange={(checked) =>
-                          setSelected((old) =>
-                            checked
-                              ? [...new Set([...old, ...selectable])]
-                              : old.filter((id) => !selectable.includes(id)),
-                          )
-                        }
-                      >
-                        <Checkbox.Indicator />
-                      </Checkbox.Root>
-                    </Table.HeaderCell>
-                    {sortHeader('name', t.name)}
-                    {columns.product && sortHeader('product', t.product)}
-                    {columns.region && sortHeader('region', t.environment)}
-                    <Table.HeaderCell scope='col'>{t.state}</Table.HeaderCell>
-                  </Table.Row>
-                </Table.Head>
-                <Table.Body>
-                  {rows.map((row) => (
-                    <Table.Row
-                      key={row.id}
-                      selected={selected.includes(row.id)}
-                    >
-                      <Table.Cell>
-                        <Checkbox.Root
-                          aria-label={t.selectRow(row.name)}
-                          checked={selected.includes(row.id)}
-                          disabled={!row.manage}
-                          onCheckedChange={(checked) => toggle(row.id, checked)}
-                        >
-                          <Checkbox.Indicator />
-                        </Checkbox.Root>
-                      </Table.Cell>
-                      <Table.HeaderCell scope='row'>
-                        <Link className='pui-link' href={row.href}>
-                          {row.name}
-                        </Link>
-                      </Table.HeaderCell>
-                      {columns.product && (
-                        <Table.Cell>{row.product}</Table.Cell>
-                      )}
-                      {columns.region && <Table.Cell>{row.region}</Table.Cell>}
-                      <Table.Cell>
-                        <StatusBadge
-                          tone={
-                            !row.manage
-                              ? 'neutral'
-                              : reviewed.includes(row.id)
-                                ? 'success'
-                                : 'caution'
-                          }
-                        >
-                          {!row.manage
-                            ? t.readOnly
-                            : reviewed.includes(row.id)
-                              ? t.reviewed
-                              : t.needsReview}
-                        </StatusBadge>
-                      </Table.Cell>
+            </>
+          )}
+        </div>
+        {/* The header and columns stay put in every state; messages fill the body. */}
+        <Table.Container label={t.tableScrollLabel} orientation='horizontal'>
+          <Table.Root
+            className='data-table-preview'
+            density={density}
+            aria-busy={mode === 'loading' || undefined}
+          >
+            <Table.Caption>{t.caption}</Table.Caption>
+            {/* Fixed widths keep the columns still while rows turn into skeletons or a message. */}
+            <colgroup>
+              <col className='data-table-select' />
+              <col />
+              {columns.product && <col className='data-table-text' />}
+              {columns.region && <col className='data-table-text' />}
+              {columns.instances && <col className='data-table-number' />}
+              <col className='data-table-text' />
+            </colgroup>
+            <Table.Head>
+              <Table.Row>
+                <Table.HeaderCell scope='col'>
+                  <Checkbox.Root
+                    aria-label={t.selectManageableRows}
+                    {...selection.pageCheckbox}
+                    disabled={!ready || selection.pageCheckbox.disabled}
+                  >
+                    <Checkbox.Indicator />
+                  </Checkbox.Root>
+                </Table.HeaderCell>
+                {sortHeader('name')}
+                {columns.product && sortHeader('product')}
+                {columns.region && sortHeader('region')}
+                {columns.instances && sortHeader('instances')}
+                <Table.HeaderCell scope='col'>{t.state}</Table.HeaderCell>
+              </Table.Row>
+            </Table.Head>
+            <Table.Body>
+              {mode === 'loading'
+                ? Array.from({ length: size }, (_, row) => (
+                    <Table.Row key={row}>
+                      {Array.from({ length: columnCount }, (_, cell) => (
+                        <Table.Cell key={cell}>
+                          <Skeleton />
+                        </Table.Cell>
+                      ))}
                     </Table.Row>
-                  ))}
-                </Table.Body>
-              </Table.Root>
-            </Table.Container>
+                  ))
+                : mode === 'error'
+                  ? message(
+                      <InlineMessage.Root tone='danger'>
+                        <InlineMessage.Icon tone='danger' />
+                        <InlineMessage.Content>
+                          <InlineMessage.Title>
+                            {t.loadFailedTitle}
+                          </InlineMessage.Title>
+                          <InlineMessage.Description>
+                            {t.keptDescription}
+                          </InlineMessage.Description>
+                          <InlineMessage.Actions>
+                            <Button variant='outline' onClick={recover}>
+                              {t.retryPreview}
+                            </Button>
+                          </InlineMessage.Actions>
+                        </InlineMessage.Content>
+                      </InlineMessage.Root>,
+                    )
+                  : mode === 'permission'
+                    ? message(
+                        <EmptyState.Root>
+                          <EmptyState.Title level={4}>
+                            {t.accessRequired}
+                          </EmptyState.Title>
+                          <EmptyState.Description>
+                            {t.accessDescription}
+                          </EmptyState.Description>
+                          <EmptyState.Actions>
+                            <Button variant='outline' onClick={recover}>
+                              {t.restoreAccess}
+                            </Button>
+                          </EmptyState.Actions>
+                        </EmptyState.Root>,
+                      )
+                    : mode === 'empty' || !filtered.length
+                      ? message(
+                          <EmptyState.Root>
+                            <EmptyState.Title level={4}>
+                              {mode === 'empty' ? t.noRegistered : t.noMatching}
+                            </EmptyState.Title>
+                            <EmptyState.Description>
+                              {mode === 'empty'
+                                ? t.emptyExampleDescription
+                                : t.changeFilterDescription}
+                            </EmptyState.Description>
+                            <EmptyState.Actions>
+                              <Button
+                                variant='outline'
+                                onClick={
+                                  mode === 'empty' ? recover : resetFilters
+                                }
+                              >
+                                {mode === 'empty'
+                                  ? t.restorePreview
+                                  : t.resetFilters}
+                              </Button>
+                            </EmptyState.Actions>
+                          </EmptyState.Root>,
+                        )
+                      : rows.map((row) => (
+                          <Table.Row
+                            key={row.id}
+                            selected={selection.isSelected(row.id)}
+                          >
+                            <Table.Cell>
+                              <Checkbox.Root
+                                aria-label={t.selectRow(row.name)}
+                                {...selection.rowCheckbox(row)}
+                              >
+                                <Checkbox.Indicator />
+                              </Checkbox.Root>
+                            </Table.Cell>
+                            <Table.HeaderCell scope='row'>
+                              <Link className='pui-link' href={row.href}>
+                                {row.name}
+                              </Link>
+                            </Table.HeaderCell>
+                            {columns.product && (
+                              <Table.Cell>{row.product}</Table.Cell>
+                            )}
+                            {columns.region && (
+                              <Table.Cell>{row.region}</Table.Cell>
+                            )}
+                            {columns.instances && (
+                              <Table.Cell numeric>
+                                {number.format(row.instances)}
+                              </Table.Cell>
+                            )}
+                            <Table.Cell>
+                              <StatusBadge
+                                tone={
+                                  !row.manage
+                                    ? 'neutral'
+                                    : reviewed.includes(row.id)
+                                      ? 'success'
+                                      : 'caution'
+                                }
+                              >
+                                {!row.manage
+                                  ? t.readOnly
+                                  : reviewed.includes(row.id)
+                                    ? t.reviewed
+                                    : t.needsReview}
+                              </StatusBadge>
+                            </Table.Cell>
+                          </Table.Row>
+                        ))}
+            </Table.Body>
+          </Table.Root>
+        </Table.Container>
+        {ready && filtered.length > 0 && (
+          <>
             <div className='data-table-pagination'>
               <label>
                 {t.rowsPerPage}

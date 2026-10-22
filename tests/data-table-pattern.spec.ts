@@ -78,17 +78,28 @@ test('sorting, hiding its column and changing page size reset to coherent first 
     .getByRole('navigation', { name: 'Resource result pages' })
     .getByRole('button', { name: 'Next page', exact: true })
     .click()
-  await table(page).getByRole('button', { name: 'Sort by Product' }).click()
-  await expect(
-    table(page).getByRole('columnheader', { name: 'Sort by Product' }),
-  ).toHaveAttribute('aria-sort', 'ascending')
+  const sortButton = (name: string) =>
+    table(page).getByRole('button', { name, exact: true })
+  const header = (name: string) =>
+    table(page).getByRole('columnheader', { name, exact: true })
+  const result = page.getByRole('status', { name: 'Table action result' })
+  await sortButton('Product').click()
+  await expect(header('Product')).toHaveAttribute('aria-sort', 'ascending')
+  await expect(header('Name')).not.toHaveAttribute('aria-sort')
+  await expect(result).toHaveText('Sorted by Product, ascending.')
   await expect(
     page.getByRole('button', { name: 'Page 1', exact: true }),
   ).toHaveAttribute('aria-current', 'page')
-  await table(page).getByRole('button', { name: 'Sort by Product' }).click()
-  await expect(
-    table(page).getByRole('columnheader', { name: 'Sort by Product' }),
-  ).toHaveAttribute('aria-sort', 'descending')
+  await sortButton('Product').click()
+  await expect(header('Product')).toHaveAttribute('aria-sort', 'descending')
+  // Numbers sort descending first, so the largest comes up.
+  await sortButton('Instances').click()
+  await expect(header('Instances')).toHaveAttribute('aria-sort', 'descending')
+  await expect(table(page).locator('tbody tr').first()).toContainText(
+    'Environment discovery',
+  )
+  await expect(result).toHaveText('Sorted by Instances, descending.')
+  await sortButton('Product').click()
   const columns = page.getByRole('button', { name: 'Columns', exact: true })
   await columns.click()
   await expect(
@@ -97,12 +108,8 @@ test('sorting, hiding its column and changing page size reset to coherent first 
   await page
     .getByRole('menuitemcheckbox', { name: 'Product', exact: true })
     .click()
-  await expect(
-    table(page).getByRole('columnheader', { name: 'Sort by Product' }),
-  ).toHaveCount(0)
-  await expect(
-    table(page).getByRole('columnheader', { name: 'Sort by Name' }),
-  ).toHaveAttribute('aria-sort', 'ascending')
+  await expect(header('Product')).toHaveCount(0)
+  await expect(header('Name')).toHaveAttribute('aria-sort', 'ascending')
   await page.keyboard.press('Escape')
   await expect(columns).toBeFocused()
   await page
@@ -127,7 +134,10 @@ test('loading and retry retain filters and selection, scope restriction clears s
     .getByRole('checkbox', { name: 'Select manageable rows on this page' })
     .check()
   await option(page, 'Preview table state', 'loading')
-  await expect(table(page)).toHaveCount(0)
+  // The header stays; skeleton rows fill the page while the table is busy.
+  await expect(table(page)).toHaveAttribute('aria-busy', 'true')
+  await expect(table(page).locator('tbody tr')).toHaveCount(3)
+  await expect(table(page).getByRole('button', { name: 'Name' })).toBeDisabled()
   await expect(
     page.getByRole('searchbox', { name: 'Search resources' }),
   ).toBeDisabled()
@@ -140,7 +150,7 @@ test('loading and retry retain filters and selection, scope restriction clears s
   await page.getByRole('button', { name: 'Retry table preview' }).click()
   await expect(summary(page)).toContainText('3 selected')
   await option(page, 'Preview table state', 'permission')
-  await expect(table(page)).toHaveCount(0)
+  await expect(table(page)).toContainText('Resource access required')
   await page.getByRole('button', { name: 'Restore preview access' }).click()
   await expect(summary(page)).toContainText('0 selected')
   await option(page, 'Preview table state', 'empty')
@@ -202,4 +212,35 @@ test('all rows and long names remain readable with bounded horizontal scrolling,
   await link.press('Enter')
   await waitForCatalogReady(page)
   await expect(page.locator('#page-title')).toBeFocused()
+})
+test('the preview handle sizes the pattern and sets table density, and row checkboxes stay centered', async ({
+  page,
+}) => {
+  await page.goto('/patterns/data-table')
+  await waitForCatalogReady(page)
+  const centered = () =>
+    table(page)
+      .locator('.pui-checkbox')
+      .evaluateAll((boxes) =>
+        boxes.map((box) => {
+          const cell = box.closest('td, th')!
+          const style = getComputedStyle(cell)
+          const c = cell.getBoundingClientRect(),
+            b = box.getBoundingClientRect()
+          const top = c.top + parseFloat(style.paddingTop),
+            bottom = c.bottom - parseFloat(style.paddingBottom)
+          return Math.abs((b.top + b.bottom) / 2 - (top + bottom) / 2)
+        }),
+      )
+  for (const offset of await centered()) expect(offset).toBeLessThan(0.75)
+  await page.getByRole('button', { name: 'Preview size: Small' }).click()
+  await page.getByRole('button', { name: 'Table density: Compact' }).click()
+  await expect(
+    page.locator('#preview .pui-size-scope').first(),
+  ).toHaveAttribute('data-ui-size', 'small')
+  await expect(table(page)).toHaveAttribute('data-density', 'compact')
+  await expect(
+    page.getByRole('button', { name: 'Table density: Compact' }),
+  ).toHaveAttribute('aria-pressed', 'true')
+  for (const offset of await centered()) expect(offset).toBeLessThan(0.75)
 })

@@ -1993,6 +1993,16 @@ body,
 }
 .data-table-preview {
   min-inline-size: 800px;
+  table-layout: fixed;
+}
+.data-table-select {
+  inline-size: 3.5rem;
+}
+.data-table-text {
+  inline-size: 9.5rem;
+}
+.data-table-number {
+  inline-size: 8rem;
 }
 .data-table-preview th[scope='row'] {
   max-inline-size: 22rem;
@@ -2431,6 +2441,15 @@ body,
   display: inline-flex;
   flex-wrap: wrap;
   gap: 4px;
+}
+.component-size-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.component-size-group > span {
+  color: var(--ink-muted);
+  font-size: 12px;
 }
 .component-size-options .pui-button[aria-pressed='true'] {
   background: var(--selected);

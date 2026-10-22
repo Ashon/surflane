@@ -54,7 +54,9 @@ const en = {
   actionResultLabel: 'Table action result',
   markedReviewed: (n: number) =>
     `${n} resources marked reviewed in this preview.`,
-  sortBy: (label: string) => `Sort by ${label}`,
+  instances: 'Instances',
+  sortedBy: (column: string, ascending: boolean) =>
+    `Sorted by ${column}, ${ascending ? 'ascending' : 'descending'}.`,
 }
 export const text: Record<Locale, typeof en> = {
   en,
@@ -107,6 +109,8 @@ export const text: Record<Locale, typeof en> = {
     actionResultLabel: '테이블 작업 결과',
     markedReviewed: (n: number) =>
       `${n}개 리소스가 이 미리보기에서 검토됨으로 표시되었습니다.`,
-    sortBy: (label: string) => `${label} 정렬`,
+    instances: '인스턴스',
+    sortedBy: (column: string, ascending: boolean) =>
+      `${column} 기준 ${ascending ? '오름차순' : '내림차순'}으로 정렬했습니다.`,
   },
 }
