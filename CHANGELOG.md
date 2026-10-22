@@ -2,6 +2,28 @@
 
 `@surflane/design-tokens` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## Unreleased
+
+### Changed
+
+- Type roles set tracking alongside size and leading, as `--type-<role>-tracking`. Neither Manrope nor Pretendard has an optical size axis, so the roles adjust tracking by size:
+  - Headings tighten as they grow: display and title −0.02em; page, section and metric −0.01em.
+  - Captions open by +0.01em.
+  - Body, reading, label, compact and code stay at 0.
+  - With Tailwind CSS v4, `text-<role>` utilities apply the tracking too.
+- Korean text inside `pui-typography` wraps between words (`word-break: keep-all`). Its word spaces widen to Pretendard's width through `--type-hangul-word-spacing` (0.05em): Manrope leads the body stack, so Korean took Manrope's narrower space.
+- `--type-label-leading` is 20px at 14px, down from 22px. Buttons and other single-line controls already used 20px.
+- A `--type-compact-*` role, 13/20, covers dense secondary text. `--type-table-*` and `--type-code-*` now alias it.
+- Display grows from 32 to 40px and title from 28 to 32px with the screen.
+  - `--type-workspace-title-*` and `--type-document-title-*` alias display, and `--type-document-section-size` aliases title.
+  - Heading and PageHeader `size="workspace"` and `size="document"` render the display role.
+- Components take their type from the role tokens, so changing a role reaches them. This changes a few components:
+  - Dialog and panel titles move from 22px to the section role (20/28).
+  - Toast descriptions move from 13/18 to 13/20.
+  - Avatar initials move from 10px to the 12px minimum.
+  - Menu and combobox group labels, chips, list descriptions and file upload hints take their role's leading instead of the parent's.
+- `check:package` fails on literal font sizes, line heights or weights in package CSS.
+
 ## 0.4.0
 
 ### Added

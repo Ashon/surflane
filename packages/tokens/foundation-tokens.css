@@ -17,35 +17,58 @@
     --layout-gutter: var(--space-6);
     --layout-columns: 12;
     --layout-description-measure: 68ch;
-    --type-workspace-title-size: clamp(1.875rem, 3vw, 2.5rem);
-    --type-workspace-title-leading: 1.15;
-    --type-document-title-size: clamp(2rem, 1.6rem + 1.6vw, 2.5rem);
-    --type-document-title-leading: 1.25;
-    --type-document-section-size: 1.75rem;
-    --type-display-size: 2.5rem;
+    /* Type roles: size, unitless leading and tracking. Leading falls as size grows,
+     * and stays at 1.5 or more for text that wraps, which Korean needs. Manrope and
+     * Pretendard have no optical size axis, so tracking tightens headings and opens
+     * captions by hand. Text stays at 12px or larger. */
+    --type-display-size: clamp(2rem, 1.6rem + 1.6vw, 2.5rem);
     --type-display-leading: 1.2;
-    --type-title-size: 2rem;
+    --type-display-tracking: -0.02em;
+    --type-title-size: clamp(1.75rem, 1.4rem + 1.2vw, 2rem);
     --type-title-leading: 1.25;
+    --type-title-tracking: -0.02em;
     --type-page-size: 1.5rem;
     --type-page-leading: 1.333333;
+    --type-page-tracking: -0.01em;
     --type-section-size: 1.25rem;
     --type-section-leading: 1.4;
+    --type-section-tracking: -0.01em;
     --type-subsection-size: 1rem;
     --type-subsection-leading: 1.5;
-    --type-body-size: 0.875rem;
-    --type-body-leading: 1.571429;
+    --type-subsection-tracking: 0;
     --type-reading-size: 1rem;
     --type-reading-leading: 1.75;
-    --type-table-size: 0.8125rem;
-    --type-table-leading: 1.538462;
+    --type-reading-tracking: 0;
+    --type-body-size: 0.875rem;
+    --type-body-leading: 1.571429;
+    --type-body-tracking: 0;
+    /* Single-line controls: buttons, tabs, menu items. */
+    --type-label-size: var(--type-body-size);
+    --type-label-leading: 1.428571;
+    --type-label-tracking: 0;
+    /* Dense secondary text: table cells, notifications, file details. */
+    --type-compact-size: 0.8125rem;
+    --type-compact-leading: 1.538462;
+    --type-compact-tracking: 0;
     --type-caption-size: 0.75rem;
     --type-caption-leading: 1.5;
-    --type-code-size: 0.8125rem;
-    --type-code-leading: 1.538462;
+    --type-caption-tracking: 0.01em;
     --type-metric-size: 1.5rem;
     --type-metric-leading: 1.166667;
-    --type-label-size: var(--type-body-size);
-    --type-label-leading: var(--type-body-leading);
+    --type-metric-tracking: -0.01em;
+    --type-code-size: var(--type-compact-size);
+    --type-code-leading: var(--type-compact-leading);
+    --type-table-size: var(--type-compact-size);
+    --type-table-leading: var(--type-compact-leading);
+    /* Manrope comes first in the body stack, so Korean word spaces take its 0.20em space;
+     * this widens them to Pretendard's 0.25em. Set 0 when a Hangul face comes first. */
+    --type-hangul-word-spacing: 0.05em;
+    /* Earlier page title roles, now the display role. */
+    --type-workspace-title-size: var(--type-display-size);
+    --type-workspace-title-leading: var(--type-display-leading);
+    --type-document-title-size: var(--type-display-size);
+    --type-document-title-leading: var(--type-display-leading);
+    --type-document-section-size: var(--type-title-size);
     --page-header-gap: var(--space-2);
     --page-header-breadcrumb-gap: var(--space-3);
   }

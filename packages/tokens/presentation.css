@@ -18,15 +18,16 @@
     border-radius: var(--radius-full);
     background: var(--surface);
     color: var(--ink-body);
-    font: 500 12px/1 var(--font-body);
+    font: var(--weight-medium) var(--type-caption-size)/1 var(--font-body);
+    letter-spacing: var(--type-caption-tracking);
   }
   .pui-avatar:is([data-size='sm'], [data-size='small']) {
     --avatar-size: var(--avatar-size-sm);
-    font-size: 10px;
+    font-size: var(--type-caption-size);
   }
   .pui-avatar:is([data-size='lg'], [data-size='large']) {
     --avatar-size: var(--avatar-size-lg);
-    font-size: 16px;
+    font-size: var(--size-font-large);
   }
   .pui-avatar-image {
     width: 100%;
@@ -101,8 +102,8 @@
     max-width: 100%;
   }
   .pui-breadcrumbs {
-    font: 400 var(--type-caption-size)/var(--type-caption-leading)
-      var(--font-body);
+    font: var(--weight-regular)
+      var(--type-caption-size)/var(--type-caption-leading) var(--font-body);
   }
   .pui-breadcrumb-separator {
     display: inline-flex;
@@ -188,7 +189,7 @@
     border: 0;
   }
   .pui-table-header {
-    font-weight: 500;
+    font-weight: var(--weight-medium);
     color: var(--ink);
   }
   .pui-table-body > .pui-table-row > :first-child {
@@ -233,13 +234,15 @@
     overflow-wrap: anywhere;
   }
   .pui-list-title {
-    font-weight: 500;
+    font-weight: var(--weight-medium);
     color: var(--ink);
   }
   .pui-list-description {
     margin: var(--space-1) 0 0;
     color: var(--ink-body);
-    font-size: 12px;
+    font-size: var(--type-caption-size);
+    line-height: var(--type-caption-leading);
+    letter-spacing: var(--type-caption-tracking);
   }
   .pui-list-actions {
     min-inline-size: 0;
@@ -292,7 +295,7 @@
   }
   .pui-message-title {
     display: block;
-    font-weight: 500;
+    font-weight: var(--weight-medium);
   }
   .pui-message-description {
     margin: var(--space-1) 0 0;
@@ -318,7 +321,9 @@
     margin-bottom: var(--space-3);
   }
   .pui-empty-title {
-    font: 500 20px/28px var(--font-display);
+    font: var(--weight-medium)
+      var(--type-section-size)/var(--type-section-leading) var(--font-display);
+    letter-spacing: var(--type-section-tracking);
     color: var(--ink);
     margin: 0;
   }
@@ -450,7 +455,9 @@
   .pui-card-title {
     margin: 0;
     color: var(--ink);
-    font: 500 20px/28px var(--font-body);
+    font: var(--weight-medium)
+      var(--type-section-size)/var(--type-section-leading) var(--font-body);
+    letter-spacing: var(--type-section-tracking);
     overflow-wrap: anywhere;
   }
   .pui-card-description {
@@ -499,7 +506,9 @@
     background: transparent;
     color: var(--ink);
     text-decoration: none;
-    font: 500 14px/20px var(--font-body);
+    font: var(--weight-medium) var(--type-label-size)/var(--type-label-leading)
+      var(--font-body);
+    letter-spacing: var(--type-label-tracking);
   }
   .pui-pagination .pui-pagination-control[aria-current='page'] {
     background: var(--selected);
@@ -562,12 +571,14 @@
     align-items: baseline;
     flex-wrap: wrap;
     gap: var(--space-3);
-    font-weight: 500;
+    font-weight: var(--weight-medium);
     overflow-wrap: anywhere;
   }
   .pui-code-language {
     color: var(--ink-muted);
-    font: 400 12px/18px var(--font-code);
+    font: var(--weight-regular)
+      var(--type-caption-size)/var(--type-caption-leading) var(--font-code);
+    letter-spacing: var(--tracking-mono);
   }
   .pui-code-block > :is(.pui-scroll-root, .pui-code-scroll) {
     background: var(--code-bg);
@@ -576,7 +587,9 @@
   .pui-code-text {
     margin: 0;
     padding: var(--space-4);
-    font: 400 13px/20px var(--font-code);
+    font: var(--weight-regular) var(--type-code-size)/var(--type-code-leading)
+      var(--font-code);
+    letter-spacing: var(--tracking-mono);
     font-variant-ligatures: none;
     white-space: pre;
     overflow-wrap: normal;
@@ -620,7 +633,8 @@
   .pui-pagination-summary {
     display: none;
     color: var(--ink-body);
-    font-size: 14px;
+    font-size: var(--type-body-size);
+    letter-spacing: var(--type-body-tracking);
     text-align: center;
     overflow-wrap: anywhere;
   }

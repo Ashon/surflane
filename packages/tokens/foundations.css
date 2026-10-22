@@ -90,26 +90,30 @@
     font-size: var(--type-page-size);
     line-height: var(--type-page-leading);
     font-weight: var(--weight-medium);
-    letter-spacing: var(--tracking);
+    letter-spacing: var(--type-page-tracking);
     text-wrap: balance;
     color: var(--ink);
   }
   .pui-heading[data-size='display'] {
     font-size: var(--type-display-size);
     line-height: var(--type-display-leading);
+    letter-spacing: var(--type-display-tracking);
   }
   .pui-heading[data-size='title'] {
     font-size: var(--type-title-size);
     line-height: var(--type-title-leading);
+    letter-spacing: var(--type-title-tracking);
   }
   .pui-heading[data-size='section'] {
     font-size: var(--type-section-size);
     line-height: var(--type-section-leading);
+    letter-spacing: var(--type-section-tracking);
   }
   .pui-heading[data-size='subsection'] {
     font-family: var(--font-body);
     font-size: var(--type-subsection-size);
     line-height: var(--type-subsection-leading);
+    letter-spacing: var(--type-subsection-tracking);
   }
   .pui-text {
     font-family: var(--font-body);
@@ -121,14 +125,17 @@
   .pui-text[data-variant='reading'] {
     font-size: var(--type-reading-size);
     line-height: var(--type-reading-leading);
+    letter-spacing: var(--type-reading-tracking);
   }
   .pui-text[data-variant='caption'] {
     font-size: var(--type-caption-size);
     line-height: var(--type-caption-leading);
+    letter-spacing: var(--type-caption-tracking);
   }
   .pui-text[data-variant='table'] {
-    font-size: var(--type-table-size);
-    line-height: var(--type-table-leading);
+    font-size: var(--type-compact-size);
+    line-height: var(--type-compact-leading);
+    letter-spacing: var(--type-compact-tracking);
     font-variant-numeric: tabular-nums;
   }
   .pui-text[data-variant='mono'] {
@@ -142,6 +149,7 @@
     font-family: var(--font-display);
     font-size: var(--type-metric-size);
     line-height: var(--type-metric-leading);
+    letter-spacing: var(--type-metric-tracking);
     font-variant-numeric: tabular-nums;
     font-weight: var(--weight-medium);
   }
@@ -209,15 +217,18 @@
   .pui-prose h2 {
     font-size: var(--type-page-size);
     line-height: var(--type-page-leading);
+    letter-spacing: var(--type-page-tracking);
   }
   .pui-prose h3 {
     font-size: var(--type-section-size);
     line-height: var(--type-section-leading);
+    letter-spacing: var(--type-section-tracking);
   }
   .pui-prose h4 {
     font-family: var(--font-body);
     font-size: var(--type-subsection-size);
     line-height: var(--type-subsection-leading);
+    letter-spacing: var(--type-subsection-tracking);
   }
   .pui-prose strong {
     font-weight: var(--weight-medium);
@@ -260,19 +271,20 @@
   .pui-text[data-variant='label'] {
     font-size: var(--type-label-size);
     line-height: var(--type-label-leading);
+    letter-spacing: var(--type-label-tracking);
   }
 
-  .pui-heading[data-size='workspace'] {
-    font-size: var(--type-workspace-title-size);
-    line-height: var(--type-workspace-title-leading);
+  /* Earlier page title sizes; both now render the display role. */
+  .pui-heading:is([data-size='workspace'], [data-size='document']) {
+    font-size: var(--type-display-size);
+    line-height: var(--type-display-leading);
+    letter-spacing: var(--type-display-tracking);
   }
-  .pui-heading[data-size='document'] {
-    font-size: var(--type-document-title-size);
-    line-height: var(--type-document-title-leading);
+  .pui-text {
+    letter-spacing: var(--type-body-tracking);
   }
-  .pui-text,
   .pui-prose {
-    letter-spacing: var(--tracking);
+    letter-spacing: var(--type-reading-tracking);
   }
   .pui-text[data-variant='mono'],
   .pui-prose code {

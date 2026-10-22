@@ -14,7 +14,8 @@
     border-radius: var(--radius-full);
     background: transparent;
     color: var(--ink-muted);
-    font: 500 12px/1 var(--font-body);
+    font: var(--weight-medium) var(--type-caption-size)/1 var(--font-body);
+    letter-spacing: var(--type-caption-tracking);
     flex-shrink: 0;
   }
   .pui-control-group {
@@ -84,7 +85,9 @@
     border-radius: var(--control-radius);
     background: transparent;
     color: var(--ink);
-    font: 400 14px/22px var(--font-body);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+    letter-spacing: var(--type-body-tracking);
     cursor: pointer;
   }
   .pui-theme-action:hover {
@@ -100,7 +103,8 @@
 
   .pui-segment {
     min-block-size: calc(var(--control-height) - 6px);
-    font: 500 12px/1 var(--font-body);
+    font: var(--weight-medium) var(--type-caption-size)/1 var(--font-body);
+    letter-spacing: var(--type-caption-tracking);
   }
   .pui-control-group label:has(input:checked) .pui-segment {
     background: var(--selected);

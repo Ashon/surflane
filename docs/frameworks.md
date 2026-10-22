@@ -111,7 +111,7 @@ Import every Surflane stylesheet with `layer(components)`. Surflane's layers the
 | `--layout-page-inset`, `--layout-gutter`, `--layout-section-gap`      | `p-page`, `gap-gutter`, `py-section`               |
 | `--layout-reading`, `--layout-content`, `--layout-workspace`, …       | `max-w-reading`, `max-w-content`, …                |
 | `--radius-*`, `--shadow-*`                                            | `rounded-md`, `rounded-sheet`, `shadow-float`      |
-| `--font-*`, `--weight-*`, `--type-*-size` with `--type-*-leading`     | `font-display`, `font-medium`, `text-title`        |
+| `--font-*`, `--weight-*`, `--type-*` size, leading and tracking       | `font-display`, `font-medium`, `text-title`        |
 | `--tracking`, `--tracking-mono`, `--ease-in`, `--ease-out`            | `tracking-default`, `tracking-mono`, `ease-out`    |
 
 Utilities read the tokens through `var()`, so they follow `data-theme`, including scoped themes, without a `dark:` variant. When you need one, `dark:` follows the nearest `data-theme`, not the operating system. The bridge never redefines a token: Tailwind emits no theme variables for it, even where Surflane and Tailwind share a name such as `--radius-md`. Durations and layers have no Tailwind theme namespace; use them as `duration-(--duration-fast)` and `z-(--layer-dialog)`.

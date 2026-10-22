@@ -24,7 +24,9 @@
     border-radius: var(--control-radius);
     background: var(--control-background);
     color: var(--ink);
-    font: 400 14px/22px var(--font-body);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+    letter-spacing: var(--type-body-tracking);
     outline: none;
     transition:
       background-color var(--duration-fast) var(--ease-out),
@@ -113,7 +115,9 @@
     background: var(--menu-background);
     color: var(--ink);
     box-shadow: var(--shadow-float);
-    font: 400 14px/22px var(--font-body);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+    letter-spacing: var(--type-body-tracking);
     outline: none;
   }
   .pui-tooltip-positioner {
@@ -143,7 +147,7 @@
     background: var(--menu-hover-background);
   }
   .pui-select-item[data-selected] {
-    font-weight: 500;
+    font-weight: var(--weight-medium);
   }
   .pui-select-item[data-disabled] {
     opacity: var(--control-disabled-opacity);
@@ -168,8 +172,9 @@
     color: var(--tooltip-foreground);
     padding: 8px 12px;
     max-width: 256px;
-    font-size: 12px;
-    line-height: 18px;
+    font-size: var(--type-caption-size);
+    letter-spacing: var(--type-caption-tracking);
+    line-height: var(--type-caption-leading);
   }
   .pui-button {
     box-sizing: border-box;
@@ -182,7 +187,9 @@
     padding: 0 14px;
     border: 1px solid transparent;
     border-radius: var(--radius-full);
-    font: 500 14px/20px var(--font-body);
+    font: var(--weight-medium) var(--type-label-size)/var(--type-label-leading)
+      var(--font-body);
+    letter-spacing: var(--type-label-tracking);
     color: var(--ink);
     background: var(--canvas);
     /* A link rendered as a button drops the user-agent underline. */
@@ -376,7 +383,8 @@
     height: 24px;
     min-height: 24px;
     padding-inline: 8px;
-    font-size: 12px;
+    font-size: var(--type-caption-size);
+    letter-spacing: var(--type-caption-tracking);
     gap: 4px;
   }
   .pui-button[data-size^='icon'] {
@@ -466,7 +474,9 @@
     border-radius: var(--radius-sheet);
     box-shadow: var(--shadow-float);
     outline: none;
-    font: 400 14px/22px var(--font-body);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+    letter-spacing: var(--type-body-tracking);
     transform: translate(
       var(--drawer-swipe-movement-x, 0px),
       calc(
@@ -518,13 +528,16 @@
   }
   .pui-panel-title {
     margin: 0;
-    font: 500 22px/28px var(--font-display);
-    letter-spacing: var(--tracking);
+    font: var(--weight-medium)
+      var(--type-section-size)/var(--type-section-leading) var(--font-display);
+    letter-spacing: var(--type-section-tracking);
   }
   .pui-panel-description {
     margin: 8px 0 0;
     color: var(--ink-body);
-    font: 400 14px/22px var(--font-body);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+    letter-spacing: var(--type-body-tracking);
   }
   .pui-panel-body {
     flex: 1 1 auto;
@@ -614,7 +627,9 @@
     background: var(--canvas);
     color: var(--ink);
     box-shadow: var(--shadow-float);
-    font: 400 14px/22px var(--font-body);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+    letter-spacing: var(--type-body-tracking);
   }
   .pui-dialog-header,
   .pui-dialog-body,
@@ -633,7 +648,9 @@
   }
   .pui-dialog-header h2 {
     margin: 0;
-    font: 500 22px/28px var(--font-display);
+    font: var(--weight-medium)
+      var(--type-section-size)/var(--type-section-leading) var(--font-display);
+    letter-spacing: var(--type-section-tracking);
   }
   .pui-dialog-header p {
     margin: 8px 0 0;
@@ -701,13 +718,14 @@
     display: block;
     margin: 0;
     color: var(--ink);
-    font: 400 var(--type-body-size)/var(--type-body-leading) var(--font-body);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
   }
   .pui-field-description,
   .pui-field-error {
     margin: 0;
-    font: 400 var(--type-caption-size)/var(--type-caption-leading)
-      var(--font-body);
+    font: var(--weight-regular)
+      var(--type-caption-size)/var(--type-caption-leading) var(--font-body);
     overflow-wrap: anywhere;
   }
   .pui-field-description {
@@ -729,7 +747,8 @@
     padding: 0;
     margin-bottom: var(--space-4);
     color: var(--ink);
-    font: 500 var(--type-subsection-size)/var(--type-subsection-leading)
+    font: var(--weight-medium)
+      var(--type-subsection-size)/var(--type-subsection-leading)
       var(--font-body);
   }
   .pui-field-item {
@@ -945,7 +964,8 @@
     max-width: 100%;
     cursor: pointer;
     color: var(--ink-body);
-    font: 400 var(--type-body-size)/var(--type-body-leading) var(--font-body);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
   }
   .pui-choice-label:has([data-disabled]) {
     cursor: not-allowed;
@@ -987,7 +1007,8 @@
     padding: 0 var(--space-3);
     background: transparent;
     color: var(--ink-muted);
-    font: 400 var(--type-body-size)/var(--type-body-leading) var(--font-body);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
     cursor: pointer;
     white-space: nowrap;
     outline: none;
@@ -1002,7 +1023,7 @@
   .pui-tabs-tab[data-active] {
     background: var(--canvas);
     color: var(--ink);
-    font-weight: 500;
+    font-weight: var(--weight-medium);
   }
   .pui-tabs-tab:focus-visible {
     outline: 2px solid var(--interaction-focus);
@@ -1084,7 +1105,8 @@
     border-radius: var(--radius-md);
     background: transparent;
     color: var(--ink);
-    font: 500 var(--type-body-size)/var(--type-body-leading) var(--font-body);
+    font: var(--weight-medium) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
     text-align: start;
     cursor: pointer;
     outline: none;
@@ -1369,7 +1391,9 @@
     background: var(--menu-background);
     color: var(--ink);
     box-shadow: var(--shadow-float);
-    font: 400 14px/22px var(--font-body);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+    letter-spacing: var(--type-body-tracking);
     outline: none;
     transition:
       opacity var(--duration-fast) var(--ease-out),
@@ -1424,7 +1448,9 @@
   .pui-combobox-section-label {
     padding: var(--space-2) var(--space-3);
     color: var(--ink-muted);
-    font-size: 12px;
+    font-size: var(--type-caption-size);
+    line-height: var(--type-caption-leading);
+    letter-spacing: var(--type-caption-tracking);
   }
   .pui-combobox-separator {
     height: 1px;
@@ -1455,7 +1481,9 @@
     border-radius: var(--radius-full);
     background: var(--selected);
     color: var(--ink);
-    font-size: 12px;
+    font-size: var(--type-caption-size);
+    line-height: var(--type-caption-leading);
+    letter-spacing: var(--type-caption-tracking);
   }
   .pui-combobox-chip-remove {
     width: 28px;
@@ -1477,7 +1505,9 @@
     outline: none;
     background: transparent;
     color: var(--ink);
-    font: 400 14px/22px var(--font-body);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+    letter-spacing: var(--type-body-tracking);
     text-align: center;
     font-variant-numeric: tabular-nums;
   }
@@ -1750,7 +1780,9 @@
   .pui-menu-group-label {
     padding: var(--space-2) var(--space-3);
     color: var(--ink-muted);
-    font-size: 12px;
+    font-size: var(--type-caption-size);
+    line-height: var(--type-caption-leading);
+    letter-spacing: var(--type-caption-tracking);
   }
   .pui-menu-separator {
     height: 1px;
@@ -1833,7 +1865,9 @@
     background: var(--menu-background);
     color: var(--ink);
     box-shadow: var(--shadow-float);
-    font: 400 14px/22px var(--font-body);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+    letter-spacing: var(--type-body-tracking);
     overflow-wrap: anywhere;
     outline: none;
     transform: translateY(0);
@@ -1890,7 +1924,7 @@
   }
   .pui-navigation-trigger {
     padding-inline: var(--space-3);
-    font-weight: 500;
+    font-weight: var(--weight-medium);
     background: transparent;
     color: var(--ink-body);
   }
@@ -1918,7 +1952,9 @@
     border-radius: var(--radius-md);
     color: var(--ink-body);
     text-decoration: none;
-    font: 400 14px/22px var(--font-body);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+    letter-spacing: var(--type-body-tracking);
     overflow-wrap: anywhere;
   }
   .pui-navigation-link:hover,
@@ -1928,7 +1964,7 @@
   .pui-navigation-link[aria-current='page'] {
     background: var(--selected);
     color: var(--ink);
-    font-weight: 500;
+    font-weight: var(--weight-medium);
   }
   .pui-navigation-link:focus-visible {
     outline: 2px solid var(--interaction-focus);
@@ -1946,7 +1982,9 @@
     background: var(--menu-background);
     color: var(--ink);
     box-shadow: var(--shadow-float);
-    font: 400 14px/22px var(--font-body);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+    letter-spacing: var(--type-body-tracking);
     outline: none;
     opacity: 1;
     translate: 0 0;
@@ -2032,7 +2070,9 @@
     min-width: 0;
     padding: 0;
     text-align: center;
-    font: 400 20px/24px var(--font-code);
+    font: var(--weight-regular)
+      var(--type-section-size)/var(--type-section-leading) var(--font-code);
+    letter-spacing: var(--tracking-mono);
     font-variant-numeric: tabular-nums;
     caret-color: var(--control-focus);
   }
@@ -2101,7 +2141,9 @@
     background: var(--menu-background);
     color: var(--ink);
     box-shadow: var(--shadow-float);
-    font: 400 13px/20px var(--font-body);
+    font: var(--weight-regular)
+      var(--type-compact-size)/var(--type-compact-leading) var(--font-body);
+    letter-spacing: var(--type-compact-tracking);
     overflow-wrap: anywhere;
     pointer-events: auto;
     opacity: 1;
@@ -2160,13 +2202,16 @@
   }
   .pui-toast-title {
     margin: 0;
-    font: 500 13px/20px var(--font-body);
+    font: var(--weight-medium)
+      var(--type-compact-size)/var(--type-compact-leading) var(--font-body);
+    letter-spacing: var(--type-compact-tracking);
   }
   .pui-toast-description {
     margin: 2px 0 0;
     color: var(--ink-muted);
-    font-size: 13px;
-    line-height: 18px;
+    font-size: var(--type-compact-size);
+    letter-spacing: var(--type-compact-tracking);
+    line-height: var(--type-compact-leading);
   }
   /* Close and Action are small Buttons (see toast.tsx); only their placement is set here. */
   .pui-toast-close {
@@ -2258,8 +2303,9 @@
     flex-direction: row;
     width: fit-content;
     cursor: pointer;
-    font-size: 14px;
-    line-height: 22px;
+    font-size: var(--type-body-size);
+    letter-spacing: var(--type-body-tracking);
+    line-height: var(--type-body-leading);
   }
   .pui-file-trigger[data-disabled] {
     opacity: var(--control-disabled-opacity);
@@ -2276,11 +2322,15 @@
   .pui-file-drop-hint {
     margin: 0;
     color: var(--ink-muted);
-    font-size: 13px;
+    font-size: var(--type-compact-size);
+    line-height: var(--type-compact-leading);
+    letter-spacing: var(--type-compact-tracking);
   }
   .pui-file-errors {
     color: var(--status-danger-fg);
-    font: 400 13px/20px var(--font-body);
+    font: var(--weight-regular)
+      var(--type-compact-size)/var(--type-compact-leading) var(--font-body);
+    letter-spacing: var(--type-compact-tracking);
     overflow-wrap: anywhere;
   }
   .pui-file-errors:empty {
@@ -2308,13 +2358,15 @@
     flex-wrap: wrap;
     align-items: center;
     gap: var(--space-2) var(--space-3);
-    font-size: 13px;
+    font-size: var(--type-compact-size);
+    line-height: var(--type-compact-leading);
+    letter-spacing: var(--type-compact-tracking);
   }
   .pui-file-info > strong {
     min-width: 0;
     max-width: 100%;
     overflow-wrap: anywhere;
-    font-weight: 500;
+    font-weight: var(--weight-medium);
   }
   .pui-file-info > span:not(.pui-badge) {
     color: var(--ink-muted);
@@ -2331,7 +2383,9 @@
   .pui-file-upload-error {
     margin: var(--space-2) 0 0;
     color: var(--status-danger-fg);
-    font-size: 13px;
+    font-size: var(--type-compact-size);
+    line-height: var(--type-compact-leading);
+    letter-spacing: var(--type-compact-tracking);
   }
   @media (max-width: 760px) {
     .pui-file-trigger {
@@ -2592,7 +2646,7 @@
   .pui-app-shell-link[aria-current='page'] {
     background: var(--selected);
     color: var(--ink);
-    font-weight: 500;
+    font-weight: var(--weight-medium);
   }
   .pui-app-shell-link:focus-visible {
     outline: 2px solid var(--control-focus);
@@ -2878,7 +2932,8 @@
     flex: 1;
     min-width: 0;
     padding-block: var(--space-1);
-    font: 400 var(--type-body-size)/var(--type-body-leading) var(--font-body);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
     white-space: nowrap;
   }
   .pui-date-segment {
@@ -2962,7 +3017,8 @@
   .pui-calendar {
     width: 280px;
     max-width: 100%;
-    font: 400 var(--type-body-size)/var(--type-body-leading) var(--font-body);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
   }
   .pui-calendar-header {
     display: flex;
@@ -2973,7 +3029,8 @@
   }
   .pui-calendar-heading {
     margin: 0;
-    font: 500 var(--type-body-size)/var(--type-body-leading) var(--font-body);
+    font: var(--weight-medium) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
     text-align: center;
   }
   .pui-calendar-grid {
@@ -2985,8 +3042,10 @@
   }
   .pui-calendar-weekday {
     color: var(--ink-muted);
-    font-weight: 400;
+    font-weight: var(--weight-regular);
     font-size: var(--type-caption-size);
+    line-height: var(--type-caption-leading);
+    letter-spacing: var(--type-caption-tracking);
     text-align: center;
   }
   .pui-calendar-day {
@@ -3099,14 +3158,16 @@
     gap: var(--space-3);
   }
   .pui-chart-caption strong {
-    font: 500 var(--type-subsection-size)/var(--type-subsection-leading)
+    font: var(--weight-medium)
+      var(--type-subsection-size)/var(--type-subsection-leading)
       var(--font-body);
   }
   .pui-chart-caption p,
   .pui-chart-help {
     margin: var(--space-2) 0 0;
     color: var(--ink-muted);
-    font: 400 var(--type-body-size)/var(--type-body-leading) var(--font-body);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
   }
   .pui-chart-legend {
     display: flex;
@@ -3127,7 +3188,8 @@
     border-radius: var(--radius-md);
     background: transparent;
     color: var(--ink-body);
-    font: 400 var(--type-body-size)/var(--type-body-leading) var(--font-body);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
     cursor: pointer;
     text-align: start;
   }
@@ -3157,8 +3219,8 @@
   .pui-chart-axis-label {
     margin: 0;
     color: var(--ink-muted);
-    font: 400 var(--type-caption-size)/var(--type-caption-leading)
-      var(--font-body);
+    font: var(--weight-regular)
+      var(--type-caption-size)/var(--type-caption-leading) var(--font-body);
     overflow-wrap: anywhere;
   }
   .pui-chart-x-label {
@@ -3176,14 +3238,15 @@
     background: var(--surface);
     color: var(--ink-body);
     border-radius: var(--radius-md);
-    font: 400 var(--type-body-size)/var(--type-body-leading) var(--font-body);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
     overflow-wrap: anywhere;
   }
   .pui-chart-inspector[hidden] {
     display: none;
   }
   .pui-chart-readout strong {
-    font-weight: 500;
+    font-weight: var(--weight-medium);
   }
   .pui-chart-readout ul {
     display: flex;
@@ -3652,10 +3715,11 @@
     padding: var(--ui-surface-padding, var(--space-4));
     background: var(--code-bg);
     border-radius: var(--radius-md);
-    font: 400 13px/20px var(--font-code);
+    font: var(--weight-regular) var(--type-code-size)/var(--type-code-leading)
+      var(--font-code);
     /* Code shows the characters as typed, like the other code text: no === or => ligatures. */
     font-variant-ligatures: none;
-    letter-spacing: 0;
+    letter-spacing: var(--tracking-mono);
     tab-size: 2;
     white-space: pre;
   }
@@ -3728,9 +3792,8 @@
   .pui-markdown-inline-code {
     padding: 2px 4px;
     background: var(--code-bg);
-    font-weight: 400;
-    line-height: 20px;
-    letter-spacing: 0;
+    font-weight: var(--weight-regular);
+    letter-spacing: var(--tracking-mono);
   }
   .pui-markdown .pui-table {
     min-inline-size: 480px;

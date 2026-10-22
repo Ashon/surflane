@@ -8,26 +8,48 @@
     font-size: var(--type-body-size);
     line-height: var(--type-body-leading);
     font-weight: var(--weight-regular);
-    letter-spacing: var(--tracking);
+    letter-spacing: var(--type-body-tracking);
     font-kerning: normal;
     font-optical-sizing: auto;
     font-synthesis-weight: none;
   }
+  /* Korean wraps between words (어절), never inside one, and its word spaces take the
+   * Hangul face's width. Set on the scope so components keep their own wrapping. */
+  .pui-typography:lang(ko),
+  .pui-typography [lang|='ko'] {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    word-spacing: var(--type-hangul-word-spacing);
+  }
+  .pui-typography :where(code, pre, kbd, samp) {
+    word-spacing: normal;
+  }
   .pui-typography :where(h1, h2) {
     font-family: var(--font-display);
     font-weight: var(--weight-medium);
-    letter-spacing: var(--tracking);
+  }
+  /* Headings tighten as they grow; the role tokens hold the amounts. */
+  .pui-typography :where(h1) {
+    letter-spacing: var(--type-title-tracking);
+  }
+  .pui-typography :where(h2) {
+    letter-spacing: var(--type-page-tracking);
+  }
+  .pui-typography :where(h3) {
+    letter-spacing: var(--type-section-tracking);
   }
   .pui-typography :where(h3, h4, h5, h6) {
     font-family: var(--font-body);
     font-weight: var(--weight-medium);
-    letter-spacing: var(--tracking);
+  }
+  .pui-typography :where(h4, h5, h6) {
+    letter-spacing: var(--type-subsection-tracking);
   }
   .pui-typography :where(strong, b, th, a) {
     font-weight: var(--weight-medium);
   }
   .pui-typography :where(button, input, select, textarea) {
-    letter-spacing: var(--tracking);
+    letter-spacing: var(--type-label-tracking);
     font-kerning: normal;
     font-optical-sizing: auto;
     font-synthesis-weight: none;

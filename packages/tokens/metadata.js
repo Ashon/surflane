@@ -76,9 +76,19 @@ export const descriptions = {
   '--icon-size-md': 'SVG size for general UI',
   '--icon-size-lg': 'SVG size for emphasis',
   '--icon-stroke-width': 'Shared stroke width within a 24×24 viewBox',
-  '--type-workspace-title-size': 'Fluid 30–40px heading for primary screens',
-  '--type-document-title-size': '32–40px heading for reading-focused screens',
+  '--type-display-size': 'Fluid 32–40px page title',
+  '--type-title-size': 'Fluid 28–32px heading',
+  '--type-workspace-title-size': 'Earlier name for the display size',
+  '--type-document-title-size': 'Earlier name for the display size',
+  '--type-document-section-size': 'Earlier name for the title size',
   '--type-page-size': '24px heading for standard pages',
+  '--type-label-leading': '20px at 14px: single-line controls',
+  '--type-compact-size': '13px dense secondary text: tables, notifications',
+  '--type-caption-tracking': 'Opens 12px text slightly',
+  '--type-display-tracking':
+    'Tightens large titles; Manrope has no optical size axis',
+  '--type-hangul-word-spacing':
+    "Widens Korean word spaces to Pretendard's width while Manrope leads the stack",
   '--chrome': 'Background for the header, sidebar and area outside the sheet',
   '--canvas': 'Main content surface that holds work or documents',
   '--surface':

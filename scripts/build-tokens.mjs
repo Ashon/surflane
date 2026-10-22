@@ -134,6 +134,8 @@ for (const name of sorted.filter((name) => /^--type-.+-size$/.test(name))) {
   map(`--text-${role}`, name)
   if (tokens.has(`--type-${role}-leading`))
     map(`--text-${role}--line-height`, `--type-${role}-leading`)
+  if (tokens.has(`--type-${role}-tracking`))
+    map(`--text-${role}--letter-spacing`, `--type-${role}-tracking`)
 }
 map('--tracking-default', '--tracking')
 map('--tracking-mono', '--tracking-mono')

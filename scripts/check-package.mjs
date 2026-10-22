@@ -33,6 +33,34 @@ for (const name of ['ui', 'tokens']) {
   assert.equal(pkg.license, 'MIT OR Apache-2.0', `${pkg.name}: license`)
 }
 // Server Components cannot dot into client exports: each namespace part needs a flat name.
+// Type goes through the role tokens: size, leading and weight come from --type-* and
+// --weight-* (or the component size scheme), never a literal. Relative em sizes for
+// inline code and a line-height of 1 for single-glyph chips stay allowed.
+const typeSheets = [
+  'packages/ui/src/styles.css',
+  ...['controls', 'foundations', 'presentation', 'typography'].map(
+    (name) => `packages/tokens/${name}.css`,
+  ),
+]
+const literalType = typeSheets.flatMap((file) =>
+  readFileSync(file, 'utf8')
+    .split('\n')
+    .map((line, index) => [line.trim(), `${file}:${index + 1}`])
+    .filter(([line]) =>
+      /^(font-size:\s*[\d.]+px|line-height:\s*[\d.]+px|font-weight:\s*\d|font:\s*\d|font:.*\b\d+px\b)/.test(
+        line,
+      ),
+    )
+    .map(([line, at]) => `${at} ${line}`),
+)
+assert.deepEqual(
+  literalType,
+  [],
+  `Literal type values:\n${literalType.join('\n')}`,
+)
+console.log(
+  `@surflane: ${typeSheets.length} package stylesheets set type through role tokens`,
+)
 const ui = JSON.parse(readFileSync('packages/ui/package.json', 'utf8'))
 let flatNames = 0
 for (const [entry, target] of Object.entries(ui.exports)) {

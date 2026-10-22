@@ -3,18 +3,19 @@ import AxeBuilder from '@axe-core/playwright'
 import { waitForCatalogReady } from './catalog-ready'
 test.use({ reducedMotion: 'reduce' })
 
-test('brand roles use the published faces, weights and tracking rather than browser bold defaults', async ({
+test('brand roles use the published faces, weights and role tracking rather than browser bold defaults', async ({
   page,
 }) => {
   await page.goto('/foundations/typography')
   await waitForCatalogReady(page)
   await page.evaluate(() => document.fonts.ready)
   const cases = [
-    ['#page-title', 'Manrope', '500', 0],
+    // Headings tighten as they grow and captions open slightly.
+    ['#page-title', 'Manrope', '500', -0.02],
     ['#brand-subhead', 'Manrope', '500', 0],
     ['#brand-body', 'Manrope', '400', 0],
     ['#brand-body strong', 'Manrope', '500', 0],
-    ['#brand-caption', 'Manrope', '400', 0],
+    ['#brand-caption', 'Manrope', '400', 0.01],
     ['#brand-label', 'Manrope', '400', 0],
     ['#brand-button', 'Manrope', '500', 0],
     ['#brand-mono', 'JetBrains Mono', '400', 0],
@@ -38,6 +39,39 @@ test('brand roles use the published faces, weights and tracking rather than brow
   await expect(
     page.getByRole('link', { name: 'Google Fonts', exact: true }),
   ).toHaveAttribute('href', /fonts\.google\.com/)
+})
+
+test('Korean wraps between words and widens word spaces to the Hangul face', async ({
+  page,
+}) => {
+  await page.goto('/foundations/typography')
+  await waitForCatalogReady(page)
+  for (const [selector, spacing, wrapping] of [
+    ['#specimen-hangul', 0.05, 'keep-all'],
+    ['#specimen-latin', 0, 'normal'],
+  ] as const) {
+    const style = await page.locator(selector).evaluate((el) => {
+      const s = getComputedStyle(el)
+      return {
+        spacing: parseFloat(s.wordSpacing) / parseFloat(s.fontSize),
+        wrapping: s.wordBreak,
+      }
+    })
+    expect(style.spacing, selector).toBeCloseTo(spacing, 3)
+    expect(style.wrapping, selector).toBe(wrapping)
+  }
+  // Code keeps its own spaces inside Korean text.
+  await page.locator('#main-content').evaluate((el) => {
+    el.insertAdjacentHTML(
+      'beforeend',
+      '<p lang="ko" id="ko-code">값은 <code>service id</code>입니다</p>',
+    )
+  })
+  expect(
+    await page
+      .locator('#ko-code code')
+      .evaluate((el) => getComputedStyle(el).wordSpacing),
+  ).toBe('0px')
 })
 
 test('actual loaded fonts match display, subhead, body, code, Korean and Japanese specimens', async ({
