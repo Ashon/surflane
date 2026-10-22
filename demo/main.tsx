@@ -25,6 +25,11 @@ const LayersFoundation = lazy(() =>
     default: module.LayersFoundation,
   })),
 )
+const HierarchyFoundation = lazy(() =>
+  import('./HierarchyFoundation').then((module) => ({
+    default: module.HierarchyFoundation,
+  })),
+)
 const InteractionFoundation = lazy(() =>
   import('./InteractionFoundation').then((module) => ({
     default: module.InteractionFoundation,
@@ -328,6 +333,7 @@ function App() {
   if (route === '/') content = <Overview />
   else if (route === '/foundations') content = <FoundationIndex />
   else if (route === '/foundations/layers') content = <LayersFoundation />
+  else if (route === '/foundations/hierarchy') content = <HierarchyFoundation />
   else if (route === '/foundations/interaction')
     content = <InteractionFoundation />
   else if (route === '/foundations/content') content = <ContentFoundation />

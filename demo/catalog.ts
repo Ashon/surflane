@@ -782,6 +782,12 @@ export const foundations: CatalogItem[] = [
     'available',
   ],
   [
+    'hierarchy',
+    'Visual hierarchy',
+    'Orders planes, elevation, lines, and points: structure from flat planes first, detail last.',
+    'available',
+  ],
+  [
     'typography',
     'Typography',
     'Defines fonts by role, sizes, line height, and rendering.',

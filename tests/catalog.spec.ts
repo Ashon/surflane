@@ -271,9 +271,12 @@ for (const width of [1440, 320])
           ),
           `${route}: ${width} ${theme}`,
         ).toBe(true)
+        // A page may hold a popup open, such as the hierarchy preview's filter;
+        // Base UI's hidden focus guards redirect Tab into it by design.
         const violations = (
           await new AxeBuilder({ page })
             .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
+            .exclude('[data-base-ui-focus-guard]')
             .analyze()
         ).violations
         expect(violations, `${route}: ${width} ${theme}`).toEqual([])

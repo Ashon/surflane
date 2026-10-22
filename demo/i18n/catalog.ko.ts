@@ -8,6 +8,7 @@ export const catalogKo: {
 } = {
   names: {
     '/foundations/layout': '레이아웃',
+    '/foundations/hierarchy': '시각 위계',
     '/foundations/typography': '타이포그래피',
     '/tokens': '디자인 토큰',
     '/foundations/color': '색 / 대비',
@@ -33,6 +34,8 @@ export const catalogKo: {
   },
   summaries: {
     '/foundations/layout': '컨테이너, 간격, 그리드, 읽기 너비를 정의합니다.',
+    '/foundations/hierarchy':
+      '면, 높이, 선, 점의 위계를 정합니다. 구조는 평평한 면으로 먼저, 세부는 마지막에 만듭니다.',
     '/foundations/typography':
       '역할별 글꼴, 크기, 줄 높이, 렌더링을 정의합니다.',
     '/tokens': '테마별 토큰 값과 별칭을 검색 및 코드 참조와 함께 나열합니다.',
