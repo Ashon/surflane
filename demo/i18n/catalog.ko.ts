@@ -103,6 +103,8 @@ export const catalogKo: {
       '각 언어의 코드를 안전하고 읽기 쉽게 렌더링합니다.',
     '/components/markdown': '문서, 코드, 표를 공유 읽기 스타일로 렌더링합니다.',
     '/components/list': '반복 콘텐츠와 작업을 정렬합니다.',
+    '/components/stat': '핵심 수치를 변화와 기준 설명과 함께 보여 줍니다.',
+    '/components/sparkline': '카드나 표 셀 안에 작은 추이선을 그립니다.',
     '/components/tree': '중첩 리소스를 키보드로 탐색합니다.',
     '/components/chart': '단위, 범례, 대체 테이블과 함께 추세를 보여 줍니다.',
     '/components/scroll-area': '레이아웃 안에 가로·세로 스크롤을 추가합니다.',

@@ -27,13 +27,30 @@
     font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
       var(--font-body);
   }
+  /* The key, the plot and the x-axis name read as one block: the key sits right on
+     the plot, the value axis name to its left and the legend to its right. */
+  .pui-chart-frame {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .pui-chart-key {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 var(--space-4);
+  }
   .pui-chart-legend {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-1) var(--space-2);
     padding: 0;
-    margin: 0;
+    margin: 0 0 0 auto;
     list-style: none;
+  }
+  .pui-chart-mark {
+    inline-size: var(--space-8);
+    block-size: var(--space-5);
   }
   .pui-chart-legend-button {
     max-width: 100%;
@@ -85,9 +102,63 @@
     text-align: center;
   }
   .pui-chart-plot {
+    position: relative;
     min-width: 0;
     width: 100%;
     font-family: var(--font-body);
+  }
+  /* The active point's values float beside it; the readout below says the same for
+     assistive technology. On the right half the box turns to the left. */
+  .pui-chart-float {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .pui-chart-tooltip {
+    position: absolute;
+    z-index: 1;
+    box-sizing: border-box;
+    inline-size: max-content;
+    max-inline-size: 100%;
+    translate: 0 var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--menu-border);
+    border-radius: var(--radius-md);
+    background: var(--menu-background);
+    box-shadow: var(--shadow-float);
+    color: var(--ink-body);
+    font: var(--weight-regular)
+      var(--type-compact-size)/var(--type-compact-leading) var(--font-body);
+    overflow-wrap: break-word;
+  }
+  .pui-chart-tooltip strong {
+    display: block;
+    color: var(--ink);
+    font-weight: var(--weight-medium);
+  }
+  .pui-chart-tooltip ul {
+    display: grid;
+    gap: var(--space-1);
+    margin: var(--space-1) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .pui-chart-tooltip li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .pui-chart-tooltip .pui-chart-mark {
+    flex: none;
+    inline-size: var(--space-6);
+    block-size: var(--space-4);
+  }
+  .pui-chart-tooltip-value {
+    white-space: nowrap;
+    margin-inline-start: auto;
+    padding-inline-start: var(--space-3);
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
   }
   .pui-chart-inspector {
     box-sizing: border-box;
@@ -160,12 +231,19 @@
       --chart-series-1: CanvasText;
       --chart-series-2: CanvasText;
       --chart-series-3: CanvasText;
+      --chart-category-1: CanvasText;
+      --chart-category-2: CanvasText;
+      --chart-category-3: CanvasText;
+      --chart-category-4: CanvasText;
+      --chart-category-5: CanvasText;
+      --chart-category-6: CanvasText;
     }
     .pui-chart-plot .recharts-surface,
-    .pui-chart-legend svg {
+    .pui-chart-mark {
       forced-color-adjust: none;
     }
     .pui-chart-inspector,
+    .pui-chart-tooltip,
     .pui-chart-empty {
       background: Canvas;
       color: CanvasText;

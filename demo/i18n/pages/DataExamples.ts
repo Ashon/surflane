@@ -63,6 +63,20 @@ const en = {
     `${region} / ${count} discovered services`,
   selectedSummary: (count: number, detail: string) =>
     `${count} selected. ${detail}`,
+  deploySuccess: 'Deploy success',
+  p95Latency: 'P95 latency',
+  monthlyCost: 'Monthly cost',
+  vsLastWeek: 'vs. last week',
+  trendLabel: (what: string, change: string) =>
+    `${what}, 12 weeks; last week ${change}`,
+  indexLabel: (change: string) =>
+    `Index, 10 sessions against the previous close, ${change}`,
+  sizeName: (size: 'small' | 'default' | 'large') =>
+    ({ small: 'Small, 24px', default: 'Default, 32px', large: 'Large, 48px' })[
+      size
+    ],
+  withGap: 'With a missing week',
+  oneWeekMissing: 'one week missing',
 }
 export const text: Record<Locale, typeof en> = {
   en,
@@ -130,5 +144,18 @@ export const text: Record<Locale, typeof en> = {
       `${region} / 검색된 서비스 ${count}개`,
     selectedSummary: (count: number, detail: string) =>
       `${count}개 선택됨. ${detail}`,
+    deploySuccess: '배포 성공률',
+    p95Latency: 'P95 지연 시간',
+    monthlyCost: '월 비용',
+    vsLastWeek: '지난주 대비',
+    trendLabel: (what: string, change: string) =>
+      `${what}, 12주. 지난주 ${change}`,
+    indexLabel: (change: string) => `지수, 10거래일, 전일 종가 대비 ${change}`,
+    sizeName: (size: 'small' | 'default' | 'large') =>
+      ({ small: '작게, 24px', default: '기본, 32px', large: '크게, 48px' })[
+        size
+      ],
+    withGap: '한 주가 빠진 계열',
+    oneWeekMissing: '한 주 데이터 없음',
   },
 }

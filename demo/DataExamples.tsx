@@ -9,6 +9,13 @@ import {
   EmptyState,
   InlineMessage,
   Spinner,
+  Card,
+  Grid,
+  Stat,
+  Sparkline,
+  formatCurrency,
+  formatNumber,
+  formatPercent,
 } from '@surflane/ui'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/DataExamples'
@@ -243,12 +250,134 @@ function MessagePreview() {
     </div>
   )
 }
+// Twelve weeks of a platform's figures; one week of deploy data is missing.
+const weeks = {
+  success: [
+    0.94,
+    0.95,
+    0.93,
+    0.96,
+    0.97,
+    null,
+    0.97,
+    0.98,
+    0.97,
+    0.98,
+    0.985,
+    0.99,
+  ],
+  latency: [182, 176, 190, 171, 168, 172, 160, 158, 155, 149, 151, 144],
+  cost: [
+    4.2e6, 4.25e6, 4.3e6, 4.28e6, 4.4e6, 4.52e6, 4.6e6, 4.58e6, 4.71e6, 4.8e6,
+    4.86e6, 4.92e6,
+  ],
+}
+const lastChange = (series: readonly (number | null)[]) => {
+  const values = series.filter((v): v is number => v !== null)
+  const [before, last] = values.slice(-2)
+  return (last - before) / before
+}
+function StatPreview() {
+  const { locale } = useLocale()
+  const t = text[locale]
+  const tag = locale === 'ko' ? 'ko-KR' : 'en-US'
+  const percent = (value: number) =>
+    formatPercent(value, { locale: tag, signed: true })
+  const cards = [
+    {
+      key: 'success',
+      label: t.deploySuccess,
+      value: formatPercent(weeks.success.at(-1), { locale: tag }),
+      change: lastChange(weeks.success),
+      lowerIsBetter: false,
+      series: weeks.success,
+    },
+    {
+      key: 'latency',
+      label: t.p95Latency,
+      value: `${formatNumber(weeks.latency.at(-1), { locale: tag })} ms`,
+      change: lastChange(weeks.latency),
+      lowerIsBetter: true,
+      series: weeks.latency,
+    },
+    {
+      key: 'cost',
+      label: t.monthlyCost,
+      value: formatCurrency(weeks.cost.at(-1), 'KRW', {
+        locale: tag,
+        compact: true,
+      }),
+      change: lastChange(weeks.cost),
+      lowerIsBetter: true,
+      series: weeks.cost,
+    },
+  ]
+  return (
+    <Grid columns={3} gap={4}>
+      {cards.map((card) => (
+        <Card.Root key={card.key}>
+          <Card.Body>
+            <Stat.Root>
+              <Stat.Label>{card.label}</Stat.Label>
+              <Stat.Value>{card.value}</Stat.Value>
+              <Stat.Change
+                value={card.change}
+                format={percent}
+                lowerIsBetter={card.lowerIsBetter}
+              />
+              <Stat.Caption>{t.vsLastWeek}</Stat.Caption>
+            </Stat.Root>
+            <Sparkline
+              data={card.series}
+              lowerIsBetter={card.lowerIsBetter}
+              label={t.trendLabel(card.label, percent(card.change))}
+            />
+          </Card.Body>
+        </Card.Root>
+      ))}
+    </Grid>
+  )
+}
+function SparklinePreview() {
+  const { locale } = useLocale()
+  const t = text[locale]
+  const tag = locale === 'ko' ? 'ko-KR' : 'en-US'
+  const close = [2512, 2528, 2519, 2541, 2536, 2560, 2549, 2575, 2581, 2570]
+  const previous = 2540
+  const change = (close.at(-1)! - previous) / previous
+  return (
+    <div className='example-stack'>
+      {(['small', 'default', 'large'] as const).map((size) => (
+        <div key={size} className='sparkline-row'>
+          <span>{t.sizeName(size)}</span>
+          <Sparkline
+            data={close}
+            size={size}
+            baseline={previous}
+            label={t.indexLabel(
+              formatPercent(change, { locale: tag, signed: true }),
+            )}
+          />
+        </div>
+      ))}
+      <div className='sparkline-row'>
+        <span>{t.withGap}</span>
+        <Sparkline
+          data={weeks.success}
+          label={t.trendLabel(t.deploySuccess, t.oneWeekMissing)}
+        />
+      </div>
+    </div>
+  )
+}
 export function DataExample({ id }: { id: string }) {
   const t = text[useLocale().locale]
   const [query, setQuery] = useState(''),
     [ascending, setAscending] = useState(true)
   const [selected, setSelected] = useState<string[]>([]),
     [inspected, setInspected] = useState('')
+  if (id === 'stat') return <StatPreview />
+  if (id === 'sparkline') return <SparklinePreview />
   if (id === 'empty-state') return <EmptyPreview />
   if (id === 'inline-message') return <MessagePreview />
   const rows = environments

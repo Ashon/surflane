@@ -245,3 +245,46 @@ test('touch exposes the same complete values without relying on hover', async ({
   await expect(page.locator('.pui-chart-inspector')).toContainText('Workspace:')
   await context.close()
 })
+
+test('the key sits on the plot and the active values float beside the point', async ({
+  page,
+}) => {
+  await open(page)
+  // The value axis name and the legend share the row right above the plot.
+  const frame = page.locator('.pui-chart-frame')
+  await expect(frame.locator('> *')).toHaveCount(3)
+  await expect(frame.locator('> :nth-child(1)')).toHaveClass('pui-chart-key')
+  await expect(frame.locator('> :nth-child(2)')).toHaveClass('pui-chart-plot')
+  const key = await frame.locator('.pui-chart-key').boundingBox()
+  const plot = await frame.locator('.pui-chart-plot').boundingBox()
+  expect(plot!.y - (key!.y + key!.height)).toBeLessThanOrEqual(1)
+
+  const chart = page.getByRole('application', { name: 'Pipeline activity' })
+  const tip = page.locator('.pui-chart-tooltip')
+  await chart.focus()
+  await chart.press('ArrowRight')
+  await chart.press('ArrowRight')
+  await expect(tip).toHaveAttribute('aria-hidden', 'true')
+  await expect(tip).toContainText('October 3, 2026')
+  await expect(tip.locator('li')).toHaveText([
+    /Workspace\s*14 runs/,
+    /Inventory\s*Not available/,
+    /Documentation\s*6 runs/,
+  ])
+  // Each row carries its series' mark, as the legend draws it.
+  await expect(tip.locator('li svg.pui-chart-mark')).toHaveCount(3)
+  for (const index of [1, 4]) {
+    for (let step = 0; step < index; step++) await chart.press('ArrowRight')
+    const box = await tip.boundingBox()
+    expect(box!.x).toBeGreaterThanOrEqual(plot!.x - 0.5)
+    expect(box!.x + box!.width).toBeLessThanOrEqual(plot!.x + plot!.width + 0.5)
+  }
+  await chart.press('Escape')
+  await expect(tip).toHaveCount(0)
+  // A hidden series leaves the box too.
+  await chart.press('ArrowLeft')
+  await page.getByRole('button', { name: 'Inventory series' }).click()
+  await chart.focus()
+  await chart.press('ArrowLeft')
+  await expect(tip.locator('li')).toHaveCount(2)
+})

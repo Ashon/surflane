@@ -1,0 +1,54 @@
+/* Sparkline, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+
+@layer surflane.components {
+  /* The line fills the width it is given; its height comes from the size. */
+  .pui-sparkline {
+    --sparkline-height: var(--space-8);
+    display: block;
+    inline-size: 100%;
+    block-size: var(--sparkline-height);
+    overflow: visible;
+    color: var(--ink-body);
+    fill: none;
+  }
+  .pui-sparkline[data-size='small'] {
+    --sparkline-height: var(--space-6);
+  }
+  .pui-sparkline[data-size='large'] {
+    --sparkline-height: var(--space-12);
+  }
+  .pui-sparkline[data-tone='up'] {
+    color: var(--trend-up-fg);
+  }
+  .pui-sparkline[data-tone='down'] {
+    color: var(--trend-down-fg);
+  }
+  .pui-sparkline[data-tone='flat'] {
+    color: var(--trend-flat-fg);
+  }
+  .pui-sparkline-line {
+    stroke: currentColor;
+    stroke-width: var(--icon-stroke-width);
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+  .pui-sparkline-baseline {
+    stroke: var(--ink-muted);
+    stroke-width: 1;
+    stroke-dasharray: 2 3;
+  }
+  .pui-sparkline-marker {
+    stroke: currentColor;
+    stroke-width: calc(var(--icon-stroke-width) * 3);
+    stroke-linecap: round;
+  }
+  @media (forced-colors: active) {
+    .pui-sparkline {
+      color: CanvasText;
+    }
+  }
+}

@@ -42,7 +42,7 @@ To ship only the styles of the components you use, import their stylesheets inst
 @import '@surflane/ui/select.css';
 ```
 
-Dialog's stylesheet lists Button's, for its close button. Vite, webpack and Next.js load a stylesheet that several components list once. Tailwind CSS keeps every import it meets, so with Tailwind CSS, import `all.css`. One component's stylesheet, with the tokens, is about 28 KB (5 KB gzipped); `all.css` is 134 KB (21 KB gzipped). When you compose components yourself, such as an `Input` inside a `FilterBar` field, import both stylesheets.
+Dialog's stylesheet lists Button's, for its close button. Vite, webpack and Next.js load a stylesheet that several components list once. Tailwind CSS keeps every import it meets, so with Tailwind CSS, import `all.css`. One component's stylesheet, with the tokens, is about 30 KB (6 KB gzipped); `all.css` is 146 KB (21 KB gzipped). When you compose components yourself, such as an `Input` inside a `FilterBar` field, import both stylesheets.
 
 The rules are the ones `all.css` brings, and they apply the same in any import order: a component's stylesheet comes after the stylesheets it includes, and size rules sit in their own layer. `styles.css` is the list of every component stylesheet. `@surflane/design-tokens` splits `presentation.css` and `foundations.css` the same way, under `presentation/` and `foundations/`.
 

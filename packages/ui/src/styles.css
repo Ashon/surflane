@@ -61,6 +61,8 @@
 @import './card.css';
 @import './avatar.css';
 @import './list.css';
+@import './stat.css';
+@import './sparkline.css';
 @import './inline-message.css';
 @import './syntax-highlighter.css';
 @import './code.css';

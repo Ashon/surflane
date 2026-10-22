@@ -6,8 +6,13 @@
 
 ### Added
 
-- Component stylesheets. Every component, pattern and foundation with styles has one at its entry point's path with `.css`, such as `@surflane/ui/button.css`: 66 in all. Each brings the tokens and the styles of everything its component renders, so an app can ship only the styles it uses. The published stylesheets are flat lists of rule files, each listed once, so a toolchain that keeps duplicate imports never repeats them; with Tailwind CSS, import `all.css`. One component's stylesheet is about 28 KB, 5 KB gzipped; `all.css` is 134 KB, 21 KB gzipped. See [Component stylesheets](https://github.com/Ashon/surflane/blob/main/docs/frameworks.md#component-stylesheets).
+- Component stylesheets. Every component, pattern and foundation with styles has one at its entry point's path with `.css`, such as `@surflane/ui/button.css`: 68 in all. Each brings the tokens and the styles of everything its component renders, so an app can ship only the styles it uses. The published stylesheets are flat lists of rule files, each listed once, so a toolchain that keeps duplicate imports never repeats them; with Tailwind CSS, import `all.css`. One component's stylesheet is about 30 KB, 6 KB gzipped; `all.css` is 146 KB, 21 KB gzipped. See [Component stylesheets](https://github.com/Ashon/surflane/blob/main/docs/frameworks.md#component-stylesheets).
 - `@surflane/design-tokens` splits `presentation.css` and `foundations.css` the same way, as `presentation/*.css` and `foundations/*.css`.
+- `Stat` shows a key figure. `Label`, `Value`, `Change` and `Caption` render a description list. `Change` takes the change as a number, shows its sign and an arrow, and colors it by direction; `lowerIsBetter` swaps the colors for measures such as latency.
+- `Sparkline` draws a small trend line for a card or a table cell, without recharts: 24, 32 or 48px tall, with an optional baseline and end marker. Missing values leave gaps, and `label` names the line for assistive technology.
+- `formatNumber`, `formatCurrency` and `formatPercent` format numbers the same way on every screen: an explicit locale, `signed` for +/−, `compact` for 1.2M or 1.2만, `precision`, and a `missing` text for absent values. They also live at `@surflane/ui/format`.
+- Chart takes `includeZero={false}` for values far from zero, such as prices: the value axis spans the data in round steps. Bars always start at zero. `palette="categorical"` colors series with six hues, for categories that color must tell apart.
+- Chart shows the active point's values in a box beside it: the date, and each visible series with its legend mark and value. Pointer, touch and the arrow keys all bring it up. It opens to the side with more room, stays inside the plot, and closes with Escape. The readout below the plot still announces the same values, so the box stays out of the accessibility tree.
 - An `info` status tone for Badge, StatusBadge, InlineMessage and Toast, in blue, apart from the cyan of success.
 - Tokens:
   - `--info` and `--status-info-*`.
@@ -17,6 +22,7 @@
 
 ### Changed
 
+- Chart's legend shares one row with the value axis name, right above the plot; the keyboard help moves below the plot. `labels` gains `inspectHint` and `noRows`, the last two strings the chart showed only in English.
 - A fifth cascade layer, `surflane.sizes`, sits above `surflane.components`. It holds the size scheme and size variants: `SizeProvider`, a component's `size`, extra-small and icon buttons, and table density. They override a component's defaults in whatever order the stylesheets load. Every stylesheet's layer order statement names the new layer, and so does the theme builder's `layerOrder`.
 - `styles.css`, `presentation.css` and `foundations.css` now import the per-component stylesheets. They bring the same rules with the same effect: the catalog renders the same at every size.
 - Presentation classes defer to a Button they sit on. `.pui-pagination-control`, `.pui-table-sort` and a table header's button inset apply their box, type and colors only to elements that are not Buttons, and Icon pagination arrows mirror themselves.

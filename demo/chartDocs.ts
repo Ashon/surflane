@@ -2,7 +2,7 @@ import type { ComponentDoc } from './componentDocs'
 export const chartDocs: Record<string, ComponentDoc> = {
   chart: {
     usage:
-      'Compare numeric trends in one unit as a line, bar, or area chart. Always provide a title, a factual summary, and axis names with units. Series default to brand and neutral fills and lines. Pass data as an immutable array that the caller owns.',
+      'Compare numeric trends in one unit as a line, bar, or area chart. Always provide a title, a factual summary, and axis names with units. Series default to brand and neutral fills and lines, told apart by dashes and markers; pass palette="categorical" when color must separate categories, such as buckets. For values far from zero, such as prices or latency, set includeZero={false}. Pass data as an immutable array that the caller owns.',
     avoid: [
       "Don't mix units on one axis. Use separate charts instead.",
       "Don't overlay many series on one screen. Use filters or separate charts instead.",
@@ -18,7 +18,7 @@ export const chartDocs: Record<string, ComponentDoc> = {
       "Enter or Space on a legend button shows or hides its series, and aria-pressed reports whether it's shown. Hidden series stay in the data table.",
       'View data table is a native details element that Enter or Space expands. Long tables scroll on both axes and include headers, units, and full values.',
       'Escape clears the details, and an arrow key shows them again.',
-      "Pointer and touch update the same details region. It's a fixed-position, polite live region that doesn't cover the marks.",
+      "Pointer, touch and the arrow keys show the point's values in a box beside it, which turns to whichever side has more room and stays inside the plot. The same values fill the details region below the plot, a polite live region that never covers the marks; the box itself stays out of the accessibility tree.",
       'Circle, square, and triangle markers, line patterns, and bar fill patterns distinguish series beyond color. They remain in high contrast mode.',
       'Above 40 points, the plot omits markers to reduce overlap. Legend markers, line patterns, details, and the table remain.',
       'Animation is off by default.',
@@ -83,6 +83,16 @@ const data: ChartDatum[] = [
       ['type', 'line | bar | area', 'line'],
       ['height', 'finite pixel height, minimum 200', '280'],
       [
+        'includeZero',
+        'keeps 0 on the value axis; bars always start at zero',
+        'true',
+      ],
+      [
+        'palette',
+        'neutral | categorical: ink with dashes and markers, or six hues for categories',
+        'neutral',
+      ],
+      [
         'locale / formatValue',
         'Intl number locale / optional finite-value formatter (unit appended)',
         'en-US / maximum 2 fractional digits',
@@ -94,7 +104,7 @@ const data: ChartDatum[] = [
       ],
       [
         'labels',
-        'text the chart shows or announces: missing, empty, noSeries, showAll, keyboardHelp, values, viewTable, table, tableCaption',
+        'text the chart shows or announces: missing, empty, noSeries, showAll, keyboardHelp, values, viewTable, table, tableCaption, inspectHint, noRows',
         'English',
       ],
       [

@@ -420,6 +420,21 @@ export {
   ListDescription,
   ListActions,
 } from './list.js'
+export {
+  Stat,
+  StatRoot,
+  StatLabel,
+  StatValue,
+  StatChange,
+  StatCaption,
+  type StatChangeProps,
+  type StatDirection,
+} from './stat.js'
+export {
+  Sparkline,
+  type SparklineProps,
+  type SparklineTrend,
+} from './sparkline.js'
 
 // Structure
 export { ScrollArea } from './scroll-area.js'
@@ -492,6 +507,13 @@ export {
   type Space,
 } from './layout.js'
 export { Heading, Text, Prose } from './typography.js'
+export {
+  formatNumber,
+  formatCurrency,
+  formatPercent,
+  missingValue,
+  type NumberFormatOptions,
+} from './format.js'
 export { Icon, iconNames, type IconName, type IconProps } from './icon.js'
 export {
   SizeProvider,

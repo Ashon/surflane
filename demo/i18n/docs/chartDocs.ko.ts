@@ -3,7 +3,7 @@ import type { DocKo } from './types'
 export const chartDocsKo: Record<string, DocKo> = {
   chart: {
     usage:
-      '한 단위의 숫자 추세를 라인, 바, 에어리어 차트로 비교합니다. 항상 제목, 사실 요약, 단위가 있는 축 이름을 제공하세요. 시리즈는 기본적으로 브랜드와 중립 색상의 채움과 선을 사용합니다. 호출하는 쪽이 소유한 불변 배열로 data를 전달하세요.',
+      '한 단위의 숫자 추세를 라인, 바, 에어리어 차트로 비교합니다. 항상 제목, 사실 요약, 단위가 있는 축 이름을 제공하세요. 시리즈는 기본적으로 브랜드와 중립 색상의 채움과 선을 쓰고, 대시와 마커로 구분합니다. 구간처럼 색으로 나눠야 하는 범주에는 palette="categorical"을 주세요. 가격이나 지연 시간처럼 0에서 먼 값에는 includeZero={false}를 주세요. 호출하는 쪽이 소유한 불변 배열로 data를 전달하세요.',
     avoid: [
       '한 축에 단위를 섞지 마세요. 대신 별도 차트를 사용하세요.',
       '한 화면에 많은 시리즈를 겹치지 마세요. 대신 필터나 별도 차트를 사용하세요.',
@@ -19,7 +19,7 @@ export const chartDocsKo: Record<string, DocKo> = {
       '범례 버튼의 Enter나 Space는 시리즈를 표시하거나 숨기며, aria-pressed가 표시 여부를 알립니다. 숨겨진 시리즈는 데이터 테이블에 유지됩니다.',
       'View data table은 Enter나 Space로 펼쳐지는 네이티브 details 요소입니다. 긴 테이블은 양축으로 스크롤되며 헤더, 단위, 전체 값을 포함합니다.',
       'Escape는 상세를 지우고, 화살표 키는 다시 표시합니다.',
-      '포인터와 터치는 같은 상세 영역을 업데이트합니다. 고정 위치의 polite live region이며 마크를 가리지 않습니다.',
+      '포인터, 터치, 화살표 키로 고른 지점의 값이 그 옆 상자에 뜹니다. 상자는 공간이 넓은 쪽으로 열리고 플롯 밖으로 나가지 않습니다. 같은 값이 플롯 아래 상세 영역에도 채워지는데, 이 영역은 마크를 가리지 않는 polite live region입니다. 상자 자체는 접근성 트리에서 빠집니다.',
       '원, 사각형, 삼각형 마커, 선 패턴, 바 채움 패턴이 색 외에 시리즈를 구분합니다. 고대비 모드에서도 유지됩니다.',
       '40포인트를 넘으면 플롯이 겹침을 줄이기 위해 마커를 생략합니다. 범례 마커, 선 패턴, 상세, 테이블은 유지됩니다.',
       '애니메이션은 기본적으로 꺼져 있습니다.',
@@ -31,12 +31,15 @@ export const chartDocsKo: Record<string, DocKo> = {
       data: '읽기 전용 {id, label, values: Record<seriesKey, number | null | undefined>}[]; 고유한 비어 있지 않은 id',
       series: '읽기 전용 {key, label}[]; 고유한 비어 있지 않은 key',
       height: '유한 픽셀 높이, 최소 200',
+      includeZero: '값 축에 0을 둡니다. 막대는 항상 0에서 시작합니다',
+      palette:
+        'neutral | categorical: 잉크와 대시, 마커로 구분하거나, 범주에 여섯 색상을 씁니다',
       'locale / formatValue':
         'Intl 숫자 locale / 선택적 유한 값 포맷터(단위 추가)',
       'hiddenSeries / defaultHiddenSeries / onHiddenSeriesChange':
         '제어 또는 비제어 숨김 키; 콜백이 다음 키를 요청',
       labels:
-        '차트가 보여 주거나 알리는 텍스트: missing, empty, noSeries, showAll, keyboardHelp, values, viewTable, table, tableCaption',
+        '차트가 보여 주거나 알리는 텍스트: missing, empty, noSeries, showAll, keyboardHelp, values, viewTable, table, tableCaption, inspectHint, noRows',
       'ref / className / figure props':
         '루트 HTMLElement ref와 네이티브 figure 속성',
     },

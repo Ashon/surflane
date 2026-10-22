@@ -164,6 +164,7 @@ const internalModules = [
 ]
 const utilityEntries = [
   'choice-label',
+  'format',
   'icon',
   'sizing',
   'slot',
@@ -203,13 +204,20 @@ console.log(
   `@surflane/ui: ${entries.length} entry points, one per catalog page or utility`,
 )
 // Glyphs come from Icon. Inline SVG stays only for marks that are not glyphs: the
-// checkbox tick, the menu radio dot, the spinner and chart legend swatches.
+// checkbox tick, the menu radio dot, the spinner, chart legend swatches and sparklines.
 const svgModules = sourceFiles.filter((name) =>
   /<svg\b/.test(readFileSync(`packages/ui/src/${name}`, 'utf8')),
 )
 assert.deepEqual(
   svgModules.toSorted(),
-  ['chart.tsx', 'checkbox.tsx', 'icon.tsx', 'menu.tsx', 'spinner.tsx'],
+  [
+    'chart.tsx',
+    'checkbox.tsx',
+    'icon.tsx',
+    'menu.tsx',
+    'sparkline.tsx',
+    'spinner.tsx',
+  ],
   `Inline SVG outside Icon: ${svgModules}`,
 )
 // Every stylesheet in both packages declares the same layer order first.

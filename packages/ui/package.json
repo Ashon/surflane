@@ -86,6 +86,8 @@
     "./syntax-highlighter.css": "./dist/css/syntax-highlighter.css",
     "./markdown.css": "./dist/css/markdown.css",
     "./list.css": "./dist/css/list.css",
+    "./stat.css": "./dist/css/stat.css",
+    "./sparkline.css": "./dist/css/sparkline.css",
     "./tree.css": "./dist/css/tree.css",
     "./chart.css": "./dist/css/chart.css",
     "./scroll-area.css": "./dist/css/scroll-area.css",
@@ -300,6 +302,14 @@
       "types": "./dist/list.d.ts",
       "import": "./dist/list.js"
     },
+    "./stat": {
+      "types": "./dist/stat.d.ts",
+      "import": "./dist/stat.js"
+    },
+    "./sparkline": {
+      "types": "./dist/sparkline.d.ts",
+      "import": "./dist/sparkline.js"
+    },
     "./tree": {
       "types": "./dist/tree.d.ts",
       "import": "./dist/tree.js"
@@ -363,6 +373,10 @@
     "./slot": {
       "types": "./dist/slot.d.ts",
       "import": "./dist/slot.js"
+    },
+    "./format": {
+      "types": "./dist/format.d.ts",
+      "import": "./dist/format.js"
     },
     "./app-shell": {
       "types": "./dist/app-shell.d.ts",

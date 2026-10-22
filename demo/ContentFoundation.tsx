@@ -244,11 +244,12 @@ const display = new Intl.DateTimeFormat(locale, {
 
 <time dateTime={occurredAt.toISOString()}>{display}</time>
 
-// Keep zero; distinguish absent values from invalid values upstream.
-const countLabel =
-  count == null
-    ? messages.notAvailable
-    : new Intl.NumberFormat(locale).format(count)`}
+// formatNumber, formatCurrency and formatPercent from @surflane/ui keep zero
+// and write a missing value as you name it.
+const countLabel = formatNumber(count, {
+  locale,
+  missing: messages.notAvailable,
+})`}
         />
         <p>{t.displayContractNote}</p>
       </section>

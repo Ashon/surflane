@@ -731,6 +731,13 @@ body,
 .example-controls > .actions:first-child {
   margin-top: 0;
 }
+/* A Sparkline row: what the line shows, then the line taking the rest. */
+.sparkline-row {
+  display: grid;
+  grid-template-columns: minmax(8rem, 12rem) minmax(0, 20rem);
+  align-items: center;
+  gap: var(--space-4);
+}
 .example-stack {
   display: grid;
   gap: var(--space-5);

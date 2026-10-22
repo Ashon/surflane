@@ -20,7 +20,14 @@ export const navigationExampleIds = [
   'breadcrumbs',
 ]
 export const feedbackExampleIds = ['progress', 'meter', 'spinner', 'skeleton']
-export const dataExampleIds = ['table', 'list', 'inline-message', 'empty-state']
+export const dataExampleIds = [
+  'table',
+  'list',
+  'stat',
+  'sparkline',
+  'inline-message',
+  'empty-state',
+]
 export const contentExampleIds = ['card', 'code', 'pagination']
 export const advancedFormExampleIds = ['combobox', 'number-field']
 export const inputExtensionExampleIds = ['autocomplete', 'slider']

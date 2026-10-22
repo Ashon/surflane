@@ -43,6 +43,8 @@ const ready = new Set([
   'pagination',
   'table',
   'list',
+  'stat',
+  'sparkline',
   'inline-message',
   'empty-state',
   'progress',
@@ -362,6 +364,20 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
     1,
   ],
   [
+    'stat',
+    'Stat',
+    'Data display',
+    'Shows a key figure with its change and what it covers.',
+    2,
+  ],
+  [
+    'sparkline',
+    'Sparkline',
+    'Data display',
+    'Draws a small trend line inside a card or a table cell.',
+    2,
+  ],
+  [
     'tree',
     'Tree view',
     'Data display',
@@ -449,6 +465,8 @@ const nonBase = new Set([
   'table',
   'code',
   'list',
+  'stat',
+  'sparkline',
   'tree',
   'chart',
   'inline-message',
@@ -515,6 +533,12 @@ const specializedCriteria: Record<string, string[]> = {
   ],
   chart: [
     'Units, axes, legend, distinctions beyond color, alternative table, empty values, and tooltip accessibility',
+  ],
+  stat: [
+    'Label, value and change read as one description list; the change shows its direction by sign and arrow, not color alone',
+  ],
+  sparkline: [
+    'An accessible name that states the trend, gaps for missing values, and no interaction',
   ],
   'otp-field': ['Code paste, autofill, deletion, errors, expiry, and resend'],
   toast: [
