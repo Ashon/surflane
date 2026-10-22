@@ -2,11 +2,11 @@
 
 `@surflane/design-tokens` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
-## Unreleased
+## 0.6.0
 
 ### Added
 
-- Component stylesheets. Every component, pattern and foundation with styles has one at its entry point's path with `.css`, such as `@surflane/ui/button.css`: 69 in all. Each brings the tokens and the styles of everything its component renders, so an app can ship only the styles it uses. The published stylesheets are flat lists of rule files, each listed once, so a toolchain that keeps duplicate imports never repeats them; with Tailwind CSS, import `all.css`. One component's stylesheet is about 30 KB, 6 KB gzipped; `all.css` is 146 KB, 21 KB gzipped. See [Component stylesheets](https://github.com/Ashon/surflane/blob/main/docs/frameworks.md#component-stylesheets).
+- Component stylesheets. Every component, pattern and foundation with styles has one at its entry point's path with `.css`, such as `@surflane/ui/button.css`: 69 in all. Each brings the tokens and the styles of everything its component renders, so an app can ship only the styles it uses. The published stylesheets are flat lists of rule files, each listed once, so a toolchain that keeps duplicate imports never repeats them; with Tailwind CSS, import `all.css`. One component's stylesheet is about 30 KB, 6 KB gzipped; `all.css` is 154 KB, 23 KB gzipped. See [Component stylesheets](https://github.com/Ashon/surflane/blob/main/docs/frameworks.md#component-stylesheets).
 - `@surflane/design-tokens` splits `presentation.css` and `foundations.css` the same way, as `presentation/*.css` and `foundations/*.css`.
 - `Stat` shows a key figure. `Label`, `Value`, `Change` and `Caption` render a description list. `Change` takes the change as a number, shows its sign and an arrow, and colors it by direction; `lowerIsBetter` swaps the colors for measures such as latency.
 - `Sparkline` draws a small trend line for a card or a table cell, without recharts: 24, 32 or 48px tall, with an optional baseline and end marker. Missing values leave gaps, and `label` names the line for assistive technology.
