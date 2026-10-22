@@ -1,9 +1,9 @@
 import React, { lazy, useEffect, useRef, useState } from 'react'
-import { Button, CodeBlock, StatusBadge, Table } from '@surflane/ui'
+import { CodeBlock, StatusBadge, Table } from '@surflane/ui'
 import { Link } from './router'
 import { contrastRatio } from './contrast'
 import { DeferredContent } from './DeferredContent'
-import { text as paletteText } from './i18n/pages/PaletteLab'
+import { FoundationPage, FoundationSection } from './FoundationPage'
 
 // The lab and its color math load as their own chunk and render after the page.
 const PaletteLab = lazy(() =>
@@ -92,9 +92,7 @@ function TokenLink({ token }: { token: string }) {
 }
 
 export function ColorFoundation() {
-  const { locale } = useLocale()
-  const t = text[locale]
-  const p = paletteText[locale]
+  const t = text[useLocale().locale]
   const groups: PairGroup[] = [
     {
       id: 'text',
@@ -269,16 +267,17 @@ export function ColorFoundation() {
     }
   }, [])
   return (
-    <>
-      <nav className='page-toc' aria-label={t.onThisPage}>
-        {t.nav.map(({ id, label }) => (
-          <a key={id} href={`#${id}`}>
-            {label}
-          </a>
-        ))}
-      </nav>
-      <section id='roles'>
-        <h2>{t.rolesHeading}</h2>
+    <FoundationPage
+      principles={t.principles}
+      sections={t.sections}
+      related={[
+        '/foundations/hierarchy',
+        '/foundations/themes',
+        '/foundations/interaction',
+        '/tokens',
+      ]}
+    >
+      <FoundationSection id='roles'>
         <p>
           {t.rolesIntro} <Link href='/tokens'>{t.tokensLink}</Link>
           {t.rolesIntroEnd}
@@ -470,32 +469,19 @@ export function ColorFoundation() {
           </Table.Container>
           <p>{t.chartNote}</p>
         </div>
-      </section>
-      <section id='oklch'>
-        <h2>{p.oklchHeading}</h2>
-        <p>{p.oklchIntro}</p>
-        <ol className='palette-principles'>
-          {p.principles.map(([title, body]) => (
-            <li key={title}>
-              <strong>{title}</strong>
-              <p>{body}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
-      <section id='lab'>
-        <h2>{p.labHeading}</h2>
-        <p>{p.labIntro}</p>
-        <DeferredContent scope='preview'>
-          <PaletteLab />
-        </DeferredContent>
-      </section>
-      <section id='contrast'>
-        <h2>{t.contrastHeading}</h2>
-        <p>{t.contrastIntro}</p>
-        <p>{t.contrastSteps}</p>
+        <p>{t.codeIntro}</p>
+        <CodeBlock
+          language='css'
+          label={t.codeExampleLabel}
+          code={
+            '.resource-summary {\n  color: var(--ink-body);\n  background: var(--surface);\n}\n.resource-summary a {\n  color: var(--brand-ink);\n  text-decoration: underline;\n}'
+          }
+        />
+      </FoundationSection>
+      <FoundationSection id='contrast'>
         <p>{t.contrastThresholds}</p>
-        <p>{t.contrastApprox}</p>
+        <p>{t.contrastSurfaces}</p>
+        <p>{t.contrastMethod}</p>
         {forcedColors && <p role='status'>{t.forcedColorsStatus}</p>}
         <div
           ref={root}
@@ -599,7 +585,6 @@ export function ColorFoundation() {
             pairCount,
           )}
         </p>
-        <p>{t.indicatorContrast}</p>
         <p>
           <a href='https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html'>
             {t.wcagTextContrast}
@@ -609,12 +594,9 @@ export function ColorFoundation() {
             {t.wcagNonTextContrast}
           </a>
         </p>
-      </section>
-      <section id='states'>
-        <h2>{t.statesHeading}</h2>
-        <p>{t.statesIntro}</p>
-        <p data-selection-sample>{t.selectionSample}</p>
-        <p>{t.statusIndicators}</p>
+      </FoundationSection>
+      <FoundationSection id='status'>
+        <p>{t.statusIntro}</p>
         <div
           className='actions'
           role='group'
@@ -626,40 +608,39 @@ export function ColorFoundation() {
           <StatusBadge tone='progress'>{t.running}</StatusBadge>
           <StatusBadge>{t.notStarted}</StatusBadge>
         </div>
-        <div className='actions'>
-          <Button
-            onClick={() =>
-              document.getElementById('contrast')?.scrollIntoView()
-            }
-          >
-            {t.inspectContrast}
-          </Button>
-          <Link href='/components/badge'>{t.badgeUsage}</Link>
-        </div>
-        <p>{t.staticStatusesNote}</p>
-      </section>
-      <section id='application'>
-        <h2>{t.applicationHeading}</h2>
-        <ul>
-          <li>{t.tipStatusResults}</li>
-          <li>{t.tipSelection}</li>
-          <li>{t.tipLinks}</li>
-        </ul>
-        <CodeBlock
-          language='css'
-          label={t.codeExampleLabel}
-          code={
-            '.resource-summary {\n  color: var(--ink-body);\n  background: var(--surface);\n}\n.resource-summary a {\n  color: var(--brand-ink);\n  text-decoration: underline;\n}'
-          }
-        />
-        <p>
-          {t.applyFooterStart}{' '}
-          <Link href='/tokens?q=--ink'>{t.tokenBrowserLink}</Link>
-          {t.applyFooterMid}{' '}
-          <Link href='/components/inline-message'>{t.inlineMessageLink}</Link>
-          {t.applyFooterEnd}
-        </p>
-      </section>
-    </>
+        <p data-selection-sample>{t.selectionSample}</p>
+      </FoundationSection>
+      <FoundationSection id='oklch'>
+        <p>{t.oklchIntro}</p>
+        <Table.Container label={t.oklchLabel} orientation='horizontal'>
+          <Table.Root density='compact'>
+            <Table.Head>
+              <Table.Row>
+                {t.oklchColumns.map((label) => (
+                  <Table.HeaderCell key={label} scope='col'>
+                    {label}
+                  </Table.HeaderCell>
+                ))}
+              </Table.Row>
+            </Table.Head>
+            <Table.Body>
+              {t.oklchRows.map(([decision, rule, value]) => (
+                <Table.Row key={decision}>
+                  <Table.HeaderCell scope='row'>{decision}</Table.HeaderCell>
+                  <Table.Cell>{rule}</Table.Cell>
+                  <Table.Cell>{value}</Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table.Root>
+        </Table.Container>
+      </FoundationSection>
+      <FoundationSection id='lab'>
+        <p>{t.labIntro}</p>
+        <DeferredContent scope='preview'>
+          <PaletteLab />
+        </DeferredContent>
+      </FoundationSection>
+    </FoundationPage>
   )
 }

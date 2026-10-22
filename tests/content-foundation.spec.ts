@@ -14,7 +14,9 @@ test('locale changes complete sentences, currency and precision while zero stays
 }) => {
   await page.goto('/foundations/content')
   await waitForCatalogReady(page)
-  await expect(page.locator('#page-title')).toHaveText('Content / localization')
+  await expect(page.locator('#page-title')).toHaveText(
+    'Content and localization',
+  )
   await expect(
     page.getByRole('group', { name: 'Localized format preview' }),
   ).toHaveAttribute('lang', 'en-US')
@@ -23,6 +25,7 @@ test('locale changes complete sentences, currency and precision while zero stays
   await expect(value(page, 7)).toHaveText('Not available yet')
   await page.getByRole('combobox', { name: 'Formatting locale' }).focus()
   await page.keyboard.press('Enter')
+  await expect(page.getByRole('listbox')).toBeVisible()
   await page.keyboard.press('ArrowDown')
   await page.keyboard.press('Enter')
   await expect(

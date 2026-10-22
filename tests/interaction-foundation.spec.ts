@@ -125,15 +125,15 @@ test('transitions guide reports the toast roles and links to actual interaction 
   ).toHaveText('360ms')
   await expect(
     page.getByRole('table', {
-      name: 'Transition rules tied to the actual styles',
+      name: 'Enter and exit timing by component',
     }),
   ).toContainText('Toast')
   await page
-    .getByRole('link', { name: 'Interaction / states', exact: true })
+    .getByRole('link', { name: 'Interaction states', exact: true })
     .last()
     .click()
   await waitForCatalogReady(page)
-  await expect(page.locator('#page-title')).toHaveText('Interaction / states')
+  await expect(page.locator('#page-title')).toHaveText('Interaction states')
   await expect(page.locator('#page-title')).toBeFocused()
 })
 

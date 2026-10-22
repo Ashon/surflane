@@ -14,6 +14,8 @@ import {
   Toggle,
   ToggleGroup,
 } from '@surflane/ui'
+import { codeText } from './codeText'
+import { FoundationPage, FoundationSection } from './FoundationPage'
 import { Link } from './router'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/HierarchyFoundation'
@@ -119,7 +121,7 @@ function BuildPreview() {
               </Popover.Trigger>
               <Popover.Portal container={stage}>
                 <Popover.Content initialFocus={false} size='small' align='end'>
-                  <Popover.Title>{t.filterTitle}</Popover.Title>
+                  <Popover.Title render={<h4 />}>{t.filterTitle}</Popover.Title>
                   <div className='hierarchy-build-options'>
                     {t.filterOptions.map((option, index) => (
                       <ChoiceLabel
@@ -198,11 +200,12 @@ function BuildPreview() {
   )
 }
 
+/** Each rule, with its token names set as code. */
 function Rules({ rules }: { rules: string[] }) {
   return (
-    <ul className='hierarchy-rules'>
+    <ul>
       {rules.map((rule) => (
-        <li key={rule}>{rule}</li>
+        <li key={rule}>{codeText(rule)}</li>
       ))}
     </ul>
   )
@@ -211,16 +214,17 @@ function Rules({ rules }: { rules: string[] }) {
 export function HierarchyFoundation() {
   const t = text[useLocale().locale]
   return (
-    <>
-      <nav className='page-toc' aria-label={t.onThisPage}>
-        {t.nav.map(({ id, label }) => (
-          <a key={id} href={`#${id}`}>
-            {label}
-          </a>
-        ))}
-      </nav>
-      <section id='order'>
-        <h2>{t.orderTitle}</h2>
+    <FoundationPage
+      principles={t.principles}
+      sections={t.sections}
+      related={[
+        '/foundations/layers',
+        '/foundations/color',
+        '/foundations/typography',
+        '/foundations/interaction',
+      ]}
+    >
+      <FoundationSection id='order'>
         <p>{t.orderIntro}</p>
         <ol className='hierarchy-tiers'>
           {t.tiers.map((tier) => (
@@ -244,45 +248,23 @@ export function HierarchyFoundation() {
             </li>
           ))}
         </ol>
-        <p>{t.orderNote}</p>
-      </section>
-      <section id='build'>
-        <h2>{t.buildTitle}</h2>
+      </FoundationSection>
+      <FoundationSection id='build'>
         <p>{t.buildIntro}</p>
         <BuildPreview />
-      </section>
-      <section id='planes'>
-        <h2>{t.planesTitle}</h2>
-        <p>{t.planesIntro}</p>
+      </FoundationSection>
+      <FoundationSection id='planes'>
         <Rules rules={t.planeRules} />
-      </section>
-      <section id='elevation'>
-        <h2>{t.elevationTitle}</h2>
-        <p>{t.elevationIntro}</p>
+      </FoundationSection>
+      <FoundationSection id='elevation'>
         <Rules rules={t.elevationRules} />
-        <p>
-          <Link href='/foundations/layers'>{t.elevationLink}</Link>
-        </p>
-      </section>
-      <section id='lines'>
-        <h2>{t.linesTitle}</h2>
-        <p>{t.linesIntro}</p>
+      </FoundationSection>
+      <FoundationSection id='lines'>
         <Rules rules={t.lineRules} />
-      </section>
-      <section id='points'>
-        <h2>{t.pointsTitle}</h2>
-        <p>{t.pointsIntro}</p>
+      </FoundationSection>
+      <FoundationSection id='points'>
         <Rules rules={t.pointRules} />
-      </section>
-      <section id='review'>
-        <h2>{t.reviewTitle}</h2>
-        <ol>
-          {t.reviewSteps.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ol>
-        <p>{t.reviewNote}</p>
-      </section>
-    </>
+      </FoundationSection>
+    </FoundationPage>
   )
 }

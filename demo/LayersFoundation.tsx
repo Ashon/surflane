@@ -3,7 +3,6 @@ import { createPortal } from 'react-dom'
 import {
   Button,
   Checkbox,
-  CodeBlock,
   Dialog,
   Field,
   NativeSelect,
@@ -14,6 +13,7 @@ import {
   TooltipProvider,
   ChoiceLabel,
 } from '@surflane/ui'
+import { FoundationPage, FoundationSection } from './FoundationPage'
 import { Link } from './router'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/LayersFoundation'
@@ -152,44 +152,26 @@ export function LayersFoundation() {
   const t = text[useLocale().locale]
   const [values, setValues] = useState<Record<string, string>>({})
   useEffect(() => {
-    const update = () => {
-      const css = getComputedStyle(document.documentElement)
-      setValues(
-        Object.fromEntries(
-          t.roles.map(([name]) => [name, css.getPropertyValue(name).trim()]),
-        ),
-      )
-    }
-    update()
-    const observer = new MutationObserver(update)
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['data-theme'],
-    })
-    return () => observer.disconnect()
+    const css = getComputedStyle(document.documentElement)
+    setValues(
+      Object.fromEntries(
+        t.roles.map(([name]) => [name, css.getPropertyValue(name).trim()]),
+      ),
+    )
   }, [])
   return (
-    <>
-      <nav className='page-toc' aria-label={t.onThisPage}>
-        {t.nav.map(({ id, label }) => (
-          <a key={id} href={`#${id}`}>
-            {label}
-          </a>
-        ))}
-      </nav>
-      <section id='surfaces'>
-        <h2>{t.surfacesTitle}</h2>
-        <p>{t.surfacesIntro}</p>
-        <div className='layer-shadow-comparison'>
-          <div className='layer-shadow-sheet'>
-            <strong>{t.contentSheet}</strong>
-            <p>{t.contentSheetNote}</p>
-          </div>
-          <div className='layer-shadow-float'>
-            <strong>{t.floatingSurface}</strong>
-            <p>{t.floatingSurfaceNote}</p>
-          </div>
-        </div>
+    <FoundationPage
+      principles={t.principles}
+      sections={t.sections}
+      related={[
+        '/foundations/hierarchy',
+        '/foundations/accessibility',
+        '/components/dialog',
+        '/components/popover',
+      ]}
+    >
+      <FoundationSection id='scale'>
+        <p>{t.scaleIntro}</p>
         <Table.Container
           bleed
           label={t.surfaceTableLabel}
@@ -223,55 +205,24 @@ export function LayersFoundation() {
             </Table.Body>
           </Table.Root>
         </Table.Container>
-        <p>{t.surfacesValuesNote}</p>
-      </section>
-      <section id='contexts'>
-        <h2>{t.contextsTitle}</h2>
+        <p>{t.scaleNote}</p>
+      </FoundationSection>
+      <FoundationSection id='contexts'>
         <p>{t.contextsIntro}</p>
         <StackingLab />
-      </section>
-      <section id='overlays'>
-        <h2>{t.overlaysTitle}</h2>
+      </FoundationSection>
+      <FoundationSection id='overlays'>
         <p>{t.overlaysIntro}</p>
-        <OverlayLab />
-        <CodeBlock
-          language='tsx'
-          label={t.portaledSelectionLabel}
-          code={`<Dialog.Root>
-  <Dialog.Trigger render={<Button />}>Open workspace</Dialog.Trigger>
-  <Dialog.Content>
-    <Dialog.Title>Workspace</Dialog.Title>
-    <Dialog.Description>Review the selected environment.</Dialog.Description>
-    <Field.Root>
-      <Field.Label>Environment</Field.Label>
-      <NativeSelect value={environment} onChange={onEnvironmentChange}>
-        <option value='staging'>Staging</option>
-        <option value='production'>Production</option>
-      </NativeSelect>
-    </Field.Root>
-  </Dialog.Content>
-</Dialog.Root>`}
-        />
-      </section>
-      <section id='diagnostics'>
-        <h2>{t.diagnoseTitle}</h2>
+        <div className='actions'>
+          <OverlayLab />
+        </div>
+      </FoundationSection>
+      <FoundationSection id='diagnosis'>
         <ol>
-          <li>{t.diagnoseStep1}</li>
-          <li>{t.diagnoseStep2}</li>
-          <li>{t.diagnoseStep3}</li>
-          <li>{t.diagnoseStep4}</li>
-          <li>{t.diagnoseStep5}</li>
+          {t.diagnosis.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
         </ol>
-        <p>{t.topLayerNote}</p>
-      </section>
-      <section id='application'>
-        <h2>{t.applicationTitle}</h2>
-        <ul>
-          <li>{t.compositionRule1}</li>
-          <li>{t.compositionRule2}</li>
-          <li>{t.compositionRule3}</li>
-        </ul>
-        <p>{t.themePortalNote}</p>
         <p>
           {t.referencesLabel}{' '}
           <a href='https://www.w3.org/TR/CSS22/zindex.html'>
@@ -290,7 +241,7 @@ export function LayersFoundation() {
             Base UI Dialog
           </a>
         </p>
-      </section>
-    </>
+      </FoundationSection>
+    </FoundationPage>
   )
 }

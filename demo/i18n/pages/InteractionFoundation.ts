@@ -1,75 +1,70 @@
 import type { Locale } from '../../i18n'
 
 const en = {
-  onThisPage: 'On this page',
-  nav: [
-    { id: 'states', label: 'States' },
-    { id: 'activation', label: 'Activation' },
-    { id: 'async-work', label: 'Async Work' },
-    { id: 'keyboard', label: 'Keyboard' },
-    { id: 'application', label: 'Application' },
+  principles: [
+    [
+      'Give each state its own signal.',
+      'Hover, press, focus, selection, and pending mean different things, so never merge them into one color.',
+    ],
+    [
+      'Never hide an action behind hover or drag.',
+      'Touch and keyboard users have neither, so give every action a visible control.',
+    ],
+    [
+      'Leave focus where the reader put it.',
+      "Show it with the shared ring, and don't move it when a task finishes.",
+    ],
+    [
+      'Treat pending as not done.',
+      'Block a second start, offer cancel when you can, and announce only the real result.',
+    ],
+    [
+      'Explain an unavailable action.',
+      'Put the reason beside a disabled control, and use read-only when people still need the value.',
+    ],
   ],
+  sections: {
+    states: 'State model',
+    focus: 'Focus ring',
+    activation: 'Selection and activation',
+    pending: 'Pending work',
+  },
+  statesIntro:
+    'A state tells the reader what they can do now and what happened. Shared controls draw each one with its own token.',
+  statesTableLabel: 'Interaction states',
+  statesTableCaption: 'How each state shows',
+  stateColumns: ['State', 'Means', 'Shown as'],
   states: [
+    ['Hover', 'Pointer over the target', '--interaction-hover-bg', 'ink at 8%'],
     [
-      'Default',
-      'Ready to act',
-      'Clearly shows the label, role, and next action',
+      'Pressed',
+      'Pressed right now',
+      '--interaction-active-bg',
+      'ink at 14%, gone on release',
     ],
+    ['Focus visible', 'Keyboard position', '--control-focus', 'ring or halo'],
     [
-      'Hover',
-      'The pointer is over the target',
-      'Brief color and surface feedback, while essential information stays available',
-    ],
-    [
-      'Focus visible',
-      "The keyboard user's current position",
-      'An immediate focus ring, separate from the surface, with Tab order preserved',
-    ],
-    [
-      'Active',
-      'The brief moment while pressed',
-      'Press feedback that never reads as a persistent selection',
-    ],
-    [
-      'Pressed / selected',
-      'A selection that persists',
-      'Toggle and selection components change their state and ARIA value together',
+      'Selected',
+      'A choice that persists',
+      '--selected',
+      'fill, set with its ARIA state',
     ],
     [
       'Disabled',
-      "The action can't run",
-      'Native disabled state, with the reason in adjacent text',
+      "Can't run now",
+      '--control-disabled-opacity',
+      '0.55, reason beside it',
     ],
-    [
-      'Read only',
-      'The value can be read and copied',
-      'Keeps the value and focus, and blocks only edits',
-    ],
-    [
-      'Pending',
-      'Started and waiting for a result',
-      'Blocks duplicate requests, announces status, and offers a cancel path when possible',
-    ],
-    [
-      'Error / success',
-      'The result of the actual action',
-      'A persistent result and recovery path, never conveyed by motion alone',
-    ],
+    ['Read only', 'Readable, not editable', '', 'full contrast, focusable'],
+    ['Pending', 'Started, no result yet', '', 'spinner and aria-busy'],
+    ['Error / success', 'The real result', '', 'a message that stays'],
   ],
-  statusIdle: 'No preview has run.',
-  statusPending: 'Local preview running.',
-  statusSuccess: 'Local preview completed. No resources were created.',
-  statusError: 'Local preview failed. Review the persistent message and retry.',
-  statusCanceled: 'Local preview canceled. Run it again when ready.',
-  statesHeading: 'One action, understandable states',
-  statesIntro:
-    "States tell users which actions are available now and what actually happened. Pointer hover and active, keyboard focus, persistent selection, and pending server work each mean something different. Don't merge them into a single color. Don't offer actions only on hover.",
-  statesTableLabel: 'Interaction state contracts',
-  statesTableCaption: 'State contracts for shared controls and product actions',
-  stateColumns: ['State', 'Meaning', 'Contract'],
-  activationHeading: 'Distinguish selection from activation',
+  focusRing:
+    'Buttons and choices draw a `--focus-ring-width` ring at `--focus-ring-offset`, both 2px, in `--control-focus`. They show it for keyboard focus only (`:focus-visible`).',
+  focusHalo:
+    'Text fields turn their border `--control-focus` and add a 3px `--control-focus-ring` halo on any focus. Where a container clips, the ring moves inside by `--focus-ring-inset`.',
   activationIntro:
-    "Mouse, touch, Enter, and Space must all run the same action. Below, the Toggle shows a persistent selection. The disabled button shows an action that can't run. The read-only input shows a copyable value. State changes apply only to this local example.",
+    "Mouse, touch, Enter, and Space run the same action. Below, the toggle keeps a selection, the disabled button can't run, and the read-only field stays copyable.",
   includeEvidence: 'Include evidence',
   unavailablePreview: 'Unavailable preview',
   unavailableReason:
@@ -79,92 +74,130 @@ const en = {
   readOnlyResourceId: 'Read-only resource ID',
   readOnlyResourceDescription: "Focus and copy this value. It can't be edited.",
   activationNote:
-    "Keep the native keyboard semantics of Base UI buttons and the ARIA contracts of selection components. Don't add clickable divs, positive tabIndex values, or separate keydown handlers that run the action a second time.",
+    "Link a disabled control to its reason with aria-describedby. Keep each component's native keys, and don't add a keydown handler that runs the action twice.",
+  baseUiButton: 'Base UI — Button',
+  ariaButtonPattern: 'WAI-ARIA — Button pattern',
+  pendingIntro:
+    'While pending, the run button keeps focus and blocks a second start. Cancel returns focus to it, and finishing moves nothing. Try failure, cancel, and retry on this 900ms local task.',
+  failPreview: 'Fail local preview',
+  runPreview: 'Run local preview',
+  cancelPreview: 'Cancel local preview',
+  attempts: 'Started attempts:',
+  resultLabel: 'Local preview result',
+  statusIdle: 'No preview has run.',
+  statusPending: 'Local preview running.',
+  statusSuccess: 'Local preview completed. No resources were created.',
+  statusError: 'Local preview failed. Review the persistent message and retry.',
+  statusCanceled: 'Local preview canceled. Run it again when ready.',
+  errorTitle: 'Preview needs attention',
+  errorDescription:
+    'This is a sample failure. Clear Fail local preview, then run it again.',
+  pendingTiming:
+    'Respond to a press within 100ms. Show a spinner for work that can pass 1 second, and [progress](/components/progress) for work past 10 seconds.',
+  codeLabel: 'Pending action composition',
+  pendingNote:
+    'A disabled state alone stops no request, so guard the handler too. For real writes, the server owns idempotency and permission.',
 }
 export const text: Record<Locale, typeof en> = {
   en,
   ko: {
-    onThisPage: '이 페이지에서',
-    nav: [
-      { id: 'states', label: '상태' },
-      { id: 'activation', label: '활성화' },
-      { id: 'async-work', label: '비동기 작업' },
-      { id: 'keyboard', label: '키보드' },
-      { id: 'application', label: '애플리케이션' },
+    principles: [
+      [
+        '상태마다 신호를 따로 두세요.',
+        '호버, 누름, 포커스, 선택, 대기는 뜻이 다르므로 한 가지 색으로 합치지 마세요.',
+      ],
+      [
+        '작업을 호버나 드래그 뒤에 숨기지 마세요.',
+        '터치와 키보드 사용자에게는 둘 다 없으므로 모든 작업에 보이는 컨트롤을 두세요.',
+      ],
+      [
+        '포커스는 사용자가 둔 곳에 두세요.',
+        '공유 포커스 링으로 보여 주고, 작업이 끝났다고 옮기지 마세요.',
+      ],
+      [
+        '대기 중을 완료로 다루지 마세요.',
+        '두 번째 시작을 막고, 가능하면 취소를 두고, 실제 결과만 알리세요.',
+      ],
+      [
+        '쓸 수 없는 작업에는 이유를 알리세요.',
+        '비활성 컨트롤 옆에 이유를 쓰고, 값을 읽어야 하면 읽기 전용을 쓰세요.',
+      ],
     ],
+    sections: {
+      states: '상태 모델',
+      focus: '포커스 링',
+      activation: '선택과 실행',
+      pending: '대기 중인 작업',
+    },
+    statesIntro:
+      '상태는 지금 할 수 있는 일과 방금 일어난 일을 알려 줍니다. 공유 컨트롤은 상태마다 토큰을 따로 씁니다.',
+    statesTableLabel: '인터랙션 상태',
+    statesTableCaption: '상태별 표시 방식',
+    stateColumns: ['상태', '뜻', '표시'],
     states: [
+      ['호버', '포인터가 대상 위에 있음', '--interaction-hover-bg', '잉크 8%'],
       [
-        '기본',
-        '작업할 준비가 됨',
-        '라벨, 역할, 다음 작업을 분명히 보여 줍니다',
+        '누름',
+        '지금 누르고 있음',
+        '--interaction-active-bg',
+        '잉크 14%, 손을 떼면 사라짐',
       ],
-      [
-        '호버',
-        '포인터가 대상 위에 있음',
-        '짧은 색과 면 피드백, 필수 정보는 계속 사용 가능',
-      ],
-      [
-        '포커스 표시',
-        '키보드 사용자의 현재 위치',
-        '면과 구분되는 즉각적인 포커스 링, Tab 순서 유지',
-      ],
-      [
-        '액티브',
-        '누르는 짧은 순간',
-        '지속되는 선택으로 보이지 않는 눌림 피드백',
-      ],
-      [
-        '눌림 / 선택됨',
-        '지속되는 선택',
-        'Toggle과 선택 컴포넌트는 상태와 ARIA 값을 함께 바꿉니다',
-      ],
+      ['포커스 표시', '키보드 위치', '--control-focus', '링 또는 헤일로'],
+      ['선택됨', '유지되는 선택', '--selected', '채움, ARIA 상태와 함께'],
       [
         '비활성',
-        '작업을 실행할 수 없음',
-        '네이티브 disabled 상태, 이유는 인접한 텍스트에 표시',
+        '지금 실행할 수 없음',
+        '--control-disabled-opacity',
+        '0.55, 옆에 이유',
       ],
       [
         '읽기 전용',
-        '값을 읽고 복사할 수 있음',
-        '값과 포커스를 유지하고 편집만 차단',
+        '읽을 수 있고 편집할 수 없음',
+        '',
+        '원래 대비, 포커스 가능',
       ],
-      [
-        '대기 중',
-        '시작되어 결과를 기다리는 중',
-        '중복 요청을 차단하고 상태를 알리며, 가능하면 취소 경로도 제공',
-      ],
-      [
-        '오류 / 성공',
-        '실제 작업의 결과',
-        '지속되는 결과와 복구 경로, 모션만으로 전달하지 않음',
-      ],
+      ['대기 중', '시작했고 결과가 아직 없음', '', '스피너와 aria-busy'],
+      ['오류 / 성공', '실제 결과', '', '남아 있는 메시지'],
     ],
-    statusIdle: '실행된 미리보기가 없습니다.',
-    statusPending: '로컬 미리보기를 실행합니다.',
-    statusSuccess:
-      '로컬 미리보기가 완료되었습니다. 리소스는 생성되지 않았습니다.',
-    statusError:
-      '로컬 미리보기가 실패했습니다. 지속되는 메시지를 확인하고 다시 시도하세요.',
-    statusCanceled: '로컬 미리보기를 취소했습니다. 준비되면 다시 실행하세요.',
-    statesHeading: '작업은 하나, 상태는 명확하게',
-    statesIntro:
-      '상태는 사용자에게 지금 어떤 작업을 사용할 수 있고 실제로 무슨 일이 있었는지 알려 줍니다. 포인터 호버와 액티브, 키보드 포커스, 지속되는 선택, 대기 중인 서버 작업은 각각 의미가 다릅니다. 하나의 색으로 합치지 마세요. 호버에서만 작업을 제공하지 마세요.',
-    statesTableLabel: '인터랙션 상태 계약',
-    statesTableCaption: '공용 컨트롤과 제품 작업을 위한 상태 계약',
-    stateColumns: ['상태', '의미', '계약'],
-    activationHeading: '선택과 활성화의 구분',
+    focusRing:
+      '버튼과 선택 컨트롤은 `--control-focus` 색으로 `--focus-ring-width` 링을 `--focus-ring-offset`만큼 띄워 그립니다. 둘 다 2px이고, 키보드 포커스(`:focus-visible`)에서만 보입니다.',
+    focusHalo:
+      '텍스트 필드는 포커스를 받으면 테두리를 `--control-focus`로 바꾸고 3px `--control-focus-ring` 헤일로를 더합니다. 컨테이너가 잘라 내는 곳에서는 링이 `--focus-ring-inset`만큼 안쪽으로 들어갑니다.',
     activationIntro:
-      '마우스, 터치, Enter, Space 모두 동일한 작업을 실행해야 합니다. 아래에서 Toggle은 지속되는 선택을, 비활성 버튼은 실행할 수 없는 작업을, 읽기 전용 입력창은 복사할 수 있는 값을 보여 줍니다. 상태 변경은 이 로컬 예시에만 적용됩니다.',
+      '마우스, 터치, Enter, Space는 같은 작업을 실행합니다. 아래에서 토글은 선택을 유지하고, 비활성 버튼은 실행되지 않고, 읽기 전용 필드는 복사할 수 있습니다.',
     includeEvidence: '증거 포함',
     unavailablePreview: '사용할 수 없는 미리보기',
     unavailableReason:
       '사용할 수 없는 미리보기: 외부 환경이 연결되어 있지 않습니다.',
-    evidenceIncluded: '증거가 포함되었습니다.',
-    evidenceExcluded: '증거가 제외되었습니다.',
+    evidenceIncluded: '증거를 포함했습니다.',
+    evidenceExcluded: '증거를 제외했습니다.',
     readOnlyResourceId: '읽기 전용 리소스 ID',
     readOnlyResourceDescription:
-      '이 값에 포커스하고 복사하세요. 편집할 수 없습니다.',
+      '이 값에 포커스하고 복사하세요. 편집할 수는 없습니다.',
     activationNote:
-      'Base UI 버튼의 네이티브 키보드 동작과 선택 컴포넌트의 ARIA 계약을 유지하세요. 클릭 가능한 div, 양수 tabIndex 값, 작업을 두 번 실행하는 별도 keydown 핸들러를 추가하지 마세요.',
+      '비활성 컨트롤은 aria-describedby로 이유와 연결하세요. 컴포넌트의 기본 키 동작을 유지하고, 작업을 두 번 실행하는 keydown 핸들러를 더하지 마세요.',
+    baseUiButton: 'Base UI — Button',
+    ariaButtonPattern: 'WAI-ARIA — 버튼 패턴',
+    pendingIntro:
+      '대기 중에는 실행 버튼이 포커스를 유지하고 두 번째 시작을 막습니다. 취소하면 포커스가 실행 버튼으로 돌아오고, 완료되어도 포커스는 그대로입니다. 900ms 로컬 작업으로 실패, 취소, 재시도를 시험해 보세요.',
+    failPreview: '로컬 미리보기 실패시키기',
+    runPreview: '로컬 미리보기 실행',
+    cancelPreview: '로컬 미리보기 취소',
+    attempts: '시작한 횟수:',
+    resultLabel: '로컬 미리보기 결과',
+    statusIdle: '실행한 미리보기가 없습니다.',
+    statusPending: '로컬 미리보기를 실행하고 있습니다.',
+    statusSuccess: '로컬 미리보기를 마쳤습니다. 리소스는 만들지 않았습니다.',
+    statusError:
+      '로컬 미리보기가 실패했습니다. 남아 있는 메시지를 확인하고 다시 시도하세요.',
+    statusCanceled: '로컬 미리보기를 취소했습니다. 준비되면 다시 실행하세요.',
+    errorTitle: '미리보기를 확인하세요',
+    errorDescription:
+      '예시로 만든 실패입니다. 로컬 미리보기 실패시키기를 해제하고 다시 실행하세요.',
+    pendingTiming:
+      '누름에는 100ms 안에 반응하세요. 1초를 넘길 수 있는 작업에는 스피너를, 10초를 넘는 작업에는 [진행률](/components/progress)을 보여 주세요.',
+    codeLabel: '대기 중 작업 구성',
+    pendingNote:
+      '비활성 상태만으로는 요청이 막히지 않으므로 핸들러에서도 막으세요. 실제 쓰기 작업의 멱등성과 권한은 서버가 맡습니다.',
   },
 }

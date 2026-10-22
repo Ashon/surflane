@@ -56,9 +56,9 @@ test('forms stay bounded and section descriptions stop at the reading measure', 
     return actions.top - field.bottom
   })
   expect(gap).toBeCloseTo(24, 0)
-  const paragraph = page.locator('#principles > p').first()
+  const paragraph = page.locator('#responsibilities > p').first()
   const width = (await paragraph.boundingBox())!.width
-  const section = (await page.locator('#principles').boundingBox())!.width
+  const section = (await page.locator('#responsibilities').boundingBox())!.width
   const measure = await paragraph.evaluate((p) =>
     parseFloat(getComputedStyle(p).maxInlineSize),
   )

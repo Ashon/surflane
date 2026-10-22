@@ -52,18 +52,37 @@ const en = {
   trend: (direction: 'up' | 'down') => `Trend ${direction}`,
   trendSurface: (direction: 'up' | 'down') =>
     `Trend ${direction} on its surface`,
-  onThisPage: 'On this page',
-  nav: [
-    { id: 'roles', label: 'Roles' },
-    { id: 'oklch', label: 'OKLCH' },
-    { id: 'lab', label: 'Palette lab' },
-    { id: 'contrast', label: 'Contrast' },
-    { id: 'states', label: 'States' },
-    { id: 'application', label: 'Application' },
+  principles: [
+    [
+      'Use roles, not values.',
+      'A role resolves in every theme, and a copied value breaks in the next one.',
+    ],
+    [
+      'Set lightness first.',
+      'Contrast depends mostly on OKLCH lightness, so tune hue and chroma afterward and check the ratio again.',
+    ],
+    [
+      'Meet 4.5:1 for text and 3:1 for marks.',
+      'Text needs 4.5:1 (WCAG 1.4.3), and control edges, focus indicators and state icons need 3:1 (WCAG 1.4.11).',
+    ],
+    [
+      'Never rely on color alone.',
+      'Pair every status with a label or an icon, so it reads with color vision deficiency and in forced colors (WCAG 1.4.1).',
+    ],
+    [
+      'Save chroma for small areas.',
+      'Large surfaces stay near gray, and the strongest color goes to small marks such as badges.',
+    ],
   ],
-  rolesHeading: 'Color roles',
+  sections: {
+    roles: 'Color roles',
+    contrast: 'Contrast',
+    status: 'Status and selection',
+    oklch: 'OKLCH palette',
+    lab: 'Palette lab',
+  },
   rolesIntro:
-    'Reference roles, not color names. Each role resolves in both themes: the swatches show the light theme, then the dark. Every token with its value and source is in',
+    'Each row shows a role in the light theme, then the dark. Values and sources are in',
   tokensLink: 'Design tokens',
   rolesIntroEnd: '.',
   roleColumns: ['Light', 'Dark', 'Token', 'Use'],
@@ -140,16 +159,15 @@ const en = {
     categories: 'Categories',
   },
   chartNote:
-    'Series default to ink with dashes and markers. Categories separate by hue, and every one still has a label.',
-  contrastHeading: 'Live color contrast',
-  contrastIntro:
-    "Colors are defined and transitioned in OKLCH. Contrast is calculated from WCAG relative luminance in linear sRGB. The color model doesn't change the contrast criteria.",
-  contrastSteps:
-    'Keep each surface step at least 1.05:1 from the one it sits on, so no layer disappears into its background. Surfaces step from the chrome to the sheet, then to recessed surfaces, the code well, hover, and selection. Place recessed surfaces on the sheet. On the chrome, use the sheet tone.',
+    'Series use ink with dashes and markers. Categories use hue, and each keeps a label.',
+  codeIntro: 'In CSS, read a role through var().',
+  codeExampleLabel: 'Semantic color example',
   contrastThresholds:
-    'Normal text needs 4.5:1 and large text needs 3:1. Large text is at least 18pt (24 CSS px), or at least 14pt (about 18.67 CSS px) when bold. Text rows use the normal-text threshold. Input boundary, focus border, and selection mark rows need 3:1 against the adjacent color.',
-  contrastApprox:
-    "Ratios are approximate: they come from the current theme's computed colors, converted to 8-bit sRGB pixels. Ratios display rounded to two decimal places, but results use the unrounded value. The check skips transparent colors, gradients, images, ancestor opacity, overlap, anti-aliasing, and some interaction states. Recheck borderline values and real products with a separate tool.",
+    'Text needs 4.5:1, and large text 3:1: 24px, or 18.67px bold. Control edges, focus indicators and selection marks need 3:1 against the color next to them. Decorative dividers and disabled controls are exempt.',
+  contrastSurfaces:
+    'Each surface keeps at least 1.05:1 against the one it sits on, so no plane disappears.',
+  contrastMethod:
+    "The tables measure the current theme's computed colors as WCAG 2 luminance in sRGB. They skip transparency, gradients and overlap, so recheck borderline values with a separate tool.",
   forcedColorsStatus:
     "Forced colors mode is active. The user's system colors take precedence, so token contrast checks are skipped.",
   pairColumns: ['Pair', 'Foreground', 'Background', 'Ratio', 'Result'],
@@ -168,40 +186,58 @@ const en = {
   reviewRequired: 'Review required',
   summary: (passed: number, total: number) =>
     `${passed} / ${total} pairs meet their threshold. Forced colors and unsupported colors are excluded.`,
-  indicatorContrast:
-    "Control boundaries, and the icons or lines required to identify state, need at least 3:1 against adjacent colors. Don't apply this rule wholesale to decorative dividers, secondary badge surfaces, or disabled controls. Compare each state's indicator with its adjacent surface, not the pre-hover color with the hover color. The solid border identifies focus. The faint outer glow is secondary.",
   wcagTextContrast: 'WCAG 1.4.3 — Text contrast',
   wcagNonTextContrast: 'WCAG 1.4.11 — Non-text contrast',
-  statesHeading: 'State beyond color',
-  statesIntro:
-    'Text selection pairs an opaque neutral gray surface with a text color, both tuned to the theme. A translucent highlight would overlap body, code, or status surfaces and change the contrast. Drag to select the sentence below.',
-  selectionSample: 'Selected text stays comfortable to read across surfaces.',
-  statusIndicators:
-    'Show status with a label, an SVG icon, and position. Use the full border and background, not an accent on one side of a rounded surface. Context and wording also tell brand actions apart from success states.',
+  statusIntro:
+    'Show a status with a label and an icon, and fill its whole surface or border, not one rounded side. Success shares the default brand cyan, so its label tells the two apart.',
   statusExamplesLabel: 'Semantic status examples',
   passed: 'Passed',
   failed: 'Failed',
   needsReview: 'Needs review',
   running: 'Running',
   notStarted: 'Not started',
-  inspectContrast: 'Inspect contrast',
-  badgeUsage: 'Badge usage and API',
-  staticStatusesNote:
-    "These statuses are static examples. Announce real asynchronous results once, where they're needed. Keep errors and recovery actions in the page content.",
-  applicationHeading: 'Apply semantic color roles',
-  tipStatusResults:
-    'Show task results with a status name and an icon. For a failure, add the reason and a recovery action.',
-  tipSelection:
-    'Keep data status distinct from user selection. Show selection with checkboxes or a selected surface, and actions with clear buttons.',
-  tipLinks:
-    'Keep underlines on links in body text. Keep code and secondary descriptions at readable contrast too.',
-  codeExampleLabel: 'Semantic color example',
-  applyFooterStart:
-    "Don't copy color values into products. Reference tokens instead: see the",
-  tokenBrowserLink: 'token browser',
-  applyFooterMid: ' and',
-  inlineMessageLink: 'Inline message',
-  applyFooterEnd: ' for real tokens and usage examples.',
+  selectionSample:
+    'Selected text takes an opaque gray and its own text color, so it stays readable on any surface. Select this sentence to see it.',
+  oklchIntro:
+    'OKLCH names a color by lightness L (0–1), chroma C and hue H. L tracks perceived lightness, and a hue keeps its look from light to dark, unlike HSL. So the system fixes L for contrast and lets hue and chroma vary.',
+  oklchLabel: 'OKLCH palette decisions',
+  oklchColumns: ['Decision', 'Rule', 'In Surflane'],
+  oklchRows: [
+    [
+      'Lightness',
+      'Set per role first; contrast mostly follows the gap',
+      'Light: surfaces 0.94–1.00, text 0.24–0.38',
+    ],
+    [
+      'Dark theme',
+      'A ladder of its own, not an inversion',
+      'Dark: surfaces 0.21–0.38, text 0.82–0.98',
+    ],
+    [
+      'Gamut',
+      "Clamp each step's chroma to sRGB at its L and hue",
+      'maxChroma(l, h) in the theme builder',
+    ],
+    ['Chroma', 'Lower as the area grows', 'Grays 0.003–0.018, accent 0.12'],
+    [
+      'Harmony',
+      'Supporting hues by angle',
+      'Analogous ±30°, complementary 180°, split 180° ± 30°, triadic 120°, square 90°',
+    ],
+    ['Status', 'Hues by convention, always labeled', 'Danger 27°, caution 94°'],
+    [
+      'Categories',
+      'One lightness band, hues spaced apart, checked for color vision deficiency',
+      'Light 0.50–0.56, dark 0.74–0.82',
+    ],
+    [
+      'Measurement',
+      'Define and interpolate in OKLCH, measure contrast in sRGB',
+      'WCAG 2 relative luminance',
+    ],
+  ],
+  labIntro:
+    "Pick hues on the wheel. The lab builds ramps, checks a categorical set for color vision deficiency, and measures any pair. Copy the CSS when a palette works. The site's theme doesn't change.",
 }
 export const text: Record<Locale, typeof en> = {
   en,
@@ -241,18 +277,37 @@ export const text: Record<Locale, typeof en> = {
     trend: (direction: 'up' | 'down') => (direction === 'up' ? '상승' : '하락'),
     trendSurface: (direction: 'up' | 'down') =>
       direction === 'up' ? '상승 면 위의 상승' : '하락 면 위의 하락',
-    onThisPage: '이 페이지에서',
-    nav: [
-      { id: 'roles', label: '역할' },
-      { id: 'oklch', label: 'OKLCH' },
-      { id: 'lab', label: '팔레트 랩' },
-      { id: 'contrast', label: '대비' },
-      { id: 'states', label: '상태' },
-      { id: 'application', label: '적용' },
+    principles: [
+      [
+        '값 대신 역할을 쓰세요.',
+        '역할은 모든 테마에서 다시 해석되지만, 복사한 값은 다음 테마에서 깨집니다.',
+      ],
+      [
+        '밝기부터 정하세요.',
+        '대비는 주로 OKLCH 밝기로 정해지므로, 색상과 채도는 그다음에 다듬고 대비를 다시 확인하세요.',
+      ],
+      [
+        '글자는 4.5:1, 표시는 3:1을 지키세요.',
+        '글자는 4.5:1(WCAG 1.4.3), 컨트롤 경계와 포커스 표시와 상태 아이콘은 3:1(WCAG 1.4.11)이 필요합니다.',
+      ],
+      [
+        '색만으로 전달하지 마세요.',
+        '상태에는 라벨이나 아이콘을 함께 두어야 색각 이상과 강제 색상에서도 읽힙니다(WCAG 1.4.1).',
+      ],
+      [
+        '채도는 작은 면에 쓰세요.',
+        '넓은 면은 회색에 가깝게 두고, 가장 진한 색은 배지 같은 작은 표시에 씁니다.',
+      ],
     ],
-    rolesHeading: '색 역할',
+    sections: {
+      roles: '색 역할',
+      contrast: '대비',
+      status: '상태와 선택',
+      oklch: 'OKLCH 팔레트',
+      lab: '팔레트 랩',
+    },
     rolesIntro:
-      '색 이름이 아니라 역할을 참조하세요. 각 역할은 두 테마 모두에서 해석되며, 견본은 라이트 테마 다음에 다크 테마를 보여 줍니다. 모든 토큰의 값과 출처는',
+      '각 행은 역할을 라이트 테마, 다크 테마 순으로 보여 줍니다. 값과 출처는',
     tokensLink: '디자인 토큰',
     rolesIntroEnd: '에 있습니다.',
     roleColumns: ['라이트', '다크', '토큰', '용도'],
@@ -326,16 +381,15 @@ export const text: Record<Locale, typeof en> = {
       categories: '범주',
     },
     chartNote:
-      '계열은 기본으로 잉크 색에 점선과 마커로 구분하고, 범주는 색상으로 구분하되 모두 라벨을 함께 둡니다.',
-    contrastHeading: '실시간 색 대비',
-    contrastIntro:
-      '색은 OKLCH로 정의하고 전환합니다. 대비는 선형 sRGB에서 WCAG 상대 밝기로 계산합니다. 색 모델이 대비 기준을 바꾸지는 않습니다.',
-    contrastSteps:
-      '각 면은 그 위에 놓인 면과 최소 1.05:1 차이를 유지해, 어떤 레이어도 배경에 묻히지 않게 하세요. 면은 크롬에서 시트로, 다시 움푹 들어간 면, 코드 웰, 호버, 선택으로 단계가 이어집니다. 움푹 들어간 면은 시트 위에 두세요. 크롬 위에서는 시트 톤을 사용하세요.',
+      '계열은 잉크 색에 점선과 마커를 쓰고, 범주는 색상으로 나누되 모두 라벨을 둡니다.',
+    codeIntro: 'CSS에서는 var()로 역할을 읽으세요.',
+    codeExampleLabel: '시맨틱 색 예시',
     contrastThresholds:
-      '일반 텍스트는 4.5:1, 큰 텍스트는 3:1이 필요합니다. 큰 텍스트는 최소 18pt(24 CSS px)이거나, 굵게일 때 최소 14pt(약 18.67 CSS px)입니다. 텍스트 행은 일반 텍스트 기준을 적용합니다. 입력 경계, 포커스 테두리, 선택 표시 행은 인접한 색에 대해 3:1이 필요합니다.',
-    contrastApprox:
-      '비율은 근사값입니다: 현재 테마의 계산된 색을 8비트 sRGB 픽셀로 변환해 구합니다. 비율은 소수점 둘째 자리까지 반올림해 표시하지만, 결과는 반올림하지 않은 값을 사용합니다. 검사에서는 투명 색, 그라디언트, 이미지, 조상 요소의 불투명도, 겹침, 앤티앨리어싱, 일부 인터랙션 상태를 건너뜁니다. 아슬아슬한 값과 실제 제품은 별도 도구로 다시 확인하세요.',
+      '글자는 4.5:1, 24px 이상(굵으면 18.67px)인 큰 글자는 3:1이 필요합니다. 컨트롤 경계, 포커스 표시, 선택 표시는 맞닿은 색과 3:1이 필요하며, 장식용 구분선과 비활성 컨트롤은 예외입니다.',
+    contrastSurfaces:
+      '각 면은 아래 면과 1.05:1 이상 차이를 두어, 어떤 면도 배경에 묻히지 않게 합니다.',
+    contrastMethod:
+      '표는 현재 테마의 계산된 색을 sRGB의 WCAG 2 상대 휘도로 측정합니다. 투명도, 그라디언트, 겹침은 건너뛰므로 경계에 걸린 값은 별도 도구로 다시 확인하세요.',
     forcedColorsStatus:
       '강제 색상 모드가 켜져 있습니다. 사용자 시스템 색상이 우선이므로 토큰 대비 검사는 건너뜁니다.',
     pairColumns: ['조합', '전경', '배경', '비율', '결과'],
@@ -354,39 +408,53 @@ export const text: Record<Locale, typeof en> = {
     reviewRequired: '검토 필요',
     summary: (passed: number, total: number) =>
       `${passed} / ${total}쌍이 기준을 충족합니다. 강제 색상과 지원되지 않는 색상은 제외됩니다.`,
-    indicatorContrast:
-      '컨트롤 경계와 상태를 식별하는 데 필요한 아이콘이나 선은 인접한 색에 대해 최소 3:1이 필요합니다. 이 규칙을 장식용 구분선, 보조 배지 면, 비활성 컨트롤에 그대로 적용하지 마세요. 각 상태의 표시는 인접한 면과 비교하고, 호버 전 색과 호버 색을 서로 비교하지 마세요. 실선은 포커스를 나타냅니다. 옅은 바깥쪽 빛은 보조적인 표시입니다.',
     wcagTextContrast: 'WCAG 1.4.3 — 텍스트 대비',
     wcagNonTextContrast: 'WCAG 1.4.11 — 비텍스트 대비',
-    statesHeading: '색을 넘은 상태 전달',
-    statesIntro:
-      '텍스트 선택은 테마에 맞춘 불투명한 중립 회색 면과 텍스트 색을 짝으로 사용합니다. 반투명 강조는 본문, 코드, 상태 면 위에 겹쳐 대비를 바꿀 수 있습니다. 아래 문장을 드래그하여 선택하세요.',
-    selectionSample: '선택한 텍스트는 어떤 면 위에서도 읽기 편하게 유지됩니다.',
-    statusIndicators:
-      '상태는 레이블, SVG 아이콘, 위치로 나타내세요. 둥근 면의 한쪽 강조 대신 전체 테두리와 배경을 사용하세요. 문맥과 문구도 브랜드 액션을 성공 상태와 구분해 줍니다.',
+    statusIntro:
+      '상태는 라벨과 아이콘으로 나타내고, 둥근 면의 한쪽만이 아니라 면 전체나 테두리 전체를 칠하세요. 기본 테마에서 성공은 브랜드와 같은 청록이므로 라벨로 구분합니다.',
     statusExamplesLabel: '시맨틱 상태 예시',
     passed: '통과',
     failed: '실패',
     needsReview: '검토 필요',
     running: '실행 중',
     notStarted: '시작하지 않음',
-    inspectContrast: '대비 확인',
-    badgeUsage: 'Badge 사용법과 API',
-    staticStatusesNote:
-      '이 상태는 정적 예시입니다. 실제 비동기 결과는 필요한 위치에서 한 번만 알리세요. 오류와 복구 액션은 페이지 콘텐츠 안에 두세요.',
-    applicationHeading: '시맨틱 색 역할 적용',
-    tipStatusResults:
-      '작업 결과는 상태 이름과 아이콘으로 나타내세요. 실패한 경우 원인과 복구 액션을 추가하세요.',
-    tipSelection:
-      '데이터 상태와 사용자 선택을 구분하세요. 선택은 체크박스나 선택된 면으로, 액션은 명확한 버튼으로 나타내세요.',
-    tipLinks:
-      '본문 링크에는 밑줄을 유지하세요. 코드와 보조 설명도 읽기 좋은 대비를 유지하세요.',
-    codeExampleLabel: '시맨틱 색 예시',
-    applyFooterStart:
-      '색 값을 제품에 복사하지 마세요. 대신 토큰을 참조하세요. 실제 토큰과 사용 예시는',
-    tokenBrowserLink: '토큰 브라우저',
-    applyFooterMid: '와',
-    inlineMessageLink: 'Inline message',
-    applyFooterEnd: '에서 확인하세요.',
+    selectionSample:
+      '선택한 글자는 불투명한 회색과 전용 글자색을 써서 어느 면에서도 읽힙니다. 이 문장을 선택해 보세요.',
+    oklchIntro:
+      'OKLCH는 색을 밝기 L(0–1), 채도 C, 색상 H로 나타냅니다. L은 눈에 보이는 밝기를 따르고, 색상은 HSL과 달리 밝기가 바뀌어도 유지됩니다. 그래서 대비는 L로 고정하고 색상과 채도만 바꿉니다.',
+    oklchLabel: 'OKLCH 팔레트 결정',
+    oklchColumns: ['결정', '규칙', 'Surflane 값'],
+    oklchRows: [
+      [
+        '밝기',
+        '역할마다 먼저 정함, 대비는 주로 그 차이를 따름',
+        '라이트: 면 0.94–1.00, 글자 0.24–0.38',
+      ],
+      [
+        '다크 테마',
+        '반전이 아닌 별도의 밝기 단계',
+        '다크: 면 0.21–0.38, 글자 0.82–0.98',
+      ],
+      [
+        '색역',
+        '단계마다 채도를 그 밝기와 색상의 sRGB 안으로 제한',
+        '테마 빌더의 maxChroma(l, h)',
+      ],
+      ['채도', '면적이 넓을수록 낮게', '회색 0.003–0.018, 강조색 0.12'],
+      [
+        '조화',
+        '보조 색상을 각도로 선택',
+        '유사 ±30°, 보색 180°, 분할 보색 180° ± 30°, 삼각 120°, 사각 90°',
+      ],
+      ['상태', '관례를 따르는 색상, 언제나 라벨과 함께', '위험 27°, 주의 94°'],
+      [
+        '범주',
+        '한 밝기 대역, 떨어진 색상, 색각 이상 검사',
+        '라이트 0.50–0.56, 다크 0.74–0.82',
+      ],
+      ['측정', 'OKLCH로 정의하고 보간, 대비는 sRGB로 측정', 'WCAG 2 상대 휘도'],
+    ],
+    labIntro:
+      '색상환에서 색상을 고르세요. 랩은 단계를 만들고, 범주 묶음을 색각 이상 기준으로 검사하고, 아무 조합의 대비든 측정합니다. 팔레트가 마음에 들면 CSS를 복사하세요. 사이트 테마는 바뀌지 않습니다.',
   },
 }

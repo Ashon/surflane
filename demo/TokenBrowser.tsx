@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import catalog from '@surflane/design-tokens/catalog.json'
 import { Input, Select, Button, Text } from '@surflane/ui'
+import { codeText } from './codeText'
+import { FoundationPage, FoundationSection } from './FoundationPage'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/TokenBrowser'
 function useResolvedTokens() {
@@ -34,7 +36,44 @@ function useResolvedTokens() {
   }, [])
   return values
 }
-export function TokenBrowser({ initialQuery = '' }: { initialQuery?: string }) {
+/** The token browser alone, as the foundation lab embeds it. */
+export function TokenBrowser() {
+  const t = text[useLocale().locale]
+  return (
+    <section aria-labelledby='tokens-title' id='tokens'>
+      <h2 id='tokens-title'>{t.title}</h2>
+      <Text color='secondary'>{t.intro(catalog.tokens.length)}</Text>
+      <Browser initialQuery='' />
+    </section>
+  )
+}
+/** The /tokens foundation page, opened on the query from its URL. */
+export function TokenPage({ initialQuery }: { initialQuery: string }) {
+  const t = text[useLocale().locale]
+  return (
+    <FoundationPage
+      principles={t.principles}
+      sections={t.sections}
+      related={[
+        '/foundations/themes',
+        '/foundations/color',
+        '/foundations/layout',
+        '/foundations/typography',
+      ]}
+    >
+      <FoundationSection id='reading'>
+        {t.reading.map((paragraph) => (
+          <p key={paragraph}>{codeText(paragraph)}</p>
+        ))}
+      </FoundationSection>
+      <FoundationSection id='tokens'>
+        <Text color='secondary'>{t.intro(catalog.tokens.length)}</Text>
+        <Browser initialQuery={initialQuery} />
+      </FoundationSection>
+    </FoundationPage>
+  )
+}
+function Browser({ initialQuery }: { initialQuery: string }) {
   const t = text[useLocale().locale]
   const [query, setQuery] = useState(initialQuery),
     [category, setCategory] = useState('all'),
@@ -67,9 +106,7 @@ export function TokenBrowser({ initialQuery = '' }: { initialQuery?: string }) {
     setCopied(null)
   }
   return (
-    <section aria-labelledby='tokens-title' id='tokens'>
-      <h2 id='tokens-title'>{t.title}</h2>
-      <Text color='secondary'>{t.intro(catalog.tokens.length)}</Text>
+    <>
       <div className='foundation-controls'>
         <label>
           {t.search}
@@ -216,11 +253,6 @@ export function TokenBrowser({ initialQuery = '' }: { initialQuery?: string }) {
           {t.showMore}
         </Button>
       )}
-      <Text variant='caption' color='muted'>
-        {t.usageNotePrefix}
-        <code>var(--token-name)</code>
-        {t.usageNoteSuffix}
-      </Text>
-    </section>
+    </>
   )
 }

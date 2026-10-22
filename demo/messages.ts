@@ -40,6 +40,7 @@ export const en = {
     'coverage-research': 'Research boundaries',
   },
   allFoundations: 'All foundations',
+  foundationPage: { principles: 'Principles', related: 'Related' },
   allComponents: 'All components',
   allPatterns: 'All patterns',
   interactionLab: 'Interaction lab',
@@ -51,19 +52,7 @@ export const en = {
     ],
     '/foundations': [
       'Foundations',
-      'Apply shared standards for layout, typography, color, and motion.',
-    ],
-    '/foundations/layout': [
-      'Layout',
-      'Sets width, spacing, and grids for operational and reading screens.',
-    ],
-    '/foundations/typography': [
-      'Typography',
-      'Aligns the roles and reading rhythm of Hangul, Latin, and code text.',
-    ],
-    '/tokens': [
-      'Design tokens',
-      "Lists each theme's values and aliases for reference in code.",
+      'Sets the shared rules for structure, style, behavior, and standards.',
     ],
     '/components': [
       'Components',

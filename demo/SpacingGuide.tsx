@@ -6,14 +6,24 @@ import { Link } from './router'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/SpacingGuide'
 
+/** Token names in a table cell, each linked to the token browser. */
+const tokenList = (value: string) =>
+  value.split(', ').map((token, index) => (
+    <React.Fragment key={token}>
+      {index > 0 && ', '}
+      <Link href={`/tokens?q=${token}`}>
+        <code>{token}</code>
+      </Link>
+    </React.Fragment>
+  ))
+
+/** The Layout page's spacing section: the scale, gaps by relationship, and a measured form. */
 export function SpacingGuide() {
   const t = text[useLocale().locale]
   const host = useRef<HTMLDivElement>(null)
   const [measurements, setMeasurements] = useState(true)
-  const rules = t.rules
   return (
-    <section id='spacing' aria-labelledby='spacing-title'>
-      <h2 id='spacing-title'>{t.title}</h2>
+    <>
       <p>{t.intro}</p>
       <div className='spacing-scale' aria-label={t.scaleLabel}>
         {([1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20] as const).map((step) => (
@@ -37,19 +47,18 @@ export function SpacingGuide() {
             </Table.Row>
           </Table.Head>
           <Table.Body>
-            {rules.map(([relation, gap, token, usage]) => (
+            {t.rules.map(([relation, gap, tokens, example]) => (
               <Table.Row key={relation}>
                 <Table.HeaderCell scope='row'>{relation}</Table.HeaderCell>
                 <Table.Cell>{gap}</Table.Cell>
-                <Table.Cell>{token}</Table.Cell>
-                <Table.Cell>{usage}</Table.Cell>
+                <Table.Cell>{tokenList(tokens)}</Table.Cell>
+                <Table.Cell>{example}</Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
         </Table.Root>
       </Table.Container>
-      <h3>{t.inputsActionsTitle}</h3>
-      <p>{t.inputsActionsIntro}</p>
+      <p>{t.measureIntro}</p>
       <div className='actions spacing-measurement-controls'>
         <Button
           variant='outline'
@@ -58,7 +67,6 @@ export function SpacingGuide() {
         >
           {t.spacingDimensions}
         </Button>
-        <span>{t.dimensionLines}</span>
       </div>
       <Stack
         gap={4}
@@ -67,7 +75,7 @@ export function SpacingGuide() {
         data-testid='spacing-form'
       >
         <Stack gap={1} className='spacing-example'>
-          <h4 data-spacing-title>{t.accountDetails}</h4>
+          <h3 data-spacing-title>{t.accountDetails}</h3>
           <p data-spacing-description>{t.enterNameToDisplay}</p>
         </Stack>
         <label>
@@ -89,23 +97,7 @@ export function SpacingGuide() {
           '<Stack gap={4}>\n  <Stack gap={1}>{/* Title and description; margin: 0 */}</Stack>\n  <label>{/* Label + Input; gap: var(--space-2) */}</label>\n  <Inline gap={2}>{/* Action buttons */}</Inline>\n</Stack>'
         }
       />
-      <p>{t.manageSpacing}</p>
-      <p>{t.divider}</p>
-      <p>
-        {t.relatedTokensLabel}{' '}
-        <Link href='/tokens?q=--layout-gutter'>
-          <code>--layout-gutter</code>
-        </Link>{' '}
-        (24px),{' '}
-        <Link href='/tokens?q=--layout-section-gap'>
-          <code>--layout-section-gap</code>
-        </Link>{' '}
-        (48px),{' '}
-        <Link href='/tokens?q=--layout-page-inset'>
-          <code>--layout-page-inset</code>
-        </Link>{' '}
-        (32px). {t.relatedTokensRest}
-      </p>
-    </section>
+      <p>{t.adapting}</p>
+    </>
   )
 }

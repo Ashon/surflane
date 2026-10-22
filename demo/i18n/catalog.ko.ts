@@ -11,14 +11,14 @@ export const catalogKo: {
     '/foundations/hierarchy': '시각 위계',
     '/foundations/typography': '타이포그래피',
     '/tokens': '디자인 토큰',
-    '/foundations/color': '색 / 대비',
+    '/foundations/color': '색',
     '/foundations/iconography': '아이콘',
-    '/foundations/interaction': '인터랙션 / 상태',
-    '/foundations/motion': '모션 / 테마',
+    '/foundations/interaction': '인터랙션 상태',
+    '/foundations/motion': '모션',
     '/foundations/themes': '테마',
     '/foundations/accessibility': '접근성',
-    '/foundations/content': '콘텐츠 / 현지화',
-    '/foundations/layers': '레이어 / 높이',
+    '/foundations/content': '콘텐츠와 현지화',
+    '/foundations/layers': '레이어',
     '/patterns/app-shell': '앱 셸 / 사이드바',
     '/patterns/page-header': '페이지 헤더',
     '/patterns/filter-bar': '검색 / 필터 바',
@@ -33,26 +33,26 @@ export const catalogKo: {
     '/patterns/responsive-navigation': '반응형 내비게이션',
   },
   summaries: {
-    '/foundations/layout': '컨테이너, 간격, 그리드, 읽기 너비를 정의합니다.',
+    '/foundations/layout': '컨테이너, 그리드, 간격, 컴포넌트 크기를 정합니다.',
     '/foundations/hierarchy':
-      '면, 높이, 선, 점의 위계를 정합니다. 구조는 평평한 면으로 먼저, 세부는 마지막에 만듭니다.',
+      '면, 높이, 선, 점을 구조에서 세부 순서로 정합니다.',
     '/foundations/typography':
-      '역할별 글꼴, 크기, 줄 높이, 렌더링을 정의합니다.',
-    '/tokens': '테마별 토큰 값과 별칭을 검색 및 코드 참조와 함께 나열합니다.',
-    '/foundations/color': '브랜드, 중립, 상태 색과 대비를 정의합니다.',
+      '글꼴, 타입 역할, 줄 길이, 한국어 조판 규칙을 정합니다.',
+    '/tokens': '테마별 토큰 값, 별칭, 소스를 나열합니다.',
+    '/foundations/color': '색 역할, 대비 기준, 팔레트 만드는 법을 정합니다.',
     '/foundations/iconography':
-      'SVG 크기, 획, 정렬, 접근 가능한 이름을 정의합니다.',
+      '아이콘 크기, 획, 방향, 접근 가능한 이름을 정합니다.',
     '/foundations/interaction':
-      '포인터, 키보드, 선택, 비활성, 비동기 상태와 복구를 정의합니다.',
-    '/foundations/motion': '테마 동기화, 등장, 퇴장, 축소 모션을 정의합니다.',
+      '컨트롤이 호버, 누름, 포커스, 선택, 대기 상태를 보여 주는 방식을 정합니다.',
+    '/foundations/motion':
+      '모든 전환의 지속 시간, 이징, 모션 줄이기를 정합니다.',
     '/foundations/themes':
-      '중립색 톤, 강조색, 모서리 크기로 테마를 만들고 대비를 보고합니다.',
+      '페이지나 영역에 라이트나 다크를 적용하고, 직접 테마를 만듭니다.',
     '/foundations/accessibility':
-      '의미 구조, 포커스, 키보드, 확대, 상태 알림을 다룹니다.',
-    '/foundations/content':
-      '한국어와 영어 문구, 오류 메시지, 시간과 숫자 형식을 다룹니다.',
+      '모든 화면이 지킬 WCAG 2.2 AA 기준을 정합니다.',
+    '/foundations/content': '인터페이스 문구, 숫자와 날짜 형식을 정합니다.',
     '/foundations/layers':
-      '표면, 레이어, 포털, 그림자, 쌓임 규칙을 정의합니다.',
+      '앱 크롬, 대화상자, 팝업, 툴팁의 쌓임 순서를 정합니다.',
     '/components/button': '명확한 라벨로 작업을 실행합니다.',
     '/components/input': '짧은 텍스트와 식별자를 입력받습니다.',
     '/components/select': '고정 목록에서 옵션 하나를 선택합니다.',
@@ -148,6 +148,9 @@ export const catalogKo: {
   },
   groups: {
     Foundations: '파운데이션',
+    Style: '스타일',
+    Behavior: '동작',
+    Standards: '공통 기준',
     Actions: '액션',
     Forms: '폼',
     Selection: '선택',

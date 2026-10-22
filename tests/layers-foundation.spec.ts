@@ -108,15 +108,17 @@ test('nested selection, tooltip, popover and modal preserve layer roles, selecti
   await expect(dialog).toHaveCount(0)
   await expect(trigger).toBeFocused()
 })
-test('theme changes update resolved elevation values and token links reach the real catalog', async ({
+test('the layer scale reads its values from the tokens and links to the real catalog', async ({
   page,
 }) => {
   await page.goto('/foundations/layers')
   await waitForCatalogReady(page)
-  const value = page.locator('[data-layer-token="--shadow-float"]')
-  const light = await value.innerText()
-  await page.getByRole('button', { name: 'Toggle theme' }).click()
-  await expect(value).not.toHaveText(light)
+  await expect(page.locator('[data-layer-token="--layer-popup"]')).toHaveText(
+    '1200',
+  )
+  await expect(page.locator('[data-layer-token="--layer-tooltip"]')).toHaveText(
+    '1300',
+  )
   await page.getByRole('link', { name: '--layer-tooltip', exact: true }).click()
   await waitForCatalogReady(page)
   await expect(page.locator('#page-title')).toHaveText('Design tokens')

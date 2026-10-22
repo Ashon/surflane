@@ -2,47 +2,36 @@ import React, { useRef } from 'react'
 import { GridBlueprint } from './BlueprintCanvas'
 import { CodeBlock, Grid, GridItem, Table, Text } from '@surflane/ui'
 import { Link } from './router'
+import { useLocale } from './i18n'
+import { text } from './i18n/pages/LayoutGridGuide'
+
+/** The Layout page's grid section: breakpoints, a span grid, and composition. */
 export function LayoutGridGuide() {
+  const t = text[useLocale().locale]
   const gridRef = useRef<HTMLDivElement>(null)
   return (
-    <section id='grid-system' aria-labelledby='grid-system-title'>
-      <h2 id='grid-system-title'>Responsive grid system</h2>
-      <p>
-        Use Grid's 1–4 columns for lists of equal-size cards. Use the 12 / 6 / 4
-        column layout grid for areas of different widths, such as main content
-        and a supporting panel. Keep visual order and DOM order the same. Limit
-        reading content to the separate reading width. Guide lines are overlaid
-        as pseudo-elements, so they never change the position or height of the
-        UI.
-      </p>
-      <Table.Container bleed label='Grid breakpoints' orientation='horizontal'>
+    <>
+      <p>{t.intro}</p>
+      <Table.Container
+        bleed
+        label={t.breakpointsLabel}
+        orientation='horizontal'
+      >
         <Table.Root>
-          <Table.Caption>Shared grid contract by viewport</Table.Caption>
+          <Table.Caption>{t.caption}</Table.Caption>
           <Table.Head>
             <Table.Row>
-              {[
-                'Viewport',
-                'Layout tracks',
-                'Default gutter',
-                'Catalog cards',
-              ].map((label) => (
-                <Table.HeaderCell key={label} scope='col'>
-                  {label}
-                </Table.HeaderCell>
-              ))}
+              {[t.viewport, t.layoutTracks, t.defaultGutter, t.equalCards].map(
+                (label) => (
+                  <Table.HeaderCell key={label} scope='col'>
+                    {label}
+                  </Table.HeaderCell>
+                ),
+              )}
             </Table.Row>
           </Table.Head>
           <Table.Body>
-            {[
-              [
-                'Above 1100px',
-                '12',
-                '24px / space-6',
-                '3 columns (Foundations index: 2)',
-              ],
-              ['761–1100px', '6', '24px / space-6', '2 columns'],
-              ['Up to 760px', '4', '16px / space-4', '1 column'],
-            ].map(([viewport, tracks, gutter, cards]) => (
+            {t.rows.map(([viewport, tracks, gutter, cards]) => (
               <Table.Row key={viewport}>
                 <Table.HeaderCell scope='row'>{viewport}</Table.HeaderCell>
                 <Table.Cell>{tracks}</Table.Cell>
@@ -53,12 +42,6 @@ export function LayoutGridGuide() {
           </Table.Body>
         </Table.Root>
       </Table.Container>
-      <p>
-        Containers fill the available width up to 75rem for workspace, 96rem for
-        wide, and 52rem for reading. The catalog's own sheet is limited to
-        1100px. Gutters follow the default token. Dense combinations, such as
-        lists and filters, set gap to space-4 explicitly.
-      </p>
       <Grid
         columns='layout'
         className='foundation-span-grid layout-guide-container'
@@ -74,8 +57,8 @@ export function LayoutGridGuide() {
           className='foundation-grid-region'
           data-grid-region='primary'
         >
-          <Text variant='label'>Primary content</Text>
-          <Text color='secondary'>8 / 4 / 4 tracks</Text>
+          <Text variant='label'>{t.primaryContent}</Text>
+          <Text color='secondary'>{t.primaryTracks}</Text>
         </GridItem>
         <GridItem
           span={4}
@@ -84,8 +67,8 @@ export function LayoutGridGuide() {
           className='foundation-grid-region'
           data-grid-region='secondary'
         >
-          <Text variant='label'>Supporting details</Text>
-          <Text color='secondary'>4 / 2 / 4 tracks</Text>
+          <Text variant='label'>{t.supportingDetails}</Text>
+          <Text color='secondary'>{t.secondaryTracks}</Text>
         </GridItem>
         <GridItem
           span={12}
@@ -94,16 +77,13 @@ export function LayoutGridGuide() {
           className='foundation-grid-region'
           data-grid-region='full'
         >
-          <Text variant='label'>Full-width results</Text>
-          <Text color='secondary'>
-            12 / 6 / 4 tracks,
-            long-resource-identifiers-for-staging-deployments-also-wrap
-          </Text>
+          <Text variant='label'>{t.fullWidthResults}</Text>
+          <Text color='secondary'>{t.fullTracks}</Text>
         </GridItem>
       </Grid>
       <CodeBlock
         language='tsx'
-        label='Responsive grid composition'
+        label={t.codeLabel}
         code={`import { Container, Grid, GridItem, Card } from '@surflane/ui'
 
 <Container width='workspace'>
@@ -121,11 +101,7 @@ export function LayoutGridGuide() {
 </Container>
 
 // Equal cards: 3 columns, then 2, then 1.
-<Grid columns={3} gap={4}>
-  {cards}
-</Grid>
-
-// Align card content with surrounding text. Match bleed to card padding.
+// Match bleed to the card padding so card text aligns with the text around it.
 <Grid columns={3} gap={4} bleed={4}>
   {items.map((item) => (
     <Card.Root key={item.id} padding={4}>
@@ -134,41 +110,12 @@ export function LayoutGridGuide() {
   ))}
 </Grid>`}
       />
+      <p>{t.bleed}</p>
       <p>
-        Match bleed to card padding so card text aligns with surrounding
-        content. In a card grid, the card's edge and the line where its text
-        starts differ. With space-4 card padding, set <code>{'bleed={4}'}</code>{' '}
-        on Grid. Only the grid's left and right edges extend, by 16px each.
-        Column gaps and card padding stay the same. The default bleed is 0, and
-        it doesn't propagate to nested grids. Reserve that space, and room for
-        focus indicators, in the outer container. Don't use bleed at the window
-        edge or in clipped areas. The overview and each index card use the same
-        contract.
+        {t.spansStart}
+        <Link href='/components/scroll-area'>{t.scrollArea}</Link>
+        {t.spansEnd}
       </p>
-      <p>
-        Use GridItem as a direct child of columns="layout". An unset span
-        inherits from the next larger size, capped at the current column count.
-        Don't reorder content with hidden columns or CSS order. Check the
-        minimum inner width of inputs, tables, and code. Let tables and code
-        scroll only in the direction they need, with{' '}
-        <Link href='/components/scroll-area'>ScrollArea</Link>.
-      </p>
-      <p>
-        Tokens used:{' '}
-        <Link href='/tokens?q=--layout-columns'>
-          <code>--layout-columns</code>
-        </Link>
-        ,{' '}
-        <Link href='/tokens?q=--layout-gutter'>
-          <code>--layout-gutter</code>
-        </Link>
-        ,{' '}
-        <Link href='/tokens?q=--layout-workspace'>
-          <code>--layout-workspace</code>
-        </Link>
-        . See <Link href='/components'>All components</Link> for a real list
-        that uses the same card grid.
-      </p>
-    </section>
+    </>
   )
 }

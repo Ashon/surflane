@@ -39,6 +39,7 @@ export const ko: Messages = {
     'coverage-research': '조사 범위',
   },
   allFoundations: '모든 파운데이션',
+  foundationPage: { principles: '원칙', related: '관련 문서' },
   allComponents: '모든 컴포넌트',
   allPatterns: '모든 패턴',
   interactionLab: '인터랙션 랩',
@@ -50,19 +51,7 @@ export const ko: Messages = {
     ],
     '/foundations': [
       '파운데이션',
-      '레이아웃, 타이포그래피, 색, 모션에 공통 표준을 적용합니다.',
-    ],
-    '/foundations/layout': [
-      '레이아웃',
-      '운영 화면과 읽기 화면의 너비, 간격, 그리드를 설정합니다.',
-    ],
-    '/foundations/typography': [
-      '타이포그래피',
-      '한글, 라틴, 코드 텍스트의 역할과 읽는 리듬을 맞춥니다.',
-    ],
-    '/tokens': [
-      '디자인 토큰',
-      '코드에서 참조할 각 테마의 값과 별칭을 나열합니다.',
+      '구조, 스타일, 동작, 공통 기준의 공유 규칙을 정합니다.',
     ],
     '/components': [
       '컴포넌트',

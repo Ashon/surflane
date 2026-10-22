@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Button, CodeBlock, Icon, iconNames, Select, Table } from '@surflane/ui'
+import { FoundationPage, FoundationSection } from './FoundationPage'
 import { Link } from './router'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/IconographyFoundation'
@@ -8,17 +9,18 @@ export function IconographyFoundation() {
   const [count, setCount] = useState(0),
     [direction, setDirection] = useState('ltr')
   return (
-    <>
-      <nav className='page-toc' aria-label={t.onThisPage}>
-        {t.nav.map(({ id, label }) => (
-          <a key={id} href={`#${id}`}>
-            {label}
-          </a>
-        ))}
-      </nav>
-      <section id='principles'>
-        <h2>{t.principlesTitle}</h2>
-        <p>{t.principlesIntro}</p>
+    <FoundationPage
+      principles={t.principles}
+      sections={t.sections}
+      related={[
+        '/foundations/color',
+        '/foundations/accessibility',
+        '/components/button',
+        '/components/badge',
+      ]}
+    >
+      <FoundationSection id='sizes'>
+        <p>{t.sizesIntro}</p>
         <Table.Container bleed label={t.tableLabel} orientation='horizontal'>
           <Table.Root>
             <Table.Caption>{t.caption}</Table.Caption>
@@ -63,10 +65,8 @@ export function IconographyFoundation() {
             </Table.Body>
           </Table.Root>
         </Table.Container>
-        <p>{t.principlesClosing}</p>
-      </section>
-      <section id='library'>
-        <h2>{t.libraryTitle}</h2>
+      </FoundationSection>
+      <FoundationSection id='vocabulary'>
         <p>{t.libraryIntro(iconNames.length)}</p>
         <ul className='icon-gallery' aria-label={t.galleryLabel}>
           {iconNames.map((name) => (
@@ -76,10 +76,9 @@ export function IconographyFoundation() {
             </li>
           ))}
         </ul>
-      </section>
-      <section id='semantics'>
-        <h2>{t.semanticsTitle}</h2>
-        <p>{t.semanticsIntro}</p>
+      </FoundationSection>
+      <FoundationSection id='names'>
+        <p>{t.namesIntro}</p>
         <div className='actions'>
           <Button variant='outline' onClick={() => setCount((n) => n + 1)}>
             <Icon name='plus' />
@@ -103,22 +102,7 @@ export function IconographyFoundation() {
           />
           {t.standaloneIconNote}
         </p>
-        <p>
-          {t.semanticsClosingStart}
-          <Link href='/components/badge'>{t.statusBadgeLink}</Link>
-          {t.semanticsClosingEnd}
-        </p>
-        <h3>{t.primitiveContractTitle}</h3>
-        <p>
-          <code>name</code>
-          {t.primitiveNameRest} <code>size</code>
-          {t.primitiveSizeRest} <code>decorative</code>
-          {t.primitiveDecorativeRest}
-          <code>decorative=false</code>
-          {t.primitiveLabelRest}
-          <code>label</code>
-          {t.primitiveRefRest}
-        </p>
+        <p>{t.namesNote}</p>
         <CodeBlock
           language='tsx'
           label={t.codeLabel}
@@ -133,9 +117,17 @@ export function IconographyFoundation() {
 </Button>
 <Icon name='info' decorative={false} label='Additional information' />`}
         />
-      </section>
-      <section id='direction'>
-        <h2>{t.directionTitle}</h2>
+        <p>
+          <a href='https://design-system.w3.org/styles/svg-icons.html'>
+            {t.w3cSvgIcons}
+          </a>
+          {' / '}
+          <a href='https://www.w3.org/WAI/tutorials/images/functional/'>
+            {t.waiFunctionalImages}
+          </a>
+        </p>
+      </FoundationSection>
+      <FoundationSection id='direction'>
         <p>{t.directionIntro}</p>
         <label>
           {t.previewDirectionLabel}
@@ -168,28 +160,7 @@ export function IconographyFoundation() {
           </span>
         </div>
         <p>{t.directionPreviewNote}</p>
-      </section>
-      <section id='application'>
-        <h2>{t.applicationTitle}</h2>
-        <ul>
-          <li>{t.rule1}</li>
-          <li>{t.rule2}</li>
-          <li>{t.rule3}</li>
-        </ul>
-        <p>{t.applicationNote}</p>
-        <p>
-          <a href='https://design-system.w3.org/styles/svg-icons.html'>
-            {t.w3cSvgIcons}
-          </a>
-          {' / '}
-          <a href='https://www.w3.org/WAI/tutorials/images/functional/'>
-            {t.waiFunctionalImages}
-          </a>
-          {' / '}
-          <Link href='/foundations/color'>{t.colorContrastLink}</Link>
-        </p>
-        <p>{t.closingNote}</p>
-      </section>
-    </>
+      </FoundationSection>
+    </FoundationPage>
   )
 }

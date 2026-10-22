@@ -19,6 +19,7 @@ import {
   Inline,
 } from '@surflane/ui'
 import { componentSizes } from './ComponentSizePreview'
+import { Link } from './router'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/ComponentSizeGuide'
 function Specimen({ size }: { size: (typeof componentSizes)[number] }) {
@@ -133,11 +134,11 @@ function Specimen({ size }: { size: (typeof componentSizes)[number] }) {
     </article>
   )
 }
+/** The Layout page's component size section: the scheme's values and a specimen per size. */
 export function ComponentSizeGuide() {
   const t = text[useLocale().locale]
   return (
-    <section id='component-sizes' aria-labelledby='component-sizes-title'>
-      <h2 id='component-sizes-title'>{t.title}</h2>
+    <>
       <p>{t.intro}</p>
       <Table.Container bleed label={t.tableLabel} orientation='horizontal'>
         <Table.Root>
@@ -162,14 +163,17 @@ export function ComponentSizeGuide() {
           </Table.Body>
         </Table.Root>
       </Table.Container>
-      <p>{t.touchTargets}</p>
+      <p>
+        {t.touchStart}
+        <Link href='/foundations/accessibility'>{t.touchLink}</Link>
+        {t.touchEnd}
+      </p>
       <div className='size-scheme-grid'>
         {componentSizes.map((size) => (
           <Specimen key={size} size={size} />
         ))}
       </div>
-      <h3>{t.compositionTitle}</h3>
-      <p>{t.compositionIntro}</p>
+      <p>{t.composition}</p>
       <CodeBlock
         language='tsx'
         label={t.codeLabel}
@@ -185,6 +189,6 @@ export function ComponentSizeGuide() {
 // The existing sm / md / lg aliases still work.
 // A numeric size on Input is the standard HTML character-width hint.`}
       />
-    </section>
+    </>
   )
 }

@@ -285,9 +285,6 @@ body,
 .foundation-stat {
   padding-block: var(--space-4);
 }
-.foundation-widths {
-  margin-top: var(--space-3);
-}
 .font-specimens {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -299,7 +296,7 @@ body,
 }
 .type-scale-row {
   display: grid;
-  grid-template-columns: 120px minmax(0, 1fr);
+  grid-template-columns: 12rem minmax(0, 1fr);
   gap: var(--space-6);
   align-items: first baseline;
   padding-block: var(--space-4);
@@ -395,9 +392,10 @@ body,
   .font-specimens {
     grid-template-columns: minmax(0, 1fr);
   }
+  /* Phones set the role's name and values above its sample. */
   .type-scale-row {
-    grid-template-columns: 108px minmax(0, 1fr);
-    gap: var(--space-3);
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-1);
   }
   .token-row {
     grid-template-columns: minmax(0, 1fr) auto;
@@ -659,9 +657,10 @@ body,
   font-size: var(--type-caption-size);
   line-height: var(--type-caption-leading);
 }
+/* Cards in a row start at the top, so their titles share a line. */
 .catalog-item {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: var(--space-4);
   padding: var(--space-4);
@@ -844,12 +843,14 @@ body,
 /* Lists hang their markers in the margin, so item text keeps the paragraph edge. */
 #coverage-ready > ul,
 #coverage-research > ul,
+.catalog-page-body > section > :is(ul, ol):not([class]),
 .catalog-rules {
   padding-inline-start: 0;
   list-style-position: outside;
 }
 #coverage-ready li + li,
 #coverage-research li + li,
+.catalog-page-body > section > :is(ul, ol):not([class]) > li + li,
 .catalog-rules li + li {
   margin-block-start: var(--space-2);
 }
@@ -1102,16 +1103,6 @@ body,
 }
 
 /* Palette lab */
-.palette-principles {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-6) var(--space-8);
-  margin: var(--space-6) 0 0;
-  padding-inline-start: var(--space-5);
-}
-.palette-principles p {
-  margin: var(--space-1) 0 0;
-}
 .palette-lab {
   display: grid;
   gap: var(--space-8);
@@ -1367,7 +1358,6 @@ body,
   min-inline-size: 0;
 }
 @media (max-width: 760px) {
-  .palette-principles,
   .palette-inputs,
   .palette-checker {
     grid-template-columns: minmax(0, 1fr);
@@ -1629,7 +1619,9 @@ body,
   font-weight: var(--weight-regular);
 }
 
-.interaction-work-preview {
+/* Interaction previews keep a form's width and sit apart from the notes after them. */
+.interaction-preview {
+  max-inline-size: 40rem;
   margin-block-end: var(--space-6);
 }
 
@@ -1859,26 +1851,6 @@ body,
   }
 }
 
-.layer-shadow-comparison {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 32px;
-  margin-block: 32px;
-}
-.layer-shadow-comparison > div {
-  padding: 24px;
-  border-radius: var(--radius-lg);
-  background: var(--canvas);
-}
-.layer-shadow-comparison p {
-  margin-bottom: 0;
-}
-.layer-shadow-sheet {
-  box-shadow: var(--shadow-sheet);
-}
-.layer-shadow-float {
-  box-shadow: var(--shadow-float);
-}
 .layer-demo-controls {
   align-items: center;
   margin-block: 24px;
@@ -1936,11 +1908,6 @@ body,
   color: var(--ink);
   font-size: var(--type-caption-size);
   letter-spacing: var(--type-caption-tracking);
-}
-@media (max-width: 760px) {
-  .layer-shadow-comparison {
-    grid-template-columns: minmax(0, 1fr);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2996,12 +2963,17 @@ body,
 }
 .type-scale-row > .type-scale-meta {
   display: flex;
-  align-items: first baseline;
-  gap: var(--space-2);
+  flex-direction: column;
   white-space: nowrap;
 }
 .type-scale-meta > span + span {
   font-variant-numeric: tabular-nums;
+}
+@media (max-width: 760px) {
+  .type-scale-row > .type-scale-meta {
+    flex-direction: row;
+    gap: var(--space-2);
+  }
 }
 
 /* Size controls stay outside the sample's scheme so their own positions are stable. */
@@ -3109,11 +3081,6 @@ body,
 }
 .spacing-measurement-controls {
   margin-block: 16px;
-}
-.spacing-measurement-controls > span {
-  font-size: var(--type-caption-size);
-  letter-spacing: var(--type-caption-tracking);
-  color: var(--ink-muted);
 }
 .spacing-measurements {
   position: absolute;
@@ -3788,14 +3755,6 @@ body,
 }
 
 /* Theme builder: inputs beside a live preview whose tokens come from the inputs. */
-.theme-foundation {
-  display: grid;
-  gap: var(--space-4);
-  min-inline-size: 0;
-}
-.theme-foundation > h2 {
-  margin-block-start: var(--space-8);
-}
 .theme-builder {
   display: grid;
   grid-template-columns: minmax(15rem, 18rem) minmax(0, 1fr);

@@ -10,62 +10,90 @@ import {
   Inline,
   Table,
 } from '@surflane/ui'
+import { FoundationPage, FoundationSection } from './FoundationPage'
 import { Link } from './router'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/AccessibilityFoundation'
 export function AccessibilityFoundation() {
   const t = text[useLocale().locale]
-  const responsibilities = t.responsibilities
   const [name, setName] = useState('')
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [message, setMessage] = useState('')
   const nameInput = useRef<HTMLInputElement>(null)
   return (
-    <>
-      <nav className='page-toc' aria-label={t.onThisPage}>
-        {t.nav.map(({ id, label }) => (
-          <a key={id} href={`#${id}`}>
-            {label}
-          </a>
-        ))}
-      </nav>
-      <section id='principles'>
-        <h2>{t.principlesTitle}</h2>
-        <p>{t.principlesIntro}</p>
+    <FoundationPage
+      principles={t.principles}
+      sections={t.sections}
+      related={[
+        '/foundations/interaction',
+        '/foundations/color',
+        '/foundations/content',
+        '/components/dialog',
+      ]}
+    >
+      <FoundationSection id='responsibilities'>
+        <p>{t.responsibilitiesIntro}</p>
         <Table.Container bleed label={t.tableLabel} orientation='horizontal'>
           <Table.Root>
             <Table.Caption>{t.caption}</Table.Caption>
             <Table.Head>
               <Table.Row>
                 <Table.HeaderCell scope='col'>{t.areaHeader}</Table.HeaderCell>
-                <Table.HeaderCell scope='col'>
-                  {t.implementationHeader}
-                </Table.HeaderCell>
-                <Table.HeaderCell scope='col'>
-                  {t.reviewHeader}
-                </Table.HeaderCell>
+                <Table.HeaderCell scope='col'>{t.buildHeader}</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>{t.checkHeader}</Table.HeaderCell>
               </Table.Row>
             </Table.Head>
             <Table.Body>
-              {responsibilities.map(([area, implementation, review]) => (
+              {t.responsibilities.map(([area, build, check]) => (
                 <Table.Row key={area}>
                   <Table.HeaderCell scope='row'>{area}</Table.HeaderCell>
-                  <Table.Cell>{implementation}</Table.Cell>
-                  <Table.Cell>{review}</Table.Cell>
+                  <Table.Cell>{build}</Table.Cell>
+                  <Table.Cell>{check}</Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>
           </Table.Root>
         </Table.Container>
+      </FoundationSection>
+      <FoundationSection id='keyboard'>
+        <p>{t.keyboardOrder}</p>
         <p>
-          {t.buildOnStart}
-          <Link href='/components'>{t.keyboardGuidanceLink}</Link>
-          {t.buildOnEnd}
+          {t.keyboardTargetStart}
+          <Link href='/tokens?q=--control-target-size'>
+            <code>--control-target-size</code>
+          </Link>
+          {t.keyboardTargetEnd}
         </p>
-      </section>
-      <section id='forms'>
-        <h2>{t.formsTitle}</h2>
-        <p>{t.formsIntro}</p>
+        <p>{t.keyboardDialog}</p>
+        <div className='actions'>
+          <Dialog.Root>
+            <Dialog.Trigger render={<Button variant='outline' />}>
+              {t.openFocusPreview}
+            </Dialog.Trigger>
+            <Dialog.Content closeLabel={t.closeFocusPreview}>
+              <Dialog.Header>
+                <Dialog.Title>{t.focusPreviewTitle}</Dialog.Title>
+                <Dialog.Description>
+                  {t.focusPreviewDescription}
+                </Dialog.Description>
+              </Dialog.Header>
+              <Dialog.Body>
+                <label>
+                  {t.localNote}
+                  <Input defaultValue={t.keyboardInputValue} />
+                </label>
+              </Dialog.Body>
+              <Dialog.Footer>
+                <Dialog.Close render={<Button variant='outline' />}>
+                  {t.done}
+                </Dialog.Close>
+              </Dialog.Footer>
+            </Dialog.Content>
+          </Dialog.Root>
+        </div>
+      </FoundationSection>
+      <FoundationSection id='recovery'>
+        <p>{t.recoveryIntro}</p>
         <Form
           aria-label={t.formAriaLabel}
           errors={errors}
@@ -128,7 +156,7 @@ export function AccessibilityFoundation() {
         <p role='status' aria-atomic='true' data-validation-result>
           {message}
         </p>
-        <p>{t.formsNotes}</p>
+        <p>{t.recoveryNotes}</p>
         <CodeBlock
           language='tsx'
           label={t.codeLabel}
@@ -144,90 +172,19 @@ export function AccessibilityFoundation() {
   {result}
 </p>`}
         />
-      </section>
-      <section id='keyboard'>
-        <h2>{t.keyboardTitle}</h2>
-        <p>
-          {t.keyboardIntroStart}
-          <Link href='/tokens?q=--control-focus'>
-            <code>--control-focus</code>
-          </Link>
-          {t.keyboardIntroMid}
-          <Link href='/tokens?q=--control-focus-ring'>
-            <code>--control-focus-ring</code>
-          </Link>
-          {t.keyboardIntroAfterRing}
-          <Link href='/tokens?q=--control-height'>
-            <code>--control-height</code>
-          </Link>
-          {t.keyboardIntroEnd}
-        </p>
-        <p>{t.keyboardDomOrder}</p>
-        <p>{t.keyboardModals}</p>
-        <div className='actions'>
-          <Dialog.Root>
-            <Dialog.Trigger render={<Button variant='outline' />}>
-              {t.openFocusPreview}
-            </Dialog.Trigger>
-            <Dialog.Content closeLabel={t.closeFocusPreview}>
-              <Dialog.Header>
-                <Dialog.Title>{t.focusPreviewTitle}</Dialog.Title>
-                <Dialog.Description>
-                  {t.focusPreviewDescription}
-                </Dialog.Description>
-              </Dialog.Header>
-              <Dialog.Body>
-                <label>
-                  {t.localNote}
-                  <Input defaultValue={t.keyboardInputValue} />
-                </label>
-              </Dialog.Body>
-              <Dialog.Footer>
-                <Dialog.Close render={<Button variant='outline' />}>
-                  {t.done}
-                </Dialog.Close>
-              </Dialog.Footer>
-            </Dialog.Content>
-          </Dialog.Root>
-        </div>
-        <p>
-          <Link href='/components/dialog'>Dialog API</Link>
-          {' / '}
-          <Link href='/components/select'>Select keyboard behavior</Link>
-          {' / '}
-          <Link href='/components/scroll-area'>Independent scroll areas</Link>
-        </p>
-      </section>
-      <section id='feedback'>
-        <h2>{t.feedbackTitle}</h2>
+      </FoundationSection>
+      <FoundationSection id='announcements'>
         <ul>
-          <li>{t.feedbackItem1}</li>
-          <li>{t.feedbackItem2}</li>
-          <li>{t.feedbackItem3}</li>
-          <li>{t.feedbackItem4}</li>
+          {t.announcements.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
         </ul>
-        <p>
-          <Link href='/components/inline-message'>{t.inlineMessageLink}</Link>
-          {' / '}
-          <Link href='/components/toast'>{t.toastLink}</Link>
-          {' / '}
-          <Link href='/foundations/iconography'>{t.iconNamesLink}</Link>
-        </p>
-      </section>
-      <section id='testing'>
-        <h2>{t.testingTitle}</h2>
+      </FoundationSection>
+      <FoundationSection id='testing'>
         <ol>
-          <li>{t.testingItem1}</li>
-          <li>{t.testingItem2}</li>
-          <li>
-            {t.testingItem3Start}
-            <Link href='/foundations/color'>{t.colorContrastLink}</Link>
-            {t.testingItem3Mid}
-            <Link href='/foundations/motion'>{t.motionGuidanceLink}</Link>
-            {t.testingItem3End}
-          </li>
-          <li>{t.testingItem4}</li>
-          <li>{t.testingItem5}</li>
+          {t.testing.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
         </ol>
         <p>{t.testingClosing}</p>
         <p>
@@ -243,7 +200,7 @@ export function AccessibilityFoundation() {
             {t.w3cKeyboardControl}
           </a>
         </p>
-      </section>
-    </>
+      </FoundationSection>
+    </FoundationPage>
   )
 }

@@ -10,6 +10,7 @@ import {
   Table,
   ChoiceLabel,
 } from '@surflane/ui'
+import { FoundationPage, FoundationSection } from './FoundationPage'
 import { Link } from './router'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/ContentFoundation'
@@ -134,31 +135,53 @@ export function ContentFoundation() {
     copy.unavailable,
   ]
   return (
-    <>
-      <nav className='page-toc' aria-label={t.tocOnThisPage}>
-        {[
-          ['principles', t.tocPrinciples],
-          ['formatting', t.tocFormatting],
-          ['language-direction', t.tocLanguageDirection],
-          ['writing', t.tocWriting],
-          ['application', t.tocApplication],
-        ].map(([id, label]) => (
-          <a key={id} href={`#${id}`}>
-            {label}
-          </a>
-        ))}
-      </nav>
-      <section id='principles'>
-        <h2>{t.principlesHeading}</h2>
-        <p>{t.principlesIntro}</p>
+    <FoundationPage
+      principles={t.principles}
+      sections={t.sections}
+      related={[
+        '/foundations/accessibility',
+        '/foundations/typography',
+        '/components/number-field',
+        '/components/date-picker',
+      ]}
+    >
+      <FoundationSection id='writing'>
+        <Table.Container
+          bleed
+          label={t.writingTableLabel}
+          orientation='horizontal'
+        >
+          <Table.Root>
+            <Table.Caption>{t.writingTableCaption}</Table.Caption>
+            <Table.Head>
+              <Table.Row>
+                {t.writingColumns.map((label) => (
+                  <Table.HeaderCell key={label} scope='col'>
+                    {label}
+                  </Table.HeaderCell>
+                ))}
+              </Table.Row>
+            </Table.Head>
+            <Table.Body>
+              {copyExamples.map(([context, en, ko, review]) => (
+                <Table.Row key={context}>
+                  <Table.HeaderCell scope='row'>{context}</Table.HeaderCell>
+                  <Table.Cell lang='en'>{en}</Table.Cell>
+                  <Table.Cell lang='ko'>{ko}</Table.Cell>
+                  <Table.Cell>{review}</Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table.Root>
+        </Table.Container>
         <p>
-          {t.principlesProductBefore}
-          <code>lang</code>
-          {t.principlesProductAfter}
+          {t.writingErrorBefore}
+          <Link href='/foundations/accessibility'>{t.writingErrorLink}</Link>
+          {t.writingErrorAfter}
         </p>
-      </section>
-      <section id='formatting'>
-        <h2>{t.formattingHeading}</h2>
+        <p>{t.writingKorean}</p>
+      </FoundationSection>
+      <FoundationSection id='formatting'>
         <p>{t.formattingIntro}</p>
         <Grid columns={2} gap={4} className='content-preview-settings'>
           <Field.Root>
@@ -167,8 +190,8 @@ export function ContentFoundation() {
               value={locale}
               onChange={(event) => setLocale(event.target.value as Locale)}
             >
-              <option value='en-US'>English / United States</option>
-              <option value='ko-KR'>Korean / South Korea</option>
+              <option value='en-US'>{t.localeEnglish}</option>
+              <option value='ko-KR'>{t.localeKorean}</option>
             </NativeSelect>
           </Field.Root>
           <Field.Root>
@@ -230,8 +253,10 @@ export function ContentFoundation() {
           <code data-source-instant>{instant}</code>
           {t.sourceNoteAfter}
         </p>
+        <p>{t.formattingRules}</p>
         <CodeBlock
           language='tsx'
+          label={t.codeLabel}
           code={`const locale = userPreferences.locale
 const timeZone = userPreferences.timeZone
 // value is an instant with a known offset; never parse an ambiguous local string.
@@ -251,20 +276,12 @@ const countLabel = formatNumber(count, {
   missing: messages.notAvailable,
 })`}
         />
-        <p>{t.displayContractNote}</p>
-      </section>
-      <section id='language-direction'>
-        <h2>{t.languageDirectionHeading}</h2>
         <p>
-          <code>lang</code>
-          {t.languageDirectionLangAfter}
-          <code>dir</code>
-          {t.languageDirectionDirAfter}
-          <code>dir="auto"</code>
-          {t.languageDirectionAutoAfter}
-          <code>bdi dir="ltr"</code>
-          {t.languageDirectionBdiAfter}
+          <a href='https://402.ecma-international.org/'>{t.ecma402}</a>
         </p>
+      </FoundationSection>
+      <FoundationSection id='direction'>
+        <p>{t.directionIntro}</p>
         <ChoiceLabel
           control={
             <Checkbox.Root checked={rtl} onCheckedChange={setRtl}>
@@ -312,72 +329,16 @@ const countLabel = formatNumber(count, {
           </div>
         </DirectionProvider>
         <p>{t.truncationNote}</p>
-      </section>
-      <section id='writing'>
-        <h2>{t.writingHeading}</h2>
-        <Table.Container
-          bleed
-          label={t.writingTableLabel}
-          orientation='horizontal'
-        >
-          <Table.Root>
-            <Table.Caption>{t.writingTableCaption}</Table.Caption>
-            <Table.Head>
-              <Table.Row>
-                {t.writingColumns.map((label) => (
-                  <Table.HeaderCell key={label} scope='col'>
-                    {label}
-                  </Table.HeaderCell>
-                ))}
-              </Table.Row>
-            </Table.Head>
-            <Table.Body>
-              {copyExamples.map(([context, en, ko, review]) => (
-                <Table.Row key={context}>
-                  <Table.HeaderCell scope='row'>{context}</Table.HeaderCell>
-                  <Table.Cell lang='en'>{en}</Table.Cell>
-                  <Table.Cell lang='ko'>{ko}</Table.Cell>
-                  <Table.Cell>{review}</Table.Cell>
-                </Table.Row>
-              ))}
-            </Table.Body>
-          </Table.Root>
-        </Table.Container>
-        <p>{t.writingErrorNote}</p>
-      </section>
-      <section id='application'>
-        <h2>{t.applicationHeading}</h2>
-        <ul>
-          {t.implementationRules.map((rule) => (
-            <li key={rule}>{rule}</li>
-          ))}
-        </ul>
         <p>
-          {t.seeAlsoIntro}{' '}
-          <Link href='/foundations/typography'>{t.seeAlsoTypography}</Link>,{' '}
-          <Link href='/foundations/accessibility'>
-            {t.seeAlsoAccessibility}
-          </Link>
-          , <Link href='/components/number-field'>{t.seeAlsoNumberField}</Link>,{' '}
-          {t.seeAlsoAnd} <Link href='/components/toast'>{t.seeAlsoToast}</Link>
-          {t.seeAlsoOutro}
-        </p>
-        <p>
-          {t.referencesLabel}{' '}
-          <a href='https://402.ecma-international.org/'>
-            ECMA-402: Intl formatting
-          </a>
-          ,{' '}
           <a href='https://www.w3.org/International/questions/qa-html-language-declarations'>
-            W3C: language declarations
+            {t.w3cLanguage}
           </a>
-          ,{' '}
+          {' / '}
           <a href='https://www.w3.org/International/questions/qa-html-dir'>
-            W3C: text direction
+            {t.w3cDirection}
           </a>
-          .
         </p>
-      </section>
-    </>
+      </FoundationSection>
+    </FoundationPage>
   )
 }

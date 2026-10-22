@@ -85,7 +85,7 @@ test('theme changes refresh actual ratios and token links retain names', async (
   await expect(page).toHaveURL(/tokens\?q=--ink-body/)
   await page.goBack()
   await waitForCatalogReady(page)
-  await expect(page.locator('#page-title')).toHaveText('Color / contrast')
+  await expect(page.locator('#page-title')).toHaveText('Color')
 })
 test('forced colors suppresses token certification and retains readable documentation', async ({
   page,

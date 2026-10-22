@@ -8,6 +8,8 @@ import {
   Table,
   Link as TextLink,
 } from '@surflane/ui'
+import { FoundationPage, FoundationSection } from './FoundationPage'
+import { codeText } from './codeText'
 import { Link } from './router'
 import { EasingLab } from './EasingLab'
 import { useLocale } from './i18n'
@@ -15,14 +17,16 @@ import { text } from './i18n/pages/MotionFoundation'
 const tokenNames = [
   '--motion-feedback',
   '--duration-fast',
-  '--toast-enter-duration',
-  '--toast-stack-duration',
-  '--toast-stack-ease',
   '--motion-reveal',
   '--dialog-enter-duration',
   '--dialog-enter-offset',
   '--dialog-exit-duration',
   '--duration-base',
+  '--toast-enter-duration',
+  '--toast-stack-duration',
+  '--motion-ease',
+  '--motion-spatial-ease',
+  '--toast-stack-ease',
   '--theme-transition-duration',
   '--theme-transition-ease',
 ] as const
@@ -67,26 +71,19 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
   const t = text[useLocale().locale]
   const environment = useMotionEnvironment()
   const [draft, setDraft] = useState('Platform API release')
-  const tokens = tokenNames.map(
-    (token) => [token, t.tokenRoles[token]] as const,
-  )
   return (
-    <>
-      <nav className='page-toc' aria-label={t.onThisPage}>
-        {t.nav.map(({ id, label }) => (
-          <a key={id} href={`#${id}`}>
-            {label}
-          </a>
-        ))}
-      </nav>
-      <section id='principles'>
-        <h2>{t.principlesTitle}</h2>
-        <p>{t.principlesIntro}</p>
-        <ul>
-          <li>{t.dialogBullet}</li>
-          <li>{t.sheetBullet}</li>
-          <li>{t.themeBullet}</li>
-        </ul>
+    <FoundationPage
+      principles={t.principles}
+      sections={t.sections}
+      related={[
+        '/foundations/interaction',
+        '/foundations/themes',
+        '/foundations/accessibility',
+        '/components/dialog',
+      ]}
+    >
+      <FoundationSection id='tokens'>
+        <p>{t.tokensIntro}</p>
         <Table.Container bleed label={t.tableLabel} orientation='horizontal'>
           <Table.Root>
             <Table.Caption>{t.caption}</Table.Caption>
@@ -100,14 +97,14 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
               </Table.Row>
             </Table.Head>
             <Table.Body>
-              {tokens.map(([token, role]) => (
+              {tokenNames.map((token) => (
                 <Table.Row key={token}>
                   <Table.HeaderCell scope='row'>
                     <Link href={`/tokens?q=${encodeURIComponent(token)}`}>
                       <code>{token}</code>
                     </Link>
                   </Table.HeaderCell>
-                  <Table.Cell>{role}</Table.Cell>
+                  <Table.Cell>{t.tokenRoles[token]}</Table.Cell>
                   <Table.Cell data-motion-token={token}>
                     {environment.values[token] ?? t.reading}
                   </Table.Cell>
@@ -116,11 +113,9 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
             </Table.Body>
           </Table.Root>
         </Table.Container>
-        <p>{t.principlesClosing}</p>
-      </section>
-      <EasingLab />
-      <section id='transitions'>
-        <h2>{t.transitionsTitle}</h2>
+        <p>{t.tokensNote}</p>
+      </FoundationSection>
+      <FoundationSection id='transitions'>
         <p>{t.transitionsIntro}</p>
         <Table.Container
           bleed
@@ -198,49 +193,6 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
             </Table.Body>
           </Table.Root>
         </Table.Container>
-        <p>
-          {t.transitionsFocusBefore}{' '}
-          <Link href='/foundations/interaction'>{t.transitionsFocusLink}</Link>{' '}
-          {t.transitionsFocusAfter}
-        </p>
-        <p>
-          {t.toastManagesBefore}{' '}
-          <Link href='/components/toast'>{t.toastManagesLink}</Link>
-          {t.toastManagesAfter}
-        </p>
-      </section>
-      <section id='theme'>
-        <h2>{t.themeTitle}</h2>
-        <p>
-          {t.themeSceneBefore} <code>transitionTheme</code> {t.themeSceneAfter}
-        </p>
-        <ul aria-label={t.environmentLabel}>
-          <li>
-            {t.resolvedThemeLabel}{' '}
-            <strong data-motion-theme>{environment.theme}</strong>
-          </li>
-          <li>
-            {t.reducedMotionLabel}{' '}
-            <strong data-motion-preference>
-              {environment.reduced ? t.reduceValue : t.noPreferenceValue}
-            </strong>
-          </li>
-          <li>
-            {t.viewTransitionsLabel}{' '}
-            <strong data-motion-support>
-              {environment.supported ? t.availableValue : t.unavailableValue}
-            </strong>
-          </li>
-        </ul>
-        <div className='actions'>
-          <Button variant='outline' onClick={toggleTheme}>
-            {t.cyclePreviewTheme}
-          </Button>
-        </div>
-        <p>{t.themeCycleInfo}</p>
-      </section>
-      <section id='panels'>
-        <h2>{t.panelsTitle}</h2>
         <p>{t.panelsIntro}</p>
         <div className='actions'>
           <Dialog.Root>
@@ -301,38 +253,33 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
             </Sheet.Content>
           </Sheet.Root>
         </div>
-        <p>
-          {t.panelSeeBefore}{' '}
-          <Link href='/components/drawer'>{t.drawerGestureExample}</Link>{' '}
-          {t.panelAnd}{' '}
-          <Link href='/components/accordion'>{t.heightTransitionsLink}</Link>{' '}
-          {t.panelSeeAfter}
-        </p>
-      </section>
-      <section id='reduction'>
-        <h2>{t.reductionTitle}</h2>
-        <p>
-          {t.reductionIntroBefore} <code>prefers-reduced-motion: reduce</code>
-          {t.reductionIntroAfter}
-        </p>
-        <ul>
-          <li>{t.reductionBulletMovement}</li>
-          <li>{t.reductionBulletTheme}</li>
-          <li>{t.reductionBulletProducts}</li>
+        <p>{codeText(t.transitionsNote)}</p>
+      </FoundationSection>
+      <FoundationSection id='theme'>
+        <p>{codeText(t.themeIntro)}</p>
+        <ul aria-label={t.environmentLabel}>
+          <li>
+            {t.resolvedThemeLabel}{' '}
+            <strong data-motion-theme>{environment.theme}</strong>
+          </li>
+          <li>
+            {t.reducedMotionLabel}{' '}
+            <strong data-motion-preference>
+              {environment.reduced ? t.reduceValue : t.noPreferenceValue}
+            </strong>
+          </li>
+          <li>
+            {t.viewTransitionsLabel}{' '}
+            <strong data-motion-support>
+              {environment.supported ? t.availableValue : t.unavailableValue}
+            </strong>
+          </li>
         </ul>
-        <p>
-          <a href='https://www.w3.org/WAI/WCAG22/Techniques/css/C39.html'>
-            {t.w3cReducedMotionLink}
-          </a>
-          {' / '}
-          <a href='https://base-ui.com/react/handbook/animation'>
-            {t.baseUiAnimationLink}
-          </a>
-        </p>
-      </section>
-      <section id='application'>
-        <h2>{t.applicationTitle}</h2>
-        <p>{t.applicationIntro}</p>
+        <div className='actions'>
+          <Button variant='outline' onClick={toggleTheme}>
+            {t.cyclePreviewTheme}
+          </Button>
+        </div>
         <CodeBlock
           language='tsx'
           label={t.codeLabel}
@@ -346,13 +293,27 @@ await transitionTheme(() => {
   flushSync(() => setMode(nextMode))
 })`}
         />
-        <p>{t.applicationClosing}</p>
-        <div className='token-reference-links'>
-          <Link href='/tokens?q=--motion'>{t.motionTokensLink}</Link>
-          <Link href='/foundations/color'>{t.colorContrastLink}</Link>
-          <Link href='/patterns/interaction-lab'>{t.interactionLabLink}</Link>
-        </div>
-      </section>
-    </>
+        <p>{codeText(t.themeNote)}</p>
+      </FoundationSection>
+      <FoundationSection id='reduced'>
+        <ul>
+          {t.reduced.map((item) => (
+            <li key={item}>{codeText(item)}</li>
+          ))}
+        </ul>
+        <p>
+          <a href='https://www.w3.org/WAI/WCAG22/Techniques/css/C39.html'>
+            {t.w3cReducedMotionLink}
+          </a>
+          {' / '}
+          <a href='https://base-ui.com/react/handbook/animation'>
+            {t.baseUiAnimationLink}
+          </a>
+        </p>
+      </FoundationSection>
+      <FoundationSection id='easing'>
+        <EasingLab />
+      </FoundationSection>
+    </FoundationPage>
   )
 }

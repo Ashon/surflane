@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Button, Field, NativeSelect, Slider, Table } from '@surflane/ui'
+import { codeText } from './codeText'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/EasingLab'
 function points(value: string): number[] | null {
@@ -24,7 +25,7 @@ export function EasingLab() {
   const t = text[useLocale().locale]
   const roles: [string, string][] = [
     ['--motion-ease', t.stateFeedback],
-    ['--motion-spatial-ease', t.panelMovement],
+    ['--motion-spatial-ease', t.dialogRise],
     ['--toast-stack-ease', t.toastStack],
     ['--ease-in', t.accelerationComparison],
     ['linear', t.linearComparison],
@@ -33,7 +34,7 @@ export function EasingLab() {
   const [duration, setDuration] = useState(200)
   const [easing, setEasing] = useState('linear')
   const [time, setTime] = useState(0)
-  const [phase, setPhase] = useState('Ready')
+  const [phase, setPhase] = useState<keyof typeof t.phaseLabels>('Ready')
   const [reduced, setReduced] = useState(false)
   const track = useRef<HTMLDivElement>(null)
   const marker = useRef<HTMLDivElement>(null)
@@ -126,8 +127,7 @@ export function EasingLab() {
     frame.current = requestAnimationFrame(tick)
   }
   return (
-    <section id='easing'>
-      <h2>{t.title}</h2>
+    <>
       <p>{t.intro}</p>
       <div className='easing-controls'>
         <Field.Root>
@@ -233,32 +233,26 @@ export function EasingLab() {
             </Slider.Control>
           </Slider.Root>
           <p data-easing-readout>
-            Time {time.toFixed(0)}% / Progress {(progress * 100).toFixed(1)}%
+            {t.readout(time.toFixed(0), (progress * 100).toFixed(1))}
           </p>
           <div className='actions'>
-            <Button onClick={play}>Play easing preview</Button>
+            <Button onClick={play}>{t.playPreview}</Button>
             <Button variant='outline' onClick={() => seek(0)}>
-              Reset easing preview
+              {t.resetPreview}
             </Button>
           </div>
-          <p role='status' aria-label='Easing playback status'>
-            {phase}
+          <p role='status' aria-label={t.playbackStatusLabel}>
+            {t.phaseLabels[phase]}
           </p>
         </div>
       </div>
-      <Table.Container
-        bleed
-        label='Easing progress samples'
-        orientation='horizontal'
-      >
+      <Table.Container bleed label={t.tableLabel} orientation='horizontal'>
         <Table.Root>
-          <Table.Caption>
-            Progress at the same fraction of total time
-          </Table.Caption>
+          <Table.Caption>{t.caption}</Table.Caption>
           <Table.Head>
             <Table.Row>
-              <Table.HeaderCell>Elapsed time</Table.HeaderCell>
-              <Table.HeaderCell>Movement progress</Table.HeaderCell>
+              <Table.HeaderCell>{t.elapsedTimeHeader}</Table.HeaderCell>
+              <Table.HeaderCell>{t.movementProgressHeader}</Table.HeaderCell>
             </Table.Row>
           </Table.Head>
           <Table.Body>
@@ -273,41 +267,15 @@ export function EasingLab() {
           </Table.Body>
         </Table.Root>
       </Table.Container>
-      <h3>How the curve works</h3>
+      <p>{codeText(t.curveRead)}</p>
+      <p>{t.curveLimits}</p>
       <p>
-        <code>cubic-bezier(x1, y1, x2, y2)</code> builds a curve from (0, 0) to
-        (1, 1) with two control points. To read it, find the point on the curve
-        that matches time x, then use that point's y as progress. Don't use the
-        curve's internal parameter u as time. It gives wrong results.
+        <a href='https://www.w3.org/TR/css-easing-1/'>{t.cssEasingLink}</a>
+        {' / '}
+        <a href='https://www.w3.org/TR/web-animations-1/'>
+          {t.webAnimationsLink}
+        </a>
       </p>
-      <p>
-        A steep slope means fast change. A shallow slope means slow change.
-        State feedback responds quickly, then decelerates. Panel movement
-        travels faster early on. Toast stack decelerates more gently because
-        several cards move together. Linear compares constant speed, and
-        Acceleration compares a curve that keeps speeding up.
-      </p>
-      <p>
-        In CSS, control point x values must stay within 0–1. The y values can go
-        outside that range to create overshoot. This example compares only the
-        system's non-overshooting curves. 600ms is a slow playback for
-        observation, not a product default. The animation runs through the
-        browser's Web Animations API, and the curve display computes the same
-        easing.
-      </p>
-      <p>
-        With reduced motion, playback completes immediately and the time slider
-        shows static positions. Completion is announced only when the playback
-        state changes. Progress isn't read out on every frame. Never treat
-        animation completion as completion of a network task.
-      </p>
-      <p>
-        References:{' '}
-        <a href='https://www.w3.org/TR/css-easing-1/'>
-          W3C CSS Easing Functions
-        </a>{' '}
-        / <a href='https://www.w3.org/TR/web-animations-1/'>Web Animations</a>
-      </p>
-    </section>
+    </>
   )
 }

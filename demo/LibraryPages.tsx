@@ -14,16 +14,32 @@ import { Link } from './router'
 import { useCatalogText } from './catalogText'
 import { useMessages } from './i18n'
 export function FoundationIndex() {
-  return <ItemList items={foundations} layout='grid' />
+  const text = useCatalogText()
+  return [...new Set(foundations.map((item) => item.group))].map((group) => {
+    const heading = `foundation-group-${group.toLowerCase()}`
+    return (
+      <section key={group} aria-labelledby={heading}>
+        <h2 id={heading}>{text.group(group)}</h2>
+        <ItemList
+          items={foundations.filter((item) => item.group === group)}
+          layout='grid'
+          stage={false}
+        />
+      </section>
+    )
+  })
 }
 export function ItemList({
   items,
   layout = 'list',
   columns = 2,
+  stage = true,
 }: {
   items: CatalogItem[]
   layout?: 'list' | 'grid'
   columns?: 2 | 3
+  /** Show each item's stage. Lists whose items share one stage leave it out. */
+  stage?: boolean
 }) {
   const text = useCatalogText()
   const children = items.map((item) => (
@@ -36,7 +52,7 @@ export function ItemList({
       <div>
         <div className='catalog-item-heading'>
           <strong>{text.name(item)}</strong>
-          <StageLabel item={item} />
+          {stage && <StageLabel item={item} />}
         </div>
         <p>{text.summary(item)}</p>
       </div>

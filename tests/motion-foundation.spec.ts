@@ -154,5 +154,5 @@ test('unsupported View Transitions API is accurately described and theme actions
   await expect(page).toHaveURL(/tokens\?q=--dialog-enter-offset/)
   await page.goBack()
   await waitForCatalogReady(page)
-  await expect(page.locator('#page-title')).toHaveText('Motion / theme')
+  await expect(page.locator('#page-title')).toHaveText('Motion')
 })

@@ -61,13 +61,26 @@ const ColorFoundation = lazy(() =>
     default: module.ColorFoundation,
   })),
 )
-const FoundationDemo = lazy(() =>
-  import('./FoundationDemo').then((module) => ({
-    default: module.FoundationDemo,
+const LayoutFoundation = lazy(() =>
+  import('./LayoutFoundation').then((module) => ({
+    default: module.LayoutFoundation,
+  })),
+)
+const TypographyFoundation = lazy(() =>
+  import('./TypographyFoundation').then((module) => ({
+    default: module.TypographyFoundation,
+  })),
+)
+const FoundationLab = lazy(() =>
+  import('./FoundationLab').then((module) => ({
+    default: module.FoundationLab,
   })),
 )
 const TokenBrowser = lazy(() =>
   import('./TokenBrowser').then((module) => ({ default: module.TokenBrowser })),
+)
+const TokenPage = lazy(() =>
+  import('./TokenBrowser').then((module) => ({ default: module.TokenPage })),
 )
 const InteractionLab = lazy(() =>
   import('./InteractionLab').then((module) => ({
@@ -89,7 +102,7 @@ const CoveragePage = lazy(() =>
   import('./CoveragePage').then((module) => ({ default: module.CoveragePage })),
 )
 const InstallGuide = lazy(() => import('./InstallGuide'))
-import { catalog, components, patterns, itemHref } from './catalog'
+import { catalog, components, foundations, patterns, itemHref } from './catalog'
 import {
   Link,
   normalizeRoute,
@@ -208,9 +221,6 @@ function App() {
     '/': 'Overview',
     '/install': 'Install',
     '/foundations': 'Foundations',
-    '/foundations/layout': 'Foundations',
-    '/foundations/typography': 'Foundations',
-    '/tokens': 'Foundations',
     '/components': 'Components',
     '/patterns': 'Patterns',
     '/coverage': 'Coverage',
@@ -345,20 +355,19 @@ function App() {
     content = <MotionFoundation toggleTheme={toggleTheme} />
   else if (route === '/foundations/color') content = <ColorFoundation />
   else if (route === '/foundations/themes') content = <ThemeFoundation />
-  else if (route === '/foundations/layout')
-    content = <FoundationDemo view='layout' />
+  else if (route === '/foundations/layout') content = <LayoutFoundation />
   else if (route === '/foundations/typography')
-    content = <FoundationDemo view='typography' />
+    content = <TypographyFoundation />
   else if (route === '/foundations/lab')
     content = (
       <>
-        <FoundationDemo />
+        <FoundationLab />
         <TokenBrowser />
       </>
     )
   else if (route === '/tokens')
     content = (
-      <TokenBrowser
+      <TokenPage
         initialQuery={
           new URLSearchParams(window.location.search).get('q') ?? ''
         }
@@ -424,12 +433,19 @@ function App() {
             ))}
           </div>
         ) : area === 'Foundations' ? (
-          <div className='catalog-nav-group'>
-            {navLink('/foundations', messages.allFoundations)}
-            {catalog
-              .filter((c) => c.kind === 'foundation')
-              .map((c) => navLink(itemHref(c), text.name(c)))}
-          </div>
+          <>
+            <div className='catalog-nav-group'>
+              {navLink('/foundations', messages.allFoundations)}
+            </div>
+            {[...new Set(foundations.map((c) => c.group))].map((group) => (
+              <div className='catalog-nav-group' key={group}>
+                <span className='catalog-nav-label'>{text.group(group)}</span>
+                {foundations
+                  .filter((c) => c.group === group)
+                  .map((c) => navLink(itemHref(c), text.name(c)))}
+              </div>
+            ))}
+          </>
         ) : area === 'Components' ? (
           <>
             <div className='catalog-nav-group'>

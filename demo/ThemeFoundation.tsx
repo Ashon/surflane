@@ -27,6 +27,8 @@ import {
   type Theme,
 } from '@surflane/design-tokens/theme-builder'
 import { useLocale } from './i18n'
+import { FoundationPage, FoundationSection } from './FoundationPage'
+import { Link } from './router'
 import { SliderField } from './SliderField'
 import { text } from './i18n/pages/ThemeFoundation'
 
@@ -356,184 +358,35 @@ export function ThemeFoundation() {
     `radius-${inputs.radius}`,
   ].filter(Boolean)
   return (
-    <div className='theme-foundation'>
-      <p>{t.intro}</p>
-      <h2 id='theme-build'>{t.buildTitle}</h2>
-      <div className='theme-builder'>
-        <section className='theme-inputs' aria-label={t.controls}>
-          <fieldset>
-            <legend>{t.neutral}</legend>
-            <p className='theme-hint'>{t.neutralHint}</p>
-            <Presets
-              label={t.neutral}
-              names={Object.keys(neutralPresets) as NeutralName[]}
-              value={inputs.neutral.preset}
-              t={t}
-              onChange={(preset) =>
-                setInputs((old) => ({
-                  ...old,
-                  neutral: { preset, chroma: 1, ...neutralPresets[preset] },
-                }))
-              }
-            />
-            <SliderField
-              label={t.neutralHue}
-              value={inputs.neutral.hue ?? slateHue}
-              min={0}
-              max={359}
-              step={1}
-              format={(value) => `${value}°`}
-              onChange={(hue) =>
-                setInputs((old) => ({
-                  ...old,
-                  neutral: { ...old.neutral, preset: 'custom', hue },
-                }))
-              }
-            />
-            <SliderField
-              label={t.neutralChroma}
-              value={inputs.neutral.chroma}
-              min={0}
-              max={2}
-              step={0.1}
-              format={(value) => `${value.toFixed(1)}×`}
-              onChange={(chroma) =>
-                setInputs((old) => ({
-                  ...old,
-                  neutral: {
-                    ...old.neutral,
-                    preset: 'custom',
-                    hue: old.neutral.hue ?? slateHue,
-                    chroma,
-                  },
-                }))
-              }
-            />
-          </fieldset>
-          <fieldset>
-            <legend>{t.accent}</legend>
-            <p className='theme-hint'>{t.accentHint}</p>
-            <Presets
-              label={t.accent}
-              names={Object.keys(accentPresets) as AccentName[]}
-              value={inputs.accent.preset}
-              t={t}
-              swatch={(name) =>
-                createTheme({ accent: accentPresets[name] }).dark['--brand']
-              }
-              onChange={(preset) =>
-                setInputs((old) => ({
-                  ...old,
-                  accent: { preset, ...accentPresets[preset] },
-                }))
-              }
-            />
-            <SliderField
-              label={t.accentHue}
-              value={inputs.accent.hue}
-              min={0}
-              max={359}
-              step={1}
-              format={(value) => `${value}°`}
-              onChange={(hue) =>
-                setInputs((old) => ({
-                  ...old,
-                  accent: { ...old.accent, preset: 'custom', hue },
-                }))
-              }
-            />
-            <SliderField
-              label={t.accentChroma}
-              value={inputs.accent.chroma}
-              min={0}
-              max={0.2}
-              step={0.005}
-              format={(value) => value.toFixed(3)}
-              onChange={(chroma) =>
-                setInputs((old) => ({
-                  ...old,
-                  accent: { ...old.accent, preset: 'custom', chroma },
-                }))
-              }
-            />
-            {inputs.accent.chroma > limit && (
-              <p className='theme-hint' role='status'>
-                {t.chromaClamped(limit.toFixed(3))}
-              </p>
-            )}
-          </fieldset>
-          <fieldset>
-            <legend>{t.radius}</legend>
-            <p className='theme-hint'>{t.radiusHint}</p>
-            <Presets
-              label={t.radius}
-              names={Object.keys(radiusPresets) as RadiusName[]}
-              value={inputs.radius}
-              t={t}
-              onChange={(radius) => setInputs((old) => ({ ...old, radius }))}
-            />
-          </fieldset>
-          <Button variant='ghost' onClick={() => setInputs(defaults)}>
-            {t.resetTheme}
-          </Button>
-        </section>
-        <div className='theme-stage' id='theme-preview'>
-          <ToggleGroup
-            aria-label={t.previewMode}
-            value={[mode]}
-            onValueChange={(next) => {
-              if (next[0]) setMode(next[0] as 'dark' | 'light')
-            }}
-          >
-            <Toggle value='dark'>{t.dark}</Toggle>
-            <Toggle value='light'>{t.light}</Toggle>
-          </ToggleGroup>
-          <Preview theme={theme} mode={mode} t={t} number={number} />
-        </div>
-      </div>
-      <h2 id='theme-contrast'>{t.contrastTitle}</h2>
-      <p>{t.contrastIntro}</p>
-      <ContrastReport theme={theme} t={t} />
-      <h2 id='theme-css'>{t.cssTitle}</h2>
-      <p>{t.cssIntro}</p>
-      <CodeBlock
-        language='css'
-        label={t.cssLabel}
-        copyLabel={t.copyCss}
-        code={css.trim()}
-      />
-      <h3>{t.presetTitle}</h3>
-      <p>{t.presetIntro}</p>
-      <CodeBlock
-        language='css'
-        label={t.presetLabel}
-        code={[
-          "@import '@surflane/design-tokens/tokens.css';",
-          ...files.map(
-            (file) => `@import '@surflane/design-tokens/themes/${file}.css';`,
-          ),
-        ].join('\n')}
-      />
-      <h3>{t.builderTitle}</h3>
-      <p>{t.builderIntro}</p>
-      <CodeBlock
-        language='ts'
-        label={t.builderLabel}
-        code={`import { createTheme, themeCss } from '@surflane/design-tokens/theme-builder'
-
-const theme = createTheme({
-  neutral: { hue: ${inputs.neutral.hue ?? slateHue}, chroma: ${inputs.neutral.chroma} },
-  accent: { hue: ${inputs.accent.hue}, chroma: ${inputs.accent.chroma} },
-  radius: ${radiusPresets[inputs.radius]},
-})
-const css = themeCss(theme)`}
-      />
-      <h2 id='theme-shadcn'>{t.shadcnTitle}</h2>
-      <p>{t.shadcnIntro}</p>
-      <CodeBlock
-        language='css'
-        label={t.shadcnLabel}
-        code={`@import 'tailwindcss';
+    <FoundationPage
+      principles={t.principles}
+      sections={t.sections}
+      related={['/foundations/color', '/foundations/motion', '/tokens']}
+    >
+      <FoundationSection id='selection'>
+        <p>{t.selectionIntro}</p>
+        <CodeBlock
+          language='html'
+          label={t.selectionLabel}
+          code={`<html data-theme="light">
+  <body>
+    <!-- A dark preview inside the light page -->
+    <section data-theme="dark">…</section>
+  </body>
+</html>`}
+        />
+        <p>
+          {t.transitionStart}
+          <Link href='/foundations/motion'>{t.transitionLink}</Link>
+          {t.transitionEnd}
+        </p>
+      </FoundationSection>
+      <FoundationSection id='shadcn'>
+        <p>{t.shadcnIntro}</p>
+        <CodeBlock
+          language='css'
+          label={t.shadcnLabel}
+          code={`@import 'tailwindcss';
 @import '@surflane/design-tokens/tokens.css' layer(components);
 ${files
   .map(
@@ -546,8 +399,181 @@ ${files
 
 /* In your shadcn CSS, keep @theme inline. Delete the :root and .dark
    color blocks and the @custom-variant dark line. */`}
-      />
-    </div>
+        />
+      </FoundationSection>
+      <FoundationSection id='builder'>
+        <p>{t.builderIntro}</p>
+        <div className='theme-builder'>
+          <section className='theme-inputs' aria-label={t.controls}>
+            <fieldset>
+              <legend>{t.neutral}</legend>
+              <p className='theme-hint'>{t.neutralHint}</p>
+              <Presets
+                label={t.neutral}
+                names={Object.keys(neutralPresets) as NeutralName[]}
+                value={inputs.neutral.preset}
+                t={t}
+                onChange={(preset) =>
+                  setInputs((old) => ({
+                    ...old,
+                    neutral: { preset, chroma: 1, ...neutralPresets[preset] },
+                  }))
+                }
+              />
+              <SliderField
+                label={t.neutralHue}
+                value={inputs.neutral.hue ?? slateHue}
+                min={0}
+                max={359}
+                step={1}
+                format={(value) => `${value}°`}
+                onChange={(hue) =>
+                  setInputs((old) => ({
+                    ...old,
+                    neutral: { ...old.neutral, preset: 'custom', hue },
+                  }))
+                }
+              />
+              <SliderField
+                label={t.neutralChroma}
+                value={inputs.neutral.chroma}
+                min={0}
+                max={2}
+                step={0.1}
+                format={(value) => `${value.toFixed(1)}×`}
+                onChange={(chroma) =>
+                  setInputs((old) => ({
+                    ...old,
+                    neutral: {
+                      ...old.neutral,
+                      preset: 'custom',
+                      hue: old.neutral.hue ?? slateHue,
+                      chroma,
+                    },
+                  }))
+                }
+              />
+            </fieldset>
+            <fieldset>
+              <legend>{t.accent}</legend>
+              <p className='theme-hint'>{t.accentHint}</p>
+              <Presets
+                label={t.accent}
+                names={Object.keys(accentPresets) as AccentName[]}
+                value={inputs.accent.preset}
+                t={t}
+                swatch={(name) =>
+                  createTheme({ accent: accentPresets[name] }).dark['--brand']
+                }
+                onChange={(preset) =>
+                  setInputs((old) => ({
+                    ...old,
+                    accent: { preset, ...accentPresets[preset] },
+                  }))
+                }
+              />
+              <SliderField
+                label={t.accentHue}
+                value={inputs.accent.hue}
+                min={0}
+                max={359}
+                step={1}
+                format={(value) => `${value}°`}
+                onChange={(hue) =>
+                  setInputs((old) => ({
+                    ...old,
+                    accent: { ...old.accent, preset: 'custom', hue },
+                  }))
+                }
+              />
+              <SliderField
+                label={t.accentChroma}
+                value={inputs.accent.chroma}
+                min={0}
+                max={0.2}
+                step={0.005}
+                format={(value) => value.toFixed(3)}
+                onChange={(chroma) =>
+                  setInputs((old) => ({
+                    ...old,
+                    accent: { ...old.accent, preset: 'custom', chroma },
+                  }))
+                }
+              />
+              {inputs.accent.chroma > limit && (
+                <p className='theme-hint' role='status'>
+                  {t.chromaClamped(limit.toFixed(3))}
+                </p>
+              )}
+            </fieldset>
+            <fieldset>
+              <legend>{t.radius}</legend>
+              <p className='theme-hint'>{t.radiusHint}</p>
+              <Presets
+                label={t.radius}
+                names={Object.keys(radiusPresets) as RadiusName[]}
+                value={inputs.radius}
+                t={t}
+                onChange={(radius) => setInputs((old) => ({ ...old, radius }))}
+              />
+            </fieldset>
+            <Button variant='ghost' onClick={() => setInputs(defaults)}>
+              {t.resetTheme}
+            </Button>
+          </section>
+          <div className='theme-stage' id='theme-preview'>
+            <ToggleGroup
+              aria-label={t.previewMode}
+              value={[mode]}
+              onValueChange={(next) => {
+                if (next[0]) setMode(next[0] as 'dark' | 'light')
+              }}
+            >
+              <Toggle value='dark'>{t.dark}</Toggle>
+              <Toggle value='light'>{t.light}</Toggle>
+            </ToggleGroup>
+            <Preview theme={theme} mode={mode} t={t} number={number} />
+          </div>
+        </div>
+        <h3>{t.contrastTitle}</h3>
+        <p>{t.contrastIntro}</p>
+        <ContrastReport theme={theme} t={t} />
+        <h3>{t.cssTitle}</h3>
+        <p>{t.cssIntro}</p>
+        <CodeBlock
+          language='css'
+          label={t.cssLabel}
+          copyLabel={t.copyCss}
+          code={css.trim()}
+        />
+        <h3>{t.presetTitle}</h3>
+        <p>{t.presetIntro}</p>
+        <CodeBlock
+          language='css'
+          label={t.presetLabel}
+          code={[
+            "@import '@surflane/design-tokens/tokens.css';",
+            ...files.map(
+              (file) => `@import '@surflane/design-tokens/themes/${file}.css';`,
+            ),
+          ].join('\n')}
+        />
+        <h3>{t.codeTitle}</h3>
+        <p>{t.codeIntro}</p>
+        <CodeBlock
+          language='ts'
+          label={t.builderLabel}
+          code={`import { createTheme, themeCss } from '@surflane/design-tokens/theme-builder'
+
+const theme = createTheme({
+  neutral: { hue: ${inputs.neutral.hue ?? slateHue}, chroma: ${inputs.neutral.chroma} },
+  accent: { hue: ${inputs.accent.hue}, chroma: ${inputs.accent.chroma} },
+  radius: ${radiusPresets[inputs.radius]},
+})
+const css = themeCss(theme)`}
+        />
+      </FoundationSection>
+    </FoundationPage>
   )
 }
 export default ThemeFoundation

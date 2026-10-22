@@ -1,9 +1,41 @@
 import type { Locale } from '../../i18n'
 
 const en = {
-  intro:
-    'Build a theme from three inputs: a neutral tint, an accent and a radius scale. Lightness never changes, so text keeps the contrast the default palette was measured for. Only hue and chroma move, and chroma stays inside the sRGB gamut.',
-  buildTitle: 'Build a theme',
+  principles: [
+    [
+      'Choose a theme with data-theme.',
+      'Without it the page follows the system setting, and light or dark on <html> fixes the choice.',
+    ],
+    [
+      'Resolve the theme before the first paint.',
+      'Read the saved choice on the server, from a cookie for example, so the page never flashes the other theme.',
+    ],
+    [
+      'Scope a theme only for previews.',
+      'Tokens resolve again under any data-theme, which suits an embedded preview but not a second theme on one page.',
+    ],
+    [
+      'Change hue and chroma, never lightness.',
+      "The builder keeps each step at its lightness, so text contrast stays close to the default palette's, and its report shows the result.",
+    ],
+    [
+      'Leave status colors alone.',
+      'An accent theme recolors actions, selection and links, while success, danger and caution keep their meaning.',
+    ],
+  ],
+  sections: {
+    selection: 'Theme selection',
+    shadcn: 'shadcn/ui',
+    builder: 'Theme builder',
+  },
+  selectionIntro:
+    "Set data-theme on <html>, or on any element to scope that theme to its subtree. The value is 'light' or 'dark'.",
+  selectionLabel: 'Theme selection markup',
+  transitionStart: 'To animate a change, see ',
+  transitionLink: 'Motion',
+  transitionEnd: '. Saving the choice belongs to your app.',
+  builderIntro:
+    'Pick a neutral tint, an accent and a radius scale. The preview, the contrast report and the CSS below follow your choices.',
   controls: 'Theme inputs',
   neutral: 'Neutral',
   neutralHint:
@@ -67,8 +99,7 @@ const en = {
   review: 'Needs review',
   failed: 'Failed',
   contrastTitle: 'Contrast report',
-  contrastIntro:
-    'WCAG 2 contrast for the text pairs that matter, measured for both themes. Text needs 4.5:1.',
+  contrastIntro: 'Text pairs in both themes, against the 4.5:1 text minimum.',
   contrastCaption: 'Contrast of text pairs in the current theme',
   pair: 'Pair',
   pairs: {
@@ -84,16 +115,15 @@ const en = {
   ratio: (value: string) => `${value}:1`,
   cssTitle: 'CSS',
   cssIntro:
-    'Load this with the Surflane tokens. It sits in the surflane.themes layer above them, so the import order does not matter, and it mirrors the contexts in tokens.css, so data-theme regions keep working.',
-  presetTitle: 'Presets as files',
+    "Load this with the tokens. It sits in the surflane.themes layer, so import order doesn't matter, and scoped data-theme regions keep working.",
+  presetTitle: 'Preset files',
   presetIntro:
     'Each preset ships as a file. Import any neutral, accent and radius file with the tokens.',
-  builderTitle: 'Themes in code',
-  builderIntro:
+  codeTitle: 'Themes in code',
+  codeIntro:
     'createTheme returns the same values for your own inputs, and themeCss turns them into CSS.',
-  shadcnTitle: 'shadcn/ui',
   shadcnIntro:
-    'shadcn.css maps the shadcn/ui variables, such as --background, --primary and --radius, to Surflane tokens. shadcn components then follow every Surflane theme, including scoped data-theme regions. In your shadcn CSS, keep the @theme inline block and delete the :root and .dark color blocks and the @custom-variant dark line. Switch themes with data-theme.',
+    'shadcn.css maps shadcn/ui variables such as --background, --primary and --radius to Surflane tokens. shadcn components then follow every theme, scoped regions included.',
   cssLabel: 'Theme CSS',
   presetLabel: 'Preset imports',
   builderLabel: 'Theme builder code',
@@ -104,22 +134,54 @@ const en = {
 export const text: Record<Locale, typeof en> = {
   en,
   ko: {
-    intro:
-      '중립색 톤, 강조색, 모서리 크기의 세 가지 입력으로 테마를 만듭니다. 밝기는 바뀌지 않으므로 텍스트는 기본 팔레트에서 측정한 대비를 그대로 유지합니다. 색조와 채도만 바뀌며, 채도는 sRGB 범위 안에 머뭅니다.',
-    buildTitle: '테마 만들기',
+    principles: [
+      [
+        'data-theme으로 테마를 고르세요.',
+        '속성이 없으면 시스템 설정을 따르고, <html>에 light나 dark를 두면 그 테마로 고정됩니다.',
+      ],
+      [
+        '첫 화면을 그리기 전에 테마를 정하세요.',
+        '저장한 선택을 쿠키처럼 서버에서 읽어야 다른 테마가 잠깐 비치지 않습니다.',
+      ],
+      [
+        '범위 테마는 미리보기에만 쓰세요.',
+        'data-theme 아래에서 토큰이 모두 다시 해석되므로, 끼워 넣은 미리보기에는 맞지만 한 페이지에 테마를 둘 두는 데는 맞지 않습니다.',
+      ],
+      [
+        '색상과 채도만 바꾸고 밝기는 두세요.',
+        '빌더는 단계마다 밝기를 지키므로 글자 대비가 기본 팔레트와 거의 같고, 결과는 대비 보고서에 나옵니다.',
+      ],
+      [
+        '상태색은 그대로 두세요.',
+        '강조색 테마는 작업, 선택, 링크의 색을 바꾸지만, 성공, 위험, 주의는 제 의미를 지킵니다.',
+      ],
+    ],
+    sections: {
+      selection: '테마 선택',
+      shadcn: 'shadcn/ui',
+      builder: '테마 빌더',
+    },
+    selectionIntro:
+      'data-theme은 <html>에 두거나, 아무 요소에 두어 그 아래에만 테마를 적용하세요. 값은 light 또는 dark입니다.',
+    selectionLabel: '테마 선택 마크업',
+    transitionStart: '전환 애니메이션은 ',
+    transitionLink: '모션',
+    transitionEnd: '에서 다룹니다. 선택을 저장하는 일은 앱이 맡습니다.',
+    builderIntro:
+      '중립색 톤, 강조색, 모서리 크기를 고르세요. 미리보기, 대비 보고서, 아래 CSS가 고른 값을 따릅니다.',
     controls: '테마 입력',
     neutral: '중립색',
     neutralHint:
       '배경, 선, 텍스트의 모든 회색에 톤을 입힙니다. 단계마다 밝기는 고정됩니다.',
-    neutralHue: '중립색 색조',
+    neutralHue: '중립색 색상',
     neutralChroma: '톤 강도',
     accent: '강조색',
     accentHint:
       '기본 버튼, 체크박스, 선택, 다크 테마의 링크를 채웁니다. 성공 상태는 자기 색을 유지합니다.',
-    accentHue: '강조색 색조',
+    accentHue: '강조색 색상',
     accentChroma: '강조색 채도',
     chromaClamped: (max: string) =>
-      `이 색조가 sRGB에서 낼 수 있는 최대치인 ${max}로 줄였습니다.`,
+      `이 색상이 sRGB에서 낼 수 있는 최대치인 ${max}로 줄였습니다.`,
     radius: '모서리',
     radiusHint:
       '모든 모서리 토큰의 크기를 조정합니다. 알약 모양은 둥근 채로 둡니다.',
@@ -170,8 +232,7 @@ export const text: Record<Locale, typeof en> = {
     review: '검토 필요',
     failed: '실패',
     contrastTitle: '대비 보고서',
-    contrastIntro:
-      '중요한 텍스트 조합의 WCAG 2 대비를 두 테마 모두에서 측정합니다. 텍스트는 4.5:1이 필요합니다.',
+    contrastIntro: '두 테마의 글자 조합을 글자 최소 기준 4.5:1로 잽니다.',
     contrastCaption: '현재 테마의 텍스트 조합 대비',
     pair: '조합',
     pairs: {
@@ -187,16 +248,15 @@ export const text: Record<Locale, typeof en> = {
     ratio: (value: string) => `${value}:1`,
     cssTitle: 'CSS',
     cssIntro:
-      'Surflane 토큰과 함께 불러오세요. 토큰 위의 surflane.themes 레이어에 있어 불러오는 순서와 상관없고, tokens.css와 같은 맥락을 따르므로 data-theme 영역이 그대로 동작합니다.',
-    presetTitle: '파일로 제공되는 프리셋',
+      '토큰과 함께 불러오세요. surflane.themes 레이어에 있어 불러오는 순서와 상관없고, 범위 data-theme 영역도 그대로 동작합니다.',
+    presetTitle: '프리셋 파일',
     presetIntro:
-      '프리셋마다 파일이 있습니다. 토큰과 함께 중립색, 강조색, 모서리 파일을 원하는 대로 불러오세요.',
-    builderTitle: '코드로 만드는 테마',
-    builderIntro:
+      '프리셋마다 파일이 있습니다. 토큰과 함께 중립색, 강조색, 모서리 파일을 골라 불러오세요.',
+    codeTitle: '코드로 만드는 테마',
+    codeIntro:
       'createTheme은 직접 정한 입력으로 같은 값을 돌려주고, themeCss는 그 값을 CSS로 바꿉니다.',
-    shadcnTitle: 'shadcn/ui',
     shadcnIntro:
-      'shadcn.css는 --background, --primary, --radius 같은 shadcn/ui 변수를 Surflane 토큰에 연결합니다. 그러면 shadcn 컴포넌트가 범위가 지정된 data-theme 영역을 포함해 모든 Surflane 테마를 따릅니다. shadcn CSS에서 @theme inline 블록은 두고 :root와 .dark 색 블록, @custom-variant dark 줄은 지우세요. 테마는 data-theme으로 전환하세요.',
+      'shadcn.css는 --background, --primary, --radius 같은 shadcn/ui 변수를 Surflane 토큰에 연결합니다. 그러면 shadcn 컴포넌트가 범위 영역을 포함한 모든 테마를 따릅니다.',
     cssLabel: '테마 CSS',
     presetLabel: '프리셋 불러오기',
     builderLabel: '테마 생성 코드',

@@ -132,11 +132,11 @@ test('skip link and route changes expose the correct main target and focused hea
   await expect(page.getByRole('main')).toBeFocused()
   await page
     .getByRole('navigation', { name: 'Catalog navigation' })
-    .getByRole('link', { name: 'Color / contrast', exact: true })
+    .getByRole('link', { name: 'Color', exact: true })
     .click()
   await waitForCatalogReady(page)
   await expect(page.locator('#page-title')).toBeFocused()
-  await expect(page).toHaveTitle('Color / contrast | Surflane')
+  await expect(page).toHaveTitle('Color | Surflane')
   await page.goBack()
   await waitForCatalogReady(page)
   await expect(page.locator('#page-title')).toHaveText('Accessibility')
