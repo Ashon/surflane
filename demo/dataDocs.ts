@@ -72,6 +72,11 @@ const selection = useTableSelection({
     props: [
       ['Container.label', 'accessible name of the scroll region', 'required'],
       [
+        'Container.bleed',
+        'hangs the table by its cell inset, so cell text meets the text around it',
+        'false',
+      ],
+      [
         'Root.density',
         'default | compact; compact sets 4px cell padding and 2px between rows',
         'default',

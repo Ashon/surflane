@@ -246,7 +246,11 @@ export function EasingLab() {
           </p>
         </div>
       </div>
-      <Table.Container label='Easing progress samples' orientation='horizontal'>
+      <Table.Container
+        bleed
+        label='Easing progress samples'
+        orientation='horizontal'
+      >
         <Table.Root>
           <Table.Caption>
             Progress at the same fraction of total time

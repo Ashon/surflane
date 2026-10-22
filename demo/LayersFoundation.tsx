@@ -12,6 +12,7 @@ import {
   Toggle,
   Tooltip,
   TooltipProvider,
+  ChoiceLabel,
 } from '@surflane/ui'
 import { Link } from './router'
 import { useLocale } from './i18n'
@@ -37,12 +38,15 @@ function StackingLab() {
         <Toggle pressed={portal} onPressedChange={setPortal}>
           {t.portalToStage}
         </Toggle>
-        <label className='pui-choice-label'>
-          <Checkbox.Root checked={clip} onCheckedChange={setClip}>
-            <Checkbox.Indicator />
-          </Checkbox.Root>
+        <ChoiceLabel
+          control={
+            <Checkbox.Root checked={clip} onCheckedChange={setClip}>
+              <Checkbox.Indicator />
+            </Checkbox.Root>
+          }
+        >
           {t.clipLocalHost}
-        </label>
+        </ChoiceLabel>
       </div>
       <div
         ref={setStage}
@@ -107,8 +111,10 @@ function OverlayLab() {
                 align='start'
                 aria-label={t.overlayDetails}
               >
-                <h3>{t.overlayDetails}</h3>
-                <p>{t.sharedPopoverNote}</p>
+                <Popover.Title render={<h3 />}>
+                  {t.overlayDetails}
+                </Popover.Title>
+                <Popover.Description>{t.sharedPopoverNote}</Popover.Description>
                 <p>
                   {t.currentSelection} <strong>{region}</strong>
                 </p>
@@ -184,7 +190,11 @@ export function LayersFoundation() {
             <p>{t.floatingSurfaceNote}</p>
           </div>
         </div>
-        <Table.Container label={t.surfaceTableLabel} orientation='horizontal'>
+        <Table.Container
+          bleed
+          label={t.surfaceTableLabel}
+          orientation='horizontal'
+        >
           <Table.Root>
             <Table.Caption>{t.tableCaption}</Table.Caption>
             <Table.Head>

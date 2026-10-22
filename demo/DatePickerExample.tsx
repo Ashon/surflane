@@ -1,5 +1,11 @@
 import React, { useRef, useState } from 'react'
-import { Button, Checkbox, InlineMessage, NativeSelect } from '@surflane/ui'
+import {
+  Button,
+  Checkbox,
+  InlineMessage,
+  NativeSelect,
+  ChoiceLabel,
+} from '@surflane/ui'
 import {
   DateLocaleProvider,
   DatePicker,
@@ -64,24 +70,33 @@ export function DatePickerExample() {
             <option value='ar-EG-u-ca-gregory'>العربية / Gregorian</option>
           </NativeSelect>
         </label>
-        <label className='pui-choice-label'>
-          <Checkbox.Root checked={disabled} onCheckedChange={setDisabled}>
-            <Checkbox.Indicator />
-          </Checkbox.Root>
-          <span>{t.disableDateControls}</span>
-        </label>
-        <label className='pui-choice-label'>
-          <Checkbox.Root checked={readOnly} onCheckedChange={setReadOnly}>
-            <Checkbox.Indicator />
-          </Checkbox.Root>
-          <span>{t.readOnly}</span>
-        </label>
-        <label className='pui-choice-label'>
-          <Checkbox.Root checked={weekends} onCheckedChange={setWeekends}>
-            <Checkbox.Indicator />
-          </Checkbox.Root>
-          <span>{t.unavailableWeekends}</span>
-        </label>
+        <ChoiceLabel
+          control={
+            <Checkbox.Root checked={disabled} onCheckedChange={setDisabled}>
+              <Checkbox.Indicator />
+            </Checkbox.Root>
+          }
+        >
+          {t.disableDateControls}
+        </ChoiceLabel>
+        <ChoiceLabel
+          control={
+            <Checkbox.Root checked={readOnly} onCheckedChange={setReadOnly}>
+              <Checkbox.Indicator />
+            </Checkbox.Root>
+          }
+        >
+          {t.readOnly}
+        </ChoiceLabel>
+        <ChoiceLabel
+          control={
+            <Checkbox.Root checked={weekends} onCheckedChange={setWeekends}>
+              <Checkbox.Indicator />
+            </Checkbox.Root>
+          }
+        >
+          {t.unavailableWeekends}
+        </ChoiceLabel>
       </div>
       <DateLocaleProvider locale={locale}>
         <div lang={locale} dir={locale.startsWith('ar') ? 'rtl' : 'ltr'}>

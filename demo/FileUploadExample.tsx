@@ -5,6 +5,7 @@ import {
   Button,
   Checkbox,
   type UploadTransport,
+  ChoiceLabel,
 } from '@surflane/ui'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/FileUploadExample'
@@ -18,12 +19,15 @@ function Flag({
   children: React.ReactNode
 }) {
   return (
-    <label className='pui-choice-label'>
-      <Checkbox.Root checked={checked} onCheckedChange={onChange}>
-        <Checkbox.Indicator />
-      </Checkbox.Root>
+    <ChoiceLabel
+      control={
+        <Checkbox.Root checked={checked} onCheckedChange={onChange}>
+          <Checkbox.Indicator />
+        </Checkbox.Root>
+      }
+    >
       {children}
-    </label>
+    </ChoiceLabel>
   )
 }
 export function FileUploadExample() {

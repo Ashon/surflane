@@ -120,3 +120,48 @@ test('Base UI focus sentinels redirect focus instead of retaining it', async ({
     )
     .toBe(false)
 })
+
+test('Select groups options under visible headings and submits the chosen value', async ({
+  page,
+}) => {
+  await page.goto('/components/select')
+  await waitForCatalogReady(page)
+  const example = page.locator('.component-example')
+  const region = example.getByRole('combobox', { name: 'Region', exact: true })
+  await region.click()
+  const asia = page.getByRole('group', { name: 'Asia Pacific', exact: true })
+  await expect(asia.getByRole('option')).toHaveText(['Seoul', 'Tokyo'])
+  await expect(
+    page
+      .getByRole('group', { name: 'Europe', exact: true })
+      .getByRole('option'),
+  ).toHaveText(['Frankfurt'])
+  // Headings start where the option text does, past the check column.
+  const textStart = (selector: string) =>
+    asia
+      .locator(selector)
+      .first()
+      .evaluate((el) => {
+        // The first text node, so an icon before it does not count.
+        const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT)
+        let node = walker.nextNode()
+        while (node && !node.textContent!.trim()) node = walker.nextNode()
+        const range = document.createRange()
+        range.selectNodeContents(node!)
+        return range.getBoundingClientRect().left
+      })
+  expect(await textStart('.pui-select-group-label')).toBeCloseTo(
+    await textStart('[role="option"]'),
+    0,
+  )
+  await page.getByRole('option', { name: 'Tokyo', exact: true }).click()
+  await expect(region).toHaveText(/Tokyo/)
+  await example
+    .getByRole('button', { name: 'Submit preview', exact: true })
+    .click()
+  expect(
+    await example
+      .locator('form')
+      .evaluate((form: HTMLFormElement) => new FormData(form).get('region')),
+  ).toBe('ap-northeast-1')
+})

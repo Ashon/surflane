@@ -82,16 +82,22 @@ export const componentDocs: Record<string, ComponentDoc> = {
     usage:
       "Set a button's emphasis apart from its meaning. primary marks the one key action per area, on the brand surface. secondary (a borderless neutral surface) and outline (the only bordered variant) mark supporting actions, and ghost marks low emphasis. destructive signals danger at any priority. default is a backward-compatible alias styled like primary.",
     avoid:
-      "Don't use Button for page navigation. Use a link instead. Don't mark destructive actions with color alone. Say what the action does in the label text.",
+      "Don't use Button for page navigation. Use LinkButton, which looks like a button and stays a link. Don't mark destructive actions with color alone. Say what the action does in the label text.",
     keyboard:
       'Tab moves focus. Enter or Space activates the button. While an action is in progress, the button blocks duplicate runs and announces the result.',
     anatomy: 'Button → optional SVG icon + text that describes the action',
     tokens: ['--brand', '--danger', ...controls],
-    code: `import { Button } from '@surflane/ui'
+    code: `import { Button, LinkButton } from '@surflane/ui'
+import NextLink from 'next/link'
 
 <Button onClick={runPreview}>Run preview</Button>
 <Button variant='outline'>Inspect details</Button>
-<Button disabled>Unavailable</Button>`,
+<Button disabled>Unavailable</Button>
+
+// Navigation that looks like a button stays a link.
+<LinkButton variant='outline' render={<NextLink href='/runs' />}>
+  View runs
+</LinkButton>`,
     props: [
       [
         'variant',
@@ -104,6 +110,11 @@ export const componentDocs: Record<string, ComponentDoc> = {
         'default',
       ],
       ['disabled', 'boolean', 'false'],
+      [
+        'LinkButton',
+        "Button's variant and size on a link; render takes a router link",
+        '—',
+      ],
     ],
   },
   input: {
@@ -155,13 +166,18 @@ export const componentDocs: Record<string, ComponentDoc> = {
   ]}
 />`,
     props: [
-      ['options', '{ value, label, disabled? }[]', 'required'],
+      [
+        'options',
+        '{ value, label, disabled? }[], or groups { label, options }',
+        'required',
+      ],
       ['value / onValueChange', 'controlled value + callback', '—'],
       [
         'defaultValue / name / required / disabled',
         'selection and form props',
         '—',
       ],
+      ['ref', 'the trigger button, as triggerRef', '—'],
     ],
   },
   'native-select': {
@@ -218,6 +234,17 @@ export const componentDocs: Record<string, ComponentDoc> = {
         'Base UI positioner props',
         'bottom / start / 8',
       ],
+      [
+        'Content.size',
+        'small | default | large: width up to 240 / 320 / 480px, and density',
+        'default width, surrounding density',
+      ],
+      [
+        '--popover-width',
+        'custom property: a width that keeps the surrounding density',
+        'the size width',
+      ],
+      ['Title / Description', 'styled heading and description', '—'],
       ['Root.open / onOpenChange', 'controlled popup state', '—'],
     ],
   },
@@ -308,6 +335,16 @@ export const componentDocs: Record<string, ComponentDoc> = {
         'ref / focus callback (Base UI)',
         'Base UI default',
       ],
+      [
+        'Content.size',
+        'small | default | large: 420 / 640 / 840px wide, and density',
+        'default width, surrounding density',
+      ],
+      [
+        '--dialog-width',
+        'custom property: a width that keeps the surrounding density',
+        'the size width',
+      ],
       ['Root.open / onOpenChange', 'controlled dialog state', '—'],
     ],
   },
@@ -343,6 +380,7 @@ export const componentDocs: Record<string, ComponentDoc> = {
     props: [
       ['Root.open / onOpenChange', 'controlled state', '—'],
       ['Content.initialFocus', 'safe cancel button ref', '—'],
+      ['Content.size', "Dialog's scale", 'small'],
     ],
   },
   sheet: {
@@ -371,7 +409,21 @@ export const componentDocs: Record<string, ComponentDoc> = {
 </Sheet.Root>`,
     props: [
       ['Root.side', 'left | right | top | bottom', 'right'],
-      ['Content.size', 'small | default | large (sm / md / lg aliases)', 'md'],
+      [
+        'Content.size',
+        'small | default | large: 320 / 440 / 640px, and density',
+        'default',
+      ],
+      [
+        'Content.flush',
+        'attaches the panel to its edge, square corners there',
+        'false',
+      ],
+      [
+        '--panel-width',
+        'custom property: a width that keeps the surrounding density',
+        'the size width',
+      ],
       ['Content.closeLabel', 'accessible X label', 'Close panel'],
     ],
   },
@@ -405,6 +457,16 @@ export const componentDocs: Record<string, ComponentDoc> = {
         'Root.side',
         'left | right | top | bottom; derives swipe direction',
         'bottom',
+      ],
+      [
+        'Content.flush',
+        'attaches the panel to its edge, square corners there',
+        'false',
+      ],
+      [
+        '--panel-width',
+        'custom property: a width that keeps the surrounding density',
+        'the size width',
       ],
       ['Content.closeLabel', 'accessible X label', 'Close panel'],
     ],

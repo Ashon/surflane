@@ -13,6 +13,7 @@ import {
   Text,
   type IconName,
   type StatusTone,
+  LinkButton,
 } from '@surflane/ui'
 import { Link, withBase } from './router'
 import { useLocale } from './i18n'
@@ -47,22 +48,20 @@ export function LandingHero() {
           {t.lead}
         </Text>
         <div className='actions'>
-          <Link
-            className='pui-button'
-            data-variant='primary'
-            data-size='large'
-            href='/components'
+          <LinkButton
+            variant='primary'
+            size='large'
+            render={<Link href='/components' />}
           >
             {t.browse}
-          </Link>
-          <Link
-            className='pui-button'
-            data-variant='outline'
-            data-size='large'
-            href='/install'
+          </LinkButton>
+          <LinkButton
+            variant='outline'
+            size='large'
+            render={<Link href='/install' />}
           >
             {t.quickStart}
-          </Link>
+          </LinkButton>
         </div>
         <CodeBlock
           className='landing-install'

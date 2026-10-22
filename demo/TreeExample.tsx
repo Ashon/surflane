@@ -5,6 +5,7 @@ import {
   InlineMessage,
   NativeSelect,
   Spinner,
+  ChoiceLabel,
 } from '@surflane/ui'
 import { Tree, type TreeNode } from '@surflane/ui/tree'
 import { useLocale } from './i18n'
@@ -140,12 +141,16 @@ export function TreeExample() {
             [t.virtualizeRows, virtualized, setVirtualized],
           ] as const
         ).map(([label, checked, change]) => (
-          <label className='pui-choice-label' key={label}>
-            <Checkbox.Root checked={checked} onCheckedChange={change}>
-              <Checkbox.Indicator />
-            </Checkbox.Root>
+          <ChoiceLabel
+            key={label}
+            control={
+              <Checkbox.Root checked={checked} onCheckedChange={change}>
+                <Checkbox.Indicator />
+              </Checkbox.Root>
+            }
+          >
             {label}
-          </label>
+          </ChoiceLabel>
         ))}
       </div>
       <div className='actions'>

@@ -38,7 +38,7 @@ export const formDocsKo: Record<string, DocKo> = {
   },
   textarea: {
     usage:
-      '여러 줄 설명과 메모를 입력하세요. 텍스트는 위에서 시작합니다. 사용자는 필드를 세로로 크기 조절할 수 있습니다. Field에 연결하려면 Field.Control의 render prop으로 합성하세요.',
+      '여러 줄 설명과 메모를 입력하세요. 텍스트는 위에서 시작합니다. 사용자는 필드를 세로로 크기 조절할 수 있습니다. Field.Root 안에서는 필드의 라벨, 설명, 오류를 그대로 받습니다.',
     avoid:
       '대량의 코드를 편집하는 데 사용하지 마세요. 전용 코드 편집기를 사용하세요.',
     keyboard:
@@ -59,6 +59,9 @@ export const formDocsKo: Record<string, DocKo> = {
       'Root.checked / defaultChecked': '제어/비제어 boolean',
       'Root.indeterminate / readOnly / disabled': '혼합 또는 사용 불가 상태',
       'Root.name / value / uncheckedValue': '네이티브 폼 값',
+      'Root.size': 'small | default | large',
+      'ChoiceLabel control / description':
+        '컨트롤; 라벨 아래 텍스트로, 컨트롤의 설명으로 읽힘',
     },
   },
   'checkbox-group': {
@@ -85,6 +88,7 @@ export const formDocsKo: Record<string, DocKo> = {
       'value / defaultValue / onValueChange': '일반 값 및 변경 콜백',
       'name / required / readOnly / disabled': '그룹 폼 및 상호작용 상태',
       'Radio.Root.value': '옵션 값',
+      'Radio.Root.size': 'small | default | large',
     },
   },
   switch: {
@@ -99,6 +103,7 @@ export const formDocsKo: Record<string, DocKo> = {
         '제어/비제어 boolean 및 콜백',
       'readOnly / disabled': '상호작용 방지',
       'name / value / uncheckedValue': '폼 페이로드',
+      'Root.size': 'small | default | large',
     },
   },
 }

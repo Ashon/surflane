@@ -5,6 +5,7 @@ import {
   Button,
   Checkbox,
   NativeSelect,
+  ChoiceLabel,
 } from '@surflane/ui'
 import { withBase } from './router'
 import { useLocale } from './i18n'
@@ -48,12 +49,16 @@ export function PageHeaderExample() {
             [t.supportingContentLabel, details, setDetails],
           ] as const
         ).map(([label, checked, change]) => (
-          <label key={label} className='pui-choice-label'>
-            <Checkbox.Root checked={checked} onCheckedChange={change}>
-              <Checkbox.Indicator />
-            </Checkbox.Root>
+          <ChoiceLabel
+            key={label}
+            control={
+              <Checkbox.Root checked={checked} onCheckedChange={change}>
+                <Checkbox.Indicator />
+              </Checkbox.Root>
+            }
+          >
             {label}
-          </label>
+          </ChoiceLabel>
         ))}
       </div>
       <div

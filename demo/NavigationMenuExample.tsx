@@ -1,5 +1,10 @@
 import React, { useState } from 'react'
-import { NavigationMenu, Checkbox, DirectionProvider } from '@surflane/ui'
+import {
+  NavigationMenu,
+  Checkbox,
+  DirectionProvider,
+  ChoiceLabel,
+} from '@surflane/ui'
 import { withBase } from './router'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/NavigationMenuExample'
@@ -13,12 +18,15 @@ function Flag({
   children: React.ReactNode
 }) {
   return (
-    <label className='pui-choice-label'>
-      <Checkbox.Root checked={checked} onCheckedChange={onChange}>
-        <Checkbox.Indicator />
-      </Checkbox.Root>
+    <ChoiceLabel
+      control={
+        <Checkbox.Root checked={checked} onCheckedChange={onChange}>
+          <Checkbox.Indicator />
+        </Checkbox.Root>
+      }
+    >
       {children}
-    </label>
+    </ChoiceLabel>
   )
 }
 export function NavigationMenuExample() {

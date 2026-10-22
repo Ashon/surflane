@@ -15,7 +15,7 @@ export function LayoutGridGuide() {
         as pseudo-elements, so they never change the position or height of the
         UI.
       </p>
-      <Table.Container label='Grid breakpoints' orientation='horizontal'>
+      <Table.Container bleed label='Grid breakpoints' orientation='horizontal'>
         <Table.Root>
           <Table.Caption>Shared grid contract by viewport</Table.Caption>
           <Table.Head>

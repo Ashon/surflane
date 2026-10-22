@@ -32,6 +32,20 @@ export function BasicExample({
     { value: 'production', label: t.production },
     { value: 'unavailable', label: t.unavailable, disabled: true },
   ]
+  // Grouped options keep a visible heading per group, as HTML optgroups do.
+  const regionGroups = [
+    {
+      label: t.asiaPacific,
+      options: [
+        { value: 'ap-northeast-2', label: t.seoul },
+        { value: 'ap-northeast-1', label: t.tokyo },
+      ],
+    },
+    {
+      label: t.europe,
+      options: [{ value: 'eu-central-1', label: t.frankfurt }],
+    },
+  ]
   const [message, setMessage] = useState(t.noPreviewActionTaken)
   const [selected, setSelected] = useState('staging')
   const [open, setOpen] = useState(false)
@@ -177,6 +191,16 @@ export function BasicExample({
               </NativeSelect>
             )}
           </label>
+          {id === 'select' && (
+            <label>
+              {t.region}
+              <Select
+                name='region'
+                options={regionGroups}
+                aria-label={t.region}
+              />
+            </label>
+          )}
           <div className='actions'>
             <Button type='submit'>{t.submitPreview}</Button>
             <Button type='reset' variant='outline'>

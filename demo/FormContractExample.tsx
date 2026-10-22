@@ -6,6 +6,7 @@ import {
   RadioGroup,
   Radio,
   Switch,
+  ChoiceLabel,
 } from '@surflane/ui'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/FormContractExample'
@@ -76,31 +77,37 @@ export function FormContractExample() {
           </Button>
         </div>
       </form>
-      <label className='pui-choice-label'>
-        <Checkbox.Root
-          checked={model.cleanup}
-          onCheckedChange={(next, event) => change('cleanup', next, event)}
-          name='controlledCleanup'
-          value='enabled'
-          form='reset-contract-form'
-        >
-          <Checkbox.Indicator />
-        </Checkbox.Root>
-        <span>{t.controlledCleanup}</span>
-      </label>
-      <label className='pui-choice-label'>
-        <Switch.Root
-          checked={model.refresh}
-          onCheckedChange={(next, event) => change('refresh', next, event)}
-          name='controlledRefresh'
-          value='enabled'
-          uncheckedValue='disabled'
-          form='reset-contract-form'
-        >
-          <Switch.Thumb />
-        </Switch.Root>
-        <span>{t.controlledRefresh}</span>
-      </label>
+      <ChoiceLabel
+        control={
+          <Checkbox.Root
+            checked={model.cleanup}
+            onCheckedChange={(next, event) => change('cleanup', next, event)}
+            name='controlledCleanup'
+            value='enabled'
+            form='reset-contract-form'
+          >
+            <Checkbox.Indicator />
+          </Checkbox.Root>
+        }
+      >
+        {t.controlledCleanup}
+      </ChoiceLabel>
+      <ChoiceLabel
+        control={
+          <Switch.Root
+            checked={model.refresh}
+            onCheckedChange={(next, event) => change('refresh', next, event)}
+            name='controlledRefresh'
+            value='enabled'
+            uncheckedValue='disabled'
+            form='reset-contract-form'
+          >
+            <Switch.Thumb />
+          </Switch.Root>
+        }
+      >
+        {t.controlledRefresh}
+      </ChoiceLabel>
       <RadioGroup
         value={model.source}
         onValueChange={(next, event) => change('source', next, event)}
@@ -115,12 +122,16 @@ export function FormContractExample() {
           ['live', t.live],
           ['simulation', t.simulation],
         ].map(([value, label]) => (
-          <label className='pui-choice-label' key={value}>
-            <Radio.Root value={value}>
-              <Radio.Indicator />
-            </Radio.Root>
-            <span>{label}</span>
-          </label>
+          <ChoiceLabel
+            key={value}
+            control={
+              <Radio.Root value={value}>
+                <Radio.Indicator />
+              </Radio.Root>
+            }
+          >
+            {label}
+          </ChoiceLabel>
         ))}
       </RadioGroup>
       <CheckboxGroup
@@ -129,26 +140,33 @@ export function FormContractExample() {
         aria-label={t.controlledEnvironments}
         allValues={['staging', 'production']}
       >
-        <label className='pui-choice-label'>
-          <Checkbox.Root parent>
-            <Checkbox.Indicator />
-          </Checkbox.Root>
-          <span>{t.allControlledEnvironments}</span>
-        </label>
+        <ChoiceLabel
+          control={
+            <Checkbox.Root parent>
+              <Checkbox.Indicator />
+            </Checkbox.Root>
+          }
+        >
+          {t.allControlledEnvironments}
+        </ChoiceLabel>
         {[
           ['staging', t.controlledStaging],
           ['production', t.controlledProduction],
         ].map(([value, label]) => (
-          <label className='pui-choice-label' key={value}>
-            <Checkbox.Root
-              name='controlledEnvironments'
-              value={value}
-              form='reset-contract-form'
-            >
-              <Checkbox.Indicator />
-            </Checkbox.Root>
-            <span>{label}</span>
-          </label>
+          <ChoiceLabel
+            key={value}
+            control={
+              <Checkbox.Root
+                name='controlledEnvironments'
+                value={value}
+                form='reset-contract-form'
+              >
+                <Checkbox.Indicator />
+              </Checkbox.Root>
+            }
+          >
+            {label}
+          </ChoiceLabel>
         ))}
       </CheckboxGroup>
       <p role='status'>{result}</p>

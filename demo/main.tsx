@@ -1,7 +1,13 @@
 import React, { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { flushSync } from 'react-dom'
-import { Button, Breadcrumbs, ScrollArea, PageHeader } from '@surflane/ui'
+import {
+  Button,
+  Breadcrumbs,
+  ScrollArea,
+  PageHeader,
+  Link as TextLink,
+} from '@surflane/ui'
 import { SyntaxHighlighting } from '@surflane/ui/syntax-highlighting'
 import { transitionTheme } from '@surflane/design-tokens/theme-transition'
 import { Overview } from './OverviewPage'
@@ -621,27 +627,30 @@ function App() {
                       <Breadcrumbs.Root>
                         <Breadcrumbs.List>
                           <Breadcrumbs.Item>
-                            <Link className='pui-link' href='/'>
+                            <TextLink render={<Link href='/' />}>
                               Surflane
-                            </Link>
+                            </TextLink>
                           </Breadcrumbs.Item>
                           {title !== areaName && area !== 'Overview' && (
                             <Breadcrumbs.Item>
                               <Breadcrumbs.Separator />
-                              <Link
-                                className='pui-link'
-                                href={
-                                  area === 'Foundations'
-                                    ? '/foundations'
-                                    : area === 'Components'
-                                      ? '/components'
-                                      : area === 'Patterns'
-                                        ? '/patterns'
-                                        : '/coverage'
+                              <TextLink
+                                render={
+                                  <Link
+                                    href={
+                                      area === 'Foundations'
+                                        ? '/foundations'
+                                        : area === 'Components'
+                                          ? '/components'
+                                          : area === 'Patterns'
+                                            ? '/patterns'
+                                            : '/coverage'
+                                    }
+                                  />
                                 }
                               >
                                 {areaName}
-                              </Link>
+                              </TextLink>
                             </Breadcrumbs.Item>
                           )}
                           <Breadcrumbs.Item>

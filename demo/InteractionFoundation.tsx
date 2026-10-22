@@ -10,6 +10,7 @@ import {
   Spinner,
   Table,
   Toggle,
+  ChoiceLabel,
 } from '@surflane/ui'
 import { Link } from './router'
 import { useLocale } from './i18n'
@@ -67,7 +68,11 @@ export function InteractionFoundation() {
       <section id='states'>
         <h2>{t.statesHeading}</h2>
         <p>{t.statesIntro}</p>
-        <Table.Container label={t.statesTableLabel} orientation='horizontal'>
+        <Table.Container
+          bleed
+          label={t.statesTableLabel}
+          orientation='horizontal'
+        >
           <Table.Root>
             <Table.Caption>{t.statesTableCaption}</Table.Caption>
             <Table.Head>
@@ -131,16 +136,19 @@ export function InteractionFoundation() {
           resources.
         </p>
         <div className='example-stack interaction-work-preview'>
-          <label className='pui-choice-label'>
-            <Checkbox.Root
-              checked={fail}
-              disabled={busy}
-              onCheckedChange={setFail}
-            >
-              <Checkbox.Indicator />
-            </Checkbox.Root>
+          <ChoiceLabel
+            control={
+              <Checkbox.Root
+                checked={fail}
+                disabled={busy}
+                onCheckedChange={setFail}
+              >
+                <Checkbox.Indicator />
+              </Checkbox.Root>
+            }
+          >
             Fail local preview
-          </label>
+          </ChoiceLabel>
           <Inline gap={3}>
             <Button
               ref={runButton}

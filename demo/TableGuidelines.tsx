@@ -14,6 +14,7 @@ import {
   ToggleGroup,
   useTableSelection,
   type TableSort,
+  Link as TextLink,
 } from '@surflane/ui'
 import { useLocale, useMessages } from './i18n'
 import { text } from './i18n/pages/TableGuidelines'
@@ -141,7 +142,7 @@ function DensityPreview() {
         <Toggle value='default'>{t.densityDefault}</Toggle>
         <Toggle value='compact'>{t.densityCompact}</Toggle>
       </ToggleGroup>
-      <Table.Container label={t.scrollCaption}>
+      <Table.Container bleed label={t.scrollCaption}>
         <Table.Root density={density}>
           <Table.Head>
             <Table.Row>
@@ -184,7 +185,7 @@ function AlignmentPreview() {
           <span className='table-guideline-verdict'>{t.do}</span>
           {t.alignDoCaption}
         </figcaption>
-        <Table.Container label={t.alignDoCaption}>
+        <Table.Container bleed label={t.alignDoCaption}>
           <Table.Root density='compact'>
             <Table.Head>
               <Table.Row>
@@ -216,7 +217,7 @@ function AlignmentPreview() {
           <span className='table-guideline-verdict'>{t.dont}</span>
           {t.alignDontCaption}
         </figcaption>
-        <Table.Container label={t.alignDontCaption}>
+        <Table.Container bleed label={t.alignDontCaption}>
           <Table.Root density='compact'>
             <Table.Head>
               <Table.Row>
@@ -289,7 +290,7 @@ function SortingPreview() {
   )
   return (
     <>
-      <Table.Container label={t.sortCaption}>
+      <Table.Container bleed label={t.sortCaption}>
         <Table.Root density='compact'>
           <Table.Caption>{t.sortCaption}</Table.Caption>
           <Table.Head>
@@ -328,7 +329,7 @@ function LongValuesPreview() {
       .catch(() => setNotice(t.copyFailed))
   return (
     <>
-      <Table.Container label={t.longCaption}>
+      <Table.Container bleed label={t.longCaption}>
         <Table.Root density='compact'>
           <Table.Caption>{t.longCaption}</Table.Caption>
           <Table.Head>
@@ -410,7 +411,7 @@ function SelectionPreview() {
           {t.clearSelection}
         </Button>
       </div>
-      <Table.Container label={t.selectionCaption}>
+      <Table.Container bleed label={t.selectionCaption}>
         <Table.Root density='compact'>
           <Table.Caption>{t.selectionCaption}</Table.Caption>
           <Table.Head>
@@ -476,7 +477,7 @@ function RowActionsPreview() {
   const [notice, setNotice] = useState('')
   return (
     <>
-      <Table.Container label={t.rowActionsCaption}>
+      <Table.Container bleed label={t.rowActionsCaption}>
         <Table.Root density='compact'>
           <Table.Caption>{t.rowActionsCaption}</Table.Caption>
           <Table.Head>
@@ -495,9 +496,7 @@ function RowActionsPreview() {
             {services.slice(0, 4).map((service) => (
               <Table.Row key={service.id}>
                 <Table.HeaderCell scope='row'>
-                  <a className='pui-link' href='#table-row-actions'>
-                    {service.name}
-                  </a>
+                  <TextLink href='#table-row-actions'>{service.name}</TextLink>
                 </Table.HeaderCell>
                 <Table.Cell numeric>{number(service.replicas, 0)}</Table.Cell>
                 <Table.Cell>
@@ -594,7 +593,7 @@ function StatesPreview() {
           </Toggle>
         ))}
       </ToggleGroup>
-      <Table.Container label={t.statesCaption}>
+      <Table.Container bleed label={t.statesCaption}>
         <Table.Root density='compact' aria-busy={state === 'loading'}>
           <Table.Caption>{t.statesCaption}</Table.Caption>
           <Table.Head>
@@ -694,6 +693,7 @@ function ScrollingPreview() {
   const { t, number } = useCopy()
   return (
     <Table.Container
+      bleed
       label={t.scrollLabel}
       orientation='both'
       className='table-guideline-bounded'

@@ -21,7 +21,7 @@ export function TypographyBrandGuide() {
         <a href='https://fonts.google.com/specimen/Manrope'>Google Fonts</a>
         {t.introEnd}
       </p>
-      <Table.Container label={t.tableLabel} orientation='horizontal'>
+      <Table.Container bleed label={t.tableLabel} orientation='horizontal'>
         <Table.Root>
           <Table.Caption>{t.caption}</Table.Caption>
           <Table.Head>

@@ -99,22 +99,19 @@ export const formDocs: Record<string, ComponentDoc> = {
   },
   textarea: {
     usage:
-      "Enter multi-line descriptions and notes. Text starts at the top. Users can resize the field vertically. To connect it to a Field, compose it through Field.Control's render prop.",
+      'Enter multi-line descriptions and notes. Text starts at the top. Users can resize the field vertically. Inside Field.Root it takes the label, description and error from the field.',
     avoid:
       "Don't use it to edit large amounts of code. Use a dedicated code editor instead.",
     keyboard:
       'Enter inserts a line break. Tab moves to the next input. Native text editing and Korean IME input keep working.',
-    anatomy: 'Field.Control render={<Textarea />} → native textarea',
+    anatomy:
+      'Field.Root → Field.Label + Textarea (native textarea) + Field.Description + Field.Error',
     tokens: fields,
     code: `import { Field, Textarea } from '@surflane/ui'
 
 <Field.Root name='description'>
   <Field.Label>Description</Field.Label>
-  <Field.Control
-    render={<Textarea rows={4} />}
-    required
-    placeholder='Describe the deployment goal'
-  />
+  <Textarea rows={4} required placeholder='Describe the deployment goal' />
   <Field.Description>Keep the context concise.</Field.Description>
   <Field.Error />
 </Field.Root>`,
@@ -134,16 +131,21 @@ export const formDocs: Record<string, ComponentDoc> = {
       "Don't use it for one choice among mutually exclusive options. Use RadioGroup instead. Don't distinguish states by color alone. Let the Indicator icon show the state too.",
     keyboard:
       "Tab focuses the checkbox. Space toggles it. Base UI's hidden input handles label clicks, form submission, and reset.",
-    anatomy: 'label → Checkbox.Root + Indicator(default SVG) + text',
+    anatomy:
+      'ChoiceLabel(control, description?) → Checkbox.Root + Indicator(default SVG) + text',
     tokens: selection,
-    code: `import { Checkbox } from '@surflane/ui'
+    code: `import { Checkbox, ChoiceLabel } from '@surflane/ui'
 
-<label className='pui-choice-label'>
-  <Checkbox.Root name='cleanup' defaultChecked>
-    <Checkbox.Indicator />
-  </Checkbox.Root>
-  <span>Clean up temporary accounts</span>
-</label>`,
+<ChoiceLabel
+  control={
+    <Checkbox.Root name='cleanup' defaultChecked>
+      <Checkbox.Indicator />
+    </Checkbox.Root>
+  }
+  description='Removes accounts unused for 30 days.'
+>
+  Clean up temporary accounts
+</ChoiceLabel>`,
     props: [
       [
         'Root.checked / defaultChecked',
@@ -156,6 +158,12 @@ export const formDocs: Record<string, ComponentDoc> = {
         'false',
       ],
       ['Root.name / value / uncheckedValue', 'native form values', '—'],
+      ['Root.size', 'small | default | large', 'surrounding size'],
+      [
+        'ChoiceLabel control / description',
+        'the control; text below the label, read as its description',
+        '—',
+      ],
     ],
   },
   'checkbox-group': {
@@ -168,26 +176,33 @@ export const formDocs: Record<string, ComponentDoc> = {
     anatomy:
       'Fieldset → CheckboxGroup(allValues) → parent checkbox + value checkboxes',
     tokens: selection,
-    code: `import { CheckboxGroup, Checkbox } from '@surflane/ui'
+    code: `import { CheckboxGroup, Checkbox, ChoiceLabel } from '@surflane/ui'
 
 <CheckboxGroup
   allValues={['staging', 'production']}
   defaultValue={['staging']}
   aria-label='Environments'
 >
-  <label className='pui-choice-label'>
-    <Checkbox.Root parent>
-      <Checkbox.Indicator />
-    </Checkbox.Root>
-    <span>All environments</span>
-  </label>
-  {['staging', 'production'].map((value) => (
-    <label className='pui-choice-label' key={value}>
-      <Checkbox.Root name='environments' value={value}>
+  <ChoiceLabel
+    control={
+      <Checkbox.Root parent>
         <Checkbox.Indicator />
       </Checkbox.Root>
-      <span>{value}</span>
-    </label>
+    }
+  >
+    All environments
+  </ChoiceLabel>
+  {['staging', 'production'].map((value) => (
+    <ChoiceLabel
+      key={value}
+      control={
+        <Checkbox.Root name='environments' value={value}>
+          <Checkbox.Indicator />
+        </Checkbox.Root>
+      }
+    >
+      {value}
+    </ChoiceLabel>
   ))}
 </CheckboxGroup>`,
     props: [
@@ -207,18 +222,23 @@ export const formDocs: Record<string, ComponentDoc> = {
       "Don't place a lone Radio without a name. Put each Radio in a named RadioGroup. Don't treat a selection change as submitting the whole form. Leave submission to the form's submit button.",
     keyboard:
       'Tab moves focus to the selected item. Arrow keys move the selection and skip disabled items.',
-    anatomy: 'RadioGroup → label + Radio.Root(value) / Indicator',
+    anatomy:
+      'RadioGroup → ChoiceLabel(control) → Radio.Root(value) / Indicator + text',
     tokens: selection,
-    code: `import { RadioGroup, Radio } from '@surflane/ui'
+    code: `import { ChoiceLabel, RadioGroup, Radio } from '@surflane/ui'
 
 <RadioGroup name='source' defaultValue='live' aria-label='Log source'>
   {['live', 'simulation'].map((value) => (
-    <label className='pui-choice-label' key={value}>
-      <Radio.Root value={value}>
-        <Radio.Indicator />
-      </Radio.Root>
-      <span>{value}</span>
-    </label>
+    <ChoiceLabel
+      key={value}
+      control={
+        <Radio.Root value={value}>
+          <Radio.Indicator />
+        </Radio.Root>
+      }
+    >
+      {value}
+    </ChoiceLabel>
   ))}
 </RadioGroup>`,
     props: [
@@ -233,6 +253,7 @@ export const formDocs: Record<string, ComponentDoc> = {
         '— / false',
       ],
       ['Radio.Root.value', 'option value', 'required'],
+      ['Radio.Root.size', 'small | default | large', 'surrounding size'],
     ],
   },
   switch: {
@@ -242,26 +263,29 @@ export const formDocs: Record<string, ComponentDoc> = {
       "Don't use it in place of an action button. Use Button instead. Don't use it for a multi-select list. Use CheckboxGroup instead.",
     keyboard:
       'Tab focuses the switch. Space toggles it. In forms, the name, value, and uncheckedValue props submit explicit values.',
-    anatomy: 'label → Switch.Root + Thumb + stable label',
+    anatomy: 'ChoiceLabel(control) → Switch.Root + Thumb + stable label',
     tokens: [
       ...selection,
       '--control-switch-width',
       '--control-switch-height',
       '--control-switch-thumb',
     ],
-    code: `import { Switch } from '@surflane/ui'
+    code: `import { ChoiceLabel, Switch } from '@surflane/ui'
 
-<label className='pui-choice-label'>
-  <Switch.Root
-    name='refresh'
-    defaultChecked
-    value='enabled'
-    uncheckedValue='disabled'
-  >
-    <Switch.Thumb />
-  </Switch.Root>
-  <span>Refresh run status</span>
-</label>`,
+<ChoiceLabel
+  control={
+    <Switch.Root
+      name='refresh'
+      defaultChecked
+      value='enabled'
+      uncheckedValue='disabled'
+    >
+      <Switch.Thumb />
+    </Switch.Root>
+  }
+>
+  Refresh run status
+</ChoiceLabel>`,
     props: [
       [
         'checked / defaultChecked / onCheckedChange',
@@ -269,6 +293,7 @@ export const formDocs: Record<string, ComponentDoc> = {
         '— / false',
       ],
       ['readOnly / disabled', 'prevents interaction', 'false'],
+      ['Root.size', 'small | default | large', 'surrounding size'],
       ['name / value / uncheckedValue', 'form payload', '—'],
     ],
   },

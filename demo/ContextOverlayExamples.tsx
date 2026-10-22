@@ -5,6 +5,7 @@ import {
   PreviewCard,
   Checkbox,
   DirectionProvider,
+  ChoiceLabel,
 } from '@surflane/ui'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/ContextOverlayExamples'
@@ -55,18 +56,24 @@ export function ContextOverlayExample({ id }: { id: string }) {
     return (
       <div className='example-stack'>
         <div className='actions'>
-          <label className='pui-choice-label'>
-            <Checkbox.Root checked={disabled} onCheckedChange={setDisabled}>
-              <Checkbox.Indicator />
-            </Checkbox.Root>
+          <ChoiceLabel
+            control={
+              <Checkbox.Root checked={disabled} onCheckedChange={setDisabled}>
+                <Checkbox.Indicator />
+              </Checkbox.Root>
+            }
+          >
             {t.disableContextMenu}
-          </label>
-          <label className='pui-choice-label'>
-            <Checkbox.Root checked={rtl} onCheckedChange={setRtl}>
-              <Checkbox.Indicator />
-            </Checkbox.Root>
+          </ChoiceLabel>
+          <ChoiceLabel
+            control={
+              <Checkbox.Root checked={rtl} onCheckedChange={setRtl}>
+                <Checkbox.Indicator />
+              </Checkbox.Root>
+            }
+          >
             {t.rtlPreview}
-          </label>
+          </ChoiceLabel>
         </div>
         <DirectionProvider direction={rtl ? 'rtl' : 'ltr'}>
           <div dir={rtl ? 'rtl' : 'ltr'} className='context-evidence'>
@@ -112,12 +119,15 @@ export function ContextOverlayExample({ id }: { id: string }) {
     )
   return (
     <div className='example-stack'>
-      <label className='pui-choice-label'>
-        <Checkbox.Root checked={cancel} onCheckedChange={setCancel}>
-          <Checkbox.Indicator />
-        </Checkbox.Root>
+      <ChoiceLabel
+        control={
+          <Checkbox.Root checked={cancel} onCheckedChange={setCancel}>
+            <Checkbox.Indicator />
+          </Checkbox.Root>
+        }
+      >
         {t.cancelPreviewOpening}
-      </label>
+      </ChoiceLabel>
       <PreviewCard.Root
         onOpenChange={(open, details) => {
           if (open && cancel) details.cancel()

@@ -2,6 +2,9 @@ import { waitForCatalogReady } from './catalog-ready'
 import { test, expect, type Page } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 import { formExampleIds } from '../demo/FormExamples'
+import React from 'react'
+import { renderToStaticMarkup } from 'react-dom/server'
+import { ChoiceLabel, Checkbox, Switch } from '../packages/ui/dist/index.js'
 test.use({ reducedMotion: 'reduce' })
 const status = (page: Page) =>
   page.locator('.component-example').getByRole('status')
@@ -421,4 +424,82 @@ test('choice controls reflow with enlarged text, respect RTL and forced colors, 
   expect(
     await thumb.evaluate((el) => getComputedStyle(el).transitionDuration),
   ).toBe('0s')
+})
+
+test('ChoiceLabel names the control by its text, describes it and centers it on the first line', async ({
+  page,
+}) => {
+  await page.goto('/components/checkbox')
+  await waitForCatalogReady(page)
+  const html = renderToStaticMarkup(
+    React.createElement(
+      'div',
+      null,
+      React.createElement(
+        ChoiceLabel,
+        {
+          key: 'plain',
+          id: 'plain-choice',
+          control: React.createElement(
+            Checkbox.Root,
+            null,
+            React.createElement(Checkbox.Indicator),
+          ),
+        },
+        'Notify the owner',
+      ),
+      React.createElement(
+        ChoiceLabel,
+        {
+          key: 'described',
+          id: 'described-choice',
+          description: 'Sends one email for each failed run.',
+          control: React.createElement(
+            Switch.Root,
+            null,
+            React.createElement(Switch.Thumb),
+          ),
+        },
+        'Email alerts',
+      ),
+    ),
+  )
+  await page.locator('#main-content').evaluate((el, html) => {
+    el.insertAdjacentHTML('beforeend', html)
+  }, html)
+  await expect(
+    page.getByRole('checkbox', { name: 'Notify the owner', exact: true }),
+  ).toBeVisible()
+  const control = page.getByRole('switch', {
+    name: 'Email alerts',
+    exact: true,
+  })
+  await expect(control).toHaveAccessibleDescription(
+    'Sends one email for each failed run.',
+  )
+  for (const id of ['plain-choice', 'described-choice']) {
+    const offset = await page.locator(`#${id}`).evaluate((label) => {
+      const box = label
+        .querySelector('.pui-choice-control > *')!
+        .getBoundingClientRect()
+      const text = label
+        .querySelector('.pui-choice-text > span')!
+        .getBoundingClientRect()
+      return box.top + box.height / 2 - (text.top + text.height / 2)
+    })
+    expect(Math.abs(offset), id).toBeLessThan(1)
+  }
+})
+
+test('Textarea takes its label and description from the surrounding Field', async ({
+  page,
+}) => {
+  await page.goto('/components/textarea')
+  await waitForCatalogReady(page)
+  const notes = page
+    .locator('.component-example')
+    .getByRole('textbox', { name: 'Description', exact: true })
+  await expect(notes).toHaveAccessibleDescription(/./)
+  await expect(notes).toHaveAttribute('rows', '4')
+  await expect(notes).toHaveAttribute('required', '')
 })

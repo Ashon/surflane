@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Button, CodeBlock, Dialog, Input, Sheet, Table } from '@surflane/ui'
+import {
+  Button,
+  CodeBlock,
+  Dialog,
+  Input,
+  Sheet,
+  Table,
+  Link as TextLink,
+} from '@surflane/ui'
 import { Link } from './router'
 import { EasingLab } from './EasingLab'
 import { useLocale } from './i18n'
@@ -79,7 +87,7 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
           <li>{t.sheetBullet}</li>
           <li>{t.themeBullet}</li>
         </ul>
-        <Table.Container label={t.tableLabel} orientation='horizontal'>
+        <Table.Container bleed label={t.tableLabel} orientation='horizontal'>
           <Table.Root>
             <Table.Caption>{t.caption}</Table.Caption>
             <Table.Head>
@@ -115,6 +123,7 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
         <h2>{t.transitionsTitle}</h2>
         <p>{t.transitionsIntro}</p>
         <Table.Container
+          bleed
           label={t.transitionsTableLabel}
           orientation='horizontal'
         >
@@ -277,9 +286,9 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
               </Sheet.Header>
               <Sheet.Body>
                 <p>{t.sheetBodyNote}</p>
-                <Link className='pui-link' href='/components/sheet'>
+                <TextLink render={<Link href='/components/sheet' />}>
                   {t.sheetUsageApi}
-                </Link>
+                </TextLink>
               </Sheet.Body>
               <Sheet.Footer>
                 <Button variant='ghost' onClick={toggleTheme}>

@@ -24,7 +24,7 @@ export function SpacingGuide() {
           </div>
         ))}
       </div>
-      <Table.Container label={t.tableLabel} orientation='horizontal'>
+      <Table.Container bleed label={t.tableLabel} orientation='horizontal'>
         <Table.Root>
           <Table.Caption>{t.caption}</Table.Caption>
           <Table.Head>

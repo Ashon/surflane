@@ -139,7 +139,7 @@ export function ComponentSizeGuide() {
     <section id='component-sizes' aria-labelledby='component-sizes-title'>
       <h2 id='component-sizes-title'>{t.title}</h2>
       <p>{t.intro}</p>
-      <Table.Container label={t.tableLabel} orientation='horizontal'>
+      <Table.Container bleed label={t.tableLabel} orientation='horizontal'>
         <Table.Root>
           <Table.Caption>{t.caption}</Table.Caption>
           <Table.Head>

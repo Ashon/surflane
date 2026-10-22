@@ -213,6 +213,7 @@ export function ColorFoundation() {
           }
         >
           <Table.Container
+            bleed
             label={t.contrastTableLabel}
             orientation='horizontal'
           >

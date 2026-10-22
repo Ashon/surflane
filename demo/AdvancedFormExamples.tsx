@@ -6,6 +6,7 @@ import {
   Form,
   Button,
   Checkbox,
+  ChoiceLabel,
 } from '@surflane/ui'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/AdvancedFormExamples'
@@ -32,18 +33,24 @@ function Flags({
   const t = text[useLocale().locale]
   return (
     <div className='actions'>
-      <label className='pui-choice-label'>
-        <Checkbox.Root checked={disabled} onCheckedChange={setDisabled}>
-          <Checkbox.Indicator />
-        </Checkbox.Root>
+      <ChoiceLabel
+        control={
+          <Checkbox.Root checked={disabled} onCheckedChange={setDisabled}>
+            <Checkbox.Indicator />
+          </Checkbox.Root>
+        }
+      >
         {t.disableControls}
-      </label>
-      <label className='pui-choice-label'>
-        <Checkbox.Root checked={readOnly} onCheckedChange={setReadOnly}>
-          <Checkbox.Indicator />
-        </Checkbox.Root>
+      </ChoiceLabel>
+      <ChoiceLabel
+        control={
+          <Checkbox.Root checked={readOnly} onCheckedChange={setReadOnly}>
+            <Checkbox.Indicator />
+          </Checkbox.Root>
+        }
+      >
         {t.readOnly}
-      </label>
+      </ChoiceLabel>
     </div>
   )
 }

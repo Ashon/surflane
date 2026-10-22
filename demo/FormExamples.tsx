@@ -12,6 +12,7 @@ import {
   Radio,
   RadioGroup,
   Switch,
+  ChoiceLabel,
 } from '@surflane/ui'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/FormExamples'
@@ -111,10 +112,7 @@ export function FormExample({ id }: { id: string }) {
           {project}
           <Field.Root name='description'>
             <Field.Label>{t.description}</Field.Label>
-            <Field.Control
-              render={<Textarea rows={3} />}
-              placeholder={t.deploymentPurposePlaceholder}
-            />
+            <Textarea rows={3} placeholder={t.deploymentPurposePlaceholder} />
           </Field.Root>
           <div className='actions'>
             <Button type='submit'>{t.submitPreview}</Button>
@@ -141,8 +139,8 @@ export function FormExample({ id }: { id: string }) {
         <Form onFormSubmit={submit}>
           <Field.Root name='description'>
             <Field.Label>{t.description}</Field.Label>
-            <Field.Control
-              render={<Textarea rows={4} />}
+            <Textarea
+              rows={4}
               required
               maxLength={240}
               placeholder={t.textareaPlaceholder}
@@ -152,10 +150,7 @@ export function FormExample({ id }: { id: string }) {
           </Field.Root>
           <Field.Root disabled>
             <Field.Label>{t.disabledNotes}</Field.Label>
-            <Field.Control
-              render={<Textarea rows={2} />}
-              placeholder={t.unavailable}
-            />
+            <Textarea rows={2} placeholder={t.unavailable} />
           </Field.Root>
           {buttons}
         </Form>
@@ -165,37 +160,49 @@ export function FormExample({ id }: { id: string }) {
       example = (
         <Form onSubmit={submitNative}>
           <div className='pui-choice-group'>
-            <label className='pui-choice-label'>
-              <Checkbox.Root
-                name='cleanup'
-                value='enabled'
-                defaultChecked
-                className={(state) =>
-                  state.checked ? 'preview-checked' : undefined
-                }
-              >
-                <Checkbox.Indicator />
-              </Checkbox.Root>
-              <span>{t.cleanUpTemporaryAccounts}</span>
-            </label>
-            <label className='pui-choice-label'>
-              <Checkbox.Root indeterminate readOnly>
-                <Checkbox.Indicator />
-              </Checkbox.Root>
-              <span>{t.partialSelection}</span>
-            </label>
-            <label className='pui-choice-label'>
-              <Checkbox.Root defaultChecked readOnly>
-                <Checkbox.Indicator />
-              </Checkbox.Root>
-              <span>{t.readOnlySelection}</span>
-            </label>
-            <label className='pui-choice-label'>
-              <Checkbox.Root disabled>
-                <Checkbox.Indicator />
-              </Checkbox.Root>
-              <span>{t.unavailableOption}</span>
-            </label>
+            <ChoiceLabel
+              control={
+                <Checkbox.Root
+                  name='cleanup'
+                  value='enabled'
+                  defaultChecked
+                  className={(state) =>
+                    state.checked ? 'preview-checked' : undefined
+                  }
+                >
+                  <Checkbox.Indicator />
+                </Checkbox.Root>
+              }
+            >
+              {t.cleanUpTemporaryAccounts}
+            </ChoiceLabel>
+            <ChoiceLabel
+              control={
+                <Checkbox.Root indeterminate readOnly>
+                  <Checkbox.Indicator />
+                </Checkbox.Root>
+              }
+            >
+              {t.partialSelection}
+            </ChoiceLabel>
+            <ChoiceLabel
+              control={
+                <Checkbox.Root defaultChecked readOnly>
+                  <Checkbox.Indicator />
+                </Checkbox.Root>
+              }
+            >
+              {t.readOnlySelection}
+            </ChoiceLabel>
+            <ChoiceLabel
+              control={
+                <Checkbox.Root disabled>
+                  <Checkbox.Indicator />
+                </Checkbox.Root>
+              }
+            >
+              {t.unavailableOption}
+            </ChoiceLabel>
           </div>
           {buttons}
         </Form>
@@ -211,22 +218,29 @@ export function FormExample({ id }: { id: string }) {
               defaultValue={['staging']}
               aria-label={t.environments}
             >
-              <label className='pui-choice-label'>
-                <Checkbox.Root parent>
-                  <Checkbox.Indicator />
-                </Checkbox.Root>
-                <span>{t.allEnvironments}</span>
-              </label>
+              <ChoiceLabel
+                control={
+                  <Checkbox.Root parent>
+                    <Checkbox.Indicator />
+                  </Checkbox.Root>
+                }
+              >
+                {t.allEnvironments}
+              </ChoiceLabel>
               {[
                 ['staging', t.staging],
                 ['production', t.production],
               ].map(([value, label]) => (
-                <label className='pui-choice-label' key={value}>
-                  <Checkbox.Root name='environments' value={value}>
-                    <Checkbox.Indicator />
-                  </Checkbox.Root>
-                  <span>{label}</span>
-                </label>
+                <ChoiceLabel
+                  key={value}
+                  control={
+                    <Checkbox.Root name='environments' value={value}>
+                      <Checkbox.Indicator />
+                    </Checkbox.Root>
+                  }
+                >
+                  {label}
+                </ChoiceLabel>
               ))}
             </CheckboxGroup>
           </Fieldset.Root>
@@ -244,24 +258,33 @@ export function FormExample({ id }: { id: string }) {
               defaultValue='live'
               aria-label={t.logSource}
             >
-              <label className='pui-choice-label'>
-                <Radio.Root value='live'>
-                  <Radio.Indicator />
-                </Radio.Root>
-                <span>{t.actualDemo}</span>
-              </label>
-              <label className='pui-choice-label'>
-                <Radio.Root value='simulation'>
-                  <Radio.Indicator />
-                </Radio.Root>
-                <span>{t.simulation}</span>
-              </label>
-              <label className='pui-choice-label'>
-                <Radio.Root value='unavailable' disabled>
-                  <Radio.Indicator />
-                </Radio.Root>
-                <span>{t.unavailableSource}</span>
-              </label>
+              <ChoiceLabel
+                control={
+                  <Radio.Root value='live'>
+                    <Radio.Indicator />
+                  </Radio.Root>
+                }
+              >
+                {t.actualDemo}
+              </ChoiceLabel>
+              <ChoiceLabel
+                control={
+                  <Radio.Root value='simulation'>
+                    <Radio.Indicator />
+                  </Radio.Root>
+                }
+              >
+                {t.simulation}
+              </ChoiceLabel>
+              <ChoiceLabel
+                control={
+                  <Radio.Root value='unavailable' disabled>
+                    <Radio.Indicator />
+                  </Radio.Root>
+                }
+              >
+                {t.unavailableSource}
+              </ChoiceLabel>
             </RadioGroup>
           </Fieldset.Root>
           {buttons}
@@ -272,29 +295,38 @@ export function FormExample({ id }: { id: string }) {
       example = (
         <Form onSubmit={submitNative}>
           <div className='pui-choice-group'>
-            <label className='pui-choice-label'>
-              <Switch.Root
-                name='refresh'
-                defaultChecked
-                value='enabled'
-                uncheckedValue='disabled'
-              >
-                <Switch.Thumb />
-              </Switch.Root>
-              <span>{t.refreshRunStatus}</span>
-            </label>
-            <label className='pui-choice-label'>
-              <Switch.Root readOnly defaultChecked>
-                <Switch.Thumb />
-              </Switch.Root>
-              <span>{t.readOnlySetting}</span>
-            </label>
-            <label className='pui-choice-label'>
-              <Switch.Root disabled>
-                <Switch.Thumb />
-              </Switch.Root>
-              <span>{t.unavailableSetting}</span>
-            </label>
+            <ChoiceLabel
+              control={
+                <Switch.Root
+                  name='refresh'
+                  defaultChecked
+                  value='enabled'
+                  uncheckedValue='disabled'
+                >
+                  <Switch.Thumb />
+                </Switch.Root>
+              }
+            >
+              {t.refreshRunStatus}
+            </ChoiceLabel>
+            <ChoiceLabel
+              control={
+                <Switch.Root readOnly defaultChecked>
+                  <Switch.Thumb />
+                </Switch.Root>
+              }
+            >
+              {t.readOnlySetting}
+            </ChoiceLabel>
+            <ChoiceLabel
+              control={
+                <Switch.Root disabled>
+                  <Switch.Thumb />
+                </Switch.Root>
+              }
+            >
+              {t.unavailableSetting}
+            </ChoiceLabel>
           </div>
           <p className='catalog-preview-note'>
             {t.settingsChangeOnlyInPreview}

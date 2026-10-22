@@ -92,6 +92,7 @@ export function CoveragePage() {
           </label>
         </div>
         <Table.Container
+          bleed
           className='catalog-table-wrap'
           label={t.tableLabel}
           orientation='horizontal'

@@ -8,6 +8,7 @@ import {
   Input,
   NativeSelect,
   Table,
+  ChoiceLabel,
 } from '@surflane/ui'
 import { Link } from './router'
 import { useLocale } from './i18n'
@@ -263,12 +264,15 @@ const countLabel =
           <code>bdi dir="ltr"</code>
           {t.languageDirectionBdiAfter}
         </p>
-        <label className='pui-choice-label'>
-          <Checkbox.Root checked={rtl} onCheckedChange={setRtl}>
-            <Checkbox.Indicator />
-          </Checkbox.Root>
+        <ChoiceLabel
+          control={
+            <Checkbox.Root checked={rtl} onCheckedChange={setRtl}>
+              <Checkbox.Indicator />
+            </Checkbox.Root>
+          }
+        >
           {t.rtlPreview}
-        </label>
+        </ChoiceLabel>
         <Field.Root className='content-name-field'>
           <Field.Label>{t.resourceNameLabel}</Field.Label>
           <Field.Description>{t.resourceNameDescription}</Field.Description>
@@ -310,7 +314,11 @@ const countLabel =
       </section>
       <section id='writing'>
         <h2>{t.writingHeading}</h2>
-        <Table.Container label={t.writingTableLabel} orientation='horizontal'>
+        <Table.Container
+          bleed
+          label={t.writingTableLabel}
+          orientation='horizontal'
+        >
           <Table.Root>
             <Table.Caption>{t.writingTableCaption}</Table.Caption>
             <Table.Head>

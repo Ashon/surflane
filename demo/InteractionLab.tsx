@@ -118,10 +118,7 @@ export function InteractionLab({ toggleTheme }: { toggleTheme: () => void }) {
             <Dialog.Trigger render={<Button variant='outline' />}>
               {t.openDialog}
             </Dialog.Trigger>
-            <Dialog.Content
-              className='demo-dialog'
-              closeLabel={t.dismissDeploymentPlan}
-            >
+            <Dialog.Content size='small' closeLabel={t.dismissDeploymentPlan}>
               <Dialog.Header>
                 <Dialog.Title>{t.deploymentPlan}</Dialog.Title>
                 <Dialog.Description>{t.dialogDescription}</Dialog.Description>

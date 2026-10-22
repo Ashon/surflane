@@ -301,9 +301,17 @@ test('mobile catalog opens as a centered bottom sheet, traps focus and preserves
   await toggle.click()
   await expect(sheet).toBeVisible()
   const close = sheet.getByRole('button', { name: 'Close menu', exact: true })
-  expect((await close.boundingBox())!.width).toBeGreaterThanOrEqual(
-    panel.width - 34,
-  )
+  // The close action fills the footer's content box.
+  const footer = await close.evaluate((el) => {
+    const box = el.parentElement!
+    const style = getComputedStyle(box)
+    return (
+      box.clientWidth -
+      parseFloat(style.paddingLeft) -
+      parseFloat(style.paddingRight)
+    )
+  })
+  expect((await close.boundingBox())!.width).toBeCloseTo(footer, 0)
   await close.click()
   await expect(toggle).toHaveAttribute('aria-expanded', 'false')
   await expect(toggle).toBeFocused()

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Icon } from '@surflane/ui'
+import { Grid, Icon, LinkButton } from '@surflane/ui'
 import { Link } from './router'
 import { useMessages } from './i18n'
 export function Overview() {
@@ -32,16 +32,12 @@ export function Overview() {
         <h2>{o.componentsTitle}</h2>
         <p>{o.componentsBody}</p>
         <div className='actions'>
-          <Link
-            className='pui-button'
-            data-variant='outline'
-            href='/components'
-          >
+          <LinkButton variant='outline' render={<Link href='/components' />}>
             {o.browseComponents}
-          </Link>
-          <Link className='pui-button' data-variant='outline' href='/coverage'>
+          </LinkButton>
+          <LinkButton variant='outline' render={<Link href='/coverage' />}>
             {o.reviewCoverage}
-          </Link>
+          </LinkButton>
         </div>
       </section>
       <section id='overview-direction'>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Checkbox, NativeSelect } from '@surflane/ui'
+import { Checkbox, NativeSelect, ChoiceLabel } from '@surflane/ui'
 import { Chart, type ChartDatum } from '@surflane/ui/chart'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/ChartExample'
@@ -126,12 +126,15 @@ export function ChartExample() {
             <option value='ko-KR'>Korean</option>
           </NativeSelect>
         </label>
-        <label className='pui-choice-label'>
-          <Checkbox.Root checked={locked} onCheckedChange={setLocked}>
-            <Checkbox.Indicator />
-          </Checkbox.Root>
-          <span>Lock series selection</span>
-        </label>
+        <ChoiceLabel
+          control={
+            <Checkbox.Root checked={locked} onCheckedChange={setLocked}>
+              <Checkbox.Indicator />
+            </Checkbox.Root>
+          }
+        >
+          Lock series selection
+        </ChoiceLabel>
       </div>
       <Chart
         title='Pipeline activity'

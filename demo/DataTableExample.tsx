@@ -13,6 +13,7 @@ import {
   Skeleton,
   StatusBadge,
   useTableSelection,
+  Link as TextLink,
 } from '@surflane/ui'
 import { Link } from './router'
 import { useLocale, useMessages } from './i18n'
@@ -493,9 +494,9 @@ export function DataTableExample() {
                               </Checkbox.Root>
                             </Table.Cell>
                             <Table.HeaderCell scope='row'>
-                              <Link className='pui-link' href={row.href}>
+                              <TextLink render={<Link href={row.href} />}>
                                 {row.name}
-                              </Link>
+                              </TextLink>
                             </Table.HeaderCell>
                             {columns.product && (
                               <Table.Cell>{row.product}</Table.Cell>

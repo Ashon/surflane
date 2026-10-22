@@ -14,6 +14,8 @@ import {
   Toggle,
   Accordion,
   EmptyState,
+  Checkbox,
+  Switch,
 } from '../packages/ui/dist/index.js'
 import { components } from '../demo/catalog'
 import { waitForCatalogReady } from './catalog-ready'
@@ -484,5 +486,67 @@ test('existing default gauge, upload and list insets keep their role-specific ba
         )
       expect(actual, `${id}: ${size}`).toBe(expected[index])
     }
+  }
+})
+
+test('choice controls take an explicit size and otherwise the surrounding one', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await open(page, 'checkbox')
+  // Base UI puts an id on the hidden input, so each control sits in a labelled span.
+  const controls = (prefix: string, size?: 'small' | 'default' | 'large') => [
+    React.createElement(
+      'span',
+      { key: `${prefix}-checkbox`, id: `${prefix}-checkbox` },
+      React.createElement(Checkbox.Root, { size, 'aria-label': 'Checkbox' }),
+    ),
+    React.createElement(
+      'span',
+      { key: `${prefix}-switch`, id: `${prefix}-switch` },
+      React.createElement(
+        Switch.Root,
+        { size, 'aria-label': 'Switch' },
+        React.createElement(Switch.Thumb),
+      ),
+    ),
+  ]
+  const control = (id: string) =>
+    page.locator(`#${id} > :is(.pui-checkbox, .pui-switch)`).evaluate((el) => {
+      const box = el.getBoundingClientRect()
+      return { width: box.width, height: box.height }
+    })
+  await mount(
+    page,
+    renderToStaticMarkup(
+      React.createElement(
+        'div',
+        null,
+        ...(['small', 'default', 'large'] as const).flatMap((size) =>
+          controls(size, size),
+        ),
+        ...controls('bare'),
+        React.createElement(SizeProvider, {
+          key: 'inherited',
+          size: 'large',
+          children: controls('inherited'),
+        }),
+      ),
+    ),
+  )
+  for (const name of ['checkbox', 'switch']) {
+    const widths = await Promise.all(
+      ['small', 'default', 'large'].map(
+        async (size) => (await control(`${size}-${name}`)).width,
+      ),
+    )
+    expect(widths[0], name).toBeLessThan(widths[1])
+    expect(widths[1], name).toBeLessThan(widths[2])
+    expect(await control(`default-${name}`), name).toEqual(
+      await control(`bare-${name}`),
+    )
+    expect(await control(`inherited-${name}`), name).toEqual(
+      await control(`large-${name}`),
+    )
   }
 })

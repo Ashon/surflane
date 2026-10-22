@@ -12,6 +12,7 @@ import {
   InlineMessage,
   Spinner,
   type StatusTone,
+  ChoiceLabel,
 } from '@surflane/ui'
 import { Link } from './router'
 import { useLocale } from './i18n'
@@ -224,28 +225,31 @@ export function ResourceListExample() {
         ) : (
           <>
             <div className='resource-selection'>
-              <label className='pui-choice-label'>
-                <Checkbox.Root
-                  checked={checked}
-                  indeterminate={visibleSelected.length > 0 && !checked}
-                  disabled={!selectable.length}
-                  onCheckedChange={(value) =>
-                    setSelected((current) =>
-                      value
-                        ? [...new Set([...current, ...selectable])]
-                        : current.filter(
-                            (id) =>
-                              !selectable.includes(
-                                id as (typeof selectable)[number],
-                              ),
-                          ),
-                    )
-                  }
-                >
-                  <Checkbox.Indicator />
-                </Checkbox.Root>
+              <ChoiceLabel
+                control={
+                  <Checkbox.Root
+                    checked={checked}
+                    indeterminate={visibleSelected.length > 0 && !checked}
+                    disabled={!selectable.length}
+                    onCheckedChange={(value) =>
+                      setSelected((current) =>
+                        value
+                          ? [...new Set([...current, ...selectable])]
+                          : current.filter(
+                              (id) =>
+                                !selectable.includes(
+                                  id as (typeof selectable)[number],
+                                ),
+                            ),
+                      )
+                    }
+                  >
+                    <Checkbox.Indicator />
+                  </Checkbox.Root>
+                }
+              >
                 {t.selectVisibleEditable}
-              </label>
+              </ChoiceLabel>
               <Button
                 variant='ghost'
                 disabled={!selected.length}

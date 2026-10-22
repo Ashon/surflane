@@ -9,6 +9,7 @@ import {
   PageHeader,
   ScrollArea,
   Sheet,
+  ChoiceLabel,
 } from '@surflane/ui'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/AppShellExample'
@@ -139,44 +140,59 @@ export function AppShellExample({
   return (
     <>
       <div className='actions app-shell-preview-options'>
-        <label className='pui-choice-label'>
-          <Checkbox.Root
-            checked={longNavigation}
-            onCheckedChange={setLongNavigation}
-          >
-            <Checkbox.Indicator />
-          </Checkbox.Root>
+        <ChoiceLabel
+          control={
+            <Checkbox.Root
+              checked={longNavigation}
+              onCheckedChange={setLongNavigation}
+            >
+              <Checkbox.Indicator />
+            </Checkbox.Root>
+          }
+        >
           {t.overflowNavigation}
-        </label>
-        <label className='pui-choice-label'>
-          <Checkbox.Root checked={longContent} onCheckedChange={setLongContent}>
-            <Checkbox.Indicator />
-          </Checkbox.Root>
+        </ChoiceLabel>
+        <ChoiceLabel
+          control={
+            <Checkbox.Root
+              checked={longContent}
+              onCheckedChange={setLongContent}
+            >
+              <Checkbox.Indicator />
+            </Checkbox.Root>
+          }
+        >
           {t.longWorkspaceContent}
-        </label>
+        </ChoiceLabel>
         {responsive && (
           <>
-            <label className='pui-choice-label'>
-              <Checkbox.Root
-                checked={longLabels}
-                onCheckedChange={setLongLabels}
-              >
-                <Checkbox.Indicator />
-              </Checkbox.Root>
+            <ChoiceLabel
+              control={
+                <Checkbox.Root
+                  checked={longLabels}
+                  onCheckedChange={setLongLabels}
+                >
+                  <Checkbox.Indicator />
+                </Checkbox.Root>
+              }
+            >
               {t.longNavigationLabels}
-            </label>
-            <label className='pui-choice-label'>
-              <Checkbox.Root
-                checked={readOnly}
-                onCheckedChange={(checked) => {
-                  setReadOnly(checked)
-                  if (checked && view === t.settings) setView(t.overview)
-                }}
-              >
-                <Checkbox.Indicator />
-              </Checkbox.Root>
+            </ChoiceLabel>
+            <ChoiceLabel
+              control={
+                <Checkbox.Root
+                  checked={readOnly}
+                  onCheckedChange={(checked) => {
+                    setReadOnly(checked)
+                    if (checked && view === t.settings) setView(t.overview)
+                  }}
+                >
+                  <Checkbox.Indicator />
+                </Checkbox.Root>
+              }
+            >
               {t.readOnlyNavigation}
-            </label>
+            </ChoiceLabel>
           </>
         )}
       </div>
@@ -220,6 +236,7 @@ export function AppShellExample({
               <Sheet.Content
                 ref={mobilePanel}
                 className='app-shell-mobile-panel navigation-sheet'
+                flush
                 aria-modal='true'
                 closeLabel={t.closeNav}
                 initialFocus={() =>

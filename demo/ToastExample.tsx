@@ -7,6 +7,7 @@ import {
   InlineMessage,
   DirectionProvider,
   type StatusTone,
+  ChoiceLabel,
 } from '@surflane/ui'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/ToastExample'
@@ -179,18 +180,24 @@ function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
             <option value='0'>{t.durationUntilDismissed}</option>
           </NativeSelect>
         </label>
-        <label className='pui-choice-label'>
-          <Checkbox.Root checked={fail} onCheckedChange={setFail}>
-            <Checkbox.Indicator />
-          </Checkbox.Root>
+        <ChoiceLabel
+          control={
+            <Checkbox.Root checked={fail} onCheckedChange={setFail}>
+              <Checkbox.Indicator />
+            </Checkbox.Root>
+          }
+        >
           {t.failAsyncPreview}
-        </label>
-        <label className='pui-choice-label'>
-          <Checkbox.Root checked={rtl} onCheckedChange={setRtl}>
-            <Checkbox.Indicator />
-          </Checkbox.Root>
+        </ChoiceLabel>
+        <ChoiceLabel
+          control={
+            <Checkbox.Root checked={rtl} onCheckedChange={setRtl}>
+              <Checkbox.Indicator />
+            </Checkbox.Root>
+          }
+        >
           {t.rtlNotifications}
-        </label>
+        </ChoiceLabel>
       </div>
       <div className='toast-demo-actions'>
         <Button onClick={addNotice}>{t.showSuccess}</Button>

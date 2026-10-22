@@ -15,6 +15,7 @@ import {
   Table,
   Toggle,
   ToggleGroup,
+  Link as TextLink,
 } from '@surflane/ui'
 import {
   accentPresets,
@@ -231,7 +232,7 @@ function Preview({
                   {t.notifyOwners}
                 </label>
               </div>
-              <Table.Container label={t.tableLabel}>
+              <Table.Container bleed label={t.tableLabel}>
                 <Table.Root density='compact'>
                   <Table.Head>
                     <Table.Row>
@@ -271,13 +272,12 @@ function Preview({
                           </Checkbox.Root>
                         </Table.Cell>
                         <Table.HeaderCell scope='row'>
-                          <a
-                            className='pui-link'
+                          <TextLink
                             href='#theme-preview'
                             onClick={(event) => event.preventDefault()}
                           >
                             {name}
-                          </a>
+                          </TextLink>
                         </Table.HeaderCell>
                         <Table.Cell>{environment}</Table.Cell>
                         <Table.Cell numeric>{number(seconds)}</Table.Cell>
@@ -314,7 +314,7 @@ function ContrastReport({ theme, t }: { theme: Theme; t: Copy }) {
   const ratio = (mode: 'dark' | 'light', fg: string, bg: string) =>
     contrastRatio(theme[mode][fg], theme[mode][bg])
   return (
-    <Table.Container label={t.contrastCaption}>
+    <Table.Container bleed label={t.contrastCaption}>
       <Table.Root density='compact'>
         <Table.Caption>{t.contrastCaption}</Table.Caption>
         <Table.Head>

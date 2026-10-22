@@ -8,6 +8,8 @@ import {
   NativeSelect,
   PageHeader,
   Prose,
+  ChoiceLabel,
+  Link as TextLink,
 } from '@surflane/ui'
 import { Link } from './router'
 import { useLocale } from './i18n'
@@ -138,18 +140,24 @@ export function DocumentationExample() {
             <option value='ko'>{t.korean}</option>
           </NativeSelect>
         </label>
-        <label className='pui-choice-label'>
-          <Checkbox.Root checked={long} onCheckedChange={setLong}>
-            <Checkbox.Indicator />
-          </Checkbox.Root>
+        <ChoiceLabel
+          control={
+            <Checkbox.Root checked={long} onCheckedChange={setLong}>
+              <Checkbox.Indicator />
+            </Checkbox.Root>
+          }
+        >
           {t.longDocument}
-        </label>
-        <label className='pui-choice-label'>
-          <Checkbox.Root checked={wrap} onCheckedChange={setWrap}>
-            <Checkbox.Indicator />
-          </Checkbox.Root>
+        </ChoiceLabel>
+        <ChoiceLabel
+          control={
+            <Checkbox.Root checked={wrap} onCheckedChange={setWrap}>
+              <Checkbox.Indicator />
+            </Checkbox.Root>
+          }
+        >
           {t.wrapSampleCode}
-        </label>
+        </ChoiceLabel>
       </div>
       <div className='documentation-layout'>
         <aside className='documentation-toc' lang={locale}>
@@ -239,14 +247,14 @@ export function DocumentationExample() {
               <p>{copyText.nextBody}</p>
               <ul>
                 <li>
-                  <Link className='pui-link' href='/patterns/form-workflow'>
+                  <TextLink render={<Link href='/patterns/form-workflow' />}>
                     {copyText.workflow}
-                  </Link>
+                  </TextLink>
                 </li>
                 <li>
-                  <Link className='pui-link' href='/foundations/accessibility'>
+                  <TextLink render={<Link href='/foundations/accessibility' />}>
                     {copyText.accessibility}
-                  </Link>
+                  </TextLink>
                 </li>
               </ul>
             </section>

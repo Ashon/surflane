@@ -40,6 +40,7 @@ export default function MobileCatalogNavigation({
       <Sheet.Content
         ref={panel}
         className='catalog-mobile-navigation navigation-sheet'
+        flush
         closeLabel={messages.closeCatalogNavigation}
         initialFocus={() =>
           panel.current?.querySelector<HTMLElement>('a[aria-current="page"]') ??

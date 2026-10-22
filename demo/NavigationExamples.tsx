@@ -14,6 +14,7 @@ import {
   Checkbox,
   Select,
   Button,
+  ChoiceLabel,
 } from '@surflane/ui'
 import { withBase } from './router'
 import { useLocale } from './i18n'
@@ -29,12 +30,15 @@ function Toggle({
   children: React.ReactNode
 }) {
   return (
-    <label className='pui-choice-label'>
-      <Checkbox.Root checked={checked} onCheckedChange={onChange}>
-        <Checkbox.Indicator />
-      </Checkbox.Root>
-      <span>{children}</span>
-    </label>
+    <ChoiceLabel
+      control={
+        <Checkbox.Root checked={checked} onCheckedChange={onChange}>
+          <Checkbox.Indicator />
+        </Checkbox.Root>
+      }
+    >
+      {children}
+    </ChoiceLabel>
   )
 }
 function TabsExample() {

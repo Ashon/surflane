@@ -101,3 +101,27 @@ for (const width of [1440, 320]) {
     })
   }
 }
+
+test('LinkButton stays a link, takes its size and keeps the router navigation it renders', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.goto('/')
+  await waitForCatalogReady(page)
+  // The hero action; the overview section repeats the link as an outline button.
+  const link = page
+    .getByRole('link', { name: 'Browse components', exact: true })
+    .first()
+  await expect(link).toHaveClass(/pui-button/)
+  await expect(link).toHaveAttribute('data-ui-size', 'large')
+  expect((await link.boundingBox())!.height).toBe(44)
+  // The catalog router navigates in place: the page keeps its state, no document load.
+  await page.evaluate(() => ((window as any).__kept = true))
+  await link.click()
+  await expect(page).toHaveURL(/\/components$/)
+  expect(await page.evaluate(() => (window as any).__kept)).toBe(true)
+  const text = page
+    .locator('.catalog-page-header')
+    .getByRole('link', { name: 'Surflane', exact: true })
+  await expect(text).toHaveClass(/pui-link/)
+})

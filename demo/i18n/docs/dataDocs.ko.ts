@@ -33,6 +33,8 @@ export const dataDocsKo: Record<string, DocKo> = {
       'Cell.colSpan / headers': '네이티브 테이블 셀 속성',
       useTableSelection:
         'rows, getId, canSelect, selected 또는 defaultSelected, onSelectedChange → pageCheckbox, rowCheckbox(row), isSelected, toggle, clear, hiddenCount',
+      'Container.bleed':
+        '셀 안쪽 여백만큼 표를 바깥으로 내어, 셀 텍스트가 주변 텍스트와 줄을 맞춤',
     },
   },
   list: {

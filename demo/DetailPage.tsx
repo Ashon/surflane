@@ -151,6 +151,7 @@ export function DetailPage({
           <section id='api'>
             <h2>{messages.detail.api}</h2>
             <Table.Container
+              bleed
               className='catalog-table-wrap'
               label={messages.detail.apiTable}
               orientation='horizontal'

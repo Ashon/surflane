@@ -9,6 +9,7 @@ import {
   NativeSelect,
   Spinner,
   StatusBadge,
+  LinkButton,
 } from '@surflane/ui'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/ErrorRecoveryExample'
@@ -266,13 +267,12 @@ export function ErrorRecoveryExample() {
             {t.notFoundDescription}
           </EmptyState.Description>
           <EmptyState.Actions>
-            <Link
-              className='pui-button'
-              data-variant='outline'
-              href='/patterns/resource-list'
+            <LinkButton
+              variant='outline'
+              render={<Link href='/patterns/resource-list' />}
             >
               {t.browseResourceExamples}
-            </Link>
+            </LinkButton>
           </EmptyState.Actions>
         </EmptyState.Root>
       )}

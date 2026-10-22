@@ -1,6 +1,7 @@
-import React, { useEffect, useId, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Button,
+  ChoiceLabel,
   CodeBlock,
   Collapsible,
   Switch,
@@ -147,27 +148,25 @@ function Options({
   update: (change: Partial<Setup>) => void
   t: Copy
 }) {
-  const id = useId()
   return (
     <fieldset>
       <legend>{t.options}</legend>
       <div className='install-options'>
         {flags.map((flag) => (
-          <label className='pui-choice-label install-option' key={flag}>
-            <Switch.Root
-              checked={setup[flag]}
-              onCheckedChange={(checked) => update({ [flag]: checked })}
-              aria-describedby={`${id}-${flag}`}
-            >
-              <Switch.Thumb />
-            </Switch.Root>
-            <span className='install-option-text'>
-              <span>{t[flag]}</span>
-              <span className='install-option-hint' id={`${id}-${flag}`}>
-                {t[`${flag}Hint`]}
-              </span>
-            </span>
-          </label>
+          <ChoiceLabel
+            key={flag}
+            description={t[`${flag}Hint`]}
+            control={
+              <Switch.Root
+                checked={setup[flag]}
+                onCheckedChange={(checked) => update({ [flag]: checked })}
+              >
+                <Switch.Thumb />
+              </Switch.Root>
+            }
+          >
+            {t[flag]}
+          </ChoiceLabel>
         ))}
       </div>
     </fieldset>
@@ -347,7 +346,7 @@ export default function InstallGuide() {
             {t.layerOrderTitle}
           </Collapsible.Trigger>
           <Collapsible.Panel>
-            <Table.Container label={t.layersCaption}>
+            <Table.Container bleed label={t.layersCaption}>
               <Table.Root className='install-layer-table'>
                 <Table.Caption>{t.layersCaption}</Table.Caption>
                 <Table.Head>
