@@ -22,15 +22,24 @@
   - Surflane's few `!important` declarations, for motion during a theme switch and under reduced motion and for the native scrollbar that `ScrollArea` replaces, now hold against unlayered `!important` ones.
 - `themeCss` output starts with the layer order statement and wraps its rules in `@layer surflane.themes`. `layerOrder` exports the statement.
 - With Tailwind CSS v4, the docs import every Surflane stylesheet, including theme presets and `shadcn.css`, with `layer(components)`: above Preflight, below utilities. The `layer(theme)` imports from 0.3.0 keep working.
+- Bundles carry only the components an app uses. Tabs, Accordion with Collapsible, and Avatar have their own modules, and component factories are marked pure, so a bundler drops what an app never renders. Importing Breadcrumbs alone bundles 1.4 KB instead of 54 KB. Exports and names are unchanged.
+- Components write the full size name to `data-size`: `size="sm"` renders `data-size="small"`, and `md` and `lg` likewise.
+- Toast `Close` and `Action` are small buttons, 32px, and 44px on touch screens. The close button was 36px, and the action stayed 32px on phones.
 
 ### Fixed
 
 - Checkboxes, radios and switches in table cells center on the row. They rested on the text baseline, 2 to 3px above the middle, in every table and data table.
+- The size aliases `sm`, `md` and `lg` render exactly like `small`, `default` and `large`. A `size="sm"` Button stayed 32px on touch screens instead of growing to the 44px target, and a `sm` Spinner was 16px against 14px for `small`. `pui-avatar` also accepts `data-size="small"` and `"large"` without React.
+- Accordion and Collapsible triggers follow `SizeProvider`. Their size rules named classes the components do not render.
+- Inside a `SizeProvider`, Sheet and Drawer headers keep the title clear of the close button, as they do outside one.
+- Dialog, AlertDialog, Popover, Sheet and Drawer keep a function `className` on their content, close button, title and description. They dropped it.
+- The CodeBlock copy button keeps its resting width when web fonts finish loading after a copy.
 
 ### Migration
 
 - Import Chart, DatePicker, Markdown and Tree from their entry points, and install the libraries they need. Wrap the app in `<SyntaxHighlighting>` to keep highlighted code.
 - Element rules in your global CSS, such as `button`, `a` or `body` rules from a starter template or a reset, now override Surflane components. Remove them, or move them into a layer declared before Surflane's: `@layer reset, surflane;` at the top of the stylesheet, then `@layer reset { … }`.
+- CSS that selects `[data-size='sm']` or `[data-size='lg']` on a Surflane component now selects `[data-size='small']` or `[data-size='large']`.
 
 ## 0.3.0
 
