@@ -106,7 +106,9 @@ import './layers.css'
 import '@surflane/design-tokens/tokens.css'
 import '@surflane/design-tokens/controls.css'
 import '@surflane/design-tokens/motion.css'
-import '@surflane/ui/styles.css'
+// The source stylesheets, so edits reload in place; the package publishes flattened
+// copies of the same files (scripts/build-styles.mjs).
+import '../packages/ui/src/styles.css'
 import '@fontsource-variable/manrope'
 import '@fontsource-variable/jetbrains-mono'
 import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css'

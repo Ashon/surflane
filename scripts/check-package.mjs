@@ -323,6 +323,42 @@ for (const name of cssEntries) {
 console.log(
   `@surflane/ui: ${cssEntries.length} stylesheet entries each style everything their module renders`,
 )
+// Published stylesheets never nest imports. Tailwind CSS and plain @import keep every
+// duplicate, so a nested graph would repeat shared rules many times over.
+const dist = 'packages/ui/dist/css'
+const nested = cssIn(`${dist}/rules`).filter((file) =>
+  readFileSync(file, 'utf8').includes('@import'),
+)
+assert.deepEqual(nested, [], `Published rule files import others: ${nested}`)
+const flatOrder = [
+  ...readFileSync(`${dist}/styles.css`, 'utf8').matchAll(/@import '([^']+)'/g),
+].map((match) => match[1])
+for (const file of cssIn(dist).filter((file) => !file.endsWith('/all.css'))) {
+  const listed = [
+    ...readFileSync(file, 'utf8').matchAll(/@import '([^']+)'/g),
+  ].map((match) => match[1])
+  const unknown = listed.filter(
+    (unit) =>
+      !flatOrder.includes(unit) &&
+      unit !== '@surflane/design-tokens/tokens.css',
+  )
+  assert.deepEqual(
+    unknown,
+    [],
+    `${file} imports outside the rule files: ${unknown}`,
+  )
+  const positions = listed
+    .filter((unit) => flatOrder.includes(unit))
+    .map((unit) => flatOrder.indexOf(unit))
+  assert.deepEqual(
+    positions,
+    positions.toSorted((a, b) => a - b),
+    `${file} lists its rule files out of cascade order`,
+  )
+}
+console.log(
+  `@surflane/ui: published stylesheets list ${flatOrder.length} rule files once each, in cascade order`,
+)
 // Optional peers stay off the root entry, including its dynamic imports: an app that
 // installs none of them must still bundle every root export.
 const optionalPeers = Object.entries(ui.peerDependenciesMeta ?? {})

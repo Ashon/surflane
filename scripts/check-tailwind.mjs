@@ -110,6 +110,12 @@ const { css } =
 @import '@surflane/design-tokens/shadcn.css' layer(components);
 @import '@surflane/design-tokens/tailwind.css';`)
 const violet = createTheme({ accent: accentPresets.violet }).light['--brand']
+// Each stylesheet arrives once: Tailwind keeps duplicate imports, so a nested import
+// graph would multiply the output.
+assert(
+  css.length < 400 * 1024,
+  `Tailwind output is ${Math.round(css.length / 1024)} KB; Surflane stylesheets repeat`,
+)
 
 const browser = await chromium.launch()
 try {
