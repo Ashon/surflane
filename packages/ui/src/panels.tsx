@@ -1,5 +1,6 @@
 'use client'
 import * as React from 'react'
+import { skin } from './parts.js'
 import {
   useComponentSize,
   normalizeSize,
@@ -88,10 +89,7 @@ const SheetContent = /* @__PURE__ */ React.forwardRef<
           <BaseDialog.Popup
             {...props}
             ref={ref}
-            className={cx(
-              'pui-panel',
-              typeof className === 'string' ? className : undefined,
-            )}
+            className={skin('pui-panel', className)}
             data-side={side}
             data-size={
               size
@@ -138,10 +136,7 @@ const DrawerContent = /* @__PURE__ */ React.forwardRef<
             <BaseDrawer.Popup
               {...props}
               ref={ref}
-              className={cx(
-                'pui-panel pui-drawer',
-                typeof className === 'string' ? className : undefined,
-              )}
+              className={skin('pui-panel pui-drawer', className)}
               data-side={side}
               data-size={
                 size
@@ -191,10 +186,7 @@ function SheetTitle({
   return (
     <BaseDialog.Title
       {...props}
-      className={cx(
-        'pui-panel-title',
-        typeof className === 'string' ? className : undefined,
-      )}
+      className={skin('pui-panel-title', className)}
     />
   )
 }
@@ -205,10 +197,7 @@ function SheetDescription({
   return (
     <BaseDialog.Description
       {...props}
-      className={cx(
-        'pui-panel-description',
-        typeof className === 'string' ? className : undefined,
-      )}
+      className={skin('pui-panel-description', className)}
     />
   )
 }
@@ -219,10 +208,7 @@ function DrawerTitle({
   return (
     <BaseDrawer.Title
       {...props}
-      className={cx(
-        'pui-panel-title',
-        typeof className === 'string' ? className : undefined,
-      )}
+      className={skin('pui-panel-title', className)}
     />
   )
 }
@@ -233,10 +219,7 @@ function DrawerDescription({
   return (
     <BaseDrawer.Description
       {...props}
-      className={cx(
-        'pui-panel-description',
-        typeof className === 'string' ? className : undefined,
-      )}
+      className={skin('pui-panel-description', className)}
     />
   )
 }

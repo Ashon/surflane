@@ -1,5 +1,6 @@
 'use client'
 import * as React from 'react'
+import { skin } from './parts.js'
 import { useDialogFocusBoundary } from './dialog-focus.js'
 import { useComponentSize, type ComponentSizeAlias } from './sizing.js'
 import { Dialog as BaseDialog } from '@base-ui/react/dialog'
@@ -18,10 +19,7 @@ const DialogCloseButton = /* @__PURE__ */ React.forwardRef<
       {...props}
       ref={ref}
       aria-label={label}
-      className={cx(
-        'pui-icon-button pui-dialog-close',
-        typeof className === 'string' && className,
-      )}
+      className={skin('pui-icon-button pui-dialog-close', className)}
     >
       <svg
         width='18'
@@ -64,10 +62,7 @@ const DialogContent = /* @__PURE__ */ React.forwardRef<
         data-ui-size={scheme}
         {...props}
         ref={ref}
-        className={cx(
-          'pui-dialog-popup pui-dialog-content',
-          typeof className === 'string' && className,
-        )}
+        className={skin('pui-dialog-popup pui-dialog-content', className)}
       >
         <DialogCloseButton aria-label={closeLabel} disabled={closeDisabled} />
         {children}
@@ -116,9 +111,9 @@ const AlertDialogContent = /* @__PURE__ */ React.forwardRef<
         data-ui-size={scheme}
         {...props}
         ref={ref}
-        className={cx(
+        className={skin(
           'pui-dialog-popup pui-dialog-content pui-confirm-content',
-          typeof className === 'string' && className,
+          className,
         )}
       />
     </BaseAlertDialog.Portal>

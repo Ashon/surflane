@@ -1,8 +1,8 @@
 'use client'
 import * as React from 'react'
+import { skin } from './parts.js'
 import { useComponentSize, type ComponentSizeAlias } from './sizing.js'
 import { Popover as BasePopover } from '@base-ui/react/popover'
-const cx = (...v: (string | undefined | false)[]) => v.filter(Boolean).join(' ')
 function PopoverContent({
   side = 'bottom',
   align = 'start',
@@ -27,10 +27,7 @@ function PopoverContent({
       <BasePopover.Popup
         data-ui-size={scheme}
         {...props}
-        className={cx(
-          'pui-popover',
-          typeof className === 'string' && className,
-        )}
+        className={skin('pui-popover', className)}
       />
     </BasePopover.Positioner>
   )
