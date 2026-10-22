@@ -1,123 +1,221 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { lazy, useEffect, useRef, useState } from 'react'
 import { Button, CodeBlock, StatusBadge, Table } from '@surflane/ui'
 import { Link } from './router'
 import { contrastRatio } from './contrast'
+import { DeferredContent } from './DeferredContent'
+import { text as paletteText } from './i18n/pages/PaletteLab'
+
+// The lab and its color math load as their own chunk and render after the page.
+const PaletteLab = lazy(() =>
+  import('./PaletteLab').then((module) => ({ default: module.PaletteLab })),
+)
 import { useLocale } from './i18n'
-import { text } from './i18n/pages/ColorFoundation'
+import {
+  text,
+  type Direction,
+  type PairGroupId,
+  type SwatchKind,
+  type Tone,
+} from './i18n/pages/ColorFoundation'
 
 type Measurement = {
   ratio: number | null
   foreground: string
   background: string
 }
+type Pair = [name: string, foreground: string, background: string]
+type PairGroup = { id: PairGroupId; threshold: 4.5 | 3; pairs: Pair[] }
+const tones: Tone[] = [
+  'neutral',
+  'info',
+  'success',
+  'danger',
+  'caution',
+  'progress',
+]
+const syntaxRoles = [
+  'plain',
+  'comment',
+  'keyword',
+  'string',
+  'number',
+  'function',
+  'tag',
+  'attribute',
+  'punctuation',
+]
+
+/** A token drawn in one theme, whatever theme the page is in: a fill, a text color
+ * on the surface it belongs to, or a line around that surface. */
+function Swatch({
+  token,
+  kind,
+  on = '--canvas',
+  theme,
+}: {
+  token: string
+  kind: SwatchKind
+  on?: string
+  theme: 'light' | 'dark'
+}) {
+  return (
+    <span
+      className='color-chip'
+      data-theme={theme}
+      data-kind={kind}
+      aria-hidden='true'
+      style={
+        {
+          '--swatch': `var(${token})`,
+          '--swatch-on': `var(${on})`,
+        } as React.CSSProperties
+      }
+    >
+      <span>{kind === 'text' ? 'Aa' : null}</span>
+    </span>
+  )
+}
+function SwatchPair(props: { token: string; kind: SwatchKind; on?: string }) {
+  return (
+    <span className='color-chip-pair'>
+      <Swatch {...props} theme='light' />
+      <Swatch {...props} theme='dark' />
+    </span>
+  )
+}
+function TokenLink({ token }: { token: string }) {
+  return (
+    <Link href={`/tokens?q=${encodeURIComponent(token)}`}>
+      <code>{token}</code>
+    </Link>
+  )
+}
+
 export function ColorFoundation() {
-  const t = text[useLocale().locale]
-  const pairs: [string, string, string, number][] = [
-    ...[
-      'plain',
-      'comment',
-      'keyword',
-      'string',
-      'number',
-      'function',
-      'tag',
-      'attribute',
-      'punctuation',
-    ].map((role): [string, string, string, number] => [
-      t.syntax(role),
-      `--syntax-${role}`,
-      '--code-bg',
-      4.5,
-    ]),
-    [t.title, '--ink', '--canvas', 4.5],
-    [t.body, '--ink-body', '--canvas', 4.5],
-    [t.secondaryText, '--ink-muted', '--canvas', 4.5],
-    [t.insetContent, '--ink-body', '--surface', 4.5],
-    [t.selectedContent, '--ink', '--selected', 4.5],
-    [t.errorTextOnSelection, '--status-danger-fg', '--selected', 4.5],
-    [t.brandAction, '--on-brand', '--brand', 4.5],
-    [t.brandTextLink, '--brand-ink', '--canvas', 4.5],
-    ...['neutral', 'info', 'success', 'danger', 'caution', 'progress'].map(
-      (tone): [string, string, string, number] => [
-        t.status(tone),
-        `--status-${tone}-fg`,
-        `--status-${tone}-bg`,
-        4.5,
+  const { locale } = useLocale()
+  const t = text[locale]
+  const p = paletteText[locale]
+  const groups: PairGroup[] = [
+    {
+      id: 'text',
+      threshold: 4.5,
+      pairs: [
+        [t.title, '--ink', '--canvas'],
+        [t.body, '--ink-body', '--canvas'],
+        [t.secondaryText, '--ink-muted', '--canvas'],
+        [t.insetContent, '--ink-body', '--surface'],
+        [t.chromeText, '--ink-body', '--chrome'],
+        [t.selectedContent, '--ink', '--selected'],
+        [t.errorTextOnSelection, '--status-danger-fg', '--selected'],
+        [t.brandAction, '--on-brand', '--brand'],
+        [t.brandTextLink, '--brand-ink', '--canvas'],
+        [t.textSelection, '--selection-foreground', '--selection-background'],
+        [t.tooltip, '--tooltip-foreground', '--tooltip-background'],
       ],
-    ),
-    ...['neutral', 'info', 'success', 'danger', 'caution', 'progress'].map(
-      (tone): [string, string, string, number] => [
-        t.badge(tone),
-        `--status-${tone}-fg`,
-        `--badge-${tone}-bg`,
-        4.5,
+    },
+    {
+      id: 'status',
+      threshold: 4.5,
+      pairs: [
+        ...tones.map((tone): Pair => [
+          t.status(tone),
+          `--status-${tone}-fg`,
+          `--status-${tone}-bg`,
+        ]),
+        ...tones.map((tone): Pair => [
+          t.badge(tone),
+          `--status-${tone}-fg`,
+          `--badge-${tone}-bg`,
+        ]),
       ],
-    ),
-    ...(['up', 'down'] as const).flatMap(
-      (direction): [string, string, string, number][] => [
-        [t.trend(direction), `--trend-${direction}-fg`, '--canvas', 4.5],
+    },
+    {
+      id: 'trend',
+      threshold: 4.5,
+      pairs: (['up', 'down'] as const).flatMap((direction): Pair[] => [
+        [t.trend(direction), `--trend-${direction}-fg`, '--canvas'],
         [
           t.trendSurface(direction),
           `--trend-${direction}-fg`,
           `--trend-${direction}-bg`,
-          4.5,
         ],
+      ]),
+    },
+    {
+      id: 'controlText',
+      threshold: 4.5,
+      pairs: [
+        [t.inputText, '--ink', '--control-background'],
+        [t.inputPlaceholder, '--control-placeholder', '--control-background'],
+        [t.inputHoverText, '--ink', '--control-hover-background'],
+        [t.focusedInputText, '--ink', '--control-focus-background'],
       ],
-    ),
-    [t.textSelection, '--selection-foreground', '--selection-background', 4.5],
-    [t.chromeText, '--ink-body', '--chrome', 4.5],
-    [t.inputText, '--ink', '--control-background', 4.5],
-    [t.inputPlaceholder, '--control-placeholder', '--control-background', 4.5],
-    [t.inputHoverText, '--ink', '--control-hover-background', 4.5],
-    [t.focusedInputText, '--ink', '--control-focus-background', 4.5],
-    [t.tooltip, '--tooltip-foreground', '--tooltip-background', 4.5],
-    [
-      t.choiceMark,
-      '--control-choice-selected-fg',
-      '--control-choice-selected-bg',
-      3,
-    ],
-    [
-      t.choiceHoverMark,
-      '--control-choice-selected-fg',
-      '--control-choice-selected-hover-bg',
-      3,
-    ],
-    [t.inputBoundary, '--control-border', '--canvas', 3],
-    [t.inputBoundaryInside, '--control-border', '--control-background', 3],
-    [t.inputHoverBoundary, '--control-hover-border', '--canvas', 3],
-    [
-      t.inputHoverBoundaryInside,
-      '--control-hover-border',
-      '--control-hover-background',
-      3,
-    ],
-    [t.inputFocusOutside, '--control-focus', '--canvas', 3],
-    [t.inputFocusInside, '--control-focus', '--control-focus-background', 3],
-    [t.choiceBoundary, '--control-choice-border', '--canvas', 3],
-    [t.choiceHoverBoundary, '--control-choice-hover-border', '--canvas', 3],
-    [
-      t.choiceSelectedBoundary,
-      '--control-choice-selected-border',
-      '--canvas',
-      3,
-    ],
-    [t.errorBoundary, '--status-danger-fg', '--canvas', 3],
-    ...[1, 2, 3].map((index): [string, string, string, number] => [
-      t.chartSeries(index),
-      `--chart-series-${index}`,
-      '--canvas',
-      3,
-    ]),
-    ...[1, 2, 3, 4, 5, 6].map((index): [string, string, string, number] => [
-      t.chartCategory(index),
-      `--chart-category-${index}`,
-      '--canvas',
-      3,
-    ]),
+    },
+    {
+      id: 'controlEdges',
+      threshold: 3,
+      pairs: [
+        [
+          t.choiceMark,
+          '--control-choice-selected-fg',
+          '--control-choice-selected-bg',
+        ],
+        [
+          t.choiceHoverMark,
+          '--control-choice-selected-fg',
+          '--control-choice-selected-hover-bg',
+        ],
+        [t.inputBoundary, '--control-border', '--canvas'],
+        [t.inputBoundaryInside, '--control-border', '--control-background'],
+        [t.inputHoverBoundary, '--control-hover-border', '--canvas'],
+        [
+          t.inputHoverBoundaryInside,
+          '--control-hover-border',
+          '--control-hover-background',
+        ],
+        [t.inputFocusOutside, '--control-focus', '--canvas'],
+        [t.inputFocusInside, '--control-focus', '--control-focus-background'],
+        [t.choiceBoundary, '--control-choice-border', '--canvas'],
+        [t.choiceHoverBoundary, '--control-choice-hover-border', '--canvas'],
+        [
+          t.choiceSelectedBoundary,
+          '--control-choice-selected-border',
+          '--canvas',
+        ],
+        [t.errorBoundary, '--status-danger-fg', '--canvas'],
+      ],
+    },
+    {
+      id: 'charts',
+      threshold: 3,
+      pairs: [
+        ...[1, 2, 3].map((index): Pair => [
+          t.chartSeries(index),
+          `--chart-series-${index}`,
+          '--canvas',
+        ]),
+        ...[1, 2, 3, 4, 5, 6].map((index): Pair => [
+          t.chartCategory(index),
+          `--chart-category-${index}`,
+          '--canvas',
+        ]),
+      ],
+    },
+    {
+      id: 'syntax',
+      threshold: 4.5,
+      pairs: syntaxRoles.map((role): Pair => [
+        t.syntax(role),
+        `--syntax-${role}`,
+        '--code-bg',
+      ]),
+    },
   ]
+  const pairCount = groups.reduce((sum, group) => sum + group.pairs.length, 0)
   const root = useRef<HTMLDivElement>(null)
-  const [measurements, setMeasurements] = useState<Measurement[]>([])
+  const [measurements, setMeasurements] = useState<Record<string, Measurement>>(
+    {},
+  )
   const [forcedColors, setForcedColors] = useState(false)
   useEffect(() => {
     const forced = matchMedia('(forced-colors: active)')
@@ -135,19 +233,24 @@ export function ColorFoundation() {
         return rgba[3] === 255 ? rgba : null
       }
       setMeasurements(
-        Array.from(
-          root.current?.querySelectorAll<HTMLElement>('[data-color-pair]') ??
-            [],
-        ).map((element) => {
-          const style = getComputedStyle(element)
-          const a = pixel(style.color),
-            b = pixel(style.backgroundColor)
-          return {
-            foreground: style.color,
-            background: style.backgroundColor,
-            ratio: a && b && !forced.matches ? contrastRatio(a, b) : null,
-          }
-        }),
+        Object.fromEntries(
+          Array.from(
+            root.current?.querySelectorAll<HTMLElement>('[data-color-pair]') ??
+              [],
+          ).map((element) => {
+            const style = getComputedStyle(element)
+            const a = pixel(style.color),
+              b = pixel(style.backgroundColor)
+            return [
+              element.dataset.colorPair ?? '',
+              {
+                foreground: style.color,
+                background: style.backgroundColor,
+                ratio: a && b && !forced.matches ? contrastRatio(a, b) : null,
+              },
+            ]
+          }),
+        ),
       )
     }
     update()
@@ -176,45 +279,216 @@ export function ColorFoundation() {
       </nav>
       <section id='roles'>
         <h2>{t.rolesHeading}</h2>
-        <p>{t.rolesIntro}</p>
-        <dl className='color-role-list'>
-          <div>
-            <dt>{t.surfaceRole}</dt>
-            <dd>
-              {t.surfaceUse} <code>--chrome</code>
-              {t.surfaceChromeRest} <code>--canvas</code>
-              {t.surfaceCanvasRest} <code>--surface</code>
-              {t.surfaceSurfaceRest}
-            </dd>
+        <p>
+          {t.rolesIntro} <Link href='/tokens'>{t.tokensLink}</Link>
+          {t.rolesIntroEnd}
+        </p>
+        {t.roleGroups.map((group) => (
+          <div key={group.id} className='color-group'>
+            <h3>{group.title}</h3>
+            <Table.Container label={group.title} orientation='horizontal'>
+              <Table.Root density='compact' className='color-table'>
+                <Table.Head>
+                  <Table.Row>
+                    {t.roleColumns.map((label) => (
+                      <Table.HeaderCell key={label} scope='col'>
+                        {label}
+                      </Table.HeaderCell>
+                    ))}
+                  </Table.Row>
+                </Table.Head>
+                <Table.Body>
+                  {group.rows.map(([token, kind, use, on]) => (
+                    <Table.Row key={token}>
+                      <Table.Cell>
+                        <Swatch
+                          token={token}
+                          kind={kind}
+                          on={on}
+                          theme='light'
+                        />
+                      </Table.Cell>
+                      <Table.Cell>
+                        <Swatch
+                          token={token}
+                          kind={kind}
+                          on={on}
+                          theme='dark'
+                        />
+                      </Table.Cell>
+                      <Table.HeaderCell scope='row'>
+                        <TokenLink token={token} />
+                      </Table.HeaderCell>
+                      <Table.Cell>{use}</Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              </Table.Root>
+            </Table.Container>
           </div>
-          <div>
-            <dt>{t.textRole}</dt>
-            <dd>
-              {t.textUse} <code>--ink</code>
-              {t.textInkRest} <code>--ink-body</code>
-              {t.textInkBodyRest} <code>--ink-muted</code>
-              {t.textInkMutedRest}
-            </dd>
-          </div>
-          <div>
-            <dt>{t.brandRole}</dt>
-            <dd>
-              <code>--brand</code>
-              {t.brandFills} <code>--on-brand</code>
-              {t.brandOnIt} <code>--brand-ink</code>
-              {t.brandInkRest}
-            </dd>
-          </div>
-          <div>
-            <dt>{t.boundaryRole}</dt>
-            <dd>
-              <code>--line</code>
-              {t.boundaryLineRest} <code>--control-border</code>
-              {t.boundaryBorderRest} <code>--control-focus</code>
-              {t.boundaryFocusRest}
-            </dd>
-          </div>
-        </dl>
+        ))}
+        <div className='color-group'>
+          <h3>{t.statusTitle}</h3>
+          <Table.Container label={t.statusTitle} orientation='horizontal'>
+            <Table.Root density='compact' className='color-table'>
+              <Table.Head>
+                <Table.Row>
+                  {t.statusColumns.map((label, index) => (
+                    <Table.HeaderCell key={label} scope='col'>
+                      {index ? <code>{label}</code> : label}
+                    </Table.HeaderCell>
+                  ))}
+                </Table.Row>
+              </Table.Head>
+              <Table.Body>
+                {tones.map((tone) => (
+                  <Table.Row key={tone}>
+                    <Table.HeaderCell scope='row'>
+                      {t.tones[tone]}
+                    </Table.HeaderCell>
+                    <Table.Cell>
+                      <SwatchPair
+                        token={`--status-${tone}-fg`}
+                        kind='text'
+                        on={`--status-${tone}-bg`}
+                      />
+                    </Table.Cell>
+                    <Table.Cell>
+                      <SwatchPair token={`--status-${tone}-bg`} kind='fill' />
+                    </Table.Cell>
+                    <Table.Cell>
+                      <SwatchPair token={`--badge-${tone}-bg`} kind='fill' />
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table.Root>
+          </Table.Container>
+        </div>
+        <div className='color-group'>
+          <h3>{t.trendTitle}</h3>
+          <Table.Container label={t.trendTitle} orientation='horizontal'>
+            <Table.Root density='compact' className='color-table'>
+              <Table.Head>
+                <Table.Row>
+                  {t.trendColumns.map((label, index) => (
+                    <Table.HeaderCell key={label} scope='col'>
+                      {index ? <code>{label}</code> : label}
+                    </Table.HeaderCell>
+                  ))}
+                </Table.Row>
+              </Table.Head>
+              <Table.Body>
+                {(['up', 'down', 'flat'] as Direction[]).map((direction) => (
+                  <Table.Row key={direction}>
+                    <Table.HeaderCell scope='row'>
+                      {t.directions[direction]}
+                    </Table.HeaderCell>
+                    <Table.Cell>
+                      <SwatchPair
+                        token={`--trend-${direction}-fg`}
+                        kind='text'
+                        on={
+                          direction === 'flat'
+                            ? '--canvas'
+                            : `--trend-${direction}-bg`
+                        }
+                      />
+                    </Table.Cell>
+                    <Table.Cell>
+                      {direction === 'flat' ? (
+                        '—'
+                      ) : (
+                        <SwatchPair
+                          token={`--trend-${direction}-bg`}
+                          kind='fill'
+                        />
+                      )}
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table.Root>
+          </Table.Container>
+          <p>{t.trendNote}</p>
+        </div>
+        <div className='color-group'>
+          <h3>{t.chartTitle}</h3>
+          <Table.Container label={t.chartTitle} orientation='horizontal'>
+            <Table.Root density='compact' className='color-table'>
+              <Table.Head>
+                <Table.Row>
+                  {t.chartColumns.map((label) => (
+                    <Table.HeaderCell key={label} scope='col'>
+                      {label}
+                    </Table.HeaderCell>
+                  ))}
+                </Table.Row>
+              </Table.Head>
+              <Table.Body>
+                {(
+                  [
+                    ['series', 3],
+                    ['categories', 6],
+                  ] as const
+                ).map(([set, count]) => {
+                  const prefix =
+                    set === 'series' ? '--chart-series-' : '--chart-category-'
+                  const tokens = Array.from(
+                    { length: count },
+                    (_, index) => `${prefix}${index + 1}`,
+                  )
+                  return (
+                    <Table.Row key={set}>
+                      <Table.HeaderCell scope='row'>
+                        {t.chartSets[set]}
+                      </Table.HeaderCell>
+                      {(['light', 'dark'] as const).map((theme) => (
+                        <Table.Cell key={theme}>
+                          <span className='color-chip-strip'>
+                            {tokens.map((token) => (
+                              <Swatch
+                                key={token}
+                                token={token}
+                                kind='fill'
+                                theme={theme}
+                              />
+                            ))}
+                          </span>
+                        </Table.Cell>
+                      ))}
+                      <Table.Cell>
+                        <code>
+                          {prefix}1…{count}
+                        </code>
+                      </Table.Cell>
+                    </Table.Row>
+                  )
+                })}
+              </Table.Body>
+            </Table.Root>
+          </Table.Container>
+          <p>{t.chartNote}</p>
+        </div>
+      </section>
+      <section id='oklch'>
+        <h2>{p.oklchHeading}</h2>
+        <p>{p.oklchIntro}</p>
+        <ol className='palette-principles'>
+          {p.principles.map(([title, body]) => (
+            <li key={title}>
+              <strong>{title}</strong>
+              <p>{body}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+      <section id='lab'>
+        <h2>{p.labHeading}</h2>
+        <p>{p.labIntro}</p>
+        <DeferredContent scope='preview'>
+          <PaletteLab />
+        </DeferredContent>
       </section>
       <section id='contrast'>
         <h2>{t.contrastHeading}</h2>
@@ -226,97 +500,103 @@ export function ColorFoundation() {
         <div
           ref={root}
           data-color-measured={
-            measurements.length === pairs.length || undefined
+            Object.keys(measurements).length === pairCount || undefined
           }
         >
-          <Table.Container
-            bleed
-            label={t.contrastTableLabel}
-            orientation='horizontal'
-          >
-            <Table.Root>
-              <Table.Caption>{t.contrastTableCaption}</Table.Caption>
-              <Table.Head>
-                <Table.Row>
-                  {t.columns.map((label) => (
-                    <Table.HeaderCell key={label} scope='col'>
-                      {label}
-                    </Table.HeaderCell>
-                  ))}
-                </Table.Row>
-              </Table.Head>
-              <Table.Body>
-                {pairs.map(
-                  ([name, foreground, background, threshold], index) => {
-                    const value = measurements[index]
-                    return (
-                      <Table.Row
-                        key={name}
-                        data-color-row={name}
-                        data-color-threshold={threshold}
-                      >
-                        <Table.HeaderCell scope='row'>{name}</Table.HeaderCell>
-                        <Table.Cell>
-                          <span
-                            className='color-pair-swatch'
-                            aria-hidden='true'
-                            data-color-pair
-                            style={{
-                              color: `var(${foreground})`,
-                              backgroundColor: `var(${background})`,
-                            }}
-                          >
-                            <span />
-                          </span>
-                          <div>
-                            <Link
-                              href={`/tokens?q=${encodeURIComponent(foreground)}`}
-                            >
-                              <code>{foreground}</code>
-                            </Link>
-                          </div>
-                          <div>
-                            <Link
-                              href={`/tokens?q=${encodeURIComponent(background)}`}
-                            >
-                              <code>{background}</code>
-                            </Link>
-                          </div>
-                        </Table.Cell>
-                        <Table.Cell>
-                          <span data-color-ratio>
+          {groups.map((group) => (
+            <div key={group.id} className='color-group'>
+              <h3>
+                {t.groups[group.id]}{' '}
+                <span className='color-group-minimum'>
+                  {t.minimum(group.threshold)}
+                </span>
+              </h3>
+              <Table.Container
+                label={t.groups[group.id]}
+                orientation='horizontal'
+              >
+                <Table.Root density='compact' className='color-table'>
+                  <Table.Head>
+                    <Table.Row>
+                      {t.pairColumns.map((label, index) => (
+                        <Table.HeaderCell
+                          key={label}
+                          scope='col'
+                          numeric={index === 3}
+                        >
+                          {label}
+                        </Table.HeaderCell>
+                      ))}
+                    </Table.Row>
+                  </Table.Head>
+                  <Table.Body>
+                    {group.pairs.map(([name, foreground, background]) => {
+                      const value = measurements[name]
+                      return (
+                        <Table.Row
+                          key={name}
+                          data-color-row={name}
+                          data-color-threshold={group.threshold}
+                        >
+                          <Table.HeaderCell scope='row'>
+                            <span className='color-pair'>
+                              <span
+                                className='color-pair-chip'
+                                aria-hidden='true'
+                                data-color-pair={name}
+                                data-kind={
+                                  group.threshold === 3 ? 'mark' : 'text'
+                                }
+                                style={{
+                                  color: `var(${foreground})`,
+                                  backgroundColor: `var(${background})`,
+                                }}
+                              >
+                                {group.threshold === 3 ? <span /> : 'Aa'}
+                              </span>
+                              {name}
+                            </span>
+                          </Table.HeaderCell>
+                          <Table.Cell>
+                            <TokenLink token={foreground} />
+                          </Table.Cell>
+                          <Table.Cell>
+                            <TokenLink token={background} />
+                          </Table.Cell>
+                          <Table.Cell numeric>
+                            <span data-color-ratio>
+                              {value?.ratio != null
+                                ? `${value.ratio.toFixed(2)}:1`
+                                : t.notEvaluated}
+                            </span>
+                          </Table.Cell>
+                          <Table.Cell data-color-verdict>
                             {value?.ratio != null
-                              ? `${value.ratio.toFixed(2)}:1`
+                              ? value.ratio >= group.threshold
+                                ? t.meetsThreshold
+                                : t.reviewRequired
                               : t.notEvaluated}
-                          </span>
-                        </Table.Cell>
-                        <Table.Cell>
-                          {threshold === 4.5
-                            ? t.textThreshold
-                            : t.nonTextThreshold}
-                        </Table.Cell>
-                        <Table.Cell data-color-verdict>
-                          {value?.ratio != null
-                            ? value.ratio >= threshold
-                              ? t.meetsThreshold
-                              : t.reviewRequired
-                            : t.notEvaluated}
-                        </Table.Cell>
-                      </Table.Row>
-                    )
-                  },
-                )}
-              </Table.Body>
-            </Table.Root>
-          </Table.Container>
+                          </Table.Cell>
+                        </Table.Row>
+                      )
+                    })}
+                  </Table.Body>
+                </Table.Root>
+              </Table.Container>
+            </div>
+          ))}
         </div>
         <p data-color-summary>
           {t.summary(
-            measurements.filter(
-              (value, index) =>
-                value.ratio != null && value.ratio >= pairs[index][3],
-            ).length,
-            pairs.length,
+            groups
+              .flatMap((group) =>
+                group.pairs.map(([name]) => [name, group.threshold] as const),
+              )
+              .filter(([name, threshold]) => {
+                const ratio = measurements[name]?.ratio
+                return ratio != null && ratio >= threshold
+              }).length,
+            pairCount,
           )}
         </p>
         <p>{t.indicatorContrast}</p>

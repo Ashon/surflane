@@ -1022,35 +1022,356 @@ body,
   margin-top: 0;
 }
 
-.color-role-list {
-  margin: 0;
+/* Color roles and contrast: one line per row, swatches drawn in each theme. */
+.color-group {
+  margin-block: var(--space-8);
 }
-.color-role-list > div {
-  padding-block: var(--space-4);
+.color-group > h3 {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-3);
 }
-.color-role-list dt {
-  font-weight: var(--weight-medium);
-  margin-bottom: var(--space-2);
+.color-group-minimum {
+  color: var(--ink-muted);
+  font: var(--weight-regular) var(--type-compact-size) /
+    var(--type-compact-leading) var(--font-body);
 }
-.color-role-list dd {
-  margin: 0;
-  color: var(--ink-body);
+.color-group > p {
+  margin-block: var(--space-3) 0;
 }
-.color-pair-swatch {
+.color-table :is(th, td) {
+  white-space: nowrap;
+}
+.color-pair {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.color-chip {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: var(--radius-sm);
+  background: var(--chrome);
+  vertical-align: middle;
+}
+.color-chip > span {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 32px;
-  border-radius: var(--radius-sm);
-  margin-bottom: var(--space-2);
+  box-sizing: border-box;
+  inline-size: var(--space-10);
+  block-size: var(--space-6);
+  border-radius: max(0px, calc(var(--radius-sm) - 3px));
+  font: var(--weight-medium) var(--type-caption-size) / 1 var(--font-body);
 }
-.color-pair-swatch > span {
-  display: block;
-  background: currentColor;
-  width: 16px;
-  height: 16px;
+.color-chip[data-kind='fill'] > span {
+  background: var(--swatch);
+}
+.color-chip[data-kind='text'] > span {
+  background: var(--swatch-on);
+  color: var(--swatch);
+}
+.color-chip[data-kind='line'] > span {
+  border: 2px solid var(--swatch);
+  background: var(--swatch-on);
+}
+.color-chip-pair,
+.color-chip-strip {
+  display: inline-flex;
+  gap: var(--space-1);
+}
+.color-chip-strip .color-chip > span {
+  inline-size: var(--space-6);
+}
+.color-pair-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  inline-size: var(--space-10);
+  block-size: var(--space-6);
+  border-radius: var(--radius-sm);
+  font: var(--weight-medium) var(--type-caption-size) / 1 var(--font-body);
+}
+.color-pair-chip > span {
+  inline-size: var(--space-3);
+  block-size: var(--space-3);
   border-radius: var(--radius-full);
+  background: currentColor;
+}
+
+/* Palette lab */
+.palette-principles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-6) var(--space-8);
+  margin: var(--space-6) 0 0;
+  padding-inline-start: var(--space-5);
+}
+.palette-principles p {
+  margin: var(--space-1) 0 0;
+}
+.palette-lab {
+  display: grid;
+  gap: var(--space-8);
+  margin-block-start: var(--space-6);
+}
+.palette-inputs {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-8);
+  align-items: start;
+}
+.palette-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-5) var(--space-6);
+  align-items: end;
+}
+.palette-action {
+  justify-self: start;
+}
+.palette-field {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-2);
+}
+.palette-pick {
+  margin-block-end: var(--space-4);
+}
+.palette-wheel-panel {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+}
+.palette-wheel-panel p {
+  margin: 0;
+  color: var(--ink-muted);
+  font: var(--weight-regular) var(--type-caption-size) /
+    var(--type-caption-leading) var(--font-body);
+}
+.palette-inputs-block {
+  display: grid;
+  gap: var(--space-4);
+}
+.palette-wheel-help {
+  margin: 0;
+  color: var(--ink-muted);
+}
+/* The hue–chroma plane: markers and guides sit over the drawn canvas. */
+.hue-wheel {
+  position: relative;
+  flex: none;
+  touch-action: none;
+  cursor: crosshair;
+}
+.hue-wheel > canvas,
+.hue-wheel-guides {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+}
+.hue-wheel-guides {
+  overflow: visible;
+  pointer-events: none;
+}
+.hue-wheel-guides line,
+.hue-wheel-guides path {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1;
+  stroke-opacity: 0.45;
+}
+.hue-wheel-guides line[data-base] {
+  stroke-opacity: 0.8;
+}
+.hue-wheel-guides text {
+  fill: var(--ink);
+  font: var(--weight-medium) var(--type-caption-size) / 1 var(--font-body);
+  text-anchor: middle;
+  dominant-baseline: middle;
+  paint-order: stroke;
+  stroke: var(--canvas);
+  stroke-width: 3px;
+}
+.hue-wheel-marker {
+  position: absolute;
+  inline-size: var(--space-5);
+  block-size: var(--space-5);
+  translate: -50% -50%;
+  box-sizing: border-box;
+  border: 2px solid var(--canvas);
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 0 1px var(--ink);
+  cursor: grab;
+}
+.hue-wheel-marker[data-base] {
+  inline-size: var(--space-8);
+  block-size: var(--space-8);
+  border-width: 3px;
+}
+.hue-wheel-marker[data-clamped] {
+  box-shadow:
+    0 0 0 1px var(--ink),
+    0 0 0 3px var(--status-caution-fg);
+}
+.hue-wheel-marker:active {
+  cursor: grabbing;
+}
+.hue-wheel-marker:focus-visible {
+  outline: var(--focus-ring-width) solid var(--interaction-focus);
+  outline-offset: var(--focus-ring-offset);
+}
+.palette-section > h3 {
+  margin: 0 0 var(--space-2);
+}
+.palette-section > p {
+  margin-block: var(--space-3);
+}
+/* A swatch is a small ghost Button filled with its color; the table sets its width. */
+.palette-swatch {
+  inline-size: var(--space-12);
+}
+/* The clamp mark is a dot in the pill's upper end, drawn as a layer of the swatch's own
+   background, so it shares the fill's clip and antialiasing. Hover and press layers
+   stack above it. */
+.palette-swatch[data-clamped] {
+  --palette-mark: radial-gradient(
+    circle at calc(100% - var(--space-2) - var(--space-1) / 2)
+      calc(var(--space-2) + var(--space-1) / 2),
+    currentColor 0 2.5px,
+    transparent 3.5px
+  );
+  background-image: var(--palette-mark);
+  /* Sized to the outer edge and drawn once, so it never repeats into the border. */
+  background-origin: border-box;
+  background-repeat: no-repeat;
+}
+.palette-swatch[data-clamped]:hover {
+  background-image:
+    linear-gradient(var(--interaction-hover-bg), var(--interaction-hover-bg)),
+    var(--palette-mark);
+}
+.palette-swatch[data-clamped]:active {
+  background-image:
+    linear-gradient(var(--interaction-active-bg), var(--interaction-active-bg)),
+    var(--palette-mark);
+}
+.palette-category-preview {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-3);
+  block-size: 160px;
+  margin-block: var(--space-4);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--canvas);
+  color: var(--ink-muted);
+  box-shadow: var(--shadow-sheet);
+}
+.palette-category {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: stretch;
+  gap: var(--space-1);
+  block-size: 100%;
+  text-align: center;
+  font: var(--weight-regular) var(--type-caption-size) /
+    var(--type-caption-leading) var(--font-body);
+}
+.palette-category > span:first-child {
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+}
+.palette-checker {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-6);
+  margin-block: var(--space-4);
+}
+.palette-slot {
+  display: grid;
+  gap: var(--space-4);
+  align-content: start;
+}
+.palette-slot-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-inline-size: 0;
+}
+.palette-slot-head code {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.palette-slot-chip {
+  flex: none;
+  inline-size: var(--space-6);
+  block-size: var(--space-6);
+  border-radius: var(--radius-sm);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+/* The sample may match the page tone, so its edge is a line where same tones meet. */
+.palette-preview {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.palette-preview p {
+  margin: 0;
+}
+.palette-ratio {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+.palette-ratio strong {
+  font: var(--weight-medium) var(--type-page-size) / var(--type-page-leading)
+    var(--font-body);
+  font-variant-numeric: tabular-nums;
+}
+.palette-sample-large {
+  font: var(--weight-medium) var(--type-section-size) /
+    var(--type-section-leading) var(--font-body);
+}
+.palette-sample-mark {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.palette-sample-mark > span {
+  inline-size: var(--space-12);
+  block-size: var(--space-6);
+  box-sizing: border-box;
+  border: 1px solid;
+  border-radius: var(--control-radius);
+}
+.palette-tables {
+  display: grid;
+  gap: var(--space-6);
+  margin-block-start: var(--space-4);
+}
+/* Wide tables scroll inside their containers instead of widening the lab. */
+.palette-lab > *,
+.palette-inputs > *,
+.palette-checker > *,
+.palette-section > *,
+.palette-tables > * {
+  min-inline-size: 0;
+}
+@media (max-width: 760px) {
+  .palette-principles,
+  .palette-inputs,
+  .palette-checker {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 .icon-gallery {
   display: grid;

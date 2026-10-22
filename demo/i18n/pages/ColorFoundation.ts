@@ -1,5 +1,21 @@
 import type { Locale } from '../../i18n'
 
+export type SwatchKind = 'fill' | 'text' | 'line'
+export type Tone =
+  'neutral' | 'info' | 'success' | 'danger' | 'caution' | 'progress'
+export type Direction = 'up' | 'down' | 'flat'
+export type PairGroupId =
+  | 'text'
+  | 'status'
+  | 'trend'
+  | 'controlText'
+  | 'controlEdges'
+  | 'charts'
+  | 'syntax'
+/** A token, how its swatch draws it, what it is for, and the surface it sits on. */
+type RoleRow = [token: string, kind: SwatchKind, use: string, on?: string]
+type RoleGroup = { id: string; title: string; rows: RoleRow[] }
+
 const en = {
   syntax: (role: string) => `Syntax: ${role}`,
   title: 'Title',
@@ -39,35 +55,92 @@ const en = {
   onThisPage: 'On this page',
   nav: [
     { id: 'roles', label: 'Roles' },
+    { id: 'oklch', label: 'OKLCH' },
+    { id: 'lab', label: 'Palette lab' },
     { id: 'contrast', label: 'Contrast' },
     { id: 'states', label: 'States' },
     { id: 'application', label: 'Application' },
   ],
-  rolesHeading: 'Semantic roles',
+  rolesHeading: 'Color roles',
   rolesIntro:
-    'Reference roles, not color names. Each token resolves to a readable combination in both the light and dark themes.',
-  surfaceRole: 'Surface',
-  surfaceUse: 'Use',
-  surfaceChromeRest: ' for the outer app,',
-  surfaceCanvasRest: ' for content, and',
-  surfaceSurfaceRest:
-    " for inner surfaces such as code and lists. Don't keep nesting cards.",
-  textRole: 'Text',
-  textUse: 'Use',
-  textInkRest: ' for headings,',
-  textInkBodyRest: ' for body text, and',
-  textInkMutedRest:
-    ' for descriptions. Descriptions keep readable contrast too.',
-  brandRole: 'Brand',
-  brandFills: ' fills primary actions, and',
-  brandOnIt:
-    " is the text on it. In the light theme, don't set small text in green on white. Give links",
-  brandInkRest: ' and an underline.',
-  boundaryRole: 'Boundary',
-  boundaryLineRest:
-    ' is a decorative divider. Parts that identify controls, such as input boundaries and focus, use',
-  boundaryBorderRest: ' and',
-  boundaryFocusRest: ". They're checked separately against adjacent surfaces.",
+    'Reference roles, not color names. Each role resolves in both themes: the swatches show the light theme, then the dark. Every token with its value and source is in',
+  tokensLink: 'Design tokens',
+  rolesIntroEnd: '.',
+  roleColumns: ['Light', 'Dark', 'Token', 'Use'],
+  roleGroups: [
+    {
+      id: 'surfaces',
+      title: 'Surfaces',
+      rows: [
+        ['--chrome', 'fill', "The app's outer frame and sidebar"],
+        ['--canvas', 'fill', 'The sheet where work happens, and dialogs'],
+        ['--surface', 'fill', 'A secondary area inside the sheet'],
+        ['--code-bg', 'fill', 'Code blocks and inline code'],
+        ['--selected', 'fill', 'The current or chosen item'],
+        ['--menu-background', 'fill', 'Menus, select lists and toasts'],
+      ],
+    },
+    {
+      id: 'text',
+      title: 'Text',
+      rows: [
+        ['--ink', 'text', 'Headings, values and input text'],
+        ['--ink-body', 'text', 'Body text'],
+        ['--ink-muted', 'text', 'Descriptions and captions, still 4.5:1'],
+        [
+          '--control-placeholder',
+          'text',
+          'Placeholders in fields',
+          '--control-background',
+        ],
+      ],
+    },
+    {
+      id: 'brand',
+      title: 'Brand',
+      rows: [
+        ['--brand', 'fill', 'Fills for primary actions'],
+        ['--on-brand', 'text', 'Text and icons on --brand', '--brand'],
+        ['--brand-ink', 'text', 'Links, always underlined'],
+      ],
+    },
+    {
+      id: 'lines',
+      title: 'Lines and focus',
+      rows: [
+        ['--line', 'line', 'Decorative dividers and same-tone edges'],
+        ['--control-border', 'line', 'Control edges, 3:1 against their plane'],
+        ['--control-focus', 'line', "A focused field's border"],
+        ['--interaction-focus', 'line', 'Focus rings on everything else'],
+      ],
+    },
+  ] as RoleGroup[],
+  statusTitle: 'Status',
+  statusColumns: ['Tone', '--status-*-fg', '--status-*-bg', '--badge-*-bg'],
+  tones: {
+    neutral: 'Neutral',
+    info: 'Info',
+    success: 'Success',
+    danger: 'Danger',
+    caution: 'Caution',
+    progress: 'Progress',
+  } as Record<Tone, string>,
+  trendTitle: 'Trend',
+  trendColumns: ['Direction', '--trend-*-fg', '--trend-*-bg'],
+  directions: { up: 'Up', down: 'Down', flat: 'Flat' } as Record<
+    Direction,
+    string
+  >,
+  trendNote:
+    'Markets that read red as a rise swap --trend-up and --trend-down.',
+  chartTitle: 'Charts',
+  chartColumns: ['Set', 'Light', 'Dark', 'Tokens'],
+  chartSets: {
+    series: 'Series',
+    categories: 'Categories',
+  },
+  chartNote:
+    'Series default to ink with dashes and markers. Categories separate by hue, and every one still has a label.',
   contrastHeading: 'Live color contrast',
   contrastIntro:
     "Colors are defined and transitioned in OKLCH. Contrast is calculated from WCAG relative luminance in linear sRGB. The color model doesn't change the contrast criteria.",
@@ -79,19 +152,18 @@ const en = {
     "Ratios are approximate: they come from the current theme's computed colors, converted to 8-bit sRGB pixels. Ratios display rounded to two decimal places, but results use the unrounded value. The check skips transparent colors, gradients, images, ancestor opacity, overlap, anti-aliasing, and some interaction states. Recheck borderline values and real products with a separate tool.",
   forcedColorsStatus:
     "Forced colors mode is active. The user's system colors take precedence, so token contrast checks are skipped.",
-  contrastTableLabel: 'Semantic color contrast',
-  contrastTableCaption:
-    'Text, control boundaries, and status indicators in the current theme',
-  columns: [
-    'Role',
-    'Foreground / background',
-    'Approx. ratio',
-    'Requirement',
-    'Result',
-  ],
+  pairColumns: ['Pair', 'Foreground', 'Background', 'Ratio', 'Result'],
+  groups: {
+    text: 'Text on surfaces',
+    status: 'Status and badges',
+    trend: 'Trends',
+    controlText: 'Text in controls',
+    controlEdges: 'Control edges and marks',
+    charts: 'Chart colors',
+    syntax: 'Code syntax',
+  } as Record<PairGroupId, string>,
+  minimum: (ratio: number) => `${ratio}:1 minimum`,
   notEvaluated: 'Not evaluated',
-  textThreshold: 'Text / 4.5:1',
-  nonTextThreshold: 'Non-text / 3:1',
   meetsThreshold: 'Meets threshold',
   reviewRequired: 'Review required',
   summary: (passed: number, total: number) =>
@@ -172,33 +244,89 @@ export const text: Record<Locale, typeof en> = {
     onThisPage: '이 페이지에서',
     nav: [
       { id: 'roles', label: '역할' },
+      { id: 'oklch', label: 'OKLCH' },
+      { id: 'lab', label: '팔레트 랩' },
       { id: 'contrast', label: '대비' },
       { id: 'states', label: '상태' },
       { id: 'application', label: '적용' },
     ],
-    rolesHeading: '시맨틱 역할',
+    rolesHeading: '색 역할',
     rolesIntro:
-      '색 이름이 아니라 역할을 참조하세요. 각 토큰은 라이트와 다크 테마 모두에서 읽기 좋은 조합으로 해석됩니다.',
-    surfaceRole: '면',
-    surfaceUse: '앱 바깥에는',
-    surfaceChromeRest: '을, 콘텐츠에는',
-    surfaceCanvasRest: '을, 코드나 목록 같은 안쪽 면에는',
-    surfaceSurfaceRest: '을 사용하세요. 카드를 계속 중첩하지 마세요.',
-    textRole: '텍스트',
-    textUse: '제목에는',
-    textInkRest: '을, 본문에는',
-    textInkBodyRest: '를, 설명에는',
-    textInkMutedRest: '를 사용하세요. 설명도 읽기 좋은 대비를 유지합니다.',
-    brandRole: '브랜드',
-    brandFills: '로 주요 작업을 채우고, 그 위 텍스트에는',
-    brandOnIt:
-      '을 사용하세요. 라이트 테마에서는 흰 배경에 작은 글자를 초록으로 두지 마세요. 링크에는',
-    brandInkRest: '와 밑줄을 주세요.',
-    boundaryRole: '경계',
-    boundaryLineRest:
-      '은 장식용 구분선입니다. 입력 경계와 포커스처럼 컨트롤을 식별하는 부분은',
-    boundaryBorderRest: '와',
-    boundaryFocusRest: '를 사용하며, 인접한 면에 대해 따로 검사합니다.',
+      '색 이름이 아니라 역할을 참조하세요. 각 역할은 두 테마 모두에서 해석되며, 견본은 라이트 테마 다음에 다크 테마를 보여 줍니다. 모든 토큰의 값과 출처는',
+    tokensLink: '디자인 토큰',
+    rolesIntroEnd: '에 있습니다.',
+    roleColumns: ['라이트', '다크', '토큰', '용도'],
+    roleGroups: [
+      {
+        id: 'surfaces',
+        title: '면',
+        rows: [
+          ['--chrome', 'fill', '앱의 바깥 틀과 사이드바'],
+          ['--canvas', 'fill', '작업이 일어나는 시트와 대화상자'],
+          ['--surface', 'fill', '시트 안의 보조 영역'],
+          ['--code-bg', 'fill', '코드 블록과 인라인 코드'],
+          ['--selected', 'fill', '현재 항목이나 선택한 항목'],
+          ['--menu-background', 'fill', '메뉴, 선택 목록, 토스트'],
+        ],
+      },
+      {
+        id: 'text',
+        title: '글자',
+        rows: [
+          ['--ink', 'text', '제목, 값, 입력 글자'],
+          ['--ink-body', 'text', '본문'],
+          ['--ink-muted', 'text', '설명과 캡션, 그래도 4.5:1'],
+          [
+            '--control-placeholder',
+            'text',
+            '입력 필드의 플레이스홀더',
+            '--control-background',
+          ],
+        ],
+      },
+      {
+        id: 'brand',
+        title: '브랜드',
+        rows: [
+          ['--brand', 'fill', '주요 작업의 채움'],
+          ['--on-brand', 'text', '--brand 위의 글자와 아이콘', '--brand'],
+          ['--brand-ink', 'text', '링크, 언제나 밑줄과 함께'],
+        ],
+      },
+      {
+        id: 'lines',
+        title: '선과 포커스',
+        rows: [
+          ['--line', 'line', '장식용 구분선과 같은 톤의 가장자리'],
+          ['--control-border', 'line', '컨트롤의 경계, 면과 3:1'],
+          ['--control-focus', 'line', '포커스된 입력 필드의 테두리'],
+          ['--interaction-focus', 'line', '그 밖의 모든 포커스 링'],
+        ],
+      },
+    ],
+    statusTitle: '상태',
+    statusColumns: ['톤', '--status-*-fg', '--status-*-bg', '--badge-*-bg'],
+    tones: {
+      neutral: '중립',
+      info: '정보',
+      success: '성공',
+      danger: '위험',
+      caution: '주의',
+      progress: '진행',
+    },
+    trendTitle: '추이',
+    trendColumns: ['방향', '--trend-*-fg', '--trend-*-bg'],
+    directions: { up: '상승', down: '하락', flat: '보합' },
+    trendNote:
+      '빨강을 상승으로 읽는 시장에서는 --trend-up과 --trend-down을 바꿔 씁니다.',
+    chartTitle: '차트',
+    chartColumns: ['묶음', '라이트', '다크', '토큰'],
+    chartSets: {
+      series: '계열',
+      categories: '범주',
+    },
+    chartNote:
+      '계열은 기본으로 잉크 색에 점선과 마커로 구분하고, 범주는 색상으로 구분하되 모두 라벨을 함께 둡니다.',
     contrastHeading: '실시간 색 대비',
     contrastIntro:
       '색은 OKLCH로 정의하고 전환합니다. 대비는 선형 sRGB에서 WCAG 상대 밝기로 계산합니다. 색 모델이 대비 기준을 바꾸지는 않습니다.',
@@ -210,12 +338,18 @@ export const text: Record<Locale, typeof en> = {
       '비율은 근사값입니다: 현재 테마의 계산된 색을 8비트 sRGB 픽셀로 변환해 구합니다. 비율은 소수점 둘째 자리까지 반올림해 표시하지만, 결과는 반올림하지 않은 값을 사용합니다. 검사에서는 투명 색, 그라디언트, 이미지, 조상 요소의 불투명도, 겹침, 앤티앨리어싱, 일부 인터랙션 상태를 건너뜁니다. 아슬아슬한 값과 실제 제품은 별도 도구로 다시 확인하세요.',
     forcedColorsStatus:
       '강제 색상 모드가 켜져 있습니다. 사용자 시스템 색상이 우선이므로 토큰 대비 검사는 건너뜁니다.',
-    contrastTableLabel: '시맨틱 색 대비',
-    contrastTableCaption: '현재 테마의 텍스트, 컨트롤 경계, 상태 표시',
-    columns: ['역할', '전경 / 배경', '대략적인 비율', '요구 기준', '결과'],
+    pairColumns: ['조합', '전경', '배경', '비율', '결과'],
+    groups: {
+      text: '면 위의 글자',
+      status: '상태와 배지',
+      trend: '추이',
+      controlText: '컨트롤 안의 글자',
+      controlEdges: '컨트롤 경계와 표시',
+      charts: '차트 색',
+      syntax: '코드 구문',
+    },
+    minimum: (ratio: number) => `최소 ${ratio}:1`,
     notEvaluated: '평가 안 됨',
-    textThreshold: '텍스트 / 4.5:1',
-    nonTextThreshold: '비텍스트 / 3:1',
     meetsThreshold: '기준 충족',
     reviewRequired: '검토 필요',
     summary: (passed: number, total: number) =>

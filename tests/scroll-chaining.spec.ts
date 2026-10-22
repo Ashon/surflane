@@ -11,7 +11,7 @@ for (const width of [1440, 320])
     await page.goto('/foundations/color')
     await waitForCatalogReady(page)
     const region = page.getByRole('region', {
-      name: 'Semantic color contrast',
+      name: 'Text on surfaces',
       exact: true,
     })
     await region.scrollIntoViewIfNeeded()
@@ -116,7 +116,7 @@ test('touch dragging over a wide table moves the document vertically without a h
   await page.goto('/foundations/color')
   await waitForCatalogReady(page)
   const region = page.getByRole('region', {
-    name: 'Semantic color contrast',
+    name: 'Text on surfaces',
     exact: true,
   })
   await region.scrollIntoViewIfNeeded()
