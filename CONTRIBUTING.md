@@ -46,10 +46,7 @@ A new `demo/i18n/docs/*.ko.ts` file loads without registration. The interface te
 
 ### Korean style
 
-- Describe in the formal declarative: "숫자 추세를 비교합니다."
-- Give instructions with "-하세요".
-- Pair each "don't" with its alternative, as in English: "누락 값을 0으로 대체하지 마세요. 대신 null을 전달하세요."
-- Use one Korean term per concept. Reuse the term the catalog already uses.
+Word Korean by the [Korean](docs/writing.md#korean) rules in the writing guide.
 
 ### Check both languages
 
