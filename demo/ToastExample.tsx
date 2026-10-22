@@ -6,13 +6,16 @@ import {
   Checkbox,
   InlineMessage,
   DirectionProvider,
-  type StatusTone,
   ChoiceLabel,
+  Toaster,
+  createToaster,
 } from '@surflane/ui'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/ToastExample'
 // This manager is deliberately outside React, while the hook below reads its Provider state.
 const anchoredManager = Toast.createToastManager<{ source: string }>()
+// The preview's own helper, so its notifications stay apart from the catalog's.
+const previewToast = createToaster()
 export function ToastExample() {
   const t = text[useLocale().locale]
   const [presentation, setPresentation] = useState('stack')
@@ -30,9 +33,10 @@ export function ToastExample() {
         </NativeSelect>
       </label>
       {presentation !== 'anchored' ? (
-        <Toast.Provider key={presentation} timeout={5000} limit={3}>
-          <ToastDemo layout={presentation === 'list' ? 'list' : 'stack'} />
-        </Toast.Provider>
+        <ToastDemo
+          key={presentation}
+          layout={presentation === 'list' ? 'list' : 'stack'}
+        />
       ) : (
         <Toast.Provider key='anchored' toastManager={anchoredManager} limit={1}>
           <AnchoredDemo />
@@ -94,7 +98,6 @@ function AnchoredDemo() {
 }
 function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
   const t = text[useLocale().locale]
-  const manager = Toast.useToastManager<{ source: string }>()
   const [duration, setDuration] = useState(5000),
     [archived, setArchived] = useState(false),
     [fail, setFail] = useState(false),
@@ -102,31 +105,32 @@ function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
     [rtl, setRtl] = useState(false)
   const sequence = useRef(0),
     timers = useRef(new Set<ReturnType<typeof setTimeout>>())
-  useEffect(() => () => timers.current.forEach(clearTimeout), [])
+  useEffect(
+    () => () => {
+      timers.current.forEach(clearTimeout)
+      previewToast.dismiss()
+    },
+    [],
+  )
   function addNotice() {
     sequence.current++
-    manager.add({
+    previewToast.success(t.exportPreviewReady, {
       id: 'export-preview',
-      title: t.exportPreviewReady,
       description: t.preparedSampleExport(sequence.current),
-      type: 'success',
       timeout: duration,
-      data: { source: 'export-preview' },
     })
   }
   function archive() {
     setArchived(true)
-    manager.add({
+    previewToast.info(t.previewItemArchived, {
       id: 'archive-preview',
-      title: t.previewItemArchived,
       description: t.undoRestores,
-      type: 'info',
       timeout: 0,
-      actionProps: {
-        children: t.undo,
+      action: {
+        label: t.undo,
         onClick: () => {
           setArchived(false)
-          manager.close('archive-preview')
+          previewToast.dismiss('archive-preview')
         },
       },
     })
@@ -143,25 +147,20 @@ function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
       }, 500)
       timers.current.add(timer)
     })
-    void manager
+    void previewToast
       .promise(promise, {
         loading: {
           title: t.preparingExportPreview,
           description: t.waitingForSampleTask,
-          type: 'progress',
-          timeout: 0,
         },
         success: {
           title: t.exportTaskComplete,
           description: t.sampleExportReady,
-          type: 'success',
           timeout: duration,
         },
         error: {
           title: t.exportPreviewFailed,
           description: t.retryFromPersistentMessage,
-          type: 'error',
-          timeout: 0,
         },
       })
       .catch(() => {})
@@ -211,8 +210,7 @@ function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
           variant='outline'
           onClick={() => {
             for (let n = 1; n <= 4; n++)
-              manager.add({
-                title: t.batchNotification(n),
+              previewToast(t.batchNotification(n), {
                 description: t.newest3StayVisible,
                 timeout: duration,
               })
@@ -223,11 +221,9 @@ function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
         <Button
           variant='outline'
           onClick={() =>
-            manager.add({
+            previewToast.warning(t.attentionPreview, {
               id: 'urgent-preview',
-              title: t.attentionPreview,
               description: t.needsImmediateAttention,
-              type: 'caution',
               priority: 'high',
               timeout: 0,
             })
@@ -235,7 +231,7 @@ function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
         >
           {t.showUrgentNotice}
         </Button>
-        <Button variant='outline' onClick={() => manager.close()}>
+        <Button variant='outline' onClick={() => previewToast.dismiss()}>
           {t.dismissAll}
         </Button>
       </div>
@@ -245,7 +241,7 @@ function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
           variant='outline'
           onClick={() => {
             setArchived(false)
-            manager.close('archive-preview')
+            previewToast.dismiss('archive-preview')
           }}
         >
           {t.restorePreviewItem}
@@ -270,44 +266,13 @@ function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
         </InlineMessage.Root>
       )}
       <DirectionProvider direction={rtl ? 'rtl' : 'ltr'}>
-        <Toast.Portal>
-          <Toast.Viewport
-            layout={layout}
-            dir={rtl ? 'rtl' : 'ltr'}
-            aria-label={t.previewNotificationsLabel}
-          >
-            {manager.toasts.map((toast) => {
-              const tone: StatusTone =
-                toast.type === 'error'
-                  ? 'danger'
-                  : toast.type === 'success'
-                    ? 'success'
-                    : toast.type === 'progress'
-                      ? 'progress'
-                      : toast.type === 'caution'
-                        ? 'caution'
-                        : 'neutral'
-              return (
-                <Toast.Root
-                  key={toast.id}
-                  toast={toast}
-                  tone={tone}
-                  swipeDirection={rtl ? 'left' : 'right'}
-                >
-                  <Toast.Content>
-                    <Toast.Icon />
-                    <Toast.Text>
-                      <Toast.Title />
-                      <Toast.Description />
-                      <Toast.Action />
-                    </Toast.Text>
-                    <Toast.Close />
-                  </Toast.Content>
-                </Toast.Root>
-              )
-            })}
-          </Toast.Viewport>
-        </Toast.Portal>
+        <Toaster
+          toast={previewToast}
+          layout={layout}
+          dir={rtl ? 'rtl' : 'ltr'}
+          label={t.previewNotificationsLabel}
+          swipeDirection={rtl ? 'left' : 'right'}
+        />
       </DirectionProvider>
     </div>
   )

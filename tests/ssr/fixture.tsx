@@ -74,6 +74,7 @@ import {
   Toolbar,
   Tooltip,
   TooltipProvider,
+  Toaster,
   iconNames,
   syntaxLanguages,
   ChoiceLabel,
@@ -215,6 +216,7 @@ function Controls() {
           <Button variant='outline'>Refresh ETA</Button>
         </Tooltip>
       </TooltipProvider>
+      <Toaster label='Notifications' />
       <Button variant='destructive' size='small'>
         Release berth
       </Button>

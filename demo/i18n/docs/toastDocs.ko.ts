@@ -3,7 +3,8 @@ export const toastDocsKo: Record<string, DocKo> = {
   toast: {
     usage: [
       '짧고 비차단적인 결과를 알립니다: 완료된 작업, 복사된 값, 되돌릴 수 있는 변경.',
-      '앱에 Provider 하나와 Viewport 하나를 렌더링하세요. 버튼 옆 피드백은 Viewport.layout=anchored와 Positioner를 쓴 별도 Provider를 사용하세요.',
+      '앱에 Toaster를 하나 두고 어디서든 toast()를 부르세요. React 안팎 어디서나 됩니다. toast.success, error, warning, info, loading이 톤을 고르고, toast.promise는 로딩 토스트를 성공이나 오류로 바꿉니다. 각 호출은 toast.update와 toast.dismiss에 쓸 ID를 돌려줍니다.',
+      '토스트를 직접 조립하려면 앱에 Provider 하나와 Viewport 하나를 렌더링하세요. 버튼 옆 피드백은 Viewport.layout=anchored와 Positioner를 쓴 별도 Provider를 사용하세요.',
       '기존 ID로 add를 호출하면 해당 토스트가 업데이트됩니다.',
       '스택은 호버나 포커스 시 겹치며 확장됩니다. 항상 펼쳐두려면 Viewport.layout=list를 설정하세요.',
       '토스트는 그림자가 있는 테두리 없는 불투명 표면이며, Root의 tone이 상태 아이콘 색을 정합니다.',
@@ -16,6 +17,16 @@ export const toastDocsKo: Record<string, DocKo> = {
       '타이머는 호버, 포커스, 창이 비활성인 동안 일시정지됩니다.',
     ],
     props: {
+      'toast(title, options)':
+        '중립 토스트를 띄우고 ID를 돌려줍니다. options: description, timeout, priority, id, action {label, onClick}, actionProps, data',
+      'toast.success / error / warning / info / loading':
+        'success, danger, caution, info, progress 톤. loading은 업데이트할 때까지 남습니다',
+      'toast.promise / update / dismiss':
+        'loading → success | error (문자열, 옵션, 함수 단계); 토스트 변경; 하나 또는 전부 닫기',
+      'Toaster.limit / timeout / label / layout / swipeDirection':
+        '헬퍼의 provider, 영역, 토스트를 그립니다',
+      'Toaster.toast / createToaster()':
+        '별도 영역을 위한, 자기 매니저를 가진 헬퍼',
       'Provider.timeout / limit': '기본 해제 ms(0은 유지); 최대 표시 토스트 수',
       'Provider.toastManager / createToastManager<Data>()':
         'React 외부 호출용 선택적 공유 매니저',

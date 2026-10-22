@@ -14,6 +14,7 @@
 - Chart takes `includeZero={false}` for values far from zero, such as prices: the value axis spans the data in round steps. Bars always start at zero. `palette="categorical"` colors series with six hues, for categories that color must tell apart.
 - Chart shows the active point's values in a box beside it: the date, and each visible series with its legend mark and value. Pointer, touch and the arrow keys all bring it up. It opens to the side with more room, stays inside the plot, and closes with Escape. The readout below the plot still announces the same values, so the box stays out of the accessibility tree.
 - An `info` status tone for Badge, StatusBadge, InlineMessage and Toast, in blue, apart from the cyan of success.
+- `toast()` shows a toast from anywhere, inside React or out, with one `<Toaster />` in the app. `toast.success`, `error`, `warning`, `info` and `loading` pick the tone; `toast.promise` turns a loading toast into success or error; `toast.update` and `toast.dismiss` take the ID a call returns. `action: { label, onClick }` adds a button. `createToaster()` makes a helper with its own manager for a separate region.
 - Tooltip's `label` takes any content, not only a string, and `shortcut` sets a keyboard shortcut apart after it, such as `⌘B`.
 - Tokens:
   - `--info` and `--status-info-*`.

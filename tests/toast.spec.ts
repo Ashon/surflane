@@ -355,3 +355,42 @@ test('Toast focus sentinels redirect rather than retain hidden focus', async ({
       .toBe(false)
   }
 })
+
+test('the toast() helper picks a tone for each kind of call', async ({
+  page,
+}) => {
+  await page.goto('/components/toast')
+  await waitForCatalogReady(page)
+  // A high-priority toast is an alert dialog, so find each by its title.
+  const tone = (name: string) =>
+    page.locator('.pui-toast').filter({ hasText: name })
+  await page.getByRole('button', { name: 'Show success', exact: true }).click()
+  await expect(tone('Export preview ready')).toHaveAttribute(
+    'data-tone',
+    'success',
+  )
+  await page
+    .getByRole('button', { name: 'Archive preview item', exact: true })
+    .click()
+  // info, with the action shorthand as its button.
+  const archived = tone('Preview item archived')
+  await expect(archived).toHaveAttribute('data-tone', 'info')
+  await expect(archived.getByRole('button', { name: 'Undo' })).toBeVisible()
+  await page
+    .getByRole('button', { name: 'Show urgent notice', exact: true })
+    .click()
+  await expect(tone('Attention preview')).toHaveAttribute(
+    'data-tone',
+    'caution',
+  )
+  await page.getByRole('checkbox', { name: 'Fail async preview' }).check()
+  await page
+    .getByRole('button', { name: 'Preview async task', exact: true })
+    .click()
+  await expect(tone('Export preview failed')).toHaveAttribute(
+    'data-tone',
+    'danger',
+  )
+  await page.getByRole('button', { name: 'Dismiss all', exact: true }).click()
+  await expect(visible(page)).toHaveCount(0)
+})
