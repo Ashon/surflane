@@ -31,8 +31,10 @@ const chunks = [...initial]
 const initialJSBytes = chunks.reduce((sum, chunk) => sum + chunk.bytes, 0),
   initialJSGzip = chunks.reduce((sum, chunk) => sum + chunk.gzip, 0)
 // Lowered from 384 KiB in 0.3.x, after module splitting and the deferred guide overlay
-// brought the initial JS to about 323 KiB.
-const budget = 336 * 1024
+// brought the initial JS to about 323 KiB. Raised in 0.6.0 for AppShell's rail and
+// toggle tooltips: the landing hero renders AppShell, which brings Tooltip into the
+// first screen, 412 KiB in all (88 KB, 30 KB gzipped, more than without Tooltip).
+const budget = 424 * 1024
 assert(
   initialJSBytes <= budget,
   `Initial catalog JS ${initialJSBytes} exceeds ${budget} byte budget`,
