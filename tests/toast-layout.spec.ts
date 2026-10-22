@@ -120,6 +120,39 @@ test('touch activation expands the stack in a narrow viewport with full-size clo
   await context.close()
 })
 
+test('close and action buttons take the small button size, and 44px targets on touch', async ({
+  browser,
+}) => {
+  for (const [touch, size] of [
+    [false, 32],
+    [true, 44],
+  ] as const) {
+    const context = await browser.newContext({
+      hasTouch: touch,
+      viewport: { width: 1440, height: 1000 },
+      reducedMotion: 'reduce',
+    })
+    const page = await context.newPage()
+    await page.goto('/components/toast')
+    await waitForCatalogReady(page)
+    await page
+      .getByRole('button', { name: 'Archive preview item', exact: true })
+      .click()
+    const toast = cards(page).filter({ hasText: 'Undo' })
+    for (const name of ['Dismiss notification', 'Undo']) {
+      const box = (await toast
+        .getByRole('button', { name, exact: true })
+        .boundingBox())!
+      expect(box.height, `${name}, touch ${touch}`).toBe(size)
+    }
+    const close = (await toast
+      .getByRole('button', { name: 'Dismiss notification' })
+      .boundingBox())!
+    expect(close.width).toBe(size)
+    await context.close()
+  }
+})
+
 test('settings share a control baseline and actions keep consistent sizes', async ({
   page,
 }) => {

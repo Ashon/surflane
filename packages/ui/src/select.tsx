@@ -2,6 +2,7 @@
 import * as React from 'react'
 import { useComponentSize, type ComponentSizeAlias } from './sizing.js'
 import { Select as BaseSelect } from '@base-ui/react/select'
+import { sizeName } from './parts.js'
 const cx = (...v: (string | undefined | false)[]) => v.filter(Boolean).join(' ')
 function Chevron() {
   return (
@@ -100,7 +101,7 @@ export function Select({
   return (
     <span
       className={cx('pui-select control-shell select-control', className)}
-      data-size={size}
+      data-size={sizeName(size)}
       data-ui-size={scheme}
       data-disabled={disabled || undefined}
     >

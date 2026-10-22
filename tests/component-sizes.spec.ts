@@ -11,6 +11,9 @@ import {
   Badge,
   Spinner,
   Avatar,
+  Toggle,
+  Accordion,
+  EmptyState,
 } from '../packages/ui/dist/index.js'
 import { components } from '../demo/catalog'
 import { waitForCatalogReady } from './catalog-ready'
@@ -144,6 +147,178 @@ test('input dimensions change while data, native numeric size and nested explici
   expect((await page.locator('#badge').boundingBox())!.height).toBe(22)
   expect((await page.locator('#spinner').boundingBox())!.height).toBe(28)
   expect((await page.locator('#avatar').boundingBox())!.height).toBe(24)
+})
+
+// Renders markup into the catalog page, where the package CSS is loaded.
+async function mount(page: Page, html: string) {
+  await page.locator('#main-content').evaluate((el, html) => {
+    const fixture = document.createElement('div')
+    fixture.className = 'size-fixture'
+    fixture.innerHTML = html
+    el.append(fixture)
+  }, html)
+}
+const metrics = (page: Page, id: string) =>
+  page.locator(`#${id}`).evaluate((el) => {
+    const box = el.getBoundingClientRect()
+    const style = getComputedStyle(el)
+    return {
+      width: box.width,
+      height: box.height,
+      font: style.fontSize,
+      padding: style.padding,
+    }
+  })
+
+test('short size aliases render exactly like their full names, on fine and coarse pointers', async ({
+  page,
+}) => {
+  await open(page, 'button')
+  const pairs = [
+    ['sm', 'small'],
+    ['md', 'default'],
+    ['lg', 'large'],
+  ] as const
+  const parts = pairs.flatMap(([alias, full]) =>
+    [alias, full].flatMap((size) => [
+      React.createElement(
+        Button,
+        { key: `button-${size}`, id: `button-${size}`, size },
+        'Save',
+      ),
+      React.createElement(
+        Toggle,
+        { key: `toggle-${size}`, id: `toggle-${size}`, size },
+        'Bold',
+      ),
+      React.createElement(Spinner, {
+        key: `spinner-${size}`,
+        id: `spinner-${size}`,
+        size,
+        label: 'Loading',
+      }),
+      React.createElement(
+        Avatar.Root,
+        { key: `avatar-${size}`, id: `avatar-${size}`, size },
+        'JL',
+      ),
+    ]),
+  )
+  await mount(
+    page,
+    renderToStaticMarkup(React.createElement('div', null, parts)),
+  )
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 900 })
+    for (const [alias, full] of pairs)
+      for (const name of ['button', 'toggle', 'spinner', 'avatar'])
+        expect(
+          await metrics(page, `${name}-${alias}`),
+          `${name} ${alias} at ${width}px`,
+        ).toEqual(await metrics(page, `${name}-${full}`))
+  }
+  // Coarse pointers keep the touch target whichever spelling is used.
+  expect((await metrics(page, 'button-sm')).height).toBe(44)
+})
+
+test('a default SizeProvider changes nothing, and disclosure triggers follow the scheme', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await open(page, 'accordion')
+  const fixture = (prefix: string) => [
+    React.createElement(Button, { key: 'a', id: `${prefix}-button` }, 'Save'),
+    React.createElement(Spinner, {
+      key: 'b',
+      id: `${prefix}-spinner`,
+      label: 'Loading',
+    }),
+    React.createElement(
+      Avatar.Root,
+      { key: 'c', id: `${prefix}-avatar` },
+      'JL',
+    ),
+    React.createElement(
+      Accordion.Root,
+      { key: 'd' },
+      React.createElement(
+        Accordion.Item,
+        { value: 'details' },
+        React.createElement(
+          Accordion.Header,
+          null,
+          React.createElement(
+            Accordion.Trigger,
+            { id: `${prefix}-trigger` },
+            'Details',
+          ),
+        ),
+      ),
+    ),
+    React.createElement(
+      EmptyState.Root,
+      { key: 'e', id: `${prefix}-empty` },
+      React.createElement(EmptyState.Title, null, 'No runs'),
+    ),
+  ]
+  await mount(
+    page,
+    renderToStaticMarkup(
+      React.createElement(
+        'div',
+        null,
+        React.createElement('div', { key: 'bare' }, fixture('bare')),
+        ...(['small', 'default', 'large'] as const).map((size) =>
+          React.createElement(SizeProvider, {
+            key: size,
+            size,
+            children: fixture(size),
+          }),
+        ),
+      ),
+    ),
+  )
+  for (const name of ['button', 'spinner', 'avatar', 'trigger', 'empty'])
+    expect(await metrics(page, `default-${name}`), name).toEqual(
+      await metrics(page, `bare-${name}`),
+    )
+  const trigger = await Promise.all(
+    ['small', 'default', 'large'].map((size) =>
+      metrics(page, `${size}-trigger`),
+    ),
+  )
+  expect(trigger.map(({ font }) => font)).toEqual(['13px', '14px', '16px'])
+  expect(trigger[0].height).toBeLessThan(trigger[1].height)
+  expect(trigger[1].height).toBeLessThan(trigger[2].height)
+})
+
+test('sheet titles keep clear of the close button at every size', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await open(page, 'sheet')
+  for (const size of values) {
+    await choose(page, size)
+    await page
+      .getByRole('button', { name: 'Open right sheet', exact: true })
+      .click()
+    const sheet = page.getByRole('dialog')
+    await expect(sheet).toBeVisible()
+    const { contentEnd, closeStart } = await sheet.evaluate((panel) => {
+      const header = panel.querySelector('.pui-panel-header')!
+      const close = panel.querySelector('.pui-panel-close')!
+      const end =
+        header.getBoundingClientRect().right -
+        parseFloat(getComputedStyle(header).paddingInlineEnd)
+      return {
+        contentEnd: end,
+        closeStart: close.getBoundingClientRect().left,
+      }
+    })
+    expect(contentEnd, size).toBeLessThanOrEqual(closeStart - 16)
+    await page.keyboard.press('Escape')
+    await expect(sheet).toBeHidden()
+  }
 })
 
 test('select, popover and dialog portal contents retain size and keyboard behavior', async ({

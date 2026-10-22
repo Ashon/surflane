@@ -2,7 +2,7 @@
 import * as React from 'react'
 import { Button as BaseButton } from '@base-ui/react/button'
 import { useComponentSize, type ComponentSizeAlias } from './sizing.js'
-import { skin } from './parts.js'
+import { sizeName, skin } from './parts.js'
 /** Visual priority. `default` remains a compatibility alias of `primary`. */
 export type ButtonVariant =
   | 'primary'
@@ -37,7 +37,7 @@ export const Button = /* @__PURE__ */ React.forwardRef<
       {...props}
       className={skin('pui-button', className)}
       data-variant={variant}
-      data-size={size}
+      data-size={sizeName(size)}
       data-ui-size={scheme}
     />
   )

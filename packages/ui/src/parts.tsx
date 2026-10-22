@@ -1,9 +1,18 @@
 import {
   ComponentSizeContext,
+  normalizeSize,
   useComponentSize,
   type ComponentSize,
+  type ComponentSizeAlias,
 } from './sizing.js'
 import * as React from 'react'
+/** The data-size value: a short alias (sm, md, lg) renders as its full name, so both
+ * spellings meet the same CSS; other values such as xs or icon pass through. */
+export function sizeName<Size extends string>(size?: Size) {
+  return size === 'sm' || size === 'md' || size === 'lg'
+    ? normalizeSize(size as ComponentSizeAlias)
+    : size
+}
 /** Preserve Base UI's state-dependent className contract when adding a skin. */
 export function skin<State>(
   base: string,

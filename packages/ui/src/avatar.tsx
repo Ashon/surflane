@@ -2,7 +2,7 @@
 import * as React from 'react'
 import { Avatar as BaseAvatar } from '@base-ui/react/avatar'
 import { useComponentSize, type ComponentSizeAlias } from './sizing.js'
-import { skin, part } from './parts.js'
+import { sizeName, skin, part } from './parts.js'
 const AvatarRoot = /* @__PURE__ */ React.forwardRef<
   React.ComponentRef<typeof BaseAvatar.Root>,
   React.ComponentPropsWithoutRef<typeof BaseAvatar.Root> & {
@@ -14,7 +14,7 @@ const AvatarRoot = /* @__PURE__ */ React.forwardRef<
     <BaseAvatar.Root
       {...props}
       ref={ref}
-      data-size={size}
+      data-size={sizeName(size)}
       data-ui-size={scheme}
       className={skin('pui-avatar', className)}
     />

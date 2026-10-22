@@ -5,7 +5,7 @@ import { Toggle as BaseToggle } from '@base-ui/react/toggle'
 import { ToggleGroup as BaseToggleGroup } from '@base-ui/react/toggle-group'
 import { Toolbar as BaseToolbar } from '@base-ui/react/toolbar'
 import { Menubar as BaseMenubar } from '@base-ui/react/menubar'
-import { skin, part } from './parts.js'
+import { sizeName, skin, part } from './parts.js'
 export function Toggle<Value extends string>({
   className,
   size,
@@ -21,7 +21,7 @@ export function Toggle<Value extends string>({
       {...props}
       ref={ref}
       className={skin('pui-button pui-toggle', className)}
-      data-size={size}
+      data-size={sizeName(size)}
       data-ui-size={scheme}
     />
   )

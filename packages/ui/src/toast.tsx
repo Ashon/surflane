@@ -47,7 +47,8 @@ const Close = /* @__PURE__ */ React.forwardRef<
       aria-label='Dismiss notification'
       aria-hidden={false}
       data-variant='ghost'
-      data-size='icon'
+      data-size='icon-sm'
+      data-ui-size='small'
       {...props}
       ref={ref}
       className={skin('pui-button pui-toast-close', className)}
@@ -75,7 +76,8 @@ const Action = /* @__PURE__ */ React.forwardRef<
   return (
     <BaseToast.Action
       data-variant='outline'
-      data-size='sm'
+      data-size='small'
+      data-ui-size='small'
       {...props}
       ref={ref}
       className={skin('pui-button pui-toast-action', className)}

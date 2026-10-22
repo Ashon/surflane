@@ -379,16 +379,6 @@
     font-size: 12px;
     gap: 4px;
   }
-  .pui-button[data-size='sm'] {
-    height: 32px;
-    min-height: 32px;
-    padding-inline: 10px;
-  }
-  .pui-button[data-size='lg'] {
-    height: var(--size-control-height-large);
-    min-height: var(--size-control-height-large);
-    padding-inline: var(--size-button-padding-large);
-  }
   .pui-button[data-size^='icon'] {
     width: var(--control-height);
     padding: 0;
@@ -1243,14 +1233,6 @@
     height: 20px;
     vertical-align: middle;
   }
-  .pui-spinner[data-size='sm'] {
-    width: 16px;
-    height: 16px;
-  }
-  .pui-spinner[data-size='lg'] {
-    width: 28px;
-    height: 28px;
-  }
   .pui-spinner > svg {
     width: 100%;
     height: 100%;
@@ -2085,20 +2067,23 @@
     }
   }
 
+  /* Compact notification surfaces: one quiet card, semantic icon and predictable actions. */
   .pui-toast-viewport {
     position: fixed;
-    inset-inline-end: 4px;
-    bottom: 4px;
+    /* The inset is inside the scrollport so shadows have room to fade. */
+    inset-inline-end: 0;
+    bottom: 0;
     z-index: var(--layer-popup);
     display: flex;
     flex-direction: column-reverse;
     gap: var(--space-2);
     box-sizing: border-box;
-    width: 400px;
-    max-width: calc(100vw - 8px);
-    max-height: calc(100dvh - 8px);
-    padding: var(--space-2);
-    overflow: auto;
+    width: 416px;
+    max-width: 100vw;
+    max-height: 100dvh;
+    padding: var(--space-6);
+    overflow-x: hidden;
+    overflow-y: auto;
     scrollbar-width: none;
     overscroll-behavior: contain;
     pointer-events: none;
@@ -2116,14 +2101,14 @@
     background: var(--menu-background);
     color: var(--ink);
     box-shadow: var(--shadow-float);
-    font: 400 14px/22px var(--font-body);
+    font: 400 13px/20px var(--font-body);
     overflow-wrap: anywhere;
     pointer-events: auto;
     opacity: 1;
     translate: 0 0;
     transition:
-      opacity var(--dialog-enter-duration) var(--motion-ease),
-      translate var(--dialog-enter-duration) var(--motion-spatial-ease);
+      opacity var(--toast-enter-duration) var(--motion-ease),
+      translate var(--toast-enter-duration) var(--toast-stack-ease);
   }
   .pui-toast[data-tone='success'] {
     --_toast-icon: var(--status-success-fg);
@@ -2156,6 +2141,8 @@
     display: flex;
     align-items: flex-start;
     gap: var(--space-3);
+    opacity: 1;
+    transition: opacity var(--duration-fast) var(--motion-ease);
   }
   .pui-toast-text {
     flex: 1;
@@ -2165,22 +2152,28 @@
     display: inline-flex;
     flex: none;
     color: var(--_toast-icon);
-    margin-top: 4px;
+    margin-top: 1px;
+  }
+  .pui-toast-icon > svg {
+    width: 18px;
+    height: 18px;
   }
   .pui-toast-title {
     margin: 0;
-    font: 500 14px/22px var(--font-body);
+    font: 500 13px/20px var(--font-body);
   }
   .pui-toast-description {
-    margin: var(--space-1) 0 0;
+    margin: 2px 0 0;
     color: var(--ink-muted);
     font-size: 13px;
-    line-height: 20px;
+    line-height: 18px;
   }
+  /* Close and Action are small Buttons (see toast.tsx); only their placement is set here. */
   .pui-toast-close {
     flex: none;
-    margin-top: -6px;
-    margin-inline-end: -6px;
+    margin: -4px 0 0;
+    margin-inline-end: -4px;
+    color: var(--ink-muted);
   }
   .pui-toast-action {
     margin-top: var(--space-3);
@@ -2385,62 +2378,6 @@
     transform: scaleX(-1);
   }
 
-  /* Compact notification surfaces: one quiet card, semantic icon and predictable actions. */
-  .pui-toast-viewport {
-    /* The inset is inside the scrollport so shadows have room to fade. */
-    inset-inline-end: 0;
-    bottom: 0;
-    width: 416px;
-    max-width: 100vw;
-    max-height: 100dvh;
-    padding: 24px;
-    overflow-x: hidden;
-    scrollbar-width: none;
-  }
-  .pui-toast {
-    font-size: 13px;
-    line-height: 20px;
-    transition:
-      opacity var(--toast-enter-duration) var(--motion-ease),
-      translate var(--toast-enter-duration) var(--toast-stack-ease);
-  }
-  .pui-toast-content {
-    opacity: 1;
-    transition: opacity var(--duration-fast) var(--motion-ease);
-    gap: var(--space-3);
-  }
-  .pui-toast-icon {
-    margin-top: 1px;
-  }
-  .pui-toast-icon > svg {
-    width: 18px;
-    height: 18px;
-  }
-  .pui-toast-title {
-    font-size: 13px;
-    line-height: 20px;
-  }
-  .pui-toast-description {
-    margin-top: 2px;
-    line-height: 18px;
-  }
-  .pui-toast-close {
-    width: 28px;
-    height: 28px;
-    min-width: 28px;
-    margin: -4px -4px 0 0;
-    border-radius: var(--radius-full);
-    color: var(--ink-muted);
-  }
-  .pui-toast-close:dir(rtl) {
-    margin: -4px 0 0 -4px;
-  }
-  .pui-toast-action {
-    height: 30px;
-    min-height: 30px;
-    font-size: 12px;
-  }
-
   /* Base UI owns hover/focus expansion, announcements, timers and gestures. */
   .pui-toast-viewport[data-layout='stack'] {
     display: grid;
@@ -2491,16 +2428,11 @@
   .pui-toast-viewport[data-layout='stack'] > .pui-toast[data-ending-style] {
     transition-duration: 0s;
   }
-  @media (max-width: 760px) {
+  /* Touch targets grow to 44px with the small Button scheme; the close button stays centred
+     on the first line. */
+  @media (max-width: 760px), (pointer: coarse) {
     .pui-toast-close {
-      width: 44px;
-      height: 44px;
-      min-width: 44px;
       margin-top: -8px;
-    }
-    .pui-toast-action {
-      height: 44px;
-      min-height: 44px;
     }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -3490,13 +3422,11 @@
     font-size: var(--ui-font);
     line-height: var(--ui-leading);
   }
-  :where([data-ui-size], [data-ui-size] *):is(
-    .pui-accordion-trigger,
-    .pui-collapsible-trigger
-  ) {
+  /* At the default size these equal the base rules: a default SizeProvider changes nothing. */
+  :where([data-ui-size], [data-ui-size] *).pui-disclosure-trigger {
     min-block-size: var(--control-height);
     font-size: var(--ui-font);
-    padding-block: var(--ui-gap);
+    padding-block: calc(var(--ui-gap) * 1.5);
   }
   :where([data-ui-size], [data-ui-size] *).pui-popover {
     padding: var(--ui-surface-padding);
@@ -3527,6 +3457,10 @@
   ) {
     padding-inline: var(--ui-card-padding);
   }
+  /* The title keeps clear of the close button: its 16px inset, its width and a 16px gap. */
+  :where([data-ui-size], [data-ui-size] *).pui-panel-header {
+    padding-inline-end: calc(var(--control-height) + var(--space-4) * 2);
+  }
   :where([data-ui-size], [data-ui-size] *).pui-card {
     padding: var(--surface-padding, var(--ui-card-padding));
     gap: var(--ui-surface-padding);
@@ -3553,7 +3487,7 @@
     padding: var(--ui-table-padding-y) var(--ui-surface-padding);
     gap: var(--ui-surface-padding);
   }
-  :where([data-ui-size], [data-ui-size] *):is(.pui-message, .pui-empty-state) {
+  :where([data-ui-size], [data-ui-size] *).pui-message {
     padding: var(--ui-surface-padding);
     gap: var(--ui-content-gap);
   }
@@ -3586,13 +3520,6 @@
     height: calc(var(--control-choice-size) * 0.4);
   }
 
-  /* Explicit legacy button dimensions stay supported. */
-  .pui-button[data-size='xs'] {
-    height: 24px;
-    min-height: 24px;
-    padding-inline: 8px;
-    font-size: 12px;
-  }
   /* Coarse pointers retain comfortable targets even with a compact visual scheme. */
   @media (max-width: 760px), (pointer: coarse) {
     [data-ui-size] {
@@ -3821,8 +3748,6 @@
     .pui-button,
     .pui-tabs-tab,
     .pui-disclosure-trigger,
-    .pui-accordion-trigger,
-    .pui-collapsible-trigger,
     .pui-app-shell-link,
     .pui-tree-item,
     .pui-tree-toggle,

@@ -3,7 +3,7 @@ import * as React from 'react'
 import { useComponentSize, type ComponentSizeAlias } from './sizing.js'
 import { Progress as BaseProgress } from '@base-ui/react/progress'
 import { Meter as BaseMeter } from '@base-ui/react/meter'
-import { part } from './parts.js'
+import { part, sizeName } from './parts.js'
 
 export const Progress = {
   ...BaseProgress,
@@ -73,7 +73,7 @@ export const Spinner = /* @__PURE__ */ React.forwardRef<
       {...props}
       ref={ref}
       className={['pui-spinner', className].filter(Boolean).join(' ')}
-      data-size={size}
+      data-size={sizeName(size)}
       data-ui-size={scheme}
       role={decorative ? undefined : 'status'}
       aria-hidden={decorative || undefined}

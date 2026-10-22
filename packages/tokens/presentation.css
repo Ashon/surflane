@@ -20,11 +20,11 @@
     color: var(--ink-body);
     font: 500 12px/1 var(--font-body);
   }
-  .pui-avatar[data-size='sm'] {
+  .pui-avatar:is([data-size='sm'], [data-size='small']) {
     --avatar-size: var(--avatar-size-sm);
     font-size: 10px;
   }
-  .pui-avatar[data-size='lg'] {
+  .pui-avatar:is([data-size='lg'], [data-size='large']) {
     --avatar-size: var(--avatar-size-lg);
     font-size: 16px;
   }
