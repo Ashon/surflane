@@ -14,6 +14,7 @@
 @theme inline reference {
   --color-badge-caution-bg: var(--badge-caution-bg);
   --color-badge-danger-bg: var(--badge-danger-bg);
+  --color-badge-info-bg: var(--badge-info-bg);
   --color-badge-neutral-bg: var(--badge-neutral-bg);
   --color-badge-progress-bg: var(--badge-progress-bg);
   --color-badge-success-bg: var(--badge-success-bg);
@@ -22,6 +23,12 @@
   --color-brand-tint: var(--brand-tint);
   --color-canvas: var(--canvas);
   --color-caution: var(--caution);
+  --color-chart-category-1: var(--chart-category-1);
+  --color-chart-category-2: var(--chart-category-2);
+  --color-chart-category-3: var(--chart-category-3);
+  --color-chart-category-4: var(--chart-category-4);
+  --color-chart-category-5: var(--chart-category-5);
+  --color-chart-category-6: var(--chart-category-6);
   --color-chart-series-1: var(--chart-series-1);
   --color-chart-series-2: var(--chart-series-2);
   --color-chart-series-3: var(--chart-series-3);
@@ -48,6 +55,7 @@
   --color-grid-minor: var(--grid-minor);
   --color-guide: var(--guide);
   --color-hover: var(--hover);
+  --color-info: var(--info);
   --color-ink: var(--ink);
   --color-ink-body: var(--ink-body);
   --color-ink-muted: var(--ink-muted);
@@ -74,6 +82,9 @@
   --color-status-danger-bg: var(--status-danger-bg);
   --color-status-danger-border: var(--status-danger-border);
   --color-status-danger-fg: var(--status-danger-fg);
+  --color-status-info-bg: var(--status-info-bg);
+  --color-status-info-border: var(--status-info-border);
+  --color-status-info-fg: var(--status-info-fg);
   --color-status-neutral-bg: var(--status-neutral-bg);
   --color-status-neutral-border: var(--status-neutral-border);
   --color-status-neutral-fg: var(--status-neutral-fg);
@@ -96,6 +107,13 @@
   --color-syntax-tag: var(--syntax-tag);
   --color-tooltip-background: var(--tooltip-background);
   --color-tooltip-foreground: var(--tooltip-foreground);
+  --color-trend-down: var(--trend-down);
+  --color-trend-down-bg: var(--trend-down-bg);
+  --color-trend-down-fg: var(--trend-down-fg);
+  --color-trend-flat-fg: var(--trend-flat-fg);
+  --color-trend-up: var(--trend-up);
+  --color-trend-up-bg: var(--trend-up-bg);
+  --color-trend-up-fg: var(--trend-up-fg);
   --spacing: var(--space-1);
   --spacing-page: var(--layout-page-inset);
   --spacing-gutter: var(--layout-gutter);

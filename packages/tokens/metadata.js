@@ -31,10 +31,10 @@ export function category(name) {
 export function type(name) {
   if (/^--(font|weight|tracking|type)/.test(name)) return 'typography'
   if (
-    /^(--chrome|--canvas|--surface|--code-bg|--hover|--selected|--line|--ink.*|--syntax-.+|--brand.*|--on-brand|--success|--caution|--danger|--grid-minor|--grid-major|--guide|--skeleton.*)$/.test(
+    /^(--chrome|--canvas|--surface|--code-bg|--hover|--selected|--line|--ink.*|--syntax-.+|--brand.*|--on-brand|--success|--caution|--danger|--info|--trend-(up|down)|--grid-minor|--grid-major|--guide|--skeleton.*)$/.test(
       name,
     ) ||
-    /--(status-.+-(fg|bg|border)|badge-.+-bg|menu-.+|tooltip-.+|chart-series-\d+|selection-(background|foreground)|interaction-.+|control-(border|background|hover-.+|focus.*|placeholder|disabled-background|choice-(border|hover-border|selected-.+))|scrollbar-(track|thumb.*))$/.test(
+    /--(status-.+-(fg|bg|border)|badge-.+-bg|menu-.+|tooltip-.+|chart-series-\d+|chart-category-\d+|trend-(up|down)-(fg|bg)|trend-flat-fg|selection-(background|foreground)|interaction-.+|control-(border|background|hover-.+|focus.*|placeholder|disabled-background|choice-(border|hover-border|selected-.+))|scrollbar-(track|thumb.*))$/.test(
       name,
     )
   )
@@ -45,6 +45,12 @@ export function type(name) {
   return 'value'
 }
 export const descriptions = {
+  '--info':
+    'Base blue for information that asks for no action, apart from the cyan of success',
+  '--trend-up':
+    'Base color of a rise. Markets that read red as a rise swap it with --trend-down',
+  '--trend-down': 'Base color of a fall; the danger red by default',
+  '--trend-flat-fg': 'Text and marks for a change of zero',
   '--selection-background':
     "Opaque text selection surface in each theme's neutral gray",
   '--selection-foreground':

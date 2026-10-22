@@ -65,6 +65,9 @@
   .pui-toast[data-tone='progress'] {
     --_toast-icon: var(--status-progress-fg);
   }
+  .pui-toast[data-tone='info'] {
+    --_toast-icon: var(--status-info-fg);
+  }
   .pui-toast[data-starting-style] {
     opacity: 0;
     translate: 0 12px;

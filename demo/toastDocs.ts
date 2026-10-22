@@ -84,7 +84,7 @@ function App() {
       ],
       [
         'Root.toast / tone',
-        'Base UI toast object; neutral | success | danger | caution | progress',
+        'Base UI toast object; neutral | info | success | danger | caution | progress',
         'required / neutral',
       ],
       [

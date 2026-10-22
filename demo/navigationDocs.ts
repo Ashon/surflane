@@ -170,11 +170,13 @@ export const navigationDocs: Record<string, ComponentDoc> = {
       '--badge-danger-bg',
       '--badge-caution-bg',
       '--badge-progress-bg',
+      '--badge-info-bg',
       '--status-neutral-bg',
       '--status-success-fg',
       '--status-danger-fg',
       '--status-caution-fg',
       '--status-progress-bg',
+      '--status-info-fg',
       '--status-badge-gap',
     ],
     code: `import { Badge, StatusBadge } from '@surflane/ui'
@@ -186,7 +188,11 @@ export const navigationDocs: Record<string, ComponentDoc> = {
   <span>Deployment is in progress.</span>
 </div>`,
     props: [
-      ['tone', 'neutral | success | danger | caution | progress', 'neutral'],
+      [
+        'tone',
+        'neutral | info | success | danger | caution | progress',
+        'neutral',
+      ],
       [
         'icon',
         'custom ReactNode; false hides icon',

@@ -23,7 +23,7 @@ for (const width of [1440, 320])
         await page.getByRole('button', { name: 'Toggle theme' }).click()
       await expect(page.locator('[data-color-measured]')).toHaveCount(1)
       const rows = page.locator('[data-color-row]')
-      await expect(rows).toHaveCount(49)
+      await expect(rows).toHaveCount(61)
       await expect
         .poll(async () =>
           (await page.locator('[data-color-verdict]').allTextContents()).every(
@@ -77,7 +77,7 @@ test('forced colors suppresses token certification and retains readable document
     page.getByRole('status').filter({ hasText: 'Forced colors' }),
   ).toContainText('Forced colors')
   await expect(page.locator('[data-color-verdict]')).toHaveText(
-    Array(49).fill('Not evaluated'),
+    Array(61).fill('Not evaluated'),
   )
   await page.emulateMedia({ forcedColors: 'none' })
   await expect
@@ -103,7 +103,7 @@ test('system theme refreshes all measured pairs when the OS scheme changes', asy
   await page.emulateMedia({ colorScheme: 'dark' })
   await expect(ratio).not.toHaveText(before)
   await expect(page.locator('[data-color-verdict]')).toHaveText(
-    Array(49).fill('Meets threshold'),
+    Array(61).fill('Meets threshold'),
   )
   await page.emulateMedia({ colorScheme: 'light' })
   await expect(ratio).toHaveText(before)

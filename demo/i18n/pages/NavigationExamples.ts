@@ -77,6 +77,12 @@ const en = {
       description: 'Deployment is in progress.',
     },
     {
+      value: 'scheduled',
+      label: 'Scheduled',
+      tone: 'info',
+      description: 'Runs at 02:00 tonight. Nothing to do now.',
+    },
+    {
       value: 'pending',
       label: 'Not run',
       tone: 'neutral',
@@ -169,6 +175,12 @@ export const text: Record<Locale, typeof en> = {
         label: '실행 중',
         tone: 'progress',
         description: '배포가 진행 중입니다.',
+      },
+      {
+        value: 'scheduled',
+        label: '예약됨',
+        tone: 'info',
+        description: '오늘 밤 02:00에 실행됩니다. 지금 할 일은 없습니다.',
       },
       {
         value: 'pending',

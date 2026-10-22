@@ -28,6 +28,10 @@
     background: var(--status-progress-bg);
     color: var(--status-progress-fg);
   }
+  .pui-message[data-tone='info'] {
+    background: var(--status-info-bg);
+    color: var(--status-info-fg);
+  }
   .pui-message-icon {
     display: inline-flex;
     align-items: center;

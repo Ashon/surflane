@@ -8,6 +8,12 @@
 
 - Component stylesheets. Every component, pattern and foundation with styles has one at its entry point's path with `.css`, such as `@surflane/ui/button.css`: 66 in all. Each brings the tokens and the styles of everything its component renders, so an app can ship only the styles it uses. The published stylesheets are flat lists of rule files, each listed once, so a toolchain that keeps duplicate imports never repeats them; with Tailwind CSS, import `all.css`. One component's stylesheet is about 28 KB, 5 KB gzipped; `all.css` is 134 KB, 21 KB gzipped. See [Component stylesheets](https://github.com/Ashon/surflane/blob/main/docs/frameworks.md#component-stylesheets).
 - `@surflane/design-tokens` splits `presentation.css` and `foundations.css` the same way, as `presentation/*.css` and `foundations/*.css`.
+- An `info` status tone for Badge, StatusBadge, InlineMessage and Toast, in blue, apart from the cyan of success.
+- Tokens:
+  - `--info` and `--status-info-*`.
+  - `--trend-up`, `--trend-down` and the `--trend-up-*`, `--trend-down-*` and `--trend-flat-fg` roles. Markets that read red as a rise set `--trend-up` and `--trend-down` the other way round.
+  - `--chart-category-1` to `-6`.
+  - Every new text color meets 4.5:1, and every category color 3:1, in both themes.
 
 ### Changed
 

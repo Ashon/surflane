@@ -74,6 +74,13 @@
     ); /* Accent cyan by default; accent themes leave it */
     --caution: oklch(0.88362398 0.17366333 93.66977695); /* Yellow 50 */
     --danger: oklch(0.64886666 0.23697091 26.97276512); /* Red 50 */
+    --info: oklch(
+      0.72 0.13 255
+    ); /* Blue 50: information that asks for no action */
+    /* Direction of change, as finance reads it: up is a gain, down a loss. Markets
+     * that read red as a rise swap the two. */
+    --trend-up: oklch(0.74 0.15 155); /* Green 50 */
+    --trend-down: var(--danger);
 
     /* Blueprint grid - the grid on the landing page and the guide to the left of text. On the sheet (Gray 80), minor
      * cells sink one step darker while major cells and guides rise one step lighter. Guides are drawn stronger than the
@@ -118,6 +125,9 @@
 
     --caution: oklch(0.88362398 0.17366333 93.66977695);
     --danger: oklch(0.64886666 0.23697091 26.97276512);
+    --info: oklch(0.72 0.13 255);
+    --trend-up: oklch(0.74 0.15 155);
+    --trend-down: var(--danger);
 
     --grid-minor: oklch(0.95972296 0.00515149 247.87778139); /* Gray 20 */
     --grid-major: oklch(0.93531009 0.01353396 240.96010253); /* Gray 30 */
@@ -263,6 +273,27 @@
     --status-neutral-fg: var(--ink-muted);
     --status-neutral-bg: var(--surface);
     --status-neutral-border: var(--line);
+    --status-info-fg: oklch(
+      from color-mix(in srgb, var(--info) 70%, var(--ink)) l c h / alpha
+    );
+    --status-info-bg: oklch(
+      from color-mix(in srgb, var(--info) 10%, var(--canvas)) l c h / alpha
+    );
+    --status-info-border: oklch(
+      from color-mix(in srgb, var(--info) 35%, var(--canvas)) l c h / alpha
+    );
+    --trend-up-fg: var(--trend-up);
+    --trend-up-bg: oklch(
+      from color-mix(in srgb, var(--trend-up) 10%, var(--canvas)) l c h / alpha
+    );
+    --trend-down-fg: oklch(
+      from color-mix(in srgb, var(--trend-down) 48%, var(--ink)) l c h / alpha
+    );
+    --trend-down-bg: oklch(
+      from color-mix(in srgb, var(--trend-down) 10%, var(--canvas)) l c h /
+        alpha
+    );
+    --trend-flat-fg: var(--ink-muted);
     /* A state layer: ink at 8% over whatever the item rests on. It lifts a hovered
        item one visible step on the sheet, the chrome or a recessed bar alike, where
        a fixed surface color matched the bar and vanished. One ink keeps a row's
@@ -300,6 +331,27 @@
     );
     --status-caution-border: oklch(
       from color-mix(in srgb, var(--caution) 45%, var(--line)) l c h / alpha
+    );
+    --status-info-fg: oklch(
+      from color-mix(in srgb, var(--info) 45%, var(--ink)) l c h / alpha
+    );
+    --status-info-bg: oklch(
+      from color-mix(in srgb, var(--info) 8%, var(--canvas)) l c h / alpha
+    );
+    --status-info-border: oklch(
+      from color-mix(in srgb, var(--info) 30%, var(--line)) l c h / alpha
+    );
+    --trend-up-fg: oklch(
+      from color-mix(in srgb, var(--trend-up) 55%, var(--ink)) l c h / alpha
+    );
+    --trend-up-bg: oklch(
+      from color-mix(in srgb, var(--trend-up) 8%, var(--canvas)) l c h / alpha
+    );
+    --trend-down-fg: oklch(
+      from color-mix(in srgb, var(--trend-down) 65%, var(--ink)) l c h / alpha
+    );
+    --trend-down-bg: oklch(
+      from color-mix(in srgb, var(--trend-down) 5%, var(--canvas)) l c h / alpha
     );
   }
 
@@ -392,6 +444,9 @@
 
       --caution: oklch(0.88362398 0.17366333 93.66977695);
       --danger: oklch(0.64886666 0.23697091 26.97276512);
+      --info: oklch(0.72 0.13 255);
+      --trend-up: oklch(0.74 0.15 155);
+      --trend-down: var(--danger);
 
       --grid-minor: oklch(0.95972296 0.00515149 247.87778139); /* Gray 20 */
       --grid-major: oklch(0.93531009 0.01353396 240.96010253); /* Gray 30 */
@@ -429,6 +484,28 @@
       );
       --status-caution-border: oklch(
         from color-mix(in srgb, var(--caution) 45%, var(--line)) l c h / alpha
+      );
+      --status-info-fg: oklch(
+        from color-mix(in srgb, var(--info) 45%, var(--ink)) l c h / alpha
+      );
+      --status-info-bg: oklch(
+        from color-mix(in srgb, var(--info) 8%, var(--canvas)) l c h / alpha
+      );
+      --status-info-border: oklch(
+        from color-mix(in srgb, var(--info) 30%, var(--line)) l c h / alpha
+      );
+      --trend-up-fg: oklch(
+        from color-mix(in srgb, var(--trend-up) 55%, var(--ink)) l c h / alpha
+      );
+      --trend-up-bg: oklch(
+        from color-mix(in srgb, var(--trend-up) 8%, var(--canvas)) l c h / alpha
+      );
+      --trend-down-fg: oklch(
+        from color-mix(in srgb, var(--trend-down) 65%, var(--ink)) l c h / alpha
+      );
+      --trend-down-bg: oklch(
+        from color-mix(in srgb, var(--trend-down) 5%, var(--canvas)) l c h /
+          alpha
       );
 
       --control-background: var(--canvas);
@@ -545,6 +622,10 @@
         l c h / alpha
     );
     --badge-progress-bg: var(--status-progress-bg);
+    --badge-info-bg: oklch(
+      from color-mix(in srgb, var(--status-info-fg) 3%, var(--status-info-bg)) l
+        c h / alpha
+    );
   }
 
   /* Neutral/brand strokes are distinguished by marker and dash or fill pattern. */
@@ -553,6 +634,36 @@
     --chart-series-1: var(--brand-ink);
     --chart-series-2: var(--ink-body);
     --chart-series-3: var(--ink-muted);
+  }
+  /* Categories that color must tell apart, such as buckets or sectors. Six hues at one
+   * lightness, each 3:1 against the sheet; charts still add marks and dashes. */
+  :root,
+  [data-theme] {
+    --chart-category-1: oklch(0.76 0.12 250);
+    --chart-category-2: oklch(0.78 0.11 185);
+    --chart-category-3: oklch(0.8 0.14 135);
+    --chart-category-4: oklch(0.82 0.13 80);
+    --chart-category-5: oklch(0.74 0.14 25);
+    --chart-category-6: oklch(0.74 0.12 310);
+  }
+  :root[data-theme='light'],
+  [data-theme='light'] {
+    --chart-category-1: oklch(0.5 0.14 255);
+    --chart-category-2: oklch(0.52 0.09 190);
+    --chart-category-3: oklch(0.52 0.12 140);
+    --chart-category-4: oklch(0.56 0.12 70);
+    --chart-category-5: oklch(0.54 0.17 25);
+    --chart-category-6: oklch(0.5 0.15 310);
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) {
+      --chart-category-1: oklch(0.5 0.14 255);
+      --chart-category-2: oklch(0.52 0.09 190);
+      --chart-category-3: oklch(0.52 0.12 140);
+      --chart-category-4: oklch(0.56 0.12 70);
+      --chart-category-5: oklch(0.54 0.17 25);
+      --chart-category-6: oklch(0.5 0.15 310);
+    }
   }
 
   /* Platform Quiet: structure in cool hues, values in sage/amber; neutral details.

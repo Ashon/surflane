@@ -45,6 +45,10 @@
     color: var(--status-progress-fg);
     background: var(--badge-progress-bg);
   }
+  .pui-badge[data-tone='info'] {
+    color: var(--status-info-fg);
+    background: var(--badge-info-bg);
+  }
   @media (forced-colors: active) {
     .pui-badge {
       border: 1px solid CanvasText;

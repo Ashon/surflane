@@ -37,7 +37,7 @@ export function ColorFoundation() {
     [t.errorTextOnSelection, '--status-danger-fg', '--selected', 4.5],
     [t.brandAction, '--on-brand', '--brand', 4.5],
     [t.brandTextLink, '--brand-ink', '--canvas', 4.5],
-    ...['neutral', 'success', 'danger', 'caution', 'progress'].map(
+    ...['neutral', 'info', 'success', 'danger', 'caution', 'progress'].map(
       (tone): [string, string, string, number] => [
         t.status(tone),
         `--status-${tone}-fg`,
@@ -45,12 +45,23 @@ export function ColorFoundation() {
         4.5,
       ],
     ),
-    ...['neutral', 'success', 'danger', 'caution', 'progress'].map(
+    ...['neutral', 'info', 'success', 'danger', 'caution', 'progress'].map(
       (tone): [string, string, string, number] => [
         t.badge(tone),
         `--status-${tone}-fg`,
         `--badge-${tone}-bg`,
         4.5,
+      ],
+    ),
+    ...(['up', 'down'] as const).flatMap(
+      (direction): [string, string, string, number][] => [
+        [t.trend(direction), `--trend-${direction}-fg`, '--canvas', 4.5],
+        [
+          t.trendSurface(direction),
+          `--trend-${direction}-fg`,
+          `--trend-${direction}-bg`,
+          4.5,
+        ],
       ],
     ),
     [t.textSelection, '--selection-foreground', '--selection-background', 4.5],
@@ -95,6 +106,12 @@ export function ColorFoundation() {
     ...[1, 2, 3].map((index): [string, string, string, number] => [
       t.chartSeries(index),
       `--chart-series-${index}`,
+      '--canvas',
+      3,
+    ]),
+    ...[1, 2, 3, 4, 5, 6].map((index): [string, string, string, number] => [
+      t.chartCategory(index),
+      `--chart-category-${index}`,
       '--canvas',
       3,
     ]),

@@ -32,6 +32,10 @@ const en = {
   choiceSelectedBoundary: 'Choice selected boundary',
   errorBoundary: 'Error boundary',
   chartSeries: (index: number) => `Chart series ${index}`,
+  chartCategory: (index: number) => `Chart category ${index}`,
+  trend: (direction: 'up' | 'down') => `Trend ${direction}`,
+  trendSurface: (direction: 'up' | 'down') =>
+    `Trend ${direction} on its surface`,
   onThisPage: 'On this page',
   nav: [
     { id: 'roles', label: 'Roles' },
@@ -161,6 +165,10 @@ export const text: Record<Locale, typeof en> = {
     choiceSelectedBoundary: '선택된 항목 경계',
     errorBoundary: '오류 경계',
     chartSeries: (index: number) => `차트 계열 ${index}`,
+    chartCategory: (index: number) => `차트 범주 ${index}`,
+    trend: (direction: 'up' | 'down') => (direction === 'up' ? '상승' : '하락'),
+    trendSurface: (direction: 'up' | 'down') =>
+      direction === 'up' ? '상승 면 위의 상승' : '하락 면 위의 하락',
     onThisPage: '이 페이지에서',
     nav: [
       { id: 'roles', label: '역할' },

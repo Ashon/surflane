@@ -22,7 +22,7 @@ export const toastDocsKo: Record<string, DocKo> = {
       'add.id / timeout / priority':
         '같은 id는 제자리 업데이트; 토스트별 타이머; low | high',
       'Root.toast / tone':
-        'Base UI toast 객체; neutral | success | danger | caution | progress',
+        'Base UI toast 객체; neutral | info | success | danger | caution | progress',
       'Root.swipeDirection': '스와이프 방향(들); 빈 배열은 스와이프 비활성화',
       'Action / toast.actionProps':
         '네이티브 button props; 실행 후 닫으려면 핸들러에서 닫으세요',

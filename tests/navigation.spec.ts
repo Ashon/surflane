@@ -221,7 +221,7 @@ test('Badges use quiet surfaces and text/icons; live updates are opt-in at sente
   await waitForCatalogReady(page)
   const preview = page.locator('.component-example'),
     sentence = preview.getByRole('status')
-  await expect(preview.locator('.pui-badge')).toHaveCount(7)
+  await expect(preview.locator('.pui-badge')).toHaveCount(8)
   await expect(
     preview.getByRole('button', { name: 'Passed', exact: true }),
   ).toHaveCount(0)
