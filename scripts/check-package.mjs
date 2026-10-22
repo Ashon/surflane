@@ -61,6 +61,50 @@ assert.deepEqual(
 console.log(
   `@surflane: ${typeSheets.length} package stylesheets set type through role tokens`,
 )
+// Other lengths and durations move to tokens over time. The count may only fall: lower
+// it when values move to tokens, never raise it. 0, 1px hairlines and @media
+// conditions stay literal.
+const literalCeiling = 129
+const literalLengths = typeSheets
+  .map((file) => readFileSync(file, 'utf8').replace(/\/\*[\s\S]*?\*\//g, ''))
+  .flatMap((css) => css.split('\n'))
+  .map((line) => line.trim())
+  .filter((line) => !/^(@|--)/.test(line) && /:.*;$/.test(line))
+  .flatMap(
+    (line) =>
+      line
+        .slice(line.indexOf(':') + 1)
+        .match(/(?<![\w.#-])-?\d*\.?\d+(?:px|ms|s)\b/g) ?? [],
+  )
+  .filter((value) => !['0px', '1px', '-1px', '0s', '0ms'].includes(value))
+assert(
+  literalLengths.length <= literalCeiling,
+  `${literalLengths.length} literal lengths in package CSS, above the ceiling of ${literalCeiling}; use a token`,
+)
+console.log(
+  `@surflane: ${literalLengths.length} literal lengths remain (ceiling ${literalCeiling})`,
+)
+// Every class a component stylesheet selects is one a component renders, so a renamed
+// part cannot leave rules behind. pui-choice-label is a documented CSS-only helper.
+const cssOnlyClasses = new Set(['pui-choice-label'])
+const componentSource = readdirSync('packages/ui/src')
+  .filter((name) => /\.tsx?$/.test(name))
+  .map((name) => readFileSync(`packages/ui/src/${name}`, 'utf8'))
+  .join('\n')
+const renderedClasses = new Set(componentSource.match(/pui-[a-z0-9-]+/g))
+const selectedClasses = new Set(
+  readFileSync('packages/ui/src/styles.css', 'utf8')
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .match(/[^{}]+(?=\{)/g)
+    .flatMap((selector) => selector.match(/(?<=\.)pui-[a-z0-9-]+/g) ?? []),
+)
+const deadClasses = [...selectedClasses].filter(
+  (name) => !renderedClasses.has(name) && !cssOnlyClasses.has(name),
+)
+assert.deepEqual(deadClasses, [], `Selected but never rendered: ${deadClasses}`)
+console.log(
+  `@surflane/ui: all ${selectedClasses.size} selected classes are rendered by a component`,
+)
 const ui = JSON.parse(readFileSync('packages/ui/package.json', 'utf8'))
 let flatNames = 0
 for (const [entry, target] of Object.entries(ui.exports)) {

@@ -39,6 +39,7 @@
   --color-control-focus: var(--control-focus);
   --color-control-focus-background: var(--control-focus-background);
   --color-control-focus-ring: var(--control-focus-ring);
+  --color-control-focus-ring-size: var(--control-focus-ring-size);
   --color-control-hover-background: var(--control-hover-background);
   --color-control-hover-border: var(--control-hover-border);
   --color-control-placeholder: var(--control-placeholder);

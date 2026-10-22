@@ -50,8 +50,7 @@
   .pui-select-trigger:focus-visible {
     background: var(--control-focus-background);
     border-color: var(--control-focus);
-    box-shadow: 0 0 0 3px
-      color-mix(in oklch, var(--control-focus) 18%, transparent);
+    box-shadow: 0 0 0 var(--control-focus-ring-size) var(--control-focus-ring);
   }
   .pui-input:disabled,
   .pui-select-trigger:disabled {
@@ -137,7 +136,11 @@
     align-items: center;
     gap: var(--space-2);
     min-height: var(--control-height);
-    padding: 6px var(--space-3) 6px 32px;
+    padding: max(var(--space-1), calc((var(--control-height) - 1lh) / 2))
+      var(--space-3);
+    padding-inline-start: calc(
+      var(--space-3) + var(--icon-size-sm) + var(--space-2)
+    );
     border-radius: var(--control-radius);
     cursor: default;
     outline: none;
@@ -154,8 +157,9 @@
   }
   .pui-select-check {
     position: absolute;
-    left: 10px;
+    inset-inline-start: var(--space-3);
     display: flex;
+    width: var(--icon-size-sm);
   }
   .pui-popover {
     padding: var(--space-4);
@@ -170,7 +174,7 @@
     border: 0;
     background: var(--tooltip-background);
     color: var(--tooltip-foreground);
-    padding: 8px 12px;
+    padding: var(--space-2) var(--space-3);
     max-width: 256px;
     font-size: var(--type-caption-size);
     letter-spacing: var(--type-caption-tracking);
@@ -184,7 +188,7 @@
     justify-content: center;
     gap: var(--space-2);
     min-height: var(--control-height);
-    padding: 0 14px;
+    padding: 0 var(--size-button-padding-default);
     border: 1px solid transparent;
     border-radius: var(--radius-full);
     font: var(--weight-medium) var(--type-label-size)/var(--type-label-leading)
@@ -224,8 +228,8 @@
     text-decoration-thickness: 2px;
   }
   .pui-button:focus-visible {
-    outline: 2px solid var(--interaction-focus);
-    outline-offset: 2px;
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-offset);
   }
   .pui-button:is(:disabled, [data-disabled], [aria-disabled='true']) {
     opacity: var(--control-disabled-opacity);
@@ -382,18 +386,19 @@
   .pui-button[data-size='xs'] {
     height: 24px;
     min-height: 24px;
-    padding-inline: 8px;
+    padding-inline: var(--space-2);
     font-size: var(--type-caption-size);
     letter-spacing: var(--type-caption-tracking);
-    gap: 4px;
+    gap: var(--space-1);
   }
   .pui-button[data-size^='icon'] {
     width: var(--control-height);
     padding: 0;
   }
-  @media (max-width: 760px) {
+  /* Touch targets grow on narrow screens and on touch, as --control-height does. */
+  @media (max-width: 760px), (pointer: coarse) {
     .pui-button {
-      min-height: 44px;
+      min-height: var(--control-target-size);
     }
   }
 
@@ -440,7 +445,7 @@
     inset: 0;
     z-index: 1;
     display: flex;
-    padding: 12px;
+    padding: var(--space-3);
     pointer-events: none;
   }
   .pui-panel-viewport[data-side='right'] {
@@ -524,7 +529,9 @@
   }
   .pui-panel-header {
     flex: none;
-    padding: 24px 68px 20px 24px;
+    padding-block: var(--space-6) var(--space-5);
+    padding-inline: var(--space-6)
+      calc(var(--control-height) + var(--space-4) * 2);
   }
   .pui-panel-title {
     margin: 0;
@@ -533,7 +540,7 @@
     letter-spacing: var(--type-section-tracking);
   }
   .pui-panel-description {
-    margin: 8px 0 0;
+    margin: var(--space-2) 0 0;
     color: var(--ink-body);
     font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
       var(--font-body);
@@ -543,7 +550,7 @@
     flex: 1 1 auto;
     min-height: 0;
     overflow: auto;
-    padding: 0 24px 24px;
+    padding: 0 var(--space-6) var(--space-6);
     overscroll-behavior: contain;
     scrollbar-width: thin;
     scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
@@ -565,20 +572,21 @@
     justify-content: flex-end;
     flex-wrap: wrap;
     gap: var(--space-2);
-    padding: 16px 24px max(20px, env(safe-area-inset-bottom));
+    padding: var(--space-4) var(--space-6)
+      max(var(--space-5), env(safe-area-inset-bottom));
     background: var(--surface);
   }
   .pui-panel-close {
     position: absolute;
-    top: 16px;
-    right: 16px;
+    inset-block-start: var(--space-4);
+    inset-inline-end: var(--space-4);
     z-index: 1;
   }
   .pui-drawer-handle {
     flex: none;
     width: 36px;
     height: 4px;
-    margin: 10px auto 0;
+    margin: var(--space-3) auto 0;
     border-radius: var(--radius-full);
     background: var(--line);
   }
@@ -607,8 +615,8 @@
 
   .pui-dialog-close {
     position: absolute;
-    top: 16px;
-    right: 16px;
+    inset-block-start: var(--space-4);
+    inset-inline-end: var(--space-4);
     z-index: 1;
   }
 
@@ -643,7 +651,9 @@
     align-self: stretch;
   }
   .pui-dialog-header {
-    padding: 24px 72px 20px 24px;
+    padding-block: var(--space-6) var(--space-5);
+    padding-inline: var(--space-6)
+      calc(var(--control-height) + var(--space-4) * 2);
     border-bottom: 1px solid var(--line);
   }
   .pui-dialog-header h2 {
@@ -653,14 +663,14 @@
     letter-spacing: var(--type-section-tracking);
   }
   .pui-dialog-header p {
-    margin: 8px 0 0;
+    margin: var(--space-2) 0 0;
     color: var(--ink-body);
   }
   .pui-dialog-body {
     flex: 1 1 auto;
     min-height: 0;
     overflow: auto;
-    padding: 24px;
+    padding: var(--space-6);
     overscroll-behavior: contain;
     scrollbar-width: thin;
     scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
@@ -681,7 +691,7 @@
     justify-content: flex-end;
     flex-wrap: wrap;
     gap: var(--space-2);
-    padding: 20px 24px;
+    padding: var(--space-5) var(--space-6);
     border-top: 1px solid var(--line);
   }
   .pui-dialog-close:disabled {
@@ -693,12 +703,12 @@
     width: min(420px, calc(100% - 32px));
   }
   .pui-confirm-content .pui-dialog-header {
-    padding-inline-end: 24px;
+    padding-inline-end: var(--space-6);
     border-bottom: 0;
   }
   .pui-confirm-content .pui-dialog-footer {
     border-top: 0;
-    padding-top: 8px;
+    padding-top: var(--space-2);
   }
 
   /* Form and selection primitives: semantic labels, consistent control states. */
@@ -852,8 +862,8 @@
   .pui-checkbox:focus-visible,
   .pui-radio:focus-visible,
   .pui-switch:focus-visible {
-    outline: 2px solid var(--interaction-focus);
-    outline-offset: 3px;
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-offset);
   }
   .pui-checkbox[data-disabled],
   .pui-radio[data-disabled],
@@ -897,7 +907,9 @@
   .pui-switch {
     width: var(--control-switch-width);
     height: var(--control-switch-height);
-    padding: 3px;
+    padding: calc(
+      (var(--control-switch-height) - var(--control-switch-thumb)) / 2 - 1px
+    );
     border-radius: var(--radius-full);
     justify-content: flex-start;
   }
@@ -914,14 +926,12 @@
   .pui-switch[data-checked] .pui-switch-thumb {
     background: var(--on-brand);
     transform: translateX(
-      calc(var(--control-switch-width) - var(--control-switch-thumb) - 8px)
+      calc(var(--control-switch-width) - var(--control-switch-height))
     );
   }
   .pui-switch:dir(rtl)[data-checked] .pui-switch-thumb {
     transform: translateX(
-      calc(
-        -1 * (var(--control-switch-width) - var(--control-switch-thumb) - 8px)
-      )
+      calc(var(--control-switch-height) - var(--control-switch-width))
     );
   }
   @media (prefers-reduced-motion: reduce) {
@@ -1026,8 +1036,8 @@
     font-weight: var(--weight-medium);
   }
   .pui-tabs-tab:focus-visible {
-    outline: 2px solid var(--interaction-focus);
-    outline-offset: -3px;
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-inset);
   }
   .pui-tabs-tab:is(:disabled, [data-disabled]) {
     opacity: var(--control-disabled-opacity);
@@ -1040,8 +1050,8 @@
     overflow-wrap: anywhere;
   }
   .pui-tabs-panel:focus-visible {
-    outline: 2px solid var(--interaction-focus);
-    outline-offset: 3px;
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-offset);
     border-radius: var(--radius-md);
   }
   .pui-tabs-indicator {
@@ -1122,8 +1132,8 @@
     background: var(--interaction-active-bg);
   }
   .pui-disclosure-trigger:focus-visible {
-    outline: 2px solid var(--interaction-focus);
-    outline-offset: -2px;
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-inset);
   }
   .pui-disclosure-trigger:disabled {
     opacity: var(--control-disabled-opacity);
@@ -1335,8 +1345,7 @@
   .pui-combobox-group:focus-within,
   .pui-number-group:focus-within {
     border-color: var(--control-focus);
-    box-shadow: 0 0 0 3px
-      color-mix(in srgb, var(--control-focus) 18%, transparent);
+    box-shadow: 0 0 0 var(--control-focus-ring-size) var(--control-focus-ring);
   }
   .pui-combobox-group > .pui-combobox-input {
     flex: 1;
@@ -1365,8 +1374,8 @@
   .pui-combobox-action:focus-visible,
   .pui-number-step:focus-visible,
   .pui-combobox-chip-remove:focus-visible {
-    outline: 2px solid var(--interaction-focus);
-    outline-offset: -3px;
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-inset);
   }
   .pui-combobox-group[data-disabled],
   .pui-number-group[data-disabled] {
@@ -1415,10 +1424,11 @@
     display: flex;
     align-items: center;
     gap: var(--space-2);
-    padding: var(--space-2) var(--space-3);
-    min-height: 36px;
+    padding: max(var(--space-1), calc((var(--control-height) - 1lh) / 2))
+      var(--space-3);
+    min-height: var(--control-height);
     box-sizing: border-box;
-    border-radius: var(--radius-md);
+    border-radius: var(--control-radius);
     cursor: default;
     outline: none;
     overflow-wrap: anywhere;
@@ -1489,6 +1499,7 @@
     width: 28px;
     height: 28px;
   }
+  /* Select, Menu and Combobox items share one row: the control height. */
   .pui-number-group {
     display: grid;
     grid-template-columns: var(--control-height) minmax(0, 1fr) var(
@@ -1517,11 +1528,11 @@
   }
   @media (max-width: 760px) {
     .pui-combobox-item {
-      min-height: 44px;
+      min-height: var(--control-target-size);
     }
     .pui-combobox-chip-remove {
-      width: 44px;
-      height: 44px;
+      width: var(--control-target-size);
+      height: var(--control-target-size);
     }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -1592,7 +1603,7 @@
     align-items: center;
     width: 100%;
     min-width: 0;
-    height: 44px;
+    height: var(--control-target-size);
     touch-action: pan-y;
     user-select: none;
     cursor: pointer;
@@ -1616,8 +1627,8 @@
     background: var(--canvas);
   }
   .pui-slider-thumb:focus-within {
-    outline: 2px solid var(--interaction-focus);
-    outline-offset: 3px;
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-offset);
   }
   .pui-slider[data-disabled] {
     opacity: var(--control-disabled-opacity);
@@ -1631,7 +1642,7 @@
     min-width: 120px;
   }
   .pui-slider-control[data-orientation='vertical'] {
-    width: 44px;
+    width: var(--control-target-size);
     height: 192px;
     justify-content: center;
     justify-self: center;
@@ -1641,7 +1652,7 @@
     width: 6px;
     height: 100%;
   }
-  @media (max-width: 760px) {
+  @media (max-width: 760px), (pointer: coarse) {
     .pui-slider-thumb {
       width: 28px;
       height: 28px;
@@ -1766,19 +1777,22 @@
     opacity: var(--control-disabled-opacity);
   }
   .pui-menu-check-item {
-    padding-inline-start: 36px;
+    padding-inline-start: calc(
+      var(--space-3) + var(--icon-size-sm) + var(--space-2)
+    );
   }
   .pui-menu-indicator {
     position: absolute;
     inset-inline-start: var(--space-3);
     display: inline-flex;
-    width: 16px;
+    width: var(--icon-size-sm);
   }
   .pui-menu-check-item[aria-checked='false'] > .pui-menu-indicator {
     visibility: hidden;
   }
   .pui-menu-group-label {
-    padding: var(--space-2) var(--space-3);
+    padding: max(var(--space-1), calc((var(--control-height) - 1lh) / 2))
+      var(--space-3);
     color: var(--ink-muted);
     font-size: var(--type-caption-size);
     line-height: var(--type-caption-leading);
@@ -1799,9 +1813,9 @@
   .pui-menu-submenu-trigger:dir(rtl) .pui-submenu-arrow {
     transform: rotate(180deg);
   }
-  @media (max-width: 760px) {
+  @media (max-width: 760px), (pointer: coarse) {
     .pui-menu-item {
-      min-height: 44px;
+      min-height: var(--control-target-size);
     }
   }
   @media (forced-colors: active) {
@@ -1967,8 +1981,8 @@
     font-weight: var(--weight-medium);
   }
   .pui-navigation-link:focus-visible {
-    outline: 2px solid var(--interaction-focus);
-    outline-offset: 2px;
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-offset);
   }
   .pui-navigation-popup {
     box-sizing: border-box;
@@ -2018,7 +2032,7 @@
   @media (max-width: 760px) {
     .pui-navigation-trigger,
     .pui-navigation-link {
-      min-height: 44px;
+      min-height: var(--control-target-size);
     }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -2064,9 +2078,9 @@
     flex: 1 1 auto;
   }
   .pui-otp-input {
-    flex: 0 1 44px;
-    width: 44px;
-    height: 44px;
+    flex: 0 1 var(--control-target-size);
+    width: var(--control-target-size);
+    height: var(--control-target-size);
     min-width: 0;
     padding: 0;
     text-align: center;
@@ -2083,7 +2097,7 @@
     border: 0;
     border-top: 1px solid var(--line);
   }
-  @media (max-width: 760px) {
+  @media (max-width: 760px), (pointer: coarse) {
     .pui-otp-field,
     .pui-otp-group {
       gap: var(--space-1);
@@ -2097,7 +2111,7 @@
     }
     .pui-otp-input:focus-visible {
       outline: 2px solid Highlight;
-      outline-offset: 2px;
+      outline-offset: var(--focus-ring-offset);
     }
     .pui-otp-input[aria-invalid='true'] {
       border-color: LinkText;
@@ -2176,8 +2190,8 @@
     display: none;
   }
   .pui-toast:focus-visible {
-    outline: 2px solid var(--interaction-focus);
-    outline-offset: 2px;
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-offset);
   }
   .pui-toast-content {
     display: flex;
@@ -2246,8 +2260,8 @@
 
   .pui-toast-viewport[data-layout='stack']:focus-visible {
     border-radius: var(--radius-lg);
-    outline: 2px solid var(--interaction-focus);
-    outline-offset: -2px;
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-inset);
   }
   .pui-toast-viewport[data-layout='anchored'] {
     inset: 0;
@@ -2267,8 +2281,8 @@
   }
 
   .pui-toast-viewport[data-layout='anchored']:focus-visible .pui-toast {
-    outline: 2px solid var(--interaction-focus);
-    outline-offset: 2px;
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-offset);
   }
 
   .pui-file-upload {
@@ -2312,8 +2326,8 @@
     cursor: not-allowed;
   }
   .pui-file-upload:has(.pui-file-native:focus-visible) .pui-file-trigger {
-    outline: 2px solid var(--interaction-focus);
-    outline-offset: 2px;
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-offset);
   }
   .pui-file-upload:has(.pui-file-native[aria-invalid='true'])
     .pui-file-dropzone {
@@ -2387,9 +2401,9 @@
     line-height: var(--type-compact-leading);
     letter-spacing: var(--type-compact-tracking);
   }
-  @media (max-width: 760px) {
+  @media (max-width: 760px), (pointer: coarse) {
     .pui-file-trigger {
-      min-height: 44px;
+      min-height: var(--control-target-size);
     }
     .pui-file-dropzone {
       padding: var(--space-4);
@@ -2438,7 +2452,7 @@
     /* An auto row adopts the tallest card while its height transitions, moving
        the bottom anchor during collapse when a behind-card has an action. */
     grid-template-rows: var(--toast-frontmost-height, 80px);
-    padding-top: 24px;
+    padding-top: var(--space-6);
     height: calc(var(--toast-frontmost-height, 80px) + 48px);
     overflow: visible;
   }
@@ -2466,7 +2480,7 @@
     pointer-events: auto;
     height: min(calc(var(--toast-stack-height, 240px) + 48px), 100dvh);
     grid-template-rows: var(--toast-stack-height, auto);
-    padding-top: 24px;
+    padding-top: var(--space-6);
     overflow: visible;
   }
   .pui-toast-viewport[data-layout='stack'][data-expanded][data-stack-overflow] {
@@ -2476,13 +2490,16 @@
   .pui-toast-viewport[data-layout='stack'][data-expanded] > .pui-toast {
     height: var(--toast-height, auto);
     transform: translateY(
-      calc(-1 * (var(--toast-offset-y) + var(--toast-index) * var(--space-2)))
+      } @media (max-width: 760px)
+        {calc(
+          -1 * (var(--toast-offset-y) + var(--toast-index) * var(--space-2))
+        )
     );
   }
   .pui-toast-viewport[data-layout='stack'] > .pui-toast[data-ending-style] {
     transition-duration: 0s;
   }
-  /* Touch targets grow to 44px with the small Button scheme; the close button stays centred
+  /* Touch targets grow to the target size with the small Button scheme; the close button stays centred
      on the first line. */
   @media (max-width: 760px), (pointer: coarse) {
     .pui-toast-close {
@@ -2649,8 +2666,8 @@
     font-weight: var(--weight-medium);
   }
   .pui-app-shell-link:focus-visible {
-    outline: 2px solid var(--control-focus);
-    outline-offset: -2px;
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-inset);
   }
   .pui-app-shell-icon {
     display: grid;
@@ -2679,9 +2696,6 @@
     }
     .pui-app-shell-sidebar {
       display: none;
-    }
-    .pui-app-shell-link {
-      min-block-size: 44px;
     }
     .pui-app-shell-content {
       padding: var(--space-4);
@@ -2772,6 +2786,11 @@
   @media (max-width: 760px) {
     .pui-app-shell[data-layout='workspace'] {
       grid-template-columns: minmax(0, 1fr);
+      @media (max-width: 760px), (pointer: coarse) {
+        .pui-app-shell-link {
+          min-block-size: var(--control-target-size);
+        }
+      }
       grid-template-rows: auto minmax(0, 1fr);
     }
     .pui-app-shell[data-layout='workspace'] > .pui-app-shell-header {
@@ -2808,7 +2827,7 @@
     border-radius: var(--radius-md);
     color: var(--ink);
     cursor: default;
-    outline-offset: -2px;
+    outline-offset: var(--focus-ring-inset);
     transition: background-color var(--duration-fast) var(--ease-out);
   }
   .pui-tree-item:hover {
@@ -2818,7 +2837,7 @@
     background: var(--selected);
   }
   .pui-tree-item:focus-visible {
-    outline: 2px solid var(--control-focus);
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
   }
   .pui-tree-item[aria-disabled='true'] {
     color: var(--ink-muted);
@@ -2913,8 +2932,7 @@
   .pui-date-group:focus-within {
     background: var(--control-focus-background);
     border-color: var(--control-focus);
-    box-shadow: 0 0 0 3px
-      color-mix(in oklch, var(--control-focus) 18%, transparent);
+    box-shadow: 0 0 0 var(--control-focus-ring-size) var(--control-focus-ring);
   }
   :is(.pui-date-picker, .pui-time-field)[data-invalid] .pui-date-group {
     border-color: var(--status-danger-fg);
@@ -2990,8 +3008,8 @@
     background: var(--selected);
   }
   :is(.pui-date-trigger, .pui-calendar-nav)[data-focus-visible] {
-    outline: 2px solid var(--control-focus);
-    outline-offset: 2px;
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-offset);
   }
   :is(.pui-date-trigger, .pui-calendar-nav)[data-disabled] {
     opacity: var(--control-disabled-opacity);
@@ -3077,8 +3095,8 @@
     color: var(--on-brand);
   }
   .pui-calendar-day[data-focus-visible] {
-    outline: 2px solid var(--control-focus);
-    outline-offset: -2px;
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-inset);
   }
   .pui-calendar-day[data-today] {
     border-color: var(--control-border);
@@ -3212,8 +3230,8 @@
   .pui-chart-legend-button:focus-visible,
   .pui-chart-plot .recharts-surface:focus-visible,
   .pui-chart-table summary:focus-visible {
-    outline: 2px solid var(--interaction-focus);
-    outline-offset: 2px;
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-offset);
     border-radius: var(--radius-sm);
   }
   .pui-chart-axis-label {
@@ -3287,7 +3305,7 @@
   }
   @media (max-width: 760px), (pointer: coarse) {
     .pui-chart-legend-button {
-      min-height: 44px;
+      min-height: var(--control-target-size);
     }
   }
   @media (forced-colors: active) {
@@ -3507,7 +3525,7 @@
     padding-inline: var(--ui-card-padding);
   }
   :where([data-ui-size], [data-ui-size] *).pui-dialog-header {
-    padding-inline-end: calc(var(--ui-card-padding) + 48px);
+    padding-inline-end: calc(var(--control-height) + var(--space-4) * 2);
   }
   :where([data-ui-size], [data-ui-size] *).pui-confirm-content
     .pui-dialog-header {
@@ -3586,8 +3604,11 @@
   /* Coarse pointers retain comfortable targets even with a compact visual scheme. */
   @media (max-width: 760px), (pointer: coarse) {
     [data-ui-size] {
-      --control-height: max(44px, var(--ui-control-height));
-      --ui-row: max(44px, var(--ui-control-height));
+      --control-height: max(
+        var(--control-target-size),
+        var(--ui-control-height)
+      );
+      --ui-row: max(var(--control-target-size), var(--ui-control-height));
     }
   }
   @media (forced-colors: active) {
@@ -3625,10 +3646,10 @@
   }
   @media (max-width: 760px), (pointer: coarse) {
     :where([data-ui-size], [data-ui-size] *).pui-field-item {
-      min-block-size: 44px;
+      min-block-size: var(--control-target-size);
     }
     :where([data-ui-size], [data-ui-size] *).pui-slider-control {
-      min-block-size: 44px;
+      min-block-size: var(--control-target-size);
     }
   }
 
@@ -3658,15 +3679,19 @@
     font-size: var(--ui-font);
   }
   :where([data-ui-size], [data-ui-size] *).pui-avatar[data-ui-size] {
-    font-size: clamp(12px, calc(var(--ui-avatar) / 3), 16px);
+    font-size: clamp(
+      var(--type-caption-size),
+      calc(var(--ui-avatar) / 3),
+      var(--size-font-large)
+    );
   }
   @media (max-width: 760px), (pointer: coarse) {
     :where([data-ui-size], [data-ui-size] *):is(
       .pui-date-trigger,
       .pui-calendar-nav
     ) {
-      inline-size: 44px;
-      block-size: 44px;
+      inline-size: var(--control-target-size);
+      block-size: var(--control-target-size);
     }
   }
 
@@ -3773,8 +3798,8 @@
     text-underline-offset: 3px;
   }
   .pui-markdown a:focus-visible {
-    outline: 2px solid var(--interaction-focus);
-    outline-offset: 2px;
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-offset);
   }
   .pui-markdown .contains-task-list {
     list-style: none;

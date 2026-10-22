@@ -64,8 +64,8 @@
   }
   .pui-segment:focus-visible,
   .pui-icon-button:focus-visible {
-    outline: 2px solid var(--interaction-focus);
-    outline-offset: 2px;
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-offset);
   }
   @media (prefers-reduced-motion: reduce) {
     .pui-segment,
@@ -97,8 +97,8 @@
     background: var(--interaction-active-bg);
   }
   .pui-theme-action:focus-visible {
-    outline: 2px solid var(--interaction-focus);
-    outline-offset: 2px;
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-offset);
   }
 
   .pui-segment {
@@ -111,7 +111,7 @@
     color: var(--ink);
   }
   .pui-control-group input:focus-visible + .pui-segment {
-    outline: 2px solid var(--interaction-focus);
-    outline-offset: 2px;
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-offset);
   }
 }

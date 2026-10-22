@@ -6,6 +6,7 @@
 
 ### Added
 
+- Focus and target tokens: `--focus-ring-width`, `--focus-ring-offset`, `--focus-ring-inset` and `--control-focus-ring-size`, and `--control-target-size` (44px).
 - `--layout-reading-measure` (54ch) holds reading text to about 70 Latin or 50 Hangul characters per line. Paragraphs, lists and quotes in `Prose` and `Markdown` keep to it, while tables, code and images still use the full reading width. The catalog's manual copy uses the same measure with the reading role (16/28).
 
 ### Changed
@@ -27,6 +28,17 @@
   - Avatar initials move from 10px to the 12px minimum.
   - Menu and combobox group labels, chips, list descriptions and file upload hints take their role's leading instead of the parent's.
 - `check:package` fails on literal font sizes, line heights or weights in package CSS.
+- Every component draws the same focus ring: 2px, outside with a 2px offset, or inside where a container would clip it.
+  - Checkbox, radio, switch, link, tabs panel and slider thumb rings move from a 3px offset to 2px.
+  - Text field halos use `--control-focus-ring`.
+- Button, menu and combobox items, navigation links, the file trigger and app shell links reach the 44px target on touch screens of any width (`pointer: coarse`), not only below 760px.
+- Select, Menu and Combobox items share one item style:
+  - The row is the control height: 36px, or 44px on touch. Menu and combobox rows are 2px shorter.
+  - The check column has a 36px indent. Select's check moves 2px and its text 4px.
+  - The corners take the control radius.
+- Dialog and panel chrome uses the spacing scale and one close button clearance: the control height plus 16px on each side. Dialog headers clear the close button by 68px instead of 72px, and close buttons sit at the inline end in right-to-left text.
+- Switch derives its padding and thumb travel from the switch tokens.
+- `check:package` fails when a component stylesheet selects a class that no component renders. It also caps the literal lengths left in package CSS at 129, so the count can only fall.
 
 ## 0.4.0
 

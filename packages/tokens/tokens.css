@@ -219,6 +219,14 @@
     --control-disabled-background: var(--surface);
     --control-disabled-opacity: 0.55;
     --control-placeholder: var(--ink-muted);
+    /* Focus is one ring: outside the element, or inside it where a container would clip
+     * it. Text fields show a soft halo of --control-focus-ring instead. */
+    --focus-ring-width: 2px;
+    --focus-ring-offset: 2px;
+    --focus-ring-inset: calc(-1 * var(--focus-ring-width));
+    --control-focus-ring-size: 3px;
+    /* The smallest pointer target on narrow screens and touch (WCAG 2.5.5). */
+    --control-target-size: 44px;
   }
 
   /* Semantic status colors derive from the base status palette. Success has its own
@@ -313,7 +321,7 @@
   @media (max-width: 760px), (pointer: coarse) {
     :root,
     [data-theme] {
-      --control-height: 44px;
+      --control-height: var(--control-target-size);
     }
   }
 
