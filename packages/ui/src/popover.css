@@ -1,0 +1,44 @@
+/* Popover, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './popup.css';
+
+@layer surflane.components {
+  /* A popover fits its content up to its width, so long text wraps at a readable
+     measure instead of the viewport. */
+  .pui-popover {
+    --popover-width: var(--size-popover-default);
+    width: max-content;
+    max-width: min(var(--popover-width), calc(100vw - var(--space-6)));
+    padding: var(--space-4);
+    max-height: var(--available-height);
+    overflow: auto;
+  }
+  .pui-popover[data-size='small'] {
+    --popover-width: var(--size-popover-small);
+  }
+  .pui-popover[data-size='large'] {
+    --popover-width: var(--size-popover-large);
+  }
+  .pui-popover-title {
+    margin: 0 0 var(--space-2);
+    color: var(--ink);
+    font: var(--weight-medium) var(--type-subsection-size) /
+      var(--type-subsection-leading) var(--font-body);
+    letter-spacing: var(--type-subsection-tracking);
+  }
+  .pui-popover-description {
+    margin: 0 0 var(--space-4);
+    color: var(--ink-body);
+  }
+  .pui-popover-description:last-child {
+    margin-bottom: 0;
+  }
+}
+@layer surflane.sizes {
+  :where([data-ui-size], [data-ui-size] *).pui-popover {
+    padding: var(--ui-surface-padding);
+  }
+}

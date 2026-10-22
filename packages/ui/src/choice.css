@@ -1,0 +1,106 @@
+/* Shared by Checkbox, Radio and Switch, and ChoiceLabel around them. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+
+@layer surflane.components {
+  .pui-choice-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-width: 0;
+  }
+  .pui-checkbox,
+  .pui-radio,
+  .pui-switch {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: var(--control-choice-size);
+    height: var(--control-choice-size);
+    border: 1px solid var(--control-choice-border);
+    border-radius: var(--control-choice-radius);
+    background: var(--control-background);
+    color: var(--ink);
+    outline: none;
+    cursor: pointer;
+    transition:
+      background-color var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out),
+      box-shadow var(--duration-fast) var(--ease-out);
+  }
+  .pui-checkbox:hover:not([data-disabled], [data-readonly]),
+  .pui-radio:hover:not([data-disabled], [data-readonly]),
+  .pui-switch:hover:not([data-disabled], [data-readonly]) {
+    border-color: var(--control-choice-hover-border);
+    background: var(--control-hover-background);
+  }
+  .pui-checkbox:is([data-checked], [data-indeterminate]),
+  .pui-radio[data-checked],
+  .pui-switch[data-checked] {
+    background: var(--control-choice-selected-bg);
+    border-color: var(--control-choice-selected-border);
+    color: var(--control-choice-selected-fg);
+  }
+  /* Label hover shares the same feedback as the small control itself. */
+  .pui-choice-label:hover
+    :is(.pui-checkbox, .pui-radio, .pui-switch):not(
+      [data-disabled],
+      [data-readonly]
+    ) {
+    background: var(--control-hover-background);
+    border-color: var(--control-choice-hover-border);
+  }
+  :is(.pui-checkbox, .pui-radio, .pui-switch):is(
+      [data-checked],
+      [data-indeterminate]
+    ):hover:not([data-disabled], [data-readonly]),
+  .pui-choice-label:hover
+    :is(.pui-checkbox, .pui-radio, .pui-switch):is(
+      [data-checked],
+      [data-indeterminate]
+    ):not([data-disabled], [data-readonly]) {
+    background: var(--control-choice-selected-hover-bg);
+    border-color: var(--control-choice-selected-border);
+  }
+  .pui-checkbox:focus-visible,
+  .pui-radio:focus-visible,
+  .pui-switch:focus-visible {
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-offset);
+  }
+  .pui-checkbox[data-disabled],
+  .pui-radio[data-disabled],
+  .pui-switch[data-disabled] {
+    opacity: var(--control-disabled-opacity);
+    cursor: not-allowed;
+  }
+  .pui-checkbox[data-readonly],
+  .pui-radio[data-readonly],
+  .pui-switch[data-readonly] {
+    cursor: default;
+  }
+  :is(.pui-checkbox, .pui-radio, .pui-switch)[data-invalid],
+  .pui-choice-label:hover
+    :is(.pui-checkbox, .pui-radio, .pui-switch)[data-invalid] {
+    border-color: var(--status-danger-fg);
+  }
+  @media (forced-colors: active) {
+    .pui-checkbox,
+    .pui-radio,
+    .pui-switch {
+      border-color: ButtonText;
+    }
+    .pui-checkbox:is([data-checked], [data-indeterminate]),
+    .pui-radio[data-checked],
+    .pui-switch[data-checked] {
+      background: Highlight;
+      border-color: Highlight;
+      color: HighlightText;
+      forced-color-adjust: none;
+    }
+  }
+}

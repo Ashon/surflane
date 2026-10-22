@@ -1,0 +1,17 @@
+/* Progress, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './gauge.css';
+
+@layer surflane.components {
+  .pui-progress .pui-gauge-indicator {
+    background: var(--brand);
+  }
+  @media (forced-colors: active) {
+    .pui-progress .pui-gauge-indicator {
+      background: CanvasText;
+    }
+  }
+}

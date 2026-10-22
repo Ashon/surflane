@@ -1,0 +1,163 @@
+/* File upload, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './icon.css';
+@import './button.css';
+@import './field.css';
+@import './progress.css';
+@import './badge.css';
+
+@layer surflane.components {
+  .pui-file-upload {
+    min-width: 0;
+  }
+  .pui-file-native {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .pui-file-dropzone {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-5);
+    border: 1px solid transparent;
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    transition: background-color var(--duration-fast) var(--ease-out);
+  }
+  .pui-file-upload[data-dragging] .pui-file-dropzone {
+    background: var(--selected);
+  }
+  .pui-file-trigger {
+    flex-direction: row;
+    width: fit-content;
+    cursor: pointer;
+    font-size: var(--type-body-size);
+    letter-spacing: var(--type-body-tracking);
+    line-height: var(--type-body-leading);
+  }
+  .pui-file-trigger[data-disabled] {
+    opacity: var(--control-disabled-opacity);
+    cursor: not-allowed;
+  }
+  .pui-file-upload:has(.pui-file-native:focus-visible) .pui-file-trigger {
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-offset);
+  }
+  .pui-file-upload:has(.pui-file-native[aria-invalid='true'])
+    .pui-file-dropzone {
+    border-color: var(--status-danger-fg);
+  }
+  .pui-file-drop-hint {
+    margin: 0;
+    color: var(--ink-muted);
+    font-size: var(--type-compact-size);
+    line-height: var(--type-compact-leading);
+    letter-spacing: var(--type-compact-tracking);
+  }
+  .pui-file-errors {
+    color: var(--status-danger-fg);
+    font: var(--weight-regular)
+      var(--type-compact-size)/var(--type-compact-leading) var(--font-body);
+    letter-spacing: var(--type-compact-tracking);
+    overflow-wrap: anywhere;
+  }
+  .pui-file-errors:empty {
+    display: none;
+  }
+  .pui-file-errors ul {
+    margin: 0;
+    padding-inline-start: var(--space-5);
+  }
+  .pui-file-list {
+    display: grid;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .pui-file-item {
+    min-width: 0;
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+  }
+  .pui-file-info {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-3);
+    font-size: var(--type-compact-size);
+    line-height: var(--type-compact-leading);
+    letter-spacing: var(--type-compact-tracking);
+  }
+  .pui-file-info > strong {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    font-weight: var(--weight-medium);
+  }
+  .pui-file-info > span:not(.pui-badge) {
+    color: var(--ink-muted);
+  }
+  .pui-file-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+  .pui-file-item .pui-gauge {
+    margin-top: var(--space-3);
+  }
+  .pui-file-upload-error {
+    margin: var(--space-2) 0 0;
+    color: var(--status-danger-fg);
+    font-size: var(--type-compact-size);
+    line-height: var(--type-compact-leading);
+    letter-spacing: var(--type-compact-tracking);
+  }
+  @media (max-width: 760px), (pointer: coarse) {
+    .pui-file-trigger {
+      min-height: var(--control-target-size);
+    }
+  }
+  @media (max-width: 760px) {
+    .pui-file-dropzone {
+      padding: var(--space-4);
+    }
+  }
+  @media (forced-colors: active) {
+    .pui-file-dropzone {
+      border-color: ButtonText;
+      background: Canvas;
+    }
+    .pui-file-upload[data-dragging] .pui-file-dropzone {
+      border-color: Highlight;
+    }
+    .pui-file-item {
+      border: 1px solid CanvasText;
+      background: Canvas;
+      color: CanvasText;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pui-file-dropzone {
+      transition: none;
+    }
+  }
+}
+@layer surflane.sizes {
+  :where([data-ui-size], [data-ui-size] *).pui-file-dropzone {
+    padding: var(--ui-file-padding);
+  }
+}

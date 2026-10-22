@@ -1,0 +1,128 @@
+/* Tabs, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+
+@layer surflane.components {
+  /* Navigation: whole-surface selection and stable controls. */
+  .pui-tabs {
+    min-width: 0;
+  }
+  .pui-tabs-list {
+    display: flex;
+    gap: var(--space-1);
+    position: relative;
+    min-width: 0;
+    max-width: 100%;
+    padding: var(--space-1);
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
+  }
+  .pui-tabs-tab {
+    box-sizing: border-box;
+    flex: none;
+    position: relative;
+    z-index: 1;
+    border: 0;
+    border-radius: var(--control-radius);
+    min-height: var(--control-height);
+    padding: 0 var(--space-3);
+    background: transparent;
+    color: var(--ink-muted);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+    cursor: pointer;
+    white-space: nowrap;
+    outline: none;
+  }
+  .pui-tabs-tab:hover:not(:disabled):not([data-disabled]) {
+    color: var(--ink);
+    background: var(--interaction-hover-bg);
+  }
+  .pui-tabs-tab:active:not(:disabled):not([data-disabled]) {
+    background: var(--interaction-active-bg);
+  }
+  .pui-tabs-tab[data-active] {
+    background: var(--canvas);
+    color: var(--ink);
+    font-weight: var(--weight-medium);
+  }
+  .pui-tabs-tab:focus-visible {
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-inset);
+  }
+  .pui-tabs-tab:is(:disabled, [data-disabled]) {
+    opacity: var(--control-disabled-opacity);
+    cursor: not-allowed;
+  }
+  .pui-tabs-panel {
+    min-width: 0;
+    padding-block: var(--space-4);
+    outline: none;
+    overflow-wrap: anywhere;
+  }
+  .pui-tabs-panel:focus-visible {
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-offset);
+    border-radius: var(--radius-md);
+  }
+  .pui-tabs-indicator {
+    position: absolute;
+    top: var(--active-tab-top);
+    left: var(--active-tab-left);
+    width: var(--active-tab-width);
+    height: var(--active-tab-height);
+    box-sizing: border-box;
+    border: 0;
+    background: var(--canvas);
+    border-radius: var(--control-radius);
+    pointer-events: none;
+  }
+  .pui-tabs-list:has(.pui-tabs-indicator) .pui-tabs-tab[data-active] {
+    background: transparent;
+    border-color: transparent;
+  }
+  .pui-tabs[data-orientation='vertical'] {
+    display: grid;
+    grid-template-columns: minmax(0, 180px) minmax(0, 1fr);
+    gap: var(--space-6);
+    align-items: start;
+  }
+  .pui-tabs-list[data-orientation='vertical'] {
+    flex-direction: column;
+  }
+  .pui-tabs-list[data-orientation='vertical'] .pui-tabs-tab {
+    text-align: start;
+  }
+  .pui-tabs[data-orientation='vertical'] > .pui-tabs-panel {
+    padding-block: var(--space-1);
+  }
+  @media (max-width: 760px) {
+    .pui-tabs[data-orientation='vertical'] {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-3);
+    }
+  }
+  @media (forced-colors: active) {
+    .pui-tabs-tab[data-active] {
+      background: Highlight;
+      color: HighlightText;
+      forced-color-adjust: none;
+    }
+    .pui-tabs-indicator {
+      background: Highlight;
+      forced-color-adjust: none;
+    }
+  }
+}
+@layer surflane.sizes {
+  :where([data-ui-size], [data-ui-size] *):is(.pui-tabs-tab) {
+    min-block-size: var(--ui-row);
+    font-size: var(--ui-font);
+    line-height: var(--ui-leading);
+  }
+}

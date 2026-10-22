@@ -1,0 +1,29 @@
+/* Icon, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+
+@layer surflane.components {
+  /* Static glyphs share size/stroke tokens; parent controls own interaction. */
+  .pui-icon {
+    display: inline-block;
+    flex: 0 0 auto;
+    width: var(--icon-size-sm);
+    height: var(--icon-size-sm);
+    vertical-align: -0.125em;
+    stroke-width: var(--icon-stroke-width);
+    pointer-events: none;
+  }
+  .pui-icon[data-size='md'] {
+    width: var(--icon-size-md);
+    height: var(--icon-size-md);
+  }
+  .pui-icon[data-size='lg'] {
+    width: var(--icon-size-lg);
+    height: var(--icon-size-lg);
+  }
+  .pui-icon[data-directional='true']:dir(rtl) {
+    transform: scaleX(-1);
+  }
+}

@@ -171,7 +171,7 @@ export function createTheme({ neutral, accent, radius } = {}) {
 
 /** The Surflane cascade layers, lowest first, as every Surflane stylesheet declares them. */
 export const layerOrder =
-  '@layer surflane.tokens, surflane.themes, surflane.base, surflane.components;'
+  '@layer surflane.tokens, surflane.themes, surflane.base, surflane.components, surflane.sizes;'
 const block = (selectors, values, indent = '') =>
   Object.keys(values).length
     ? `${indent}${selectors.join(`,\n${indent}`)} {\n${Object.entries(values)

@@ -1,0 +1,34 @@
+/* Tooltip, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './popup.css';
+
+@layer surflane.components {
+  .pui-tooltip-positioner {
+    z-index: var(--layer-tooltip);
+  }
+  .pui-tooltip {
+    border: 0;
+    background: var(--tooltip-background);
+    color: var(--tooltip-foreground);
+    padding: var(--space-2) var(--space-3);
+    max-width: 256px;
+    font-size: var(--type-caption-size);
+    letter-spacing: var(--type-caption-tracking);
+    line-height: var(--type-caption-leading);
+  }
+  @media (forced-colors: active) {
+    .pui-tooltip {
+      background: CanvasText;
+      color: Canvas;
+      forced-color-adjust: none;
+    }
+  }
+}
+@layer surflane.sizes {
+  :where([data-ui-size], [data-ui-size] *).pui-tooltip {
+    padding: var(--ui-tooltip-padding-y) var(--ui-tooltip-padding-x);
+  }
+}

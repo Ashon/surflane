@@ -1,0 +1,219 @@
+/* App shell / Sidebar, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+
+@layer surflane.components {
+  /* Application frame slots: navigation state and product routing remain caller-owned. */
+  .pui-app-shell {
+    --app-shell-radius: var(--radius-sheet);
+    --app-shell-inset: var(--space-3);
+    --app-shell-sidebar-width: 216px;
+    display: grid;
+    grid-template-columns: var(--app-shell-sidebar-width) minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: var(--space-4);
+    min-inline-size: 0;
+    padding: var(--app-shell-inset);
+    background: var(--chrome);
+    border-radius: var(--app-shell-radius);
+  }
+  .pui-app-shell[data-sidebar='collapsed'] {
+    --app-shell-sidebar-width: 64px;
+  }
+  .pui-app-shell-header {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    min-inline-size: 0;
+  }
+  .pui-app-shell-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding-inline: var(--space-3);
+  }
+  .pui-app-shell-content {
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: var(--space-6);
+    background: var(--canvas);
+    border-radius: max(
+      0px,
+      calc(var(--app-shell-radius) - var(--app-shell-inset))
+    );
+    overflow-wrap: anywhere;
+  }
+  .pui-app-shell-footer {
+    margin-block-start: auto;
+    flex: none;
+  }
+  .pui-app-shell-link {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr);
+    align-items: center;
+    min-block-size: 40px;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--ink-body);
+    transition: background-color var(--duration-fast) var(--ease-out);
+  }
+  .pui-app-shell-link:hover {
+    background: var(--interaction-hover-bg);
+  }
+  .pui-app-shell-link:active:not([aria-current='page']) {
+    background: var(--interaction-active-bg);
+  }
+  .pui-app-shell-link[aria-current='page'] {
+    background: var(--selected);
+    color: var(--ink);
+    font-weight: var(--weight-medium);
+  }
+  .pui-app-shell-link:focus-visible {
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-inset);
+  }
+  .pui-app-shell-icon {
+    display: grid;
+    place-items: center;
+    inline-size: 40px;
+  }
+  .pui-app-shell-label {
+    min-inline-size: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-inline-end: var(--space-2);
+  }
+  .pui-app-shell[data-sidebar='collapsed'] .pui-app-shell-label {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    padding: 0;
+    clip-path: inset(50%);
+    overflow: hidden;
+  }
+  @media (max-width: 760px) {
+    .pui-app-shell {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto minmax(0, 1fr);
+    }
+    .pui-app-shell-sidebar {
+      display: none;
+    }
+    .pui-app-shell-content {
+      padding: var(--space-4);
+    }
+  }
+  @media (max-width: 760px), (pointer: coarse) {
+    .pui-app-shell-link {
+      min-block-size: var(--control-target-size);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pui-app-shell-link {
+      transition: none;
+    }
+  }
+  @media (forced-colors: active) {
+    .pui-app-shell-link[aria-current='page'] {
+      outline: 1px solid Highlight;
+    }
+  }
+  /* Workspace variant: product sidebar owns the brand; the content scrollport is caller-provided. */
+  .pui-app-shell[data-layout='workspace'] {
+    --app-shell-sidebar-width: 224px;
+    grid-template-rows: minmax(0, 1fr);
+    gap: 0;
+    padding: 0;
+    transition: grid-template-columns var(--duration-base) var(--ease-out);
+  }
+  .pui-app-shell[data-layout='workspace'][data-sidebar='collapsed'] {
+    --app-shell-sidebar-width: 72px;
+  }
+  .pui-app-shell[data-layout='workspace'] > .pui-app-shell-sidebar {
+    position: relative;
+    grid-row: 1;
+    grid-column: 1;
+    gap: 0;
+    padding: 0;
+    z-index: 1;
+  }
+  .pui-app-shell[data-layout='workspace'] > .pui-app-shell-content {
+    grid-row: 1;
+    grid-column: 2;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+  }
+  /* The page surface: concentric with the shell, inset on every side but the
+   * sidebar's. Stretch or size it from its container: a percentage height here
+   * would resolve against a scroll content that sizes from the page itself. */
+  .pui-app-shell-page {
+    box-sizing: border-box;
+    min-inline-size: 0;
+    margin: var(--app-shell-inset);
+    margin-inline-start: 0;
+    padding: var(--space-6);
+    background: var(--canvas);
+    border-radius: max(
+      0px,
+      calc(var(--app-shell-radius) - var(--app-shell-inset))
+    );
+  }
+  /* Without the sidebar the page insets evenly. Below a mobile header it starts flush. */
+  @media (max-width: 760px) {
+    .pui-app-shell-page {
+      margin: var(--app-shell-inset);
+      padding: var(--space-4);
+    }
+    .pui-app-shell:has(> .pui-app-shell-header) .pui-app-shell-page {
+      margin-block-start: 0;
+    }
+  }
+  .pui-app-shell[data-layout='workspace'] .pui-app-shell-footer {
+    padding: var(--space-4);
+  }
+  .pui-app-shell[data-layout='workspace'] .pui-app-shell-label {
+    transition:
+      opacity 80ms var(--ease-out) 160ms,
+      visibility 0s 160ms;
+  }
+  .pui-app-shell[data-layout='workspace'][data-sidebar='collapsed']
+    .pui-app-shell-label {
+    opacity: 0;
+    visibility: hidden;
+    transition: none;
+  }
+  @media (min-width: 761px) {
+    .pui-app-shell[data-layout='workspace'] > .pui-app-shell-header {
+      display: none;
+    }
+  }
+  @media (max-width: 760px) {
+    .pui-app-shell[data-layout='workspace'] {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto minmax(0, 1fr);
+    }
+    .pui-app-shell[data-layout='workspace'] > .pui-app-shell-header {
+      padding: var(--space-3);
+    }
+    .pui-app-shell[data-layout='workspace'] > .pui-app-shell-content {
+      grid-column: 1;
+      grid-row: 2;
+      margin: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pui-app-shell[data-layout='workspace'],
+    .pui-app-shell[data-layout='workspace'] .pui-app-shell-label {
+      transition: none;
+    }
+  }
+}

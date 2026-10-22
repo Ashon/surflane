@@ -1,0 +1,185 @@
+/* Combobox, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './field-control.css';
+@import './sizing.css';
+@import './input.css';
+@import './popup.css';
+@import './item.css';
+@import './icon.css';
+@import './input-group.css';
+
+@layer surflane.components {
+  .pui-combobox-group > .pui-combobox-input {
+    flex: 1;
+    min-width: 0;
+    width: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  .pui-combobox-popup {
+    box-sizing: border-box;
+    width: var(--anchor-width);
+    max-width: calc(100vw - 24px);
+    max-height: var(--available-height);
+    overflow: auto;
+    padding: var(--space-1);
+    border: 1px solid var(--menu-border);
+    border-radius: var(--radius-md);
+    background: var(--menu-background);
+    color: var(--ink);
+    box-shadow: var(--shadow-float);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+    letter-spacing: var(--type-body-tracking);
+    outline: none;
+    transition:
+      opacity var(--duration-fast) var(--ease-out),
+      transform var(--duration-fast) var(--ease-out);
+  }
+  .pui-combobox-popup[data-starting-style] {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  .pui-combobox-popup[data-ending-style] {
+    opacity: 0;
+    transition: none;
+  }
+  .pui-combobox-list {
+    max-height: min(280px, var(--available-height));
+    overflow: auto;
+  }
+  /* Select, Menu and Combobox items share one row: the control height. */
+  .pui-combobox-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: max(var(--space-1), calc((var(--control-height) - 1lh) / 2))
+      var(--space-3);
+    min-height: var(--control-height);
+    box-sizing: border-box;
+    border-radius: var(--control-radius);
+    cursor: default;
+    outline: none;
+    overflow-wrap: anywhere;
+  }
+  .pui-combobox-item[data-highlighted] {
+    background: var(--menu-hover-background);
+  }
+  .pui-combobox-item[data-selected] {
+    background: var(--selected);
+  }
+  .pui-combobox-item[data-disabled] {
+    opacity: var(--control-disabled-opacity);
+  }
+  .pui-combobox-indicator {
+    display: inline-flex;
+    align-items: center;
+  }
+  .pui-combobox-empty,
+  .pui-combobox-status {
+    padding: var(--space-3);
+    color: var(--ink-body);
+  }
+  .pui-combobox-empty:empty,
+  .pui-combobox-status:empty {
+    padding: 0;
+  }
+  .pui-combobox-section-label {
+    padding: var(--space-2) var(--space-3);
+    color: var(--ink-muted);
+    font-size: var(--type-caption-size);
+    line-height: var(--type-caption-leading);
+    letter-spacing: var(--type-caption-tracking);
+  }
+  .pui-combobox-separator {
+    height: 1px;
+    background: var(--line);
+    margin-block: var(--space-1);
+  }
+  .pui-combobox-chips {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1);
+    width: 100%;
+    padding: var(--space-1);
+  }
+  .pui-combobox-chips .pui-combobox-input {
+    flex: 1;
+    width: 100px;
+    min-width: 80px;
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+  }
+  .pui-combobox-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding-inline-start: var(--space-3);
+    border-radius: var(--radius-full);
+    background: var(--selected);
+    color: var(--ink);
+    font-size: var(--type-caption-size);
+    line-height: var(--type-caption-leading);
+    letter-spacing: var(--type-caption-tracking);
+  }
+  .pui-combobox-chip-remove {
+    width: 28px;
+    height: 28px;
+  }
+  @media (max-width: 760px), (pointer: coarse) {
+    .pui-combobox-item {
+      min-height: var(--control-target-size);
+    }
+    .pui-combobox-chip-remove {
+      width: var(--control-target-size);
+      height: var(--control-target-size);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pui-combobox-popup,
+    .pui-combobox-group {
+      transition: none;
+    }
+  }
+  @media (forced-colors: active) {
+    .pui-combobox-item:is([data-selected], [data-highlighted]) {
+      outline: 1px solid CanvasText;
+      outline-offset: -1px;
+    }
+  }
+  .pui-combobox-group > .pui-combobox-input,
+  .pui-combobox-action {
+    height: calc(var(--control-height) - 2px);
+  }
+  /* Reserve the selection mark so every option label shares one alignment line. */
+  .pui-combobox-indicator {
+    width: 16px;
+    flex: none;
+  }
+  .pui-combobox-item:not([data-selected]) .pui-combobox-indicator {
+    visibility: hidden;
+  }
+}
+@layer surflane.sizes {
+  :where([data-ui-size], [data-ui-size] *):is(.pui-combobox-input) {
+    font-size: var(--ui-font);
+    line-height: var(--ui-leading);
+  }
+  :where([data-ui-size], [data-ui-size] *):is(.pui-combobox-item) {
+    min-block-size: var(--ui-row);
+    font-size: var(--ui-font);
+    line-height: var(--ui-leading);
+  }
+  :where([data-ui-size], [data-ui-size] *):is(.pui-combobox-item) {
+    box-sizing: border-box;
+    padding-block: max(
+      var(--space-1),
+      calc((var(--ui-row) - var(--ui-leading)) / 2)
+    );
+  }
+}

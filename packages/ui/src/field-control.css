@@ -1,0 +1,71 @@
+/* Shared by text fields and select triggers. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+
+@layer surflane.components {
+  .pui-control,
+  .pui-select {
+    position: relative;
+    display: inline-flex;
+    min-width: 0;
+    max-width: 100%;
+    width: 100%;
+    vertical-align: middle;
+  }
+  .pui-input,
+  .pui-select-trigger {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    height: var(--control-height);
+    padding: 0 var(--control-padding-x);
+    border: 1px solid var(--control-border);
+    border-radius: var(--control-radius);
+    background: var(--control-background);
+    color: var(--ink);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+    letter-spacing: var(--type-body-tracking);
+    outline: none;
+    transition:
+      background-color var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out),
+      box-shadow var(--duration-fast) var(--ease-out);
+  }
+  .pui-input:hover:not(:disabled, [aria-disabled='true'], [readonly], :focus),
+  .pui-select-trigger:hover:not(
+      :disabled,
+      [aria-disabled='true'],
+      :focus-visible
+    ) {
+    background: var(--control-hover-background);
+    border-color: var(--control-hover-border);
+  }
+  .pui-input:focus,
+  .pui-select-trigger:focus-visible {
+    background: var(--control-focus-background);
+    border-color: var(--control-focus);
+    box-shadow: 0 0 0 var(--control-focus-ring-size) var(--control-focus-ring);
+  }
+  .pui-input:disabled,
+  .pui-select-trigger:disabled {
+    opacity: var(--control-disabled-opacity);
+    cursor: not-allowed;
+    background: var(--control-disabled-background);
+  }
+  .pui-input[aria-invalid='true'],
+  .pui-select-trigger[aria-invalid='true'] {
+    border-color: var(--status-danger-fg);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pui-input,
+    .pui-select-trigger {
+      transition: none;
+    }
+  }
+  .pui-textarea[readonly],
+  .pui-input[readonly] {
+    cursor: text;
+  }
+}

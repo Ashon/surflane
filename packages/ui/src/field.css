@@ -1,0 +1,59 @@
+/* Field, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './input.css';
+
+@layer surflane.components {
+  /* Form and selection primitives: semantic labels, consistent control states. */
+  .pui-field {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .pui-field {
+    gap: var(--space-2);
+  }
+  .pui-field-label {
+    display: block;
+    margin: 0;
+    color: var(--ink);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+  }
+  .pui-field-description,
+  .pui-field-error {
+    margin: 0;
+    font: var(--weight-regular)
+      var(--type-caption-size)/var(--type-caption-leading) var(--font-body);
+    overflow-wrap: anywhere;
+  }
+  .pui-field-description {
+    color: var(--ink-muted);
+  }
+  .pui-field-error {
+    color: var(--status-danger-fg);
+  }
+  .pui-field-item {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    column-gap: var(--space-3);
+    row-gap: var(--space-1);
+    min-height: var(--control-height);
+  }
+  .pui-field-item > :is(.pui-field-description, .pui-field-error) {
+    grid-column: 2;
+  }
+}
+@layer surflane.sizes {
+  :where([data-ui-size], [data-ui-size] *).pui-field-item {
+    min-block-size: var(--control-height);
+  }
+  @media (max-width: 760px), (pointer: coarse) {
+    :where([data-ui-size], [data-ui-size] *).pui-field-item {
+      min-block-size: var(--control-target-size);
+    }
+  }
+}

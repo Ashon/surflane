@@ -1,0 +1,21 @@
+/* Avatar, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './icon.css';
+@import '@surflane/design-tokens/presentation/avatar.css';
+
+@layer surflane.sizes {
+  :where([data-ui-size], [data-ui-size] *).pui-avatar {
+    width: var(--ui-avatar);
+    height: var(--ui-avatar);
+  }
+  :where([data-ui-size], [data-ui-size] *).pui-avatar[data-ui-size] {
+    font-size: clamp(
+      var(--type-caption-size),
+      calc(var(--ui-avatar) / 3),
+      var(--size-font-large)
+    );
+  }
+}

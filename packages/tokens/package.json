@@ -28,6 +28,8 @@
     "*.js",
     "*.d.ts",
     "themes/*.css",
+    "presentation/*.css",
+    "foundations/*.css",
     "LICENSE-MIT",
     "LICENSE-APACHE"
   ],
@@ -41,8 +43,10 @@
       "import": "./theme-transition.js"
     },
     "./foundations.css": "./foundations.css",
+    "./foundations/*.css": "./foundations/*.css",
     "./catalog.json": "./catalog.json",
     "./presentation.css": "./presentation.css",
+    "./presentation/*.css": "./presentation/*.css",
     "./typography.css": "./typography.css",
     "./tailwind.css": "./tailwind.css",
     "./theme-builder": {

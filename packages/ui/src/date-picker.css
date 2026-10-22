@@ -1,0 +1,306 @@
+/* Date / time picker, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './field-control.css';
+@import './sizing.css';
+@import './icon.css';
+@import './field.css';
+
+@layer surflane.components {
+  /* Date and time share the same field feedback and nested surface hierarchy. */
+  .pui-date-picker,
+  .pui-time-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-width: 0;
+    max-width: 100%;
+  }
+  .pui-date-group {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    min-height: var(--control-height);
+    gap: var(--space-2);
+    padding-inline: var(--control-padding-x) var(--space-1);
+    border: 1px solid var(--control-border);
+    border-radius: var(--control-radius);
+    background: var(--control-background);
+    color: var(--ink);
+    outline: none;
+    transition:
+      background-color var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out),
+      box-shadow var(--duration-fast) var(--ease-out);
+  }
+  :is(.pui-date-picker, .pui-time-field):not([data-disabled], [data-readonly])
+    .pui-date-group:hover:not([data-focus-within], :focus-within) {
+    background: var(--control-hover-background);
+    border-color: var(--control-hover-border);
+  }
+  .pui-date-group[data-focus-within],
+  .pui-date-group:focus-within {
+    background: var(--control-focus-background);
+    border-color: var(--control-focus);
+    box-shadow: 0 0 0 var(--control-focus-ring-size) var(--control-focus-ring);
+  }
+  :is(.pui-date-picker, .pui-time-field)[data-invalid] .pui-date-group {
+    border-color: var(--status-danger-fg);
+  }
+  :is(.pui-date-picker, .pui-time-field)[data-disabled] {
+    opacity: var(--control-disabled-opacity);
+  }
+  :is(.pui-date-picker, .pui-time-field)[data-disabled] .pui-date-group {
+    cursor: not-allowed;
+    background: var(--control-disabled-background);
+  }
+  .pui-date-input {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+    padding-block: var(--space-1);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+    white-space: nowrap;
+  }
+  .pui-date-segment {
+    font-variant-numeric: tabular-nums;
+    border-radius: var(--space-1);
+    padding: 1px;
+    outline: none;
+  }
+  .pui-date-segment[data-type='literal'] {
+    padding: 0;
+    white-space: pre;
+  }
+  .pui-date-segment[data-placeholder] {
+    color: var(--control-placeholder);
+  }
+  .pui-date-segment[data-focused] {
+    background: var(--selected);
+    color: var(--ink);
+    outline: 1px solid var(--control-focus);
+  }
+  .pui-date-range-inputs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1) var(--space-2);
+    min-width: 0;
+    flex: 1;
+  }
+  .pui-date-range-inputs .pui-date-input {
+    flex: 0 1 auto;
+  }
+  .pui-date-range-separator {
+    color: var(--ink-muted);
+  }
+  .pui-date-trigger,
+  .pui-calendar-nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-full);
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    outline: none;
+    transition: background-color var(--duration-fast) var(--ease-out);
+  }
+  :is(.pui-date-trigger, .pui-calendar-nav)[data-hovered]:not([data-disabled]) {
+    background: var(--selected);
+  }
+  :is(.pui-date-trigger, .pui-calendar-nav)[data-focus-visible] {
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-offset);
+  }
+  :is(.pui-date-trigger, .pui-calendar-nav)[data-disabled] {
+    opacity: var(--control-disabled-opacity);
+    cursor: not-allowed;
+  }
+  .pui-date-popover {
+    box-sizing: border-box;
+    max-width: calc(100vw - var(--space-4));
+    max-height: var(--available-height);
+    overflow: auto;
+    overscroll-behavior: contain;
+    padding: var(--space-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--canvas);
+    color: var(--ink);
+    box-shadow: var(--shadow-float);
+    z-index: var(--layer-popup);
+  }
+  .pui-date-dialog {
+    outline: none;
+  }
+  .pui-calendar {
+    width: 280px;
+    max-width: 100%;
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+  }
+  .pui-calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-1);
+    margin-bottom: var(--space-2);
+  }
+  .pui-calendar-heading {
+    margin: 0;
+    font: var(--weight-medium) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+    text-align: center;
+  }
+  .pui-calendar-grid {
+    min-width: 0;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 2px;
+    table-layout: fixed;
+  }
+  .pui-calendar-weekday {
+    color: var(--ink-muted);
+    font-weight: var(--weight-regular);
+    font-size: var(--type-caption-size);
+    line-height: var(--type-caption-leading);
+    letter-spacing: var(--type-caption-tracking);
+    text-align: center;
+  }
+  .pui-calendar-day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 36px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    outline: none;
+    font-variant-numeric: tabular-nums;
+  }
+  .pui-calendar-day[data-hovered]:not(
+      [data-disabled],
+      [data-unavailable],
+      [data-selected]
+    ) {
+    background: var(--selected);
+  }
+  .pui-calendar-day[data-selected] {
+    background: var(--selected);
+    color: var(--ink);
+  }
+  .pui-calendar-day:is([data-selection-start], [data-selection-end]) {
+    background: var(--brand);
+    color: var(--on-brand);
+  }
+  .pui-calendar-day[data-focus-visible] {
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-inset);
+  }
+  .pui-calendar-day[data-today] {
+    border-color: var(--control-border);
+  }
+  .pui-calendar-day[data-outside-month] {
+    visibility: hidden;
+  }
+  .pui-calendar-day:is([data-disabled], [data-unavailable]) {
+    color: var(--ink-muted);
+    text-decoration: line-through;
+    cursor: not-allowed;
+    opacity: var(--control-disabled-opacity);
+  }
+  @media (max-width: 760px), (pointer: coarse) {
+    .pui-date-trigger,
+    .pui-calendar-nav {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+    }
+    .pui-calendar-day {
+      min-height: 40px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pui-date-group,
+    .pui-date-trigger,
+    .pui-calendar-nav {
+      transition: none;
+    }
+  }
+  @media (forced-colors: active) {
+    .pui-date-group,
+    .pui-date-popover {
+      border-color: CanvasText;
+    }
+    .pui-date-group[data-focus-within],
+    .pui-date-group:focus-within {
+      outline: 2px solid Highlight;
+    }
+    .pui-calendar-day[data-selected] {
+      background: Highlight;
+      color: HighlightText;
+      forced-color-adjust: none;
+    }
+    .pui-calendar-day[data-focus-visible],
+    .pui-date-segment[data-focused] {
+      outline-color: Highlight;
+    }
+  }
+  .pui-calendar-grid :is(th, td) {
+    padding: 0;
+    border: 0;
+    min-width: 0;
+    text-align: center;
+  }
+  .pui-calendar-day[data-focus-visible][data-selected] {
+    outline-color: var(--ink);
+  }
+}
+@layer surflane.sizes {
+  :where([data-ui-size], [data-ui-size] *):is(
+    .pui-date-input,
+    .pui-date-segment
+  ) {
+    font-size: var(--ui-font);
+    line-height: var(--ui-leading);
+  }
+  :where([data-ui-size], [data-ui-size] *):is(.pui-date-trigger) > svg {
+    inline-size: var(--ui-icon);
+    block-size: var(--ui-icon);
+  }
+  :where([data-ui-size], [data-ui-size] *).pui-date-popover {
+    padding: var(--ui-surface-padding);
+  }
+  :where([data-ui-size], [data-ui-size] *).pui-calendar-day {
+    min-block-size: var(--ui-row);
+  }
+  :where([data-ui-size], [data-ui-size] *):is(
+    .pui-date-trigger,
+    .pui-calendar-nav
+  ) {
+    inline-size: calc(var(--control-height) - 4px);
+    block-size: calc(var(--control-height) - 4px);
+    min-inline-size: 0;
+  }
+  @media (max-width: 760px), (pointer: coarse) {
+    :where([data-ui-size], [data-ui-size] *):is(
+      .pui-date-trigger,
+      .pui-calendar-nav
+    ) {
+      inline-size: var(--control-target-size);
+      block-size: var(--control-target-size);
+    }
+  }
+}

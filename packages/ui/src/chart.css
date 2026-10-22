@@ -1,0 +1,182 @@
+/* Chart, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './button.css';
+@import './table.css';
+
+@layer surflane.components {
+  .pui-chart {
+    min-width: 0;
+    max-width: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .pui-chart-caption strong {
+    font: var(--weight-medium)
+      var(--type-subsection-size)/var(--type-subsection-leading)
+      var(--font-body);
+  }
+  .pui-chart-caption p,
+  .pui-chart-help {
+    margin: var(--space-2) 0 0;
+    color: var(--ink-muted);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+  }
+  .pui-chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-2);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  .pui-chart-legend-button {
+    max-width: 100%;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 36px;
+    padding: var(--space-1) var(--space-2);
+    border: 0;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--ink-body);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+    cursor: pointer;
+    text-align: start;
+  }
+  .pui-chart-legend-button svg {
+    flex: none;
+  }
+  .pui-chart-legend-button span {
+    overflow-wrap: anywhere;
+  }
+  .pui-chart-legend-button:hover {
+    background: var(--interaction-hover-bg);
+  }
+  .pui-chart-legend-button:active {
+    background: var(--interaction-active-bg);
+  }
+  .pui-chart-legend-button[aria-pressed='false'] span {
+    text-decoration: line-through;
+    color: var(--ink-muted);
+  }
+  .pui-chart-legend-button:focus-visible,
+  .pui-chart-plot .recharts-surface:focus-visible,
+  .pui-chart-table summary:focus-visible {
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-offset);
+    border-radius: var(--radius-sm);
+  }
+  .pui-chart-axis-label {
+    margin: 0;
+    color: var(--ink-muted);
+    font: var(--weight-regular)
+      var(--type-caption-size)/var(--type-caption-leading) var(--font-body);
+    overflow-wrap: anywhere;
+  }
+  .pui-chart-x-label {
+    text-align: center;
+  }
+  .pui-chart-plot {
+    min-width: 0;
+    width: 100%;
+    font-family: var(--font-body);
+  }
+  .pui-chart-inspector {
+    box-sizing: border-box;
+    min-height: 100px;
+    padding: var(--space-3) var(--space-4);
+    background: var(--surface);
+    color: var(--ink-body);
+    border-radius: var(--radius-md);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+    overflow-wrap: anywhere;
+  }
+  .pui-chart-inspector[hidden] {
+    display: none;
+  }
+  .pui-chart-readout strong {
+    font-weight: var(--weight-medium);
+  }
+  .pui-chart-readout ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    list-style: none;
+    padding: 0;
+    margin: var(--space-2) 0 0;
+  }
+  .pui-chart-empty {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    min-height: 160px;
+    padding: var(--space-4);
+    background: var(--surface);
+    color: var(--ink-muted);
+    border-radius: var(--radius-md);
+  }
+  .pui-chart-empty p {
+    margin: 0;
+  }
+  .pui-chart-table {
+    min-width: 0;
+  }
+  .pui-chart-table summary {
+    width: fit-content;
+    cursor: pointer;
+    color: var(--ink);
+    padding-block: var(--space-2);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .pui-chart-table .pui-scroll-root {
+    margin-top: var(--space-2);
+  }
+  /* The data table scrolls inside a bounded region, so long series stay compact. */
+  .pui-chart-table .pui-scroll-viewport {
+    max-block-size: 320px;
+  }
+  @media (max-width: 760px), (pointer: coarse) {
+    .pui-chart-legend-button {
+      min-height: var(--control-target-size);
+    }
+  }
+  @media (forced-colors: active) {
+    .pui-chart {
+      --canvas: Canvas;
+      --ink-muted: CanvasText;
+      --line: GrayText;
+      --control-border: CanvasText;
+      --chart-series-1: CanvasText;
+      --chart-series-2: CanvasText;
+      --chart-series-3: CanvasText;
+    }
+    .pui-chart-plot .recharts-surface,
+    .pui-chart-legend svg {
+      forced-color-adjust: none;
+    }
+    .pui-chart-inspector,
+    .pui-chart-empty {
+      background: Canvas;
+      color: CanvasText;
+      border: 1px solid CanvasText;
+    }
+  }
+}
+@layer surflane.sizes {
+  @media (forced-colors: active) {
+    .pui-chart-plot .recharts-cartesian-axis-tick text {
+      fill: CanvasText;
+    }
+  }
+}

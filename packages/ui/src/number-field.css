@@ -1,0 +1,60 @@
+/* Number Field, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './field-control.css';
+@import './sizing.css';
+@import './icon.css';
+@import './input-group.css';
+
+@layer surflane.components {
+  .pui-number-group {
+    display: grid;
+    grid-template-columns: var(--control-height) minmax(0, 1fr) var(
+        --control-height
+      );
+  }
+  .pui-number-input {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    height: var(--control-height);
+    padding: 0 var(--space-2);
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: var(--ink);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+    letter-spacing: var(--type-body-tracking);
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+  .pui-number-scrub {
+    cursor: ew-resize;
+    touch-action: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pui-number-group {
+      transition: none;
+    }
+  }
+  .pui-number-step,
+  .pui-number-input {
+    height: calc(var(--control-height) - 2px);
+  }
+  .pui-number-scrub[data-readonly],
+  .pui-number-scrub[data-disabled] {
+    cursor: default;
+  }
+  .pui-number-field {
+    width: 100%;
+    max-width: 20rem;
+  }
+}
+@layer surflane.sizes {
+  :where([data-ui-size], [data-ui-size] *):is(.pui-number-input) {
+    font-size: var(--ui-font);
+    line-height: var(--ui-leading);
+  }
+}

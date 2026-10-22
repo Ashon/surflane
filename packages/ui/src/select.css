@@ -1,0 +1,94 @@
+/* Select, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './field-control.css';
+@import './sizing.css';
+@import './popup.css';
+@import './item.css';
+@import './icon.css';
+
+@layer surflane.components {
+  .pui-select-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    text-align: start;
+    cursor: pointer;
+  }
+  .pui-select-trigger > span:first-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .pui-select-icon {
+    display: flex;
+    align-items: center;
+    flex: none;
+    color: var(--ink-muted);
+  }
+  .pui-select-popup {
+    min-width: var(--anchor-width);
+    max-height: min(360px, var(--available-height));
+    overflow: auto;
+    padding: var(--space-1);
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  .pui-select-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--control-height);
+    padding: max(var(--space-1), calc((var(--control-height) - 1lh) / 2))
+      var(--space-3);
+    padding-inline-start: calc(
+      var(--space-3) + var(--icon-size-sm) + var(--space-2)
+    );
+    border-radius: var(--control-radius);
+    cursor: default;
+    outline: none;
+    overflow-wrap: anywhere;
+  }
+  .pui-select-item[data-highlighted] {
+    background: var(--menu-hover-background);
+  }
+  .pui-select-item[data-selected] {
+    font-weight: var(--weight-medium);
+  }
+  .pui-select-item[data-disabled] {
+    opacity: var(--control-disabled-opacity);
+  }
+  .pui-select-check {
+    position: absolute;
+    inset-inline-start: var(--space-3);
+    display: flex;
+    width: var(--icon-size-sm);
+  }
+  /* A group heading starts where its options' text does, past the check column. */
+  .pui-select-group-label {
+    padding-inline-start: calc(
+      var(--space-3) + var(--icon-size-sm) + var(--space-2)
+    );
+  }
+}
+@layer surflane.sizes {
+  :where([data-ui-size], [data-ui-size] *):is(.pui-select-trigger) {
+    font-size: var(--ui-font);
+    line-height: var(--ui-leading);
+  }
+  :where([data-ui-size], [data-ui-size] *):is(.pui-select-item) {
+    min-block-size: var(--ui-row);
+    font-size: var(--ui-font);
+    line-height: var(--ui-leading);
+  }
+  :where([data-ui-size], [data-ui-size] *):is(.pui-select-item) {
+    box-sizing: border-box;
+    padding-block: max(
+      var(--space-1),
+      calc((var(--ui-row) - var(--ui-leading)) / 2)
+    );
+  }
+}

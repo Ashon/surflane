@@ -210,6 +210,7 @@ try {
         'surflane.themes',
         'surflane.base',
         'surflane.components',
+        'surflane.sizes',
       ]
       if (layers.join() !== expected.join())
         throw new Error(`Layer order ${layers.join(', ')}`)

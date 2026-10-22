@@ -1,0 +1,25 @@
+/* Accordion, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './icon.css';
+@import './disclosure.css';
+
+@layer surflane.components {
+  .pui-accordion {
+    display: grid;
+    gap: var(--space-2);
+    min-width: 0;
+  }
+  .pui-accordion-header {
+    margin: 0;
+    font: inherit;
+  }
+  .pui-accordion-panel {
+    height: var(--accordion-panel-height);
+  }
+  .pui-accordion-panel[data-ending-style] {
+    pointer-events: none;
+  }
+}

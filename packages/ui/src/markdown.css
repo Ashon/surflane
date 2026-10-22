@@ -1,0 +1,68 @@
+/* Markdown, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './table.css';
+@import './code.css';
+@import './typography.css';
+
+@layer surflane.components {
+  .pui-markdown {
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+  .pui-markdown > :first-child {
+    margin-block-start: 0;
+  }
+  .pui-markdown > :last-child {
+    margin-block-end: 0;
+  }
+  .pui-markdown .pui-code-block {
+    max-inline-size: 100%;
+    margin-block: var(--space-4);
+  }
+  .pui-markdown img {
+    display: block;
+    max-inline-size: 100%;
+    block-size: auto;
+    border-radius: var(--radius-md);
+  }
+  .pui-markdown blockquote {
+    margin-inline: 0;
+    padding-inline-start: var(--space-4);
+    border-inline-start: 2px solid var(--line);
+    color: var(--ink-body);
+  }
+  .pui-markdown a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .pui-markdown a:focus-visible {
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-offset);
+  }
+  .pui-markdown .contains-task-list {
+    list-style: none;
+    padding-inline-start: 0;
+  }
+  .pui-markdown .task-list-item {
+    display: list-item;
+  }
+  .pui-markdown .task-list-item input {
+    margin-inline-end: var(--space-2);
+    accent-color: var(--ink);
+  }
+  /* Markdown always renders inside pui-prose, whose code rule sets the family, size,
+   * radius and ligatures. */
+  .pui-markdown-inline-code {
+    padding: 2px 4px;
+    background: var(--code-bg);
+    font-weight: var(--weight-regular);
+    letter-spacing: var(--tracking-mono);
+  }
+  .pui-markdown .pui-table {
+    min-inline-size: 480px;
+  }
+}

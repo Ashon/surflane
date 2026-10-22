@@ -1,0 +1,13 @@
+/* Context Menu, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './popup.css';
+@import './menu.css';
+
+@layer surflane.components {
+  .pui-context-trigger {
+    -webkit-touch-callout: none;
+  }
+}

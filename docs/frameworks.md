@@ -31,6 +31,21 @@ It brings every Surflane stylesheet in the recommended order: `tokens.css`, `con
 
 The stylesheets put their rules in [cascade layers](#cascade-layers), so your own unlayered CSS overrides them. Remove element rules such as `button { … }` or `body { font-family: … }` that a starter template adds to its global CSS: they would override Surflane components too.
 
+### Component stylesheets
+
+To ship only the styles of the components you use, import their stylesheets instead of `all.css`. Each component has one, at the path of its entry point with `.css`, and it brings the tokens and the styles of everything the component renders:
+
+```css
+@import '@surflane/design-tokens/typography.css';
+@import '@surflane/ui/button.css';
+@import '@surflane/ui/dialog.css';
+@import '@surflane/ui/select.css';
+```
+
+Dialog's stylesheet includes Button's, for its close button, and a bundler includes a shared stylesheet once. One component's stylesheet, with the tokens, is about 28 KB (5 KB gzipped); `all.css` is 134 KB (21 KB gzipped). When you compose components yourself, such as an `Input` inside a `FilterBar` field, import both stylesheets.
+
+The rules are the ones `all.css` brings, and they apply the same in any import order: a component's stylesheet comes after the stylesheets it includes, and size rules sit in their own layer. `styles.css` is the list of every component stylesheet. `@surflane/design-tokens` splits `presentation.css` and `foundations.css` the same way, under `presentation/` and `foundations/`.
+
 Add `pui-typography` to `<body>` to apply document typography, including portalled overlays. Fonts are not bundled. Load Manrope, Pretendard, JetBrains Mono or your own families in the host, for example through `@fontsource-variable/*` packages. Without them, the token font stacks fall back to system fonts.
 
 ## 3. Set the theme before paint
@@ -79,14 +94,15 @@ With React Router, render `<NavLink to='/docs' />`. `LinkButton` takes Button's 
 
 ## Cascade layers
 
-Every Surflane stylesheet puts its rules in four [cascade layers](https://developer.mozilla.org/docs/Web/CSS/@layer), lowest first:
+Every Surflane stylesheet puts its rules in five [cascade layers](https://developer.mozilla.org/docs/Web/CSS/@layer), lowest first:
 
-| Layer                 | Contents                                          |
-| --------------------- | ------------------------------------------------- |
-| `surflane.tokens`     | Custom properties and inherited rendering hints   |
-| `surflane.themes`     | Theme presets and theme builder output            |
-| `surflane.base`       | Composition, document typography and theme motion |
-| `surflane.components` | Controls, presentation classes and components     |
+| Layer                 | Contents                                                                               |
+| --------------------- | -------------------------------------------------------------------------------------- |
+| `surflane.tokens`     | Custom properties and inherited rendering hints                                        |
+| `surflane.themes`     | Theme presets and theme builder output                                                 |
+| `surflane.base`       | Composition, document typography and theme motion                                      |
+| `surflane.components` | Controls, presentation classes and components                                          |
+| `surflane.sizes`      | The size scheme and size variants: `SizeProvider`, a component's `size`, table density |
 
 Each file starts with the same `@layer` order statement, so the order holds whichever file loads first. The browser compares layers before specificity:
 

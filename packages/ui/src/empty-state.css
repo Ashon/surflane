@@ -1,0 +1,12 @@
+/* Empty state, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import '@surflane/design-tokens/presentation/empty-state.css';
+
+@layer surflane.sizes {
+  :where([data-ui-size], [data-ui-size] *).pui-empty {
+    padding: var(--ui-card-padding);
+  }
+}

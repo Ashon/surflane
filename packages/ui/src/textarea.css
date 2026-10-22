@@ -1,0 +1,25 @@
+/* Textarea, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './field-control.css';
+@import './sizing.css';
+@import './input.css';
+
+@layer surflane.components {
+  .pui-textarea {
+    height: auto;
+    min-height: calc(var(--control-height) * 2.5);
+    padding-block: var(--space-3);
+    resize: vertical;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  }
+}
+@layer surflane.sizes {
+  :where([data-ui-size], [data-ui-size] *).pui-textarea {
+    height: auto;
+    min-height: calc(var(--control-height) * 2.5);
+    padding-block: var(--ui-textarea-padding);
+  }
+}

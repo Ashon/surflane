@@ -1,0 +1,7 @@
+/* Page header, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './typography.css';
+@import '@surflane/design-tokens/foundations/page-header.css';

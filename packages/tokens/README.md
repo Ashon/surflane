@@ -30,7 +30,7 @@ Tokens default to the dark theme. `data-theme="light"` on `<html>` selects the l
 
 A theme changes the neutral tint, the accent and the radius scale while lightness, and so contrast, stays fixed. See [Themes](https://github.com/Ashon/surflane/blob/main/docs/frameworks.md#themes), or build one in the [theme builder](https://surflane.page/foundations/themes).
 
-Every stylesheet puts its rules in the `surflane.tokens`, `surflane.themes`, `surflane.base` and `surflane.components` cascade layers, so your unlayered CSS overrides them. See [Cascade layers](https://github.com/Ashon/surflane/blob/main/docs/frameworks.md#cascade-layers).
+Every stylesheet puts its rules in the `surflane.tokens`, `surflane.themes`, `surflane.base`, `surflane.components` and `surflane.sizes` cascade layers, so your unlayered CSS overrides them. See [Cascade layers](https://github.com/Ashon/surflane/blob/main/docs/frameworks.md#cascade-layers).
 
 With Tailwind CSS v4, `tailwind.css` maps the tokens to utilities that read them, so utilities follow scoped themes too. See [Tailwind CSS v4](https://github.com/Ashon/surflane/blob/main/docs/frameworks.md#tailwind-css-v4) for the imports.
 

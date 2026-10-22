@@ -1,5 +1,5 @@
 /* Framework-neutral chrome controls. Astro retains native links and buttons. */
-@layer surflane.tokens, surflane.themes, surflane.base, surflane.components;
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components, surflane.sizes;
 
 @layer surflane.components {
   .pui-control-group,

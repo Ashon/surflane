@@ -3,7 +3,7 @@
  * .dark color blocks from your shadcn CSS. data-theme switches light and dark,
  * and these aliases re-resolve inside scoped data-theme regions too.
  * The bridge only reads Surflane tokens; it never redefines one. */
-@layer surflane.tokens, surflane.themes, surflane.base, surflane.components;
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components, surflane.sizes;
 
 @layer surflane.tokens {
   :root,

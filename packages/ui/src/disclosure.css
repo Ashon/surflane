@@ -1,0 +1,109 @@
+/* Shared by Accordion and Collapsible. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './button.css';
+
+@layer surflane.components {
+  .pui-accordion-item,
+  .pui-collapsible {
+    border-radius: var(--radius-md);
+    min-width: 0;
+  }
+  .pui-accordion-item[data-open],
+  .pui-collapsible[data-open] {
+    background: var(--surface);
+  }
+  .pui-disclosure-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    width: 100%;
+    min-height: var(--control-height);
+    padding: var(--space-3) var(--space-4);
+    border: 0;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--ink);
+    font: var(--weight-medium) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+    text-align: start;
+    cursor: pointer;
+    outline: none;
+  }
+  .pui-disclosure-label {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .pui-disclosure-trigger:hover:not(:disabled) {
+    background: var(--interaction-hover-bg);
+  }
+  .pui-disclosure-trigger:active:not(:disabled) {
+    background: var(--interaction-active-bg);
+  }
+  .pui-disclosure-trigger:focus-visible {
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-inset);
+  }
+  .pui-disclosure-trigger:disabled {
+    opacity: var(--control-disabled-opacity);
+    cursor: not-allowed;
+  }
+  .pui-disclosure-chevron {
+    flex: none;
+    transition: rotate var(--duration-fast) var(--ease-out);
+  }
+  /* The chevron mirrors itself in right-to-left text, so it turns the other way to
+     point down when open. */
+  .pui-disclosure-trigger[data-panel-open] > .pui-disclosure-chevron {
+    rotate: 90deg;
+  }
+  .pui-disclosure-trigger:dir(rtl)[data-panel-open] > .pui-disclosure-chevron {
+    rotate: -90deg;
+  }
+  .pui-accordion-panel,
+  .pui-collapsible-panel {
+    overflow: clip;
+    opacity: 1;
+    transition:
+      height var(--motion-reveal) var(--motion-ease),
+      opacity var(--motion-reveal) var(--motion-ease);
+  }
+  .pui-accordion-panel[data-starting-style],
+  .pui-collapsible-panel[data-starting-style] {
+    height: 0;
+    opacity: 0;
+  }
+  .pui-accordion-panel[data-ending-style],
+  .pui-collapsible-panel[data-ending-style] {
+    height: 0;
+    opacity: 0;
+  }
+  .pui-disclosure-body {
+    padding: var(--space-2) var(--space-4) var(--space-4);
+    overflow-wrap: anywhere;
+    min-width: 0;
+  }
+  .pui-disclosure-body > :first-child {
+    margin-top: 0;
+  }
+  .pui-disclosure-body > :last-child {
+    margin-bottom: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pui-disclosure-chevron,
+    .pui-accordion-panel,
+    .pui-collapsible-panel {
+      transition: none;
+    }
+  }
+}
+@layer surflane.sizes {
+  /* At the default size these equal the base rules: a default SizeProvider changes nothing. */
+  :where([data-ui-size], [data-ui-size] *).pui-disclosure-trigger {
+    min-block-size: var(--control-height);
+    font-size: var(--ui-font);
+    padding-block: calc(var(--ui-gap) * 1.5);
+  }
+}

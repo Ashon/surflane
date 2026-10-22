@@ -2,6 +2,19 @@
 
 `@surflane/design-tokens` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## Unreleased
+
+### Added
+
+- Component stylesheets. Every component, pattern and foundation with styles has one at its entry point's path with `.css`, such as `@surflane/ui/button.css`: 66 in all. Each brings the tokens and the styles of everything its component renders, so an app can ship only the styles it uses. One component's stylesheet is about 28 KB, 5 KB gzipped; `all.css` is 134 KB, 21 KB gzipped. See [Component stylesheets](https://github.com/Ashon/surflane/blob/main/docs/frameworks.md#component-stylesheets).
+- `@surflane/design-tokens` splits `presentation.css` and `foundations.css` the same way, as `presentation/*.css` and `foundations/*.css`.
+
+### Changed
+
+- A fifth cascade layer, `surflane.sizes`, sits above `surflane.components`. It holds the size scheme and size variants: `SizeProvider`, a component's `size`, extra-small and icon buttons, and table density. They override a component's defaults in whatever order the stylesheets load. Every stylesheet's layer order statement names the new layer, and so does the theme builder's `layerOrder`.
+- `styles.css`, `presentation.css` and `foundations.css` now import the per-component stylesheets. They bring the same rules with the same effect: the catalog renders the same at every size.
+- Presentation classes defer to a Button they sit on. `.pui-pagination-control`, `.pui-table-sort` and a table header's button inset apply their box, type and colors only to elements that are not Buttons, and Icon pagination arrows mirror themselves.
+
 ## 0.5.0
 
 ### Added

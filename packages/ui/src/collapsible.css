@@ -1,0 +1,16 @@
+/* Collapsible, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './icon.css';
+@import './disclosure.css';
+
+@layer surflane.components {
+  .pui-collapsible-panel {
+    height: var(--collapsible-panel-height);
+  }
+  .pui-collapsible-panel[data-ending-style] {
+    transition-duration: 0ms;
+  }
+}

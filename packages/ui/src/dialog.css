@@ -1,0 +1,164 @@
+/* Dialog, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './icon.css';
+@import '@surflane/design-tokens/controls.css';
+
+@layer surflane.components {
+  /* Dialog: acknowledge arrival; dismissal has no visual wait. */
+  .pui-dialog-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: var(--layer-backdrop);
+    background: color-mix(in srgb, var(--chrome), transparent 25%);
+    backdrop-filter: blur(3px);
+    opacity: 1;
+    transition: opacity var(--dialog-enter-duration) var(--motion-ease);
+  }
+  .pui-dialog-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: var(--layer-dialog);
+    margin: 0;
+    outline: none;
+    opacity: 1;
+    translate: 0 0;
+    transition:
+      opacity var(--dialog-enter-duration) var(--motion-ease),
+      translate var(--dialog-enter-duration) var(--motion-spatial-ease);
+  }
+  .pui-dialog-popup[data-starting-style] {
+    opacity: 0;
+    translate: 0 var(--dialog-enter-offset);
+  }
+  .pui-dialog-backdrop[data-starting-style] {
+    opacity: 0;
+  }
+  .pui-dialog-popup[data-ending-style],
+  .pui-dialog-backdrop[data-ending-style] {
+    transition: none;
+    transition-duration: var(--dialog-exit-duration);
+    opacity: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pui-dialog-popup,
+    .pui-dialog-backdrop {
+      transition: none;
+    }
+    .pui-dialog-popup {
+      translate: none;
+    }
+  }
+  .pui-dialog-close {
+    position: absolute;
+    inset-block-start: var(--space-4);
+    inset-inline-end: var(--space-4);
+    z-index: 1;
+  }
+  /* Structural chrome never reserves scrollbar space; scrolling belongs to Body. */
+  .pui-dialog-content {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    --dialog-width: var(--size-dialog-default);
+    width: min(var(--dialog-width), calc(100% - var(--space-4) * 2));
+    max-height: calc(100dvh - 32px);
+    overflow: hidden;
+    scrollbar-gutter: auto;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sheet);
+    background: var(--canvas);
+    color: var(--ink);
+    box-shadow: var(--shadow-float);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+    letter-spacing: var(--type-body-tracking);
+  }
+  .pui-dialog-header,
+  .pui-dialog-body,
+  .pui-dialog-footer {
+    box-sizing: border-box;
+    min-width: 0;
+  }
+  .pui-dialog-header,
+  .pui-dialog-footer {
+    flex: none;
+    align-self: stretch;
+  }
+  .pui-dialog-header {
+    padding-block: var(--space-6) var(--space-5);
+    padding-inline: var(--space-6)
+      calc(var(--control-height) + var(--space-4) * 2);
+    border-bottom: 1px solid var(--line);
+  }
+  .pui-dialog-header h2 {
+    margin: 0;
+    font: var(--weight-medium)
+      var(--type-section-size)/var(--type-section-leading) var(--font-display);
+    letter-spacing: var(--type-section-tracking);
+  }
+  .pui-dialog-header p {
+    margin: var(--space-2) 0 0;
+    color: var(--ink-body);
+  }
+  .pui-dialog-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+    padding: var(--space-6);
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  }
+  .pui-dialog-body::-webkit-scrollbar {
+    width: var(--scrollbar-size);
+    height: var(--scrollbar-size);
+  }
+  .pui-dialog-body::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: var(--scrollbar-radius);
+  }
+  .pui-dialog-body::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+  }
+  .pui-dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    padding: var(--space-5) var(--space-6);
+    border-top: 1px solid var(--line);
+  }
+  .pui-dialog-close:disabled {
+    opacity: var(--control-disabled-opacity);
+    cursor: not-allowed;
+  }
+  .pui-dialog-content[data-size='small'] {
+    --dialog-width: var(--size-dialog-small);
+  }
+  .pui-dialog-content[data-size='default'] {
+    --dialog-width: var(--size-dialog-default);
+  }
+  .pui-dialog-content[data-size='large'] {
+    --dialog-width: var(--size-dialog-large);
+  }
+}
+@layer surflane.sizes {
+  :where([data-ui-size], [data-ui-size] *).pui-dialog-body {
+    padding: var(--ui-card-padding);
+  }
+  :where([data-ui-size], [data-ui-size] *):is(
+    .pui-dialog-header,
+    .pui-dialog-footer
+  ) {
+    padding-inline: var(--ui-card-padding);
+  }
+  :where([data-ui-size], [data-ui-size] *).pui-dialog-header {
+    padding-inline-end: calc(var(--control-height) + var(--space-4) * 2);
+  }
+}

@@ -1,0 +1,44 @@
+/* Presentation classes: Empty state. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+
+@layer surflane.components {
+  .pui-empty-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+  .pui-empty {
+    padding: var(--space-6);
+    text-align: center;
+    color: var(--ink-body);
+    overflow-wrap: anywhere;
+  }
+  .pui-empty-icon {
+    display: flex;
+    justify-content: center;
+    color: var(--ink-muted);
+    margin-bottom: var(--space-3);
+  }
+  .pui-empty-title {
+    font: var(--weight-medium)
+      var(--type-section-size)/var(--type-section-leading) var(--font-display);
+    letter-spacing: var(--type-section-tracking);
+    color: var(--ink);
+    margin: 0;
+  }
+  .pui-empty-description {
+    max-width: 52ch;
+    margin: var(--space-2) auto 0;
+    color: var(--ink-body);
+  }
+  .pui-empty-actions {
+    justify-content: center;
+  }
+  @media (max-width: 560px) {
+    .pui-empty {
+      padding: var(--space-4);
+    }
+  }
+}

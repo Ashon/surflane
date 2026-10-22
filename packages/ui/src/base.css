@@ -1,0 +1,48 @@
+/* Shared by every component stylesheet: the tokens, and rules with no specificity. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import '@surflane/design-tokens/tokens.css';
+@import '@surflane/design-tokens/presentation/base.css';
+
+@layer surflane.components {
+  @keyframes pui-progress-pulse {
+    50% {
+      opacity: 0.45;
+    }
+  }
+  /* Touch feedback is each control's own hover and pressed layer, drawn in its own
+     shape. The browser's tap highlight is a rectangle over the box, so it is off. */
+  :where(
+    .pui-button,
+    .pui-tabs-tab,
+    .pui-disclosure-trigger,
+    .pui-app-shell-link,
+    .pui-tree-item,
+    .pui-tree-toggle,
+    .pui-chart-legend-button,
+    .pui-checkbox,
+    .pui-radio,
+    .pui-switch,
+    .pui-choice-label,
+    .pui-select-trigger,
+    .pui-select-item,
+    .pui-combobox-item,
+    .pui-combobox-action,
+    .pui-combobox-chip-remove,
+    .pui-menu-item,
+    .pui-navigation-trigger,
+    .pui-navigation-link,
+    .pui-link,
+    .pui-breadcrumb-item a,
+    .pui-calendar-day,
+    .pui-calendar-nav,
+    .pui-date-trigger,
+    .pui-file-trigger,
+    .pui-number-step,
+    .pui-slider-control,
+    .pui-toast-action,
+    .pui-toast-close
+  ) {
+    -webkit-tap-highlight-color: transparent;
+  }
+}

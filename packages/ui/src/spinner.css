@@ -1,0 +1,40 @@
+/* Spinner, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+
+@layer surflane.components {
+  .pui-spinner {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    color: var(--ink-body);
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+  }
+  .pui-spinner > svg {
+    width: 100%;
+    height: 100%;
+    animation: pui-feedback-spin 1s linear infinite;
+  }
+  @keyframes pui-feedback-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pui-spinner > svg {
+      animation: none;
+      transition: none;
+    }
+  }
+}
+@layer surflane.sizes {
+  :where([data-ui-size], [data-ui-size] *).pui-spinner {
+    width: var(--ui-spinner);
+    height: var(--ui-spinner);
+  }
+}

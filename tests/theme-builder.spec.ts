@@ -91,7 +91,7 @@ test('theme CSS keeps dark values out of light regions and mirrors the system co
   const [order, layer] = postcss.parse(css).nodes as [AtRule, AtRule]
   // A theme sits in the themes layer, above the tokens, whichever file loads first.
   expect(order.toString()).toBe(
-    '@layer surflane.tokens, surflane.themes, surflane.base, surflane.components',
+    '@layer surflane.tokens, surflane.themes, surflane.base, surflane.components, surflane.sizes',
   )
   expect(`${layer.name} ${layer.params}`).toBe('layer surflane.themes')
   const rules = layer.nodes!

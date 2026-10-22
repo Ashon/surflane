@@ -1,0 +1,14 @@
+/* Card / Surface, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './layout.css';
+@import '@surflane/design-tokens/presentation/card.css';
+
+@layer surflane.sizes {
+  :where([data-ui-size], [data-ui-size] *).pui-card {
+    padding: var(--surface-padding, var(--ui-card-padding));
+    gap: var(--ui-surface-padding);
+  }
+}

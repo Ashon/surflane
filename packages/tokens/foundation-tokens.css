@@ -1,5 +1,5 @@
 /* Additive foundations. Product-specific density remains an explicit choice. */
-@layer surflane.tokens, surflane.themes, surflane.base, surflane.components;
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components, surflane.sizes;
 
 @layer surflane.tokens {
   :root,

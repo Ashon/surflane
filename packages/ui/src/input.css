@@ -1,0 +1,36 @@
+/* Input, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './field-control.css';
+@import './sizing.css';
+
+@layer surflane.components {
+  .pui-input::placeholder {
+    color: var(--control-placeholder);
+    opacity: 1;
+  }
+  .pui-control-icon {
+    pointer-events: none;
+    position: absolute;
+    inset-inline-start: var(--control-padding-x);
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    color: var(--ink-muted);
+    z-index: 1;
+  }
+  .pui-control[data-leading-icon] .pui-input {
+    padding-inline-start: calc(
+      var(--control-padding-x) + var(--control-icon-size) +
+        var(--control-icon-gap)
+    );
+  }
+}
+@layer surflane.sizes {
+  :where([data-ui-size], [data-ui-size] *):is(.pui-input) {
+    font-size: var(--ui-font);
+    line-height: var(--ui-leading);
+  }
+}

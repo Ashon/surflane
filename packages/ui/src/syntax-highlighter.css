@@ -1,0 +1,85 @@
+/* Syntax highlighter, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './scroll-area.css';
+
+@layer surflane.components {
+  /* Syntax tokens are semantic color roles; source text, type and geometry remain unchanged. */
+  .pui-syntax {
+    color: var(--syntax-plain);
+    font: inherit;
+    letter-spacing: inherit;
+  }
+  .pui-syntax [data-syntax] {
+    font: inherit;
+    letter-spacing: inherit;
+  }
+  .pui-syntax [data-syntax='plain'] {
+    color: var(--syntax-plain);
+  }
+  .pui-syntax [data-syntax='comment'] {
+    color: var(--syntax-comment);
+  }
+  .pui-syntax [data-syntax='keyword'] {
+    color: var(--syntax-keyword);
+  }
+  .pui-syntax [data-syntax='string'] {
+    color: var(--syntax-string);
+  }
+  .pui-syntax [data-syntax='number'] {
+    color: var(--syntax-number);
+  }
+  .pui-syntax [data-syntax='function'] {
+    color: var(--syntax-function);
+  }
+  .pui-syntax [data-syntax='tag'] {
+    color: var(--syntax-tag);
+  }
+  .pui-syntax [data-syntax='attribute'] {
+    color: var(--syntax-attribute);
+  }
+  .pui-syntax [data-syntax='punctuation'] {
+    color: var(--syntax-punctuation);
+  }
+  .pui-syntax-pre {
+    box-sizing: border-box;
+    min-inline-size: 0;
+    margin: 0;
+    padding: var(--ui-surface-padding, var(--space-4));
+    background: var(--code-bg);
+    border-radius: var(--radius-md);
+    font: var(--weight-regular) var(--type-code-size)/var(--type-code-leading)
+      var(--font-code);
+    /* Code shows the characters as typed, like the other code text: no === or => ligatures. */
+    font-variant-ligatures: none;
+    letter-spacing: var(--tracking-mono);
+    tab-size: 2;
+    white-space: pre;
+  }
+  /* The visible box keeps its background and corners while long lines scroll inside it. */
+  .pui-syntax-scroll {
+    border-radius: var(--radius-md);
+    background: var(--code-bg);
+    overflow: hidden;
+  }
+  .pui-syntax-scroll .pui-syntax-pre {
+    min-inline-size: max-content;
+    border-radius: 0;
+    background: none;
+  }
+  .pui-syntax-scroll .pui-syntax-pre[data-wrap] {
+    min-inline-size: 0;
+  }
+  .pui-syntax-pre[data-wrap] {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+  @media (forced-colors: active) {
+    .pui-syntax,
+    .pui-syntax [data-syntax] {
+      color: CanvasText;
+    }
+  }
+}

@@ -1,0 +1,14 @@
+/* Inline message, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './icon.css';
+@import '@surflane/design-tokens/presentation/inline-message.css';
+
+@layer surflane.sizes {
+  :where([data-ui-size], [data-ui-size] *).pui-message {
+    padding: var(--ui-surface-padding);
+    gap: var(--ui-content-gap);
+  }
+}

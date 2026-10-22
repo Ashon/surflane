@@ -1,6 +1,6 @@
 /* Opt-in document typography, including portal descendants when placed on body.
    Font families are independent open-source dependencies; role sizes are UI tokens. */
-@layer surflane.tokens, surflane.themes, surflane.base, surflane.components;
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components, surflane.sizes;
 
 @layer surflane.base {
   .pui-typography {

@@ -1,0 +1,28 @@
+/* Presentation classes: Separator. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+
+@layer surflane.components {
+  .pui-separator {
+    border: 0;
+    height: 1px;
+    width: 100%;
+    flex: none;
+    background: var(--line);
+  }
+  .pui-separator[data-orientation='horizontal'][data-inset] {
+    width: calc(100% - var(--space-4) * 2);
+    margin-inline: var(--space-4);
+  }
+  .pui-separator[data-orientation='vertical'] {
+    width: 1px;
+    height: auto;
+    min-height: var(--space-6);
+    align-self: stretch;
+  }
+  @media (forced-colors: active) {
+    .pui-separator {
+      background: CanvasText;
+    }
+  }
+}

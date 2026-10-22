@@ -1,0 +1,17 @@
+/* Form, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+
+@layer surflane.components {
+  /* Form and selection primitives: semantic labels, consistent control states. */
+  .pui-form {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .pui-form {
+    gap: var(--space-6);
+  }
+}

@@ -1,0 +1,36 @@
+/* Composition classes: Page header. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+
+@layer surflane.base {
+  .pui-page-header {
+    display: grid;
+    gap: var(--page-header-breadcrumb-gap);
+    min-width: 0;
+    margin: 0;
+  }
+  .pui-page-header-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-4);
+    min-width: 0;
+  }
+  .pui-page-header-copy {
+    display: grid;
+    gap: var(--page-header-gap);
+    min-width: 0;
+    flex: 1 1 240px;
+  }
+  .pui-page-header-description {
+    max-width: var(--layout-description-measure);
+  }
+  .pui-page-header-actions {
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+}

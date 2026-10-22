@@ -1,0 +1,103 @@
+/* Scroll Area, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+
+@layer surflane.components {
+  .pui-scroll-root {
+    position: relative;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .pui-scroll-viewport {
+    max-width: 100%;
+    overscroll-behavior: auto;
+    scrollbar-width: none !important;
+  }
+  .pui-scroll-viewport::-webkit-scrollbar {
+    display: none;
+  }
+  /* A horizontal scroller fades the edge that hides more content, so a cut-off table
+   * or code line reads as scrollable before its scrollbar appears, on touch too. */
+  .pui-scroll-root[data-overflow-x-end] > .pui-scroll-viewport {
+    mask-image: linear-gradient(to left, transparent, #000 var(--space-6));
+  }
+  .pui-scroll-root[data-overflow-x-start] > .pui-scroll-viewport {
+    mask-image: linear-gradient(to right, transparent, #000 var(--space-6));
+  }
+  .pui-scroll-root[data-overflow-x-start][data-overflow-x-end]
+    > .pui-scroll-viewport {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 var(--space-6),
+      #000 calc(100% - var(--space-6)),
+      transparent
+    );
+  }
+  .pui-scrollbar {
+    display: flex;
+    user-select: none;
+    touch-action: none;
+    padding: 2px;
+    background: transparent;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity var(--duration-fast) var(--ease-out);
+  }
+  .pui-scrollbar[data-scrolling],
+  .pui-scrollbar:hover,
+  .pui-scroll-root[data-scroll-near-x]
+    > .pui-scrollbar[data-orientation='horizontal'],
+  .pui-scroll-root[data-scroll-near-y]
+    > .pui-scrollbar[data-orientation='vertical'],
+  .pui-scroll-root[data-scroll-dragging='horizontal']
+    > .pui-scrollbar[data-orientation='horizontal'],
+  .pui-scroll-root[data-scroll-dragging='vertical']
+    > .pui-scrollbar[data-orientation='vertical'],
+  .pui-scroll-root:has(> .pui-scroll-viewport:focus-visible) > .pui-scrollbar {
+    opacity: 1;
+  }
+  .pui-scrollbar[data-orientation='horizontal'] {
+    height: 10px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  .pui-scrollbar[data-orientation='vertical'] {
+    flex-direction: column;
+    width: 10px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+  }
+  .pui-scroll-thumb {
+    flex: none;
+    border-radius: var(--radius-full);
+    background: var(--ink-muted);
+    opacity: 0.45;
+  }
+  .pui-scrollbar:hover .pui-scroll-thumb {
+    opacity: 0.8;
+  }
+  /* On touch-only screens a scrollbar is a position indicator, as native mobile
+   * scrollbars are: content scrolls by swiping, so the bar overlaying its edge
+   * never takes a tap meant for the link or control beneath it. */
+  @media (hover: none) and (pointer: coarse) {
+    .pui-scrollbar {
+      pointer-events: none;
+    }
+  }
+  @media (forced-colors: active) {
+    .pui-scrollbar {
+      opacity: 1;
+    }
+    .pui-scrollbar .pui-scroll-thumb {
+      background: CanvasText;
+      opacity: 1;
+    }
+  }
+}

@@ -1,0 +1,64 @@
+/* Preview Card, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './popup.css';
+@import './link.css';
+
+@layer surflane.components {
+  .pui-preview-card {
+    box-sizing: border-box;
+    width: 320px;
+    max-width: min(calc(100vw - 24px), var(--available-width));
+    max-height: var(--available-height);
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    padding: var(--space-5);
+    border: 1px solid var(--menu-border);
+    border-radius: var(--radius-md);
+    background: var(--menu-background);
+    color: var(--ink);
+    box-shadow: var(--shadow-float);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+    letter-spacing: var(--type-body-tracking);
+    overflow-wrap: anywhere;
+    outline: none;
+    transform: translateY(0);
+    opacity: 1;
+    transition:
+      opacity var(--dialog-enter-duration) var(--ease-out),
+      transform var(--dialog-enter-duration) var(--ease-out);
+  }
+  .pui-preview-card > :first-child {
+    margin-top: 0;
+  }
+  .pui-preview-card > :last-child {
+    margin-bottom: 0;
+  }
+  .pui-preview-card[data-starting-style] {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  .pui-preview-card[data-ending-style] {
+    transition-duration: 0s;
+  }
+  .pui-preview-card[data-instant] {
+    transition-duration: 0s;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pui-preview-card {
+      transition: none;
+      transform: none;
+    }
+  }
+  @media (forced-colors: active) {
+    .pui-preview-card {
+      border-color: CanvasText;
+      background: Canvas;
+      color: CanvasText;
+    }
+  }
+}

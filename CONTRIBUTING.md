@@ -56,3 +56,9 @@ A new `demo/i18n/docs/*.ko.ts` file loads without registration. The interface te
 - Switch languages with the rail button. It shows the other language: 가 on English pages, A on Korean pages.
 - Run `npm run check:catalog`. It type-checks the catalog, including the interface and page overlays.
 - Tests find controls by their English names, so update a test whenever an English name changes. `tests/i18n.spec.ts` renders every catalog page in Korean and fails on any page error. Run it with the tests for the pages you changed.
+
+## Put styles in the component's stylesheet
+
+- Each styled module has a stylesheet beside it, such as `packages/ui/src/menu.css` next to `menu.tsx`. Its rules style the classes that module renders. Rules that several components share live in an internal stylesheet, such as `choice.css` or `popup.css`, which each of them imports.
+- A stylesheet imports `./base.css`, then the stylesheets of what its component renders, then its piece of `@surflane/design-tokens`, if it has one. `npm run check:package` fails when a stylesheet misses rules for a class its module renders.
+- Rules that depend on size go in `@layer surflane.sizes`: the size scheme, a `size` variant or table density. They override a component's defaults whatever order the stylesheets load in.

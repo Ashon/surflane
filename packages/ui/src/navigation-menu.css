@@ -1,0 +1,164 @@
+/* Navigation Menu, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './popup.css';
+@import './icon.css';
+@import './button.css';
+
+@layer surflane.components {
+  .pui-navigation-menu {
+    width: fit-content;
+    max-width: 100%;
+  }
+  .pui-navigation-list {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .pui-navigation-menu[data-orientation='vertical'] > .pui-navigation-list {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .pui-navigation-trigger {
+    padding-inline: var(--space-3);
+    font-weight: var(--weight-medium);
+    background: transparent;
+    color: var(--ink-body);
+  }
+  .pui-navigation-trigger:hover,
+  .pui-navigation-trigger[data-popup-open] {
+    background: var(--menu-hover-background);
+  }
+  .pui-navigation-trigger[data-popup-open] {
+    color: var(--ink);
+  }
+  .pui-navigation-icon {
+    display: inline-flex;
+    flex: none;
+    transition: rotate var(--motion-enter) var(--motion-ease);
+  }
+  .pui-navigation-icon[data-popup-open] {
+    rotate: 180deg;
+  }
+  .pui-navigation-link {
+    display: block;
+    box-sizing: border-box;
+    min-height: var(--control-height);
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    color: var(--ink-body);
+    text-decoration: none;
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+    letter-spacing: var(--type-body-tracking);
+    overflow-wrap: anywhere;
+  }
+  .pui-navigation-link:hover,
+  .pui-navigation-link[data-highlighted] {
+    background: var(--menu-hover-background);
+  }
+  .pui-navigation-link[aria-current='page'] {
+    background: var(--selected);
+    color: var(--ink);
+    font-weight: var(--weight-medium);
+  }
+  .pui-navigation-link:focus-visible {
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-offset);
+  }
+  .pui-navigation-popup {
+    box-sizing: border-box;
+    width: var(--popup-width);
+    height: var(--popup-height);
+    max-width: min(calc(100vw - 24px), var(--available-width));
+    max-height: var(--available-height);
+    overflow: hidden;
+    border: 1px solid var(--menu-border);
+    border-radius: var(--radius-lg);
+    background: var(--menu-background);
+    color: var(--ink);
+    box-shadow: var(--shadow-float);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+    letter-spacing: var(--type-body-tracking);
+    outline: none;
+    opacity: 1;
+    translate: 0 0;
+    transition:
+      opacity var(--dialog-enter-duration) var(--motion-ease),
+      translate var(--dialog-enter-duration) var(--motion-spatial-ease);
+  }
+  .pui-navigation-popup[data-starting-style] {
+    opacity: 0;
+    translate: 0 12px;
+  }
+  .pui-navigation-popup[data-ending-style] {
+    transition-duration: 0s;
+  }
+  .pui-navigation-viewport {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
+    overscroll-behavior: contain;
+  }
+  .pui-navigation-content {
+    box-sizing: border-box;
+    width: 380px;
+    max-width: calc(100vw - 26px);
+    padding: var(--space-4);
+    overflow-wrap: anywhere;
+  }
+  @media (max-width: 760px), (pointer: coarse) {
+    .pui-navigation-trigger,
+    .pui-navigation-link {
+      min-height: var(--control-target-size);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pui-navigation-popup,
+    .pui-navigation-icon {
+      transition: none;
+    }
+    .pui-navigation-popup[data-starting-style] {
+      translate: 0 0;
+    }
+  }
+  @media (forced-colors: active) {
+    .pui-navigation-popup {
+      background: Canvas;
+      color: CanvasText;
+      border-color: CanvasText;
+    }
+    .pui-navigation-link[aria-current='page'] {
+      border-color: Highlight;
+    }
+  }
+  /* Keep the floating box measurable even when the popup anchors from its bottom edge. */
+  .pui-navigation-positioner {
+    width: var(--positioner-width);
+    height: var(--positioner-height);
+    max-width: calc(100vw - 24px);
+  }
+  .pui-navigation-viewport {
+    max-height: calc(var(--available-height) - 2px);
+  }
+}
+@layer surflane.sizes {
+  :where([data-ui-size], [data-ui-size] *):is(
+    .pui-navigation-trigger,
+    .pui-navigation-link
+  ) {
+    min-block-size: var(--ui-row);
+    font-size: var(--ui-font);
+    line-height: var(--ui-leading);
+  }
+}

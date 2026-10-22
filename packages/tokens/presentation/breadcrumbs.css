@@ -1,0 +1,39 @@
+/* Presentation classes: Breadcrumbs. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+
+@layer surflane.components {
+  .pui-breadcrumb-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .pui-breadcrumb-item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-width: 0;
+    max-width: 100%;
+  }
+  .pui-breadcrumbs {
+    font: var(--weight-regular)
+      var(--type-caption-size)/var(--type-caption-leading) var(--font-body);
+  }
+  .pui-breadcrumb-separator {
+    display: inline-flex;
+    flex: none;
+    color: var(--ink-muted);
+  }
+  .pui-breadcrumb-current {
+    color: var(--ink-muted);
+    overflow-wrap: anywhere;
+  }
+  .pui-breadcrumb-separator:dir(rtl) > svg {
+    transform: rotate(180deg);
+  }
+}

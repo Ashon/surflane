@@ -1,0 +1,21 @@
+/* Menubar, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './bar.css';
+
+@layer surflane.components {
+  .pui-menubar {
+    padding: var(--space-1);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    width: fit-content;
+    max-width: 100%;
+  }
+  /* Concentric corners: outer radius minus the bar's inset. */
+  .pui-menubar > .pui-menu-trigger {
+    border: 0;
+    border-radius: max(0px, calc(var(--radius-md) - var(--space-1)));
+  }
+}

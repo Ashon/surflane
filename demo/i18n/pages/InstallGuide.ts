@@ -103,6 +103,10 @@ const en = {
     ['surflane.themes', 'Theme presets; they override the tokens'],
     ['surflane.base', 'Composition, document typography and theme motion'],
     ['surflane.components', 'Controls, presentation classes and components'],
+    [
+      'surflane.sizes',
+      'The size scheme and size variants, over component defaults',
+    ],
   ] as [string, string][],
   layersCaption: 'Surflane cascade layers, lowest first',
   resetLabel: 'A reset below Surflane',
@@ -218,6 +222,7 @@ export const text: Record<Locale, typeof en> = {
       ['surflane.themes', '토큰을 덮어쓰는 테마 프리셋'],
       ['surflane.base', '구성, 문서 타이포그래피, 테마 모션'],
       ['surflane.components', '컨트롤, 프레젠테이션 클래스, 컴포넌트'],
+      ['surflane.sizes', '컴포넌트 기본값을 덮어쓰는 크기 체계와 크기 변형'],
     ],
     layersCaption: 'Surflane 캐스케이드 레이어, 낮은 것부터',
     resetLabel: 'Surflane 아래에 두는 리셋',

@@ -1,6 +1,6 @@
 /* Every Surflane stylesheet in one import, in the recommended order: tokens, controls,
  * composition, document typography and components. Each file keeps its cascade layer. */
-@layer surflane.tokens, surflane.themes, surflane.base, surflane.components;
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components, surflane.sizes;
 @import '@surflane/design-tokens/tokens.css';
 @import '@surflane/design-tokens/controls.css';
 @import '@surflane/design-tokens/foundations.css';

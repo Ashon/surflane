@@ -1,0 +1,102 @@
+/* Tree view, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './icon.css';
+@import './scroll-area.css';
+
+@layer surflane.components {
+  .pui-tree-scroll {
+    min-inline-size: 0;
+  }
+  .pui-tree-viewport {
+    block-size: 100%;
+  }
+  .pui-tree {
+    position: relative;
+    min-inline-size: 0;
+  }
+  .pui-tree-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding-inline-end: var(--space-2);
+    border-radius: var(--radius-md);
+    color: var(--ink);
+    cursor: default;
+    outline-offset: var(--focus-ring-inset);
+    transition: background-color var(--duration-fast) var(--ease-out);
+  }
+  .pui-tree-item:hover {
+    background: var(--interaction-hover-bg);
+  }
+  .pui-tree-item[aria-selected='true'] {
+    background: var(--selected);
+  }
+  .pui-tree-item:focus-visible {
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+  }
+  .pui-tree-item[aria-disabled='true'] {
+    color: var(--ink-muted);
+  }
+  .pui-tree-toggle,
+  .pui-tree-leaf {
+    inline-size: 32px;
+    block-size: 32px;
+    flex: 0 0 32px;
+  }
+  .pui-tree-toggle {
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-full);
+    background: transparent;
+    color: inherit;
+  }
+  .pui-tree-toggle:hover:not(:disabled) {
+    background: var(--interaction-hover-bg);
+  }
+  .pui-tree-toggle:active:not(:disabled) {
+    background: var(--interaction-active-bg);
+  }
+  .pui-tree-toggle svg[data-expanded] {
+    rotate: 90deg;
+  }
+  .pui-tree:dir(rtl) .pui-tree-toggle svg[data-expanded] {
+    rotate: -90deg;
+  }
+  .pui-tree-label {
+    min-inline-size: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .pui-tree-empty {
+    padding: var(--space-4);
+    color: var(--ink-muted);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pui-tree-item {
+      transition: none;
+    }
+  }
+  @media (forced-colors: active) {
+    .pui-tree-item[aria-selected='true'] {
+      background: Highlight;
+      color: HighlightText;
+    }
+    .pui-tree-item[aria-disabled='true'] {
+      color: GrayText;
+    }
+    .pui-tree-item:focus-visible {
+      outline-color: Highlight;
+    }
+  }
+}
+@layer surflane.sizes {
+  :where([data-ui-size], [data-ui-size] *).pui-tree-item {
+    font-size: var(--ui-font);
+  }
+}

@@ -203,6 +203,7 @@ async function check(browser, url, setup) {
     'surflane.themes',
     'surflane.base',
     'surflane.components',
+    'surflane.sizes',
   ].map((name) => (setup.tailwind ? `components.${name}` : name))
   for (const saved of setup.remember ? [undefined, 'dark'] : [undefined]) {
     const context = await browser.newContext()

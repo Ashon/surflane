@@ -1,0 +1,67 @@
+/* Toolbar, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './input.css';
+@import './button.css';
+@import './bar.css';
+
+@layer surflane.components {
+  .pui-toolbar-button[aria-pressed='true'] {
+    background: var(--selected);
+    border-color: var(--control-border);
+    color: var(--ink);
+  }
+  .pui-toolbar-button[data-disabled],
+  .pui-toolbar-input[data-disabled] {
+    opacity: var(--control-disabled-opacity);
+    cursor: not-allowed;
+  }
+  .pui-toolbar {
+    padding: var(--space-1);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    gap: var(--space-2);
+  }
+  .pui-toolbar-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1);
+    min-width: 0;
+  }
+  .pui-toolbar-button,
+  .pui-toolbar-link {
+    background: transparent;
+    border: 0;
+    border-radius: max(0px, calc(var(--radius-md) - var(--space-1)));
+    text-decoration: none;
+  }
+  .pui-toolbar-input {
+    width: 160px;
+    max-width: 100%;
+    border: 0;
+    border-radius: max(0px, calc(var(--radius-md) - var(--space-1)));
+    background: var(--canvas);
+  }
+  .pui-toolbar-separator {
+    flex: none;
+    background: transparent;
+  }
+  .pui-toolbar-separator[data-orientation='vertical'] {
+    width: 1px;
+    height: 24px;
+    margin-inline: var(--space-1);
+  }
+  .pui-toolbar-separator[data-orientation='horizontal'] {
+    height: 1px;
+    width: 100%;
+    margin-block: var(--space-1);
+  }
+  .pui-toolbar[data-orientation='vertical'] .pui-toolbar-group {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+}

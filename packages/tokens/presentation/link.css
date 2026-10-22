@@ -1,0 +1,20 @@
+/* Presentation classes: Link. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+
+@layer surflane.components {
+  .pui-link {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    border-radius: 2px;
+    overflow-wrap: anywhere;
+  }
+  .pui-link:hover {
+    color: var(--brand-ink);
+  }
+  .pui-link:focus-visible {
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-offset);
+  }
+}

@@ -1,0 +1,62 @@
+/* Shared by Progress and Meter. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+
+@layer surflane.components {
+  /* Feedback: completion and measurement share geometry, not semantics. */
+  .pui-gauge {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-2) var(--space-4);
+    min-width: 0;
+    color: var(--ink);
+  }
+  .pui-gauge-label {
+    font-weight: var(--weight-regular);
+    overflow-wrap: anywhere;
+  }
+  .pui-gauge-value {
+    color: var(--ink-body);
+    font-variant-numeric: tabular-nums;
+  }
+  .pui-gauge-track {
+    grid-column: 1 / -1;
+    position: relative;
+    height: var(--space-2);
+    overflow: hidden;
+    border-radius: var(--radius-full);
+    background: var(--surface);
+  }
+  .pui-gauge-indicator {
+    background: var(--ink-body);
+    border-radius: inherit;
+    transition: width var(--duration-base) var(--ease-out);
+  }
+  .pui-gauge-indicator[data-indeterminate] {
+    width: 40%;
+    height: inherit;
+    animation: pui-progress-pulse 1.4s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pui-gauge-indicator,
+    .pui-gauge-indicator[data-indeterminate] {
+      animation: none;
+      transition: none;
+    }
+  }
+  @media (forced-colors: active) {
+    .pui-gauge-track {
+      background: Canvas;
+      outline: 1px solid CanvasText;
+    }
+    .pui-gauge-indicator {
+      background: CanvasText;
+    }
+  }
+}
+@layer surflane.sizes {
+  :where([data-ui-size], [data-ui-size] *).pui-gauge-track {
+    height: var(--ui-gauge);
+  }
+}

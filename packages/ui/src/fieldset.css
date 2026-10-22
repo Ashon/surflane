@@ -1,0 +1,25 @@
+/* Fieldset, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+
+@layer surflane.components {
+  .pui-fieldset {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .pui-fieldset-legend {
+    padding: 0;
+    margin-bottom: var(--space-4);
+    color: var(--ink);
+    font: var(--weight-medium)
+      var(--type-subsection-size)/var(--type-subsection-leading)
+      var(--font-body);
+  }
+}

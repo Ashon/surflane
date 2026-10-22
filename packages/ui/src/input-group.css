@@ -1,0 +1,70 @@
+/* Shared by Combobox and NumberField: the field that holds an input and its buttons. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+
+@layer surflane.components {
+  .pui-combobox-group,
+  .pui-number-group {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    width: 100%;
+    min-height: var(--control-height);
+    border: 1px solid var(--control-border);
+    border-radius: var(--control-radius);
+    background: var(--control-background);
+    transition:
+      background-color var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out),
+      box-shadow var(--duration-fast) var(--ease-out);
+  }
+  .pui-combobox-group:hover,
+  .pui-number-group:hover {
+    border-color: var(--control-hover-border);
+    background: var(--control-hover-background);
+  }
+  .pui-combobox-group:focus-within,
+  .pui-number-group:focus-within {
+    border-color: var(--control-focus);
+    box-shadow: 0 0 0 var(--control-focus-ring-size) var(--control-focus-ring);
+  }
+  .pui-combobox-action,
+  .pui-number-step,
+  .pui-combobox-chip-remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: var(--control-height);
+    height: var(--control-height);
+    padding: 0;
+    border: 0;
+    border-radius: var(--control-radius);
+    background: transparent;
+    color: var(--ink-body);
+    cursor: pointer;
+  }
+  .pui-combobox-action:focus-visible,
+  .pui-number-step:focus-visible,
+  .pui-combobox-chip-remove:focus-visible {
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-inset);
+  }
+  .pui-combobox-group[data-disabled],
+  .pui-number-group[data-disabled] {
+    opacity: var(--control-disabled-opacity);
+    cursor: not-allowed;
+  }
+  .pui-combobox-action[data-disabled],
+  .pui-number-step[data-disabled],
+  .pui-combobox-chip-remove[data-disabled] {
+    opacity: var(--control-disabled-opacity);
+    cursor: not-allowed;
+  }
+  .pui-combobox-group[data-invalid],
+  .pui-number-group[data-invalid] {
+    border-color: var(--status-danger-border);
+  }
+}

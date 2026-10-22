@@ -1,0 +1,23 @@
+/* Drawer, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './icon.css';
+@import './panel.css';
+@import '@surflane/design-tokens/controls.css';
+
+@layer surflane.components {
+  .pui-drawer-handle {
+    flex: none;
+    width: 36px;
+    height: 4px;
+    margin: var(--space-3) auto 0;
+    border-radius: var(--radius-full);
+    background: var(--line);
+  }
+  .pui-drawer[data-side='left'] > .pui-drawer-handle,
+  .pui-drawer[data-side='right'] > .pui-drawer-handle {
+    display: none;
+  }
+}

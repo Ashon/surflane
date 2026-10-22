@@ -1,0 +1,53 @@
+/* Switch, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './choice.css';
+
+@layer surflane.components {
+  .pui-switch {
+    width: var(--control-switch-width);
+    height: var(--control-switch-height);
+    padding: calc(
+      (var(--control-switch-height) - var(--control-switch-thumb)) / 2 - 1px
+    );
+    border-radius: var(--radius-full);
+    justify-content: flex-start;
+  }
+  .pui-switch-thumb {
+    width: var(--control-switch-thumb);
+    height: var(--control-switch-thumb);
+    border-radius: var(--radius-full);
+    background: var(--ink-muted);
+    transform: translateX(0);
+    transition:
+      transform var(--duration-fast) var(--ease-out),
+      background-color var(--duration-fast) var(--ease-out);
+  }
+  .pui-switch[data-checked] .pui-switch-thumb {
+    background: var(--on-brand);
+    transform: translateX(
+      calc(var(--control-switch-width) - var(--control-switch-height))
+    );
+  }
+  .pui-switch:dir(rtl)[data-checked] .pui-switch-thumb {
+    transform: translateX(
+      calc(var(--control-switch-height) - var(--control-switch-width))
+    );
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pui-switch,
+    .pui-switch-thumb {
+      transition: none;
+    }
+  }
+  @media (forced-colors: active) {
+    .pui-switch[data-checked] .pui-switch-thumb {
+      background: HighlightText;
+    }
+    .pui-switch-thumb {
+      background: ButtonText;
+    }
+  }
+}

@@ -1,0 +1,39 @@
+/* Shared by ToggleGroup, Toolbar and Menubar, and the pressed state of their items. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+
+@layer surflane.components {
+  .pui-toggle-group,
+  .pui-toolbar,
+  .pui-menubar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-1);
+    min-width: 0;
+  }
+  .pui-toggle-group[data-orientation='vertical'],
+  .pui-toolbar[data-orientation='vertical'],
+  .pui-menubar[data-orientation='vertical'] {
+    flex-direction: column;
+    align-items: flex-start;
+    width: fit-content;
+    max-width: 100%;
+  }
+  .pui-toggle,
+  .pui-toolbar-button {
+    position: relative;
+  }
+  @media (forced-colors: active) {
+    .pui-toggle[data-pressed]::after,
+    .pui-toolbar-button[aria-pressed='true']::after {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      border: 1px solid CanvasText;
+      border-radius: inherit;
+      pointer-events: none;
+    }
+  }
+}

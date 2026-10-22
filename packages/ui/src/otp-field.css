@@ -1,0 +1,71 @@
+/* OTP Field, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './input.css';
+
+@layer surflane.components {
+  .pui-otp-field,
+  .pui-otp-group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-width: 0;
+    max-width: 100%;
+    width: fit-content;
+  }
+  .pui-otp-group {
+    flex: 1 1 auto;
+  }
+  .pui-otp-input {
+    flex: 0 1 var(--control-target-size);
+    width: var(--control-target-size);
+    height: var(--control-target-size);
+    min-width: 0;
+    padding: 0;
+    text-align: center;
+    font: var(--weight-regular)
+      var(--type-section-size)/var(--type-section-leading) var(--font-code);
+    letter-spacing: var(--tracking-mono);
+    font-variant-numeric: tabular-nums;
+    caret-color: var(--control-focus);
+  }
+  .pui-otp-separator {
+    flex: none;
+    width: var(--space-2);
+    height: 0;
+    border: 0;
+    border-top: 1px solid var(--line);
+  }
+  @media (max-width: 760px) {
+    .pui-otp-field,
+    .pui-otp-group {
+      gap: var(--space-1);
+    }
+  }
+  @media (forced-colors: active) {
+    .pui-otp-input {
+      background: Field;
+      color: FieldText;
+      border-color: ButtonText;
+    }
+    .pui-otp-input:focus-visible {
+      outline: 2px solid Highlight;
+      outline-offset: var(--focus-ring-offset);
+    }
+    .pui-otp-input[aria-invalid='true'] {
+      border-color: LinkText;
+    }
+    .pui-otp-separator {
+      border-color: CanvasText;
+    }
+  }
+}
+@layer surflane.sizes {
+  :where([data-ui-size], [data-ui-size] *).pui-otp-input {
+    flex-basis: var(--ui-otp);
+    width: var(--ui-otp);
+    height: var(--ui-otp);
+  }
+}

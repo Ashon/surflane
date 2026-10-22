@@ -1,0 +1,15 @@
+/* Shared by Menu, Select and Combobox items. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+
+@layer surflane.components {
+  .pui-menu-group-label,
+  .pui-select-group-label {
+    padding: var(--space-2) var(--space-3);
+    color: var(--ink-muted);
+    font-size: var(--type-caption-size);
+    line-height: var(--type-caption-leading);
+    letter-spacing: var(--type-caption-tracking);
+  }
+}

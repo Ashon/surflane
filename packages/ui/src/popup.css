@@ -1,0 +1,28 @@
+/* Shared by popups: the positioner and the popup surface. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+
+@layer surflane.components {
+  .pui-positioner {
+    z-index: var(--layer-popup);
+    outline: none;
+    isolation: isolate;
+  }
+  .pui-select-popup,
+  .pui-popover,
+  .pui-menu,
+  .pui-tooltip {
+    box-sizing: border-box;
+    max-width: calc(100vw - 24px);
+    border: 1px solid var(--menu-border);
+    border-radius: var(--radius-md);
+    background: var(--menu-background);
+    color: var(--ink);
+    box-shadow: var(--shadow-float);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+    letter-spacing: var(--type-body-tracking);
+    outline: none;
+  }
+}

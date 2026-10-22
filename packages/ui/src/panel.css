@@ -1,0 +1,224 @@
+/* Shared by Sheet and Drawer. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import '@surflane/design-tokens/controls.css';
+
+@layer surflane.components {
+  /* Edge panels share surfaces and layers; only Drawer adds native Base UI gestures. */
+  .pui-panel-layer {
+    position: fixed;
+    inset: 0;
+    z-index: var(--layer-dialog);
+    pointer-events: none;
+    isolation: isolate;
+  }
+  .pui-panel-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: auto;
+    background: color-mix(in srgb, var(--chrome), transparent 25%);
+    backdrop-filter: blur(3px);
+    opacity: calc(1 - var(--drawer-swipe-progress, 0));
+    transition: opacity var(--duration-base) var(--ease-out);
+  }
+  .pui-panel-backdrop[data-starting-style],
+  .pui-panel-backdrop[data-ending-style] {
+    opacity: 0;
+  }
+  .pui-panel-viewport {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    padding: var(--space-3);
+    pointer-events: none;
+  }
+  .pui-panel-viewport[data-flush] {
+    padding: 0;
+  }
+  .pui-panel-viewport[data-side='right'] {
+    justify-content: flex-end;
+  }
+  .pui-panel-viewport[data-side='left'] {
+    justify-content: flex-start;
+  }
+  .pui-panel-viewport[data-side='top'] {
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .pui-panel-viewport[data-side='bottom'] {
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .pui-panel {
+    --panel-width: var(--size-panel-default);
+    --panel-enter-x: 0px;
+    --panel-enter-y: 0px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: min(var(--panel-width), 100%);
+    min-width: 0;
+    max-height: 100%;
+    overflow: hidden;
+    pointer-events: auto;
+    background: var(--canvas);
+    color: var(--ink);
+    border-radius: var(--radius-sheet);
+    box-shadow: var(--shadow-float);
+    outline: none;
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+    letter-spacing: var(--type-body-tracking);
+    transform: translate(
+      var(--drawer-swipe-movement-x, 0px),
+      calc(
+        var(--drawer-swipe-movement-y, 0px) +
+          var(--drawer-snap-point-offset, 0px)
+      )
+    );
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+  .pui-panel[data-size='small'] {
+    --panel-width: var(--size-panel-small);
+  }
+  .pui-panel[data-size='large'] {
+    --panel-width: var(--size-panel-large);
+  }
+  .pui-panel[data-side='right'] {
+    --panel-enter-x: calc(100% + 12px);
+    height: 100%;
+  }
+  .pui-panel[data-side='left'] {
+    --panel-enter-x: calc(-100% - 12px);
+    height: 100%;
+  }
+  .pui-panel[data-side='top'] {
+    --panel-enter-y: calc(-100% - 12px);
+    max-height: min(85dvh, 100%);
+  }
+  .pui-panel[data-side='bottom'] {
+    --panel-enter-y: calc(100% + 12px);
+    max-height: min(85dvh, 100%);
+  }
+  /* A flush panel squares the corners on the edge it is attached to. */
+  .pui-panel[data-flush][data-side='bottom'] {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .pui-panel[data-flush][data-side='top'] {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+  .pui-panel[data-flush][data-side='right'] {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .pui-panel[data-flush][data-side='left'] {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .pui-panel[data-starting-style],
+  .pui-panel[data-ending-style] {
+    transform: translate(var(--panel-enter-x), var(--panel-enter-y));
+  }
+  .pui-panel[data-swiping],
+  .pui-panel-backdrop[data-swiping] {
+    transition: none;
+  }
+  .pui-panel-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    flex: 1;
+  }
+  .pui-panel-header {
+    flex: none;
+    padding-block: var(--space-6) var(--space-5);
+    padding-inline: var(--space-6)
+      calc(var(--control-height) + var(--space-4) * 2);
+  }
+  .pui-panel-title {
+    margin: 0;
+    font: var(--weight-medium)
+      var(--type-section-size)/var(--type-section-leading) var(--font-display);
+    letter-spacing: var(--type-section-tracking);
+  }
+  .pui-panel-description {
+    margin: var(--space-2) 0 0;
+    color: var(--ink-body);
+    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
+      var(--font-body);
+    letter-spacing: var(--type-body-tracking);
+  }
+  .pui-panel-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+    padding: 0 var(--space-6) var(--space-6);
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  }
+  .pui-panel-body::-webkit-scrollbar {
+    width: var(--scrollbar-size);
+    height: var(--scrollbar-size);
+  }
+  .pui-panel-body::-webkit-scrollbar-thumb {
+    border-radius: var(--scrollbar-radius);
+    background: var(--scrollbar-thumb);
+  }
+  .pui-panel-body::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+  }
+  .pui-panel-footer {
+    flex: none;
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    padding: var(--space-4) var(--space-6)
+      max(var(--space-5), env(safe-area-inset-bottom));
+    background: var(--surface);
+  }
+  .pui-panel-close {
+    position: absolute;
+    inset-block-start: var(--space-4);
+    inset-inline-end: var(--space-4);
+    z-index: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pui-panel,
+    .pui-panel-backdrop {
+      transition: none;
+    }
+  }
+  .pui-panel-layer,
+  .pui-panel-viewport,
+  .pui-panel,
+  .pui-panel-content,
+  .pui-panel-header,
+  .pui-panel-body,
+  .pui-panel-footer {
+    box-sizing: border-box;
+  }
+  .pui-panel-viewport[data-side='bottom'] {
+    bottom: var(--drawer-keyboard-inset, 0px);
+  }
+}
+@layer surflane.sizes {
+  :where([data-ui-size], [data-ui-size] *):is(
+    .pui-panel-header,
+    .pui-panel-body,
+    .pui-panel-footer
+  ) {
+    padding-inline: var(--ui-card-padding);
+  }
+  /* The title keeps clear of the close button: its 16px inset, its width and a 16px gap. */
+  :where([data-ui-size], [data-ui-size] *).pui-panel-header {
+    padding-inline-end: calc(var(--control-height) + var(--space-4) * 2);
+  }
+}

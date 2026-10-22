@@ -36,11 +36,17 @@ for (const name of ['ui', 'tokens']) {
 // Type goes through the role tokens: size, leading and weight come from --type-* and
 // --weight-* (or the component size scheme), never a literal. Relative em sizes for
 // inline code and a line-height of 1 for single-glyph chips stay allowed.
+const cssIn = (dir) =>
+  readdirSync(dir)
+    .filter((name) => name.endsWith('.css'))
+    .map((name) => `${dir}/${name}`)
+const uiSheets = cssIn('packages/ui/src')
 const typeSheets = [
-  'packages/ui/src/styles.css',
-  ...['controls', 'foundations', 'presentation', 'typography'].map(
-    (name) => `packages/tokens/${name}.css`,
-  ),
+  ...uiSheets,
+  ...cssIn('packages/tokens/presentation'),
+  ...cssIn('packages/tokens/foundations'),
+  'packages/tokens/controls.css',
+  'packages/tokens/typography.css',
 ]
 const literalType = typeSheets.flatMap((file) =>
   readFileSync(file, 'utf8')
@@ -92,11 +98,14 @@ const componentSource = readdirSync('packages/ui/src')
   .map((name) => readFileSync(`packages/ui/src/${name}`, 'utf8'))
   .join('\n')
 const renderedClasses = new Set(componentSource.match(/pui-[a-z0-9-]+/g))
-const selectedClasses = new Set(
-  readFileSync('packages/ui/src/styles.css', 'utf8')
-    .replace(/\/\*[\s\S]*?\*\//g, '')
-    .match(/[^{}]+(?=\{)/g)
-    .flatMap((selector) => selector.match(/(?<=\.)pui-[a-z0-9-]+/g) ?? []),
+const selectorsOf = (css) =>
+  new Set(
+    (css.replace(/\/\*[\s\S]*?\*\//g, '').match(/[^{}]+(?=\{)/g) ?? []).flatMap(
+      (selector) => selector.match(/(?<=\.)pui-[a-z0-9-]+/g) ?? [],
+    ),
+  )
+const selectedClasses = selectorsOf(
+  uiSheets.map((file) => readFileSync(file, 'utf8')).join('\n'),
 )
 const deadClasses = [...selectedClasses].filter(
   (name) => !renderedClasses.has(name) && !cssOnlyClasses.has(name),
@@ -202,6 +211,117 @@ assert.deepEqual(
   svgModules.toSorted(),
   ['chart.tsx', 'checkbox.tsx', 'icon.tsx', 'menu.tsx', 'spinner.tsx'],
   `Inline SVG outside Icon: ${svgModules}`,
+)
+// Every stylesheet in both packages declares the same layer order first.
+const layerOrder = readFileSync('packages/tokens/tokens.css', 'utf8').match(
+  /@layer [^;{]+;/,
+)[0]
+const packageSheets = [
+  ...uiSheets,
+  ...[
+    'packages/tokens',
+    'packages/tokens/presentation',
+    'packages/tokens/foundations',
+    'packages/tokens/themes',
+  ].flatMap(cssIn),
+].filter((file) => !/(tailwind)\.css$/.test(file))
+const unordered = packageSheets.filter(
+  (file) =>
+    readFileSync(file, 'utf8')
+      .replace(/\/\*[\s\S]*?\*\//g, '')
+      .trim()
+      .split(/\s+/)
+      .join(' ')
+      .indexOf(layerOrder.split(/\s+/).join(' ')) !== 0,
+)
+assert.deepEqual(
+  unordered,
+  [],
+  `Stylesheets without the layer order first: ${unordered}`,
+)
+// Each public module with styles has a stylesheet entry of its own name, which bundles the
+// rules for every class the module renders, directly or through the modules it imports.
+const cssEntries = Object.keys(ui.exports)
+  .filter(
+    (entry) =>
+      entry.endsWith('.css') && !['./styles.css', './all.css'].includes(entry),
+  )
+  .map((entry) => entry.slice(2, -4))
+const styled = publicModules.filter((name) =>
+  existsSync(`packages/ui/src/${name}.css`),
+)
+assert.deepEqual(
+  cssEntries.toSorted(),
+  styled.toSorted(),
+  'Each public module with a stylesheet needs a .css entry, and each .css entry a module',
+)
+const aggregate = readFileSync('packages/ui/src/styles.css', 'utf8')
+const unlisted = cssEntries.filter(
+  (name) => !aggregate.includes(`'./${name}.css'`),
+)
+assert.deepEqual(unlisted, [], `styles.css misses ${unlisted}`)
+const importsOf = (file) =>
+  [...readFileSync(file, 'utf8').matchAll(/@import '\.\/([a-z-]+)\.css'/g)].map(
+    (m) => m[1],
+  )
+const imported = new Set(uiSheets.flatMap(importsOf))
+const orphans = uiSheets
+  .map((file) => file.slice('packages/ui/src/'.length, -4))
+  .filter(
+    (name) =>
+      !['styles', 'all'].includes(name) &&
+      !cssEntries.includes(name) &&
+      !imported.has(name),
+  )
+assert.deepEqual(orphans, [], `Stylesheets nothing imports: ${orphans}`)
+const bundleCss = async (entry) =>
+  (
+    await build({
+      stdin: {
+        contents: `@import '${entry}';`,
+        resolveDir: process.cwd(),
+        loader: 'css',
+      },
+      bundle: true,
+      write: false,
+      logLevel: 'silent',
+    })
+  ).outputFiles[0].text
+const styledEverywhere = selectorsOf(await bundleCss('@surflane/ui/styles.css'))
+const jsImports = (name) => {
+  const file = existsSync(`packages/ui/src/${name}.tsx`)
+    ? `packages/ui/src/${name}.tsx`
+    : `packages/ui/src/${name}.ts`
+  return [
+    ...readFileSync(file, 'utf8').matchAll(/from '\.\/([a-z-]+)\.js'/g),
+  ].map((m) => m[1])
+}
+const renders = (name, seen = new Set()) => {
+  if (seen.has(name)) return new Set()
+  seen.add(name)
+  const file = existsSync(`packages/ui/src/${name}.tsx`)
+    ? `packages/ui/src/${name}.tsx`
+    : `packages/ui/src/${name}.ts`
+  const out = new Set(
+    readFileSync(file, 'utf8').match(/(?<![a-z0-9-])pui-[a-z0-9-]+/g),
+  )
+  for (const dep of jsImports(name))
+    for (const c of renders(dep, seen)) out.add(c)
+  return out
+}
+for (const name of cssEntries) {
+  const own = selectorsOf(await bundleCss(`@surflane/ui/${name}.css`))
+  const missing = [...renders(name)].filter(
+    (c) => styledEverywhere.has(c) && !own.has(c),
+  )
+  assert.deepEqual(
+    missing,
+    [],
+    `@surflane/ui/${name}.css misses rules for ${missing}`,
+  )
+}
+console.log(
+  `@surflane/ui: ${cssEntries.length} stylesheet entries each style everything their module renders`,
 )
 // Optional peers stay off the root entry, including its dynamic imports: an app that
 // installs none of them must still bundle every root export.

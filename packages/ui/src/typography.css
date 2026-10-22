@@ -1,0 +1,6 @@
+/* Heading, Text and Prose, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import '@surflane/design-tokens/foundations/typography.css';

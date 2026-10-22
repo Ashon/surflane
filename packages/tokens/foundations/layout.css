@@ -1,0 +1,124 @@
+/* Composition classes: Container, Stack, Inline, Grid and Surface. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+
+@layer surflane.base {
+  .pui-container {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    margin-inline: auto;
+  }
+  .pui-container[data-width='workspace'] {
+    max-width: var(--layout-workspace);
+  }
+  .pui-container[data-width='reading'] {
+    max-width: var(--layout-reading);
+  }
+  .pui-container[data-width='wide'] {
+    max-width: var(--layout-wide);
+  }
+  .pui-stack,
+  .pui-inline,
+  .pui-grid {
+    min-width: 0;
+    gap: var(--layout-gap, var(--layout-gutter));
+  }
+  .pui-stack {
+    display: flex;
+    flex-direction: column;
+  }
+  .pui-inline {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .pui-inline[data-justify='between'] {
+    justify-content: space-between;
+  }
+  .pui-inline[data-justify='end'] {
+    justify-content: flex-end;
+  }
+  .pui-grid {
+    --layout-grid-columns: 3;
+    --grid-inline-bleed: 0px;
+    display: grid;
+    margin-inline: calc(-1 * var(--grid-inline-bleed));
+    grid-template-columns: repeat(
+      var(--layout-grid-columns, 3),
+      minmax(0, 1fr)
+    );
+  }
+  .pui-grid > *,
+  .pui-stack > *,
+  .pui-inline > * {
+    min-width: 0;
+  }
+  .pui-grid[data-columns='1'] {
+    --layout-grid-columns: 1;
+  }
+  .pui-grid[data-columns='2'] {
+    --layout-grid-columns: 2;
+  }
+  .pui-grid[data-columns='4'] {
+    --layout-grid-columns: 4;
+  }
+  .pui-surface {
+    box-sizing: border-box;
+    min-width: 0;
+    padding: var(--surface-padding, var(--space-6));
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    color: var(--ink);
+  }
+  /* data-tone is the earlier name of data-surface. */
+  .pui-surface:is([data-surface='canvas'], [data-tone='canvas']) {
+    background: var(--canvas);
+    border-radius: var(--radius-sheet);
+  }
+  @media (max-width: 1100px) and (min-width: 761px) {
+    .pui-grid:not([data-columns='1']) {
+      --layout-grid-columns: 2;
+    }
+  }
+  @media (max-width: 760px) {
+    .pui-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  /* A 12 / 6 / 4 track composition grid, separate from equal-card Grid columns. */
+  .pui-grid[data-columns='layout'] {
+    grid-template-columns: repeat(var(--layout-columns), minmax(0, 1fr));
+  }
+  .pui-grid[data-columns='layout'] > .pui-grid-item {
+    grid-column: span
+      min(var(--grid-item-span, var(--layout-columns)), var(--layout-columns));
+  }
+  @media (max-width: 1100px) and (min-width: 761px) {
+    .pui-grid[data-columns='layout'] > .pui-grid-item {
+      grid-column: span
+        min(
+          var(
+            --grid-item-span-medium,
+            var(--grid-item-span, var(--layout-columns))
+          ),
+          var(--layout-columns)
+        );
+    }
+  }
+  @media (max-width: 760px) {
+    .pui-grid[data-columns='layout'] > .pui-grid-item {
+      grid-column: span
+        min(
+          var(
+            --grid-item-span-small,
+            var(
+              --grid-item-span-medium,
+              var(--grid-item-span, var(--layout-columns))
+            )
+          ),
+          var(--layout-columns)
+        );
+    }
+  }
+}

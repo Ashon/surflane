@@ -3,8 +3,9 @@
  *   surflane.tokens      custom properties and inherited rendering hints
  *   surflane.themes      theme presets and theme-builder output
  *   surflane.base        composition, document typography and theme motion
- *   surflane.components  controls, presentation classes and components */
-@layer surflane.tokens, surflane.themes, surflane.base, surflane.components;
+ *   surflane.components  controls, presentation classes and components
+ *   surflane.sizes       the size scheme and size variants, over component defaults */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components, surflane.sizes;
 @import './foundation-tokens.css';
 @import './typography-rendering.css';
 

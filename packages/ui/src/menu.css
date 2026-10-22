@@ -1,0 +1,104 @@
+/* Menu, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './input.css';
+@import './popup.css';
+@import './item.css';
+@import './icon.css';
+@import './button.css';
+
+@layer surflane.components {
+  .pui-menu {
+    padding: var(--space-1);
+    min-width: 176px;
+  }
+  .pui-menu-trigger[data-popup-open] {
+    background: var(--selected);
+    border-color: var(--control-border);
+  }
+  .pui-menu-item {
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--control-height);
+    padding: max(var(--space-1), calc((var(--control-height) - 1lh) / 2))
+      var(--space-3);
+    border-radius: var(--control-radius);
+    color: var(--ink);
+    outline: none;
+    cursor: default;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .pui-menu-item[data-highlighted] {
+    background: var(--menu-hover-background);
+  }
+  .pui-menu-item[data-disabled] {
+    opacity: var(--control-disabled-opacity);
+  }
+  .pui-menu-check-item {
+    padding-inline-start: calc(
+      var(--space-3) + var(--icon-size-sm) + var(--space-2)
+    );
+  }
+  .pui-menu-indicator {
+    position: absolute;
+    inset-inline-start: var(--space-3);
+    display: inline-flex;
+    width: var(--icon-size-sm);
+  }
+  .pui-menu-check-item[aria-checked='false'] > .pui-menu-indicator {
+    visibility: hidden;
+  }
+  .pui-menu-separator {
+    height: 1px;
+    background: var(--line);
+    margin-block: var(--space-1);
+  }
+  .pui-menu-submenu-trigger {
+    justify-content: space-between;
+  }
+  .pui-submenu-arrow {
+    flex: none;
+    margin-inline-start: var(--space-3);
+  }
+  @media (max-width: 760px), (pointer: coarse) {
+    .pui-menu-item {
+      min-height: var(--control-target-size);
+    }
+  }
+  @media (forced-colors: active) {
+    .pui-menu-item[data-highlighted] {
+      outline: 1px solid CanvasText;
+      outline-offset: -1px;
+    }
+  }
+  .pui-menu {
+    max-height: min(360px, var(--available-height));
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
+  }
+  .pui-menu-trigger[data-disabled] {
+    opacity: var(--control-disabled-opacity);
+    cursor: not-allowed;
+  }
+}
+@layer surflane.sizes {
+  :where([data-ui-size], [data-ui-size] *):is(.pui-menu-item) {
+    min-block-size: var(--ui-row);
+    font-size: var(--ui-font);
+    line-height: var(--ui-leading);
+  }
+  :where([data-ui-size], [data-ui-size] *):is(.pui-menu-item) {
+    box-sizing: border-box;
+    padding-block: max(
+      var(--space-1),
+      calc((var(--ui-row) - var(--ui-leading)) / 2)
+    );
+  }
+}
