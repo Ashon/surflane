@@ -52,6 +52,7 @@ test('section paragraphs fill UI content width and long copy wraps naturally acr
     await page.setViewportSize({ width, height: 1000 })
     for (const route of [
       '/',
+      '/install',
       '/coverage',
       '/components/button',
       '/foundations/accessibility',

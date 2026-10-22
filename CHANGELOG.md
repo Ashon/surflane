@@ -7,6 +7,7 @@
 ### Added
 
 - `@surflane/ui/all.css` imports every Surflane stylesheet in the recommended order: `tokens.css`, `controls.css`, `foundations.css`, `typography.css` and `styles.css`. One line replaces the five imports; with Tailwind CSS v4, import it with `layer(components)`.
+- An [install guide](https://surflane.page/install) builds the commands and files for Next.js, Vite, React Router or Astro, with or without Tailwind CSS, brand fonts, a remembered theme and the optional components: it adds their libraries to the install command, shows their imports and wraps the app in `SyntaxHighlighting` when code highlighting is on. `npm run check:install-guide` builds what it shows into each framework's app and checks the result in Chromium.
 
 ### Changed
 

@@ -47,7 +47,7 @@ import { Input } from '@surflane/ui/input';
 <Button variant="primary" type="submit">Save</Button>
 ```
 
-Surflane supports React Server Components, SSR and client-only apps. [Framework integration](docs/frameworks.md) covers Next.js, React Router, Astro, Vite, Tailwind CSS and the cascade layers, and [examples](examples) contains a verified app for each framework. In Server Components, use flat part names such as `DialogRoot` and `TabsList` instead of `Dialog.Root`.
+Surflane supports React Server Components, SSR and client-only apps. The [install guide](https://surflane.page/install) builds the setup for your framework and options. [Framework integration](docs/frameworks.md) covers Next.js, React Router, Astro, Vite, Tailwind CSS and the cascade layers, and [examples](examples) contains a verified app for each framework. In Server Components, use flat part names such as `DialogRoot` and `TabsList` instead of `Dialog.Root`.
 
 Load the fonts once in the host application. The catalog demonstrates Manrope, Pretendard, JetBrains Mono and Noto Sans JP through their independent font packages. Theme persistence, authentication, routing and application data belong to the consuming application.
 

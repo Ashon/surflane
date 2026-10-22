@@ -51,6 +51,8 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run check:examples -- ${{ matrix.example }}
+      # What the install guide (/install) shows, built and checked for the same framework.
+      - run: npm run check:install-guide -- ${{ matrix.example }}
   # The full Chromium suite, split into shards that run at the same time.
   full-regression:
     if: github.event_name != 'pull_request'

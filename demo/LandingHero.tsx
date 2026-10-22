@@ -55,14 +55,14 @@ export function LandingHero() {
           >
             {t.browse}
           </Link>
-          <a
+          <Link
             className='pui-button'
             data-variant='outline'
             data-size='large'
-            href='https://github.com/Ashon/surflane/blob/main/docs/frameworks.md'
+            href='/install'
           >
             {t.quickStart}
-          </a>
+          </Link>
         </div>
         <CodeBlock
           className='landing-install'

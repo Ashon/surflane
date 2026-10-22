@@ -7,6 +7,7 @@ export const ko: Messages = {
   primaryNavigation: '주요 내비게이션',
   areas: {
     Overview: '개요',
+    Install: '설치',
     Foundations: '파운데이션',
     Components: '컴포넌트',
     Patterns: '패턴',
@@ -26,6 +27,11 @@ export const ko: Messages = {
     'overview-foundations': '파운데이션 먼저',
     'overview-components': '컴포넌트 페이지',
     'overview-direction': '디자인 방향',
+    'install-setup': '설정',
+    'install-packages': '설치',
+    'install-files': '파일 추가',
+    'install-check': '확인',
+    'install-layers': '앱 CSS와 레이어',
     'coverage-scope': '범위와 준비 상태',
     'coverage-waves': '도입 단계',
     'coverage-inventory': '커버리지 목록',
@@ -38,6 +44,10 @@ export const ko: Messages = {
   interactionLab: '인터랙션 랩',
   pages: {
     '/': ['Surflane', '플랫폼 개발을 위한 디자인 시스템'],
+    '/install': [
+      '설치',
+      'React 19 앱에 Surflane을 설정합니다. 명령과 파일은 고른 프레임워크와 옵션을 따릅니다.',
+    ],
     '/foundations': [
       '파운데이션',
       '레이아웃, 타이포그래피, 색, 모션에 공통 표준을 적용합니다.',

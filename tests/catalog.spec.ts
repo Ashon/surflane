@@ -234,6 +234,7 @@ test('all catalog routes render independently without console errors', async ({
 const accessibleRoutes = [
   ...new Set([
     '/',
+    '/install',
     '/foundations',
     '/components',
     '/patterns',

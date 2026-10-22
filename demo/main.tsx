@@ -77,6 +77,7 @@ const DetailPage = lazy(() =>
 const CoveragePage = lazy(() =>
   import('./CoveragePage').then((module) => ({ default: module.CoveragePage })),
 )
+const InstallGuide = lazy(() => import('./InstallGuide'))
 import { catalog, components, patterns, itemHref } from './catalog'
 import {
   Link,
@@ -192,6 +193,7 @@ function App() {
   const item = catalog.find((i) => itemHref(i) === route)
   const pageAreas: Record<string, string> = {
     '/': 'Overview',
+    '/install': 'Install',
     '/foundations': 'Foundations',
     '/foundations/layout': 'Foundations',
     '/foundations/typography': 'Foundations',
@@ -351,6 +353,7 @@ function App() {
   else if (route === '/components') content = <LibraryIndex />
   else if (route === '/patterns') content = <LibraryIndex kind='pattern' />
   else if (route === '/coverage') content = <CoveragePage />
+  else if (route === '/install') content = <InstallGuide />
   else if (route === '/patterns/interaction-lab')
     content = <InteractionLab toggleTheme={toggleTheme} />
   else if (item) content = <DetailPage item={item} toggleTheme={toggleTheme} />
@@ -372,7 +375,7 @@ function App() {
         id='catalog-navigation-links'
         aria-label={messages.catalogNavigation}
       >
-        {area === 'Overview' || area === 'Coverage' ? (
+        {area === 'Overview' || area === 'Install' || area === 'Coverage' ? (
           <div className='catalog-nav-group'>
             <span className='catalog-nav-label'>{messages.onThisPage}</span>
             {(area === 'Overview'
@@ -381,13 +384,21 @@ function App() {
                   'overview-components',
                   'overview-direction',
                 ]
-              : [
-                  'coverage-scope',
-                  'coverage-waves',
-                  'coverage-inventory',
-                  'coverage-ready',
-                  'coverage-research',
-                ]
+              : area === 'Install'
+                ? [
+                    'install-setup',
+                    'install-packages',
+                    'install-files',
+                    'install-check',
+                    'install-layers',
+                  ]
+                : [
+                    'coverage-scope',
+                    'coverage-waves',
+                    'coverage-inventory',
+                    'coverage-ready',
+                    'coverage-research',
+                  ]
             ).map((id) => (
               <a
                 key={id}
@@ -467,6 +478,7 @@ function App() {
               >
                 {[
                   ['/', 'Overview'],
+                  ['/install', 'Install'],
                   ['/foundations', 'Foundations'],
                   ['/components', 'Components'],
                   ['/patterns', 'Patterns'],

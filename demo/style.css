@@ -3378,3 +3378,72 @@ body,
   font-size: var(--type-caption-size);
   font-weight: var(--weight-regular);
 }
+/* Install guide: the setup choices drive every command and file below them. */
+.install-choices {
+  display: grid;
+  gap: var(--space-6);
+}
+.install-choices fieldset {
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+@media (min-width: 760px) {
+  .install-choices {
+    grid-template-columns: repeat(2, max-content);
+    column-gap: var(--space-10);
+  }
+  .install-choices > :nth-child(n + 3) {
+    grid-column: 1 / -1;
+  }
+}
+.install-choices legend {
+  margin-block-end: var(--space-3);
+  padding: 0;
+  color: var(--ink);
+  font-weight: 500;
+}
+.install-options {
+  display: grid;
+  gap: var(--space-4);
+}
+.install-option {
+  align-items: flex-start;
+}
+.install-option-text {
+  display: grid;
+  gap: var(--space-1);
+}
+.install-option-hint {
+  color: var(--ink-muted);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+}
+.install-note {
+  color: var(--ink-muted);
+}
+.install-file > .install-note {
+  margin-block: var(--space-4) var(--space-3);
+}
+.install-more {
+  margin-block-start: var(--space-3);
+}
+.install-more .pui-code-block {
+  margin-block-start: var(--space-2);
+}
+.install-checks li + li {
+  margin-block-start: var(--space-2);
+}
+.install-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-6);
+}
+/* Two short columns read at any width; no reference-table minimum. */
+.install-layer-table {
+  min-width: 0;
+}
+.install-choices fieldset > .install-option-hint {
+  margin: var(--space-2) 0 0;
+}

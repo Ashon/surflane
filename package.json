@@ -26,6 +26,7 @@
     "check:ssr": "tsc -p tests/ssr/tsconfig.json && node scripts/check-ssr.mjs",
     "check:tailwind": "node scripts/check-tailwind.mjs",
     "check:examples": "node scripts/check-examples.mjs",
+    "check:install-guide": "node scripts/check-install-guide.mjs",
     "test:browsers": "playwright test --config playwright.browsers.config.ts",
     "check:public": "node scripts/check-public.mjs",
     "export:source": "node scripts/export-source.mjs",

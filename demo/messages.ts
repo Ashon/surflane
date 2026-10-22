@@ -8,6 +8,7 @@ export const en = {
   primaryNavigation: 'Primary navigation',
   areas: {
     Overview: 'Overview',
+    Install: 'Install',
     Foundations: 'Foundations',
     Components: 'Components',
     Patterns: 'Patterns',
@@ -27,6 +28,11 @@ export const en = {
     'overview-foundations': 'Foundations first',
     'overview-components': 'Component pages',
     'overview-direction': 'Design direction',
+    'install-setup': 'Your setup',
+    'install-packages': 'Install',
+    'install-files': 'Add the files',
+    'install-check': 'Check',
+    'install-layers': 'Your CSS and the layers',
     'coverage-scope': 'Scope and readiness',
     'coverage-waves': 'Delivery waves',
     'coverage-inventory': 'Coverage inventory',
@@ -39,6 +45,10 @@ export const en = {
   interactionLab: 'Interaction lab',
   pages: {
     '/': ['Surflane', 'Design system for platform development'],
+    '/install': [
+      'Install',
+      'Set up Surflane in a React 19 app. The commands and files follow the framework and options you choose.',
+    ],
     '/foundations': [
       'Foundations',
       'Apply shared standards for layout, typography, color, and motion.',

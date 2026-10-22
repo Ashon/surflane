@@ -13,7 +13,7 @@ test('global areas and contextual destinations remain separate and registry comp
     name: 'Catalog navigation',
     exact: true,
   })
-  await expect(primary.getByRole('link')).toHaveCount(5)
+  await expect(primary.getByRole('link')).toHaveCount(6)
   await expect(
     primary.getByRole('link', { name: 'Components', exact: true }),
   ).toHaveAttribute('aria-current', 'location')

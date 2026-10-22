@@ -9,7 +9,7 @@ Surflane runs in any React 19 application whose bundler resolves ESM packages an
 | Astro                         | Static/SSR React islands      | page or layout frontmatter | `<html>` in the layout       | [examples/astro](../examples/astro)               |
 | Vite                          | Client rendering              | `src/main.tsx`             | `index.html`                 | [examples/vite](../examples/vite)                 |
 
-Other React 19 frameworks that bundle with Vite, webpack or Turbopack follow the same three steps, but CI does not verify them.
+Other React 19 frameworks that bundle with Vite, webpack or Turbopack follow the same three steps, but CI does not verify them. The [install guide](https://surflane.page/install) builds the commands and files for your framework and options.
 
 ## 1. Install
 
@@ -37,8 +37,11 @@ Add `pui-typography` to `<body>` to apply document typography, including portall
 
 Tokens default to the dark theme. `data-theme="light"` on `<html>` selects the light theme. Resolve the theme before the first paint to avoid a flash:
 
-- Server-rendered frameworks: read the preference (for example a cookie) on the server and render `<html data-theme="…">`.
-- Client-only apps: set the attribute in an inline `<script>` in `<head>`, before the app bundle runs. The catalog's [`demo/index.html`](../demo/index.html) shows a cookie-based script that also supports a `system` mode.
+- Server-rendered frameworks: read the preference (for example a cookie) on the server and render `<html data-theme="…">`. React Router reads it in the root `loader`.
+- Next.js: reading `cookies()` in the root layout renders every page on demand, and fails the build under Cache Components. Render a default theme instead, apply the cookie from an inline `<script>` in `<head>`, and add `suppressHydrationWarning` to `<html>`.
+- Client-only apps and static sites: set the attribute in an inline `<script>` in `<head>`, before the app bundle runs. The catalog's [`demo/index.html`](../demo/index.html) shows a cookie-based script that also supports a `system` mode.
+
+The [install guide](https://surflane.page/install) shows each of these with a theme switch, and `npm run check:install-guide` builds them.
 
 Animate later changes with `transitionTheme` from `@surflane/design-tokens/theme-transition`. Persisting the preference belongs to the application.
 

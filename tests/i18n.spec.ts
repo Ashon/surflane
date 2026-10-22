@@ -78,6 +78,7 @@ test('every catalog page renders in Korean without errors', async ({
   page.on('pageerror', (error) => errors.push(error.message))
   const routes = [
     '/',
+    '/install',
     '/foundations',
     '/components',
     '/patterns',
