@@ -3792,9 +3792,30 @@ body,
   gap: var(--space-8);
   margin-block-start: var(--space-4);
 }
+/* Stacked on a narrow screen, the preview comes first and stays in view while the
+   controls scroll under it, so each change shows where it lands. */
 @media (max-width: 1100px) {
   .theme-builder {
     grid-template-columns: minmax(0, 1fr);
+  }
+  .theme-stage {
+    order: -1;
+    position: sticky;
+    inset-block-start: 0;
+    z-index: var(--layer-chrome);
+    justify-self: stretch;
+    padding-block: var(--space-3);
+    background: var(--canvas);
+  }
+  /* Controls fade as they scroll up under the preview instead of being cut. */
+  .theme-stage::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    inset-block-start: 100%;
+    block-size: var(--space-8);
+    background: linear-gradient(var(--canvas), transparent);
+    pointer-events: none;
   }
 }
 .theme-inputs {
@@ -3862,6 +3883,12 @@ body,
   background: var(--chrome);
   color: var(--ink-body);
 }
+/* On a phone the preview leaves room for the controls beneath it. */
+@media (max-width: 760px) {
+  .theme-preview {
+    block-size: 340px;
+  }
+}
 .theme-preview .pui-app-shell {
   --app-shell-page-radius: var(--radius-md);
   block-size: 100%;
@@ -3913,13 +3940,41 @@ body,
   block-size: calc(100% - 2 * var(--app-shell-inset));
   display: flex;
   flex-direction: column;
+  padding-block: 0;
+  overflow: hidden;
+}
+/* The content scrolls inside the page and fades out at both ends. Each fade spans an
+   empty pad that takes the place of the page's own inset, so content that fits, or
+   sits at either end, is never faded. */
+.theme-preview-scroll {
+  --theme-preview-fade: var(--space-6);
+  flex: 1;
+  min-block-size: 0;
+  display: flex;
+  flex-direction: column;
   gap: var(--space-4);
+  padding-block: var(--theme-preview-fade);
   overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  mask-image: linear-gradient(
+    transparent,
+    #000 var(--theme-preview-fade),
+    #000 calc(100% - var(--theme-preview-fade)),
+    transparent
+  );
 }
 /* On phones the page starts flush below the header, so only the bottom inset remains. */
+/* On a phone the page meets the frame's foot, as it meets a phone's, and rounds its
+   bottom corners concentric with the frame, one padding inside it. */
 @media (max-width: 760px) {
   .theme-preview-sheet {
-    block-size: calc(100% - var(--app-shell-inset));
+    block-size: 100%;
+    border-end-start-radius: var(--workspace-shell-radius);
+    border-end-end-radius: var(--workspace-shell-radius);
+  }
+  .theme-preview-scroll {
+    --theme-preview-fade: var(--space-4);
   }
 }
 .theme-preview-sheet table {
