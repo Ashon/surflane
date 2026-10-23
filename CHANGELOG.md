@@ -10,6 +10,7 @@
 - With a light OS setting and no `data-theme`, code used the dark theme's syntax colors, at 1.6–2.4:1. The light syntax colors now apply there too, and the token build fails when the two ways to light differ.
 - Hovering an invalid field no longer replaces its danger edge with the hover edge, in Input, Select, Textarea, DatePicker and checked Checkbox, Radio and Switch. Combobox and NumberField draw their invalid edge in `--status-danger-fg` like every other field.
 - In forced colors, focused fields show an outline, and Select shows its highlighted option.
+- A scroll area focused by keyboard, such as a wide Table or a CodeBlock, shows the shared focus ring around its edge instead of the browser's, which the edge fade cut off.
 
 ## 0.7.0
 

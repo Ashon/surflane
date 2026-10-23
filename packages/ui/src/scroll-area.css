@@ -14,6 +14,13 @@
     max-width: 100%;
     overscroll-behavior: auto;
     scrollbar-width: none !important;
+    outline: none;
+  }
+  /* A labeled scroller takes keyboard focus. Its root draws the shared ring, since
+     the viewport's edge fade would clip a ring drawn on the viewport itself. */
+  .pui-scroll-root:has(> .pui-scroll-viewport:focus-visible) {
+    outline: var(--focus-ring-width) solid var(--interaction-focus);
+    outline-offset: var(--focus-ring-offset);
   }
   .pui-scroll-viewport::-webkit-scrollbar {
     display: none;
