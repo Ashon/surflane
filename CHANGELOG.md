@@ -13,6 +13,7 @@
 - A scroll area focused by keyboard, such as a wide Table or a CodeBlock, shows the shared focus ring around its edge instead of the browser's, which the edge fade cut off.
 - Dragging a Slider no longer rings its thumb; keyboard focus still does.
 - In link mode, Pagination's unavailable pages and arrows keep their names and read as unavailable links. They were spans whose names assistive technology ignored.
+- CodeBlock's copy button keeps keyboard focus while a copy is pending, instead of dropping it to the page.
 
 ## 0.7.0
 

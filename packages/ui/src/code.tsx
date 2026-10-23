@@ -121,7 +121,9 @@ export const CodeBlock = /* @__PURE__ */ React.forwardRef<
           size='sm'
           className='pui-code-copy'
           onClick={copy}
+          // A pending copy blocks a second start but keeps focus on the button.
           disabled={state === 'busy'}
+          focusableWhenDisabled
           aria-busy={state === 'busy' || undefined}
           data-copy-state={icon === 'idle' ? undefined : icon}
           data-copy-used={used || undefined}
