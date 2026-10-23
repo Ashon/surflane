@@ -7,7 +7,7 @@
 
 @layer surflane.components {
   .pui-progress .pui-gauge-indicator {
-    background: var(--brand);
+    background: var(--brand-mark);
   }
   @media (forced-colors: active) {
     .pui-progress .pui-gauge-indicator {

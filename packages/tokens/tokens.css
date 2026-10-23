@@ -249,7 +249,8 @@
       from color-mix(in srgb, var(--success) 9%, var(--canvas)) l c h / alpha
     );
     --status-success-border: oklch(
-      from color-mix(in srgb, var(--success) 32%, var(--canvas)) l c h / alpha
+      from color-mix(in srgb, var(--success) 32%, var(--canvas)) 0.61 c h /
+        alpha
     );
     --status-danger-fg: oklch(
       from color-mix(in srgb, var(--danger) 48%, var(--ink)) l c h / alpha
@@ -258,21 +259,22 @@
       from color-mix(in srgb, var(--danger) 10%, var(--canvas)) l c h / alpha
     );
     --status-danger-border: oklch(
-      from color-mix(in srgb, var(--danger) 38%, var(--canvas)) l c h / alpha
+      from color-mix(in srgb, var(--danger) 38%, var(--canvas)) 0.61 c h / alpha
     );
     --status-caution-fg: var(--caution);
     --status-caution-bg: oklch(
       from color-mix(in srgb, var(--caution) 9%, var(--canvas)) l c h / alpha
     );
     --status-caution-border: oklch(
-      from color-mix(in srgb, var(--caution) 32%, var(--canvas)) l c h / alpha
+      from color-mix(in srgb, var(--caution) 32%, var(--canvas)) 0.61 c h /
+        alpha
     );
     --status-progress-fg: var(--ink);
     --status-progress-bg: var(--selected);
     --status-progress-border: var(--control-border);
     --status-neutral-fg: var(--ink-muted);
     --status-neutral-bg: var(--surface);
-    --status-neutral-border: var(--line);
+    --status-neutral-border: var(--control-border);
     --status-info-fg: oklch(
       from color-mix(in srgb, var(--info) 70%, var(--ink)) l c h / alpha
     );
@@ -280,7 +282,7 @@
       from color-mix(in srgb, var(--info) 10%, var(--canvas)) l c h / alpha
     );
     --status-info-border: oklch(
-      from color-mix(in srgb, var(--info) 35%, var(--canvas)) l c h / alpha
+      from color-mix(in srgb, var(--info) 35%, var(--canvas)) 0.61 c h / alpha
     );
     --trend-up-fg: var(--trend-up);
     --trend-up-bg: oklch(
@@ -309,9 +311,16 @@
       var(--interaction-focus) 35%,
       var(--selected)
     );
+    /* Brand as a mark on the sheet, such as a progress fill or a range end: the brand
+       itself where it stands out, darker in light themes so it keeps 3:1. */
+    --brand-mark: var(--brand);
+    /* A slider's track, 3:1 against the brand indicator on it. */
+    --slider-track: oklch(from var(--ink-muted) 0.52 c h);
   }
   :root[data-theme='light'],
   [data-theme='light'] {
+    --brand-mark: oklch(from var(--brand) min(l, 0.63) c h);
+    --slider-track: var(--ink-muted);
     --status-success-fg: oklch(
       from color-mix(in srgb, var(--success) 25%, var(--ink)) l c h / alpha
     );
@@ -319,7 +328,7 @@
       from color-mix(in srgb, var(--success) 9%, var(--canvas)) l c h / alpha
     );
     --status-success-border: oklch(
-      from color-mix(in srgb, var(--success) 25%, var(--line)) l c h / alpha
+      from color-mix(in srgb, var(--success) 25%, var(--line)) 0.64 c h / alpha
     );
     --status-danger-fg: oklch(
       from color-mix(in srgb, var(--danger) 65%, var(--ink)) l c h / alpha
@@ -328,7 +337,7 @@
       from color-mix(in srgb, var(--danger) 5%, var(--canvas)) l c h / alpha
     );
     --status-danger-border: oklch(
-      from color-mix(in srgb, var(--danger) 30%, var(--line)) l c h / alpha
+      from color-mix(in srgb, var(--danger) 30%, var(--line)) 0.64 c h / alpha
     );
     --status-caution-fg: oklch(
       from color-mix(in srgb, var(--caution) 25%, var(--ink)) l c h / alpha
@@ -337,7 +346,7 @@
       from color-mix(in srgb, var(--caution) 12%, var(--canvas)) l c h / alpha
     );
     --status-caution-border: oklch(
-      from color-mix(in srgb, var(--caution) 45%, var(--line)) l c h / alpha
+      from color-mix(in srgb, var(--caution) 45%, var(--line)) 0.64 c h / alpha
     );
     --status-info-fg: oklch(
       from color-mix(in srgb, var(--info) 45%, var(--ink)) l c h / alpha
@@ -346,7 +355,7 @@
       from color-mix(in srgb, var(--info) 8%, var(--canvas)) l c h / alpha
     );
     --status-info-border: oklch(
-      from color-mix(in srgb, var(--info) 30%, var(--line)) l c h / alpha
+      from color-mix(in srgb, var(--info) 30%, var(--line)) 0.64 c h / alpha
     );
     --trend-up-fg: oklch(
       from color-mix(in srgb, var(--trend-up) 55%, var(--ink)) l c h / alpha
@@ -423,6 +432,8 @@
 
   @media (prefers-color-scheme: light) {
     :root:not([data-theme]) {
+      --brand-mark: oklch(from var(--brand) min(l, 0.63) c h);
+      --slider-track: var(--ink-muted);
       color-scheme: light;
       --chrome: oklch(0.9781762 0.0034179 247.8580546); /* Gray 10 */
       --canvas: oklch(1 0 0); /* White */
@@ -472,7 +483,8 @@
         from color-mix(in srgb, var(--success) 9%, var(--canvas)) l c h / alpha
       );
       --status-success-border: oklch(
-        from color-mix(in srgb, var(--success) 25%, var(--line)) l c h / alpha
+        from color-mix(in srgb, var(--success) 25%, var(--line)) 0.64 c h /
+          alpha
       );
       --status-danger-fg: oklch(
         from color-mix(in srgb, var(--danger) 65%, var(--ink)) l c h / alpha
@@ -481,7 +493,7 @@
         from color-mix(in srgb, var(--danger) 5%, var(--canvas)) l c h / alpha
       );
       --status-danger-border: oklch(
-        from color-mix(in srgb, var(--danger) 30%, var(--line)) l c h / alpha
+        from color-mix(in srgb, var(--danger) 30%, var(--line)) 0.64 c h / alpha
       );
       --status-caution-fg: oklch(
         from color-mix(in srgb, var(--caution) 25%, var(--ink)) l c h / alpha
@@ -490,7 +502,8 @@
         from color-mix(in srgb, var(--caution) 12%, var(--canvas)) l c h / alpha
       );
       --status-caution-border: oklch(
-        from color-mix(in srgb, var(--caution) 45%, var(--line)) l c h / alpha
+        from color-mix(in srgb, var(--caution) 45%, var(--line)) 0.64 c h /
+          alpha
       );
       --status-info-fg: oklch(
         from color-mix(in srgb, var(--info) 45%, var(--ink)) l c h / alpha
@@ -499,7 +512,7 @@
         from color-mix(in srgb, var(--info) 8%, var(--canvas)) l c h / alpha
       );
       --status-info-border: oklch(
-        from color-mix(in srgb, var(--info) 30%, var(--line)) l c h / alpha
+        from color-mix(in srgb, var(--info) 30%, var(--line)) 0.64 c h / alpha
       );
       --trend-up-fg: oklch(
         from color-mix(in srgb, var(--trend-up) 55%, var(--ink)) l c h / alpha
@@ -589,8 +602,19 @@
   /* Opaque paired text-selection colors remain readable on code, controls and status surfaces. */
   :root,
   [data-theme] {
-    --selection-background: var(--selected);
+    /* One step from the selected tone, so text selected on a selected row, segment
+       or day still shows. */
+    --selection-background: oklch(from var(--selected) 0.48 c h);
     --selection-foreground: var(--ink);
+  }
+  :root[data-theme='light'],
+  [data-theme='light'] {
+    --selection-background: oklch(from var(--selected) 0.8 c h);
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) {
+      --selection-background: oklch(from var(--selected) 0.8 c h);
+    }
   }
   ::selection {
     background-color: var(--selection-background);

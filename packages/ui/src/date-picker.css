@@ -201,14 +201,14 @@
       [data-unavailable],
       [data-selected]
     ) {
-    background: var(--selected);
+    background: var(--hover);
   }
   .pui-calendar-day[data-selected] {
     background: var(--selected);
     color: var(--ink);
   }
   .pui-calendar-day:is([data-selection-start], [data-selection-end]) {
-    background: var(--brand);
+    background: var(--brand-mark);
     color: var(--on-brand);
   }
   .pui-calendar-day[data-focus-visible] {

@@ -183,6 +183,16 @@ export function ColorFoundation() {
           '--canvas',
         ],
         [t.errorBoundary, '--status-danger-fg', '--canvas'],
+        [t.progressFill, '--brand-mark', '--surface'],
+        [t.progressFillSheet, '--brand-mark', '--canvas'],
+        [t.sliderFill, '--brand', '--slider-track'],
+        ...(['success', 'danger', 'caution', 'info', 'neutral'] as const).map(
+          (tone): Pair => [
+            t.statusBorder(tone),
+            `--status-${tone}-border`,
+            '--canvas',
+          ],
+        ),
       ],
     },
     {

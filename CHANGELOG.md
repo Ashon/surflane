@@ -25,10 +25,18 @@
 - Icon `size`: `small`, `default` or `large` (14, 16 or 20px), like every component.
 - Tokens:
   - `--selected-edge`: the focus color, faint, over `--selected`.
+  - `--brand-mark`: brand as a mark on the sheet, darker in light themes.
+  - `--slider-track`.
 
 ### Changed
 
 - A selected Table row shows a faint `--selected-edge` around it besides the selected tone, so a selection reads as held. Selected rows that meet in a lined, grid or striped table share one edge.
+- Contrast:
+  - Progress fills and DatePicker range ends use `--brand-mark`. In light themes they meet 3:1 against the track and the sheet, where `--brand` measured 1.6.
+  - In dark themes, Slider's track is `--slider-track`, 3:1 against the brand fill instead of 1.0.
+  - `--selection-background` is one step from `--selected`, so text selected on a selected row, segment, toggle or calendar day stays visible. The two were equal.
+  - A hovered calendar day uses `--hover`, so it no longer looks selected.
+  - `--status-*-border` meet 3:1 against the sheet, with their hue kept. `--status-neutral-border` is `--control-border`.
 - DatePicker writes the words a locale puts around a day number from `Intl`, so Japanese and Chinese calendars show 日 as Korean shows 일.
 - Icon's sizes follow the component scale. Without a size it is still 16px.
 

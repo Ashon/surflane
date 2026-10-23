@@ -91,6 +91,9 @@ export const descriptions = {
   '--icon-stroke-width': 'Shared stroke width within a 24×24 viewBox',
   '--selected-edge':
     'The edge of a selected row: the focus color, faint, over --selected',
+  '--brand-mark':
+    'Brand as a mark on the sheet, such as a progress fill; darker in light themes for 3:1',
+  '--slider-track': "A slider's track, 3:1 against the brand indicator",
   '--type-display-size': 'Fluid 32–40px page title',
   '--type-title-size': 'Fluid 28–32px heading',
   '--type-workspace-title-size': 'Earlier name for the display size',

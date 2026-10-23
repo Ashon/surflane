@@ -42,7 +42,7 @@
     width: 100%;
     height: 6px;
     border-radius: var(--radius-full);
-    background: var(--ink-muted);
+    background: var(--slider-track);
   }
   .pui-slider-indicator {
     background: var(--brand);
