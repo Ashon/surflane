@@ -89,6 +89,8 @@ export const descriptions = {
   '--avatar-size-md': 'Deprecated: use --size-avatar-default',
   '--avatar-size-lg': 'Deprecated: use --size-avatar-large',
   '--icon-stroke-width': 'Shared stroke width within a 24×24 viewBox',
+  '--radius-pill':
+    'Buttons, badges, chips, switches and segments: half the tallest control, so pills; scales with the radius',
   '--selected-edge':
     'The edge of a selected row: the focus color, faint, over --selected',
   '--brand-mark':

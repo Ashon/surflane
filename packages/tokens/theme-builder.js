@@ -59,6 +59,8 @@ const radii = {
   '--radius-lg': 16,
   '--radius-sheet': 20,
   '--control-radius': 8,
+  // Half the tallest control: a pill at every size until a smaller scale.
+  '--radius-pill': 22,
 }
 
 /** hue omitted keeps each default step's own hue; chroma scales every step's chroma. */

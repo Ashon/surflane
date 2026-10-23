@@ -64,7 +64,7 @@
     align-items: center;
     justify-content: center;
     padding: var(--space-1) var(--space-4);
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-pill);
     transition: background-color var(--duration-fast) var(--ease-out);
   }
   /* Icons take the medium size here unless their own size prop sets one. */
@@ -112,7 +112,7 @@
     box-sizing: border-box;
     min-inline-size: calc(var(--type-caption-leading) * 1em);
     padding-inline: var(--space-1);
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-pill);
     background: var(--status-danger-fg);
     color: var(--canvas);
     font-variant-numeric: tabular-nums;

@@ -169,7 +169,11 @@
     --radius-md: 10px; /* Sidebar items, search, code blocks, callouts, diagrams */
     --radius-lg: 16px; /* Cards, previous / next, landing page images */
     --radius-sheet: 20px; /* Content sheet */
-    --radius-full: 999px; /* Buttons */
+    --radius-full: 999px; /* Circles and bars: avatars, radios, slider knobs */
+    /* Buttons, badges, chips, switches and segments: half the tallest control, so
+       every one of them is a pill. Like the other radii it scales with a theme, so
+       a smaller scale rounds the larger parts' corners first. */
+    --radius-pill: 22px;
 
     /* 4px unit */
     --space-1: 4px;

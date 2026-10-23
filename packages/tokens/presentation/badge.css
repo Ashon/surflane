@@ -12,7 +12,7 @@
     max-width: 100%;
     padding: 4px 9px;
     border: 0;
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-pill);
     background: var(--badge-neutral-bg);
     color: var(--status-neutral-fg);
     font: var(--weight-medium)

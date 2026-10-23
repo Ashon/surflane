@@ -15,7 +15,7 @@
     min-height: var(--control-height);
     padding: 0 var(--size-button-padding-default);
     border: 1px solid transparent;
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-pill);
     font: var(--weight-medium) var(--type-label-size)/var(--type-label-leading)
       var(--font-body);
     letter-spacing: var(--type-label-tracking);
@@ -124,7 +124,7 @@
     inline-size: var(--control-height);
     block-size: var(--control-height);
     padding: 0;
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-pill);
   }
   :where([data-ui-size], [data-ui-size] *):is(.pui-button) > svg {
     inline-size: var(--ui-icon);

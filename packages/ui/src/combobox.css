@@ -120,7 +120,7 @@
     align-items: center;
     gap: var(--space-1);
     padding-inline-start: var(--space-3);
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-pill);
     background: var(--selected);
     color: var(--ink);
     font-size: var(--type-caption-size);

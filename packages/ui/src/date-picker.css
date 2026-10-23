@@ -114,7 +114,7 @@
     min-width: 32px;
     padding: 0;
     border: 0;
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-pill);
     background: transparent;
     color: var(--ink);
     cursor: pointer;

@@ -50,7 +50,8 @@ const en = {
   chromaClamped: (max: string) =>
     `Clamped to ${max}, the most this hue can show in sRGB.`,
   radius: 'Radius',
-  radiusHint: 'Scales every corner token. Pills stay round.',
+  radiusHint:
+    "Scales every corner token. Buttons, badges and switches are pills at half the tallest control's height, so a smaller scale rounds the larger ones first.",
   custom: 'Custom',
   presets: {
     slate: 'Slate',
@@ -184,7 +185,7 @@ export const text: Record<Locale, typeof en> = {
       `이 색상이 sRGB에서 낼 수 있는 최대치인 ${max}로 줄였습니다.`,
     radius: '모서리',
     radiusHint:
-      '모든 모서리 토큰의 크기를 조정합니다. 알약 모양은 둥근 채로 둡니다.',
+      '모든 모서리 토큰의 크기를 조정합니다. 버튼, 배지, 스위치는 가장 큰 컨트롤 높이의 절반을 모서리로 써서 알약 모양이 되고, 작게 줄이면 큰 것부터 모서리가 드러납니다.',
     custom: '사용자 지정',
     presets: {
       slate: 'Slate',

@@ -188,6 +188,7 @@ const css = themeCss(
 - Theme files mirror the contexts in `tokens.css`, so `data-theme` and scoped theme regions keep working. `themeCss` output carries the same layer statement as the presets. With Tailwind, import theme files with `layer(components)` like the other Surflane files.
 - Accent chroma is clamped to the sRGB gamut at the accent's fixed lightness. `contrastRatio(foreground, background)` measures any pair.
 - Success keeps its own color, `--success`, whatever the accent.
+- Buttons, badges, chips, switches and segments draw their corners with `--radius-pill`, half the tallest control, so by default every one is a pill. It scales with `radius` like the other corner tokens: a smaller scale rounds the larger parts' corners first, and `radius: 0` squares them. Circles and bars stay round: avatars, radios, slider knobs and progress bars.
 
 ## shadcn/ui
 

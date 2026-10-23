@@ -203,6 +203,43 @@ test.describe('theme builder page', () => {
     await expect(page.getByText("themes/radius-small.css';")).toBeVisible()
   })
 
+  test('pills scale with the radius: larger parts round first, and radius 0 squares them', async ({
+    page,
+  }) => {
+    await page.goto('/foundations/themes')
+    await page.locator('.theme-preview').waitFor()
+    const corner = (selector: string) =>
+      page
+        .locator(`.theme-preview ${selector}`)
+        .first()
+        .evaluate((el) => {
+          const box = el.getBoundingClientRect()
+          // The rendered corner: a radius past half the height draws as a pill.
+          return Math.min(
+            parseFloat(getComputedStyle(el).borderTopLeftRadius),
+            box.height / 2,
+          )
+        })
+    const height = (selector: string) =>
+      page
+        .locator(`.theme-preview ${selector}`)
+        .first()
+        .evaluate((el) => el.getBoundingClientRect().height)
+    const inputs = page.getByRole('region', { name: 'Theme inputs' })
+    // Default: every pill part is a full pill.
+    for (const selector of ['.pui-button', '.pui-switch', '.pui-badge'])
+      expect(await corner(selector), selector).toBe(
+        (await height(selector)) / 2,
+      )
+    // Small: 13px rounds the button's corners, while the shorter badge stays a pill.
+    await inputs.getByRole('button', { name: 'Small', exact: true }).click()
+    expect(await corner('.pui-button')).toBe(13)
+    expect(await corner('.pui-badge')).toBe((await height('.pui-badge')) / 2)
+    await inputs.getByRole('button', { name: 'None', exact: true }).click()
+    for (const selector of ['.pui-button', '.pui-switch', '.pui-badge'])
+      expect(await corner(selector), selector).toBe(0)
+  })
+
   test('chroma beyond the gamut is clamped and announced, and the page passes axe in both themes', async ({
     page,
   }) => {

@@ -23,6 +23,11 @@
 - Tooltip `disabled`.
 - Button `icon-small` and `icon-large`.
 - Icon `size`: `small`, `default` or `large` (14, 16 or 20px), like every component.
+- Pills scale with the radius. Buttons, badges, chips, switches and segments draw their corners with the new `--radius-pill`.
+  - It is 22px, half the tallest control, so by default every one is still a pill.
+  - Like the other corner tokens it scales with a radius preset or `createTheme`'s `radius`: a smaller scale rounds the larger parts' corners first, and `radius: 0` squares them.
+  - A switch's thumb stays concentric with its track.
+  - Circles and bars stay round: avatars, radios, slider knobs and progress bars.
 - Tokens:
   - `--selected-edge`: the focus color, faint, over `--selected`.
   - `--brand-mark`: brand as a mark on the sheet, darker in light themes.

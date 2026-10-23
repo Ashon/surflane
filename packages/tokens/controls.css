@@ -11,7 +11,7 @@
     gap: 2px;
     height: var(--control-height);
     border: 1px solid var(--line);
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-pill);
     background: transparent;
     color: var(--ink-muted);
     font: var(--weight-medium) var(--type-caption-size)/1 var(--font-body);
@@ -28,7 +28,7 @@
     min-width: calc(var(--control-height) - 6px);
     height: calc(var(--control-height) - 6px);
     padding-inline: var(--space-2);
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-pill);
     color: var(--ink-muted);
     text-decoration: none;
     white-space: nowrap;

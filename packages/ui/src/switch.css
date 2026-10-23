@@ -12,13 +12,18 @@
     padding: calc(
       (var(--control-switch-height) - var(--control-switch-thumb)) / 2 - 1px
     );
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-pill);
     justify-content: flex-start;
   }
   .pui-switch-thumb {
     width: var(--control-switch-thumb);
     height: var(--control-switch-thumb);
-    border-radius: var(--radius-full);
+    /* Concentric with the track: its corner less the gap around the thumb. */
+    border-radius: max(
+      0px,
+      var(--radius-pill) -
+        (var(--control-switch-height) - var(--control-switch-thumb)) / 2
+    );
     background: var(--ink-muted);
     transform: translateX(0);
     transition:
