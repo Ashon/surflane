@@ -7,6 +7,7 @@
 ### Fixed
 
 - FileUpload's announcements, such as "2 files selected.", were printed under the list: the class that should hide them didn't exist. They are now heard and not seen. `check:package` fails on any rendered class that no rule styles.
+- With a light OS setting and no `data-theme`, code used the dark theme's syntax colors, at 1.6–2.4:1. The light syntax colors now apply there too, and the token build fails when the two ways to light differ.
 
 ## 0.7.0
 

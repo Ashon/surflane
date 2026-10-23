@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceHash": "36368b5c0d8eed771b9f48ebed31591d3d5e385b5870eac170ef3cd3aacec4a3",
+  "sourceHash": "13dc21f67d69b67200ca0adc2d4db25f6e3bbc6d160f9179babc94ca90067680",
   "sources": [
     "tokens.css",
     "foundation-tokens.css",
@@ -4947,6 +4947,12 @@
           "value": "oklch(0.47 0.012 250)",
           "file": "tokens.css",
           "line": 686
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(0.47 0.012 250)",
+          "file": "tokens.css",
+          "line": 694
         }
       ],
       "aliases": []
@@ -4968,6 +4974,12 @@
           "value": "oklch(0.44 0.075 245)",
           "file": "tokens.css",
           "line": 690
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(0.44 0.075 245)",
+          "file": "tokens.css",
+          "line": 698
         }
       ],
       "aliases": []
@@ -4989,6 +5001,12 @@
           "value": "oklch(0.43 0.08 295)",
           "file": "tokens.css",
           "line": 687
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(0.43 0.08 295)",
+          "file": "tokens.css",
+          "line": 695
         }
       ],
       "aliases": []
@@ -5010,6 +5028,12 @@
           "value": "oklch(0.43 0.075 80)",
           "file": "tokens.css",
           "line": 689
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(0.43 0.075 80)",
+          "file": "tokens.css",
+          "line": 697
         }
       ],
       "aliases": []
@@ -5065,6 +5089,12 @@
           "value": "oklch(0.43 0.065 150)",
           "file": "tokens.css",
           "line": 688
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme])",
+          "value": "oklch(0.43 0.065 150)",
+          "file": "tokens.css",
+          "line": 696
         }
       ],
       "aliases": []

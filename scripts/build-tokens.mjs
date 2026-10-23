@@ -67,6 +67,25 @@ for (const token of tokens.values())
   for (const alias of token.aliases)
     if (!tokens.has(alias))
       throw new Error(`${token.name} references missing ${alias}`)
+// Light comes two ways, chosen with data-theme or from the OS with no data-theme, and
+// both must resolve every token alike.
+const chosenLight = ':root[data-theme="light"]'
+const systemLight =
+  '@media (prefers-color-scheme: light) / :root:not([data-theme])'
+const lightIn = (token, context) =>
+  token.variants.findLast((variant) => variant.context === context)?.value
+const lightDrift = [...tokens.values()].filter(
+  (token) => lightIn(token, chosenLight) !== lightIn(token, systemLight),
+)
+if (lightDrift.length)
+  throw new Error(
+    `Chosen and system light differ: ${lightDrift
+      .map(
+        (token) =>
+          `${token.name} (${lightIn(token, chosenLight)} / ${lightIn(token, systemLight)})`,
+      )
+      .join(', ')}`,
+  )
 const catalog = {
   schemaVersion: 1,
   sourceHash: hash.digest('hex'),
