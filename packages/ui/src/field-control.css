@@ -61,6 +61,14 @@
   .pui-select-trigger[aria-invalid='true']:hover {
     border-color: var(--status-danger-fg);
   }
+  /* Forced colors drop the border color and the halo, so focus becomes an outline. */
+  @media (forced-colors: active) {
+    .pui-input:focus,
+    .pui-select-trigger:focus-visible {
+      outline: var(--focus-ring-width) solid Highlight;
+      outline-offset: var(--focus-ring-offset);
+    }
+  }
   @media (prefers-reduced-motion: reduce) {
     .pui-input,
     .pui-select-trigger {

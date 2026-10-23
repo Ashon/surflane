@@ -61,6 +61,12 @@
   .pui-select-item[data-disabled] {
     opacity: var(--control-disabled-opacity);
   }
+  @media (forced-colors: active) {
+    .pui-select-item[data-highlighted] {
+      outline: 1px solid CanvasText;
+      outline-offset: -1px;
+    }
+  }
   .pui-select-check {
     position: absolute;
     inset-inline-start: var(--space-3);

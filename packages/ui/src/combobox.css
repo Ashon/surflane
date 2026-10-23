@@ -151,6 +151,10 @@
       outline: 1px solid CanvasText;
       outline-offset: -1px;
     }
+    /* The group draws the field's focus, so its input draws none of its own. */
+    .pui-combobox-group .pui-combobox-input:focus {
+      outline: none;
+    }
   }
   .pui-combobox-group > .pui-combobox-input,
   .pui-combobox-action {
