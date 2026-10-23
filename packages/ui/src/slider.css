@@ -56,7 +56,8 @@
     border-radius: var(--radius-full);
     background: var(--canvas);
   }
-  .pui-slider-thumb:focus-within {
+  /* The thumb's input is focused on pointer use too; only keyboard focus rings. */
+  .pui-slider-thumb:has(:focus-visible) {
     outline: var(--focus-ring-width) solid var(--interaction-focus);
     outline-offset: var(--focus-ring-offset);
   }
