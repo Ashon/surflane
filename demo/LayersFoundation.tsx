@@ -85,65 +85,79 @@ function OverlayLab() {
         {t.openLayeredDialog}
       </Dialog.Trigger>
       <Dialog.Content>
-        <Dialog.Title>{t.layeredWorkspacePreview}</Dialog.Title>
-        <Dialog.Description>{t.layeredWorkspaceDescription}</Dialog.Description>
-        <Field.Root>
-          <Field.Label>{t.previewEnvironment}</Field.Label>
-          <NativeSelect
-            value={region}
-            onChange={(event) => setRegion(event.target.value)}
-          >
-            <option value='staging'>{t.stagingPreview}</option>
-            <option value='production'>{t.productionPreview}</option>
-          </NativeSelect>
-        </Field.Root>
-        <p>
-          {t.selectedEnvironment} <strong data-layer-region>{region}</strong>
-        </p>
-        <div className='actions'>
-          <Popover.Root>
-            <Popover.Trigger render={<Button variant='outline' />}>
-              {t.inspectOverlayDetails}
-            </Popover.Trigger>
-            <Popover.Portal>
-              <Popover.Content
-                side='bottom'
-                align='start'
-                aria-label={t.overlayDetails}
-              >
-                <Popover.Title render={<h3 />}>
-                  {t.overlayDetails}
-                </Popover.Title>
-                <Popover.Description>{t.sharedPopoverNote}</Popover.Description>
-                <p>
-                  {t.currentSelection} <strong>{region}</strong>
-                </p>
-              </Popover.Content>
-            </Popover.Portal>
-          </Popover.Root>
-          <TooltipProvider>
-            <Tooltip label={t.tooltipExplainLayer}>
-              <Button variant='outline'>{t.explainThisLayer}</Button>
-            </Tooltip>
-          </TooltipProvider>
-          <Dialog.Root>
-            <Dialog.Trigger render={<Button variant='outline' />}>
-              {t.openNestedDialog}
-            </Dialog.Trigger>
-            <Dialog.Content>
-              <Dialog.Title>{t.nestedInspectionTitle}</Dialog.Title>
-              <Dialog.Description>
-                {t.nestedInspectionDescription}
-              </Dialog.Description>
-              <Dialog.Close render={<Button variant='outline' />}>
-                {t.closeNestedInspection}
-              </Dialog.Close>
-            </Dialog.Content>
-          </Dialog.Root>
-        </div>
-        <Dialog.Close render={<Button variant='outline' />}>
-          {t.closeLayeredPreview}
-        </Dialog.Close>
+        <Dialog.Header>
+          <Dialog.Title>{t.layeredWorkspacePreview}</Dialog.Title>
+          <Dialog.Description>
+            {t.layeredWorkspaceDescription}
+          </Dialog.Description>
+        </Dialog.Header>
+        <Dialog.Body>
+          <Field.Root>
+            <Field.Label>{t.previewEnvironment}</Field.Label>
+            <NativeSelect
+              value={region}
+              onChange={(event) => setRegion(event.target.value)}
+            >
+              <option value='staging'>{t.stagingPreview}</option>
+              <option value='production'>{t.productionPreview}</option>
+            </NativeSelect>
+          </Field.Root>
+          <p>
+            {t.selectedEnvironment} <strong data-layer-region>{region}</strong>
+          </p>
+          <div className='actions'>
+            <Popover.Root>
+              <Popover.Trigger render={<Button variant='outline' />}>
+                {t.inspectOverlayDetails}
+              </Popover.Trigger>
+              <Popover.Portal>
+                <Popover.Content
+                  side='bottom'
+                  align='start'
+                  aria-label={t.overlayDetails}
+                >
+                  <Popover.Title render={<h3 />}>
+                    {t.overlayDetails}
+                  </Popover.Title>
+                  <Popover.Description>
+                    {t.sharedPopoverNote}
+                  </Popover.Description>
+                  <p>
+                    {t.currentSelection} <strong>{region}</strong>
+                  </p>
+                </Popover.Content>
+              </Popover.Portal>
+            </Popover.Root>
+            <TooltipProvider>
+              <Tooltip label={t.tooltipExplainLayer}>
+                <Button variant='outline'>{t.explainThisLayer}</Button>
+              </Tooltip>
+            </TooltipProvider>
+            <Dialog.Root>
+              <Dialog.Trigger render={<Button variant='outline' />}>
+                {t.openNestedDialog}
+              </Dialog.Trigger>
+              <Dialog.Content>
+                <Dialog.Header>
+                  <Dialog.Title>{t.nestedInspectionTitle}</Dialog.Title>
+                  <Dialog.Description>
+                    {t.nestedInspectionDescription}
+                  </Dialog.Description>
+                </Dialog.Header>
+                <Dialog.Footer>
+                  <Dialog.Close render={<Button variant='outline' />}>
+                    {t.closeNestedInspection}
+                  </Dialog.Close>
+                </Dialog.Footer>
+              </Dialog.Content>
+            </Dialog.Root>
+          </div>
+        </Dialog.Body>
+        <Dialog.Footer>
+          <Dialog.Close render={<Button variant='outline' />}>
+            {t.closeLayeredPreview}
+          </Dialog.Close>
+        </Dialog.Footer>
       </Dialog.Content>
     </Dialog.Root>
   )

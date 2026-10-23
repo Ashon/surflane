@@ -1,7 +1,9 @@
 import { waitForCatalogReady } from './catalog-ready'
 import { test, expect } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
-import { readFileSync } from 'node:fs'
+import { readFileSync, readdirSync } from 'node:fs'
+import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { catalog, components, patterns, itemHref } from '../demo/catalog'
 import { componentDocs } from '../demo/componentDocs'
 import tokens from '../packages/tokens/catalog.json' with { type: 'json' }
@@ -413,4 +415,21 @@ test('catalog consumes shared badges and breadcrumbs and reveals the active side
   await header.getByRole('link', { name: 'Components', exact: true }).click()
   await expect(page).toHaveURL(/\/components$/)
   await expect(page.locator('#page-title')).toBeFocused()
+})
+
+test('catalog dialogs open with a Header, so their parts take the dialog insets', () => {
+  // Dialog.Content has no padding of its own: Header, Body and Footer carry it.
+  const demo = fileURLToPath(new URL('../demo', import.meta.url))
+  const misses: string[] = []
+  for (const file of readdirSync(demo).filter((name) =>
+    name.endsWith('.tsx'),
+  )) {
+    const source = readFileSync(join(demo, file), 'utf8')
+    for (const match of source.matchAll(
+      /<(Alert)?Dialog\.Content\b[^>]*>\s*<([\w.]+)/g,
+    ))
+      if (!match[2].endsWith('.Header'))
+        misses.push(`${file}: ${match[0].split('\n')[0]} → <${match[2]}>`)
+  }
+  expect(misses).toEqual([])
 })
