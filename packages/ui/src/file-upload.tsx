@@ -578,7 +578,7 @@ export const FileUpload = /* @__PURE__ */ React.forwardRef<
           })}
         </ul>
       )}
-      <span className='pui-visually-hidden' role='status'>
+      <span className='pui-feedback-sr' role='status'>
         {announcement}
       </span>
     </Field.Root>

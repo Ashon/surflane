@@ -114,6 +114,46 @@ assert.deepEqual(deadClasses, [], `Selected but never rendered: ${deadClasses}`)
 console.log(
   `@surflane/ui: all ${selectedClasses.size} selected classes are rendered by a component`,
 )
+// And the reverse: every class a component renders has a rule in the package, so a
+// misspelled or missing class fails here instead of changing what the reader sees.
+// Hooks name a part for apps and tests to select; the classes beside them style it.
+const hookClasses = new Set([
+  'pui-app-shell-toggle',
+  'pui-combobox-section',
+  'pui-date-range-picker',
+  'pui-meter',
+  'pui-navigation-item',
+  'pui-page-header-breadcrumb',
+  'pui-preview-trigger',
+  'pui-scroll-content',
+  'pui-select-group',
+  'pui-table-foot',
+  'pui-table-message',
+  'pui-table-sort-header',
+])
+const styledClasses = selectorsOf(
+  typeSheets.map((file) => readFileSync(file, 'utf8')).join('\n'),
+)
+// Custom property names such as --pui-status-progress are not classes.
+const unstyledClasses = [
+  ...new Set(componentSource.match(/(?<![\w-])pui-[a-z0-9-]+/g)),
+].filter((name) => !styledClasses.has(name) && !hookClasses.has(name))
+assert.deepEqual(
+  unstyledClasses,
+  [],
+  `Rendered but never styled: ${unstyledClasses}`,
+)
+const staleHooks = [...hookClasses].filter(
+  (name) => styledClasses.has(name) || !renderedClasses.has(name),
+)
+assert.deepEqual(
+  staleHooks,
+  [],
+  `Hook classes to drop from the list: ${staleHooks}`,
+)
+console.log(
+  `@surflane/ui: every rendered class has a rule, apart from ${hookClasses.size} hooks`,
+)
 // Components render only pui- classes, so an app's own .form-control or .scroll-area
 // never styles them.
 const unprefixed = [

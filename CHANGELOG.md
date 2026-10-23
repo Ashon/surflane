@@ -2,6 +2,12 @@
 
 `@surflane/design-tokens` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## Unreleased
+
+### Fixed
+
+- FileUpload's announcements, such as "2 files selected.", were printed under the list: the class that should hide them didn't exist. They are now heard and not seen. `check:package` fails on any rendered class that no rule styles.
+
 ## 0.7.0
 
 ### Added
