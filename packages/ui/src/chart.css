@@ -91,6 +91,14 @@
     outline-offset: var(--focus-ring-offset);
     border-radius: var(--radius-sm);
   }
+  /* The browser's SVG styles ring any :focus, so a tap or click would draw its own
+     ring: around the surface, or around the layer a tapped line or point sits in,
+     since Recharts gives each layer tabindex -1. Only the surface is a keyboard
+     target, and it rings for keyboard focus only, like every other control. */
+  .pui-chart-plot .recharts-surface:focus:not(:focus-visible),
+  .pui-chart-plot .recharts-surface :focus {
+    outline: none;
+  }
   .pui-chart-axis-label {
     margin: 0;
     color: var(--ink-muted);

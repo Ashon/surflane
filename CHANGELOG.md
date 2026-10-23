@@ -14,6 +14,10 @@
 - AppShell's own edge is square. The shell fills the window, so its edge is the window's; a page that shows a shell inside a frame rounds and clips the frame instead. Only the page surface is rounded. `--app-shell-radius` still derives the page radius as `max(0, radius - inset)` and is deprecated: set `--app-shell-page-radius`.
 - On a phone, 760px and narrower, AppShell's page meets the screen's edges: the shell drops its inset, and the page its margin and rounding, below the mobile header.
 
+### Fixed
+
+- A tap or click on a Chart no longer draws the browser's focus ring, around the plot or around the lines and points. The browser's SVG styles ring any focus, not just keyboard focus, and Recharts makes each layer of lines and points focusable. The plot now shows Surflane's ring for keyboard focus only, like every other control.
+
 ## 0.6.0
 
 ### Added

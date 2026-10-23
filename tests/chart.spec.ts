@@ -243,7 +243,35 @@ test('touch exposes the same complete values without relying on hover', async ({
   )
   await expect(page.locator('[data-chart-readout]')).toBeVisible()
   await expect(page.locator('.pui-chart-inspector')).toContainText('Workspace:')
+  // A tap focuses the plot but draws no ring; the browser's SVG styles would.
+  const surface = page.locator('.pui-chart-plot .recharts-surface')
+  await expect(surface).toBeFocused()
+  await expect(surface).toHaveCSS('outline-style', 'none')
+  // A tap on a point focuses the Recharts layer it sits in, which draws no ring either.
+  const point = await page
+    .locator('.pui-chart-plot .recharts-line-dots circle')
+    .nth(3)
+    .boundingBox()
+  await page.touchscreen.tap(
+    point!.x + point!.width / 2,
+    point!.y + point!.height / 2,
+  )
+  const focused = page.locator('.pui-chart-plot g[tabindex="-1"]:focus')
+  await expect(focused).toHaveCount(1)
+  await expect(focused).toHaveCSS('outline-style', 'none')
   await context.close()
+})
+
+test('the plot rings for keyboard focus only', async ({ page }) => {
+  await open(page)
+  const surface = page.locator('.pui-chart-plot .recharts-surface')
+  await surface.click({ position: { x: 120, y: 80 } })
+  await expect(surface).toBeFocused()
+  await expect(surface).toHaveCSS('outline-style', 'none')
+  await page.locator('.pui-chart-legend-button').last().focus()
+  await page.keyboard.press('Tab')
+  await expect(surface).toBeFocused()
+  await expect(surface).toHaveCSS('outline-style', 'solid')
 })
 
 test('the key sits on the plot and the active values float beside the point', async ({
