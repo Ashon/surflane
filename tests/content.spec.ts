@@ -288,9 +288,17 @@ test('Pagination bounds and a very large page count produce a finite window with
   await page.setContent(render(99, 3))
   await expect(page.locator('[aria-current="page"]')).toHaveText('3')
   await page.setContent(render(2, 3, true))
-  await expect(page.getByRole('link')).toHaveCount(0)
+  // Disabled pages lead nowhere but keep their names and read as unavailable.
+  await expect(page.locator('a[href]')).toHaveCount(0)
+  await expect(
+    page.getByRole('link', { name: 'Page 1', exact: true, disabled: true }),
+  ).toBeVisible()
   await expect(page.locator('[aria-current="page"]')).toHaveAttribute(
     'aria-disabled',
     'true',
   )
+  await page.setContent(render(1, 3))
+  await expect(
+    page.getByRole('link', { name: 'Previous page', disabled: true }),
+  ).toHaveCount(1)
 })

@@ -45,14 +45,15 @@
     background-color: var(--selected);
     border-color: var(--control-border);
   }
-  .pui-pagination-control:is(a, button):hover {
+  /* Only a control that can act shows hover and pressed layers. */
+  .pui-pagination-control:is(a, button):where([href], :enabled):hover {
     background: var(--interaction-hover-bg);
   }
   /* Pressed layers show touch feedback in the control's shape instead. */
   .pui-pagination-control:is(a, button) {
     -webkit-tap-highlight-color: transparent;
   }
-  .pui-pagination-control:is(a, button):active {
+  .pui-pagination-control:is(a, button):where([href], :enabled):active {
     background: var(--interaction-active-bg);
   }
   .pui-pagination-control[aria-disabled='true'] {

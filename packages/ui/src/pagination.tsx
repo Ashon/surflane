@@ -80,11 +80,13 @@ export const Pagination = /* @__PURE__ */ React.forwardRef<
       'aria-label': name,
       'aria-current': currentPage ? ('page' as const) : undefined,
     }
+    // An inactive page is a link with no destination: it keeps its name and reads as
+    // unavailable, as a disabled Button does. A plain span could carry neither.
     if (getPageHref)
       return inactive ? (
-        <span {...attributes} aria-disabled='true'>
+        <a {...attributes} role='link' aria-disabled='true'>
           {children}
-        </span>
+        </a>
       ) : (
         <a {...attributes} href={getPageHref(target)}>
           {children}
