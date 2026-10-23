@@ -1,20 +1,52 @@
 import React, { Suspense } from 'react'
-import { lazy } from './lazy'
+import { lazy, lazyModule } from './lazy'
 import { Table, CodeBlock as SharedCodeBlock } from '@surflane/ui'
 import {
+  catalog,
   components,
   foundations,
   patterns,
   itemHref,
   type CatalogItem,
 } from './catalog'
-import { componentDocs, type DocText } from './componentDocs'
+import type { ComponentDoc, DocText } from './componentDocs'
 import { ComponentSizePreview } from './ComponentSizePreview'
 import { StageLabel } from './StageLabel'
-import { Link } from './router'
+import { Link, onPreload, urlLocale } from './router'
 import { useLocale, useMessages } from './i18n'
 import { useCatalogText } from './catalogText'
-import { docsKo } from './i18n/docs'
+import type { DocKo } from './i18n/docs/types'
+// One module per page and language, so a page loads only its own docs.
+function byId<T>(
+  modules: Record<string, () => Promise<{ doc: T }>>,
+  suffix: string,
+) {
+  return Object.fromEntries(
+    Object.entries(modules).map(([path, load]) => [
+      path.slice(path.lastIndexOf('/') + 1, -suffix.length),
+      lazyModule(load),
+    ]),
+  )
+}
+const docs = byId(
+  import.meta.glob<{ doc: ComponentDoc }>('./docs/*.en.ts'),
+  '.en.ts',
+)
+const docsKo = byId(
+  import.meta.glob<{ doc: DocKo }>('./i18n/docs/*.ko.ts'),
+  '.ko.ts',
+)
+// A link to another page loads that page's docs ahead, so it opens whole.
+const pages = new Map(catalog.map((item) => [itemHref(item), item.id]))
+onPreload((path) => {
+  const id = pages.get(path)
+  if (!id) return
+  const pending = [
+    docs[id]?.preload(),
+    urlLocale() === 'ko' ? docsKo[id]?.preload() : undefined,
+  ].filter((request) => request !== undefined)
+  return pending.length ? Promise.all(pending) : undefined
+})
 // Components with written guidelines and working designs, loaded with the page.
 const guidelines: Partial<Record<string, React.ComponentType>> = {
   table: lazy(() => import('./TableGuidelines')),
@@ -56,8 +88,8 @@ export function DetailPage({
   const messages = useMessages()
   const { locale } = useLocale()
   const text = useCatalogText()
-  const ko = locale === 'ko' ? docsKo[item.id] : undefined
-  const doc = componentDocs[item.id]
+  const doc = docs[item.id]?.read().doc
+  const ko = locale === 'ko' ? docsKo[item.id]?.read().doc : undefined
   const Guidelines = guidelines[item.id]
   const peers =
     item.kind === 'component'

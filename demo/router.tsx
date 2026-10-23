@@ -101,7 +101,40 @@ export function switchLocale(locale: Locale) {
   )
   window.dispatchEvent(new PopStateEvent('popstate'))
 }
+const preloads = new Set<(path: string) => Promise<unknown> | undefined>()
+/**
+ * Lets a page load what a link's page reads before the link is followed, such as its
+ * docs. It returns nothing once that is loaded.
+ */
+export function onPreload(
+  preload: (path: string) => Promise<unknown> | undefined,
+) {
+  preloads.add(preload)
+}
+function preload(href: string) {
+  const path = href.split(/[?#]/)[0]
+  return [...preloads].flatMap((preload) => preload(path) ?? [])
+}
+function startPreload(href: string) {
+  // A load that fails here is retried, and reported, when the page renders.
+  if (href.startsWith('/'))
+    preload(href).forEach((request) => request.catch(() => {}))
+}
+let navigation = 0
 export function navigate(href: string) {
+  const ticket = ++navigation
+  const pending = preload(href)
+  if (!pending.length) return go(href)
+  // A page that suspends shows its fallback for at least 300ms, so wait briefly for
+  // what the next page reads and render it whole. A newer navigation wins.
+  void Promise.race([
+    Promise.allSettled(pending),
+    new Promise((resolve) => setTimeout(resolve, 500)),
+  ]).then(() => {
+    if (ticket === navigation) go(href)
+  })
+}
+function go(href: string) {
   rememberCatalogScrollPosition()
   history.replaceState(
     { ...history.state, catalogScroll: catalogScrollPosition() },
@@ -117,12 +150,23 @@ export function navigate(href: string) {
 export function Link({
   href,
   onClick,
+  onPointerEnter,
+  onFocus,
   ...props
 }: React.ComponentProps<'a'> & { href: string }) {
   return (
     <a
       {...props}
       href={routeHref(href)}
+      // Pointing at or focusing a link starts loading its page.
+      onPointerEnter={(e) => {
+        onPointerEnter?.(e)
+        startPreload(href)
+      }}
+      onFocus={(e) => {
+        onFocus?.(e)
+        startPreload(href)
+      }}
       onClick={(e) => {
         onClick?.(e)
         if (
