@@ -4,15 +4,49 @@ const positions = new Map<string, number>()
 // Routes stay root-relative; a build base such as /surflane/ (a Pages project site without a custom domain) is added at the URL boundary.
 // Specs import catalog modules outside Vite, where import.meta.env is undefined.
 const basePath = (import.meta.env?.BASE_URL ?? '/').replace(/\/$/, '')
+/** A file in the public folder, such as /llms.txt: the base only, in every language. */
 export function withBase(href: string) {
   return href.startsWith('/') ? basePath + href : href
 }
-function routePath() {
+export type Locale = 'en' | 'ko'
+// English pages live at the root and Korean pages under /ko, so each URL holds one
+// language and the build can write every page as static HTML.
+const koreanPrefix = '/ko'
+export function localePath(locale: Locale, path: string) {
+  if (locale === 'en') return path
+  return path === '/' ? koreanPrefix : koreanPrefix + path
+}
+function splitLocale(path: string): { locale: Locale; path: string } {
+  return path === koreanPrefix || path.startsWith(koreanPrefix + '/')
+    ? { locale: 'ko', path: path.slice(koreanPrefix.length) || '/' }
+    : { locale: 'en', path }
+}
+// The prerender sets the URL it renders; in a browser the URL is the document's.
+let serverPath: string | undefined
+export function setServerPath(path: string) {
+  serverPath = path
+}
+function documentPath() {
+  if (serverPath !== undefined) return serverPath
   const path = location.pathname
   if (path === basePath) return '/'
   return basePath && path.startsWith(basePath + '/')
     ? path.slice(basePath.length)
     : path
+}
+/** The page's own path, with its language and without the base or a trailing slash. */
+export function pagePath() {
+  return documentPath().replace(/(.)\/$/, '$1')
+}
+export function urlLocale(): Locale {
+  return splitLocale(documentPath()).locale
+}
+function routePath() {
+  return splitLocale(documentPath()).path
+}
+/** A catalog page in the language being read, with the base. */
+export function routeHref(href: string) {
+  return href.startsWith('/') ? basePath + localePath(urlLocale(), href) : href
 }
 // crypto.randomUUID exists only in secure contexts; a dev server opened by LAN or
 // Tailscale address is plain HTTP, so the key comes from getRandomValues instead.
@@ -44,11 +78,28 @@ const subscribe = (notify: () => void) => {
     window.removeEventListener('hashchange', notify)
   }
 }
+// The prerendered page has no query or fragment, so hydration starts from the path.
 export function useLocation() {
   return useSyncExternalStore(
     subscribe,
     () => routePath() + location.search + location.hash,
+    routePath,
   )
+}
+export function useUrlLocale() {
+  return useSyncExternalStore(subscribe, urlLocale, urlLocale)
+}
+/** The same page in another language, in place: the history entry and scroll stay. */
+export function switchLocale(locale: Locale) {
+  history.replaceState(
+    history.state,
+    '',
+    basePath +
+      localePath(locale, routePath()) +
+      location.search +
+      location.hash,
+  )
+  window.dispatchEvent(new PopStateEvent('popstate'))
 }
 export function navigate(href: string) {
   rememberCatalogScrollPosition()
@@ -59,7 +110,7 @@ export function navigate(href: string) {
   history.pushState(
     { catalogEntry: randomKey(), catalogScroll: 0 },
     '',
-    withBase(href),
+    routeHref(href),
   )
   window.dispatchEvent(new PopStateEvent('popstate'))
 }
@@ -71,7 +122,7 @@ export function Link({
   return (
     <a
       {...props}
-      href={withBase(href)}
+      href={routeHref(href)}
       onClick={(e) => {
         onClick?.(e)
         if (

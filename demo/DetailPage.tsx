@@ -1,4 +1,5 @@
-import React, { lazy, Suspense } from 'react'
+import React, { Suspense } from 'react'
+import { lazy } from './lazy'
 import { Table, CodeBlock as SharedCodeBlock } from '@surflane/ui'
 import {
   components,
@@ -15,9 +16,7 @@ import { useLocale, useMessages } from './i18n'
 import { useCatalogText } from './catalogText'
 import { docsKo } from './i18n/docs'
 // Components with written guidelines and working designs, loaded with the page.
-const guidelines: Partial<
-  Record<string, React.LazyExoticComponent<() => React.JSX.Element>>
-> = {
+const guidelines: Partial<Record<string, React.ComponentType>> = {
   table: lazy(() => import('./TableGuidelines')),
 }
 function CodeBlock({

@@ -4,6 +4,7 @@ import { Input, Select, Button, Text } from '@surflane/ui'
 import { codeText } from './codeText'
 import { FoundationPage, FoundationSection } from './FoundationPage'
 import { useLocale } from './i18n'
+import { useLocation } from './router'
 import { text } from './i18n/pages/TokenBrowser'
 function useResolvedTokens() {
   const [values, setValues] = useState<Record<string, string>>({})
@@ -48,8 +49,11 @@ export function TokenBrowser() {
   )
 }
 /** The /tokens foundation page, opened on the query from its URL. */
-export function TokenPage({ initialQuery }: { initialQuery: string }) {
+export function TokenPage() {
   const t = text[useLocale().locale]
+  // A prerendered page has no query, so a ?q= link applies once the page is live.
+  const initialQuery =
+    new URL(useLocation(), 'http://catalog').searchParams.get('q') ?? ''
   return (
     <FoundationPage
       principles={t.principles}

@@ -8,7 +8,7 @@ import {
 import { ComponentExample } from './ComponentExamples'
 import { exampleOwnsFrame } from './exampleGroups'
 import type { CatalogItem } from './catalog'
-import { withBase } from './router'
+import { routeHref } from './router'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/ComponentSizePreview'
 import { PreviewDensityContext } from './previewOptions'
@@ -102,7 +102,7 @@ export function ComponentSizePreview({
             )}
           <p>
             {withDensity ? t.descriptionDensity : t.description}{' '}
-            <a href={withBase('/foundations/layout#component-sizes')}>
+            <a href={routeHref('/foundations/layout#component-sizes')}>
               {t.sizeGuidance}
             </a>
           </p>

@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process'
-import { copyFileSync } from 'node:fs'
+import { rmSync } from 'node:fs'
 import { resolve, dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
@@ -14,9 +14,25 @@ if (!base.startsWith('/'))
 const out = join(root, 'artifacts/pages')
 execFileSync(
   'npx',
-  ['vite', 'build', 'demo', '--base', base, '--outDir', out, '--emptyOutDir'],
+  [
+    'vite',
+    'build',
+    'demo',
+    '--base',
+    base,
+    '--outDir',
+    out,
+    '--emptyOutDir',
+    '--manifest',
+  ],
   { cwd: root, stdio: 'inherit' },
 )
-// Pages has no SPA fallback: it answers unknown paths with 404.html, which boots the catalog router.
-copyFileSync(join(out, 'index.html'), join(out, '404.html'))
+// Every page as static HTML, and 404.html for the paths Pages has no file for.
+execFileSync(
+  'node',
+  ['scripts/prerender.mjs', '--base', base, '--outDir', out],
+  { cwd: root, stdio: 'inherit' },
+)
+// The manifest only told the prerender which files each page needs.
+rmSync(join(out, '.vite'), { recursive: true, force: true })
 console.log(`Catalog for GitHub Pages: artifacts/pages (base ${base})`)

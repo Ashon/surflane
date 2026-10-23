@@ -868,6 +868,20 @@ export function itemHref(item: CatalogItem) {
       : `/foundations/${item.id}`
     : `/${item.kind === 'component' ? 'components' : 'patterns'}/${item.id}`
 }
+/** Every page the catalog routes to; the build writes each one as HTML in both languages. */
+export const pageRoutes = [
+  ...new Set([
+    '/',
+    '/install',
+    '/foundations',
+    '/components',
+    '/patterns',
+    '/coverage',
+    '/foundations/lab',
+    '/patterns/interaction-lab',
+    ...catalog.map(itemHref),
+  ]),
+]
 export const referenceSources = [
   {
     name: 'Recharts — Tooltip and keyboard readout',

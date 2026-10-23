@@ -1,7 +1,8 @@
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useEffect } from 'react'
 import { en, type Messages } from './messages'
+import { switchLocale, urlLocale, useUrlLocale, type Locale } from './router'
 
-export type Locale = 'en' | 'ko'
+export type { Locale }
 export const localeNames: Record<Locale, string> = {
   en: 'English',
   ko: '한국어',
@@ -16,16 +17,21 @@ export function loadKorean() {
 export function koreanCatalog() {
   return korean?.catalogKo
 }
-// The boot script in index.html sets <html lang> from the cookie or the browser before paint.
+// The URL names the language: Korean pages live under /ko.
 export function documentLocale(): Locale {
-  return document.documentElement.lang.startsWith('ko') ? 'ko' : 'en'
+  return urlLocale()
 }
 const LocaleContext = createContext<{
   locale: Locale
   setLocale: (next: Locale) => void
 }>({ locale: 'en', setLocale: () => {} })
 export function LocaleProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocaleState] = useState(documentLocale)
+  const locale = useUrlLocale()
+  // History can move between languages too; <html lang> follows the URL.
+  useEffect(() => {
+    document.documentElement.lang = locale
+  }, [locale])
+  // The cookie keeps the choice: the boot script sends an English URL to Korean then.
   const setLocale = (next: Locale) => {
     const apply = () => {
       try {
@@ -33,8 +39,7 @@ export function LocaleProvider({ children }: { children: React.ReactNode }) {
       } catch {
         // Storage restrictions must not prevent an in-session language change.
       }
-      document.documentElement.lang = next
-      setLocaleState(next)
+      switchLocale(next)
     }
     if (next === 'ko') void loadKorean().then(apply)
     else apply()

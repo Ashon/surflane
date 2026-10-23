@@ -1,8 +1,9 @@
 import { test, expect } from '@playwright/test'
 import { waitForCatalogReady } from './catalog-ready'
-import { catalog, itemHref } from '../demo/catalog'
+import { pageRoutes } from '../demo/catalog'
+import { localePath } from '../demo/router'
 
-test('the language switch sets lang, persists in a cookie and survives a reload', async ({
+test('the language switch moves to the Korean URL, keeps the choice in a cookie and survives a reload', async ({
   page,
   context,
 }) => {
@@ -18,6 +19,8 @@ test('the language switch sets lang, persists in a cookie and survives a reload'
     .locator('.catalog-toprail')
     .getByRole('button', { name: 'Language: English', exact: true })
     .click()
+  // Each language has its own URL, so a page can be prerendered in both.
+  await expect(page).toHaveURL(/\/ko\/components$/)
   await expect(page.locator('html')).toHaveAttribute('lang', 'ko')
   await expect(glyph).toHaveText('A')
   await expect(glyph).toHaveAttribute('lang', 'en')
@@ -39,16 +42,31 @@ test('the language switch sets lang, persists in a cookie and survives a reload'
       (cookie) => cookie.name === 'surflane-locale',
     )?.value,
   ).toBe('ko')
+  // Links stay in the language.
+  await page
+    .locator('.catalog-sidebar')
+    .getByRole('link', { name: 'Button', exact: true })
+    .click()
+  await expect(page).toHaveURL(/\/ko\/components\/button$/)
   await page.reload()
   await waitForCatalogReady(page)
-  // The boot script restores the language before paint.
   await expect(page.locator('html')).toHaveAttribute('lang', 'ko')
+  // An English URL is every page's default address: the chosen language wins there.
+  await page.goto('/components')
+  await waitForCatalogReady(page)
+  await expect(page).toHaveURL(/\/ko\/components$/)
   await page
     .locator('.catalog-toprail')
     .getByRole('button', { name: '언어: 한국어', exact: true })
     .click()
+  await expect(page).toHaveURL(/\/components$/)
+  await expect(page).not.toHaveURL(/\/ko\//)
   await expect(page.locator('html')).toHaveAttribute('lang', 'en')
   await expect(page.locator('#page-title')).toHaveText('Components')
+  // A Korean URL stays Korean whatever was chosen; only the default address moves.
+  await page.goto('/ko/components')
+  await waitForCatalogReady(page)
+  await expect(page.locator('html')).toHaveAttribute('lang', 'ko')
 })
 
 test('a Korean browser starts in Korean until a language is chosen', async ({
@@ -59,6 +77,7 @@ test('a Korean browser starts in Korean until a language is chosen', async ({
     const page = await context.newPage()
     await page.goto('http://127.0.0.1:8066/components')
     await waitForCatalogReady(page)
+    await expect(page).toHaveURL(/\/ko\/components$/)
     await expect(page.locator('html')).toHaveAttribute('lang', 'ko')
   } finally {
     await context.close()
@@ -70,25 +89,11 @@ test('every catalog page renders in Korean without errors', async ({
 }) => {
   test.setTimeout(240000)
   const context = await browser.newContext()
-  await context.addCookies([
-    { name: 'surflane-locale', value: 'ko', url: 'http://127.0.0.1:8066' },
-  ])
   const page = await context.newPage()
   const errors: string[] = []
   page.on('pageerror', (error) => errors.push(error.message))
-  const routes = [
-    '/',
-    '/install',
-    '/foundations',
-    '/components',
-    '/patterns',
-    '/coverage',
-    '/foundations/lab',
-    '/patterns/interaction-lab',
-    ...catalog.map(itemHref),
-  ]
-  for (const route of routes) {
-    await page.goto('http://127.0.0.1:8066' + route)
+  for (const route of pageRoutes) {
+    await page.goto('http://127.0.0.1:8066' + localePath('ko', route))
     await waitForCatalogReady(page)
     await expect(page.locator('html'), route).toHaveAttribute('lang', 'ko')
   }

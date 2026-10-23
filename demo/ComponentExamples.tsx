@@ -1,4 +1,5 @@
-import React, { lazy, type ComponentType } from 'react'
+import React, { type ComponentType } from 'react'
+import { lazy } from './lazy'
 import { exampleGroupFor, type ExampleGroup } from './exampleGroups'
 import { DeferredContent } from './DeferredContent'
 import { useLocale } from './i18n'

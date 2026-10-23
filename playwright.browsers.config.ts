@@ -8,6 +8,7 @@ export default defineConfig({
     "forms.spec.ts",
     "app-shell.spec.ts",
     "button-variants.spec.ts",
+    "prerender.spec.ts",
   ],
   fullyParallel: true,
   retries: 0,

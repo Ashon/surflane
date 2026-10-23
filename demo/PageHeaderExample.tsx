@@ -7,7 +7,7 @@ import {
   NativeSelect,
   ChoiceLabel,
 } from '@surflane/ui'
-import { withBase } from './router'
+import { routeHref } from './router'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/PageHeaderExample'
 export function PageHeaderExample() {
@@ -74,7 +74,7 @@ export function PageHeaderExample() {
               <Breadcrumbs.Root aria-label={t.breadcrumbLabel}>
                 <Breadcrumbs.List>
                   <Breadcrumbs.Item>
-                    <a href={withBase('/patterns')}>{t.patterns}</a>
+                    <a href={routeHref('/patterns')}>{t.patterns}</a>
                   </Breadcrumbs.Item>
                   <Breadcrumbs.Item>
                     <Breadcrumbs.Separator />

@@ -1,8 +1,9 @@
-import React, { lazy, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { lazy } from './lazy'
 import { CodeBlock, StatusBadge, Table } from '@surflane/ui'
 import { Link } from './router'
 import { contrastRatio } from './contrast'
-import { DeferredContent } from './DeferredContent'
+import { DeferredContent, useLive } from './DeferredContent'
 import { FoundationPage, FoundationSection } from './FoundationPage'
 
 // The lab and its color math load as their own chunk and render after the page.
@@ -92,6 +93,7 @@ function TokenLink({ token }: { token: string }) {
 }
 
 export function ColorFoundation() {
+  const live = useLive()
   const t = text[useLocale().locale]
   const groups: PairGroup[] = [
     {
@@ -637,8 +639,9 @@ export function ColorFoundation() {
       </FoundationSection>
       <FoundationSection id='lab'>
         <p>{t.labIntro}</p>
+        {/* The lab reads tokens from the live page, so it loads after hydration. */}
         <DeferredContent scope='preview'>
-          <PaletteLab />
+          {live && <PaletteLab />}
         </DeferredContent>
       </FoundationSection>
     </FoundationPage>

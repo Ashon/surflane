@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { NavigationMenu, DirectionProvider } from '@surflane/ui'
 import { Flag } from './Flag'
-import { withBase } from './router'
+import { routeHref } from './router'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/NavigationMenuExample'
 export function NavigationMenuExample() {
@@ -87,7 +87,7 @@ export function NavigationMenuExample() {
                       <span>{t.deploymentGuideDescription}</span>
                     </NavigationMenu.Link>
                     <NavigationMenu.Link
-                      href={withBase('/foundations/layout')}
+                      href={routeHref('/foundations/layout')}
                       closeOnClick
                     >
                       <strong>{t.layoutFoundations}</strong>

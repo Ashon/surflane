@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import {
   Button,
   ChoiceLabel,
@@ -176,8 +176,15 @@ function Options({
 
 export default function InstallGuide() {
   const t = text[useLocale().locale]
-  const [setup, setSetup] = useState(readSetup)
-  useEffect(() => writeSetup(setup), [setup])
+  // A prerendered page shows the defaults; a copied link's choices apply before paint.
+  const [setup, setSetup] = useState(defaults)
+  const restored = useRef(false)
+  useLayoutEffect(() => setSetup(readSetup()), [])
+  // The link is written back only once it has been read.
+  useEffect(() => {
+    if (restored.current) writeSetup(setup)
+    restored.current = true
+  }, [setup])
   const update = (change: Partial<Setup>) =>
     setSetup((old) => ({ ...old, ...change }))
   const { framework, manager, tailwind, remember } = setup

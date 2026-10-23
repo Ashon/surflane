@@ -55,23 +55,39 @@
         chrome.content = chrome.dataset[theme]
       })()
       ;(() => {
-        let locale
+        // Korean pages live under /ko. An English URL is also every page's default
+        // address, so a reader who chose Korean, or whose browser prefers it, moves to
+        // the Korean page before anything paints.
+        const base = '%BASE_URL%'.replace(/\/$/, '')
+        let path = location.pathname
+        if (base && path.startsWith(base)) path = path.slice(base.length) || '/'
+        const korean = path === '/ko' || path.startsWith('/ko/')
+        let chosen
         try {
           const value = document.cookie
             .split('; ')
             .find((entry) => entry.startsWith('surflane-locale='))
             ?.slice('surflane-locale='.length)
-          if (value === 'en' || value === 'ko') locale = value
+          if (value === 'en' || value === 'ko') chosen = value
         } catch {}
-        if (locale === undefined) {
+        if (!korean) {
           const first = (
             navigator.languages?.[0] ??
             navigator.language ??
             ''
           ).toLowerCase()
-          locale = first.startsWith('ko') ? 'ko' : 'en'
+          if ((chosen ?? (first.startsWith('ko') ? 'ko' : 'en')) === 'ko') {
+            document.documentElement.style.visibility = 'hidden'
+            location.replace(
+              base +
+                (path === '/' ? '/ko' : '/ko' + path) +
+                location.search +
+                location.hash,
+            )
+            return
+          }
         }
-        document.documentElement.lang = locale
+        document.documentElement.lang = korean ? 'ko' : 'en'
       })()
     </script>
     <title>Surflane</title>

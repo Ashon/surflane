@@ -2282,6 +2282,20 @@ body,
 .catalog-toprail .catalog-theme-toggle:hover:not(:disabled) {
   filter: none;
 }
+/* The boot script sets the mode before paint, so a prerendered page shows its icon
+   before the app hydrates. */
+.catalog-theme-toggle [data-theme-icon] {
+  display: none;
+}
+:root:not([data-theme-mode='dark'], [data-theme-mode='system'])
+  .catalog-theme-toggle
+  [data-theme-icon='light'],
+:root[data-theme-mode='dark'] .catalog-theme-toggle [data-theme-icon='dark'],
+:root[data-theme-mode='system']
+  .catalog-theme-toggle
+  [data-theme-icon='system'] {
+  display: inline;
+}
 @media (prefers-reduced-motion: reduce) {
   .catalog-primary a,
   .catalog-toprail .catalog-theme-toggle,

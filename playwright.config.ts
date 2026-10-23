@@ -2,6 +2,8 @@ import { defineConfig } from "@playwright/test";
 export default defineConfig({
   testDir: "tests",
   testMatch: "*.spec.ts",
+  // Prerendered pages exist only in the production build (playwright.browsers.config.ts).
+  testIgnore: "prerender.spec.ts",
   // Tests share nothing but the static catalog, so they run in parallel, test by
   // test, on half the CPU cores (Playwright's default).
   fullyParallel: true,

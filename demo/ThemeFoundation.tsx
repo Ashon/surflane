@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import {
   AppShell,
   Button,
@@ -329,9 +329,11 @@ export function ThemeFoundation() {
   const tag = locale === 'ko' ? 'ko-KR' : 'en-US'
   const number = (value: number) => value.toLocaleString(tag)
   const [inputs, setInputs] = useState<Inputs>(defaults)
-  const [mode, setMode] = useState<'dark' | 'light'>(() =>
-    document.documentElement.dataset.theme === 'light' ? 'light' : 'dark',
-  )
+  // The preview starts in the page's theme; a prerendered page is light until it hydrates.
+  const [mode, setMode] = useState<'dark' | 'light'>('light')
+  useLayoutEffect(() => {
+    if (document.documentElement.dataset.theme === 'dark') setMode('dark')
+  }, [])
   const neutral =
     inputs.neutral.preset === 'custom'
       ? { hue: inputs.neutral.hue, chroma: inputs.neutral.chroma }

@@ -113,6 +113,15 @@ test('Only the requested example group loads, with route focus and state preserv
   )
   expect(requests.some((url) => isModule(url, 'FileUploadExample'))).toBe(false)
 })
+// A page loaded directly is prerendered whole in the production build; a delayed
+// chunk shows its loading state when the catalog navigates to a page in place.
+async function openToast(page: Page) {
+  await page.goto('/components')
+  await waitForCatalogReady(page)
+  await navigation(page)
+    .getByRole('link', { name: 'Toast', exact: true })
+    .click()
+}
 test('Delayed preview leaves documentation, title and navigation available', async ({
   page,
 }) => {
@@ -122,7 +131,7 @@ test('Delayed preview leaves documentation, title and navigation available', asy
     await held
     await route.continue()
   })
-  await page.goto('/components/toast', { waitUntil: 'domcontentloaded' })
+  await openToast(page)
   await expect(page.locator('#page-title')).toHaveText('Toast')
   await expect(page.locator('[data-catalog-loading="preview"]')).toBeVisible()
   await expect(
@@ -144,7 +153,7 @@ test('Leaving a delayed route prevents its eventual response from replacing the 
     await held
     await route.continue()
   })
-  await page.goto('/components/toast', { waitUntil: 'domcontentloaded' })
+  await openToast(page)
   await expect(page.locator('[data-catalog-loading="preview"]')).toBeVisible()
   await navigation(page)
     .getByRole('link', { name: 'Input', exact: true })

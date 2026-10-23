@@ -1,10 +1,33 @@
-import React, { Suspense, useEffect, useLayoutEffect, useRef } from 'react'
+import React, {
+  Suspense,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useSyncExternalStore,
+} from 'react'
 import { Button } from '@surflane/ui'
 import { Link, catalogScrollPosition } from './router'
 type Scope = 'page' | 'preview'
+/** Set while the app takes over a prerendered page, whose content is already shown. */
+export const hydration = { pending: false }
+const never = () => () => {}
+/** False in the prerender and while the page hydrates: for parts that read the live DOM. */
+export function useLive() {
+  return useSyncExternalStore(
+    never,
+    () => true,
+    () => false,
+  )
+}
 function Ready({ scope }: { scope: Scope }) {
   const marker = useRef<HTMLSpanElement>(null)
+  // The marker appears once the content is live, not while it is still static HTML.
+  const live = useLive()
   useLayoutEffect(() => {
+    if (scope === 'page' && hydration.pending) {
+      hydration.pending = false
+      return
+    }
     if (
       scope !== 'page' ||
       matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -45,7 +68,9 @@ function Ready({ scope }: { scope: Scope }) {
       .getElementById(id)
       ?.scrollIntoView({ block: 'start', behavior: 'instant' })
   }, [])
-  return <span ref={marker} hidden data-catalog-ready={scope} />
+  return (
+    <span ref={marker} hidden data-catalog-ready={live ? scope : undefined} />
+  )
 }
 class LoadBoundary extends React.Component<
   { scope: Scope; children: React.ReactNode },
