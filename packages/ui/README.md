@@ -55,7 +55,7 @@ Chart, DatePicker, Markdown, Tree and syntax highlighting have their own entry p
 | `Tree` from `@surflane/ui/tree`                                                                    | `@headless-tree/core @headless-tree/react @tanstack/react-virtual` |
 | `SyntaxHighlighting` from `@surflane/ui/syntax-highlighting`                                       | `shiki`                                                            |
 
-`CodeBlock` and `SyntaxHighlighter` render plain text until a `<SyntaxHighlighting>` provider wraps them.
+`CodeBlock` and `SyntaxHighlighter` render plain text until a `<SyntaxHighlighting>` provider wraps them. With `<SyntaxHighlighting suspense>`, a server render waits for the tokens and writes highlighted HTML.
 
 ## Frameworks
 

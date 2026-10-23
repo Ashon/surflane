@@ -46,6 +46,11 @@ import { SyntaxHighlighting } from '@surflane/ui/syntax-highlighting'
         'Highlighted source / false',
       ],
       ['ref', 'underlying code HTMLElement', '—'],
+      [
+        'SyntaxHighlighting suspense',
+        'each block waits for its tokens behind its own Suspense boundary, so a server render writes highlighted HTML',
+        'false',
+      ],
     ],
   },
   markdown: {

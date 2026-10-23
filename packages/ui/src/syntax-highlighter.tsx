@@ -1,7 +1,7 @@
 'use client'
 import * as React from 'react'
 import { ScrollArea } from './scroll-area.js'
-import { SyntaxEngineContext } from './syntax-context.js'
+import { SyntaxEngineContext, requestTokens } from './syntax-context.js'
 import type { SyntaxToken } from './syntax-engine.js'
 import { cx } from './parts.js'
 export const syntaxLanguages = [
@@ -30,6 +30,15 @@ const aliases: Record<string, string> = {
   xml: 'html',
   plaintext: 'text',
   txt: 'text',
+}
+function Highlighted({
+  tokens,
+  render,
+}: {
+  tokens: Promise<SyntaxToken[][] | null>
+  render: (tokens: SyntaxToken[][] | null) => React.ReactNode
+}) {
+  return render(React.use(tokens))
 }
 export type SyntaxHighlighterProps = Omit<
   React.ComponentPropsWithoutRef<'code'>,
@@ -60,60 +69,78 @@ export const SyntaxHighlighter = /* @__PURE__ */ React.forwardRef<
   },
   ref,
 ) {
-  const load = React.useContext(SyntaxEngineContext)
+  const source = React.useContext(SyntaxEngineContext)
   const name = language.trim().toLowerCase()
   const lang = aliases[name] ?? name
+  const highlightable =
+    source !== null &&
+    lang !== 'text' &&
+    syntaxLanguages.includes(lang as (typeof syntaxLanguages)[number]) &&
+    code.length <= 50000
+  // Without suspense, code shows plain until an effect brings its tokens.
   const [result, setResult] = React.useState<{
     code: string
     language: string
     tokens: SyntaxToken[][] | null
   }>()
+  // A block waits only for the code it mounted with. Code that changes later is
+  // highlighted in place, so a boundary never hides shown code behind its fallback.
+  const [first] = React.useState(() => ({ code, lang }))
+  const suspense =
+    highlightable &&
+    source.suspense &&
+    first.code === code &&
+    first.lang === lang
   React.useEffect(() => {
-    let current = true
-    if (
-      !load ||
-      lang === 'text' ||
-      !syntaxLanguages.includes(lang as (typeof syntaxLanguages)[number]) ||
-      code.length > 50000
-    )
-      return
-    load()
-      .then((engine) => engine.highlightCode(code, lang))
-      .then((tokens) => {
-        if (current) setResult({ code, language: lang, tokens })
-      })
-      .catch(() => {
-        if (current) setResult({ code, language: lang, tokens: null })
-      })
+    if (!highlightable || suspense) return
+    let live = true
+    void requestTokens(source.load, code, lang).then((tokens) => {
+      if (live) setResult({ code, language: lang, tokens })
+    })
     return () => {
-      current = false
+      live = false
     }
-  }, [code, lang, load])
-  const tokens =
-    result?.code === code && result.language === lang ? result.tokens : null
-  const eols = code.match(/\r\n|\n|\r/g) ?? []
-  const valid = tokens && tokens.length === eols.length + 1
-  const element = (
-    <code
-      {...props}
-      ref={ref}
-      className={cx('pui-syntax', className)}
-      data-language={lang}
-      data-highlighted={valid ? 'true' : 'false'}
-    >
-      {valid
-        ? tokens.map((line, i) => (
-            <React.Fragment key={i}>
-              {line.map((token, j) => (
-                <span key={j} data-syntax={token.role}>
-                  {token.content}
-                </span>
-              ))}
-              {eols[i] ?? ''}
-            </React.Fragment>
-          ))
-        : code}
-    </code>
+  }, [code, lang, source, highlightable, suspense])
+  const render = (tokens: SyntaxToken[][] | null) => {
+    const eols = code.match(/\r\n|\n|\r/g) ?? []
+    const valid = tokens && tokens.length === eols.length + 1
+    return (
+      <code
+        {...props}
+        ref={ref}
+        className={cx('pui-syntax', className)}
+        data-language={lang}
+        data-highlighted={valid ? 'true' : 'false'}
+      >
+        {valid
+          ? tokens.map((line, i) => (
+              <React.Fragment key={i}>
+                {line.map((token, j) => (
+                  <span key={j} data-syntax={token.role}>
+                    {token.content}
+                  </span>
+                ))}
+                {eols[i] ?? ''}
+              </React.Fragment>
+            ))
+          : code}
+      </code>
+    )
+  }
+  // With suspense, the block waits for its tokens behind its own boundary, plain
+  // meanwhile: a server render writes it highlighted and hydration keeps that HTML,
+  // while a block that appears later never suspends anything around it.
+  const element = suspense ? (
+    <React.Suspense fallback={render(null)}>
+      <Highlighted
+        tokens={requestTokens(source.load, code, lang)}
+        render={render}
+      />
+    </React.Suspense>
+  ) : (
+    render(
+      result?.code === code && result.language === lang ? result.tokens : null,
+    )
   )
   return inline ? (
     element

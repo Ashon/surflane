@@ -89,6 +89,7 @@ import {
   TimeField,
 } from '@surflane/ui/date-picker'
 import { Markdown } from '@surflane/ui/markdown'
+import { SyntaxHighlighting } from '@surflane/ui/syntax-highlighting'
 import { Tree, type TreeNode } from '@surflane/ui/tree'
 
 // Fictional data for a harbor logistics workspace.
@@ -873,6 +874,22 @@ function Content() {
   )
 }
 
+// With suspense, the server waits for the tokens and renders the code highlighted.
+function Highlighted() {
+  return (
+    <section data-ssr='highlighted'>
+      <SyntaxHighlighting suspense>
+        <SyntaxHighlighter
+          code={source}
+          language='tsx'
+          label='Highlighted ETA helper'
+          className='ssr-highlighted'
+        />
+      </SyntaxHighlighting>
+    </section>
+  )
+}
+
 function Shell() {
   return (
     <section data-ssr='shell'>
@@ -933,6 +950,7 @@ export function SsrFixture() {
         <Feedback />
         <Data />
         <Content />
+        <Highlighted />
         <Shell />
       </SizeProvider>
     </DirectionProvider>

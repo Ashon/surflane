@@ -76,6 +76,8 @@ Chart, DatePicker, Markdown, Tree and syntax highlighting build on larger librar
 
 `CodeBlock` and `SyntaxHighlighter` render plain text by default. Wrap the app, or any subtree, in `<SyntaxHighlighting>` to color tokens; the engine and each grammar load on first use. In Next.js, render it in `app/layout.tsx`: it is a client component that takes server-rendered children.
 
+Code shows as plain text until its tokens arrive. For a server render or a prerendered page, use `<SyntaxHighlighting suspense>`: each block waits for its tokens behind its own Suspense boundary, so the server writes highlighted HTML and hydration keeps it. In the browser, a block that appears or changes later shows plain text until its tokens arrive; nothing around it suspends. When you hydrate server-rendered HTML yourself, await `preloadSyntaxHighlighting(container)` from `@surflane/ui/syntax-highlighting` before `hydrateRoot`, so every block hydrates at once.
+
 ## Router links
 
 `Link` and `LinkButton` render an anchor. Pass your router's link element as `render`: the router keeps client navigation, and Surflane adds the styling.

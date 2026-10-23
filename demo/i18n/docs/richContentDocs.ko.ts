@@ -16,6 +16,8 @@ export const richContentDocsKo: Record<string, DocKo> = {
       inline: '코드만 렌더링; 주변 pre/scroll 레이아웃은 호출하는 쪽 소유',
       'label / wrap': '스크롤 영역 이름 / 시각적 줄 바꿈',
       ref: '기본 code HTMLElement',
+      'SyntaxHighlighting suspense':
+        '블록마다 자체 Suspense 경계에서 토큰을 기다리므로 서버 렌더링이 강조된 HTML을 씁니다.',
     },
   },
   markdown: {

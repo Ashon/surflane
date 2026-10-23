@@ -2,6 +2,12 @@
 
 `@surflane/design-tokens` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## Unreleased
+
+### Added
+
+- `SyntaxHighlighting` takes `suspense`. Each code block waits for its tokens behind its own Suspense boundary, so a server render or a prerendered page writes highlighted HTML and hydration keeps it, with no plain-text first paint. In the browser, a block that appears or changes later shows plain text until its tokens arrive, as before; nothing around it suspends. `preloadSyntaxHighlighting(root)` highlights the server-rendered code under `root` ahead of time: await it before `hydrateRoot`, so no block is left waiting, where a context change above it would make React drop its HTML for the plain fallback.
+
 ## 0.8.0
 
 ### Changed

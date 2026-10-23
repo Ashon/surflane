@@ -95,6 +95,7 @@ const markers = {
     'pui-chart-table',
   ],
   content: ['pui-code-block', 'pui-syntax', 'pui-markdown'],
+  highlighted: ['ssr-highlighted'],
   shell: [
     'pui-app-shell',
     'pui-app-shell-sidebar',
@@ -156,6 +157,11 @@ try {
       .map((name) => `${section}: ${name}`),
   ])
   assert.deepEqual(missing, [], 'SSR markup is missing markers')
+  assert.match(
+    html,
+    /class="pui-syntax ssr-highlighted"[^>]*data-highlighted="true"[^>]*><span data-syntax=/,
+    'SyntaxHighlighting suspense renders highlighted code on the server',
+  )
   const pui = [...classes].filter((name) => name.startsWith('pui-'))
   console.log(
     `SSR: ${Buffer.byteLength(html)} bytes HTML, ${pui.length} distinct pui- classes`,
