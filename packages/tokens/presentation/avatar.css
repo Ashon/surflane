@@ -5,7 +5,7 @@
 @layer surflane.components {
   .pui-avatar {
     box-sizing: border-box;
-    --avatar-size: var(--avatar-size-md);
+    --avatar-size: var(--size-avatar-default);
     display: inline-flex;
     vertical-align: middle;
     position: relative;
@@ -23,11 +23,11 @@
     letter-spacing: var(--type-caption-tracking);
   }
   .pui-avatar:is([data-size='sm'], [data-size='small']) {
-    --avatar-size: var(--avatar-size-sm);
+    --avatar-size: var(--size-avatar-small);
     font-size: var(--type-caption-size);
   }
   .pui-avatar:is([data-size='lg'], [data-size='large']) {
-    --avatar-size: var(--avatar-size-lg);
+    --avatar-size: var(--size-avatar-large);
     font-size: var(--size-font-large);
   }
   .pui-avatar-image {

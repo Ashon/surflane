@@ -178,7 +178,7 @@ export function InteractionFoundation() {
               aria-busy={busy}
               onClick={run}
             >
-              {busy && <Spinner decorative size='sm' />}
+              {busy && <Spinner decorative size='small' />}
               {t.runPreview}
             </Button>
             <Button variant='outline' disabled={!busy} onClick={cancel}>
@@ -219,7 +219,7 @@ export function InteractionFoundation() {
   aria-busy={pending}
   onClick={startPreview}
 >
-  {pending && <Spinner decorative size='sm' />}
+  {pending && <Spinner decorative size='small' />}
   Run local preview
 </Button>
 <p role='status' aria-atomic='true'>

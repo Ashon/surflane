@@ -50,7 +50,7 @@ function PaginationExample() {
             </List.Content>
             <List.Actions>
               <Button
-                size='sm'
+                size='small'
                 variant='outline'
                 onClick={() => setInspected(t.inspected(row.name))}
               >

@@ -119,7 +119,7 @@ export function LandingHero() {
               </nav>
               <AppShell.Footer>
                 <div className='landing-console-account' data-blueprint-guide>
-                  <Avatar.Root size='sm' data-blueprint-guide>
+                  <Avatar.Root size='small' data-blueprint-guide>
                     <Avatar.Image
                       alt=''
                       src={withBase('/avatar-preview.svg')}

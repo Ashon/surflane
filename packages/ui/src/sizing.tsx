@@ -2,6 +2,10 @@
 import * as React from 'react'
 
 export type ComponentSize = 'small' | 'default' | 'large'
+/**
+ * @deprecated The short spellings sm, md and lg render as small, default and large.
+ * Write the full names; the aliases are removed in a later minor.
+ */
 export type ComponentSizeAlias = ComponentSize | 'sm' | 'md' | 'lg'
 export const ComponentSizeContext = /* @__PURE__ */ React.createContext<
   ComponentSize | undefined

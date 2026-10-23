@@ -172,7 +172,9 @@ function MessagePreview() {
     <div className='example-stack'>
       <InlineMessage.Root tone={tone}>
         <InlineMessage.Icon tone={tone}>
-          {state === 'pending' ? <Spinner decorative size='sm' /> : undefined}
+          {state === 'pending' ? (
+            <Spinner decorative size='small' />
+          ) : undefined}
         </InlineMessage.Icon>
         <InlineMessage.Content>
           <InlineMessage.Title>
@@ -454,7 +456,7 @@ export function DataExample({ id }: { id: string }) {
                   <Table.Cell>
                     <Button
                       variant='outline'
-                      size='sm'
+                      size='small'
                       onClick={() =>
                         setInspected(t.servicesDiscovered(row.name, row.count))
                       }
@@ -488,7 +490,7 @@ export function DataExample({ id }: { id: string }) {
                 <StatusBadge tone='success'>{t.configured}</StatusBadge>
                 <Button
                   variant='outline'
-                  size='sm'
+                  size='small'
                   onClick={() =>
                     setInspected(t.servicesDiscovered(row.name, row.count))
                   }

@@ -295,7 +295,7 @@ export function FormWorkflowExample() {
       {busy && (
         <InlineMessage.Root tone='progress'>
           <InlineMessage.Icon>
-            <Spinner decorative size='sm' />
+            <Spinner decorative size='small' />
           </InlineMessage.Icon>
           <InlineMessage.Content>
             <InlineMessage.Title role='status'>

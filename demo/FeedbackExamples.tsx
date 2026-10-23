@@ -89,9 +89,9 @@ export function FeedbackExample({ id }: { id: string }) {
         {loading ? (
           id === 'spinner' ? (
             <div className='actions'>
-              <Spinner decorative size='sm' />
+              <Spinner decorative size='small' />
               <Spinner decorative />
-              <Spinner decorative size='lg' />
+              <Spinner decorative size='large' />
               <span>{t.loadingEnvironmentPreview}</span>
             </div>
           ) : (

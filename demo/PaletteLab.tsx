@@ -497,7 +497,7 @@ const ContrastChecker = memo(function ContrastChecker({
         <p className='palette-sample-large'>{t.sampleLarge}</p>
         <p>{t.sampleBody}</p>
         <p className='palette-sample-mark'>
-          <Icon name='check' size='md' />
+          <Icon name='check' size='large' />
           <span style={{ borderColor: toCss(fg) }} />
           {t.sampleIcon}
         </p>

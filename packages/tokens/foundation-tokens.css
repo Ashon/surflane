@@ -94,8 +94,10 @@
 
   :root,
   [data-theme] {
-    --icon-size-sm: 16px;
-    --icon-size-md: 20px;
+    /* Deprecated: use --size-icon-default and --size-icon-large. --icon-size-lg is
+       off the scale. All three are removed in a later minor. */
+    --icon-size-sm: var(--size-icon-default);
+    --icon-size-md: var(--size-icon-large);
     --icon-size-lg: 24px;
     --icon-stroke-width: 1.7;
   }

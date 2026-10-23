@@ -12,11 +12,11 @@ export const doc: ComponentDoc = {
 
 <Spinner label='Syncing environments' />
 <button disabled>
-  <Spinner decorative size='sm' /> Saving
+  <Spinner decorative size='small' /> Saving
 </button>`,
   props: [
     ['label', 'string', 'Loading'],
     ['decorative', 'boolean', 'false'],
-    ['size', 'small | default | large (sm / md / lg aliases)', 'md'],
+    ['size', 'small | default | large; sm / md / lg are deprecated', 'default'],
   ],
 }

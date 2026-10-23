@@ -9,24 +9,24 @@ export const doc: ComponentDoc = {
   anatomy:
     'Avatar.Root → Image + Fallback(initials or default SVG) + optional Status',
   tokens: [
-    '--avatar-size-sm',
-    '--avatar-size-md',
-    '--avatar-size-lg',
+    '--size-avatar-small',
+    '--size-avatar-default',
+    '--size-avatar-large',
     '--radius-full',
     '--line',
     '--surface',
   ],
   code: `import { Avatar } from '@surflane/ui'
 
-<Avatar.Root role='img' aria-label='Preview user' size='md'>
+<Avatar.Root role='img' aria-label='Preview user' size='default'>
   <Avatar.Image src='/profile.png' alt='' />
   <Avatar.Fallback aria-hidden='true'>CG</Avatar.Fallback>
 </Avatar.Root>`,
   props: [
     [
       'Root.size',
-      'small (24px) | default (36px) | large (48px); sm / md / lg aliases',
-      'md',
+      'small (24px) | default (36px) | large (48px); sm / md / lg are deprecated',
+      'default',
     ],
     [
       'Image.onLoadingStatusChange',

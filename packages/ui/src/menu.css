@@ -42,14 +42,14 @@
   }
   .pui-menu-check-item {
     padding-inline-start: calc(
-      var(--space-3) + var(--icon-size-sm) + var(--space-2)
+      var(--space-3) + var(--size-icon-default) + var(--space-2)
     );
   }
   .pui-menu-indicator {
     position: absolute;
     inset-inline-start: var(--space-3);
     display: inline-flex;
-    width: var(--icon-size-sm);
+    width: var(--size-icon-default);
   }
   .pui-menu-check-item[aria-checked='false'] > .pui-menu-indicator {
     visibility: hidden;

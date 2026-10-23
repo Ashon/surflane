@@ -34,19 +34,19 @@ export function IconographyFoundation() {
               </Table.Row>
             </Table.Head>
             <Table.Body>
-              {(['sm', 'md', 'lg'] as const).map((size) => (
+              {(['small', 'default', 'large'] as const).map((size) => (
                 <Table.Row key={size}>
                   <Table.HeaderCell scope='row'>
-                    <Link href={`/tokens?q=--icon-size-${size}`}>
-                      <code>--icon-size-{size}</code>
+                    <Link href={`/tokens?q=--size-icon-${size}`}>
+                      <code>--size-icon-{size}</code>
                     </Link>
                   </Table.HeaderCell>
                   <Table.Cell>
-                    {size === 'sm'
-                      ? t.sizeSm
-                      : size === 'md'
-                        ? t.sizeMd
-                        : t.sizeLg}
+                    {size === 'small'
+                      ? t.sizeSmall
+                      : size === 'default'
+                        ? t.sizeDefault
+                        : t.sizeLarge}
                   </Table.Cell>
                   <Table.Cell>
                     <Icon name='search' size={size} data-icon-specimen={size} />
@@ -71,7 +71,7 @@ export function IconographyFoundation() {
         <ul className='icon-gallery' aria-label={t.galleryLabel}>
           {iconNames.map((name) => (
             <li key={name}>
-              <Icon name={name} size='md' />
+              <Icon name={name} size='large' />
               <code>{name}</code>
             </li>
           ))}

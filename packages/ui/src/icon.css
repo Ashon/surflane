@@ -9,16 +9,21 @@
   .pui-icon {
     display: inline-block;
     flex: 0 0 auto;
-    width: var(--icon-size-sm);
-    height: var(--icon-size-sm);
+    width: var(--size-icon-default);
+    height: var(--size-icon-default);
     vertical-align: -0.125em;
     stroke-width: var(--icon-stroke-width);
     pointer-events: none;
   }
-  .pui-icon[data-size='md'] {
-    width: var(--icon-size-md);
-    height: var(--icon-size-md);
+  .pui-icon[data-size='small'] {
+    width: var(--size-icon-small);
+    height: var(--size-icon-small);
   }
+  .pui-icon[data-size='large'] {
+    width: var(--size-icon-large);
+    height: var(--size-icon-large);
+  }
+  /* Deprecated: the 24px size, off the scale. Removed in a later minor. */
   .pui-icon[data-size='lg'] {
     width: var(--icon-size-lg);
     height: var(--icon-size-lg);

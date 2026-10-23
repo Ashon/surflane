@@ -33,7 +33,7 @@ import NextLink from 'next/link'
     ],
     [
       'size',
-      'small | default | large | icon; legacy xs / sm / md / lg / icon-sm / icon-lg',
+      'small | default | large | icon | icon-small | icon-large; deprecated: xs / sm / md / lg / icon-sm / icon-xs / icon-lg',
       'default',
     ],
     ['disabled', 'boolean', 'false'],

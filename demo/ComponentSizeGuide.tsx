@@ -186,7 +186,7 @@ export function ComponentSizeGuide() {
   <Button size='large'>Start deployment</Button>
 </SizeProvider>
 
-// The existing sm / md / lg aliases still work.
+// The short sm / md / lg spellings still work, but are deprecated.
 // A numeric size on Input is the standard HTML character-width hint.`}
       />
     </>

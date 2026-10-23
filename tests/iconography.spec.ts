@@ -4,18 +4,18 @@ import tokenCatalog from '../packages/tokens/catalog.json' with { type: 'json' }
 import { iconNames } from '../packages/ui/src/icon'
 import { waitForCatalogReady } from './catalog-ready'
 test.use({ reducedMotion: 'reduce' })
-test('icon tokens belong to shape metadata and vocabulary names are unique', () => {
+test('icon sizes follow the component scale, the stroke is shape metadata and vocabulary names are unique', () => {
   expect(new Set(iconNames).size).toBe(iconNames.length)
   expect(iconNames).toHaveLength(30)
-  for (const name of [
-    '--icon-size-sm',
-    '--icon-size-md',
-    '--icon-size-lg',
-    '--icon-stroke-width',
+  for (const [name, category] of [
+    ['--size-icon-small', 'Controls'],
+    ['--size-icon-default', 'Controls'],
+    ['--size-icon-large', 'Controls'],
+    ['--icon-stroke-width', 'Shape'],
   ]) {
     const token = tokenCatalog.tokens.find((token) => token.name === name)
-    expect(token?.category).toBe('Shape')
-    expect(token?.type).not.toBe('color')
+    expect(token?.category, name).toBe(category)
+    expect(token?.type, name).not.toBe('color')
   }
 })
 test('glyphs retain geometry, explicit semantics and noninteractive focus behavior', async ({
@@ -27,9 +27,9 @@ test('glyphs retain geometry, explicit semantics and noninteractive focus behavi
     page.getByLabel('Shared icon vocabulary').locator('li'),
   ).toHaveCount(iconNames.length)
   for (const [size, pixels] of [
-    ['sm', 16],
-    ['md', 20],
-    ['lg', 24],
+    ['small', 14],
+    ['default', 16],
+    ['large', 20],
   ] as const) {
     const icon = page.locator(`[data-icon-specimen="${size}"]`)
     const style = await icon.evaluate((element) => {
@@ -148,16 +148,18 @@ test('forced colors follows system color and token links keep the correct public
   await page.emulateMedia({ forcedColors: 'active' })
   await page.goto('/foundations/iconography')
   await waitForCatalogReady(page)
-  const icon = page.locator('[data-icon-specimen="sm"]')
+  const icon = page.locator('[data-icon-specimen="default"]')
   expect(
     await icon.evaluate((element) => getComputedStyle(element).stroke),
   ).toBe(await icon.evaluate((element) => getComputedStyle(element).color))
   await expect(
     page.getByRole('button', { name: 'Reset preview', exact: true }),
   ).toBeEnabled()
-  await page.getByRole('link', { name: '--icon-size-sm', exact: true }).click()
+  await page
+    .getByRole('link', { name: '--size-icon-default', exact: true })
+    .click()
   await waitForCatalogReady(page)
-  await expect(page).toHaveURL(/tokens\?q=--icon-size-sm/)
+  await expect(page).toHaveURL(/tokens\?q=--size-icon-default/)
   await page.goBack()
   await waitForCatalogReady(page)
   await expect(page.locator('#page-title')).toHaveText('Iconography')

@@ -36,7 +36,7 @@ export const doc: ComponentDoc = {
     ['disabled', 'block interaction', 'false'],
     [
       'size',
-      'small | default | large | icon (sm / md / lg aliases)',
+      'small | default | large | icon; sm / md / lg are deprecated',
       'default',
     ],
     ['value', 'string identifier inside ToggleGroup', '—'],

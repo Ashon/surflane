@@ -213,7 +213,7 @@ function Browser({ initialQuery }: { initialQuery: string }) {
             </div>
             <Button
               variant='outline'
-              size='sm'
+              size='small'
               className='token-copy'
               data-copy-used={used || undefined}
               aria-label={t.copyLabel(token.name)}

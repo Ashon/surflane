@@ -578,9 +578,11 @@
 
   :root,
   [data-theme] {
-    --avatar-size-sm: 24px;
-    --avatar-size-md: 36px;
-    --avatar-size-lg: 48px;
+    /* Deprecated: use --size-avatar-small, -default and -large. Removed in a later
+       minor. */
+    --avatar-size-sm: var(--size-avatar-small);
+    --avatar-size-md: var(--size-avatar-default);
+    --avatar-size-lg: var(--size-avatar-large);
     --status-badge-gap: var(--space-1);
   }
 

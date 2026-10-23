@@ -45,7 +45,7 @@
     padding: max(var(--space-1), calc((var(--control-height) - 1lh) / 2))
       var(--space-3);
     padding-inline-start: calc(
-      var(--space-3) + var(--icon-size-sm) + var(--space-2)
+      var(--space-3) + var(--size-icon-default) + var(--space-2)
     );
     border-radius: var(--control-radius);
     cursor: default;
@@ -71,12 +71,12 @@
     position: absolute;
     inset-inline-start: var(--space-3);
     display: flex;
-    width: var(--icon-size-sm);
+    width: var(--size-icon-default);
   }
   /* A group heading starts where its options' text does, past the check column. */
   .pui-select-group-label {
     padding-inline-start: calc(
-      var(--space-3) + var(--icon-size-sm) + var(--space-2)
+      var(--space-3) + var(--size-icon-default) + var(--space-2)
     );
   }
 }

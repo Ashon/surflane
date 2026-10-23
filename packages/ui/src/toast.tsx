@@ -53,7 +53,7 @@ const Close = /* @__PURE__ */ React.forwardRef<
       aria-label='Dismiss notification'
       aria-hidden={false}
       data-variant='ghost'
-      data-size='icon-sm'
+      data-size='icon-small'
       data-ui-size='small'
       {...props}
       ref={ref}

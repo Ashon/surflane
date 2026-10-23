@@ -51,7 +51,7 @@ function TierFigure({ id }: { id: TierId }) {
   return (
     <div className='hierarchy-figure hierarchy-figure-point'>
       <span>Aa</span>
-      <Icon name='check' size='md' />
+      <Icon name='check' size='large' />
       <span className='hierarchy-figure-dot' />
     </div>
   )

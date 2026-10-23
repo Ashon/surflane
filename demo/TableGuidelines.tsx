@@ -350,7 +350,7 @@ function LongValuesPreview() {
                     </Table.Truncate>
                     <Button
                       variant='ghost'
-                      size='icon-sm'
+                      size='icon-small'
                       aria-label={t.copyImage(service.name)}
                       title={t.copyImage(service.name)}
                       onClick={() => copy(service)}
@@ -393,7 +393,7 @@ function SelectionPreview() {
         <span>{t.selectedCount(count, selection.hiddenCount)}</span>
         <Button
           variant='outline'
-          size='sm'
+          size='small'
           disabled={!count}
           onClick={() => {
             setNotice(t.restartRequested(count))
@@ -404,7 +404,7 @@ function SelectionPreview() {
         </Button>
         <Button
           variant='ghost'
-          size='sm'
+          size='small'
           disabled={!count}
           onClick={selection.clear}
         >
@@ -506,7 +506,7 @@ function RowActionsPreview() {
                   <span className='table-guideline-actions'>
                     <Button
                       variant='outline'
-                      size='sm'
+                      size='small'
                       onClick={() => setNotice(t.logsOpened(service.name))}
                     >
                       {t.viewLogs}
@@ -516,7 +516,7 @@ function RowActionsPreview() {
                         render={
                           <Button
                             variant='ghost'
-                            size='icon-sm'
+                            size='icon-small'
                             aria-label={t.actionsFor(service.name)}
                           />
                         }

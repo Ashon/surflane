@@ -200,7 +200,7 @@ function Foundations() {
           </Slot>
           <Inline gap={1}>
             {iconNames.map((name) => (
-              <Icon key={name} name={name} size='sm' />
+              <Icon key={name} name={name} size='default' />
             ))}
             <Icon name='settings' decorative={false} label='Settings' />
           </Inline>
@@ -634,7 +634,7 @@ function Disclosure() {
         <Collapsible.Trigger>Technical details</Collapsible.Trigger>
         <Collapsible.Panel>Hull inspection logged.</Collapsible.Panel>
       </Collapsible.Root>
-      <Avatar.Root role='img' aria-label='Harbor master' size='md'>
+      <Avatar.Root role='img' aria-label='Harbor master' size='default'>
         <Avatar.Image src='/avatars/harbor-master.png' alt='' />
         <Avatar.Fallback aria-hidden='true'>HM</Avatar.Fallback>
       </Avatar.Root>

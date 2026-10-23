@@ -16,7 +16,7 @@ The release unit is the matching `@surflane/design-tokens` and `@surflane/ui` pa
 
 ## Public API
 
-Button variants are primary, secondary, outline, ghost, destructive and link. Default is a compatibility alias for primary. Preferred sizes are small/default/large; existing compact/icon aliases remain supported.
+Button variants are primary, secondary, outline, ghost, destructive and link. Default is a compatibility alias for primary. Sizes are small/default/large, plus icon/icon-small/icon-large for square buttons. The short sm/md/lg spellings and xs, icon-sm, icon-xs and icon-lg are deprecated and go in a later minor.
 
 Every namespace part has a flat export with the same component (`Dialog.Root` and `DialogRoot`). React Server Components cannot dot into client exports, so flat names are the Server Component form. New namespace parts need a flat export; `check:package` enforces this.
 

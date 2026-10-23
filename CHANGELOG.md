@@ -11,16 +11,44 @@
   - `lined` draws lines between rows, and `grid` between rows and columns. Both draw inside the table only: no line above the header, below the last row or at the sides.
   - `striped` tones every other body row with `--surface`.
   - Lined, grid and striped rows meet edge to edge, square.
+- Button `icon-small` and `icon-large`.
+- Icon `size`: `small`, `default` or `large` (14, 16 or 20px), like every component.
 - Tokens:
   - `--selected-edge`: the focus color, faint, over `--selected`.
 
 ### Changed
 
 - A selected Table row shows a faint `--selected-edge` around it besides the selected tone, so a selection reads as held. Selected rows that meet in a lined, grid or striped table share one edge.
+- Icon's sizes follow the component scale. Without a size it is still 16px.
+
+### Deprecated
+
+These keep working, and are removed in a later minor:
+
+- The short size spellings `sm`, `md` and `lg` on every component. Write `small`, `default` and `large`.
+- On Button:
+  - `icon-sm` and `icon-xs`: write `icon-small`.
+  - `icon-lg`: write `icon-large`.
+  - `xs`: off the scale, and it stays 24px on touch screens.
+- On Icon:
+  - `sm` (16px): write `default`, or leave the size out.
+  - `md` (20px): write `large`.
+  - `lg` (24px): off the scale.
+- Tokens:
+  - `--icon-size-sm` and `--icon-size-md`: use `--size-icon-default` and `--size-icon-large`. `--icon-size-lg` has no replacement.
+  - `--avatar-size-*`: use `--size-avatar-*`.
 
 ### Fixed
 
 - `preloadSyntaxHighlighting` tested line breaks with a pattern that could match `\r\n` two ways, which backtracks exponentially on a long input that fails. It now uses one that cannot.
+
+### Migration
+
+- In JSX, `size='sm'` becomes `size='small'`, `md` becomes `default` and `lg` becomes `large`, except on Icon:
+  - Icon `sm` becomes `default`.
+  - Icon `md` becomes `large`.
+- Button `icon-sm` becomes `icon-small`.
+- CSS that selects `[data-size='icon-sm']` on a Button now selects `[data-size='icon-small']`.
 
 ## 0.9.0
 

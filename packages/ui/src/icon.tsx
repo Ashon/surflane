@@ -1,6 +1,7 @@
 'use client'
 import * as React from 'react'
 import { cx } from './parts.js'
+import type { ComponentSize } from './sizing.js'
 const shapes = {
   search: (
     <>
@@ -135,11 +136,20 @@ export type IconProps = Omit<
   | 'stroke'
   | 'title'
 > &
-  Semantics & { name: IconName; size?: 'sm' | 'md' | 'lg' }
+  Semantics & {
+    name: IconName
+    /**
+     * 14, 16 or 20px; 16px when omitted. Deprecated, removed in a later minor: sm
+     * (16px, now default), md (20px, now large) and lg (24px, off the scale).
+     */
+    size?: ComponentSize | 'sm' | 'md' | 'lg'
+  }
+// The short spellings map by pixel size: sm was 16px, which is now the default.
+const iconSizes = { sm: 'default', md: 'large', lg: 'lg' } as const
 /** Static SVG only. Actions, focus, accessible button names and hit targets belong to the parent control. */
 export const Icon = /* @__PURE__ */ React.forwardRef<SVGSVGElement, IconProps>(
   function Icon(
-    { name, size = 'sm', decorative = true, label, className, ...props },
+    { name, size, decorative = true, label, className, ...props },
     ref,
   ) {
     return (
@@ -147,7 +157,11 @@ export const Icon = /* @__PURE__ */ React.forwardRef<SVGSVGElement, IconProps>(
         {...props}
         ref={ref}
         className={cx('pui-icon', className)}
-        data-size={size}
+        data-size={
+          size === 'sm' || size === 'md' || size === 'lg'
+            ? iconSizes[size]
+            : size
+        }
         data-directional={directional.has(name) ? 'true' : undefined}
         viewBox='0 0 24 24'
         fill='none'

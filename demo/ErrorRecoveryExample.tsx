@@ -197,7 +197,9 @@ export function ErrorRecoveryExample() {
                   : 'progress'
             }
           >
-            {mode === 'pending' ? <Spinner decorative size='sm' /> : undefined}
+            {mode === 'pending' ? (
+              <Spinner decorative size='small' />
+            ) : undefined}
           </InlineMessage.Icon>
           <InlineMessage.Content>
             <InlineMessage.Title>

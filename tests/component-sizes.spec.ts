@@ -16,6 +16,7 @@ import {
   EmptyState,
   Checkbox,
   Switch,
+  Icon,
 } from '../packages/ui/dist/index.js'
 import { components } from '../demo/catalog'
 import { waitForCatalogReady } from './catalog-ready'
@@ -221,6 +222,62 @@ test('short size aliases render exactly like their full names, on fine and coars
   }
   // Coarse pointers keep the touch target whichever spelling is used.
   expect((await metrics(page, 'button-sm')).height).toBe(44)
+})
+
+test('deprecated icon button and Icon spellings render like their scale names', async ({
+  page,
+}) => {
+  await open(page, 'button')
+  const buttons = [
+    ['icon-sm', 'icon-small'],
+    ['icon-xs', 'icon-small'],
+    ['icon-lg', 'icon-large'],
+  ] as const
+  const icons = [
+    ['sm', 'default'],
+    ['md', 'large'],
+  ] as const
+  await mount(
+    page,
+    renderToStaticMarkup(
+      React.createElement(
+        'div',
+        null,
+        [...new Set(buttons.flat())].map((size) =>
+          React.createElement(
+            Button,
+            { key: size, id: `button-${size}`, size, 'aria-label': 'Close' },
+            React.createElement(Icon, { name: 'close' }),
+          ),
+        ),
+        [...new Set(icons.flat())].map((size) =>
+          React.createElement(Icon, {
+            key: size,
+            id: `icon-${size}`,
+            name: 'search',
+            size,
+          }),
+        ),
+      ),
+    ),
+  )
+  for (const [legacy, full] of buttons) {
+    await expect(page.locator(`#button-${legacy}`)).toHaveAttribute(
+      'data-size',
+      full,
+    )
+    expect(await metrics(page, `button-${legacy}`), legacy).toEqual(
+      await metrics(page, `button-${full}`),
+    )
+  }
+  for (const [legacy, full] of icons) {
+    const box = async (id: string) =>
+      page.locator(`#icon-${id}`).evaluate((element) => {
+        const rect = element.getBoundingClientRect()
+        return [rect.width, rect.height]
+      })
+    expect(await box(legacy), legacy).toEqual(await box(full))
+  }
 })
 
 test('a default SizeProvider changes nothing, and disclosure triggers follow the scheme', async ({

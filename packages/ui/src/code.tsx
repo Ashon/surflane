@@ -118,7 +118,7 @@ export const CodeBlock = /* @__PURE__ */ React.forwardRef<
           ref={button}
           type='button'
           variant='outline'
-          size='sm'
+          size='small'
           className='pui-code-copy'
           onClick={copy}
           // A pending copy blocks a second start but keeps focus on the button.

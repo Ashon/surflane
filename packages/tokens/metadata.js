@@ -82,9 +82,12 @@ export const descriptions = {
     'Stronger border for choice controls on hover',
   '--control-choice-selected-border':
     'State border that matches the selected surface',
-  '--icon-size-sm': 'Default SVG size for compact controls',
-  '--icon-size-md': 'SVG size for general UI',
-  '--icon-size-lg': 'SVG size for emphasis',
+  '--icon-size-sm': 'Deprecated: use --size-icon-default',
+  '--icon-size-md': 'Deprecated: use --size-icon-large',
+  '--icon-size-lg': 'Deprecated: 24px, off the size scale',
+  '--avatar-size-sm': 'Deprecated: use --size-avatar-small',
+  '--avatar-size-md': 'Deprecated: use --size-avatar-default',
+  '--avatar-size-lg': 'Deprecated: use --size-avatar-large',
   '--icon-stroke-width': 'Shared stroke width within a 24×24 viewBox',
   '--selected-edge':
     'The edge of a selected row: the focus color, faint, over --selected',

@@ -198,7 +198,7 @@ function AvatarExample() {
           role='img'
           aria-label={t.previewProfile}
           aria-description={t.online}
-          size='lg'
+          size='large'
         >
           <Avatar.Image
             alt=''
@@ -215,7 +215,7 @@ function AvatarExample() {
         <Avatar.Root role='img' aria-label={t.documentationPreviewUser}>
           <Avatar.Fallback aria-hidden='true'>CD</Avatar.Fallback>
         </Avatar.Root>
-        <Avatar.Root role='img' aria-label={t.unknownPreviewUser} size='sm'>
+        <Avatar.Root role='img' aria-label={t.unknownPreviewUser} size='small'>
           <Avatar.Fallback aria-hidden='true' />
         </Avatar.Root>
       </Inline>

@@ -69,8 +69,8 @@
   }
   /* Icons take the medium size here unless their own size prop sets one. */
   .pui-bottom-nav-icon > .pui-icon:not([data-size]) {
-    width: var(--icon-size-md);
-    height: var(--icon-size-md);
+    width: var(--size-icon-large);
+    height: var(--size-icon-large);
   }
   .pui-bottom-nav-item[aria-current='page'] {
     color: var(--ink);

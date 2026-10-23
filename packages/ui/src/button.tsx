@@ -13,8 +13,21 @@ export type ButtonVariant =
   | 'ghost'
   | 'destructive'
   | 'link'
+/**
+ * small, default and large set the size scheme; icon, icon-small and icon-large are
+ * square icon buttons. Deprecated, removed in a later minor: sm, md and lg (write the
+ * full names), icon-sm, icon-xs and icon-lg (icon-small, icon-large) and xs, which is
+ * off the scale and keeps 24px on touch screens.
+ */
 export type ButtonSize =
-  ComponentSizeAlias | 'xs' | 'icon' | 'icon-xs' | 'icon-sm' | 'icon-lg'
+  | ComponentSizeAlias
+  | 'icon'
+  | 'icon-small'
+  | 'icon-large'
+  | 'xs'
+  | 'icon-xs'
+  | 'icon-sm'
+  | 'icon-lg'
 export type ButtonProps = React.ComponentProps<typeof BaseButton> & {
   variant?: ButtonVariant
   size?: ButtonSize
@@ -22,9 +35,9 @@ export type ButtonProps = React.ComponentProps<typeof BaseButton> & {
 /** The size scheme a button size implies: icon sizes follow the scale, xs and icon
  * keep the surrounding scheme. */
 function schemeOf(size?: ButtonSize) {
-  return size === 'icon-sm' || size === 'icon-xs'
+  return size === 'icon-small' || size === 'icon-sm' || size === 'icon-xs'
     ? 'small'
-    : size === 'icon-lg'
+    : size === 'icon-large' || size === 'icon-lg'
       ? 'large'
       : size === 'xs' || size === 'icon'
         ? undefined

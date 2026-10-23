@@ -263,7 +263,7 @@ export default function InstallGuide() {
           </>
         )}
         <Collapsible.Root className='install-more'>
-          <Collapsible.Trigger render={<Button variant='ghost' size='sm' />}>
+          <Collapsible.Trigger render={<Button variant='ghost' size='small' />}>
             {t.newAppTitle}
           </Collapsible.Trigger>
           <Collapsible.Panel>
@@ -355,7 +355,7 @@ export default function InstallGuide() {
           </li>
         </ul>
         <Collapsible.Root className='install-more'>
-          <Collapsible.Trigger render={<Button variant='ghost' size='sm' />}>
+          <Collapsible.Trigger render={<Button variant='ghost' size='small' />}>
             {t.layerOrderTitle}
           </Collapsible.Trigger>
           <Collapsible.Panel>
