@@ -222,7 +222,12 @@ export function TreeExample() {
           selectionMode={mode}
           virtualized={virtualized}
           dir={rtl ? 'rtl' : 'ltr'}
-          emptyLabel={t.emptyLabel}
+          labels={{
+            empty: t.emptyLabel,
+            expand: t.expandNode,
+            collapse: t.collapseNode,
+            scrollArea: t.treeScrollArea,
+          }}
           height={352}
         />
       )}

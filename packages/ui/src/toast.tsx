@@ -354,12 +354,17 @@ export type ToasterProps = Omit<ToastViewportProps, 'children'> & {
   timeout?: number
   /** The notifications region's name. */
   label?: string
+  /** Each toast's close button name. */
+  closeLabel?: string
   /** Directions a toast can be swiped away in. */
   swipeDirection?: React.ComponentPropsWithoutRef<
     typeof BaseToast.Root
   >['swipeDirection']
 }
-function ToastList({ swipeDirection }: Pick<ToasterProps, 'swipeDirection'>) {
+function ToastList({
+  swipeDirection,
+  closeLabel,
+}: Pick<ToasterProps, 'swipeDirection' | 'closeLabel'>) {
   const { toasts } = BaseToast.useToastManager()
   return toasts.map((item) => (
     <Root
@@ -375,7 +380,7 @@ function ToastList({ swipeDirection }: Pick<ToasterProps, 'swipeDirection'>) {
           <Toast.Description />
           <Action />
         </Toast.Text>
-        <Close />
+        <Close aria-label={closeLabel} />
       </Toast.Content>
     </Root>
   ))
@@ -387,6 +392,7 @@ export function Toaster({
   limit = 3,
   timeout = 5000,
   label = 'Notifications',
+  closeLabel = 'Dismiss notification',
   swipeDirection,
   ...props
 }: ToasterProps) {
@@ -398,7 +404,7 @@ export function Toaster({
     >
       <BaseToast.Portal>
         <Viewport aria-label={label} {...props}>
-          <ToastList swipeDirection={swipeDirection} />
+          <ToastList swipeDirection={swipeDirection} closeLabel={closeLabel} />
         </Viewport>
       </BaseToast.Portal>
     </BaseToast.Provider>

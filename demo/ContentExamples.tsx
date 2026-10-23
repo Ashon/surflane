@@ -159,7 +159,7 @@ export function ContentExample({ id }: { id: string }) {
         onCopy={async (_source: string) => {
           throw new Error(t.deniedInLocalExample)
         }}
-        copyLabel={t.tryUnavailableClipboard}
+        labels={{ copy: t.tryUnavailableClipboard }}
       />
     </div>
   )

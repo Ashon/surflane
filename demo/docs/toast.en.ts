@@ -70,9 +70,9 @@ await toast.promise(deploy(), {
       '—',
     ],
     [
-      'Toaster.limit / timeout / label / layout / swipeDirection',
-      'renders the provider, region and toasts of a helper',
-      '3 / 5000 / Notifications / stack / down + right',
+      'Toaster.limit / timeout / label / closeLabel / layout / swipeDirection',
+      'renders the provider, region and toasts of a helper; closeLabel names each close button',
+      '3 / 5000 / Notifications / Dismiss notification / stack / down + right',
     ],
     [
       'Toaster.toast / createToaster()',

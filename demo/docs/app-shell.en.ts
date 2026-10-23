@@ -101,8 +101,8 @@ export const doc: ComponentDoc = {
     ],
     [
       'SidebarToggle.labels',
-      '{ collapse, expand }: the button name and tooltip in each state',
-      'Collapse sidebar / Expand sidebar',
+      '{ collapse, expand, shortcut }: the button name and tooltip in each state, and the shortcut the tooltip shows',
+      'Collapse sidebar / Expand sidebar / ⌘B or Ctrl+B',
     ],
     [
       'Root style --app-shell-rail-width',

@@ -124,6 +124,7 @@ export function RichContentExample({ id }: { id: string }) {
                 label={t.markdownPreview}
                 codeWrap={wrap}
                 headingLevel={3}
+                labels={t.markdownLabels}
               />
               {duplicate && (
                 <div className='markdown-second-preview'>
@@ -132,6 +133,7 @@ export function RichContentExample({ id }: { id: string }) {
                     label={t.secondMarkdownPreview}
                     codeWrap={wrap}
                     headingLevel={3}
+                    labels={t.markdownLabels}
                   />
                 </div>
               )}

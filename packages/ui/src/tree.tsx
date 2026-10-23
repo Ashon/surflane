@@ -22,6 +22,15 @@ export type TreeNode = {
   children?: readonly TreeNode[]
   disabled?: boolean
 }
+export type TreeLabels = {
+  /** A folder's toggle while it is collapsed, then expanded. */
+  expand: (label: string) => string
+  collapse: (label: string) => string
+  /** The scroll region around the tree, given the tree's label. */
+  scrollArea: (label: string) => string
+  /** Shown when there are no nodes. */
+  empty: string
+}
 export type TreeProps = {
   nodes: readonly TreeNode[]
   label: string
@@ -36,6 +45,8 @@ export type TreeProps = {
   rowHeight?: number
   size?: ComponentSize
   virtualized?: boolean
+  labels?: Partial<TreeLabels>
+  /** @deprecated Use `labels.empty`. Removed in a later minor. */
   emptyLabel?: string
   dir?: 'ltr' | 'rtl'
   className?: string
@@ -56,7 +67,8 @@ export function Tree({
   rowHeight: explicitRowHeight,
   size,
   virtualized = true,
-  emptyLabel = 'No items.',
+  labels,
+  emptyLabel,
   dir,
   className,
 }: TreeProps) {
@@ -363,7 +375,7 @@ export function Tree({
   return (
     <ScrollArea
       orientation='vertical'
-      label={`${label} scroll area`}
+      label={labels?.scrollArea?.(label) ?? `${label} scroll area`}
       tabIndex={-1}
       ref={viewport}
       scrollChain='contain'
@@ -436,7 +448,13 @@ export function Tree({
                     className='pui-tree-toggle'
                     tabIndex={-1}
                     disabled={node.disabled}
-                    aria-label={`${item.isExpanded() ? 'Collapse' : 'Expand'} ${node.label}`}
+                    aria-label={
+                      item.isExpanded()
+                        ? (labels?.collapse?.(node.label) ??
+                          `Collapse ${node.label}`)
+                        : (labels?.expand?.(node.label) ??
+                          `Expand ${node.label}`)
+                    }
                     onClick={(event) => {
                       event.stopPropagation()
                       focusItem(item)
@@ -459,7 +477,7 @@ export function Tree({
         </div>
       ) : (
         <div role='status' className='pui-tree-empty'>
-          {emptyLabel}
+          {labels?.empty ?? emptyLabel ?? 'No items.'}
         </div>
       )}
     </ScrollArea>

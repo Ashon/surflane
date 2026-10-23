@@ -67,7 +67,7 @@ export function LandingHero() {
           className='landing-install'
           label={t.install}
           code='npm i @surflane/ui @surflane/design-tokens'
-          copyLabel={t.copyInstall}
+          labels={{ copy: t.copyInstall }}
         />
       </div>
       <div

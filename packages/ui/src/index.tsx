@@ -360,7 +360,11 @@ export {
   BreadcrumbsSeparator,
   BreadcrumbsCurrent,
 } from './breadcrumbs.js'
-export { Pagination, type PaginationProps } from './pagination.js'
+export {
+  Pagination,
+  type PaginationProps,
+  type PaginationLabels,
+} from './pagination.js'
 export {
   BottomNavigation,
   BottomNavigationRoot,
@@ -413,7 +417,7 @@ export {
   type TableSelectionOptions,
   type TableSelectionCheckbox,
 } from './table.js'
-export { CodeBlock, type CodeBlockProps } from './code.js'
+export { CodeBlock, type CodeBlockProps, type CodeBlockLabels } from './code.js'
 export {
   SyntaxHighlighter,
   syntaxLanguages,
@@ -547,6 +551,7 @@ export {
   AppShellSidebarToggle,
   type AppShellRootProps,
   type AppShellSidebarToggleProps,
+  type AppShellSidebarToggleLabels,
   AppShellContent,
   AppShellPage,
   AppShellFooter,

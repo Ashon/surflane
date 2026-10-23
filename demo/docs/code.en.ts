@@ -45,8 +45,8 @@ export const doc: ComponentDoc = {
       'navigator.clipboard.writeText',
     ],
     [
-      'copyLabel / copiedLabel / copyErrorLabel',
-      'localized action label and short in-button results',
+      'labels',
+      '{ copy, copied, copyError }: the localized action and short in-button results; copyLabel, copiedLabel and copyErrorLabel are deprecated',
       'Copy code / Copied / Copy unavailable',
     ],
   ],

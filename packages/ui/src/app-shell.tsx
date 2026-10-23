@@ -112,9 +112,15 @@ const Root = /* @__PURE__ */ React.forwardRef<
     </ShellContext.Provider>
   )
 })
-export type AppShellSidebarToggleProps = Omit<ButtonProps, 'children'> & {
+export type AppShellSidebarToggleLabels = {
   /** The button's name in each state; it is also the tooltip. */
-  labels?: { collapse?: string; expand?: string }
+  collapse: string
+  expand: string
+  /** The shortcut the tooltip shows; ⌘B on Apple platforms, Ctrl+B elsewhere. */
+  shortcut: string
+}
+export type AppShellSidebarToggleProps = Omit<ButtonProps, 'children'> & {
+  labels?: Partial<AppShellSidebarToggleLabels>
   children?: React.ReactNode
 }
 /** Collapses the sidebar to its rail and back. Its tooltip names the shortcut. */
@@ -133,7 +139,9 @@ const SidebarToggle = /* @__PURE__ */ React.forwardRef<
   return (
     <Tooltip
       label={label}
-      shortcut={shell.shortcut ? shortcutLabel() : undefined}
+      shortcut={
+        shell.shortcut ? (labels?.shortcut ?? shortcutLabel()) : undefined
+      }
     >
       <Button
         variant='ghost'
@@ -241,7 +249,7 @@ const Link = /* @__PURE__ */ React.forwardRef<
   const inSidebar = React.useContext(SidebarContext)
   // On the collapsed rail only the icon shows, so the name appears as a tooltip.
   return (
-    <Tooltip label={label} enabled={Boolean(shell?.collapsed && inSidebar)}>
+    <Tooltip label={label} disabled={!(shell?.collapsed && inSidebar)}>
       <a
         {...props}
         ref={ref}

@@ -231,9 +231,11 @@ export function DocumentationExample() {
                 label={copyText.code}
                 language='typescript'
                 wrap={wrap}
-                copyLabel={copyText.copy}
-                copiedLabel={copyText.copied}
-                copyErrorLabel={copyText.copyError}
+                labels={{
+                  copy: copyText.copy,
+                  copied: copyText.copied,
+                  copyError: copyText.copyError,
+                }}
               />
               {long &&
                 Array.from({ length: 3 }, (_, index) => (

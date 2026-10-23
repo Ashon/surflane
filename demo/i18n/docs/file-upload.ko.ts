@@ -29,7 +29,8 @@ export const doc: DocKo = {
     'name / form / required':
       '네이티브 FileList 와 폼 소유권; 공유 Form 검증에는 React Form 컨텍스트도 필요',
     disabled: '선택, 제거, 제출을 막고 활성 전송을 취소',
-    labels: '현지화된 액션/상태/거부/공지 텍스트',
+    labels:
+      '현지화된 액션/상태/거부/공지 텍스트. size(bytes)는 파일 크기를, fileAction(action, file)은 파일별 버튼 이름을 만듭니다',
     'Field.Root props / ref / className':
       'Field 를 소유; Form.errors/검증과 실제 div ref 지원',
   },

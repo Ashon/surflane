@@ -9,6 +9,8 @@ export const doc: DocKo = {
   props: {
     source: 'CommonMark + GitHub flavored Markdown 문자열',
     label: 'article과 중첩 code/table 영역 이름',
+    labels:
+      'code(label, line), table(label, line), task, 그리고 코드 블록의 copy, copied, copyError 문구',
     headingLevel:
       'Markdown h1을 이 의미 수준으로 렌더링; 더 깊은 heading은 h6으로 제한',
     codeWrap: '복사된 텍스트를 바꾸지 않고 펜스 코드를 시각적으로 줄 바꿈',

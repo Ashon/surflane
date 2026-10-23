@@ -39,7 +39,8 @@ export const doc: DocKo = {
       '상태를 기억하는 localStorage 키. 서버 렌더링 앱은 대신 쿠키를 읽어 defaultCollapsed로 넘깁니다',
     'Root.shortcut':
       '텍스트 입력 밖에서 ⌘B나 Ctrl+B로 사이드바를 접고 폅니다. 페이지당 셸 하나만',
-    'SidebarToggle.labels': '{ collapse, expand }: 상태별 버튼 이름이자 툴팁',
+    'SidebarToggle.labels':
+      '{ collapse, expand, shortcut }: 상태별 버튼 이름이자 툴팁, 그리고 툴팁에 보이는 단축키',
     'Root style --app-shell-rail-width': '접힌 레일의 너비',
     'Root style --app-shell-sidebar-width':
       '펼친 너비; header: 216px / 64px; workspace: 224px / 72px',

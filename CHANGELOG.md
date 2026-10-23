@@ -11,6 +11,16 @@
   - `lined` draws lines between rows, and `grid` between rows and columns. Both draw inside the table only: no line above the header, below the last row or at the sides.
   - `striped` tones every other body row with `--surface`.
   - Lined, grid and striped rows meet edge to edge, square.
+- Text you could not replace before is now in props:
+  - Tree `labels`: `expand`, `collapse`, `scrollArea`, `empty`.
+  - Chart `labels.legend` and `labels.series` name the legend.
+  - Markdown `labels`: `code`, `table`, `task`, and the copy text of its code blocks.
+  - CodeBlock `labels`: `copy`, `copied`, `copyError`.
+  - Toaster `closeLabel`.
+  - FileUpload `labels.size`, which formats a file size, and `labels.fileAction`, which names a file's buttons so a language can put the file name first.
+  - `AppShell.SidebarToggle` `labels.shortcut`.
+- Label types are exported: `PaginationLabels`, `CodeBlockLabels`, `AppShellSidebarToggleLabels`, `TreeLabels` and `MarkdownLabels`.
+- Tooltip `disabled`.
 - Button `icon-small` and `icon-large`.
 - Icon `size`: `small`, `default` or `large` (14, 16 or 20px), like every component.
 - Tokens:
@@ -19,6 +29,7 @@
 ### Changed
 
 - A selected Table row shows a faint `--selected-edge` around it besides the selected tone, so a selection reads as held. Selected rows that meet in a lined, grid or striped table share one edge.
+- DatePicker writes the words a locale puts around a day number from `Intl`, so Japanese and Chinese calendars show 日 as Korean shows 일.
 - Icon's sizes follow the component scale. Without a size it is still 16px.
 
 ### Deprecated
@@ -34,9 +45,16 @@ These keep working, and are removed in a later minor:
   - `sm` (16px): write `default`, or leave the size out.
   - `md` (20px): write `large`.
   - `lg` (24px): off the scale.
+- Tree `emptyLabel`: use `labels.empty`.
+- CodeBlock `copyLabel`, `copiedLabel` and `copyErrorLabel`: use `labels`.
+- Tooltip `enabled`: use `disabled`.
 - Tokens:
   - `--icon-size-sm` and `--icon-size-md`: use `--size-icon-default` and `--size-icon-large`. `--icon-size-lg` has no replacement.
   - `--avatar-size-*`: use `--size-avatar-*`.
+
+### Removed
+
+- Chart `missingLabel` and `emptyLabel`, deprecated since 0.5.0. Use `labels.missing` and `labels.empty`.
 
 ### Fixed
 

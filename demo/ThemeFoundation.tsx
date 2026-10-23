@@ -545,7 +545,7 @@ ${files
         <CodeBlock
           language='css'
           label={t.cssLabel}
-          copyLabel={t.copyCss}
+          labels={{ copy: t.copyCss }}
           code={css.trim()}
         />
         <h3>{t.presetTitle}</h3>

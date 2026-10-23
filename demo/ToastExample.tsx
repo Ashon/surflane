@@ -271,6 +271,7 @@ function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
           layout={layout}
           dir={rtl ? 'rtl' : 'ltr'}
           label={t.previewNotificationsLabel}
+          closeLabel={t.dismissNotification}
           swipeDirection={rtl ? 'left' : 'right'}
         />
       </DirectionProvider>

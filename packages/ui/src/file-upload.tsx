@@ -42,6 +42,11 @@ export type FileUploadLabels = {
   progress: (file: File) => string
   /** Shown when an upload fails and getUploadError gives no message. */
   uploadError: string
+  /** A file's size, as the list shows it. */
+  size: (bytes: number) => string
+  /** A file's action button name, given the action's text and the file, so a
+   * language can put the file name first. */
+  fileAction: (action: string, file: File) => string
 }
 const labelsDefault: FileUploadLabels = {
   choose: 'Choose files',
@@ -66,6 +71,11 @@ const labelsDefault: FileUploadLabels = {
   reset: 'Files reset.',
   progress: (file) => `${file.name} upload progress`,
   uploadError: 'Upload failed. Try again.',
+  size: (bytes) => {
+    const unit = bytes >= 1024 * 1024 ? 'MB' : bytes >= 1024 ? 'KB' : 'B'
+    return `${new Intl.NumberFormat(undefined, { maximumFractionDigits: 1 }).format(bytes / (unit === 'MB' ? 1024 * 1024 : unit === 'KB' ? 1024 : 1))} ${unit}`
+  },
+  fileAction: (action, file) => `${action} ${file.name}`,
 }
 export type FileUploadProps = Omit<
   React.ComponentPropsWithoutRef<typeof Field.Root>,
@@ -119,10 +129,6 @@ function accepts(file: File, accept: string) {
           : file.type.toLowerCase() === rule,
     )
   )
-}
-function sizeLabel(bytes: number) {
-  const unit = bytes >= 1024 * 1024 ? 'MB' : bytes >= 1024 ? 'KB' : 'B'
-  return `${new Intl.NumberFormat(undefined, { maximumFractionDigits: 1 }).format(bytes / (unit === 'MB' ? 1024 * 1024 : unit === 'KB' ? 1024 : 1))} ${unit}`
 }
 /** Native selection/validation and a cancellable transport adapter; no network request is built in. */
 export const FileUpload = /* @__PURE__ */ React.forwardRef<
@@ -484,7 +490,7 @@ export const FileUpload = /* @__PURE__ */ React.forwardRef<
                 <li key={itemId} className='pui-file-item'>
                   <div className='pui-file-info'>
                     <strong>{file.name}</strong>
-                    <span>{sizeLabel(file.size)}</span>
+                    <span>{labels.size(file.size)}</span>
                     <StatusBadge
                       tone={
                         state.status === 'success'
@@ -507,13 +513,20 @@ export const FileUpload = /* @__PURE__ */ React.forwardRef<
                           else primaryButtons.current.delete(file)
                         }}
                         type='button'
-                        size='sm'
+                        size='small'
                         variant='outline'
                         disabled={disabled}
                         aria-describedby={
                           state.error ? `${itemId}-error` : undefined
                         }
-                        aria-label={`${state.status === 'uploading' ? labels.cancel : state.status === 'ready' ? labels.upload : labels.retry} ${file.name}`}
+                        aria-label={labels.fileAction(
+                          state.status === 'uploading'
+                            ? labels.cancel
+                            : state.status === 'ready'
+                              ? labels.upload
+                              : labels.retry,
+                          file,
+                        )}
                         onClick={() => {
                           if (state.status === 'uploading') cancel(file)
                           else void upload(file)
@@ -528,14 +541,14 @@ export const FileUpload = /* @__PURE__ */ React.forwardRef<
                     )}
                     <Button
                       type='button'
-                      size='sm'
+                      size='small'
                       variant='ghost'
                       ref={(node) => {
                         if (node) removeButtons.current.set(file, node)
                         else removeButtons.current.delete(file)
                       }}
                       disabled={disabled}
-                      aria-label={`${labels.remove} ${file.name}`}
+                      aria-label={labels.fileAction(labels.remove, file)}
                       onClick={() => {
                         setRejections([])
                         if (

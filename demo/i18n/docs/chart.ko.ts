@@ -37,7 +37,7 @@ export const doc: DocKo = {
     'hiddenSeries / defaultHiddenSeries / onHiddenSeriesChange':
       '제어 또는 비제어 숨김 키; 콜백이 다음 키를 요청',
     labels:
-      '차트가 보여 주거나 알리는 텍스트: missing, empty, noSeries, showAll, keyboardHelp, values, viewTable, table, tableCaption, inspectHint, noRows',
+      '차트가 보여 주거나 알리는 텍스트: missing, empty, noSeries, showAll, keyboardHelp, values, viewTable, table, tableCaption, inspectHint, noRows, legend(title), series(label)',
     'ref / className / figure props':
       '루트 HTMLElement ref와 네이티브 figure 속성',
   },

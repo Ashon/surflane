@@ -29,6 +29,11 @@ import { Markdown } from '@surflane/ui/markdown'
     ['source', 'CommonMark + GitHub flavored Markdown string', 'required'],
     ['label', 'article and nested code/table region names', 'Markdown content'],
     [
+      'labels',
+      'code(label, line), table(label, line), task, and the copy, copied and copyError text of its code blocks',
+      'English',
+    ],
+    [
       'headingLevel',
       'render Markdown h1 at this semantic level; deeper headings clamp to h6',
       '2',

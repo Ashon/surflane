@@ -2,7 +2,7 @@
 import * as React from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { CodeBlock } from './code.js'
+import { CodeBlock, type CodeBlockLabels, type CodeBlockProps } from './code.js'
 import { Table } from './table.js'
 import type { Components } from 'react-markdown'
 import type { Root, Element, RootContent } from 'hast'
@@ -15,6 +15,67 @@ export type MarkdownProps = Omit<
   label?: string
   headingLevel?: 1 | 2 | 3 | 4 | 5 | 6
   codeWrap?: boolean
+  /** Names the document gives its parts; pass translations here. */
+  labels?: Partial<MarkdownLabels>
+}
+export type MarkdownLabels = {
+  /** A code block's name, given the document's label and the block's first line. */
+  code: (label: string, line: number) => string
+  /** A table's name, given the document's label and the table's first line. */
+  table: (label: string, line: number) => string
+  /** A task list checkbox whose item has no text. */
+  task: string
+} & CodeBlockLabels
+const markdownLabels = {
+  code: (label: string, line: number) => `${label}: code at line ${line}`,
+  table: (label: string, line: number) => `${label}: table at line ${line}`,
+  task: 'Task list item',
+}
+// Code blocks and tables read the labels here, so passing new labels never remounts
+// the parts react-markdown renders.
+const LabelsContext = /* @__PURE__ */ React.createContext<
+  Partial<MarkdownLabels>
+>({})
+function MarkdownCodeBlock({
+  label,
+  line,
+  ...props
+}: Omit<CodeBlockProps, 'label' | 'labels'> & {
+  label: string
+  line: number
+}) {
+  const {
+    code,
+    table: _table,
+    task: _task,
+    ...copy
+  } = React.useContext(LabelsContext)
+  return (
+    <CodeBlock
+      {...props}
+      label={(code ?? markdownLabels.code)(label, line)}
+      labels={copy}
+    />
+  )
+}
+function MarkdownTable({
+  label,
+  line,
+  children,
+}: {
+  label: string
+  line: number
+  children: React.ReactNode
+}) {
+  const { table } = React.useContext(LabelsContext)
+  return (
+    <Table.Container
+      label={(table ?? markdownLabels.table)(label, line)}
+      orientation='horizontal'
+    >
+      {children}
+    </Table.Container>
+  )
 }
 function text(node: RootContent | Root): string {
   return 'value' in node
@@ -39,11 +100,13 @@ export const Markdown = /* @__PURE__ */ React.forwardRef<
     label = 'Markdown content',
     headingLevel = 2,
     codeWrap = false,
+    labels,
     className,
     ...props
   },
   ref,
 ) {
+  const taskLabel = labels?.task ?? markdownLabels.task
   const prefix = `md-${React.useId().replace(/[^a-zA-Z0-9_-]/g, '')}`
   const headings = React.useMemo(
     () => () => (tree: Root) => {
@@ -73,13 +136,13 @@ export const Markdown = /* @__PURE__ */ React.forwardRef<
           node.tagName === 'li' &&
           String(node.properties.className ?? '').includes('task-list-item')
         ) {
-          const taskLabel = text(node).trim() || 'Task list item'
+          const name = text(node).trim() || taskLabel
           visit(node, (child) => {
             if (
               child.tagName === 'input' &&
               child.properties.type === 'checkbox'
             )
-              child.properties.ariaLabel = taskLabel
+              child.properties.ariaLabel = name
           })
         }
         for (const property of ['ariaDescribedBy', 'ariaLabelledBy']) {
@@ -110,7 +173,7 @@ export const Markdown = /* @__PURE__ */ React.forwardRef<
         }
       })
     },
-    [prefix],
+    [prefix, taskLabel],
   )
   const components = React.useMemo<Components>(() => {
     const heading =
@@ -141,11 +204,12 @@ export const Markdown = /* @__PURE__ */ React.forwardRef<
           'text'
         const code = String(child.props.children ?? '').replace(/\n$/, '')
         return (
-          <CodeBlock
+          <MarkdownCodeBlock
             code={code}
             language={language}
             wrap={codeWrap}
-            label={`${label}: code at line ${node?.position?.start.line ?? 1}`}
+            label={label}
+            line={node?.position?.start.line ?? 1}
           />
         )
       },
@@ -154,14 +218,11 @@ export const Markdown = /* @__PURE__ */ React.forwardRef<
       },
       table({ node, children, ...tableProps }) {
         return (
-          <Table.Container
-            label={`${label}: table at line ${node?.position?.start.line ?? 1}`}
-            orientation='horizontal'
-          >
+          <MarkdownTable label={label} line={node?.position?.start.line ?? 1}>
             <table {...tableProps} className='pui-table'>
               {children}
             </table>
-          </Table.Container>
+          </MarkdownTable>
         )
       },
       th({ node: _node, ...cellProps }) {
@@ -202,15 +263,17 @@ export const Markdown = /* @__PURE__ */ React.forwardRef<
       className={cx('pui-prose pui-markdown', className)}
       aria-label={label}
     >
-      <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
-        rehypePlugins={[headings]}
-        remarkRehypeOptions={{ clobberPrefix: `${prefix}-` }}
-        skipHtml
-        components={components}
-      >
-        {source}
-      </ReactMarkdown>
+      <LabelsContext.Provider value={labels ?? {}}>
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          rehypePlugins={[headings]}
+          remarkRehypeOptions={{ clobberPrefix: `${prefix}-` }}
+          skipHtml
+          components={components}
+        >
+          {source}
+        </ReactMarkdown>
+      </LabelsContext.Provider>
     </div>
   )
 })

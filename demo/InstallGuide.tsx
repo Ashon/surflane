@@ -105,8 +105,7 @@ function Code({
       language={language}
       code={code}
       wrap={wrap}
-      copyLabel={t.copyLabel}
-      copiedLabel={t.copiedLabel}
+      labels={{ copy: t.copyLabel, copied: t.copiedLabel }}
     />
   )
 }

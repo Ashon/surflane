@@ -93,7 +93,7 @@ export const doc: ComponentDoc = {
     ],
     [
       'labels',
-      'localized action/status/rejection/announcement text',
+      "localized action/status/rejection/announcement text; size(bytes) formats a file size and fileAction(action, file) names a file's buttons",
       'English defaults',
     ],
     [

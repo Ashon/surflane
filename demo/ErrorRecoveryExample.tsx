@@ -309,7 +309,7 @@ export function ErrorRecoveryExample() {
                 'Request: PREVIEW-503\nOperation: read resource preview\nStatus: temporary failure\nThis sample contains no credentials or product data.'
               }
               label={t.safePreviewDetailsLabel}
-              copyLabel={t.copyPreviewDetails}
+              labels={{ copy: t.copyPreviewDetails }}
             />
           </Collapsible.Panel>
         </Collapsible.Root>

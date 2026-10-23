@@ -103,7 +103,7 @@ const data: ChartDatum[] = [
     ],
     [
       'labels',
-      'text the chart shows or announces: missing, empty, noSeries, showAll, keyboardHelp, values, viewTable, table, tableCaption, inspectHint, noRows',
+      'text the chart shows or announces: missing, empty, noSeries, showAll, keyboardHelp, values, viewTable, table, tableCaption, inspectHint, noRows, legend(title), series(label)',
       'English',
     ],
     [

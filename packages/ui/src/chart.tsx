@@ -51,10 +51,6 @@ export type ChartProps = Omit<
   formatValue?: (value: number) => string
   /** Text the chart shows or announces; pass translations here. */
   labels?: Partial<ChartLabels>
-  /** @deprecated Use labels.missing. */
-  missingLabel?: string
-  /** @deprecated Use labels.empty. */
-  emptyLabel?: string
   hiddenSeries?: readonly string[]
   defaultHiddenSeries?: readonly string[]
   onHiddenSeriesChange?: (keys: string[]) => void
@@ -73,6 +69,10 @@ export type ChartLabels = {
   inspectHint: string
   /** The data table's only row when there is no data. */
   noRows: string
+  /** The legend list, given the chart's title. */
+  legend: (title: string) => string
+  /** A legend button that shows or hides a series. */
+  series: (label: string) => string
 }
 const chartLabels: ChartLabels = {
   missing: 'Not available',
@@ -88,6 +88,8 @@ const chartLabels: ChartLabels = {
     `All input measurements, including hidden series. Unit: ${unit}.`,
   inspectHint: 'Hover, touch or use chart arrow keys to inspect a measurement.',
   noRows: 'No rows.',
+  legend: (title) => `${title} series`,
+  series: (label) => `${label} series`,
 }
 /** The round step at or above a raw step: 1, 2, 2.5 or 5 times a power of ten. */
 function roundStep(raw: number) {
@@ -255,8 +257,6 @@ export const Chart = /* @__PURE__ */ React.forwardRef<HTMLElement, ChartProps>(
       locale = 'en-US',
       formatValue,
       labels,
-      missingLabel,
-      emptyLabel,
       hiddenSeries,
       defaultHiddenSeries = [],
       onHiddenSeriesChange,
@@ -265,12 +265,7 @@ export const Chart = /* @__PURE__ */ React.forwardRef<HTMLElement, ChartProps>(
     },
     ref,
   ) {
-    const text: ChartLabels = {
-      ...chartLabels,
-      ...(missingLabel === undefined ? {} : { missing: missingLabel }),
-      ...(emptyLabel === undefined ? {} : { empty: emptyLabel }),
-      ...labels,
-    }
+    const text: ChartLabels = { ...chartLabels, ...labels }
     const id = React.useId().replace(/[^a-zA-Z0-9_-]/g, '_')
     const colorFor = (index: number) =>
       palette === 'categorical'
@@ -381,14 +376,14 @@ export const Chart = /* @__PURE__ */ React.forwardRef<HTMLElement, ChartProps>(
             <p className='pui-chart-axis-label'>
               {yLabel} ({unit})
             </p>
-            <ul className='pui-chart-legend' aria-label={`${title} series`}>
+            <ul className='pui-chart-legend' aria-label={text.legend(title)}>
               {series.map((s, index) => (
                 <li key={s.key}>
                   <button
                     ref={index === 0 ? firstLegend : undefined}
                     type='button'
                     className='pui-chart-legend-button'
-                    aria-label={`${s.label} series`}
+                    aria-label={text.series(s.label)}
                     aria-pressed={!hidden.has(s.key)}
                     onClick={() => toggle(s.key)}
                   >

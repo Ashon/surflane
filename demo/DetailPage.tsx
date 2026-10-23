@@ -63,7 +63,7 @@ function CodeBlock({
       language={language}
       code={code}
       label='Example code'
-      copyLabel='Copy example'
+      labels={{ copy: 'Copy example' }}
     />
   )
 }

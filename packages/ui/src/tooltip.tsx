@@ -28,6 +28,9 @@ export type TooltipProps = {
   /** A keyboard shortcut for the same action, such as '⌘B', set apart after the
    * label. */
   shortcut?: string
+  /** Keeps the tooltip from opening while the trigger stays as it is. */
+  disabled?: boolean
+  /** @deprecated Use `disabled`. Removed in a later minor. */
   enabled?: boolean
   children: React.ReactElement
 } & Pick<
@@ -37,6 +40,7 @@ export type TooltipProps = {
 export function Tooltip({
   label,
   shortcut,
+  disabled = false,
   enabled = true,
   side = 'right',
   align,
@@ -47,7 +51,7 @@ export function Tooltip({
   // Disabling keeps the trigger mounted, so turning the tooltip on or off never
   // moves focus.
   return (
-    <BaseTooltip.Root disabled={!enabled}>
+    <BaseTooltip.Root disabled={disabled || !enabled}>
       <BaseTooltip.Trigger render={children} />
       <BaseTooltip.Portal>
         <BaseTooltip.Positioner

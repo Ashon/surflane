@@ -14,10 +14,20 @@ export type CodeBlockProps = Omit<
   label?: string
   language?: string
   wrap?: boolean
+  /** The copy button's text: the action, then the result. */
+  labels?: Partial<CodeBlockLabels>
+  /** @deprecated Use `labels.copy`. Removed in a later minor. */
   copyLabel?: string
+  /** @deprecated Use `labels.copied`. Removed in a later minor. */
   copiedLabel?: string
+  /** @deprecated Use `labels.copyError`. Removed in a later minor. */
   copyErrorLabel?: string
   onCopy?: (code: string) => void | Promise<void>
+}
+export type CodeBlockLabels = {
+  copy: string
+  copied: string
+  copyError: string
 }
 const copyIcons = { idle: 'copy', copied: 'check', failed: 'alert' } as const
 // Feedback stays inside the copy button and returns to the action after this long.
@@ -31,15 +41,20 @@ export const CodeBlock = /* @__PURE__ */ React.forwardRef<
     label = 'Code',
     language,
     wrap = false,
-    copyLabel = 'Copy code',
-    copiedLabel = 'Copied',
-    copyErrorLabel = 'Copy unavailable',
+    labels,
+    copyLabel: legacyCopyLabel,
+    copiedLabel: legacyCopiedLabel,
+    copyErrorLabel: legacyCopyErrorLabel,
     onCopy,
     className,
     ...props
   },
   ref,
 ) {
+  const copyLabel = labels?.copy ?? legacyCopyLabel ?? 'Copy code'
+  const copiedLabel = labels?.copied ?? legacyCopiedLabel ?? 'Copied'
+  const copyErrorLabel =
+    labels?.copyError ?? legacyCopyErrorLabel ?? 'Copy unavailable'
   const [state, setState] = React.useState<
     'idle' | 'busy' | 'copied' | 'failed'
   >('idle')

@@ -89,9 +89,14 @@ const nodes: TreeNode[] = [
       'true / 320 / 44',
     ],
     [
-      'dir / emptyLabel / className',
-      'RTL key/indent direction; empty-state copy; scroll-root class',
-      'inherited / No items. / none',
+      'dir / className',
+      'RTL key/indent direction; scroll-root class',
+      'inherited / none',
+    ],
+    [
+      'labels',
+      'text the tree shows or names: expand(label), collapse(label), scrollArea(label), empty; emptyLabel is deprecated',
+      'English',
     ],
   ],
 }

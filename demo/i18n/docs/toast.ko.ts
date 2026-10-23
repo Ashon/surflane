@@ -22,8 +22,8 @@ export const doc: DocKo = {
       'success, danger, caution, info, progress 톤. loading은 업데이트할 때까지 남습니다',
     'toast.promise / update / dismiss':
       'loading → success | error (문자열, 옵션, 함수 단계); 토스트 변경; 하나 또는 전부 닫기',
-    'Toaster.limit / timeout / label / layout / swipeDirection':
-      '헬퍼의 provider, 영역, 토스트를 그립니다',
+    'Toaster.limit / timeout / label / closeLabel / layout / swipeDirection':
+      '헬퍼의 provider, 영역, 토스트를 그립니다. closeLabel은 각 닫기 버튼의 이름입니다',
     'Toaster.toast / createToaster()':
       '별도 영역을 위한, 자기 매니저를 가진 헬퍼',
     'Provider.timeout / limit': '기본 해제 ms(0은 유지); 최대 표시 토스트 수',

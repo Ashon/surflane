@@ -3,6 +3,13 @@ import * as React from 'react'
 import { Icon } from './icon.js'
 import { Button } from './button.js'
 import { cx } from './parts.js'
+export type PaginationLabels = {
+  previous: string
+  next: string
+  page: (page: number) => string
+  more: string
+  summary: (page: number, pageCount: number) => string
+}
 type CommonPaginationProps = Omit<
   React.ComponentPropsWithoutRef<'nav'>,
   'children'
@@ -11,13 +18,7 @@ type CommonPaginationProps = Omit<
   pageCount: number
   siblings?: 0 | 1 | 2
   disabled?: boolean
-  labels?: {
-    previous?: string
-    next?: string
-    page?: (page: number) => string
-    more?: string
-    summary?: (page: number, pageCount: number) => string
-  }
+  labels?: Partial<PaginationLabels>
 }
 export type PaginationProps = CommonPaginationProps &
   (

@@ -120,15 +120,34 @@ function CalendarContents() {
         <CalendarGridBody>
           {(date) => (
             <CalendarCell date={date} className='pui-calendar-day'>
-              {({ formattedDate }) =>
-                locale.startsWith('ko') ? `${formattedDate}일` : formattedDate
-              }
+              {({ formattedDate }) => {
+                const [before, after] = dayAffixes(locale)
+                return `${before}${formattedDate}${after}`
+              }}
             </CalendarCell>
           )}
         </CalendarGridBody>
       </CalendarGrid>
     </>
   )
+}
+// The words a locale writes around a day number, such as 일 in Korean or 日 in
+// Japanese. react-aria gives the number alone.
+const affixes = new Map<string, readonly [string, string]>()
+function dayAffixes(locale: string) {
+  let pair = affixes.get(locale)
+  if (!pair) {
+    const parts = new Intl.DateTimeFormat(locale, {
+      day: 'numeric',
+      timeZone: 'UTC',
+    }).formatToParts(Date.UTC(2026, 0, 1))
+    const day = parts.findIndex((part) => part.type === 'day')
+    const join = (list: Intl.DateTimeFormatPart[]) =>
+      list.map((part) => part.value).join('')
+    pair = [join(parts.slice(0, day)), join(parts.slice(day + 1))] as const
+    affixes.set(locale, pair)
+  }
+  return pair
 }
 function CalendarPopup({ label, range }: { label: string; range?: boolean }) {
   const scheme = useComponentSize()

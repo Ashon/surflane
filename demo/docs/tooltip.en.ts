@@ -29,7 +29,11 @@ export const doc: ComponentDoc = {
       "keyboard shortcut set apart after the label, such as '⌘B'",
       '—',
     ],
-    ['enabled', 'boolean', 'true'],
+    [
+      'disabled',
+      'keeps the tooltip from opening; the trigger stays as it is. enabled is deprecated',
+      'false',
+    ],
     [
       'side / align / sideOffset',
       'placement around the trigger',

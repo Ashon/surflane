@@ -20,7 +20,7 @@ export const doc: DocKo = {
       '스크롤 영역 이름 / Shiki 문법과 표시 언어 힌트; 알 수 없는 언어는 일반 텍스트로 렌더링',
     wrap: '긴 소스 줄을 시각적으로 줄바꿈',
     onCopy: '선택적 클립보드 작성자 (text) => void | Promise<void>',
-    'copyLabel / copiedLabel / copyErrorLabel':
-      '현지화된 액션 라벨과 버튼 안의 짧은 결과',
+    labels:
+      '{ copy, copied, copyError }: 현지화된 액션과 버튼 안의 짧은 결과. copyLabel, copiedLabel, copyErrorLabel은 deprecated입니다',
   },
 }
