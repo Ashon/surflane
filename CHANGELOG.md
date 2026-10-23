@@ -2,7 +2,7 @@
 
 `@surflane/design-tokens` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
-## Unreleased
+## 0.8.0
 
 ### Changed
 
