@@ -65,6 +65,6 @@
   }
   .pui-combobox-group[data-invalid],
   .pui-number-group[data-invalid] {
-    border-color: var(--status-danger-border);
+    border-color: var(--status-danger-fg);
   }
 }

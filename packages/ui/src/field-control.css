@@ -54,8 +54,11 @@
     cursor: not-allowed;
     background: var(--control-disabled-background);
   }
+  /* An invalid field keeps its edge while hovered; hover still tints the fill. */
   .pui-input[aria-invalid='true'],
-  .pui-select-trigger[aria-invalid='true'] {
+  .pui-input[aria-invalid='true']:hover,
+  .pui-select-trigger[aria-invalid='true'],
+  .pui-select-trigger[aria-invalid='true']:hover {
     border-color: var(--status-danger-fg);
   }
   @media (prefers-reduced-motion: reduce) {

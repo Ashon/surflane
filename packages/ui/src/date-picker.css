@@ -45,7 +45,13 @@
     border-color: var(--control-focus);
     box-shadow: 0 0 0 var(--control-focus-ring-size) var(--control-focus-ring);
   }
-  :is(.pui-date-picker, .pui-time-field)[data-invalid] .pui-date-group {
+  /* An invalid field keeps its edge while hovered; hover still tints the fill. */
+  :is(.pui-date-picker, .pui-time-field)[data-invalid] .pui-date-group,
+  :is(.pui-date-picker, .pui-time-field)[data-invalid]:not(
+      [data-disabled],
+      [data-readonly]
+    )
+    .pui-date-group:hover {
     border-color: var(--status-danger-fg);
   }
   :is(.pui-date-picker, .pui-time-field)[data-disabled] {

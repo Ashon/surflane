@@ -83,9 +83,21 @@
   .pui-switch[data-readonly] {
     cursor: default;
   }
+  /* An invalid control keeps its edge through every hover, checked or not; hover
+     still tints the fill. Each selector matches the hover rule it must outrank. */
   :is(.pui-checkbox, .pui-radio, .pui-switch)[data-invalid],
+  :is(.pui-checkbox, .pui-radio, .pui-switch)[data-invalid]:hover,
+  :is(.pui-checkbox, .pui-radio, .pui-switch)[data-invalid]:is(
+      [data-checked],
+      [data-indeterminate]
+    ):hover,
   .pui-choice-label:hover
-    :is(.pui-checkbox, .pui-radio, .pui-switch)[data-invalid] {
+    :is(.pui-checkbox, .pui-radio, .pui-switch)[data-invalid],
+  .pui-choice-label:hover
+    :is(.pui-checkbox, .pui-radio, .pui-switch)[data-invalid]:is(
+      [data-checked],
+      [data-indeterminate]
+    ) {
     border-color: var(--status-danger-fg);
   }
   @media (forced-colors: active) {
