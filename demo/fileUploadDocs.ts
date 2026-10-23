@@ -6,6 +6,7 @@ export const fileUploadDocs: Record<string, ComponentDoc> = {
       'The native file input registers as a Field.Control, so the shared Form keeps required validation, server errors, and real File submission.',
       "Transfers don't start automatically. The transport you provide runs per file.",
       'The drop zone is a surface, not a dashed outline. Its background highlights while a file is dragged over it.',
+      'Chosen files continue the drop zone as rows, divided by lines, so the field stays one plane and a drop on the list adds files too.',
       'Keyboard focus on the choose button and the field error display are preserved.',
     ],
     avoid: [
@@ -15,7 +16,7 @@ export const fileUploadDocs: Record<string, ComponentDoc> = {
       "Don't read actual files from Form.onFormSubmit's string model. Read FormData in onSubmit instead.",
     ],
     anatomy:
-      'FileUpload owns Field.Root → Label + Description + native Field.Control(type=file) + visible picker label/dropzone + rejection alert + Field.Error + file list/status/progress/actions + one polite announcement',
+      'FileUpload owns Field.Root → Label + Description + dropzone (native Field.Control(type=file) + visible picker label, then one row per file with status/actions/progress) + rejection alert + Field.Error + one polite announcement',
     keyboard:
       'Tabbing to the native file input shows a focus ring on the choose button. Enter or Space opens the file picker. In the file list, Tab reaches the Upload, Cancel, Retry, and Remove buttons. Enter or Space activates them. Every file selection works without dragging. disabled blocks selection and submission, and cancels transfers in progress.',
     tokens: [
@@ -23,8 +24,10 @@ export const fileUploadDocs: Record<string, ComponentDoc> = {
       '--control-focus',
       '--interaction-focus',
       '--surface',
+      '--line',
       '--radius-lg',
       '--status-danger-fg',
+      '--space-3',
       '--space-4',
       '--space-5',
     ],

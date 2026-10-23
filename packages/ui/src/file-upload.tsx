@@ -434,39 +434,142 @@ export const FileUpload = /* @__PURE__ */ React.forwardRef<
           }
         }}
       >
-        <Field.Control
-          ref={input}
-          id={inputId}
-          name={name}
-          form={form}
-          type='file'
-          accept={accept}
-          capture={capture}
-          multiple={multiple}
-          required={required}
-          disabled={disabled}
-          className='pui-file-native'
-          aria-describedby={errorId}
-          onKeyDown={(event) => {
-            if (event.key === 'Enter') event.preventBaseUIHandler()
-          }}
-          onChange={(event) => {
-            if (!notifying.current) {
-              event.preventBaseUIHandler()
-              select(Array.from(event.currentTarget.files ?? []), 'select')
-            }
-          }}
-        />
-        <label
-          htmlFor={inputId}
-          className='pui-button pui-file-trigger'
-          data-variant='outline'
-          data-disabled={disabled || undefined}
-        >
-          <Icon name='upload' />
-          {labels.choose}
-        </label>
-        <p className='pui-file-drop-hint'>{labels.drop}</p>
+        <div className='pui-file-picker'>
+          <Field.Control
+            ref={input}
+            id={inputId}
+            name={name}
+            form={form}
+            type='file'
+            accept={accept}
+            capture={capture}
+            multiple={multiple}
+            required={required}
+            disabled={disabled}
+            className='pui-file-native'
+            aria-describedby={errorId}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') event.preventBaseUIHandler()
+            }}
+            onChange={(event) => {
+              if (!notifying.current) {
+                event.preventBaseUIHandler()
+                select(Array.from(event.currentTarget.files ?? []), 'select')
+              }
+            }}
+          />
+          <label
+            htmlFor={inputId}
+            className='pui-button pui-file-trigger'
+            data-variant='outline'
+            data-disabled={disabled || undefined}
+          >
+            <Icon name='upload' />
+            {labels.choose}
+          </label>
+          <p className='pui-file-drop-hint'>{labels.drop}</p>
+        </div>
+        {/* The files continue the drop zone's plane, so a drop on them adds more. */}
+        {files.length > 0 && (
+          <ul className='pui-file-list' role='list'>
+            {files.map((file) => {
+              const state = metadata.get(file) ?? {
+                status: 'ready',
+                progress: null,
+              }
+              if (!identities.current.has(file))
+                identities.current.set(file, `${uid}-${++nextId.current}`)
+              const itemId = identities.current.get(file)!
+              return (
+                <li key={itemId} className='pui-file-item'>
+                  <div className='pui-file-info'>
+                    <strong>{file.name}</strong>
+                    <span>{sizeLabel(file.size)}</span>
+                    <StatusBadge
+                      tone={
+                        state.status === 'success'
+                          ? 'success'
+                          : state.status === 'error'
+                            ? 'danger'
+                            : state.status === 'uploading'
+                              ? 'progress'
+                              : 'neutral'
+                      }
+                    >
+                      {labels.status[state.status]}
+                    </StatusBadge>
+                  </div>
+                  <div className='pui-file-actions'>
+                    {transport && state.status !== 'success' && (
+                      <Button
+                        ref={(node) => {
+                          if (node) primaryButtons.current.set(file, node)
+                          else primaryButtons.current.delete(file)
+                        }}
+                        type='button'
+                        size='sm'
+                        variant='outline'
+                        disabled={disabled}
+                        aria-describedby={
+                          state.error ? `${itemId}-error` : undefined
+                        }
+                        aria-label={`${state.status === 'uploading' ? labels.cancel : state.status === 'ready' ? labels.upload : labels.retry} ${file.name}`}
+                        onClick={() => {
+                          if (state.status === 'uploading') cancel(file)
+                          else void upload(file)
+                        }}
+                      >
+                        {state.status === 'uploading'
+                          ? labels.cancel
+                          : state.status === 'ready'
+                            ? labels.upload
+                            : labels.retry}
+                      </Button>
+                    )}
+                    <Button
+                      type='button'
+                      size='sm'
+                      variant='ghost'
+                      ref={(node) => {
+                        if (node) removeButtons.current.set(file, node)
+                        else removeButtons.current.delete(file)
+                      }}
+                      disabled={disabled}
+                      aria-label={`${labels.remove} ${file.name}`}
+                      onClick={() => {
+                        setRejections([])
+                        if (
+                          commit(
+                            files.filter((current) => current !== file),
+                            'remove',
+                          )
+                        )
+                          focusPicker.current = file
+                      }}
+                    >
+                      {labels.remove}
+                    </Button>
+                  </div>
+                  {state.status === 'uploading' && (
+                    <Progress.Root
+                      value={state.progress}
+                      aria-label={labels.progress(file)}
+                    >
+                      <Progress.Track>
+                        <Progress.Indicator />
+                      </Progress.Track>
+                    </Progress.Root>
+                  )}
+                  {state.error && (
+                    <p id={`${itemId}-error`} className='pui-file-upload-error'>
+                      {state.error}
+                    </p>
+                  )}
+                </li>
+              )
+            })}
+          </ul>
+        )}
       </div>
       <div id={errorId} role='alert' className='pui-file-errors'>
         {rejections.length > 0 && (
@@ -478,106 +581,6 @@ export const FileUpload = /* @__PURE__ */ React.forwardRef<
         )}
       </div>
       <Field.Error />
-      {files.length > 0 && (
-        <ul className='pui-file-list' role='list'>
-          {files.map((file) => {
-            const state = metadata.get(file) ?? {
-              status: 'ready',
-              progress: null,
-            }
-            if (!identities.current.has(file))
-              identities.current.set(file, `${uid}-${++nextId.current}`)
-            const itemId = identities.current.get(file)!
-            return (
-              <li key={itemId} className='pui-file-item'>
-                <div className='pui-file-info'>
-                  <strong>{file.name}</strong>
-                  <span>{sizeLabel(file.size)}</span>
-                  <StatusBadge
-                    tone={
-                      state.status === 'success'
-                        ? 'success'
-                        : state.status === 'error'
-                          ? 'danger'
-                          : state.status === 'uploading'
-                            ? 'progress'
-                            : 'neutral'
-                    }
-                  >
-                    {labels.status[state.status]}
-                  </StatusBadge>
-                </div>
-                {state.status === 'uploading' && (
-                  <Progress.Root
-                    value={state.progress}
-                    aria-label={labels.progress(file)}
-                  >
-                    <Progress.Track>
-                      <Progress.Indicator />
-                    </Progress.Track>
-                  </Progress.Root>
-                )}
-                {state.error && (
-                  <p id={`${itemId}-error`} className='pui-file-upload-error'>
-                    {state.error}
-                  </p>
-                )}
-                <div className='pui-file-actions'>
-                  {transport && state.status !== 'success' && (
-                    <Button
-                      ref={(node) => {
-                        if (node) primaryButtons.current.set(file, node)
-                        else primaryButtons.current.delete(file)
-                      }}
-                      type='button'
-                      size='sm'
-                      variant='outline'
-                      disabled={disabled}
-                      aria-describedby={
-                        state.error ? `${itemId}-error` : undefined
-                      }
-                      aria-label={`${state.status === 'uploading' ? labels.cancel : state.status === 'ready' ? labels.upload : labels.retry} ${file.name}`}
-                      onClick={() => {
-                        if (state.status === 'uploading') cancel(file)
-                        else void upload(file)
-                      }}
-                    >
-                      {state.status === 'uploading'
-                        ? labels.cancel
-                        : state.status === 'ready'
-                          ? labels.upload
-                          : labels.retry}
-                    </Button>
-                  )}
-                  <Button
-                    type='button'
-                    size='sm'
-                    variant='ghost'
-                    ref={(node) => {
-                      if (node) removeButtons.current.set(file, node)
-                      else removeButtons.current.delete(file)
-                    }}
-                    disabled={disabled}
-                    aria-label={`${labels.remove} ${file.name}`}
-                    onClick={() => {
-                      setRejections([])
-                      if (
-                        commit(
-                          files.filter((current) => current !== file),
-                          'remove',
-                        )
-                      )
-                        focusPicker.current = file
-                    }}
-                  >
-                    {labels.remove}
-                  </Button>
-                </div>
-              </li>
-            )
-          })}
-        </ul>
-      )}
       <span className='pui-feedback-sr' role='status'>
         {announcement}
       </span>

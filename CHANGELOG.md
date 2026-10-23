@@ -4,6 +4,10 @@
 
 ## Unreleased
 
+### Changed
+
+- FileUpload lists chosen files inside its drop zone, one row per file divided by lines, so the field reads as one plane rather than a stack of boxes, and a drop on the list adds files too. A file's actions end its row and wrap below only when the row is narrow. Rejection messages and the field error now follow the drop zone.
+
 ### Fixed
 
 - FileUpload's announcements, such as "2 files selected.", were printed under the list: the class that should hide them didn't exist. They are now heard and not seen. `check:package` fails on any rendered class that no rule styles.

@@ -471,7 +471,8 @@ test('existing default gauge, upload and list insets keep their role-specific ba
   await page.setViewportSize({ width: 1440, height: 1000 })
   for (const [id, selector, property, expected] of [
     ['progress', '.pui-gauge-track', 'height', [6, 8, 10]],
-    ['file-upload', '.pui-file-dropzone', 'paddingTop', [12, 20, 28]],
+    // The drop zone holds the picker and the file rows, which own the block inset.
+    ['file-upload', '.pui-file-dropzone', 'paddingLeft', [12, 20, 28]],
     ['list', '.pui-list-item', 'paddingTop', [8, 12, 16]],
   ] as const) {
     await open(page, id)

@@ -24,12 +24,13 @@
     clip-path: inset(50%);
     white-space: nowrap;
   }
+  /* One plane: the picker row, then a row per file. Rows meet at a line, and the
+     plane keeps one inset on every edge. */
   .pui-file-dropzone {
+    --file-inset: var(--space-5);
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-3);
-    padding: var(--space-5);
+    flex-direction: column;
+    padding-inline: var(--file-inset);
     border: 1px solid transparent;
     border-radius: var(--radius-lg);
     background: var(--surface);
@@ -37,6 +38,13 @@
   }
   .pui-file-upload[data-dragging] .pui-file-dropzone {
     background: var(--selected);
+  }
+  .pui-file-picker {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+    padding-block: var(--file-inset);
   }
   .pui-file-trigger {
     flex-direction: row;
@@ -81,18 +89,30 @@
   }
   .pui-file-list {
     display: grid;
-    gap: var(--space-2);
     list-style: none;
     padding: 0;
     margin: 0;
   }
+  /* The file's details lead its row and its actions end it, wrapping below when the
+     row is narrow. Progress and an upload error run under the whole row. */
   .pui-file-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3) var(--space-4);
     min-width: 0;
-    padding: var(--space-4);
-    border-radius: var(--radius-md);
-    background: var(--surface);
+    padding-block: var(--space-3);
+    border-top: 1px solid var(--line);
+  }
+  .pui-file-item:last-child {
+    padding-block-end: var(--file-inset);
+  }
+  .pui-file-item > :not(.pui-file-info, .pui-file-actions) {
+    flex-basis: 100%;
   }
   .pui-file-info {
+    flex: 1 1 auto;
+    min-width: 0;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -114,13 +134,9 @@
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2);
-    margin-top: var(--space-3);
-  }
-  .pui-file-item .pui-gauge {
-    margin-top: var(--space-3);
   }
   .pui-file-upload-error {
-    margin: var(--space-2) 0 0;
+    margin: 0;
     color: var(--status-danger-fg);
     font-size: var(--type-compact-size);
     line-height: var(--type-compact-leading);
@@ -133,7 +149,7 @@
   }
   @media (max-width: 760px) {
     .pui-file-dropzone {
-      padding: var(--space-4);
+      --file-inset: var(--space-4);
     }
   }
   @media (forced-colors: active) {
@@ -144,11 +160,6 @@
     .pui-file-upload[data-dragging] .pui-file-dropzone {
       border-color: Highlight;
     }
-    .pui-file-item {
-      border: 1px solid CanvasText;
-      background: Canvas;
-      color: CanvasText;
-    }
   }
   @media (prefers-reduced-motion: reduce) {
     .pui-file-dropzone {
@@ -158,6 +169,6 @@
 }
 @layer surflane.sizes {
   :where([data-ui-size], [data-ui-size] *).pui-file-dropzone {
-    padding: var(--ui-file-padding);
+    --file-inset: var(--ui-file-padding);
   }
 }
