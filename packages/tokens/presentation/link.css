@@ -7,7 +7,7 @@
     color: var(--ink);
     text-decoration: underline;
     text-underline-offset: 3px;
-    border-radius: 2px;
+    border-radius: calc(var(--radius-sm) / 3);
     overflow-wrap: anywhere;
   }
   .pui-link:hover {

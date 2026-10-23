@@ -22,7 +22,12 @@
     width: var(--control-choice-size);
     height: var(--control-choice-size);
     border: 1px solid var(--control-choice-border);
-    border-radius: var(--control-choice-radius);
+    /* A rounder theme rounds the box, but never past 3/8 of its side, so a
+       checkbox never reads as a radio. */
+    border-radius: min(
+      var(--control-choice-radius),
+      var(--control-choice-size) * 0.375
+    );
     background: var(--control-background);
     color: var(--ink);
     outline: none;

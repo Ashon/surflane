@@ -2916,9 +2916,17 @@ body,
    clip around the square shell adds its 12px inset (22px) and the frame its 3px
    inset and 1px border (26px), so each gap keeps one width around the corners. */
 .catalog-example-frame[data-kind='pattern'][data-content='workspace'] {
-  --workspace-shell-radius: calc(var(--radius-md) + var(--space-3));
+  /* Concentric with the page inside, one gap wider, but square when the page is:
+     a gap never rounds a square corner. */
+  --workspace-shell-radius: min(
+    var(--radius-md) * 1000,
+    var(--radius-md) + var(--space-3)
+  );
   padding: calc(var(--space-1) - 1px);
-  border-radius: calc(var(--workspace-shell-radius) + var(--space-1));
+  border-radius: min(
+    var(--radius-md) * 1000,
+    var(--workspace-shell-radius) + var(--space-1)
+  );
 }
 
 .tree-preview-settings {
@@ -3564,8 +3572,16 @@ body,
   border: 1px solid var(--line);
   /* The same concentric frame as the app shell example: sheet 10, frame 26. The
      frame clips the square shell, which shares its chrome. */
-  --workspace-shell-radius: calc(var(--radius-md) + var(--space-3));
-  border-radius: calc(var(--workspace-shell-radius) + var(--space-1));
+  /* Concentric with the page inside, one gap wider, but square when the page is:
+     a gap never rounds a square corner. */
+  --workspace-shell-radius: min(
+    var(--radius-md) * 1000,
+    var(--radius-md) + var(--space-3)
+  );
+  border-radius: min(
+    var(--radius-md) * 1000,
+    var(--workspace-shell-radius) + var(--space-1)
+  );
   overflow: hidden;
   background: var(--chrome);
 }
@@ -3831,8 +3847,16 @@ body,
   min-inline-size: 0;
   padding: 3px;
   border: 1px solid var(--line);
-  --workspace-shell-radius: calc(var(--radius-md) + var(--space-3));
-  border-radius: calc(var(--workspace-shell-radius) + var(--space-1));
+  /* Concentric with the page inside, one gap wider, but square when the page is:
+     a gap never rounds a square corner. */
+  --workspace-shell-radius: min(
+    var(--radius-md) * 1000,
+    var(--radius-md) + var(--space-3)
+  );
+  border-radius: min(
+    var(--radius-md) * 1000,
+    var(--workspace-shell-radius) + var(--space-1)
+  );
   /* The frame clips the square shell, which shares its chrome. */
   overflow: hidden;
   background: var(--chrome);

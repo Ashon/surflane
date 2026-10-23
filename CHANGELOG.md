@@ -66,6 +66,7 @@ These keep working, and are removed in a later minor:
 
 ### Fixed
 
+- Checkboxes, DatePicker's field segments and a Link's focus corners kept fixed corners under a radius preset or `createTheme`'s `radius`. They now follow `--radius-sm`. A checkbox's corner stops at 3/8 of its side, so a rounder theme never makes it look like a radio.
 - `preloadSyntaxHighlighting` tested line breaks with a pattern that could match `\r\n` two ways, which backtracks exponentially on a long input that fails. It now uses one that cannot.
 
 ### Migration

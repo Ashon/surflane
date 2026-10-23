@@ -73,7 +73,7 @@
   }
   .pui-date-segment {
     font-variant-numeric: tabular-nums;
-    border-radius: var(--space-1);
+    border-radius: calc(var(--radius-sm) * 2 / 3);
     padding: 1px;
     outline: none;
   }

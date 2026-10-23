@@ -561,7 +561,8 @@
   :root,
   [data-theme] {
     --control-choice-size: 20px;
-    --control-choice-radius: 6px;
+    /* Follows the radius scale, so a square theme squares checkboxes too. */
+    --control-choice-radius: var(--radius-sm);
     --control-choice-border: oklch(
       from color-mix(in srgb, var(--ink-muted) 60%, var(--line)) l c h / alpha
     );
