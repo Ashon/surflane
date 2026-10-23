@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {
   Table,
   List,
@@ -19,6 +19,7 @@ import {
 } from '@surflane/ui'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/DataExamples'
+import { PreviewTableVariantContext } from './previewOptions'
 export { dataExampleIds } from './exampleGroups'
 const environments = [
   {
@@ -374,6 +375,7 @@ export function DataExample({ id }: { id: string }) {
   const t = text[useLocale().locale]
   const [query, setQuery] = useState(''),
     [ascending, setAscending] = useState(true)
+  const variant = useContext(PreviewTableVariantContext)
   const [selected, setSelected] = useState<string[]>([]),
     [inspected, setInspected] = useState('')
   if (id === 'stat') return <StatPreview />
@@ -416,7 +418,7 @@ export function DataExample({ id }: { id: string }) {
         </EmptyState.Root>
       ) : id === 'table' ? (
         <Table.Container label={t.environmentComparison}>
-          <Table.Root style={{ minWidth: 720 }}>
+          <Table.Root variant={variant} style={{ minWidth: 720 }}>
             <Table.Caption>{t.registeredEnvironmentsCaption}</Table.Caption>
             <Table.Head>
               <Table.Row>

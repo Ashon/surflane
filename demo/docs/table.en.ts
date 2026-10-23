@@ -81,6 +81,11 @@ const selection = useTableSelection({
       'default',
     ],
     [
+      'Root.variant',
+      'plain | lined | grid | striped; lined draws lines between rows and grid between rows and columns, inside the table only; striped tones every other row',
+      'plain',
+    ],
+    [
       'Root.stickyHeader',
       'keeps the header in view inside a Container with a bounded height and orientation="both"; --table-surface sets its background',
       'false',

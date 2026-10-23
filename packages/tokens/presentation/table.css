@@ -38,11 +38,42 @@
     border-start-end-radius: var(--radius-md);
     border-end-end-radius: var(--radius-md);
   }
+  /* Striped tones every other body row with the recessed surface, a plane in place
+   * of a line. Hover and selection paint over it. */
+  :where(.pui-table[data-variant='striped'])
+    > .pui-table-body
+    > .pui-table-row:nth-child(even)
+    > * {
+    background: var(--surface);
+  }
   .pui-table-body > .pui-table-row:is(:hover, :focus-within) > * {
     background: var(--interaction-hover-bg);
   }
+  /* A selected row takes the selected tone and a faint edge in the focus color, so it
+   * reads as held. Each cell draws its share of the edge; inset shadows follow a
+   * rounded row's corners. */
   .pui-table-body > .pui-table-row[data-selected] > * {
+    --table-edge-start: 0px;
+    --table-edge-end: 0px;
+    --table-edge-top: 1px;
+    --table-edge-bottom: 1px;
     background: var(--selected);
+    box-shadow:
+      inset 0 var(--table-edge-top) var(--selected-edge),
+      inset 0 calc(-1 * var(--table-edge-bottom)) var(--selected-edge),
+      inset calc(var(--table-direction, 1) * var(--table-edge-start)) 0
+        var(--selected-edge),
+      inset calc(-1 * var(--table-direction, 1) * var(--table-edge-end)) 0
+        var(--selected-edge);
+  }
+  .pui-table-body > .pui-table-row[data-selected] > :first-child {
+    --table-edge-start: 1px;
+  }
+  .pui-table-body > .pui-table-row[data-selected] > :last-child {
+    --table-edge-end: 1px;
+  }
+  .pui-table:dir(rtl) {
+    --table-direction: -1;
   }
   @media (forced-colors: active) {
     .pui-table-row[data-selected] > * {
@@ -90,6 +121,57 @@
    * records with a pointer. It overrides the component size's cell padding. */
   .pui-table[data-density='compact'] {
     border-spacing: 0 2px;
+  }
+  /* Lined, grid and striped rows meet edge to edge, square, so lines and stripes
+   * run unbroken. Lines stay inside the table: none above the header, below the
+   * last row or at its sides. */
+  .pui-table[data-variant] {
+    border-spacing: 0;
+  }
+  .pui-table[data-variant] > .pui-table-body > .pui-table-row > * {
+    border-radius: 0;
+  }
+  .pui-table:is([data-variant='lined'], [data-variant='grid'])
+    > :is(.pui-table-head, .pui-table-body, .pui-table-foot)
+    > .pui-table-row
+    + .pui-table-row
+    > *,
+  .pui-table:is([data-variant='lined'], [data-variant='grid'])
+    > .pui-table-head
+    + .pui-table-body
+    > .pui-table-row:first-child
+    > *,
+  .pui-table:is([data-variant='lined'], [data-variant='grid'])
+    > .pui-table-body
+    + .pui-table-foot
+    > .pui-table-row:first-child
+    > * {
+    border-block-start: 1px solid var(--line);
+  }
+  .pui-table[data-variant='grid'] .pui-table-cell + .pui-table-cell {
+    border-inline-start: 1px solid var(--line);
+  }
+  /* A sticky header draws its own line beneath it. */
+  .pui-table[data-sticky-header]
+    > .pui-table-head
+    + .pui-table-body
+    > .pui-table-row:first-child
+    > * {
+    border-block-start: 0;
+  }
+  /* Selected rows that meet share one edge around the run. */
+  .pui-table[data-variant]
+    > .pui-table-body
+    > .pui-table-row[data-selected]
+    + .pui-table-row[data-selected]
+    > * {
+    --table-edge-top: 0px;
+  }
+  .pui-table[data-variant]
+    > .pui-table-body
+    > .pui-table-row[data-selected]:has(+ .pui-table-row[data-selected])
+    > * {
+    --table-edge-bottom: 0px;
   }
   /* A bleeding container hangs by the cell inset, which density and size set; it
      outranks the scroll root's own width cap. */

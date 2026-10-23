@@ -4,6 +4,7 @@ import {
   SizeProvider,
   type ComponentSize,
   type TableDensity,
+  type TableVariant,
 } from '@surflane/ui'
 import { ComponentExample } from './ComponentExamples'
 import { exampleOwnsFrame } from './exampleGroups'
@@ -11,7 +12,10 @@ import type { CatalogItem } from './catalog'
 import { routeHref } from './router'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/ComponentSizePreview'
-import { PreviewDensityContext } from './previewOptions'
+import {
+  PreviewDensityContext,
+  PreviewTableVariantContext,
+} from './previewOptions'
 export const componentSizes = ['small', 'default', 'large'] as const
 export const sizeLabels = {
   small: 'Small',
@@ -23,6 +27,9 @@ const sizedPatterns = new Set(['data-table'])
 // Examples whose tables follow the density chosen in the handle.
 const densityExamples = new Set(['data-table'])
 const densities = ['default', 'compact'] as const
+// Examples whose tables follow the style chosen in the handle.
+const styleExamples = new Set(['table', 'data-table'])
+const variants = ['plain', 'lined', 'grid', 'striped'] as const
 export function ComponentSizePreview({
   item,
   toggleTheme,
@@ -33,6 +40,7 @@ export function ComponentSizePreview({
   const t = text[useLocale().locale]
   const [size, setSize] = useState<ComponentSize>('default')
   const [density, setDensity] = useState<TableDensity>('default')
+  const [variant, setVariant] = useState<TableVariant>('plain')
   const labels = {
     small: t.sizeSmall,
     default: t.sizeDefault,
@@ -42,11 +50,18 @@ export function ComponentSizePreview({
     default: t.densityDefault,
     compact: t.densityCompact,
   }
+  const variantLabels = {
+    plain: t.stylePlain,
+    lined: t.styleLined,
+    grid: t.styleGrid,
+    striped: t.styleStriped,
+  }
   const sized = item.kind === 'component' || sizedPatterns.has(item.id)
   const withDensity = densityExamples.has(item.id)
+  const withStyle = styleExamples.has(item.id)
   // With two groups, each shows its name, so their Default buttons tell apart.
   const named = (label: string, group: React.ReactNode) =>
-    withDensity ? (
+    withDensity || withStyle ? (
       <div className='component-size-group'>
         <span aria-hidden='true'>{label}</span>
         {group}
@@ -100,8 +115,33 @@ export function ComponentSizePreview({
                 ))}
               </div>,
             )}
+          {withStyle &&
+            named(
+              t.styleName,
+              <div
+                role='group'
+                aria-label={t.styleGroupLabel}
+                className='component-size-options'
+              >
+                {variants.map((value) => (
+                  <Button
+                    key={value}
+                    variant='ghost'
+                    aria-pressed={variant === value}
+                    aria-label={t.previewStyle(variantLabels[value])}
+                    onClick={() => setVariant(value)}
+                  >
+                    {variantLabels[value]}
+                  </Button>
+                ))}
+              </div>,
+            )}
           <p>
-            {withDensity ? t.descriptionDensity : t.description}{' '}
+            {withDensity
+              ? t.descriptionDensity
+              : withStyle
+                ? t.descriptionStyle
+                : t.description}{' '}
             <a href={routeHref('/foundations/layout#component-sizes')}>
               {t.sizeGuidance}
             </a>
@@ -120,7 +160,9 @@ export function ComponentSizePreview({
         {sized ? (
           <SizeProvider size={size}>
             <PreviewDensityContext.Provider value={density}>
-              {example}
+              <PreviewTableVariantContext.Provider value={variant}>
+                {example}
+              </PreviewTableVariantContext.Provider>
             </PreviewDensityContext.Provider>
           </SizeProvider>
         ) : (

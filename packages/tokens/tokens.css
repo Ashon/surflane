@@ -302,6 +302,13 @@
     /* Pressed: the same layer, stronger, so touch shows feedback in the item's own shape. */
     --interaction-active-bg: oklch(from var(--ink) l c h / 0.14);
     --interaction-focus: var(--brand-ink);
+    /* The edge of a selected row or item: the focus color, faint, over the selected
+       tone, so a selection reads as held without looking focused. */
+    --selected-edge: color-mix(
+      in oklch,
+      var(--interaction-focus) 35%,
+      var(--selected)
+    );
   }
   :root[data-theme='light'],
   [data-theme='light'] {

@@ -14,6 +14,8 @@ export const doc: DocKo = {
     'Container.label': '스크롤 영역의 접근 가능한 이름',
     'Root.density':
       'default | compact. compact는 셀 여백 4px, 행 사이 2px로 줄입니다',
+    'Root.variant':
+      'plain | lined | grid | striped. lined는 행 사이에, grid는 행과 열 사이에 표 안쪽으로만 선을 긋고, striped는 한 행 걸러 톤을 깝니다',
     'Root.stickyHeader':
       '높이를 제한하고 orientation="both"를 준 Container 안에서 헤더를 고정합니다. 배경은 --table-surface로 정합니다',
     'Caption / Head / Body / Foot': '네이티브 테이블 요소 속성',

@@ -4,6 +4,20 @@
 
 ## Unreleased
 
+### Added
+
+- `Table.Root` takes `variant`:
+  - `plain`, the default, separates rows by space.
+  - `lined` draws lines between rows, and `grid` between rows and columns. Both draw inside the table only: no line above the header, below the last row or at the sides.
+  - `striped` tones every other body row with `--surface`.
+  - Lined, grid and striped rows meet edge to edge, square.
+- Tokens:
+  - `--selected-edge`: the focus color, faint, over `--selected`.
+
+### Changed
+
+- A selected Table row shows a faint `--selected-edge` around it besides the selected tone, so a selection reads as held. Selected rows that meet in a lined, grid or striped table share one edge.
+
 ### Fixed
 
 - `preloadSyntaxHighlighting` tested line breaks with a pattern that could match `\r\n` two ways, which backtracks exponentially on a long input that fails. It now uses one that cannot.

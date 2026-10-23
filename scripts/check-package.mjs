@@ -132,7 +132,6 @@ const hookClasses = new Set([
   'pui-preview-trigger',
   'pui-scroll-content',
   'pui-select-group',
-  'pui-table-foot',
   'pui-table-message',
   'pui-table-sort-header',
 ])

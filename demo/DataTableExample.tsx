@@ -18,7 +18,10 @@ import {
 import { Link } from './router'
 import { useLocale, useMessages } from './i18n'
 import { text } from './i18n/pages/DataTableExample'
-import { PreviewDensityContext } from './previewOptions'
+import {
+  PreviewDensityContext,
+  PreviewTableVariantContext,
+} from './previewOptions'
 const resources = [
   {
     id: 'workspace',
@@ -121,6 +124,7 @@ export function DataTableExample() {
   const t = text[locale]
   const messages = useMessages()
   const density = useContext(PreviewDensityContext)
+  const variant = useContext(PreviewTableVariantContext)
   const number = new Intl.NumberFormat(locale === 'ko' ? 'ko-KR' : 'en-US')
   const [mode, setMode] = useState<Mode>('ready'),
     [query, setQuery] = useState(''),
@@ -379,6 +383,7 @@ export function DataTableExample() {
           <Table.Root
             className='data-table-preview'
             density={density}
+            variant={variant}
             aria-busy={mode === 'loading' || undefined}
           >
             <Table.Caption>{t.caption}</Table.Caption>

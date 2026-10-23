@@ -407,6 +407,7 @@ export {
   TableTruncate,
   TableMessage,
   type TableDensity,
+  type TableVariant,
   type TableSort,
   useTableSelection,
   type TableSelectionOptions,

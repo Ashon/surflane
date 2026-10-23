@@ -27,20 +27,27 @@ const RootPart = /* @__PURE__ */ part<
   React.ComponentPropsWithoutRef<'table'>
 >('table', 'pui-table')
 export type TableDensity = 'default' | 'compact'
+export type TableVariant = 'plain' | 'lined' | 'grid' | 'striped'
 const TableRoot = /* @__PURE__ */ React.forwardRef<
   HTMLTableElement,
   React.ComponentPropsWithoutRef<typeof RootPart> & {
     /** compact tightens rows for scanning many records with a pointer. */
     density?: TableDensity
+    /**
+     * plain separates rows by space; lined draws lines between rows, grid between
+     * rows and columns, both inside the table only; striped tones every other row.
+     */
+    variant?: TableVariant
     /** Keeps the header visible while a bounded Container scrolls vertically. */
     stickyHeader?: boolean
   }
->(function TableRoot({ density, stickyHeader, ...props }, ref) {
+>(function TableRoot({ density, variant, stickyHeader, ...props }, ref) {
   return (
     <RootPart
       {...props}
       ref={ref}
       data-density={density === 'compact' ? 'compact' : undefined}
+      data-variant={variant && variant !== 'plain' ? variant : undefined}
       data-sticky-header={stickyHeader || undefined}
     />
   )

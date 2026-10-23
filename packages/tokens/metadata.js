@@ -86,6 +86,8 @@ export const descriptions = {
   '--icon-size-md': 'SVG size for general UI',
   '--icon-size-lg': 'SVG size for emphasis',
   '--icon-stroke-width': 'Shared stroke width within a 24×24 viewBox',
+  '--selected-edge':
+    'The edge of a selected row: the focus color, faint, over --selected',
   '--type-display-size': 'Fluid 32–40px page title',
   '--type-title-size': 'Fluid 28–32px heading',
   '--type-workspace-title-size': 'Earlier name for the display size',
