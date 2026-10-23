@@ -10,7 +10,26 @@ concurrency:
   group: design-system-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  package-and-browsers:
+  # Browser jobs run in the Playwright image for the version in package-lock.json, with
+  # the browsers and their system packages already installed. Installing them on the
+  # runner waited on the Ubuntu apt mirror, which at times took more than half an hour.
+  playwright:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      image: ${{ steps.image.outputs.image }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+          sparse-checkout: package-lock.json
+          sparse-checkout-cone-mode: false
+      - id: image
+        run: |
+          version=$(node -p "require('./package-lock.json').packages['node_modules/playwright-core'].version")
+          echo "image=mcr.microsoft.com/playwright:v$version-noble" >> "$GITHUB_OUTPUT"
+  # On the runner: check:public lists files through git, which the image lacks.
+  package:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -29,13 +48,33 @@ jobs:
       - run: npm run format:check
       # Pack without requiring or changing sibling product repositories.
       - run: npm run pack
-      - run: npx playwright install --with-deps chromium firefox webkit
+  browsers:
+    needs: playwright
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    container:
+      image: ${{ needs.playwright.outputs.image }}
+      options: --user 1001
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - run: npm run build:catalog
       - run: npm run check:tailwind
       - run: npm run test:browsers
   # Packed tarballs installed into real framework apps: build, SSR, hydration.
   examples:
+    needs: playwright
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    container:
+      image: ${{ needs.playwright.outputs.image }}
+      options: --user 1001
     strategy:
       fail-fast: false
       matrix:
@@ -49,16 +88,19 @@ jobs:
           node-version: "24"
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
       - run: npm run check:examples -- ${{ matrix.example }}
       # What the install guide (/install) shows, built and checked for the same framework.
       - run: npm run check:install-guide -- ${{ matrix.example }}
   # The full Chromium suite, split into shards that run at the same time.
   full-regression:
     if: github.event_name != 'pull_request'
+    needs: playwright
     name: full-regression (${{ matrix.shard }}/4)
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    container:
+      image: ${{ needs.playwright.outputs.image }}
+      options: --user 1001
     strategy:
       fail-fast: false
       matrix:
@@ -72,5 +114,4 @@ jobs:
           node-version: "24"
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
       - run: npm test -- --shard=${{ matrix.shard }}/4
