@@ -112,6 +112,62 @@ test('actual loaded fonts match display, subhead, body, code, Korean and Japanes
   }
 })
 
+test('Korean pages draw their Hangul from one Pretendard file, and English pages fetch none', async ({
+  page,
+  context,
+}) => {
+  // scripts/build-fonts.mjs subsets Pretendard to the Hangul the catalog writes or formats.
+  const hangulFiles: string[] = []
+  page.on('request', (request) => {
+    if (request.url().includes('pretendard-hangul'))
+      hangulFiles.push(request.url())
+  })
+  await page.goto('/components')
+  await waitForCatalogReady(page)
+  await page.evaluate(() => document.fonts.ready)
+  expect(hangulFiles).toEqual([])
+  // Content formats dates, numbers and relative times in the browser.
+  await page.goto('/ko/foundations/content')
+  await waitForCatalogReady(page)
+  await page.evaluate(() => document.fonts.ready)
+  expect(hangulFiles).toHaveLength(1)
+  await page.evaluate(() => {
+    for (const element of document.body.querySelectorAll('*')) {
+      const own = Array.from(element.childNodes, (node) =>
+        node.nodeType === Node.TEXT_NODE ? node.textContent : '',
+      ).join('')
+      // Korean text; samples in scripts without a bundled face, such as Arabic, are
+      // left to the system. The fonts reported for an element cover its descendants.
+      if (
+        /\p{Script=Hangul}/u.test(own) &&
+        /^[\p{Script=Hangul}\p{Script=Latin}\p{Script=Common}]*$/u.test(
+          element.textContent ?? '',
+        )
+      )
+        element.setAttribute('data-hangul-text', '')
+    }
+  })
+  const client = await context.newCDPSession(page)
+  await client.send('DOM.enable')
+  await client.send('CSS.enable')
+  const { root } = await client.send('DOM.getDocument', { depth: -1 })
+  const { nodeIds } = await client.send('DOM.querySelectorAll', {
+    nodeId: root.nodeId,
+    selector: '[data-hangul-text]',
+  })
+  expect(nodeIds.length).toBeGreaterThan(50)
+  const fallbacks = new Set<string>()
+  for (const nodeId of nodeIds) {
+    const { fonts } = await client.send('CSS.getPlatformFontsForNode', {
+      nodeId,
+    })
+    for (const font of fonts)
+      if (!font.isCustomFont && font.glyphCount > 0)
+        fallbacks.add(font.familyName)
+  }
+  expect([...fallbacks]).toEqual([])
+})
+
 test('catalog text and portal controls stay within the 500 maximum and code stays at zero tracking', async ({
   page,
 }) => {
