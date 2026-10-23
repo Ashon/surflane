@@ -17,7 +17,12 @@ for (const name of ['ui', 'tokens']) {
           ? // A subpath pattern needs at least one matching file.
             readdirSync(resolve(root, dirname(file))).some((name) =>
               new RegExp(
-                `^${file.split('/').pop().replace('.', '\\.').replace('*', '.+')}$`,
+                `^${file
+                  .split('/')
+                  .pop()
+                  .split('*')
+                  .map((part) => part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+                  .join('.+')}$`,
               ).test(name),
             )
           : existsSync(resolve(root, file)),

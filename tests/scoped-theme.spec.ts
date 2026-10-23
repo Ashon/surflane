@@ -1,8 +1,14 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, type Page } from '@playwright/test'
 import { waitForCatalogReady } from './catalog-ready'
 
-const read = (selector: string, names: string[]) =>
-  `(() => { const style = getComputedStyle(document.querySelector(${JSON.stringify(selector)})); return ${JSON.stringify(names)}.map((name) => style.getPropertyValue(name).trim()); })()`
+const read = (page: Page, selector: string, names: string[]) =>
+  page.evaluate(
+    ([selector, names]) => {
+      const style = getComputedStyle(document.querySelector(selector)!)
+      return names.map((name) => style.getPropertyValue(name).trim())
+    },
+    [selector, names] as const,
+  )
 const names = ['--canvas', '--ink', '--surface', '--control-hover-background']
 
 test('data-theme on any element re-themes its subtree, including alias tokens', async ({
@@ -20,14 +26,12 @@ test('data-theme on any element re-themes its subtree, including alias tokens', 
       document.body.append(region)
     }
   })
-  const pageLight = await page.evaluate(read('html', names))
-  const scopedDark = await page.evaluate(read('#scoped-dark .probe', names))
-  const scopedLight = await page.evaluate(read('#scoped-light .probe', names))
+  const pageLight = await read(page, 'html', names)
+  const scopedDark = await read(page, '#scoped-dark .probe', names)
+  const scopedLight = await read(page, '#scoped-light .probe', names)
   await page.evaluate(() => (document.documentElement.dataset.theme = 'dark'))
-  const pageDark = await page.evaluate(read('html', names))
-  const scopedLightInDark = await page.evaluate(
-    read('#scoped-light .probe', names),
-  )
+  const pageDark = await read(page, 'html', names)
+  const scopedLightInDark = await read(page, '#scoped-light .probe', names)
   expect(pageLight).not.toEqual(pageDark)
   expect(scopedDark).toEqual(pageDark)
   expect(scopedLight).toEqual(pageLight)

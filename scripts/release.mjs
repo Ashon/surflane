@@ -18,7 +18,7 @@ const usage = `Usage:
 function changelogSection(version) {
   const text = readFileSync(resolve(root, 'CHANGELOG.md'), 'utf8')
   const heading = new RegExp(
-    `^## ${version.replaceAll('.', '\\.')}(?:\\s|$)`,
+    `^## ${version.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:\\s|$)`,
     'm',
   )
   const start = text.search(heading)

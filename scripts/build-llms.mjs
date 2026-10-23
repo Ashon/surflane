@@ -39,7 +39,8 @@ const pkg = JSON.parse(
 )
 const frameworks = readFileSync(join(root, 'docs/frameworks.md'), 'utf8')
 
-const cell = (value) => String(value).replace(/\|/g, '\\|').replace(/\n/g, ' ')
+const cell = (value) =>
+  String(value).replace(/\\/g, '\\\\').replace(/\|/g, '\\|').replace(/\n/g, ' ')
 const text = (value) =>
   Array.isArray(value) ? value.map((item) => `- ${item}`).join('\n') : value
 const page = (item) => `${site}${itemHref(item)}`

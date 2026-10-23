@@ -75,7 +75,7 @@ function readTokens(code: HTMLElement, text: string) {
       read += content
     } else if (node.nodeType === Node.TEXT_NODE) {
       const breaks = node.textContent ?? ''
-      if (!/^(\r\n|\n|\r)*$/.test(breaks)) return null
+      if (!/^[\r\n]*$/.test(breaks)) return null
       const count = breaks.match(/\r\n|\n|\r/g)?.length ?? 0
       for (let line = 0; line < count; line++) lines.push([])
       read += breaks

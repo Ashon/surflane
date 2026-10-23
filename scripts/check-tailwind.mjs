@@ -91,7 +91,8 @@ assert(
   'Tailwind emits a self-referencing theme variable',
 )
 const rule = (css, utility) => {
-  const selector = `.${utility.replace(/[:]/g, '\\:')}`
+  // Tailwind escapes every character a class selector cannot hold as it is.
+  const selector = `.${utility.replace(/[^\w-]/g, '\\$&')}`
   const start = css.indexOf(`${selector} {`)
   return start < 0 ? '' : css.slice(start, css.indexOf('}', start))
 }
