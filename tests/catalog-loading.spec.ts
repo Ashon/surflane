@@ -377,10 +377,13 @@ test('rich content and grammar engine stay deferred until the documentation rout
   expect(
     modules.filter((name) => requests.some((url) => isModule(url, name))),
   ).toEqual(['RichContentExamples'])
+  // A prerendered page carries its highlighted code, read back as it hydrates; only a
+  // page the browser renders itself loads the engine.
+  const prerendered = await page.locator('#root[data-page]').count()
   expect(
     requests.some((url) =>
       /\/syntax-engine(?:-[^/]+)?\.js/.test(new URL(url).pathname),
     ),
-  ).toBe(true)
+  ).toBe(prerendered === 0)
   expect(requests.some((url) => /\.wasm(?:\?|$)/.test(url))).toBe(false)
 })

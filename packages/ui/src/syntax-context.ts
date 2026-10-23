@@ -31,8 +31,27 @@ export function requestTokens(
       Object.assign(request, { status: 'fulfilled', value: tokens }),
     )
     pending = request
-    requests.set(key, pending)
-    if (requests.size > 500) requests.delete(requests.keys().next().value!)
+    remember(key, pending)
   }
   return pending
+}
+/** Records tokens already known, such as those a server render wrote. */
+export function provideTokens(
+  code: string,
+  language: string,
+  tokens: SyntaxToken[][],
+) {
+  const key = `${language}\n${code}`
+  if (!requests.has(key))
+    remember(
+      key,
+      Object.assign(Promise.resolve(tokens), {
+        status: 'fulfilled',
+        value: tokens,
+      }),
+    )
+}
+function remember(key: string, request: Promise<SyntaxToken[][] | null>) {
+  requests.set(key, request)
+  if (requests.size > 500) requests.delete(requests.keys().next().value!)
 }

@@ -1,6 +1,11 @@
 'use client'
 import * as React from 'react'
-import { SyntaxEngineContext, requestTokens } from './syntax-context.js'
+import {
+  SyntaxEngineContext,
+  provideTokens,
+  requestTokens,
+} from './syntax-context.js'
+import type { SyntaxToken } from './syntax-engine.js'
 
 // The engine and each grammar load on first use, in their own chunks.
 const load = () => import('./syntax-engine.js')
@@ -33,10 +38,12 @@ export function SyntaxHighlighting({
 }
 
 /**
- * Highlights the server-rendered code under `root` before the app hydrates. With
- * `suspense`, await it before `hydrateRoot`: every block then hydrates at once, so no
- * boundary is left waiting for its tokens, where a context change above it would make
- * React drop the highlighted HTML for the plain fallback.
+ * Reads the tokens of the server-rendered code under `root` from its HTML, so
+ * hydration needs neither the engine nor a grammar. With `suspense`, await it before
+ * `hydrateRoot`: every block then hydrates at once, so no boundary is left waiting for
+ * its tokens, where a context change above it would make React drop the highlighted
+ * HTML for the plain fallback. A block whose HTML doesn't read back as its code is
+ * highlighted again.
  */
 export function preloadSyntaxHighlighting(root: ParentNode = document) {
   return Promise.all(
@@ -44,8 +51,35 @@ export function preloadSyntaxHighlighting(root: ParentNode = document) {
       root.querySelectorAll<HTMLElement>(
         'code.pui-syntax[data-highlighted="true"]',
       ),
-      (code) =>
-        requestTokens(load, code.textContent ?? '', code.dataset.language!),
+      (code) => {
+        const text = code.textContent ?? ''
+        const language = code.dataset.language!
+        const tokens = readTokens(code, text)
+        if (tokens) provideTokens(text, language, tokens)
+        else return requestTokens(load, text, language)
+      },
     ),
   ).then(() => undefined)
+}
+// SyntaxHighlighter writes a line's tokens as spans and ends it with its line break.
+function readTokens(code: HTMLElement, text: string) {
+  const lines: SyntaxToken[][] = [[]]
+  let read = ''
+  for (const node of code.childNodes) {
+    if (node.nodeType === Node.ELEMENT_NODE) {
+      const content = node.textContent ?? ''
+      lines[lines.length - 1]!.push({
+        content,
+        role: (node as HTMLElement).dataset.syntax ?? '',
+      })
+      read += content
+    } else if (node.nodeType === Node.TEXT_NODE) {
+      const breaks = node.textContent ?? ''
+      if (!/^(\r\n|\n|\r)*$/.test(breaks)) return null
+      const count = breaks.match(/\r\n|\n|\r/g)?.length ?? 0
+      for (let line = 0; line < count; line++) lines.push([])
+      read += breaks
+    }
+  }
+  return read === text ? lines : null
 }
