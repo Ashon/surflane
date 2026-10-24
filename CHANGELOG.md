@@ -2,6 +2,18 @@
 
 `@surflane/design-tokens`, `@surflane/css` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## 0.11.0
+
+### Changed
+
+These change how states look, so they ship in a minor. No API changed.
+
+- A disabled DatePicker or TimeField fades its field, not its label or description, as every other field does. The reason beside a disabled control stays readable.
+- A read-only field shows its value on the surface plane, without the field's border: Input, Textarea, OTPField, NumberField, Combobox, DatePicker and TimeField. Its text keeps full contrast, so it doesn't read as disabled, and focus still draws the field's edge and halo.
+- Slider fills with `--surf-brand-mark` on a `--surf-surface` track, the pair Progress uses. In light themes the fill read 1.68:1 on the sheet and the empty track was darker than the fill. It now reads 3.3:1 on both the sheet and the track.
+- `--surf-slider-track` is `--surf-surface` in both themes.
+- OTPField's group separator is a short dash in `--surf-ink-muted`, as a code is written elsewhere (481-920). The 1px `--surf-line` rule read 1.2:1.
+
 ## 0.10.1
 
 ### Fixed
