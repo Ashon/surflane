@@ -32,12 +32,15 @@
     font-variant-numeric: tabular-nums;
     caret-color: var(--surf-control-focus);
   }
+  /* A short dash, as a code is written elsewhere (481-920): muted ink, weaker than
+     the digits and the boxes but plainly there. */
   .surf-otp-separator {
     flex: none;
-    width: var(--surf-space-2);
-    height: 0;
+    width: var(--surf-space-3);
+    height: 2px;
     border: 0;
-    border-top: 1px solid var(--surf-line);
+    border-radius: var(--surf-radius-full);
+    background: var(--surf-ink-muted);
   }
   @media (max-width: 760px) {
     .surf-otp-field,
@@ -59,7 +62,7 @@
       border-color: LinkText;
     }
     .surf-otp-separator {
-      border-color: CanvasText;
+      background: CanvasText;
     }
   }
 }

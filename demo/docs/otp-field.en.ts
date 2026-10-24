@@ -19,6 +19,7 @@ export const doc: ComponentDoc = {
     '--surf-control-radius',
     '--surf-control-placeholder',
     '--surf-status-danger-fg',
+    '--surf-ink-muted',
     '--surf-font-code',
     '--surf-space-2',
   ],
