@@ -33,6 +33,7 @@
   - `--brand-mark`: brand as a mark on the sheet, darker in light themes.
   - `--slider-track`.
   - `--control-text-min-size`: the smallest text in a text field.
+- `all.css` includes `motion.css`, so `transitionTheme` works with it alone.
 
 ### Changed
 

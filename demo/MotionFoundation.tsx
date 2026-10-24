@@ -285,6 +285,7 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
           label={t.codeLabel}
           code={`import { flushSync } from 'react-dom'
 import { transitionTheme } from '@surflane/design-tokens/theme-transition'
+// @surflane/ui/all.css brings it; with per-component stylesheets, import it once.
 import '@surflane/design-tokens/motion.css'
 
 // Resolve system mode before committing the theme.

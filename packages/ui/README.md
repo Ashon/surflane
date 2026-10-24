@@ -12,7 +12,7 @@ npm install @surflane/ui @surflane/design-tokens
 
 ## Usage
 
-Import the stylesheets once at the application root. `all.css` brings the tokens, controls, composition, document typography and component styles:
+Import the stylesheets once at the application root. `all.css` brings the tokens, the theme transition, controls, composition, document typography and component styles:
 
 ```css
 @import '@surflane/ui/all.css';
