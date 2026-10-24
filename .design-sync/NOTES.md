@@ -30,6 +30,12 @@
 
 - `[FONT_MISSING] "Pretendard", "Apple SD Gothic Neo"` are fallback names in the Hangul stack. The first family, 'Pretendard Variable', ships in `fonts/`.
 - `[TOKENS_MISSING]`: 21 variables (`--anchor-width`, `--available-height`, `--active-tab-*`, `--accordion-panel-height`, …) are set at runtime by Base UI.
+- `[GRID_OVERFLOW] … escape` fires on Meter, Progress, Slider, NativeSelect, Select, FilterBar, SizeProvider and Toast.
+  - The cause is Base UI's visually hidden parts: hidden inputs, range inputs and value spans. They are 1x1, `clip-path: inset(50%)` and `position: fixed`.
+  - The validator counts any fixed element that paints as escaping its cell, but nothing shows.
+  - Don't apply the suggested `cardMode: "single"`: it would hide every story but one.
+  - Base UI was 1.9.0 before and after the 0.10 peer move, so this is not a regression.
+- `[RENDER_THIN] SizeProvider` with height 0: SizeProvider renders a `display: contents` wrapper, so the card root measures 0px. Its stories render normally.
 
 ## Preview authoring (folded from the first sync's six batches)
 
@@ -66,27 +72,52 @@
   - Pagination: collapses to a summary below 560px.
   - SyntaxHighlighter: without shiki, a mono block with no token colors (CodeBlock and Markdown fences too). `inline` is for a pre the caller owns, and `style` goes to `<code>`.
   - TimeField and DatePicker values need `Time`/`CalendarDate`. `@internationalized/date` is now in `extraEntries`, so those constructors are on `window.Surflane`.
+- **Focus in static cards** (folded from the 0.10 regrade): with no pointer input, programmatic focus matches `:focus-visible`, so a focused button draws the heavy keyboard ring.
+  - Overlays without fields (read-only Dialog, Sheet, Popover) focus the popup itself: `ref={popup} initialFocus={popup}`. Their popups set `outline: none`.
+  - The safe-Cancel `initialFocus` advice above is for AlertDialog only.
+- **Composition details:**
+  - Menu and ContextMenu indent check and radio items but not plain items. Keep toggles in their own group between separators.
+  - A Stack stretches its children, so put Badge, StatusBadge and Button in an Inline. A neutral Badge on a subtle Surface loses its pill.
+  - `Inline justify='between'` spaces every child, so wrap an action group in its own Inline. For captioned stacks of uneven height, use `alignItems: 'flex-end'`.
+  - List rows carry 16px inline padding. Don't pad a wrapper around a list, and keep companion text inside the list, or the edges misalign.
+  - A vertical ScrollArea has no edge fade, so frame it (`Surface padding={0}`) and cut a line mid-height. Give a wide table real extra columns rather than a stretched `minWidth`.
+  - `Button variant='link'` keeps its inline padding. In a Card footer, use an outline or ghost action.
+  - Dialog and Sheet `size` set density as well as width.
+  - FilterBar wraps its actions to a new row with three fields at 900px. That is the designed wrap.
+  - The Icon set has `upload` but no `download`.
+  - Meter's indicator is `--surf-ink-body` by design; Progress uses the brand color.
+- **Values and copy:**
+  - Give date, time and range fields a value whenever the copy refers to one. `CalendarDate` and `parseDate` import from `'@surflane/ui'`; a DateRangePicker `defaultValue` is `{ start, end }`. Without a value, the calendar opens on the capture clock's frozen month, May 2024.
+  - Read-only and required fields have no visual cue, so say it in the description.
+  - FileUpload's default labels are plural. For single-file stories, pass `labels={{ choose: 'Choose file', drop: 'or drop it here' }}`.
+  - Markdown `headingLevel` shifts every heading, and prose styles only h2–h4. With `headingLevel={3}`, start the source at `#`.
+  - The CodeBlock install line tracks the README: `npm install @surflane/ui @surflane/design-tokens @surflane/css @base-ui/react`.
+- **Grading detail:** full-size cells are at `ds-bundle/_screenshots/review/raw/<group>__<Name>__<Cell>.png`. The review sheet is downscaled.
+- **Types:** `[DTS_STYLE_SYSTEM]` drops own props that share a name with an HTML attribute the filter treats as styling. Text loses `color` this way, so `cfg.dtsPropsFor.Text` restores it. Chart and Tree keep `height`, CodeBlock and SyntaxHighlighter keep `wrap`, and Container keeps `width`.
 - **Types:** the emitted `.d.ts` types compound parts as `any`. Read `packages/ui/src` for real props:
   - `Text` has `variant`/`color`/`weight`.
   - `Card.Title` and `EmptyState.Title` have `level`.
   - Progress and Meter have no tone or size.
   - Avatar.Status has no tone.
+- **Package bugs found by the 0.10 re-sync, fixed in source (Unreleased, after 0.10.0):**
+  - Skeleton painted `--surf-surface`, about 1.07:1 on a light canvas. It now paints `--surf-skeleton-base` and pulses to `-highlight`.
+  - A Fieldset legend's margin added to the fieldset's gap.
 - **Package gaps found by the sync (not config):**
   - Select doesn't pass `open`/`defaultOpen`/`onOpenChange` through.
   - The date-picker entry doesn't re-export `Time`/`CalendarDate`.
 
-## Status (2026-10-24)
+## Status
 
-- The first sync is paused for the 0.10 namespace rename (classes `pui-` → `surf-`, tokens → `--surf-*`) and the `@surflane/css` split.
-- Project d32c3c1a-1c5d-4f54-9f70-ee6c0a01e5eb holds 60 verified cards from the pre-rename build. It has no `_ds_sync.json` anchor, which is a safe state: the next run re-verifies everything.
-- Graded but not uploaded: Toast.
-- Written but ungraded: the 10 overlay previews, Select, Combobox, Autocomplete, DatePicker, DateRangePicker, Menubar, NavigationMenu, AppShell, Grid and Container. Their config fixes are applied above. They were blocked by `[CONFIG_STALE]`: overrides were added without a full rebuild. Run `package-build.mjs` after any `cfg.overrides` change before scoped preview-rebuilds.
-- After the rename:
-  1. Rebuild.
-  2. Regrade everything. Previews that use tokens inline change with the rename.
-  3. Run the upload channel with a fresh plan (atomic path, since the project is pinned) and write the conventions header.
+- 2026-10-24: re-synced after the 0.10 rename. The atomic upload went to project d32c3c1a-1c5d-4f54-9f70-ee6c0a01e5eb:
+  - 81 components, 307 graded cells, all good.
+  - 520 files uploaded, no deletes.
+  - `_ds_sync.json` is now the anchor, so the next run diffs against it.
+- The bundle was built from source that is ahead of npm 0.10.0. It carries the Unreleased Skeleton and Fieldset fixes.
 
 ## Re-sync risks
+
+- `cfg.dtsPropsFor.Text` is hand-written. Update it when Text's props change in `packages/ui/src/typography.tsx`.
+- `.design-sync/conventions.md` names tokens, props and components. Re-validate it against each build; `--surf-sheet`, for one, does not exist.
 
 - The alias exclusions in `componentSrcMap` go stale when a compound gains a part.
 - Previews reference token names inline. After the `--surf-` rename, grep `.design-sync/previews` for `var(--` and update.

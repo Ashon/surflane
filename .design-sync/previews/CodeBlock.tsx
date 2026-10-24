@@ -8,7 +8,7 @@ export const Command = () => (
   <CodeBlock
     label='Install'
     language='bash'
-    code='npm i @surflane/ui @surflane/design-tokens'
+    code='npm install @surflane/ui @surflane/design-tokens @surflane/css @base-ui/react'
   />
 )
 

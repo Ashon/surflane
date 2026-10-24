@@ -97,6 +97,7 @@ export const Default = () => {
         <ContextMenu.Content aria-label='Log actions' collisionPadding={12}>
           <ContextMenu.Item>Open logs</ContextMenu.Item>
           <ContextMenu.Item>Copy request ID</ContextMenu.Item>
+          <ContextMenu.Separator />
           <ContextMenu.CheckboxItem defaultChecked>
             <ContextMenu.CheckboxItemIndicator />
             Pin logs

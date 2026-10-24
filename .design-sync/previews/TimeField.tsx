@@ -77,6 +77,7 @@ export const ReadOnlyAndDisabled = () => (
       defaultValue={time(3, 0)}
       hourCycle={24}
       isReadOnly
+      description='Set by the org-wide backup policy.'
     />
     <TimeField
       label='Scale-down at'
@@ -84,6 +85,7 @@ export const ReadOnlyAndDisabled = () => (
       defaultValue={time(22, 0)}
       hourCycle={24}
       isDisabled
+      description='Turn on autoscaling to change it.'
     />
   </Stack>
 )

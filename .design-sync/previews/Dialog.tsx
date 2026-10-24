@@ -148,8 +148,9 @@ const checks = [
   },
 ] as const
 
+// A read-only dialog focuses its popup, so no button carries a focus ring.
 export const Large = () => {
-  const close = React.useRef<HTMLButtonElement>(null)
+  const popup = React.useRef<HTMLDivElement>(null)
   return (
     <Page>
       <Dialog.Root defaultOpen>
@@ -157,9 +158,10 @@ export const Large = () => {
           Review checks
         </Dialog.Trigger>
         <Dialog.Content
+          ref={popup}
           size='large'
           closeLabel='Close release checks'
-          initialFocus={close}
+          initialFocus={popup}
         >
           <Dialog.Header>
             <Dialog.Title>Release checks</Dialog.Title>
@@ -183,7 +185,7 @@ export const Large = () => {
             </Stack>
           </Dialog.Body>
           <Dialog.Footer>
-            <Dialog.Close ref={close} render={<Button variant='outline' />}>
+            <Dialog.Close render={<Button variant='outline' />}>
               Close
             </Dialog.Close>
             <Button disabled>Promote to production</Button>

@@ -1,4 +1,4 @@
-import { DateLocaleProvider, DatePicker } from '@surflane/ui'
+import { CalendarDate, DateLocaleProvider, DatePicker } from '@surflane/ui'
 
 // Host setup, as the install guide gives it.
 document.documentElement.dataset.theme = 'light'
@@ -6,7 +6,12 @@ document.body.classList.add('surf-typography')
 
 export const Default = () => (
   <DateLocaleProvider locale='en-US'>
-    <DatePicker label='Nightly migration date' name='runDate' defaultOpen />
+    <DatePicker
+      label='Nightly migration date'
+      name='runDate'
+      defaultValue={new CalendarDate(2026, 11, 12)}
+      defaultOpen
+    />
   </DateLocaleProvider>
 )
 
@@ -27,9 +32,10 @@ export const Invalid = () => (
     <DatePicker
       label='Certificate renewal'
       name='renewal'
+      defaultValue={new CalendarDate(2027, 3, 4)}
       isRequired
       isInvalid
-      errorMessage='Pick a date before the current certificate expires.'
+      errorMessage='Pick a date before the current certificate expires on Feb 28, 2027.'
     />
   </DateLocaleProvider>
 )
@@ -39,6 +45,7 @@ export const Disabled = () => (
     <DatePicker
       label='Freeze ends'
       name='freezeEnd'
+      defaultValue={new CalendarDate(2026, 12, 2)}
       isDisabled
       description='Set by the release manager.'
     />

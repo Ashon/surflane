@@ -92,7 +92,8 @@ export const CompactPadding = () => (
       <Card.Description>Weekdays, 09:00 to 16:00 KST</Card.Description>
     </Card.Header>
     <Card.Footer>
-      <Button variant='link'>Edit window</Button>
+      <StatusBadge tone='success'>Open now</StatusBadge>
+      <Button variant='outline'>Edit window</Button>
     </Card.Footer>
   </Card.Root>
 )

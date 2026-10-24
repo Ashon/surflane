@@ -1,4 +1,4 @@
-import { Badge, Grid, GridItem, Stack, Surface, Text } from '@surflane/ui'
+import { Badge, Grid, GridItem, Inline, Stack, Surface, Text } from '@surflane/ui'
 
 // Host setup, as the install guide gives it.
 document.documentElement.dataset.theme = 'light'
@@ -65,7 +65,7 @@ export const Gaps = () => (
 export const LayoutSpans = () => (
   <Grid columns='layout' gap={4}>
     <GridItem span={8} mediumSpan={4} smallSpan={4}>
-      <Surface padding={4}>
+      <Surface padding={4} style={{ blockSize: '100%' }}>
         <Stack gap={1}>
           <Text variant='label'>Primary content · span 8</Text>
           <Text color='secondary'>Deployment timeline for checkout-api</Text>
@@ -73,10 +73,15 @@ export const LayoutSpans = () => (
       </Surface>
     </GridItem>
     <GridItem span={4} mediumSpan={2} smallSpan={4}>
-      <Surface padding={4}>
+      <Surface padding={4} style={{ blockSize: '100%' }}>
         <Stack gap={1}>
           <Text variant='label'>Details · span 4</Text>
-          <Badge tone='success'>Healthy</Badge>
+          <Inline gap={2}>
+            <Badge tone='success'>Healthy</Badge>
+            <Text as='span' variant='caption' color='muted'>
+              3 of 3 replicas ready
+            </Text>
+          </Inline>
         </Stack>
       </Surface>
     </GridItem>

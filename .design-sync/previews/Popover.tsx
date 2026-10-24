@@ -68,15 +68,17 @@ export const Default = () => {
 }
 
 // A low-stakes confirmation next to its button; data loss uses AlertDialog.
+// A pointer open focuses the first button without a visible ring. A static
+// card has no pointer, so focus goes to the popup (no outline) to show that look.
 export const InlineConfirmation = () => {
-  const keep = React.useRef<HTMLButtonElement>(null)
+  const popup = React.useRef<HTMLDivElement>(null)
   return (
     <Bar label='4 filters applied · 11 of 14 services'>
       <Popover.Root defaultOpen>
         <Popover.Trigger render={<Button variant='outline' />}>
           Reset filters
         </Popover.Trigger>
-        <Popover.Content initialFocus={keep}>
+        <Popover.Content ref={popup} initialFocus={popup}>
           <Stack gap={4}>
             <Stack gap={1}>
               <Popover.Title>Reset all filters?</Popover.Title>
@@ -85,7 +87,7 @@ export const InlineConfirmation = () => {
               </Popover.Description>
             </Stack>
             <Inline gap={2}>
-              <Popover.Close ref={keep} render={<Button variant='outline' />}>
+              <Popover.Close render={<Button variant='outline' />}>
                 Keep filters
               </Popover.Close>
               <Popover.Close render={<Button />}>Reset filters</Popover.Close>
@@ -99,14 +101,14 @@ export const InlineConfirmation = () => {
 
 // size='small' (240px) for brief read-only details.
 export const Small = () => {
-  const close = React.useRef<HTMLButtonElement>(null)
+  const popup = React.useRef<HTMLDivElement>(null)
   return (
     <Bar label='Last deploy 2 hours ago'>
       <Popover.Root defaultOpen>
         <Popover.Trigger render={<Button variant='ghost' />}>
           Build 418
         </Popover.Trigger>
-        <Popover.Content size='small' initialFocus={close}>
+        <Popover.Content size='small' ref={popup} initialFocus={popup}>
           <Stack gap={4}>
             <Stack gap={1}>
               <Popover.Title>Build 418</Popover.Title>
@@ -115,7 +117,7 @@ export const Small = () => {
               </Popover.Description>
             </Stack>
             <Inline gap={2}>
-              <Popover.Close ref={close} render={<Button variant='outline' />}>
+              <Popover.Close render={<Button variant='outline' />}>
                 Done
               </Popover.Close>
             </Inline>

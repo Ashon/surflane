@@ -160,9 +160,9 @@ export const PhoneScreen = () => (
     >
       Runs
     </Heading>
-    <div
-      style={{ flex: 1, minBlockSize: 0, paddingInline: 'var(--surf-space-4)' }}
-    >
+    {/* List rows carry their own inline padding, which lines titles up with
+        the heading's 16px inset. */}
+    <div style={{ flex: 1, minBlockSize: 0 }}>
       <List.Root aria-label='Recent runs'>
         {runs.map(([name, meta, tone, status]) => (
           <List.Item key={name}>

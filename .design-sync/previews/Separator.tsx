@@ -1,6 +1,5 @@
 import {
   Badge,
-  Button,
   Card,
   Inline,
   Separator,
@@ -48,17 +47,23 @@ export const Inset = () => (
   </Card.Root>
 )
 
+// A deployment's metadata line: one fact per segment.
 export const Vertical = () => (
   <Inline gap={3}>
-    <Button variant='ghost'>Logs</Button>
-    <Button variant='ghost'>Metrics</Button>
-    <Separator orientation='vertical' />
-    <Text as='span' color='secondary'>
-      staging
+    <Text as='span' variant='label'>
+      checkout-api
     </Text>
     <Separator orientation='vertical' />
     <Text as='span' color='secondary'>
-      production
+      v2.14.0
+    </Text>
+    <Separator orientation='vertical' />
+    <Text as='span' color='secondary'>
+      eu-west-2
+    </Text>
+    <Separator orientation='vertical' />
+    <Text as='span' color='secondary'>
+      6 replicas
     </Text>
   </Inline>
 )

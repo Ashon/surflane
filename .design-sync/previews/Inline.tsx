@@ -40,12 +40,15 @@ export const Justify = () => (
           <Text as='span' variant='label'>
             justify={justify}
           </Text>
-          <Button variant='outline' size='small'>
-            Cancel
-          </Button>
-          <Button variant='primary' size='small'>
-            Save
-          </Button>
+          {/* The actions stay one group, so `between` splits label from actions. */}
+          <Inline gap={2}>
+            <Button variant='outline' size='small'>
+              Cancel
+            </Button>
+            <Button variant='primary' size='small'>
+              Save
+            </Button>
+          </Inline>
         </Inline>
       </Surface>
     ))}

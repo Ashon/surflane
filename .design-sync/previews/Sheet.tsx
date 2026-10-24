@@ -185,8 +185,9 @@ export const Left = () => {
   )
 }
 
+// A read-only sheet focuses its popup, so no button carries a focus ring.
 export const FlushBottom = () => {
-  const close = React.useRef<HTMLButtonElement>(null)
+  const popup = React.useRef<HTMLDivElement>(null)
   return (
     <Page>
       <Sheet.Root side='bottom' defaultOpen>
@@ -194,9 +195,10 @@ export const FlushBottom = () => {
           Incident summary
         </Sheet.Trigger>
         <Sheet.Content
+          ref={popup}
           flush
           closeLabel='Close incident summary'
-          initialFocus={close}
+          initialFocus={popup}
         >
           <Sheet.Header>
             <Sheet.Title>INC-2291 · Elevated 502s on checkout-api</Sheet.Title>
@@ -212,7 +214,7 @@ export const FlushBottom = () => {
             </Text>
           </Sheet.Body>
           <Sheet.Footer>
-            <Sheet.Close ref={close} render={<Button variant='outline' />}>
+            <Sheet.Close render={<Button variant='outline' />}>
               Close
             </Sheet.Close>
             <Button>Open incident</Button>

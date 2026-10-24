@@ -499,5 +499,9 @@
       "cardMode": "column",
       "viewport": "1600x700"
     }
-  }
+  },
+  "dtsPropsFor": {
+    "Text": "className?: string; id?: string; style?: React.CSSProperties; children?: React.ReactNode; as?: \"div\" | \"p\" | \"span\"; variant?: \"body\" | \"caption\" | \"label\" | \"table\" | \"reading\" | \"mono\" | \"metric\"; color?: \"primary\" | \"secondary\" | \"muted\"; weight?: \"regular\" | \"medium\";"
+  },
+  "readmeHeader": ".design-sync/conventions.md"
 }

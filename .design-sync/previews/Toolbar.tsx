@@ -28,7 +28,7 @@ export const WithIcons = () => (
       <Toolbar.Button aria-label='Copy selection'>
         <Icon name='copy' />
       </Toolbar.Button>
-      <Toolbar.Button aria-label='Download logs'>
+      <Toolbar.Button aria-label='Export logs'>
         <Icon name='upload' />
       </Toolbar.Button>
     </Toolbar.Group>

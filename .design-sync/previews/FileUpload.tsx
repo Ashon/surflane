@@ -52,6 +52,7 @@ export const SingleFile = () => (
       description='A .env file for the staging environment.'
       accept='.env,text/plain'
       defaultFiles={[file('staging.env', 1_840, 'text/plain')]}
+      labels={{ choose: 'Choose file', drop: 'or drop it here' }}
     />
   </Stack>
 )
@@ -70,6 +71,10 @@ export const ServerError = () => (
       description='PEM-encoded, including the full chain.'
       accept='.pem,.crt'
       required
+      defaultFiles={[
+        file('checkout-api.example.pem', 5_312, 'application/x-pem-file'),
+      ]}
+      labels={{ choose: 'Choose file', drop: 'or drop it here' }}
     />
   </Form>
 )

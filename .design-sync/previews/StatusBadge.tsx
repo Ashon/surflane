@@ -1,4 +1,4 @@
-import { Icon, Inline, List, Stack, StatusBadge, Text } from '@surflane/ui'
+import { Icon, Inline, List, StatusBadge } from '@surflane/ui'
 
 // Host setup, as the install guide gives it.
 document.documentElement.dataset.theme = 'light'
@@ -60,22 +60,17 @@ const deployments = [
 ] as const
 
 export const InList = () => (
-  <Stack gap={2}>
-    <List.Root aria-label='Recent deployments'>
-      {deployments.map((d) => (
-        <List.Item key={d.service}>
-          <List.Content>
-            <List.Title>{d.service}</List.Title>
-            <List.Description>{d.detail}</List.Description>
-          </List.Content>
-          <List.Actions>
-            <StatusBadge tone={d.tone}>{d.status}</StatusBadge>
-          </List.Actions>
-        </List.Item>
-      ))}
-    </List.Root>
-    <Text role='status' variant='caption' color='muted'>
-      checkout-api deployment is in progress.
-    </Text>
-  </Stack>
+  <List.Root aria-label='Recent deployments'>
+    {deployments.map((d) => (
+      <List.Item key={d.service}>
+        <List.Content>
+          <List.Title>{d.service}</List.Title>
+          <List.Description>{d.detail}</List.Description>
+        </List.Content>
+        <List.Actions>
+          <StatusBadge tone={d.tone}>{d.status}</StatusBadge>
+        </List.Actions>
+      </List.Item>
+    ))}
+  </List.Root>
 )

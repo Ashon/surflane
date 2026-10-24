@@ -42,7 +42,8 @@ export const TableAndCode = () => (
   <Markdown source={steps} label='Rollback steps' />
 )
 
-const notes = `## v2.14.0
+// Release notes sit under a page's h2, so their top heading starts at h3.
+const notes = `# v2.14.0
 
 Released October 24 to production in **us-east-1** and **eu-west-2**.
 
