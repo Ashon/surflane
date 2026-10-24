@@ -66,8 +66,9 @@
   .pui-scroll-root:has(> .pui-scroll-viewport:focus-visible) > .pui-scrollbar {
     opacity: 1;
   }
+  /* The thumb plus the bar's padding on both sides. */
   .pui-scrollbar[data-orientation='horizontal'] {
-    height: 10px;
+    height: calc(var(--scrollbar-indicator-size) + 4px);
     position: absolute;
     bottom: 0;
     left: 0;
@@ -75,7 +76,7 @@
   }
   .pui-scrollbar[data-orientation='vertical'] {
     flex-direction: column;
-    width: 10px;
+    width: calc(var(--scrollbar-indicator-size) + 4px);
     position: absolute;
     top: 0;
     bottom: 0;

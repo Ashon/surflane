@@ -33,6 +33,7 @@
   - `--brand-mark`: brand as a mark on the sheet, darker in light themes.
   - `--slider-track`.
   - `--control-text-min-size`: the smallest text in a text field.
+  - `--scrollbar-indicator-size`: the thickness of ScrollArea's thumb.
 - `all.css` includes `motion.css`, so `transitionTheme` works with it alone.
 
 ### Changed
@@ -46,6 +47,7 @@
   - `--status-*-border` meet 3:1 against the sheet, with their hue kept. `--status-neutral-border` is `--control-border`.
 - DatePicker writes the words a locale puts around a day number from `Intl`, so Japanese and Chinese calendars show 日 as Korean shows 일.
 - Icon's sizes follow the component scale. Without a size it is still 16px.
+- On touch screens, ScrollArea's thumb is 3px, as native mobile scrollbars are. It only shows the position there. With a pointer it stays 6px.
 
 ### Deprecated
 

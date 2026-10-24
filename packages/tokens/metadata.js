@@ -138,6 +138,9 @@ export const descriptions = {
   '--dialog-enter-duration': 'Fade-and-rise duration for dialog entry',
   '--dialog-exit-duration': 'Closing completes immediately without waiting',
   '--control-height': '36px on desktop, 44px on narrow screens and touch',
+  '--scrollbar-size': 'Thickness of native scrollbars in scrolling panels',
+  '--scrollbar-indicator-size':
+    "ScrollArea's overlay thumb: 6px with a pointer, 3px on touch where it only shows the position",
   '--control-text-min-size':
     'Smallest text in a text field: none on desktop, 16px on narrow screens and touch so iOS does not zoom',
 }

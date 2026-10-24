@@ -88,7 +88,7 @@ test.describe('touch rail', () => {
       .getByRole('navigation', { name: 'Primary navigation' })
       .getByRole('link', { name: 'Foundations', exact: true })
     const bounds = (await link.boundingBox())!
-    // The 10px horizontal scrollbar overlays the tabs' lower edge.
+    // The horizontal scrollbar overlays the tabs' lower edge.
     await page.touchscreen.tap(
       bounds.x + bounds.width / 2,
       bounds.y + bounds.height - 4,

@@ -423,12 +423,21 @@
   :root,
   [data-theme] {
     --scrollbar-size: 8px;
+    /* ScrollArea's overlay thumb. On touch it only shows the position, as native
+     * mobile scrollbars do, so it is thinner there. */
+    --scrollbar-indicator-size: 6px;
     --scrollbar-radius: var(--radius-full);
     --scrollbar-track: oklch(0 0 0 / 0);
     --scrollbar-thumb: oklch(
       from color-mix(in srgb, var(--ink-muted) 60%, var(--canvas)) l c h / alpha
     );
     --scrollbar-thumb-hover: var(--ink-muted);
+  }
+  @media (hover: none) and (pointer: coarse) {
+    :root,
+    [data-theme] {
+      --scrollbar-indicator-size: 3px;
+    }
   }
 
   @media (max-width: 760px) {

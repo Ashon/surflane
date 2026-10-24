@@ -133,3 +133,21 @@ for (const theme of ['light', 'dark'])
     expect(after.width).toBe(before.width)
     expect(after.height).toBe(before.height)
   })
+
+test.describe('touch scrollbar', () => {
+  test.use({ hasTouch: true, isMobile: true })
+  test('on touch the thumb is a thin position indicator', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/components/scroll-area')
+    await waitForCatalogReady(page)
+    const bar = page.locator(
+      '.catalog-document-root > .pui-scrollbar[data-orientation="vertical"]',
+    )
+    await page
+      .locator('.catalog-document-scroll')
+      .evaluate((el) => el.scrollBy(0, 400))
+    const box = (await bar.locator('.pui-scroll-thumb').boundingBox())!
+    expect(box.width).toBe(3)
+    expect(box.height).toBeGreaterThan(20)
+  })
+})
