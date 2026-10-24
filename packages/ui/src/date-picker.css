@@ -55,12 +55,19 @@
     .surf-date-group:hover {
     border-color: var(--surf-status-danger-fg);
   }
-  :is(.surf-date-picker, .surf-time-field)[data-disabled] {
-    opacity: var(--surf-control-disabled-opacity);
-  }
+  /* Disabled fades the field, as in every other field: the label and the reason
+     beside it stay readable. */
   :is(.surf-date-picker, .surf-time-field)[data-disabled] .surf-date-group {
+    opacity: var(--surf-control-disabled-opacity);
     cursor: not-allowed;
     background: var(--surf-control-disabled-background);
+  }
+  /* Read-only shows a value, not a box to type in: it sits on the surface plane
+     without the field's border, as text fields do. */
+  :is(.surf-date-picker, .surf-time-field)[data-readonly]:not([data-invalid])
+    .surf-date-group:not([data-focus-within], :focus-within) {
+    border-color: transparent;
+    background: var(--surf-surface);
   }
   .surf-date-input {
     display: flex;

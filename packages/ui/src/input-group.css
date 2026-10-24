@@ -25,6 +25,15 @@
     border-color: var(--surf-control-hover-border);
     background: var(--surf-control-hover-background);
   }
+  /* Read-only shows a value on the surface plane, without the field's border, as
+     text fields do. */
+  :is(.surf-combobox-group, .surf-number-group)[data-readonly]:not(
+      :focus-within,
+      [data-invalid]
+    ) {
+    border-color: transparent;
+    background: var(--surf-surface);
+  }
   .surf-combobox-group:focus-within,
   .surf-number-group:focus-within {
     border-color: var(--surf-control-focus);
