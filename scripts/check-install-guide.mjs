@@ -164,9 +164,9 @@ const tarballs = tarballDir
         stdio: ['ignore', 'pipe', 'inherit'],
       }).matchAll(/^@surflane\/[\w-]+: (artifacts\/\S+\.tgz)$/gm),
     ].map((match) => resolve(root, match[1]))
-if (tarballs.length !== 2)
+if (tarballs.length !== 3)
   throw new Error(
-    `Expected tokens and ui tarballs, found: ${tarballs.join(', ')}`,
+    `Expected tokens, css and ui tarballs, found: ${tarballs.join(', ')}`,
   )
 const tarball = (name) =>
   tarballs.find((file) => file.includes(`surflane-${name.split('/')[1]}-`))
