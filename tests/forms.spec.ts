@@ -543,3 +543,28 @@ test('Textarea is a block box, and text fields keep 16px text on narrow screens 
     await context.close()
   }
 })
+test("a Fieldset's legend sits closer to its own fields than to the group above", async ({
+  page,
+}) => {
+  await page.goto('/components/fieldset')
+  await waitForCatalogReady(page)
+  const legend = page.locator('.surf-fieldset-legend').first()
+  const gaps = await legend.evaluate((element) => {
+    const fieldset = element.closest('.surf-fieldset')!
+    const next = element.nextElementSibling!.getBoundingClientRect()
+    const own = element.getBoundingClientRect()
+    return {
+      belowLegend: next.top - own.bottom,
+      fieldsetGap: parseFloat(getComputedStyle(fieldset).rowGap),
+      formGap: parseFloat(
+        getComputedStyle(document.documentElement).getPropertyValue(
+          '--surf-space-6',
+        ) || '24',
+      ),
+    }
+  })
+  // Base UI's legend is a div, a flex item: the fieldset's gap alone spaces it, with
+  // no margin on top, so the form's wider gap separates it from the group above.
+  expect(gaps.belowLegend).toBeCloseTo(gaps.fieldsetGap, 0)
+  expect(gaps.belowLegend).toBeLessThan(gaps.formGap)
+})

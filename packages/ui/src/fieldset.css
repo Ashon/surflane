@@ -14,9 +14,11 @@
     flex-direction: column;
     gap: var(--surf-space-4);
   }
+  /* Base UI renders the legend as a div, a flex item, so the fieldset's gap alone
+     spaces it from the first field. A margin added to that gap and left the legend
+     closer to the group above it than to its own fields. */
   .surf-fieldset-legend {
     padding: 0;
-    margin-bottom: var(--surf-space-4);
     color: var(--surf-ink);
     font: var(--surf-weight-medium)
       var(--surf-type-subsection-size)/var(--surf-type-subsection-leading)
