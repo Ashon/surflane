@@ -146,6 +146,9 @@
   .pui-app-shell[data-layout='workspace'] {
     --app-shell-sidebar-width: 224px;
     --app-shell-rail-width: 72px;
+    /* The shell takes its container's height, the window's when the document fills
+     * it, so the sidebar stays while the content scrolls. */
+    block-size: 100%;
     grid-template-rows: minmax(0, 1fr);
     gap: 0;
     padding: 0;
@@ -169,6 +172,62 @@
     padding: 0;
     background: transparent;
     border-radius: 0;
+  }
+  /* The toggle sits on the sidebar's edge, a round button half over the content.
+   * Collapsed, it centers in the rail where the brand was. */
+  .pui-app-shell[data-layout='workspace']
+    > .pui-app-shell-sidebar
+    > .pui-app-shell-toggle {
+    --app-shell-toggle-size: var(--space-8);
+    position: absolute;
+    inset-block-start: var(--space-5);
+    inset-inline-end: calc(var(--app-shell-toggle-size) / -2);
+    border: 1px solid var(--line);
+    background: var(--canvas);
+    z-index: 1;
+  }
+  .pui-app-shell[data-layout='workspace'][data-sidebar='collapsed']
+    > .pui-app-shell-sidebar
+    > .pui-app-shell-toggle {
+    --app-shell-toggle-size: var(--space-10);
+    inset-inline-end: calc(
+      (var(--app-shell-rail-width) - var(--app-shell-toggle-size)) / 2
+    );
+    border-color: transparent;
+    background: transparent;
+  }
+  /* A ScrollArea in the sidebar takes the room between the brand and the footer, and
+   * one in the content fills it, so the menu and the page scroll on their own. */
+  .pui-app-shell[data-layout='workspace']
+    > .pui-app-shell-sidebar
+    > .pui-scroll-root {
+    flex: 1;
+    min-block-size: 0;
+  }
+  .pui-app-shell[data-layout='workspace']
+    > .pui-app-shell-sidebar
+    > .pui-scroll-root
+    > .pui-scroll-viewport {
+    block-size: 100%;
+    padding: 0 var(--space-4) var(--space-4);
+  }
+  .pui-app-shell[data-layout='workspace']
+    > .pui-app-shell-content
+    > .pui-scroll-root,
+  .pui-app-shell[data-layout='workspace']
+    > .pui-app-shell-content
+    > .pui-scroll-root
+    > .pui-scroll-viewport {
+    block-size: 100%;
+    min-block-size: 0;
+  }
+  /* The page stretches to the bottom when it is shorter than the content slot. */
+  .pui-app-shell[data-layout='workspace']
+    > .pui-app-shell-content
+    > .pui-scroll-root
+    > .pui-scroll-viewport
+    > .pui-scroll-content {
+    display: grid;
   }
   /* The page surface: concentric with the shell, inset on every side but the
    * sidebar's. Stretch or size it from its container: a percentage height here
@@ -228,5 +287,18 @@
     .pui-app-shell[data-layout='workspace'] .pui-app-shell-label {
       transition: none;
     }
+  }
+}
+@layer surflane.sizes {
+  /* Above the icon button's size scheme: the edge toggle is a circle of its own size. */
+  .pui-app-shell[data-layout='workspace']
+    > .pui-app-shell-sidebar
+    > .pui-app-shell-toggle {
+    inline-size: var(--app-shell-toggle-size);
+    block-size: var(--app-shell-toggle-size);
+    min-inline-size: var(--app-shell-toggle-size);
+    min-block-size: var(--app-shell-toggle-size);
+    padding: 0;
+    border-radius: var(--radius-full);
   }
 }

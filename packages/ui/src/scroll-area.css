@@ -25,6 +25,11 @@
   .pui-scroll-viewport::-webkit-scrollbar {
     display: none;
   }
+  /* In a viewport of set height the content is at least as tall, so a child can
+   * stretch to the bottom. A viewport sized by its content is unchanged. */
+  .pui-scroll-content {
+    min-block-size: 100%;
+  }
   /* A horizontal scroller fades the edge that hides more content, so a cut-off table
    * or code line reads as scrollable before its scrollbar appears, on touch too. */
   .pui-scroll-root[data-overflow-x-end] > .pui-scroll-viewport {

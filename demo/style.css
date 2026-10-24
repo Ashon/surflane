@@ -2442,14 +2442,7 @@ body,
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.app-shell-menu-scroll {
-  flex: 1;
-  min-block-size: 0;
-}
-.app-shell-menu-viewport {
-  block-size: 100%;
-}
-.app-shell-menu-viewport nav,
+.app-shell-menu-scroll nav,
 .app-shell-mobile-panel nav {
   display: grid;
   gap: var(--space-1);
@@ -2462,10 +2455,6 @@ body,
   border-radius: var(--radius-md);
   text-align: start;
   gap: 0;
-}
-.app-shell-collapse.pui-button {
-  inline-size: 40px;
-  block-size: 40px;
 }
 .app-shell-mobile-trigger.pui-button {
   display: none;
@@ -2798,49 +2787,12 @@ body,
 .app-shell-preview .app-shell-menu-scroll {
   margin-block-start: var(--space-3);
 }
-.app-shell-preview .app-shell-menu-viewport {
-  padding: 0 var(--space-4) var(--space-4);
-}
 .app-shell-section-label {
   block-size: 24px;
   margin: 0 0 var(--space-2);
   padding-inline: 12px;
   font-size: var(--type-caption-size);
   letter-spacing: var(--type-caption-tracking);
-}
-.app-shell-preview .app-shell-collapse.pui-button {
-  position: absolute;
-  inset-block-start: 20px;
-  inset-inline-end: -16px;
-  --app-shell-toggle-size: 32px;
-  inline-size: var(--app-shell-toggle-size);
-  block-size: var(--app-shell-toggle-size);
-  min-inline-size: var(--app-shell-toggle-size);
-  min-block-size: var(--app-shell-toggle-size);
-  aspect-ratio: 1;
-  padding: 0;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-full);
-  background: var(--canvas);
-  z-index: 1;
-}
-.app-shell-preview[data-sidebar='collapsed'] .app-shell-collapse.pui-button {
-  --app-shell-toggle-size: 40px;
-  inset-inline-end: 16px;
-  border: 0;
-  background: transparent;
-}
-.app-shell-content-scroll,
-.app-shell-content-viewport {
-  block-size: 100%;
-  min-block-size: 0;
-}
-.app-shell-content-viewport {
-  padding: 0;
-}
-.app-shell-content-viewport > .pui-scroll-content {
-  display: grid;
-  min-block-size: 100%;
 }
 .app-shell-content-viewport section {
   margin-block: var(--space-6);

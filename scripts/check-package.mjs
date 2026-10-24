@@ -123,14 +123,12 @@ console.log(
 // misspelled or missing class fails here instead of changing what the reader sees.
 // Hooks name a part for apps and tests to select; the classes beside them style it.
 const hookClasses = new Set([
-  'pui-app-shell-toggle',
   'pui-combobox-section',
   'pui-date-range-picker',
   'pui-meter',
   'pui-navigation-item',
   'pui-page-header-breadcrumb',
   'pui-preview-trigger',
-  'pui-scroll-content',
   'pui-select-group',
   'pui-table-message',
   'pui-table-sort-header',

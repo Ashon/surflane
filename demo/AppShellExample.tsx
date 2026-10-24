@@ -287,7 +287,6 @@ export function AppShellExample({
                 </AppShell.Label>
               </div>
               <AppShell.SidebarToggle
-                className='app-shell-collapse'
                 labels={{
                   collapse: t.collapseSidebar,
                   expand: t.expandSidebar,
@@ -297,7 +296,6 @@ export function AppShellExample({
                 orientation='vertical'
                 label={t.destinationsLabel}
                 rootClassName='app-shell-menu-scroll'
-                className='app-shell-menu-viewport'
               >
                 <div id={`${previewId}-navigation`}>
                   <p className='app-shell-section-label'>

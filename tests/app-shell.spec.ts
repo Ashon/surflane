@@ -424,3 +424,92 @@ test('a shell that fills the window keeps a square edge, rounds only its page an
   expect(box.x).toBe(0)
   expect(box.x + box.width).toBe(390)
 })
+
+test('a workspace shell takes the window height, scrolls its menu and page inside and puts the toggle on the sidebar edge', async ({
+  page,
+}) => {
+  const React = await import('react')
+  const { renderToStaticMarkup } = await import('react-dom/server')
+  const { AppShell, ScrollArea } = await import('@surflane/ui')
+  const h = React.createElement
+  // Only package parts and the install guide's document styles: no catalog rules.
+  const shell = (defaultCollapsed: boolean) =>
+    renderToStaticMarkup(
+      h(
+        AppShell.Root,
+        { layout: 'workspace', shortcut: false, defaultCollapsed },
+        h(
+          AppShell.Sidebar,
+          { 'aria-label': 'Harbor' },
+          h(AppShell.SidebarToggle),
+          h(
+            ScrollArea,
+            { orientation: 'vertical', label: 'Berths' },
+            h(
+              'nav',
+              null,
+              Array.from({ length: 40 }, (_, index) =>
+                h(AppShell.Link, {
+                  key: index,
+                  href: '#',
+                  label: `Berth ${index + 1}`,
+                  icon: null,
+                }),
+              ),
+            ),
+          ),
+          h(AppShell.Footer, null, 'Account'),
+        ),
+        h(
+          AppShell.Content,
+          null,
+          h(
+            ScrollArea,
+            { orientation: 'vertical', label: 'Arrivals' },
+            h(AppShell.Page, null, h('div', { style: { height: 3000 } })),
+          ),
+        ),
+      ),
+    )
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/install')
+  await waitForCatalogReady(page)
+  const mount = (html: string) =>
+    page.evaluate((html) => {
+      document.querySelector('#harbor')?.remove()
+      const host = document.createElement('div')
+      host.id = 'harbor'
+      host.style.cssText = 'position: fixed; inset: 0; z-index: 2000'
+      host.innerHTML = html
+      document.body.append(host)
+    }, html)
+  await mount(shell(false))
+  const root = page.locator('#harbor > .pui-app-shell')
+  expect((await root.boundingBox())!.height).toBe(900)
+  const scrolls = (selector: string) =>
+    root
+      .locator(`${selector} > .pui-scroll-root > .pui-scroll-viewport`)
+      .evaluate((el) => ({
+        height: el.clientHeight,
+        scrolls: el.scrollHeight > el.clientHeight,
+      }))
+  expect(await scrolls('.pui-app-shell-content')).toEqual({
+    height: 900,
+    scrolls: true,
+  })
+  expect((await scrolls('.pui-app-shell-sidebar')).scrolls).toBe(true)
+  const footer = (await root.locator('.pui-app-shell-footer').boundingBox())!
+  expect(footer.y + footer.height).toBeLessThanOrEqual(900)
+  // Expanded, the round toggle straddles the sidebar's edge.
+  const toggle = root.locator('.pui-app-shell-toggle')
+  const sidebar = (await root.locator('.pui-app-shell-sidebar').boundingBox())!
+  let box = (await toggle.boundingBox())!
+  expect(box.width).toBe(32)
+  expect(box.x + box.width / 2).toBe(sidebar.x + sidebar.width)
+  await expect(toggle).toHaveCSS('border-top-left-radius', /^(1[6-9]|[2-9]\d)/)
+  // Collapsed, it centers in the rail.
+  await mount(shell(true))
+  box = (await toggle.boundingBox())!
+  expect(box.width).toBe(40)
+  expect(box.x + box.width / 2).toBe(36)
+})

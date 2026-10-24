@@ -48,6 +48,7 @@
   - `--status-*-border` meet 3:1 against the sheet, with their hue kept. `--status-neutral-border` is `--control-border`.
 - DatePicker writes the words a locale puts around a day number from `Intl`, so Japanese and Chinese calendars show 日 as Korean shows 일.
 - Icon's sizes follow the component scale. Without a size it is still 16px.
+- In a ScrollArea of set height, the content box is at least as tall as the viewport, so a child can stretch to its bottom. A ScrollArea sized by its content is unchanged.
 - On touch screens, ScrollArea's thumb is 3px, as native mobile scrollbars are. It only shows the position there. With a pointer it stays 6px.
 - Chart's value axis widens to round steps from zero too, so its top tick is a round value above the highest one, not the highest value. Without zero, the steps are the smallest round ones that fit five intervals: the latency example reads 140 to 240 instead of 125 to 250.
 
@@ -82,6 +83,10 @@ These keep working, and are removed in a later minor:
 - Accent presets (`themes/accent-*.css`) turned light accent text and focus rings into the light accent, under 3:1 on white. Their dark block also matched a light `:root`. Light now keeps `--brand-ink` on the ink. `themeCss` also reverts, in light, any token a theme sets only for dark.
 - Textarea is a block box, so no baseline gap opens under it.
 - On narrow screens and touch, text fields keep their text at 16px or more, so iOS no longer zooms into a field when you tap it.
+- The workspace AppShell needed rules that lived only in the catalog. The package now gives them:
+  - The shell takes its container's height, so the sidebar stays put while the content scrolls.
+  - A ScrollArea in the sidebar or the content fills its room.
+  - SidebarToggle sits on the sidebar's edge, and centers in the rail when collapsed.
 
 ### Migration
 
