@@ -29,6 +29,8 @@ const en = {
       'P95 latency over six days, between 144 and 230 ms. Far from zero, so the value axis can start near the lowest value.',
     buckets:
       'Daily runs by duration in five buckets. Categories that color must tell apart use the categorical palette.',
+    memory:
+      'Memory in use over six days, from 1.1 to 5.6 GB. The data holds raw bytes, and formatValue reads them as GB in the readout, the table and the value axis.',
   },
   reportingDay: 'Reporting day',
   resource: 'Resource',
@@ -72,6 +74,8 @@ export const text: Record<Locale, typeof en> = {
         '6일 동안의 P95 지연 시간으로, 144~230ms 사이입니다. 0에서 멀어서 값 축을 가장 낮은 값 근처에서 시작할 수 있습니다.',
       buckets:
         '하루 실행 수를 소요 시간에 따라 다섯 구간으로 나눴습니다. 색으로 구분해야 하는 범주라 범주형 팔레트를 씁니다.',
+      memory:
+        '6일 동안의 메모리 사용량으로, 1.1~5.6GB 사이입니다. 데이터는 바이트 그대로이고, formatValue가 읽기 값과 표, 값 축에서 GB로 보여 줍니다.',
     },
     reportingDay: '보고일',
     resource: '리소스',

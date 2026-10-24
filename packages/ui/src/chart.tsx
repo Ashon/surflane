@@ -48,6 +48,8 @@ export type ChartProps = Omit<
    * for categories that color must separate, such as buckets or sectors. */
   palette?: 'neutral' | 'categorical'
   locale?: string
+  /** Formats a value for the readout, the table and the value axis ticks. The unit
+   * follows it in the readout and the table, and names the axis. */
   formatValue?: (value: number) => string
   /** Text the chart shows or announces; pass translations here. */
   labels?: Partial<ChartLabels>
@@ -96,6 +98,14 @@ function roundStep(raw: number) {
   if (!(raw > 0)) return 0
   const power = 10 ** Math.floor(Math.log10(raw))
   return power * ([1, 2, 2.5, 5, 10].find((f) => f * power >= raw) ?? 10)
+}
+/** The smallest round step that spans low to high in at most five intervals, so the
+ * top tick is the round value just above the highest one. */
+function axisStep(low: number, high: number) {
+  let step = roundStep((high - low) / 5)
+  while (step && Math.ceil(high / step) - Math.floor(low / step) > 5)
+    step = roundStep(step * 1.01)
+  return step
 }
 const dashes = [undefined, '7 4', '2 4', '10 3 2 3', '12 5', '4 3']
 function Marker({
@@ -333,19 +343,20 @@ export const Chart = /* @__PURE__ */ React.forwardRef<HTMLElement, ChartProps>(
     const values = rows
       .flatMap((row) => visible.map((s) => row.values[s.key]))
       .filter((value): value is number => typeof value === 'number')
-    // Bars grow from zero, so they always keep it on the axis. Without zero, the axis
+    // Bars grow from zero, so they always keep it on the axis. Either way the axis
     // spans the values, widened to round steps so its ticks read cleanly.
     const keepZero = includeZero || type === 'bar'
     const start = keepZero ? 0 : (values[0] ?? 0)
     const low = values.reduce((a, b) => Math.min(a, b), start),
       high = values.reduce((a, b) => Math.max(a, b), start)
-    const step = keepZero ? 0 : roundStep((high - low) / 4)
+    const step = axisStep(low, high)
     const min = step ? Math.floor(low / step) * step : low,
       max = step ? Math.ceil(high / step) * step : high
     const ticks = step
       ? Array.from(
           { length: Math.round((max - min) / step) + 1 },
-          (_, index) => min + index * step,
+          // Rounded, so float steps never print as 0.30000000000000004.
+          (_, index) => Number((min + index * step).toPrecision(12)),
         )
       : undefined
     const hasValues = values.length > 0
@@ -459,7 +470,11 @@ export const Chart = /* @__PURE__ */ React.forwardRef<HTMLElement, ChartProps>(
                     />
                     <YAxis
                       width={56}
-                      tickFormatter={(value) => compact.format(Number(value))}
+                      tickFormatter={(value) =>
+                        formatValue
+                          ? formatValue(Number(value))
+                          : compact.format(Number(value))
+                      }
                       tick={{ fill: 'var(--ink-muted)', fontSize: 12 }}
                       tickLine={false}
                       axisLine={false}

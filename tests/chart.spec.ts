@@ -243,10 +243,11 @@ test('touch exposes the same complete values without relying on hover', async ({
   )
   await expect(page.locator('[data-chart-readout]')).toBeVisible()
   await expect(page.locator('.pui-chart-inspector')).toContainText('Workspace:')
-  // A tap focuses the plot but draws no ring; the browser's SVG styles would.
-  const surface = page.locator('.pui-chart-plot .recharts-surface')
-  await expect(surface).toBeFocused()
-  await expect(surface).toHaveCSS('outline-style', 'none')
+  // A tap focuses the plot, or the Recharts layer the finger lands nearest, but draws
+  // no ring; the browser's SVG styles would.
+  const tapped = page.locator('.pui-chart-plot :focus')
+  await expect(tapped).toHaveCount(1)
+  await expect(tapped).toHaveCSS('outline-style', 'none')
   // A tap on a point focuses the Recharts layer it sits in, which draws no ring either.
   const point = await page
     .locator('.pui-chart-plot .recharts-line-dots circle')

@@ -121,13 +121,18 @@ test('Chart can leave zero off its axis and color categories', async ({
       .allTextContents()
       .then((texts) => texts.filter((text) => /^\d+$/.test(text)))
   await pick('Chart data', 'Latency far from zero')
-  await expect.poll(ticks).toContain('0')
+  // From zero too, the top tick is the round value just above the highest one.
+  await expect.poll(ticks).toEqual(['0', '50', '100', '150', '200', '250'])
   await page.getByText('Keep zero on the value axis').click()
-  await expect.poll(ticks).toEqual(['125', '150', '175', '200', '225', '250'])
+  await expect.poll(ticks).toEqual(['140', '160', '180', '200', '220', '240'])
   // Bars start at zero whatever the switch says.
   await pick('Chart type', 'Bar')
   await expect.poll(ticks).toContain('0')
   await pick('Chart type', 'Line')
+  // The value axis reads in the chart's own notation: raw bytes as GB, never 2B.
+  await page.getByText('Keep zero on the value axis').click()
+  await pick('Chart data', 'Memory in bytes')
+  await expect.poll(ticks).toEqual(['0', '2', '4', '6'])
   await pick('Chart data', 'Five duration buckets')
   await pick('Palette', 'Categorical')
   const strokes = await page

@@ -79,6 +79,18 @@ const buckets: ChartDatum[] = Array.from({ length: 6 }, (_, index) => ({
     'over-60': [1, 0, 2, 1, 0, 1][index],
   },
 }))
+// Raw bytes, as a metrics API returns them.
+const memory: ChartDatum[] = [3.1, 3.4, 4.2, 3.9, 5.2, 5.6].map(
+  (workspace, index) => ({
+    id: `memory-${index + 1}`,
+    label: `October ${index + 1}, 2026`,
+    values: {
+      workspace: workspace * 1e9,
+      inventory: [2.2, 2.4, 2.3, 2.6, 2.8, 2.7][index] * 1e9,
+      docs: [1.1, 1.2, 1.2, 1.3, 1.2, 1.4][index] * 1e9,
+    },
+  }),
+)
 export function ChartExample() {
   const t = text[useLocale().locale]
   const [type, setType] = useState<'line' | 'bar' | 'area'>('line')
@@ -96,12 +108,22 @@ export function ChartExample() {
       unit: string
       description: string
       series?: typeof bucketSeries
+      formatValue?: (value: number) => string
     }
   > = {
     latency: {
       data: latency,
       unit: 'ms',
       description: t.descriptions.latency,
+    },
+    memory: {
+      data: memory,
+      unit: 'GB',
+      description: t.descriptions.memory,
+      formatValue: (value) =>
+        new Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(
+          value / 1e9,
+        ),
     },
     buckets: {
       data: buckets,
@@ -163,6 +185,7 @@ export function ChartExample() {
             <option value='empty'>No rows</option>
             <option value='latency'>Latency far from zero</option>
             <option value='buckets'>Five duration buckets</option>
+            <option value='memory'>Memory in bytes</option>
           </NativeSelect>
         </label>
         <label>
@@ -213,7 +236,7 @@ export function ChartExample() {
         title='Pipeline activity'
         description={sample.description}
         xLabel={
-          ['trend', 'latency', 'buckets'].includes(scenario)
+          ['trend', 'latency', 'buckets', 'memory'].includes(scenario)
             ? 'Reporting day'
             : 'Resource'
         }
@@ -222,7 +245,9 @@ export function ChartExample() {
             ? 'Resource change'
             : scenario === 'latency'
               ? 'P95 latency'
-              : 'Pipeline run count'
+              : scenario === 'memory'
+                ? 'Memory in use'
+                : 'Pipeline run count'
         }
         unit={sample.unit}
         type={type}
@@ -231,6 +256,7 @@ export function ChartExample() {
         palette={palette}
         includeZero={includeZero}
         locale={locale}
+        formatValue={sample.formatValue}
         hiddenSeries={locked ? hidden : undefined}
         onHiddenSeriesChange={(next) => {
           if (locked)
