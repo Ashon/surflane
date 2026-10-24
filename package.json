@@ -12,6 +12,7 @@
     "dev": "npm run build && npm run build:llms && npm run build:fonts && vite demo --host 127.0.0.1 --port 8066",
     "build:catalog": "npm run build && npm run check:catalog && npm run build:llms && npm run build:fonts && vite build demo --manifest && node scripts/prerender.mjs && npm run check:catalog-build",
     "test": "playwright test",
+    "test:unit": "node --test tests/unit/*.test.mjs",
     "format": "node scripts/format-snippets.mjs && prettier --write packages scripts demo tests examples docs *.json *.md",
     "format:check": "prettier --check packages scripts demo tests examples docs *.json *.md && node scripts/format-snippets.mjs --check",
     "build:tokens": "node scripts/build-tokens.mjs",

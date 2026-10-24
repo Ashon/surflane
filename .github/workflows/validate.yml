@@ -44,6 +44,7 @@ jobs:
       - run: npm run build:catalog
       - name: Catalog counts in the docs match demo/catalog.ts
         run: git diff --exit-code -- README.md docs/catalog-coverage.md
+      - run: npm run test:unit
       - run: npm run check:package
       - run: npm run check:ssr
       - run: npm run check:public

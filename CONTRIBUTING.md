@@ -13,6 +13,7 @@ npm run build:catalog        # production catalog
 npm run build:pages          # the site at https://surflane.page
 npm run build:brand          # PNG brand assets from the mark
 npm run check:package        # exports, types, class rules and bundle budgets
+npm run test:unit            # unit tests in Node, after npm run build
 npm run check:ssr            # render every component in plain Node
 npx playwright install chromium firefox webkit
 npm run check:examples       # Vite, Next.js, React Router and Astro apps
@@ -20,6 +21,19 @@ npm run test:browsers        # build the production catalog first
 npm test                     # the full Chromium suite
 npm run test:visual          # package screenshots, in Docker
 ```
+
+## Unit tests
+
+`tests/unit` runs in Node with `node:test`, no browser. It imports the built packages through their public entry points, as an app does, so run `npm run build` first.
+
+- **Tokens:** the `--surf-` namespace, strict `data-theme` selectors, and the contrast each role promises. `token-colors.mjs` resolves `var()`, `color-mix()` and relative `oklch()` from `catalog.json`.
+- **Theme builder:** contrast math, gamut clamping, radius scaling, and the CSS `themeCss` writes.
+- **Formatting:** locale, sign, precision, compact figures and missing values.
+- **Rendering:** the attributes components write on the server, through `react-dom/server`.
+- **Module boundaries:** which built modules are server components and which carry `'use client'`.
+- **Syntax engine:** roles per token, and lines that rebuild their source exactly.
+
+Add a unit test for logic that has an answer without a browser. Layout, focus and pixels belong to the Playwright suites.
 
 ## Check what the package looks like
 
