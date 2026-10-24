@@ -383,3 +383,26 @@ test('Combobox reserves selection-mark space so selected and unselected option l
       .evaluate((e) => getComputedStyle(e).visibility),
   ).toBe('hidden')
 })
+
+test("a read-only NumberField's steppers look as inert as they are", async ({
+  page,
+}) => {
+  await page.goto('/components/number-field')
+  await waitForCatalogReady(page)
+  // Mount a read-only field next to the page's own, with the package's classes.
+  const opacity = await page.evaluate(() => {
+    const step = document.querySelector<HTMLElement>('.surf-number-step')!
+    const copy = step.cloneNode(true) as HTMLElement
+    copy.setAttribute('data-readonly', '')
+    copy.removeAttribute('data-disabled')
+    step.parentElement!.append(copy)
+    const read = getComputedStyle(copy).opacity
+    copy.remove()
+    return {
+      readOnly: Number(read),
+      normal: Number(getComputedStyle(step).opacity),
+    }
+  })
+  expect(opacity.normal).toBe(1)
+  expect(opacity.readOnly).toBeLessThan(1)
+})

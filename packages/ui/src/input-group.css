@@ -64,6 +64,12 @@
     opacity: var(--surf-control-disabled-opacity);
     cursor: not-allowed;
   }
+  /* A read-only field keeps its value readable and copyable, but its steppers do
+     nothing, so they fade like a disabled one's. */
+  .surf-number-step[data-readonly] {
+    opacity: var(--surf-control-disabled-opacity);
+    cursor: default;
+  }
   .surf-combobox-group[data-invalid],
   .surf-number-group[data-invalid] {
     border-color: var(--surf-status-danger-fg);
