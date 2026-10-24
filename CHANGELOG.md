@@ -2,6 +2,17 @@
 
 `@surflane/design-tokens`, `@surflane/css` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## 0.10.1
+
+### Fixed
+
+- Skeleton is visible on a light canvas. It painted `--surf-surface`, about 1.07:1 on white, and its pulse faded it further. It now paints `--surf-skeleton-base` and pulses to `--surf-skeleton-highlight`.
+- A Fieldset's legend is closer to its own fields than to the group above. Base UI renders the legend as a flex item, so its margin added to the fieldset's gap: 32px under the legend, while a Form separates fieldsets by 24px. The gap alone spaces it now.
+- Prose that opens with a heading has no space above it. The heading rule's top margin outweighed the first child's reset, which left 32px.
+- A read-only NumberField's steppers fade like a disabled field's. They do nothing, but they looked clickable.
+- FileUpload without `multiple` says "Choose file" and "or drop a file here". Its labels named several files. Custom `labels` still win.
+- FileUpload's root carried the field class twice.
+
 ## 0.10.0
 
 ### Added
