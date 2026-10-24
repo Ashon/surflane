@@ -383,16 +383,16 @@ const directories = [
   ['datasets', '/srv/datasets', 96],
   ['checkpoints', '/srv/runs/checkpoints', 73],
   ['logs', '/var/log', 21],
-  ['home', '/home/ashon', 14],
+  ['backups', '/srv/backups', 14],
   ['tmp', '/tmp', 6],
   ['docker', '/var/lib/docker', 54],
 ] as const
 const projectTokens = [
-  ['Pacenote', 18.4],
-  ['Surflane', 9.7],
-  ['Folio', 6.2],
-  ['Homelab', 3.1],
-  ['Supragnosis', 1.4],
+  ['Harbor', 18.4],
+  ['Beacon', 9.7],
+  ['Tideline', 6.2],
+  ['Anchor', 3.1],
+  ['Compass', 1.4],
 ] as const
 function BarListPreview() {
   const { locale } = useLocale()

@@ -209,13 +209,13 @@ export function BasicExample({
                 multiple
                 width='content'
                 name='projects'
-                options={['Pacenote', 'Surflane', 'Folio', 'Homelab'].map(
+                options={['Harbor', 'Beacon', 'Tideline', 'Anchor'].map(
                   (project) => ({
                     value: project.toLowerCase(),
                     label: project,
                   }),
                 )}
-                defaultValue={['pacenote', 'surflane']}
+                defaultValue={['harbor', 'beacon']}
                 labels={{
                   all: t.allProjects,
                   none: t.noProjects,

@@ -202,25 +202,25 @@ test('a multiple Select sums up its choices, chooses all from its first option a
   await projects.click()
   await expect(page.getByRole('option')).toHaveText([
     'All projects',
-    'Pacenote',
-    'Surflane',
-    'Folio',
-    'Homelab',
+    'Harbor',
+    'Beacon',
+    'Tideline',
+    'Anchor',
   ])
   await page.getByRole('option', { name: 'All projects' }).click()
   await expect(projects).toHaveText('All projects', { useInnerText: true })
-  await expect(page.getByRole('option', { name: 'Folio' })).toHaveAttribute(
+  await expect(page.getByRole('option', { name: 'Tideline' })).toHaveAttribute(
     'aria-selected',
     'true',
   )
   // Unchecking one option of all leaves the others.
-  await page.getByRole('option', { name: 'Folio' }).click()
+  await page.getByRole('option', { name: 'Tideline' }).click()
   await expect(projects).toHaveText('3 projects', { useInnerText: true })
   await page.getByRole('option', { name: 'All projects' }).click()
   await page.getByRole('option', { name: 'All projects' }).click()
   await expect(projects).toHaveText('No projects', { useInnerText: true })
-  await page.getByRole('option', { name: 'Homelab' }).click()
-  await expect(projects).toHaveText('Homelab', { useInnerText: true })
+  await page.getByRole('option', { name: 'Anchor' }).click()
+  await expect(projects).toHaveText('Anchor', { useInnerText: true })
   await page.keyboard.press('Escape')
   await expect(projects).toBeFocused()
   const form = page.locator('.component-example form').first()
@@ -228,7 +228,7 @@ test('a multiple Select sums up its choices, chooses all from its first option a
     await form.evaluate((element: HTMLFormElement) =>
       new FormData(element).getAll('projects'),
     ),
-  ).toEqual(['homelab'])
+  ).toEqual(['anchor'])
   // Reset restores the default choices.
   await form.getByRole('button', { name: 'Reset' }).click()
   await expect(projects).toHaveText('2 projects', { useInnerText: true })

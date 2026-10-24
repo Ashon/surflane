@@ -259,5 +259,5 @@ test('BarList ranks values in shared columns and scrolls a bounded list by whole
     .toBeGreaterThan(0)
   await expect(
     page.getByRole('list', { name: 'Tokens this week by project' }),
-  ).toHaveText(/^Pacenote\s*18\.4M/)
+  ).toHaveText(/^Harbor\s*18\.4M/)
 })

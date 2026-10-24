@@ -18,10 +18,10 @@ const gpu: ChartDatum[] = Array.from({ length: 48 }, (_, index) => ({
   },
 }))
 const projects = [
-  ['Pacenote', 18.4],
-  ['Surflane', 9.7],
-  ['Folio', 6.2],
-  ['Homelab', 3.1],
+  ['Harbor', 18.4],
+  ['Beacon', 9.7],
+  ['Tideline', 6.2],
+  ['Anchor', 3.1],
 ] as const
 type Demo = 'ready' | 'loading' | 'refreshing' | 'error'
 export function DashboardExample() {
