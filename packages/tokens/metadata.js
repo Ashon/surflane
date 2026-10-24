@@ -138,4 +138,6 @@ export const descriptions = {
   '--dialog-enter-duration': 'Fade-and-rise duration for dialog entry',
   '--dialog-exit-duration': 'Closing completes immediately without waiting',
   '--control-height': '36px on desktop, 44px on narrow screens and touch',
+  '--control-text-min-size':
+    'Smallest text in a text field: none on desktop, 16px on narrow screens and touch so iOS does not zoom',
 }

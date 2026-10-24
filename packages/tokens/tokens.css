@@ -242,6 +242,9 @@
     --control-focus-ring-size: 3px;
     /* The smallest pointer target on narrow screens and touch (WCAG 2.5.5). */
     --control-target-size: 44px;
+    /* The smallest text in a text field. Narrow screens and touch raise it to 16px,
+     * below which iOS zooms the page into a focused field. */
+    --control-text-min-size: 0px;
   }
 
   /* Semantic status colors derive from the base status palette. Success has its own
@@ -395,6 +398,7 @@
     :root,
     [data-theme] {
       --control-height: var(--control-target-size);
+      --control-text-min-size: 16px;
     }
   }
 

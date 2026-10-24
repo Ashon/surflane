@@ -7,7 +7,9 @@
 @import './input.css';
 
 @layer surflane.components {
+  /* A block box, so no baseline gap opens under it. */
   .pui-textarea {
+    display: block;
     height: auto;
     min-height: calc(var(--control-height) * 2.5);
     padding-block: var(--space-3);

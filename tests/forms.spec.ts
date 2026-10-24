@@ -503,3 +503,41 @@ test('Textarea takes its label and description from the surrounding Field', asyn
   await expect(notes).toHaveAttribute('rows', '4')
   await expect(notes).toHaveAttribute('required', '')
 })
+
+test('Textarea is a block box, and text fields keep 16px text on narrow screens and touch so iOS never zooms', async ({
+  page,
+  browser,
+}) => {
+  await page.goto('/components/textarea')
+  await waitForCatalogReady(page)
+  const textarea = page.locator('.component-example .pui-textarea').first()
+  expect(await textarea.evaluate((el) => getComputedStyle(el).display)).toBe(
+    'block',
+  )
+  // Desktop keeps the body size.
+  expect(await textarea.evaluate((el) => getComputedStyle(el).fontSize)).toBe(
+    '14px',
+  )
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 900 },
+    isMobile: true,
+    hasTouch: true,
+  })
+  try {
+    const touch = await context.newPage()
+    for (const id of ['input', 'textarea', 'combobox', 'otp-field']) {
+      await touch.goto(`/components/${id}`)
+      await waitForCatalogReady(touch)
+      const sizes = await touch.evaluate(() => {
+        const fields = [...document.querySelectorAll<HTMLElement>('.pui-input')]
+        // A small size scope keeps the floor too.
+        fields[0]?.parentElement?.setAttribute('data-ui-size', 'small')
+        return fields.map((el) => parseFloat(getComputedStyle(el).fontSize))
+      })
+      expect(sizes.length, id).toBeGreaterThan(0)
+      for (const size of sizes) expect(size, id).toBeGreaterThanOrEqual(16)
+    }
+  } finally {
+    await context.close()
+  }
+})

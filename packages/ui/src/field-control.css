@@ -33,6 +33,10 @@
       border-color var(--duration-fast) var(--ease-out),
       box-shadow var(--duration-fast) var(--ease-out);
   }
+  /* iOS zooms the page into a focused field whose text is under 16px. */
+  .pui-input {
+    font-size: max(var(--control-text-min-size), var(--type-body-size));
+  }
   .pui-input:hover:not(:disabled, [aria-disabled='true'], [readonly], :focus),
   .pui-select-trigger:hover:not(
       :disabled,

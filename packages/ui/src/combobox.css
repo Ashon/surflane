@@ -171,7 +171,7 @@
 }
 @layer surflane.sizes {
   :where([data-ui-size], [data-ui-size] *):is(.pui-combobox-input) {
-    font-size: var(--ui-font);
+    font-size: max(var(--control-text-min-size), var(--ui-font));
     line-height: var(--ui-leading);
   }
   :where([data-ui-size], [data-ui-size] *):is(.pui-combobox-item) {
