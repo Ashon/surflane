@@ -10,6 +10,8 @@
     "start": "vite preview"
   },
   "dependencies": {
+    "@base-ui/react": "^1.9.0",
+    "@surflane/css": "^0.1.0",
     "@surflane/design-tokens": "^0.1.0",
     "@surflane/ui": "^0.1.0",
     "react": "^19.2.8",

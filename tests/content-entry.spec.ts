@@ -35,7 +35,7 @@ for (const reduced of [false, true])
     const loading = page.locator('[data-catalog-loading="page"]')
     await expect(loading).toBeVisible()
     await expect(loading).toHaveAccessibleName('Loading content')
-    await expect(loading.locator('.pui-skeleton')).toHaveCount(0)
+    await expect(loading.locator('.surf-skeleton')).toHaveCount(0)
     await expect(loading.locator('.example-announcement')).toHaveText(
       'Loading content',
     )

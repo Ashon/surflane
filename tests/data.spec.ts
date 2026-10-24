@@ -55,7 +55,7 @@ test('Table hover is inset, continuous and borderless; narrow view scrolls insid
 }) => {
   await page.goto('/components/table')
   await waitForCatalogReady(page)
-  const row = page.locator('.pui-table-body .pui-table-row').first()
+  const row = page.locator('.surf-table-body .surf-table-row').first()
   await row.hover()
   const cells = await row.locator(':scope > *').evaluateAll((els) =>
     els.map((el) => {
@@ -118,7 +118,7 @@ for (const id of ['table', 'list'])
           .getByRole('list', { name: 'Registered environments' })
           .getByRole('listitem'),
       ).toHaveCount(3)
-      const item = page.locator('.pui-list-item').first()
+      const item = page.locator('.surf-list-item').first()
       await item.hover()
       expect(
         await item.evaluate((el) => getComputedStyle(el).paddingInlineStart),
@@ -131,7 +131,7 @@ test('Inline message is static by default and retry state changes are announced 
 }) => {
   await page.goto('/components/inline-message')
   await waitForCatalogReady(page)
-  const message = page.locator('.pui-message').first(),
+  const message = page.locator('.surf-message').first(),
     preview = page.locator('#preview')
   await expect(message).not.toHaveAttribute('role')
   await expect(preview.getByRole('alert')).toHaveCount(0)

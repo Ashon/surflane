@@ -7,7 +7,7 @@ export const doc: ComponentDoc = {
   keyboard:
     'By default, Spinner has role=status and visually hidden text. The decorative prop removes it from the accessibility tree. With reduced motion, rotation stops, but the static indicator and label remain.',
   anatomy: 'span(status) → decorative SVG + visually hidden label',
-  tokens: ['--ink-body'],
+  tokens: ['--surf-ink-body'],
   code: `import { Spinner } from '@surflane/ui'
 
 <Spinner label='Syncing environments' />

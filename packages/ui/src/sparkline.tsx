@@ -1,7 +1,6 @@
-'use client'
 import * as React from 'react'
-import { cx, sizeName } from './parts.js'
-import type { ComponentSizeAlias } from './sizing.js'
+import { cx, sizeName } from './class-names.js'
+import type { ComponentSizeAlias } from './size.js'
 
 export type SparklineTrend = 'auto' | 'up' | 'down' | 'flat' | 'neutral'
 export type SparklineProps = Omit<
@@ -13,7 +12,7 @@ export type SparklineProps = Omit<
   /** What the line shows and how it moved, such as "KOSPI, 30 days, up 2.3%". The
    * line is an image; this is its name. */
   label: string
-  /** 24, 32 or 48px tall. Set --sparkline-height for another height. */
+  /** 24, 32 or 48px tall. Set --surf-sparkline-height for another height. */
   size?: ComponentSizeAlias
   /** A reference line: a value, the first value, or none. */
   baseline?: number | 'first' | 'none'
@@ -31,23 +30,18 @@ const finite = (value: number | null | undefined): value is number =>
 
 /** A small trend line for cards and table cells: no axes, legend or tooltip. Use Chart
  * when people need to read values. */
-export const Sparkline = /* @__PURE__ */ React.forwardRef<
-  SVGSVGElement,
-  SparklineProps
->(function Sparkline(
-  {
-    data,
-    label,
-    size,
-    baseline = 'none',
-    marker = true,
-    trend = 'auto',
-    lowerIsBetter = false,
-    className,
-    ...props
-  },
+export const Sparkline = function Sparkline({
+  data,
+  label,
+  size,
+  baseline = 'none',
+  marker = true,
+  trend = 'auto',
+  lowerIsBetter = false,
+  className,
   ref,
-) {
+  ...props
+}: SparklineProps & { ref?: React.Ref<SVGSVGElement> }) {
   const values = data.filter(finite)
   const first = values[0]
   const last = values[values.length - 1]
@@ -93,7 +87,7 @@ export const Sparkline = /* @__PURE__ */ React.forwardRef<
       ref={ref}
       role='img'
       aria-label={label}
-      className={cx('pui-sparkline', className)}
+      className={cx('surf-sparkline', className)}
       data-size={sizeName(size)}
       data-tone={tone}
       viewBox='0 0 100 100'
@@ -102,13 +96,13 @@ export const Sparkline = /* @__PURE__ */ React.forwardRef<
     >
       {finite(reference) && (
         <path
-          className='pui-sparkline-baseline'
+          className='surf-sparkline-baseline'
           d={`M0 ${y(reference)}H100`}
           vectorEffect='non-scaling-stroke'
         />
       )}
       <path
-        className='pui-sparkline-line'
+        className='surf-sparkline-line'
         d={path}
         vectorEffect='non-scaling-stroke'
       />
@@ -116,11 +110,11 @@ export const Sparkline = /* @__PURE__ */ React.forwardRef<
         // A zero-length segment with a round cap stays a circle however the
         // line stretches.
         <path
-          className='pui-sparkline-marker'
+          className='surf-sparkline-marker'
           d={`M${x(end)} ${y(data[end] as number)}h0`}
           vectorEffect='non-scaling-stroke'
         />
       )}
     </svg>
   )
-})
+}

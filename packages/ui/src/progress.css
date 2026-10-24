@@ -6,11 +6,11 @@
 @import './gauge.css';
 
 @layer surflane.components {
-  .pui-progress .pui-gauge-indicator {
-    background: var(--brand-mark);
+  .surf-progress .surf-gauge-indicator {
+    background: var(--surf-brand-mark);
   }
   @media (forced-colors: active) {
-    .pui-progress .pui-gauge-indicator {
+    .surf-progress .surf-gauge-indicator {
       background: CanvasText;
     }
   }

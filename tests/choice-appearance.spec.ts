@@ -9,7 +9,7 @@ for (const dark of [false, true])
     await page.goto('/components/form')
     await waitForCatalogReady(page)
     if (dark) await page.getByRole('button', { name: 'Toggle theme' }).click()
-    for (const selector of ['.pui-checkbox', '.pui-radio', '.pui-switch']) {
+    for (const selector of ['.surf-checkbox', '.surf-radio', '.surf-switch']) {
       const all = page.locator('.form-contract-example').locator(selector)
       expect(await all.count()).toBeGreaterThan(0)
       for (const element of await all.all()) {
@@ -25,8 +25,8 @@ for (const dark of [false, true])
             root = getComputedStyle(document.documentElement)
           return {
             border: rgb(style.borderColor),
-            canvas: rgb(root.getPropertyValue('--canvas')),
-            ink: rgb(root.getPropertyValue('--ink-muted')),
+            canvas: rgb(root.getPropertyValue('--surf-canvas')),
+            ink: rgb(root.getPropertyValue('--surf-ink-muted')),
             foreground: rgb(style.color),
             background: rgb(style.backgroundColor),
             checked:

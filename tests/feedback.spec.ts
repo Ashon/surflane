@@ -16,7 +16,7 @@ test('Progress covers determinate, indeterminate, completion and reset without f
   await page.getByRole('button', { name: 'Wait for worker' }).click()
   await expect(bar).not.toHaveAttribute('aria-valuenow')
   await expect(bar).toHaveAttribute('data-indeterminate')
-  await expect(page.locator('.pui-gauge-value')).toHaveText(
+  await expect(page.locator('.surf-gauge-value')).toHaveText(
     'Waiting for worker',
   )
   await page.getByRole('button', { name: 'Reset progress' }).click()
@@ -47,7 +47,7 @@ test('Meter uses capacity range and units, stays bounded, and fills from logical
   await page.getByRole('button', { name: 'Allocate 8 GiB' }).click()
   await page.evaluate(() => (document.documentElement.dir = 'rtl'))
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  const geometry = await page.locator('.pui-gauge-track').evaluate((el) => {
+  const geometry = await page.locator('.surf-gauge-track').evaluate((el) => {
     const track = el.getBoundingClientRect(),
       fill = el.firstElementChild!.getBoundingClientRect()
     return {
@@ -70,11 +70,11 @@ for (const id of ['spinner', 'skeleton'])
     await page.getByRole('button', { name: 'Finish preview loading' }).click()
     await expect(region).toHaveAttribute('aria-busy', 'false')
     await expect(region).toContainText('DEMO main')
-    await expect(page.locator('.pui-skeleton')).toHaveCount(0)
+    await expect(page.locator('.surf-skeleton')).toHaveCount(0)
     await page.getByRole('button', { name: 'Reload preview' }).click()
     await expect(region).toHaveAttribute('aria-busy', 'true')
     if (id === 'skeleton')
-      await expect(page.locator('.pui-skeleton').first()).toHaveAttribute(
+      await expect(page.locator('.surf-skeleton').first()).toHaveAttribute(
         'aria-hidden',
         'true',
       )
@@ -106,9 +106,9 @@ test('Feedback pages pass accessibility, narrow view, dark theme and reduced mot
       expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([])
     }
     for (const selector of [
-      '.pui-spinner > svg',
-      '.pui-skeleton',
-      '.pui-gauge-indicator',
+      '.surf-spinner > svg',
+      '.surf-skeleton',
+      '.surf-gauge-indicator',
     ]) {
       const el = page.locator(selector).first()
       if (await el.count())
@@ -126,7 +126,7 @@ test('Unknown progress stops pulsing with reduced motion and remains visible in 
   await page.goto('/components/progress')
   await waitForCatalogReady(page)
   await page.getByRole('button', { name: 'Wait for worker' }).click()
-  const indicator = page.locator('.pui-gauge-indicator')
+  const indicator = page.locator('.surf-gauge-indicator')
   expect(
     await indicator.evaluate((e) => getComputedStyle(e).animationName),
   ).toBe('none')
@@ -138,7 +138,7 @@ test('Unknown progress stops pulsing with reduced motion and remains visible in 
   const bar = page.getByRole('progressbar', { name: 'Deployment progress' })
   await expect(bar).not.toHaveAttribute('aria-valuenow')
   await expect(bar).toHaveAttribute('aria-valuetext', 'Waiting for worker')
-  await expect(page.locator('.pui-gauge-value')).toHaveText(
+  await expect(page.locator('.surf-gauge-value')).toHaveText(
     'Waiting for worker',
   )
 })

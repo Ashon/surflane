@@ -5,10 +5,10 @@
 @import './sizing.css';
 @import './icon.css';
 @import './link.css';
-@import '@surflane/design-tokens/presentation/breadcrumbs.css';
+@import '@surflane/css/presentation/breadcrumbs.css';
 
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *):is(.pui-breadcrumbs) {
-    font-size: var(--ui-font);
+  :where([data-ui-size], [data-ui-size] *):is(.surf-breadcrumbs) {
+    font-size: var(--surf-ui-font);
   }
 }

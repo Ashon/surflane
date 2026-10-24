@@ -9,11 +9,11 @@ export const doc: ComponentDoc = {
   keyboard:
     'Tab to the visible Menu.Trigger and press Enter or Space to open the menu. Arrow keys, Home, End, and type-ahead move between items. Enter runs an item, and Escape closes the menu. ContextMenu keeps its default pointer positioning and collision avoidance.',
   tokens: [
-    '--menu-background',
-    '--menu-border',
-    '--menu-hover-background',
-    '--radius-md',
-    '--layer-popup',
+    '--surf-menu-background',
+    '--surf-menu-border',
+    '--surf-menu-hover-background',
+    '--surf-radius-md',
+    '--surf-layer-popup',
   ],
   code: `import { ContextMenu, Menu } from '@surflane/ui'
 

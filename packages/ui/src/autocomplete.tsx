@@ -38,27 +38,33 @@ const AutocompleteRoot: typeof BaseAutocomplete.Root =
       </BaseAutocomplete.Root>
     )
   }
-const AutoTrigger = /* @__PURE__ */ React.forwardRef<
-  HTMLButtonElement,
-  React.ComponentPropsWithoutRef<typeof BaseAutocomplete.Trigger>
->(function AutoTrigger({ className, children, ...props }, ref) {
+const AutoTrigger = function AutoTrigger({
+  className,
+  children,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseAutocomplete.Trigger> & {
+  ref?: React.Ref<HTMLButtonElement>
+}) {
   return (
     <BaseAutocomplete.Trigger
       aria-label='Show suggestions'
       {...props}
       ref={ref}
-      className={skin('pui-combobox-action', className)}
+      className={skin('surf-combobox-action', className)}
     >
       {children ?? <Icon name='chevron-down' />}
     </BaseAutocomplete.Trigger>
   )
-})
-const AutoClear = /* @__PURE__ */ React.forwardRef<
-  HTMLButtonElement,
-  React.ComponentPropsWithoutRef<typeof BaseAutocomplete.Clear>
->(function AutoClear(props, ref) {
+}
+const AutoClear = function AutoClear({
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseAutocomplete.Clear> & {
+  ref?: React.Ref<HTMLButtonElement>
+}) {
   return <Combobox.Clear aria-label='Clear input' {...props} ref={ref} />
-})
+}
 export const Autocomplete = {
   ...BaseAutocomplete,
   Root: AutocompleteRoot,
@@ -77,15 +83,15 @@ export const Autocomplete = {
   InputGroup: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseAutocomplete.InputGroup>
-  >(BaseAutocomplete.InputGroup, 'pui-combobox-group'),
+  >(BaseAutocomplete.InputGroup, 'surf-combobox-group'),
   Item: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseAutocomplete.Item>
-  >(BaseAutocomplete.Item, 'pui-combobox-item'),
+  >(BaseAutocomplete.Item, 'surf-combobox-item'),
   Separator: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseAutocomplete.Separator>
-  >(BaseAutocomplete.Separator, 'pui-combobox-separator'),
+  >(BaseAutocomplete.Separator, 'surf-combobox-separator'),
 }
 // Flat names for React Server Components, which cannot dot into client exports.
 export { AutocompleteRoot }

@@ -9,12 +9,12 @@ export const doc: ComponentDoc = {
   anatomy:
     'Root → Trigger + Content(Portal + Positioner + Popup) → Title / Description / Close',
   tokens: [
-    '--menu-border',
-    '--shadow-float',
-    '--control-radius',
-    '--space-1',
-    '--space-2',
-    '--space-4',
+    '--surf-menu-border',
+    '--surf-shadow-float',
+    '--surf-control-radius',
+    '--surf-space-1',
+    '--surf-space-2',
+    '--surf-space-4',
   ],
   code: `import { Popover, Button } from '@surflane/ui'
 
@@ -37,7 +37,7 @@ export const doc: ComponentDoc = {
       'default width, surrounding density',
     ],
     [
-      '--popover-width',
+      '--surf-popover-width',
       'custom property: a width that keeps the surrounding density',
       'the size width',
     ],

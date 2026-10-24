@@ -1,6 +1,5 @@
-'use client'
 import * as React from 'react'
-import { cx } from './parts.js'
+import { cx } from './class-names.js'
 
 export function Heading({
   level = 2,
@@ -20,7 +19,11 @@ export function Heading({
 }) {
   const Tag = `h${level}` as 'h1'
   return (
-    <Tag {...props} className={cx('pui-heading', className)} data-size={size} />
+    <Tag
+      {...props}
+      className={cx('surf-heading', className)}
+      data-size={size}
+    />
   )
 }
 export function Text({
@@ -40,16 +43,17 @@ export function Text({
   return (
     <Tag
       {...props}
-      className={cx('pui-text', className)}
+      className={cx('surf-text', className)}
       data-variant={variant}
       data-color={color}
       data-weight={weight}
     />
   )
 }
-export const Prose = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  React.ComponentProps<'div'>
->(function Prose({ className, ...props }, ref) {
-  return <div {...props} ref={ref} className={cx('pui-prose', className)} />
-})
+export const Prose = function Prose({
+  className,
+  ref,
+  ...props
+}: React.ComponentProps<'div'> & { ref?: React.Ref<HTMLDivElement> }) {
+  return <div {...props} ref={ref} className={cx('surf-prose', className)} />
+}

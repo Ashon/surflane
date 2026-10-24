@@ -8,98 +8,121 @@
 @import './button.css';
 
 @layer surflane.components {
+  /* The parts' sizes. Links and brands also render outside the shell, such as in a
+   * mobile Sheet, so the root holds them; set them on AppShell.Root to change one
+   * shell. The links' icon column is what the brand's mark and the rail line up on. */
+  :root {
+    --surf-app-shell-icon-column: 40px;
+    --surf-app-shell-brand-height: 80px;
+    --surf-app-shell-mark-size: 24px;
+  }
   /* Application frame slots: navigation state and product routing remain caller-owned.
      The shell is never rounded: its edge is the window's, or the edge of a container
      that frames it and clips it. Only the page surface inside it is rounded. */
-  .pui-app-shell {
-    --app-shell-inset: var(--space-3);
+  .surf-app-shell {
+    --surf-app-shell-inset: var(--surf-space-3);
     /* --app-shell-radius, if a caller still sets it, keeps deriving the page radius. */
-    --app-shell-page-radius: max(
+    --surf-app-shell-page-radius: max(
       0px,
       calc(
-        var(--app-shell-radius, var(--radius-sheet)) - var(--app-shell-inset)
+        var(--app-shell-radius, var(--surf-radius-sheet)) -
+          var(--surf-app-shell-inset)
       )
     );
-    --app-shell-sidebar-width: 216px;
+    --surf-app-shell-sidebar-width: 216px;
     /* The collapsed sidebar's width. Set it on the shell for a narrower rail. */
-    --app-shell-rail-width: 64px;
+    --surf-app-shell-rail-width: 64px;
     display: grid;
-    grid-template-columns: var(--app-shell-sidebar-width) minmax(0, 1fr);
+    grid-template-columns: var(--surf-app-shell-sidebar-width) minmax(0, 1fr);
     grid-template-rows: auto minmax(0, 1fr);
-    gap: var(--space-4);
+    gap: var(--surf-space-4);
     min-inline-size: 0;
-    padding: var(--app-shell-inset);
-    background: var(--chrome);
+    padding: var(--surf-app-shell-inset);
+    background: var(--surf-chrome);
   }
-  .pui-app-shell[data-sidebar='collapsed'] {
-    --app-shell-sidebar-width: var(--app-shell-rail-width);
+  .surf-app-shell[data-sidebar='collapsed'] {
+    --surf-app-shell-sidebar-width: var(--surf-app-shell-rail-width);
   }
-  .pui-app-shell-header {
+  .surf-app-shell-header {
     grid-column: 1 / -1;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--space-3);
+    gap: var(--surf-space-3);
     min-inline-size: 0;
   }
-  .pui-app-shell-sidebar {
+  .surf-app-shell-sidebar {
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
+    gap: var(--surf-space-3);
     min-inline-size: 0;
     min-block-size: 0;
-    padding-inline: var(--space-3);
+    padding-inline: var(--surf-space-3);
   }
-  .pui-app-shell-content {
+  .surf-app-shell-content {
     min-inline-size: 0;
     min-block-size: 0;
-    padding: var(--space-6);
-    background: var(--canvas);
-    border-radius: var(--app-shell-page-radius);
+    padding: var(--surf-space-6);
+    background: var(--surf-canvas);
+    border-radius: var(--surf-app-shell-page-radius);
     overflow-wrap: anywhere;
   }
-  .pui-app-shell-footer {
+  .surf-app-shell-footer {
     margin-block-start: auto;
     flex: none;
   }
-  .pui-app-shell-link {
+  /* A link, or a button such as the account's menu trigger, in the same row. */
+  .surf-app-shell-link {
+    box-sizing: border-box;
     display: grid;
-    grid-template-columns: 40px minmax(0, 1fr);
+    grid-template-columns: var(--surf-app-shell-icon-column) minmax(0, 1fr);
     align-items: center;
-    min-block-size: 40px;
-    border-radius: var(--radius-md);
+    inline-size: 100%;
+    /* The icon's cell is square, so a row is as tall as the column is wide. */
+    min-block-size: var(--surf-app-shell-icon-column);
+    gap: 0;
+    padding: 0;
+    border: 0;
+    border-radius: var(--surf-radius-md);
+    background: transparent;
+    font: inherit;
+    text-align: start;
     text-decoration: none;
-    color: var(--ink-body);
-    transition: background-color var(--duration-fast) var(--ease-out);
+    color: var(--surf-ink-body);
+    cursor: pointer;
+    transition: background-color var(--surf-duration-fast) var(--surf-ease-out);
   }
-  .pui-app-shell-link:hover {
-    background: var(--interaction-hover-bg);
+  .surf-app-shell-link:hover {
+    background: var(--surf-interaction-hover-bg);
   }
-  .pui-app-shell-link:active:not([aria-current='page']) {
-    background: var(--interaction-active-bg);
+  .surf-app-shell-link:active:not([aria-current='page']) {
+    background: var(--surf-interaction-active-bg);
   }
-  .pui-app-shell-link[aria-current='page'] {
-    background: var(--selected);
-    color: var(--ink);
-    font-weight: var(--weight-medium);
+  .surf-app-shell-link[aria-current='page'] {
+    background: var(--surf-selected);
+    color: var(--surf-ink);
+    font-weight: var(--surf-weight-medium);
   }
-  .pui-app-shell-link:focus-visible {
-    outline: var(--focus-ring-width) solid var(--interaction-focus);
-    outline-offset: var(--focus-ring-inset);
+  .surf-app-shell-link:focus-visible {
+    outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+    outline-offset: var(--surf-focus-ring-inset);
   }
-  .pui-app-shell-icon {
+  .surf-app-shell-icon {
     display: grid;
     place-items: center;
-    inline-size: 40px;
+    inline-size: var(--surf-app-shell-icon-column);
   }
-  .pui-app-shell-label {
+  .surf-app-shell-label {
     min-inline-size: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    padding-inline-end: var(--space-2);
+    padding-inline-end: var(--surf-space-2);
   }
-  .pui-app-shell[data-sidebar='collapsed'] .pui-app-shell-label {
+  /* Only the sidebar collapses: a label in the header or the page stays. */
+  .surf-app-shell[data-sidebar='collapsed']
+    .surf-app-shell-sidebar
+    .surf-app-shell-label {
     position: absolute;
     inline-size: 1px;
     block-size: 1px;
@@ -107,57 +130,124 @@
     clip-path: inset(50%);
     overflow: hidden;
   }
+  /* The product's mark and name. */
+  .surf-app-shell-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--surf-space-2);
+    min-inline-size: 0;
+    color: var(--surf-ink);
+    text-decoration: none;
+  }
+  .surf-app-shell-brand-mark {
+    flex: none;
+    display: grid;
+    place-items: center;
+  }
+  .surf-app-shell-brand-mark > :where(svg, img) {
+    inline-size: var(--surf-app-shell-mark-size);
+    block-size: var(--surf-app-shell-mark-size);
+  }
+  .surf-app-shell-brand-text {
+    display: grid;
+  }
+  .surf-app-shell-brand-name,
+  .surf-app-shell-brand-description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .surf-app-shell-brand-name {
+    font: var(--surf-weight-medium) var(--surf-type-subsection-size) /
+      var(--surf-type-subsection-leading) var(--surf-font-body);
+    letter-spacing: var(--surf-type-subsection-tracking);
+  }
+  .surf-app-shell-brand-description {
+    color: var(--surf-ink-muted);
+    font: var(--surf-weight-regular) var(--surf-type-caption-size) /
+      var(--surf-type-caption-leading) var(--surf-font-body);
+    letter-spacing: var(--surf-type-caption-tracking);
+  }
+  /* In the sidebar the brand is the top row, its mark on the links' icon column and
+   * its name on their label line. */
+  .surf-app-shell-sidebar > .surf-app-shell-brand {
+    flex: none;
+    block-size: var(--surf-app-shell-brand-height);
+    gap: 0;
+  }
+  .surf-app-shell-sidebar > .surf-app-shell-brand > .surf-app-shell-brand-mark {
+    inline-size: var(--surf-app-shell-icon-column);
+  }
+  /* Links stack with even gaps under an optional label that names the group. */
+  .surf-app-shell-nav {
+    display: grid;
+    align-content: start;
+    gap: var(--surf-space-1);
+    min-inline-size: 0;
+  }
+  .surf-app-shell-nav-label {
+    display: flex;
+    align-items: center;
+    min-block-size: var(--surf-space-6);
+    margin-block-end: var(--surf-space-1);
+    padding-inline: var(--surf-space-3);
+    color: var(--surf-ink-muted);
+    font: var(--surf-weight-regular) var(--surf-type-caption-size) /
+      var(--surf-type-caption-leading) var(--surf-font-body);
+    letter-spacing: var(--surf-type-caption-tracking);
+  }
   /* On a phone the frame costs more room than it gives: the page meets the screen's
      edges, and only the header keeps its inset. */
   @media (max-width: 760px) {
-    .pui-app-shell {
+    .surf-app-shell {
       grid-template-columns: minmax(0, 1fr);
       grid-template-rows: auto minmax(0, 1fr);
       gap: 0;
       padding: 0;
     }
-    .pui-app-shell > .pui-app-shell-header {
-      padding: var(--app-shell-inset);
+    .surf-app-shell > .surf-app-shell-header {
+      padding: var(--surf-app-shell-inset);
     }
-    .pui-app-shell-sidebar {
+    .surf-app-shell-sidebar {
       display: none;
     }
-    .pui-app-shell-content {
-      padding: var(--space-4);
+    .surf-app-shell-content {
+      padding: var(--surf-space-4);
       border-radius: 0;
     }
   }
   @media (max-width: 760px), (pointer: coarse) {
-    .pui-app-shell-link {
-      min-block-size: var(--control-target-size);
+    .surf-app-shell-link {
+      min-block-size: var(--surf-control-target-size);
     }
   }
   @media (prefers-reduced-motion: reduce) {
-    .pui-app-shell-link {
+    .surf-app-shell-link {
       transition: none;
     }
   }
   @media (forced-colors: active) {
-    .pui-app-shell-link[aria-current='page'] {
+    .surf-app-shell-link[aria-current='page'] {
       outline: 1px solid Highlight;
     }
   }
   /* Workspace variant: product sidebar owns the brand; the content scrollport is caller-provided. */
-  .pui-app-shell[data-layout='workspace'] {
-    --app-shell-sidebar-width: 224px;
-    --app-shell-rail-width: 72px;
+  .surf-app-shell[data-layout='workspace'] {
+    --surf-app-shell-sidebar-width: 224px;
+    --surf-app-shell-rail-width: 72px;
     /* The shell takes its container's height, the window's when the document fills
      * it, so the sidebar stays while the content scrolls. */
     block-size: 100%;
     grid-template-rows: minmax(0, 1fr);
     gap: 0;
     padding: 0;
-    transition: grid-template-columns var(--duration-base) var(--ease-out);
+    transition: grid-template-columns var(--surf-duration-base)
+      var(--surf-ease-out);
   }
-  .pui-app-shell[data-layout='workspace'][data-sidebar='collapsed'] {
-    --app-shell-sidebar-width: var(--app-shell-rail-width);
+  .surf-app-shell[data-layout='workspace'][data-sidebar='collapsed'] {
+    --surf-app-shell-sidebar-width: var(--surf-app-shell-rail-width);
   }
-  .pui-app-shell[data-layout='workspace'] > .pui-app-shell-sidebar {
+  .surf-app-shell[data-layout='workspace'] > .surf-app-shell-sidebar {
     position: relative;
     grid-row: 1;
     grid-column: 1;
@@ -165,7 +255,7 @@
     padding: 0;
     z-index: 1;
   }
-  .pui-app-shell[data-layout='workspace'] > .pui-app-shell-content {
+  .surf-app-shell[data-layout='workspace'] > .surf-app-shell-content {
     grid-row: 1;
     grid-column: 2;
     margin: 0;
@@ -175,130 +265,160 @@
   }
   /* The toggle sits on the sidebar's edge, a round button half over the content.
    * Collapsed, it centers in the rail where the brand was. */
-  .pui-app-shell[data-layout='workspace']
-    > .pui-app-shell-sidebar
-    > .pui-app-shell-toggle {
-    --app-shell-toggle-size: var(--space-8);
+  .surf-app-shell[data-layout='workspace']
+    > .surf-app-shell-sidebar
+    > .surf-app-shell-toggle {
+    --surf-app-shell-toggle-size: var(--surf-space-8);
     position: absolute;
-    inset-block-start: var(--space-5);
-    inset-inline-end: calc(var(--app-shell-toggle-size) / -2);
-    border: 1px solid var(--line);
-    background: var(--canvas);
+    inset-block-start: var(--surf-space-5);
+    inset-inline-end: calc(var(--surf-app-shell-toggle-size) / -2);
+    border: 1px solid var(--surf-line);
+    background: var(--surf-canvas);
     z-index: 1;
   }
-  .pui-app-shell[data-layout='workspace'][data-sidebar='collapsed']
-    > .pui-app-shell-sidebar
-    > .pui-app-shell-toggle {
-    --app-shell-toggle-size: var(--space-10);
+  .surf-app-shell[data-layout='workspace'][data-sidebar='collapsed']
+    > .surf-app-shell-sidebar
+    > .surf-app-shell-toggle {
+    --surf-app-shell-toggle-size: var(--surf-space-10);
     inset-inline-end: calc(
-      (var(--app-shell-rail-width) - var(--app-shell-toggle-size)) / 2
+      (var(--surf-app-shell-rail-width) - var(--surf-app-shell-toggle-size)) / 2
     );
     border-color: transparent;
     background: transparent;
   }
   /* A ScrollArea in the sidebar takes the room between the brand and the footer, and
    * one in the content fills it, so the menu and the page scroll on their own. */
-  .pui-app-shell[data-layout='workspace']
-    > .pui-app-shell-sidebar
-    > .pui-scroll-root {
+  .surf-app-shell[data-layout='workspace']
+    > .surf-app-shell-sidebar
+    > .surf-scroll-root {
     flex: 1;
     min-block-size: 0;
   }
-  .pui-app-shell[data-layout='workspace']
-    > .pui-app-shell-sidebar
-    > .pui-scroll-root
-    > .pui-scroll-viewport {
+  .surf-app-shell[data-layout='workspace']
+    > .surf-app-shell-sidebar
+    > .surf-scroll-root
+    > .surf-scroll-viewport {
     block-size: 100%;
-    padding: 0 var(--space-4) var(--space-4);
   }
-  .pui-app-shell[data-layout='workspace']
-    > .pui-app-shell-content
-    > .pui-scroll-root,
-  .pui-app-shell[data-layout='workspace']
-    > .pui-app-shell-content
-    > .pui-scroll-root
-    > .pui-scroll-viewport {
+  .surf-app-shell[data-layout='workspace']
+    > .surf-app-shell-sidebar
+    > .surf-app-shell-brand {
+    padding-inline: var(--surf-space-4);
+  }
+  /* Collapsed, the toggle takes the brand's place on the rail. */
+  .surf-app-shell[data-layout='workspace'][data-sidebar='collapsed']
+    > .surf-app-shell-sidebar
+    > .surf-app-shell-brand {
+    visibility: hidden;
+  }
+  .surf-app-shell[data-layout='workspace']
+    > .surf-app-shell-sidebar
+    .surf-app-shell-nav {
+    padding: 0 var(--surf-space-4) var(--surf-space-4);
+  }
+  .surf-app-shell[data-layout='workspace']
+    > .surf-app-shell-content
+    > .surf-scroll-root,
+  .surf-app-shell[data-layout='workspace']
+    > .surf-app-shell-content
+    > .surf-scroll-root
+    > .surf-scroll-viewport {
     block-size: 100%;
     min-block-size: 0;
   }
   /* The page stretches to the bottom when it is shorter than the content slot. */
-  .pui-app-shell[data-layout='workspace']
-    > .pui-app-shell-content
-    > .pui-scroll-root
-    > .pui-scroll-viewport
-    > .pui-scroll-content {
+  .surf-app-shell[data-layout='workspace']
+    > .surf-app-shell-content
+    > .surf-scroll-root
+    > .surf-scroll-viewport
+    > .surf-scroll-content {
     display: grid;
   }
   /* The page surface: concentric with the shell, inset on every side but the
    * sidebar's. Stretch or size it from its container: a percentage height here
    * would resolve against a scroll content that sizes from the page itself. */
-  .pui-app-shell-page {
+  .surf-app-shell-page {
     box-sizing: border-box;
     min-inline-size: 0;
-    margin: var(--app-shell-inset);
+    margin: var(--surf-app-shell-inset);
     margin-inline-start: 0;
-    padding: var(--space-6);
-    background: var(--canvas);
-    border-radius: var(--app-shell-page-radius);
+    padding: var(--surf-space-6);
+    background: var(--surf-canvas);
+    border-radius: var(--surf-app-shell-page-radius);
   }
   /* On a phone the page meets the screen's edges, below the mobile header. */
   @media (max-width: 760px) {
-    .pui-app-shell-page {
+    .surf-app-shell-page {
       margin: 0;
-      padding: var(--space-4);
+      padding: var(--surf-space-4);
       border-radius: 0;
     }
   }
-  .pui-app-shell[data-layout='workspace'] .pui-app-shell-footer {
-    padding: var(--space-4);
+  .surf-app-shell[data-layout='workspace'] .surf-app-shell-footer {
+    padding: var(--surf-space-4);
   }
-  .pui-app-shell[data-layout='workspace'] .pui-app-shell-label {
+  .surf-app-shell[data-layout='workspace'] .surf-app-shell-label {
     transition:
-      opacity 80ms var(--ease-out) 160ms,
+      opacity 80ms var(--surf-ease-out) 160ms,
       visibility 0s 160ms;
   }
-  .pui-app-shell[data-layout='workspace'][data-sidebar='collapsed']
-    .pui-app-shell-label {
+  .surf-app-shell[data-layout='workspace'][data-sidebar='collapsed']
+    .surf-app-shell-sidebar
+    .surf-app-shell-label {
     opacity: 0;
     visibility: hidden;
     transition: none;
   }
   @media (min-width: 761px) {
-    .pui-app-shell[data-layout='workspace'] > .pui-app-shell-header {
+    .surf-app-shell[data-layout='workspace'] > .surf-app-shell-header {
       display: none;
     }
   }
   @media (max-width: 760px) {
-    .pui-app-shell[data-layout='workspace'] {
+    .surf-app-shell[data-layout='workspace'] {
       grid-template-columns: minmax(0, 1fr);
       grid-template-rows: auto minmax(0, 1fr);
     }
-    .pui-app-shell[data-layout='workspace'] > .pui-app-shell-header {
-      padding: var(--space-3);
+    .surf-app-shell[data-layout='workspace'] > .surf-app-shell-header {
+      padding: var(--surf-space-3);
     }
-    .pui-app-shell[data-layout='workspace'] > .pui-app-shell-content {
+    .surf-app-shell[data-layout='workspace'] > .surf-app-shell-content {
       grid-column: 1;
       grid-row: 2;
       margin: 0;
     }
   }
   @media (prefers-reduced-motion: reduce) {
-    .pui-app-shell[data-layout='workspace'],
-    .pui-app-shell[data-layout='workspace'] .pui-app-shell-label {
+    .surf-app-shell[data-layout='workspace'],
+    .surf-app-shell[data-layout='workspace'] .surf-app-shell-label {
       transition: none;
     }
   }
 }
 @layer surflane.sizes {
-  /* Above the icon button's size scheme: the edge toggle is a circle of its own size. */
-  .pui-app-shell[data-layout='workspace']
-    > .pui-app-shell-sidebar
-    > .pui-app-shell-toggle {
-    inline-size: var(--app-shell-toggle-size);
-    block-size: var(--app-shell-toggle-size);
-    min-inline-size: var(--app-shell-toggle-size);
-    min-block-size: var(--app-shell-toggle-size);
+  /* A row rendered as a Button, such as Menu.Trigger, keeps the row's shape and the
+   * sidebar's text over the button's size scheme. */
+  .surf-app-shell-link.surf-button {
+    block-size: auto;
+    min-block-size: var(--surf-app-shell-icon-column);
     padding: 0;
-    border-radius: var(--radius-full);
+    font-size: inherit;
+    line-height: inherit;
+  }
+  @media (max-width: 760px), (pointer: coarse) {
+    .surf-app-shell-link.surf-button {
+      min-block-size: var(--surf-control-target-size);
+    }
+  }
+  /* Above the icon button's size scheme: the edge toggle is a circle of its own size. */
+  .surf-app-shell[data-layout='workspace']
+    > .surf-app-shell-sidebar
+    > .surf-app-shell-toggle {
+    inline-size: var(--surf-app-shell-toggle-size);
+    block-size: var(--surf-app-shell-toggle-size);
+    min-inline-size: var(--surf-app-shell-toggle-size);
+    min-block-size: var(--surf-app-shell-toggle-size);
+    padding: 0;
+    border-radius: var(--surf-radius-full);
   }
 }

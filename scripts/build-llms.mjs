@@ -47,6 +47,22 @@ const page = (item) => `${site}${itemHref(item)}`
 const markdownUrl = (item) => `${page(item)}.md`
 const available = (items) => items.filter((item) => item.stage === 'available')
 
+// The README and the coverage doc state the catalog's size. Write it from the registry,
+// so the numbers cannot drift; CI fails when the committed text is stale.
+const counts = `${available(foundations).length} foundations, ${available(components).length} components and ${available(patterns).length} patterns`
+for (const file of ['README.md', 'docs/catalog-coverage.md']) {
+  const path = join(root, file)
+  const source = readFileSync(path, 'utf8')
+  const marker = /<!-- catalog-counts -->[^<]*<!-- \/catalog-counts -->/
+  if (!marker.test(source))
+    throw new Error(`${file} lacks the <!-- catalog-counts --> marker`)
+  const next = source.replace(
+    marker,
+    `<!-- catalog-counts -->${counts}<!-- /catalog-counts -->`,
+  )
+  if (next !== source) writeFileSync(path, next)
+}
+
 // Token tables by category; the first variant is the default (dark) context.
 const tokenTable = (categories) => {
   const rows = tokens.tokens.filter((token) =>
@@ -136,7 +152,7 @@ const intro = [
   '',
   `> A design system for platform development: OKLCH design tokens (@surflane/design-tokens) and accessible React 19 components built on Base UI (@surflane/ui), with tested application patterns. Version ${pkg.version}.`,
   '',
-  'Install both packages: `npm install @surflane/ui @surflane/design-tokens`. Both are ESM-only and need React 19.',
+  'Install the packages and Base UI: `npm install @surflane/ui @surflane/design-tokens @surflane/css @base-ui/react`. They are ESM-only and need React 19.',
   '',
   '- Import the CSS once: `@surflane/ui/all.css` brings every stylesheet in its cascade layer. With Tailwind CSS v4, import it with `layer(components)`.',
   '- Set `data-theme="light"` or `"dark"` on `<html>` before paint. Any element can carry `data-theme` to re-theme its subtree.',

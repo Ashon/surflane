@@ -4,12 +4,14 @@ import { Icon } from './icon.js'
 import { Avatar as BaseAvatar } from '@base-ui/react/avatar'
 import { useComponentSize, type ComponentSizeAlias } from './sizing.js'
 import { sizeName, skin, part } from './parts.js'
-const AvatarRoot = /* @__PURE__ */ React.forwardRef<
-  React.ComponentRef<typeof BaseAvatar.Root>,
-  React.ComponentPropsWithoutRef<typeof BaseAvatar.Root> & {
-    size?: ComponentSizeAlias
-  }
->(function AvatarRoot({ size, className, ...props }, ref) {
+const AvatarRoot = function AvatarRoot({
+  size,
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseAvatar.Root> & {
+  size?: ComponentSizeAlias
+} & { ref?: React.Ref<React.ComponentRef<typeof BaseAvatar.Root>> }) {
   const scheme = useComponentSize(size)
   return (
     <BaseAvatar.Root
@@ -17,36 +19,40 @@ const AvatarRoot = /* @__PURE__ */ React.forwardRef<
       ref={ref}
       data-size={sizeName(size)}
       data-ui-size={scheme}
-      className={skin('pui-avatar', className)}
+      className={skin('surf-avatar', className)}
     />
   )
-})
-const AvatarFallback = /* @__PURE__ */ React.forwardRef<
-  React.ComponentRef<typeof BaseAvatar.Fallback>,
-  React.ComponentPropsWithoutRef<typeof BaseAvatar.Fallback>
->(function AvatarFallback({ children, className, ...props }, ref) {
+}
+const AvatarFallback = function AvatarFallback({
+  children,
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseAvatar.Fallback> & {
+  ref?: React.Ref<React.ComponentRef<typeof BaseAvatar.Fallback>>
+}) {
   return (
     <BaseAvatar.Fallback
       {...props}
       ref={ref}
-      className={skin('pui-avatar-fallback', className)}
+      className={skin('surf-avatar-fallback', className)}
     >
       {children ?? <Icon name='user' />}
     </BaseAvatar.Fallback>
   )
-})
+}
 export const Avatar = {
   ...BaseAvatar,
   Root: AvatarRoot,
   Status: /* @__PURE__ */ part<
     HTMLSpanElement,
     React.ComponentPropsWithoutRef<'span'>
-  >('span', 'pui-avatar-status'),
+  >('span', 'surf-avatar-status'),
   Fallback: AvatarFallback,
   Image: /* @__PURE__ */ part<
     React.ComponentRef<typeof BaseAvatar.Image>,
     React.ComponentPropsWithoutRef<typeof BaseAvatar.Image>
-  >(BaseAvatar.Image, 'pui-avatar-image'),
+  >(BaseAvatar.Image, 'surf-avatar-image'),
 }
 
 // Flat names for React Server Components, which cannot dot into client exports.

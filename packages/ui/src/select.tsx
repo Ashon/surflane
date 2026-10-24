@@ -39,23 +39,18 @@ export type SelectProps = {
   'aria-invalid'?: React.AriaAttributes['aria-invalid']
 }
 /** A single-choice list. The ref reaches the trigger button, as triggerRef does. */
-export const Select = /* @__PURE__ */ React.forwardRef<
-  HTMLButtonElement,
-  SelectProps
->(function Select(
-  {
-    options: items,
-    value,
-    defaultValue,
-    onValueChange,
-    className,
-    inputRef,
-    triggerRef,
-    size,
-    ...props
-  },
+export const Select = function Select({
+  options: items,
+  value,
+  defaultValue,
+  onValueChange,
+  className,
+  inputRef,
+  triggerRef,
+  size,
   ref,
-) {
+  ...props
+}: SelectProps & { ref?: React.Ref<HTMLButtonElement> }) {
   const scheme = useComponentSize(size)
   const options = flatten(items)
   // One stable callback, so the trigger ref is not detached on every render.
@@ -97,7 +92,7 @@ export const Select = /* @__PURE__ */ React.forwardRef<
   const { name, form, required, disabled, id, ...aria } = props
   return (
     <span
-      className={cx('pui-select', className)}
+      className={cx('surf-select', className)}
       data-size={sizeName(size)}
       data-ui-size={scheme}
       data-disabled={disabled || undefined}
@@ -123,29 +118,29 @@ export const Select = /* @__PURE__ */ React.forwardRef<
         <BaseSelect.Trigger
           {...aria}
           ref={setTrigger}
-          className='pui-select-trigger'
+          className='surf-select-trigger'
           data-value={selected}
         >
           <BaseSelect.Value />
-          <BaseSelect.Icon className='pui-select-icon'>
+          <BaseSelect.Icon className='surf-select-icon'>
             <Icon name='chevron-down' />
           </BaseSelect.Icon>
         </BaseSelect.Trigger>
         <BaseSelect.Portal>
           <BaseSelect.Positioner
-            className='pui-positioner'
+            className='surf-positioner'
             sideOffset={6}
             alignItemWithTrigger={false}
           >
             <BaseSelect.Popup
-              className='pui-select-popup'
+              className='surf-select-popup'
               data-ui-size={scheme}
             >
               <BaseSelect.List>
                 {items.map((item, index) =>
                   isGroup(item) ? (
-                    <BaseSelect.Group className='pui-select-group' key={index}>
-                      <BaseSelect.GroupLabel className='pui-select-group-label'>
+                    <BaseSelect.Group className='surf-select-group' key={index}>
+                      <BaseSelect.GroupLabel className='surf-select-group-label'>
                         {item.label}
                       </BaseSelect.GroupLabel>
                       {item.options.map(renderOption)}
@@ -161,17 +156,17 @@ export const Select = /* @__PURE__ */ React.forwardRef<
       </BaseSelect.Root>
     </span>
   )
-})
+}
 function renderOption(option: SelectOption) {
   return (
     <BaseSelect.Item
-      className='pui-select-item'
+      className='surf-select-item'
       value={option.value}
       data-option-value={option.value}
       disabled={option.disabled}
       key={option.value}
     >
-      <BaseSelect.ItemIndicator className='pui-select-check'>
+      <BaseSelect.ItemIndicator className='surf-select-check'>
         <Icon name='check' />
       </BaseSelect.ItemIndicator>
       <BaseSelect.ItemText>{option.label}</BaseSelect.ItemText>

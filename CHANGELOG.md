@@ -9,7 +9,7 @@
 - `Table.Root` takes `variant`:
   - `plain`, the default, separates rows by space.
   - `lined` draws lines between rows, and `grid` between rows and columns. Both draw inside the table only: no line above the header, below the last row or at the sides.
-  - `striped` tones every other body row with `--surface`.
+  - `striped` tones every other body row with `--surf-surface`.
   - Lined, grid and striped rows meet edge to edge, square.
 - Text you could not replace before is now in props:
   - Tree `labels`: `expand`, `collapse`, `scrollArea`, `empty`.
@@ -23,29 +23,57 @@
 - Tooltip `disabled`.
 - Button `icon-small` and `icon-large`.
 - Icon `size`: `small`, `default` or `large` (14, 16 or 20px), like every component.
-- Pills scale with the radius. Buttons, badges, chips, switches and segments draw their corners with the new `--radius-pill`.
+- Pills scale with the radius. Buttons, badges, chips, switches and segments draw their corners with the new `--surf-radius-pill`.
   - It is 22px, half the tallest control, so by default every one is still a pill.
   - Like the other corner tokens it scales with a radius preset or `createTheme`'s `radius`: a smaller scale rounds the larger parts' corners first, and `radius: 0` squares them.
   - A switch's thumb stays concentric with its track.
   - Circles and bars stay round: avatars, radios, slider knobs and progress bars.
 - Tokens:
-  - `--selected-edge`: the focus color, faint, over `--selected`.
-  - `--brand-mark`: brand as a mark on the sheet, darker in light themes.
-  - `--slider-track`.
-  - `--control-text-min-size`: the smallest text in a text field.
-  - `--scrollbar-indicator-size`: the thickness of ScrollArea's thumb.
+  - `--surf-selected-edge`: the focus color, faint, over `--surf-selected`.
+  - `--surf-brand-mark`: brand as a mark on the sheet, darker in light themes.
+  - `--surf-slider-track`.
+  - `--surf-control-text-min-size`: the smallest text in a text field.
+  - `--surf-scrollbar-indicator-size`: the thickness of ScrollArea's thumb.
+- AppShell parts for what every app built by hand:
+  - `AppShell.Brand`: the product's `mark`, `name` and optional `description`. In the sidebar it is the top row, its mark on the links' icon column and its name on their label line, hidden on the workspace rail where the toggle takes its place. In the header it sits on one line. A long name truncates and keeps its text in `title`. `render` makes it a link home.
+  - `AppShell.Nav`: Links with even gaps, inset in the workspace sidebar so their icons sit on the rail. Its `label` shows over the links, keeps its row on the rail and names the navigation.
+  - `AppShell.Link` takes `render`. A router's link keeps client navigation, and a `Menu.Trigger` makes the account row line up with the links.
+  - Types: `AppShellBrandProps`, `AppShellNavProps` and `AppShellLinkProps`.
+  - Shell variables: `--surf-app-shell-icon-column` (40px), `--surf-app-shell-brand-height` (80px) and `--surf-app-shell-mark-size` (24px).
 - Chart's `formatValue` also writes the value axis ticks.
 - `all.css` includes `motion.css`, so `transitionTheme` works with it alone.
 
 ### Changed
 
-- A selected Table row shows a faint `--selected-edge` around it besides the selected tone, so a selection reads as held. Selected rows that meet in a lined, grid or striped table share one edge.
+A 0.x minor may change names and packages, and this one does. Migration, below, lists each step.
+
+- **Namespace.** Classes are `surf-*`, formerly `pui-*`.
+  - Every custom property the packages declare is `--surf-*`: `--brand` is `--surf-brand`.
+  - A host's own `--brand` can no longer override a Surflane token by accident.
+  - Base UI's variables, such as `--anchor-width`, keep their names. So do the Tailwind utilities, such as `bg-canvas`.
+- **`@surflane/css`.** The CSS-only classes left `@surflane/design-tokens` for this new package:
+  - `controls.css`, `foundations.css`, `presentation.css` and `typography.css`, with their parts.
+  - `@surflane/design-tokens` now holds only tokens, themes, theme motion and the Tailwind and shadcn bridges.
+  - The three packages ship together with one version.
+- **Base UI is a peer dependency**, `^1.9.0`, no longer a pinned dependency. Your app and Surflane share one copy.
+- **Success is green**, Green 50, apart from the brand cyan. A success no longer reads as the main action.
+- **`data-theme` takes `dark` or `light`.**
+  - An element with another value keeps the theme around it.
+  - On the root, another value follows the system preference.
+- **Server components.** These modules no longer start with `'use client'`, so they render on the server without client JavaScript:
+  - Card, EmptyState, List, Stat and Table.
+  - FilterBar, PageHeader, Skeleton, Spinner, Icon, Sparkline and Breadcrumbs.
+  - The layout primitives and the type components.
+  - An explicit `size` adds a small client boundary, so popups inside keep the size.
+- **No `forwardRef`.** Components take `ref` as a prop, as React 19 allows. Refs work as before.
+- Button and LinkButton without a variant are `primary`.
+- A selected Table row shows a faint `--surf-selected-edge` around it besides the selected tone, so a selection reads as held. Selected rows that meet in a lined, grid or striped table share one edge.
 - Contrast:
-  - Progress fills and DatePicker range ends use `--brand-mark`. In light themes they meet 3:1 against the track and the sheet, where `--brand` measured 1.6.
-  - In dark themes, Slider's track is `--slider-track`, 3:1 against the brand fill instead of 1.0.
-  - `--selection-background` is one step from `--selected`, so text selected on a selected row, segment, toggle or calendar day stays visible. The two were equal.
-  - A hovered calendar day uses `--hover`, so it no longer looks selected.
-  - `--status-*-border` meet 3:1 against the sheet, with their hue kept. `--status-neutral-border` is `--control-border`.
+  - Progress fills and DatePicker range ends use `--surf-brand-mark`. In light themes they meet 3:1 against the track and the sheet, where `--surf-brand` measured 1.6.
+  - In dark themes, Slider's track is `--surf-slider-track`, 3:1 against the brand fill instead of 1.0.
+  - `--surf-selection-background` is one step from `--surf-selected`, so text selected on a selected row, segment, toggle or calendar day stays visible. The two were equal.
+  - A hovered calendar day uses `--surf-hover`, so it no longer looks selected.
+  - `--surf-status-*-border` meet 3:1 against the sheet, with their hue kept. `--surf-status-neutral-border` is `--surf-control-border`.
 - DatePicker writes the words a locale puts around a day number from `Intl`, so Japanese and Chinese calendars show 日 as Korean shows 일.
 - Icon's sizes follow the component scale. Without a size it is still 16px.
 - In a ScrollArea of set height, the content box is at least as tall as the viewport, so a child can stretch to its bottom. A ScrollArea sized by its content is unchanged.
@@ -68,9 +96,10 @@ These keep working, and are removed in a later minor:
 - Tree `emptyLabel`: use `labels.empty`.
 - CodeBlock `copyLabel`, `copiedLabel` and `copyErrorLabel`: use `labels`.
 - Tooltip `enabled`: use `disabled`.
+- Button and LinkButton `variant='default'`: write `primary`. It looks the same.
 - Tokens:
-  - `--icon-size-sm` and `--icon-size-md`: use `--size-icon-default` and `--size-icon-large`. `--icon-size-lg` has no replacement.
-  - `--avatar-size-*`: use `--size-avatar-*`.
+  - `--surf-icon-size-sm` and `--surf-icon-size-md`: use `--surf-size-icon-default` and `--surf-size-icon-large`. `--surf-icon-size-lg` has no replacement.
+  - `--surf-avatar-size-*`: use `--surf-size-avatar-*`.
 
 ### Removed
 
@@ -78,18 +107,31 @@ These keep working, and are removed in a later minor:
 
 ### Fixed
 
-- Checkboxes, DatePicker's field segments and a Link's focus corners kept fixed corners under a radius preset or `createTheme`'s `radius`. They now follow `--radius-sm`. A checkbox's corner stops at 3/8 of its side, so a rounder theme never makes it look like a radio.
+- Checkboxes, DatePicker's field segments and a Link's focus corners kept fixed corners under a radius preset or `createTheme`'s `radius`. They now follow `--surf-radius-sm`. A checkbox's corner stops at 3/8 of its side, so a rounder theme never makes it look like a radio.
 - `preloadSyntaxHighlighting` tested line breaks with a pattern that could match `\r\n` two ways, which backtracks exponentially on a long input that fails. It now uses one that cannot.
-- Accent presets (`themes/accent-*.css`) turned light accent text and focus rings into the light accent, under 3:1 on white. Their dark block also matched a light `:root`. Light now keeps `--brand-ink` on the ink. `themeCss` also reverts, in light, any token a theme sets only for dark.
+- Accent presets (`themes/accent-*.css`) turned light accent text and focus rings into the light accent, under 3:1 on white. Their dark block also matched a light `:root`. Light now keeps `--surf-brand-ink` on the ink. `themeCss` also reverts, in light, any token a theme sets only for dark.
 - Textarea is a block box, so no baseline gap opens under it.
 - On narrow screens and touch, text fields keep their text at 16px or more, so iOS no longer zooms into a field when you tap it.
 - The workspace AppShell needed rules that lived only in the catalog. The package now gives them:
   - The shell takes its container's height, so the sidebar stays put while the content scrolls.
   - A ScrollArea in the sidebar or the content fills its room.
   - SidebarToggle sits on the sidebar's edge, and centers in the rail when collapsed.
+  - The install guide gives `html`, `body` and the app's root element the window's height, which the shell takes.
+- A collapsed sidebar also hid every `AppShell.Label` outside it, such as a name in the phone header. Only the sidebar's labels collapse now.
+- Chart's last category label could lose its last pixels at the right edge.
+  - Recharts measured it in the fallback font when the chart rendered before the web font had loaded. Chart now draws the labels once their font has loaded.
+  - The chart surface also shows the pixel an SVG label can round past that measure.
+- Syntax highlighting could color only the start of a block on a slow device and keep that result. Shiki stopped at 500ms per line while its patterns were still compiling. Each line now gets 5 seconds.
 
 ### Migration
 
+- **Namespace:**
+  - Replace `pui-` with `surf-` in class names and selectors.
+  - Prefix each Surflane custom property you read or set with `surf-`: `var(--ink)` becomes `var(--surf-ink)`.
+  - Leave Base UI's variables and Tailwind utilities as they are.
+- **Packages:** install `@surflane/css` and `@base-ui/react` next to `@surflane/ui` and `@surflane/design-tokens`.
+- **Imports:** where you imported `controls.css`, `foundations.css`, `presentation.css` or `typography.css` from `@surflane/design-tokens`, import them from `@surflane/css`.
+- **Themes:** a scope with a `data-theme` value other than `dark` or `light` now inherits. Write `dark` where you relied on the old fallback.
 - In JSX, `size='sm'` becomes `size='small'`, `md` becomes `default` and `lg` becomes `large`, except on Icon:
   - Icon `sm` becomes `default`.
   - Icon `md` becomes `large`.

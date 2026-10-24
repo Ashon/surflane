@@ -8,24 +8,24 @@
 
 @layer surflane.components {
   /* Command state uses the whole rounded surface, with no one-sided accent. */
-  .pui-toggle {
+  .surf-toggle {
     background: transparent;
-    border-color: var(--line);
+    border-color: var(--surf-line);
   }
-  .pui-toggle[data-pressed] {
-    background: var(--selected);
-    border-color: var(--control-border);
-    color: var(--ink);
+  .surf-toggle[data-pressed] {
+    background: var(--surf-selected);
+    border-color: var(--surf-control-border);
+    color: var(--surf-ink);
   }
-  .pui-toggle[data-disabled] {
-    opacity: var(--control-disabled-opacity);
+  .surf-toggle[data-disabled] {
+    opacity: var(--surf-control-disabled-opacity);
     cursor: not-allowed;
   }
 }
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *):is(.pui-toggle) {
-    min-block-size: var(--ui-row);
-    font-size: var(--ui-font);
-    line-height: var(--ui-leading);
+  :where([data-ui-size], [data-ui-size] *):is(.surf-toggle) {
+    min-block-size: var(--surf-ui-row);
+    font-size: var(--surf-ui-font);
+    line-height: var(--surf-ui-leading);
   }
 }

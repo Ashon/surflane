@@ -13,7 +13,7 @@ test('dialog fades upward on entry and dismisses without an exit animation', asy
   })
   for (const interrupt of [true, false]) {
     await trigger.click()
-    const popup = page.locator('.pui-dialog-popup')
+    const popup = page.locator('.surf-dialog-popup')
     await expect(popup).toBeVisible()
     await expect
       .poll(() => popup.evaluate((el) => el.getAnimations().length))
@@ -43,8 +43,9 @@ test('dialog fades upward on entry and dismisses without an exit animation', asy
       .evaluate((el) => el.click())
     const remaining = await page.evaluate(async () => {
       for (let i = 0; i < 3; i++) await new Promise(requestAnimationFrame)
-      return document.querySelectorAll('.pui-dialog-popup,.pui-dialog-backdrop')
-        .length
+      return document.querySelectorAll(
+        '.surf-dialog-popup,.surf-dialog-backdrop',
+      ).length
     })
     expect(remaining).toBe(0)
     await expect(trigger).toBeFocused()
@@ -56,7 +57,7 @@ test('reduced motion removes the dialog entry transition', async ({ page }) => {
   await page.goto('/patterns/interaction-lab')
   await waitForCatalogReady(page)
   await page.getByRole('button', { name: 'Open dialog', exact: true }).click()
-  const popup = page.locator('.pui-dialog-popup')
+  const popup = page.locator('.surf-dialog-popup')
   await expect(popup).toBeVisible()
   expect(
     await popup.evaluate((el) => getComputedStyle(el).transitionDuration),

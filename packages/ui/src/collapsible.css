@@ -7,10 +7,10 @@
 @import './disclosure.css';
 
 @layer surflane.components {
-  .pui-collapsible-panel {
+  .surf-collapsible-panel {
     height: var(--collapsible-panel-height);
   }
-  .pui-collapsible-panel[data-ending-style] {
+  .surf-collapsible-panel[data-ending-style] {
     transition-duration: 0ms;
   }
 }

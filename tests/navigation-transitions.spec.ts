@@ -15,8 +15,8 @@ test('accordion replacement collapses and fades the old panel while clipping and
       name: 'Environment access',
       exact: true,
     })
-  const old = page.locator('.pui-accordion-panel').nth(0),
-    next = page.locator('.pui-accordion-panel').nth(1)
+  const old = page.locator('.surf-accordion-panel').nth(0),
+    next = page.locator('.surf-accordion-panel').nth(1)
   await page
     .getByRole('textbox', { name: 'Case note', exact: true })
     .fill('Retained through replacement')
@@ -77,14 +77,14 @@ test('rapid accordion reversal and reduced motion preserve the final panel state
   await identity.click()
   await expect(identity).toHaveAttribute('aria-expanded', 'true')
   await expect(regions).toHaveAttribute('aria-expanded', 'false')
-  await expect(page.locator('.pui-accordion-panel').nth(1)).toBeHidden()
-  await expect(page.locator('.pui-accordion-panel').nth(0)).toBeVisible()
+  await expect(page.locator('.surf-accordion-panel').nth(1)).toBeHidden()
+  await expect(page.locator('.surf-accordion-panel').nth(0)).toBeVisible()
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await regions.focus()
   await page.keyboard.press('Enter')
   await expect(regions).toBeFocused()
-  await expect(page.locator('.pui-accordion-panel').nth(0)).toBeHidden()
-  await expect(page.locator('.pui-accordion-panel').nth(1)).toHaveCSS(
+  await expect(page.locator('.surf-accordion-panel').nth(0)).toBeHidden()
+  await expect(page.locator('.surf-accordion-panel').nth(1)).toHaveCSS(
     'transition-duration',
     '0s',
   )
@@ -98,7 +98,7 @@ test('tabs select with a borderless surface and keep keyboard focus and forced-c
   await waitForCatalogReady(page)
   const overview = page.getByRole('tab', { name: 'Overview', exact: true }),
     evidence = page.getByRole('tab', { name: 'Logs', exact: true }),
-    indicator = page.locator('.pui-tabs-indicator')
+    indicator = page.locator('.surf-tabs-indicator')
   await expect(overview).toHaveCSS('border-top-width', '0px')
   await expect(indicator).toHaveCSS('border-top-width', '0px')
   await overview.focus()

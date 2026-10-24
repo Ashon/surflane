@@ -8,7 +8,7 @@ test('document scrollbar reveals on scrolling and edge proximity, supports drag,
   await page.goto('/components/scroll-area')
   await waitForCatalogReady(page)
   const root = page.locator('.catalog-document-root'),
-    bar = root.locator(':scope > .pui-scrollbar[data-orientation="vertical"]'),
+    bar = root.locator(':scope > .surf-scrollbar[data-orientation="vertical"]'),
     viewport = page.locator('.catalog-document-scroll')
   await page.mouse.move(600, 100)
   await expect(bar).toHaveCSS('opacity', '0')
@@ -24,7 +24,7 @@ test('document scrollbar reveals on scrolling and edge proximity, supports drag,
     el.scrollTop = 0
   })
   await page.mouse.move(1435, 50)
-  const thumb = bar.locator('.pui-scroll-thumb'),
+  const thumb = bar.locator('.surf-scroll-thumb'),
     box = (await thumb.boundingBox())!
   expect(box.width).toBeGreaterThanOrEqual(6)
   expect(box.height).toBeGreaterThan(20)
@@ -66,9 +66,9 @@ for (const theme of ['light', 'dark'])
     const before = (await viewport.boundingBox())!
     for (const orientation of ['vertical', 'horizontal'] as const) {
       const bar = root.locator(
-        `:scope > .pui-scrollbar[data-orientation="${orientation}"]`,
+        `:scope > .surf-scrollbar[data-orientation="${orientation}"]`,
       )
-      const thumb = bar.locator('.pui-scroll-thumb')
+      const thumb = bar.locator('.surf-scroll-thumb')
       const dimensions = (await thumb.boundingBox())!
       expect(dimensions.width).toBeGreaterThanOrEqual(6)
       expect(dimensions.height).toBeGreaterThanOrEqual(6)
@@ -92,7 +92,7 @@ for (const theme of ['light', 'dark'])
           ({ x, y }) =>
             document
               .elementFromPoint(x, y)
-              ?.classList.contains('pui-scroll-thumb'),
+              ?.classList.contains('surf-scroll-thumb'),
           { x, y },
         ),
       ).toBe(true)
@@ -127,7 +127,7 @@ for (const theme of ['light', 'dark'])
       .poll(() => viewport.evaluate((el) => el.scrollTop))
       .toBeGreaterThan(position)
     await expect(
-      root.locator(':scope > .pui-scrollbar[data-orientation="vertical"]'),
+      root.locator(':scope > .surf-scrollbar[data-orientation="vertical"]'),
     ).toHaveCSS('opacity', '1')
     const after = (await viewport.boundingBox())!
     expect(after.width).toBe(before.width)
@@ -141,12 +141,12 @@ test.describe('touch scrollbar', () => {
     await page.goto('/components/scroll-area')
     await waitForCatalogReady(page)
     const bar = page.locator(
-      '.catalog-document-root > .pui-scrollbar[data-orientation="vertical"]',
+      '.catalog-document-root > .surf-scrollbar[data-orientation="vertical"]',
     )
     await page
       .locator('.catalog-document-scroll')
       .evaluate((el) => el.scrollBy(0, 400))
-    const box = (await bar.locator('.pui-scroll-thumb').boundingBox())!
+    const box = (await bar.locator('.surf-scroll-thumb').boundingBox())!
     expect(box.width).toBe(3)
     expect(box.height).toBeGreaterThan(20)
   })

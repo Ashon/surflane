@@ -13,14 +13,14 @@ export const doc: ComponentDoc = {
   keyboard:
     'Typing moves to the next slot. Arrow keys, Home, and End move between slots. Backspace and Delete edit. Pasting the whole code and IME composition work. Set direction with both DirectionProvider and the DOM dir. disabled excludes the field from editing and submission. readOnly keeps it readable and submitted.',
   tokens: [
-    '--control-background',
-    '--control-border',
-    '--control-focus',
-    '--control-radius',
-    '--control-placeholder',
-    '--status-danger-fg',
-    '--font-code',
-    '--space-2',
+    '--surf-control-background',
+    '--surf-control-border',
+    '--surf-control-focus',
+    '--surf-control-radius',
+    '--surf-control-placeholder',
+    '--surf-status-danger-fg',
+    '--surf-font-code',
+    '--surf-space-2',
   ],
   code: `import { OTPField, Field } from '@surflane/ui'
 

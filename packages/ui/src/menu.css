@@ -10,95 +10,98 @@
 @import './button.css';
 
 @layer surflane.components {
-  .pui-menu {
-    padding: var(--space-1);
+  .surf-menu {
+    padding: var(--surf-space-1);
     min-width: 176px;
   }
-  .pui-menu-trigger[data-popup-open] {
-    background: var(--selected);
-    border-color: var(--control-border);
+  .surf-menu-trigger[data-popup-open] {
+    background: var(--surf-selected);
+    border-color: var(--surf-control-border);
   }
-  .pui-menu-item {
+  .surf-menu-item {
     position: relative;
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    gap: var(--space-2);
-    min-height: var(--control-height);
-    padding: max(var(--space-1), calc((var(--control-height) - 1lh) / 2))
-      var(--space-3);
-    border-radius: var(--control-radius);
-    color: var(--ink);
+    gap: var(--surf-space-2);
+    min-height: var(--surf-control-height);
+    padding: max(
+        var(--surf-space-1),
+        calc((var(--surf-control-height) - 1lh) / 2)
+      )
+      var(--surf-space-3);
+    border-radius: var(--surf-control-radius);
+    color: var(--surf-ink);
     outline: none;
     cursor: default;
     text-decoration: none;
     overflow-wrap: anywhere;
   }
-  .pui-menu-item[data-highlighted] {
-    background: var(--menu-hover-background);
+  .surf-menu-item[data-highlighted] {
+    background: var(--surf-menu-hover-background);
   }
-  .pui-menu-item[data-disabled] {
-    opacity: var(--control-disabled-opacity);
+  .surf-menu-item[data-disabled] {
+    opacity: var(--surf-control-disabled-opacity);
   }
-  .pui-menu-check-item {
+  .surf-menu-check-item {
     padding-inline-start: calc(
-      var(--space-3) + var(--size-icon-default) + var(--space-2)
+      var(--surf-space-3) + var(--surf-size-icon-default) + var(--surf-space-2)
     );
   }
-  .pui-menu-indicator {
+  .surf-menu-indicator {
     position: absolute;
-    inset-inline-start: var(--space-3);
+    inset-inline-start: var(--surf-space-3);
     display: inline-flex;
-    width: var(--size-icon-default);
+    width: var(--surf-size-icon-default);
   }
-  .pui-menu-check-item[aria-checked='false'] > .pui-menu-indicator {
+  .surf-menu-check-item[aria-checked='false'] > .surf-menu-indicator {
     visibility: hidden;
   }
-  .pui-menu-separator {
+  .surf-menu-separator {
     height: 1px;
-    background: var(--line);
-    margin-block: var(--space-1);
+    background: var(--surf-line);
+    margin-block: var(--surf-space-1);
   }
-  .pui-menu-submenu-trigger {
+  .surf-menu-submenu-trigger {
     justify-content: space-between;
   }
-  .pui-submenu-arrow {
+  .surf-submenu-arrow {
     flex: none;
-    margin-inline-start: var(--space-3);
+    margin-inline-start: var(--surf-space-3);
   }
   @media (max-width: 760px), (pointer: coarse) {
-    .pui-menu-item {
-      min-height: var(--control-target-size);
+    .surf-menu-item {
+      min-height: var(--surf-control-target-size);
     }
   }
   @media (forced-colors: active) {
-    .pui-menu-item[data-highlighted] {
+    .surf-menu-item[data-highlighted] {
       outline: 1px solid CanvasText;
       outline-offset: -1px;
     }
   }
-  .pui-menu {
+  .surf-menu {
     max-height: min(360px, var(--available-height));
     overflow: auto;
     scrollbar-width: thin;
-    scrollbar-color: var(--scrollbar-thumb) transparent;
+    scrollbar-color: var(--surf-scrollbar-thumb) transparent;
   }
-  .pui-menu-trigger[data-disabled] {
-    opacity: var(--control-disabled-opacity);
+  .surf-menu-trigger[data-disabled] {
+    opacity: var(--surf-control-disabled-opacity);
     cursor: not-allowed;
   }
 }
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *):is(.pui-menu-item) {
-    min-block-size: var(--ui-row);
-    font-size: var(--ui-font);
-    line-height: var(--ui-leading);
+  :where([data-ui-size], [data-ui-size] *):is(.surf-menu-item) {
+    min-block-size: var(--surf-ui-row);
+    font-size: var(--surf-ui-font);
+    line-height: var(--surf-ui-leading);
   }
-  :where([data-ui-size], [data-ui-size] *):is(.pui-menu-item) {
+  :where([data-ui-size], [data-ui-size] *):is(.surf-menu-item) {
     box-sizing: border-box;
     padding-block: max(
-      var(--space-1),
-      calc((var(--ui-row) - var(--ui-leading)) / 2)
+      var(--surf-space-1),
+      calc((var(--surf-ui-row) - var(--surf-ui-leading)) / 2)
     );
   }
 }

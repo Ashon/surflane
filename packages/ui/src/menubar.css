@@ -6,16 +6,16 @@
 @import './bar.css';
 
 @layer surflane.components {
-  .pui-menubar {
-    padding: var(--space-1);
-    border-radius: var(--radius-md);
-    background: var(--surface);
+  .surf-menubar {
+    padding: var(--surf-space-1);
+    border-radius: var(--surf-radius-md);
+    background: var(--surf-surface);
     width: fit-content;
     max-width: 100%;
   }
   /* Concentric corners: outer radius minus the bar's inset. */
-  .pui-menubar > .pui-menu-trigger {
+  .surf-menubar > .surf-menu-trigger {
     border: 0;
-    border-radius: max(0px, calc(var(--radius-md) - var(--space-1)));
+    border-radius: max(0px, calc(var(--surf-radius-md) - var(--surf-space-1)));
   }
 }

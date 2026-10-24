@@ -14,40 +14,52 @@ const ToneContext = /* @__PURE__ */ React.createContext<StatusTone>('neutral')
 export type ToastRootProps = React.ComponentPropsWithoutRef<
   typeof BaseToast.Root
 > & { tone?: StatusTone }
-const Root = /* @__PURE__ */ React.forwardRef<HTMLDivElement, ToastRootProps>(
-  function Root({ tone = 'neutral', className, ...props }, ref) {
-    return (
-      <ToneContext.Provider value={tone}>
-        <BaseToast.Root
-          {...props}
-          ref={ref}
-          data-tone={tone}
-          className={skin('pui-toast', className)}
-        />
-      </ToneContext.Provider>
-    )
-  },
-)
-const ToneIcon = /* @__PURE__ */ React.forwardRef<
-  HTMLSpanElement,
-  React.ComponentPropsWithoutRef<'span'> & { tone?: StatusTone }
->(function ToastIcon({ tone, children, className, ...props }, ref) {
+const Root = function Root({
+  tone = 'neutral',
+  className,
+  ref,
+  ...props
+}: ToastRootProps & { ref?: React.Ref<HTMLDivElement> }) {
+  return (
+    <ToneContext.Provider value={tone}>
+      <BaseToast.Root
+        {...props}
+        ref={ref}
+        data-tone={tone}
+        className={skin('surf-toast', className)}
+      />
+    </ToneContext.Provider>
+  )
+}
+const ToneIcon = function ToastIcon({
+  tone,
+  children,
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<'span'> & { tone?: StatusTone } & {
+  ref?: React.Ref<HTMLSpanElement>
+}) {
   const inherited = React.useContext(ToneContext)
   return (
     <span
       {...props}
       ref={ref}
       aria-hidden='true'
-      className={cx('pui-toast-icon', className)}
+      className={cx('surf-toast-icon', className)}
     >
       {children ?? <StatusIcon tone={tone ?? inherited} />}
     </span>
   )
-})
-const Close = /* @__PURE__ */ React.forwardRef<
-  HTMLButtonElement,
-  React.ComponentPropsWithoutRef<typeof BaseToast.Close>
->(function Close({ className, children, ...props }, ref) {
+}
+const Close = function Close({
+  className,
+  children,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseToast.Close> & {
+  ref?: React.Ref<HTMLButtonElement>
+}) {
   return (
     <BaseToast.Close
       aria-label='Dismiss notification'
@@ -57,16 +69,19 @@ const Close = /* @__PURE__ */ React.forwardRef<
       data-ui-size='small'
       {...props}
       ref={ref}
-      className={skin('pui-button pui-toast-close', className)}
+      className={skin('surf-button surf-toast-close', className)}
     >
       {children ?? <Icon name='close' />}
     </BaseToast.Close>
   )
-})
-const Action = /* @__PURE__ */ React.forwardRef<
-  HTMLButtonElement,
-  React.ComponentPropsWithoutRef<typeof BaseToast.Action>
->(function Action({ className, ...props }, ref) {
+}
+const Action = function Action({
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseToast.Action> & {
+  ref?: React.Ref<HTMLButtonElement>
+}) {
   return (
     <BaseToast.Action
       data-variant='outline'
@@ -74,17 +89,19 @@ const Action = /* @__PURE__ */ React.forwardRef<
       data-ui-size='small'
       {...props}
       ref={ref}
-      className={skin('pui-button pui-toast-action', className)}
+      className={skin('surf-button surf-toast-action', className)}
     />
   )
-})
+}
 export type ToastViewportProps = React.ComponentPropsWithoutRef<
   typeof BaseToast.Viewport
 > & { layout?: 'stack' | 'list' | 'anchored' }
-const Viewport = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  ToastViewportProps
->(function Viewport({ layout = 'stack', className, ...props }, ref) {
+const Viewport = function Viewport({
+  layout = 'stack',
+  className,
+  ref,
+  ...props
+}: ToastViewportProps & { ref?: React.Ref<HTMLDivElement> }) {
   const viewportRef = React.useRef<HTMLDivElement | null>(null)
   React.useLayoutEffect(() => {
     const viewport = viewportRef.current
@@ -93,7 +110,7 @@ const Viewport = /* @__PURE__ */ React.forwardRef<
     function update() {
       const cards = Array.from(
         viewport!.querySelectorAll<HTMLElement>(
-          '.pui-toast:not([data-limited])',
+          '.surf-toast:not([data-limited])',
         ),
       )
       const gap = parseFloat(getComputedStyle(viewport!).rowGap) || 0
@@ -112,15 +129,17 @@ const Viewport = /* @__PURE__ */ React.forwardRef<
       const overflowing = height + 48 > window.innerHeight
       viewport!.toggleAttribute('data-stack-overflow', overflowing)
       const value = `${height}px`
-      if (viewport!.style.getPropertyValue('--toast-stack-height') !== value)
-        viewport!.style.setProperty('--toast-stack-height', value)
+      if (
+        viewport!.style.getPropertyValue('--surf-toast-stack-height') !== value
+      )
+        viewport!.style.setProperty('--surf-toast-stack-height', value)
       if (overflowing && (!wasOverflow || pinned))
         viewport!.scrollTop = viewport!.scrollHeight
     }
     function refresh() {
       resize.disconnect()
       viewport!
-        .querySelectorAll<HTMLElement>('.pui-toast:not([data-limited])')
+        .querySelectorAll<HTMLElement>('.surf-toast:not([data-limited])')
         .forEach((card) => resize.observe(card))
       update()
     }
@@ -161,10 +180,10 @@ const Viewport = /* @__PURE__ */ React.forwardRef<
       }}
       data-layout={layout}
       data-ui-size={scheme}
-      className={skin('pui-toast-viewport', className)}
+      className={skin('surf-toast-viewport', className)}
     />
   )
-})
+}
 export const Toast = {
   ...BaseToast,
   Root,
@@ -175,23 +194,23 @@ export const Toast = {
   Content: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseToast.Content>
-  >(BaseToast.Content, 'pui-toast-content'),
+  >(BaseToast.Content, 'surf-toast-content'),
   Title: /* @__PURE__ */ part<
     React.ComponentRef<typeof BaseToast.Title>,
     React.ComponentPropsWithoutRef<typeof BaseToast.Title>
-  >(BaseToast.Title, 'pui-toast-title'),
+  >(BaseToast.Title, 'surf-toast-title'),
   Description: /* @__PURE__ */ part<
     React.ComponentRef<typeof BaseToast.Description>,
     React.ComponentPropsWithoutRef<typeof BaseToast.Description>
-  >(BaseToast.Description, 'pui-toast-description'),
+  >(BaseToast.Description, 'surf-toast-description'),
   Text: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<'div'>
-  >('div', 'pui-toast-text'),
+  >('div', 'surf-toast-text'),
   Positioner: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseToast.Positioner>
-  >(BaseToast.Positioner, 'pui-positioner', { portal: true }),
+  >(BaseToast.Positioner, 'surf-positioner', { portal: true }),
 }
 
 // Flat names for React Server Components, which cannot dot into client exports.

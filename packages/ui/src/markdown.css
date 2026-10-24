@@ -8,61 +8,61 @@
 @import './typography.css';
 
 @layer surflane.components {
-  .pui-markdown {
+  .surf-markdown {
     min-inline-size: 0;
     overflow-wrap: anywhere;
   }
-  .pui-markdown > :first-child {
+  .surf-markdown > :first-child {
     margin-block-start: 0;
   }
-  .pui-markdown > :last-child {
+  .surf-markdown > :last-child {
     margin-block-end: 0;
   }
-  .pui-markdown .pui-code-block {
+  .surf-markdown .surf-code-block {
     max-inline-size: 100%;
-    margin-block: var(--space-4);
+    margin-block: var(--surf-space-4);
   }
-  .pui-markdown img {
+  .surf-markdown img {
     display: block;
     max-inline-size: 100%;
     block-size: auto;
-    border-radius: var(--radius-md);
+    border-radius: var(--surf-radius-md);
   }
-  .pui-markdown blockquote {
+  .surf-markdown blockquote {
     margin-inline: 0;
-    padding-inline-start: var(--space-4);
-    border-inline-start: 2px solid var(--line);
-    color: var(--ink-body);
+    padding-inline-start: var(--surf-space-4);
+    border-inline-start: 2px solid var(--surf-line);
+    color: var(--surf-ink-body);
   }
-  .pui-markdown a {
-    color: var(--ink);
+  .surf-markdown a {
+    color: var(--surf-ink);
     text-decoration: underline;
     text-underline-offset: 3px;
   }
-  .pui-markdown a:focus-visible {
-    outline: var(--focus-ring-width) solid var(--interaction-focus);
-    outline-offset: var(--focus-ring-offset);
+  .surf-markdown a:focus-visible {
+    outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+    outline-offset: var(--surf-focus-ring-offset);
   }
-  .pui-markdown .contains-task-list {
+  .surf-markdown .contains-task-list {
     list-style: none;
     padding-inline-start: 0;
   }
-  .pui-markdown .task-list-item {
+  .surf-markdown .task-list-item {
     display: list-item;
   }
-  .pui-markdown .task-list-item input {
-    margin-inline-end: var(--space-2);
-    accent-color: var(--ink);
+  .surf-markdown .task-list-item input {
+    margin-inline-end: var(--surf-space-2);
+    accent-color: var(--surf-ink);
   }
-  /* Markdown always renders inside pui-prose, whose code rule sets the family, size,
+  /* Markdown always renders inside surf-prose, whose code rule sets the family, size,
    * radius and ligatures. */
-  .pui-markdown-inline-code {
+  .surf-markdown-inline-code {
     padding: 2px 4px;
-    background: var(--code-bg);
-    font-weight: var(--weight-regular);
-    letter-spacing: var(--tracking-mono);
+    background: var(--surf-code-bg);
+    font-weight: var(--surf-weight-regular);
+    letter-spacing: var(--surf-tracking-mono);
   }
-  .pui-markdown .pui-table {
+  .surf-markdown .surf-table {
     min-inline-size: 480px;
   }
 }

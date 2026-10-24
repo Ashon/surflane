@@ -12,7 +12,7 @@ test('syntax tokens preserve source, language changes and safe fallback while th
 }) => {
   await page.goto('/components/syntax-highlighter')
   await waitForCatalogReady(page)
-  const code = page.locator('[data-preview-size] code.pui-syntax')
+  const code = page.locator('[data-preview-size] code.surf-syntax')
   await expect(code).toHaveAttribute('data-highlighted', 'true')
   const source =
     '\t// 한글 and English\nconst value = "<script>window.syntaxExecuted = true</script>";\n\n'
@@ -93,7 +93,7 @@ test('Markdown composes GFM, scoped headings, independent code copy and safe URL
     .click()
   expect(
     await page
-      .locator('.pui-markdown [id]')
+      .locator('.surf-markdown [id]')
       .evaluateAll(
         (elements) =>
           new Set(elements.map((el) => el.id)).size === elements.length,
@@ -101,7 +101,7 @@ test('Markdown composes GFM, scoped headings, independent code copy and safe URL
   ).toBe(true)
   expect(
     await page
-      .locator('.pui-markdown [aria-describedby]')
+      .locator('.surf-markdown [aria-describedby]')
       .evaluateAll((elements) =>
         elements.every((el) =>
           el
@@ -217,8 +217,8 @@ test('Markdown text keeps the reading measure while tables use the full width', 
         }
       }),
       table: root
-        .querySelector('.pui-table')!
-        .closest('.pui-scroll-root')!
+        .querySelector('.surf-table')!
+        .closest('.surf-scroll-root')!
         .getBoundingClientRect().width,
     }))
   expect(layout.text).toHaveLength(2)
@@ -240,7 +240,7 @@ test('every site code block selects a real grammar and keeps the original copyab
     await page.goto(itemHref(item))
     await waitForCatalogReady(page)
     for (const code of await page
-      .locator('code.pui-syntax:not([data-language="text"])')
+      .locator('code.surf-syntax:not([data-language="text"])')
       .all()) {
       await expect(code, item.id).toHaveAttribute('data-highlighted', 'true')
       expect((await code.textContent())?.length, item.id).toBeGreaterThan(0)
@@ -267,7 +267,7 @@ for (const width of [1440, 320])
         await page.goto(`/components/${id}`)
         await waitForCatalogReady(page)
         await expect(
-          page.locator('[data-preview-size] code.pui-syntax').first(),
+          page.locator('[data-preview-size] code.surf-syntax').first(),
         ).toHaveAttribute('data-highlighted', 'true')
         expect(
           await page.evaluate(
@@ -285,7 +285,7 @@ for (const width of [1440, 320])
       await page.emulateMedia({ forcedColors: 'active' })
       expect(
         await page
-          .locator('[data-preview-size] .pui-syntax [data-syntax]')
+          .locator('[data-preview-size] .surf-syntax [data-syntax]')
           .first()
           .evaluate((el) => getComputedStyle(el).color),
       ).toBe(

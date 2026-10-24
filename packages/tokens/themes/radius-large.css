@@ -2,12 +2,13 @@
 @layer surflane.tokens, surflane.themes, surflane.base, surflane.components, surflane.sizes;
 @layer surflane.themes {
   :root,
-  [data-theme] {
-    --radius-sm: 8px;
-    --radius-md: 14px;
-    --radius-lg: 22px;
-    --radius-sheet: 28px;
-    --control-radius: 11px;
-    --radius-pill: 31px;
+  [data-theme='dark'],
+  [data-theme='light'] {
+    --surf-radius-sm: 8px;
+    --surf-radius-md: 14px;
+    --surf-radius-lg: 22px;
+    --surf-radius-sheet: 28px;
+    --surf-control-radius: 11px;
+    --surf-radius-pill: 31px;
   }
 }

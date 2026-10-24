@@ -6,29 +6,29 @@
 @import './icon.css';
 @import './button.css';
 @import './scroll-area.css';
-@import '@surflane/design-tokens/presentation/table.css';
+@import '@surflane/css/presentation/table.css';
 
 @layer surflane.components {
   /* With no text inside, an inline control rests on the baseline, above the middle of a
    * table row. In a cell it becomes a block, so the cell centers it exactly, and it
-   * still follows the cell's alignment. Put a labelled control in a pui-choice-label. */
-  .pui-table-cell > :is(.pui-checkbox, .pui-radio, .pui-switch) {
+   * still follows the cell's alignment. Put a labelled control in a surf-choice-label. */
+  .surf-table-cell > :is(.surf-checkbox, .surf-radio, .surf-switch) {
     display: flex;
   }
-  .pui-table-cell[data-align='center']
-    > :is(.pui-checkbox, .pui-radio, .pui-switch) {
+  .surf-table-cell[data-align='center']
+    > :is(.surf-checkbox, .surf-radio, .surf-switch) {
     margin-inline: auto;
   }
-  .pui-table-cell[data-align='end']
-    > :is(.pui-checkbox, .pui-radio, .pui-switch) {
+  .surf-table-cell[data-align='end']
+    > :is(.surf-checkbox, .surf-radio, .surf-switch) {
     margin-inline-start: auto;
   }
 }
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *).pui-table-cell {
-    padding: var(--ui-table-padding-y) var(--ui-table-padding-x);
+  :where([data-ui-size], [data-ui-size] *).surf-table-cell {
+    padding: var(--surf-ui-table-padding-y) var(--surf-ui-table-padding-x);
   }
-  :where([data-ui-size], [data-ui-size] *).pui-table-caption {
-    padding-inline: var(--ui-table-padding-x);
+  :where([data-ui-size], [data-ui-size] *).surf-table-caption {
+    padding-inline: var(--surf-ui-table-padding-x);
   }
 }

@@ -11,7 +11,12 @@ export const doc: ComponentDoc = {
     'Root(ul role=list) → Item(li) → Content(Title + Description) + Actions',
   keyboard:
     'Only the inner actions enter the Tab order. Root keeps the native list structure. On small screens, Actions move to the next line.',
-  tokens: ['--space-3', '--space-4', '--radius-md', '--interaction-hover-bg'],
+  tokens: [
+    '--surf-space-3',
+    '--surf-space-4',
+    '--surf-radius-md',
+    '--surf-interaction-hover-bg',
+  ],
   code: `import { List, Button } from '@surflane/ui'
 
 <List.Root aria-label='Registered environments'>

@@ -29,7 +29,7 @@ export function SpacingGuide() {
         {([1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20] as const).map((step) => (
           <div key={step}>
             <SpacingScaleMark step={step} />
-            <Link href={`/tokens?q=--space-${step}`}>space-{step}</Link>
+            <Link href={`/tokens?q=--surf-space-${step}`}>space-{step}</Link>
             <span>{step * 4}px</span>
           </div>
         ))}
@@ -94,7 +94,7 @@ export function SpacingGuide() {
         language='tsx'
         label={t.codeLabel}
         code={
-          '<Stack gap={4}>\n  <Stack gap={1}>{/* Title and description; margin: 0 */}</Stack>\n  <label>{/* Label + Input; gap: var(--space-2) */}</label>\n  <Inline gap={2}>{/* Action buttons */}</Inline>\n</Stack>'
+          '<Stack gap={4}>\n  <Stack gap={1}>{/* Title and description; margin: 0 */}</Stack>\n  <label>{/* Label + Input; gap: var(--surf-space-2) */}</label>\n  <Inline gap={2}>{/* Action buttons */}</Inline>\n</Stack>'
         }
       />
       <p>{t.adapting}</p>

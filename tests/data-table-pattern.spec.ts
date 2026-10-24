@@ -220,7 +220,7 @@ test('the preview handle sizes the pattern and sets table density, and row check
   await waitForCatalogReady(page)
   const centered = () =>
     table(page)
-      .locator('.pui-checkbox')
+      .locator('.surf-checkbox')
       .evaluateAll((boxes) =>
         boxes.map((box) => {
           const cell = box.closest('td, th')!
@@ -236,7 +236,7 @@ test('the preview handle sizes the pattern and sets table density, and row check
   await page.getByRole('button', { name: 'Preview size: Small' }).click()
   await page.getByRole('button', { name: 'Table density: Compact' }).click()
   await expect(
-    page.locator('#preview .pui-size-scope').first(),
+    page.locator('#preview .surf-size-scope').first(),
   ).toHaveAttribute('data-ui-size', 'small')
   await expect(table(page)).toHaveAttribute('data-density', 'compact')
   await expect(

@@ -1,6 +1,6 @@
 # Independent source preparation
 
-The distributable source uses Surflane as the project name, @surflane as the npm package scope, and pui-* for CSS classes and data hooks. The catalog focuses on platform development, reusable UI contracts and evolving design principles. Example data is illustrative. No organization logo, private document link, real account, internal host or sibling-product deployment is part of this edition.
+The distributable source uses Surflane as the project name, @surflane as the npm package scope, and surf-* for CSS classes and data hooks. The catalog focuses on platform development, reusable UI contracts and evolving design principles. Example data is illustrative. No organization logo, private document link, real account, internal host or sibling-product deployment is part of this edition.
 
 Run `npm run check:public` before making a source copy. It scans the same allowlisted source set used by `npm run export:source`, including current uncommitted changes and new source files. The automated scan checks retired identifiers, private collaboration links, common private IPv4 ranges, absolute user paths and private-key headers; it cannot establish that all material is safe to publish.
 

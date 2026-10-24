@@ -37,7 +37,7 @@ test('a page reads complete with scripts blocked: content, colored code and the 
   await page.goto('/components/code')
   await expect(page.locator('#page-title')).toHaveText('Code block')
   await expect(
-    page.locator('.sheet .pui-syntax[data-highlighted="true"]').first(),
+    page.locator('.sheet .surf-syntax[data-highlighted="true"]').first(),
   ).toBeVisible()
   const sidebar = page.locator('.catalog-navigation-viewport')
   const current = sidebar.locator('a[aria-current="page"]')
@@ -122,11 +122,11 @@ test('on a slow link the static page never falls back while it hydrates', async 
             lost.push('loading fallback')
           for (const code of [
             node,
-            ...node.querySelectorAll('code.pui-syntax'),
+            ...node.querySelectorAll('code.surf-syntax'),
           ])
             if (
               code.matches(
-                'code.pui-syntax[data-highlighted="false"]:not([data-language="text"])',
+                'code.surf-syntax[data-highlighted="false"]:not([data-language="text"])',
               )
             )
               lost.push(`plain ${(code as HTMLElement).dataset.language} code`)

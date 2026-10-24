@@ -17,626 +17,693 @@
 
   /* ------------------------------------------------------------ Dark */
   :root,
-  [data-theme] {
+  [data-theme='dark'],
+  [data-theme='light'] {
     /* Native scrollbars, form controls and date pickers render in the theme too,
        including inside a scoped data-theme region. */
     color-scheme: dark;
     /* Surfaces: chrome -> sheet -> recessed surface */
-    --chrome: oklch(
+    --surf-chrome: oklch(
       0.2368845 0.00973297 248.23792711
     ); /* Gray 90. Header, sidebar, area outside the sheet */
-    --canvas: oklch(
+    --surf-canvas: oklch(
       0.27850211 0.01320057 253.03643104
     ); /* Gray 80. Content sheet */
-    --surface: oklch(
+    --surf-surface: oklch(
       0.2368845 0.00973297 248.23792711
     ); /* Gray 90. Recessed surface inside the sheet: code, callouts, cards, diagrams */
-    --code-bg: oklch(
+    --surf-code-bg: oklch(
       0.2050126 0.00860311 247.9381172
     ); /* Gray 95. Code well, recessed below both the chrome and the sheet */
-    --hover: oklch(
+    --surf-hover: oklch(
       0.31355761 0.01463569 251.36854651
     ); /* Gray 75. Hovering an item on the chrome or the sheet */
-    --selected: oklch(
+    --surf-selected: oklch(
       0.37866351 0.01730498 248.2836448
     ); /* Gray 70. Current item on chrome; hovering a recessed surface */
-    --line: oklch(
+    --surf-line: oklch(
       0.37866351 0.01730498 248.2836448
     ); /* Gray 70. Subtle dividers and borders */
 
     /* Text */
-    --ink-muted: oklch(
+    --surf-ink-muted: oklch(
       0.81668066 0.0183769 253.3626611
     ); /* Gray 50. Secondary text: table of contents, captions, descriptions, table headers */
-    --ink-body: oklch(
+    --surf-ink-body: oklch(
       0.91321146 0.017061 242.44074644
     ); /* Gray 40. Body text */
     /* Gray 10. Headings, emphasis */
-    --ink: oklch(0.9781762 0.0034179 247.8580546);
+    --surf-ink: oklch(0.9781762 0.0034179 247.8580546);
 
     /* Brand */
-    --brand: oklch(
+    --surf-brand: oklch(
       0.82 0.12 210
     ); /* Accent cyan. Surfaces and markers: primary buttons, product icons, tip markers, current table-of-contents marker */
-    --brand-ink: oklch(
+    --surf-brand-ink: oklch(
       0.82 0.12 210
     ); /* Brand color used as text: links, current-location text, focus rings */
-    --on-brand: oklch(
+    --surf-on-brand: oklch(
       0.2368845 0.00973297 248.23792711
     ); /* Gray 90. Text on a brand background (dark foreground on accent) */
-    --brand-tint: oklch(
+    --surf-brand-tint: oklch(
       0.82 0.12 210 / 0.25098039
     ); /* Accent cyan 25%. Text selection. Tints only the background and leaves the text color unchanged */
 
     /* Base status palette. In UI, use the semantic foreground/background/border tokens below. */
-    --success: oklch(
-      0.82 0.12 210
-    ); /* Accent cyan by default; accent themes leave it */
-    --caution: oklch(0.88362398 0.17366333 93.66977695); /* Yellow 50 */
-    --danger: oklch(0.64886666 0.23697091 26.97276512); /* Red 50 */
-    --info: oklch(
+    --surf-success: oklch(
+      0.74 0.15 155
+    ); /* Green 50, apart from the brand, so a success never reads as the main action */
+    --surf-caution: oklch(0.88362398 0.17366333 93.66977695); /* Yellow 50 */
+    --surf-danger: oklch(0.64886666 0.23697091 26.97276512); /* Red 50 */
+    --surf-info: oklch(
       0.72 0.13 255
     ); /* Blue 50: information that asks for no action */
     /* Direction of change, as finance reads it: up is a gain, down a loss. Markets
      * that read red as a rise swap the two. */
-    --trend-up: oklch(0.74 0.15 155); /* Green 50 */
-    --trend-down: var(--danger);
+    --surf-trend-up: oklch(0.74 0.15 155); /* Green 50 */
+    --surf-trend-down: var(--surf-danger);
 
     /* Blueprint grid - the grid on the landing page and the guide to the left of text. On the sheet (Gray 80), minor
      * cells sink one step darker while major cells and guides rise one step lighter. Guides are drawn stronger than the
      * faint base grid (grid-base-opacity) to lead the eye to the text. The lighter Gray 50 stands out on a dark
      * background. */
-    --grid-minor: oklch(0.2368845 0.00973297 248.23792711); /* Gray 90 */
-    --grid-major: oklch(0.37866351 0.01730498 248.2836448); /* Gray 70 */
-    --guide: oklch(0.37866351 0.01730498 248.2836448); /* Gray 70 */
+    --surf-grid-minor: oklch(0.2368845 0.00973297 248.23792711); /* Gray 90 */
+    --surf-grid-major: oklch(0.37866351 0.01730498 248.2836448); /* Gray 70 */
+    --surf-guide: oklch(0.37866351 0.01730498 248.2836448); /* Gray 70 */
 
-    --shadow-sheet: 0 1px 2px oklch(0 0 0 / 0.25);
-    --shadow-float: 0 12px 32px -8px oklch(0 0 0 / 0.5);
+    --surf-shadow-sheet: 0 1px 2px oklch(0 0 0 / 0.25);
+    --surf-shadow-float: 0 12px 32px -8px oklch(0 0 0 / 0.5);
   }
 
   /* ---------------------------------------------------------- Light */
   :root[data-theme='light'],
   [data-theme='light'] {
     color-scheme: light;
-    --chrome: oklch(0.9781762 0.0034179 247.8580546); /* Gray 10 */
-    --canvas: oklch(1 0 0); /* White */
-    --surface: oklch(0.9781762 0.0034179 247.8580546); /* Gray 10 */
-    --code-bg: oklch(0.95972296 0.00515149 247.87778139); /* Gray 20 */
-    --hover: oklch(0.95972296 0.00515149 247.87778139); /* Gray 20 */
-    --selected: oklch(0.93531009 0.01353396 240.96010253); /* Gray 30 */
-    --line: oklch(0.93531009 0.01353396 240.96010253); /* Gray 30 */
+    --surf-chrome: oklch(0.9781762 0.0034179 247.8580546); /* Gray 10 */
+    --surf-canvas: oklch(1 0 0); /* White */
+    --surf-surface: oklch(0.9781762 0.0034179 247.8580546); /* Gray 10 */
+    --surf-code-bg: oklch(0.95972296 0.00515149 247.87778139); /* Gray 20 */
+    --surf-hover: oklch(0.95972296 0.00515149 247.87778139); /* Gray 20 */
+    --surf-selected: oklch(0.93531009 0.01353396 240.96010253); /* Gray 30 */
+    --surf-line: oklch(0.93531009 0.01353396 240.96010253); /* Gray 30 */
 
-    --ink-muted: oklch(0.37866351 0.01730498 248.2836448); /* Gray 70 */
-    --ink-body: oklch(0.27850211 0.01320057 253.03643104); /* Gray 80 */
-    --ink: oklch(0.2368845 0.00973297 248.23792711); /* Gray 90 */
+    --surf-ink-muted: oklch(0.37866351 0.01730498 248.2836448); /* Gray 70 */
+    --surf-ink-body: oklch(0.27850211 0.01320057 253.03643104); /* Gray 80 */
+    --surf-ink: oklch(0.2368845 0.00973297 248.23792711); /* Gray 90 */
 
-    --brand: oklch(0.82 0.12 210);
-    --brand-ink: oklch(
+    --surf-brand: oklch(0.82 0.12 210);
+    --surf-brand-ink: oklch(
       0.2368845 0.00973297 248.23792711
     ); /* On light backgrounds, accent text uses ink instead. Links are distinguished by underlines */
-    --on-brand: oklch(0.2368845 0.00973297 248.23792711);
-    --brand-tint: oklch(
+    --surf-on-brand: oklch(0.2368845 0.00973297 248.23792711);
+    --surf-brand-tint: oklch(
       0.82 0.12 210 / 0.30196078
     ); /* Accent cyan 30%. Needs to be slightly stronger on white to look equally visible */
 
-    --success: oklch(
-      0.82 0.12 210
-    ); /* Accent cyan by default; accent themes leave it */
+    --surf-success: oklch(
+      0.74 0.15 155
+    ); /* Green 50, apart from the brand, so a success never reads as the main action */
 
-    --caution: oklch(0.88362398 0.17366333 93.66977695);
-    --danger: oklch(0.64886666 0.23697091 26.97276512);
-    --info: oklch(0.72 0.13 255);
-    --trend-up: oklch(0.74 0.15 155);
-    --trend-down: var(--danger);
+    --surf-caution: oklch(0.88362398 0.17366333 93.66977695);
+    --surf-danger: oklch(0.64886666 0.23697091 26.97276512);
+    --surf-info: oklch(0.72 0.13 255);
+    --surf-trend-up: oklch(0.74 0.15 155);
+    --surf-trend-down: var(--surf-danger);
 
-    --grid-minor: oklch(0.95972296 0.00515149 247.87778139); /* Gray 20 */
-    --grid-major: oklch(0.93531009 0.01353396 240.96010253); /* Gray 30 */
-    --guide: oklch(0.91321146 0.017061 242.44074644); /* Gray 40 */
+    --surf-grid-minor: oklch(0.95972296 0.00515149 247.87778139); /* Gray 20 */
+    --surf-grid-major: oklch(0.93531009 0.01353396 240.96010253); /* Gray 30 */
+    --surf-guide: oklch(0.91321146 0.017061 242.44074644); /* Gray 40 */
 
-    --shadow-sheet:
+    --surf-shadow-sheet:
       0 1px 2px oklch(0.2368845 0.00973297 248.23792711 / 0.05),
       0 10px 28px -14px oklch(0.2368845 0.00973297 248.23792711 / 0.14);
-    --shadow-float: 0 12px 32px -8px
+    --surf-shadow-float: 0 12px 32px -8px
       oklch(0.2368845 0.00973297 248.23792711 / 0.18);
   }
 
   /* ---------------------------------------- Typeface, shape, spacing */
   :root,
-  [data-theme] {
+  [data-theme='dark'],
+  [data-theme='light'] {
     /* The brand typefaces (Manrope, JetBrains Mono) have no Hangul, so Hangul glyphs fall back to Pretendard. */
-    --font-hangul:
+    --surf-font-hangul:
       'Pretendard Variable', Pretendard, 'Apple SD Gothic Neo', 'Noto Sans KR',
       'Malgun Gothic';
-    --font-japanese: 'Noto Sans JP Variable', 'Noto Sans JP', sans-serif;
-    --font-display:
-      'Manrope Variable', var(--font-hangul), -apple-system, system-ui,
+    --surf-font-japanese: 'Noto Sans JP Variable', 'Noto Sans JP', sans-serif;
+    --surf-font-display:
+      'Manrope Variable', var(--surf-font-hangul), -apple-system, system-ui,
       sans-serif;
-    --font-body:
-      'Manrope Variable', var(--font-hangul), -apple-system, BlinkMacSystemFont,
-      system-ui, sans-serif;
-    --font-code:
+    --surf-font-body:
+      'Manrope Variable', var(--surf-font-hangul), -apple-system,
+      BlinkMacSystemFont, system-ui, sans-serif;
+    --surf-font-code:
       'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, Consolas,
-      var(--font-hangul), monospace;
+      var(--surf-font-hangul), monospace;
 
     /* Brand type rules: two weights, 400 and 500 (500 maximum); tracking is the default 0, Mono 0. */
-    --weight-regular: 400;
-    --weight-medium: 500;
-    --tracking: 0;
-    --tracking-mono: 0;
+    --surf-weight-regular: 400;
+    --surf-weight-medium: 500;
+    --surf-tracking: 0;
+    --surf-tracking-mono: 0;
 
     /* Shape: the sheet is the most rounded, and radii get smaller as elements nest inward. */
-    --radius-sm: 6px; /* Inline code, keyboard keys */
-    --radius-md: 10px; /* Sidebar items, search, code blocks, callouts, diagrams */
-    --radius-lg: 16px; /* Cards, previous / next, landing page images */
-    --radius-sheet: 20px; /* Content sheet */
-    --radius-full: 999px; /* Circles and bars: avatars, radios, slider knobs */
+    --surf-radius-sm: 6px; /* Inline code, keyboard keys */
+    --surf-radius-md: 10px; /* Sidebar items, search, code blocks, callouts, diagrams */
+    --surf-radius-lg: 16px; /* Cards, previous / next, landing page images */
+    --surf-radius-sheet: 20px; /* Content sheet */
+    --surf-radius-full: 999px; /* Circles and bars: avatars, radios, slider knobs */
     /* Buttons, badges, chips, switches and segments: half the tallest control, so
        every one of them is a pill. Like the other radii it scales with a theme, so
        a smaller scale rounds the larger parts' corners first. */
-    --radius-pill: 22px;
+    --surf-radius-pill: 22px;
 
     /* 4px unit */
-    --space-1: 4px;
-    --space-2: 8px;
-    --space-3: 12px;
-    --space-4: 16px;
-    --space-6: 24px;
-    --space-8: 32px;
-    --space-12: 48px;
-    --collection-inset: var(--space-4);
+    --surf-space-1: 4px;
+    --surf-space-2: 8px;
+    --surf-space-3: 12px;
+    --surf-space-4: 16px;
+    --surf-space-6: 24px;
+    --surf-space-8: 32px;
+    --surf-space-12: 48px;
+    --surf-collection-inset: var(--surf-space-4);
 
-    --sheet-inset: var(--space-3); /* Between the sheet and the window edge */
+    --surf-sheet-inset: var(
+      --surf-space-3
+    ); /* Between the sheet and the window edge */
 
     /* Layout widths. The 52rem documentation body fits about 50 Hangul characters per line; to make room for that width,
      * the sidebars (left menu, right table of contents) are 17rem. At a 1440 window width the body is 809px, and the
      * number of horizontally scrolling code blocks drops to about half of what it was at 720px. The landing page has no
      * sidebars and is 75rem so two product screenshots fit side by side. */
-    --layout-content: 52rem;
-    --layout-sidebar: 17rem;
-    --layout-splash: 75rem;
+    --surf-layout-content: 52rem;
+    --surf-layout-sidebar: 17rem;
+    --surf-layout-splash: 75rem;
 
     /* Blueprint grid: minor cells are 24px and a major cell spans 4 minor cells. The base grid is 35% of the halo grid's
      * strength, and the halo spreads two cells beyond an element as it fades. */
-    --grid-cell: 24px;
-    --grid-major-cell: 96px;
-    --grid-base-opacity: 0.35;
-    --grid-halo: 48px;
+    --surf-grid-cell: 24px;
+    --surf-grid-major-cell: 96px;
+    --surf-grid-base-opacity: 0.35;
+    --surf-grid-halo: 48px;
     /* Text veil: clears the grid up to 8px outside the text box, then fades it back in over the next 24px. */
-    --veil-spread: var(--space-2);
-    --veil-blur: var(--space-6);
+    --surf-veil-spread: var(--surf-space-2);
+    --surf-veil-blur: var(--surf-space-6);
 
     /* Motion: one short, decelerating curve. Color and surface state changes use fast, elements that appear or move use
      * base, and only the landing page entrance uses slow. Only exits use the accelerating curve (ease-in). */
-    --duration-fast: 120ms;
-    --duration-base: 200ms;
-    --duration-slow: 360ms;
-    --ease-out: cubic-bezier(0.2, 0, 0, 1);
-    --ease-in: cubic-bezier(0.3, 0, 1, 1);
-    --logo-size: 40px; /* Default decorative size */
+    --surf-duration-fast: 120ms;
+    --surf-duration-base: 200ms;
+    --surf-duration-slow: 360ms;
+    --surf-ease-out: cubic-bezier(0.2, 0, 0, 1);
+    --surf-ease-in: cubic-bezier(0.3, 0, 1, 1);
+    --surf-logo-size: 40px; /* Default decorative size */
   }
 
   /* Shared product control tokens. */
   :root,
-  [data-theme] {
-    --control-height: 36px;
-    --control-radius: 8px;
-    --control-padding-x: 10px;
-    --control-icon-size: 16px;
-    --control-icon-gap: var(--space-2);
-    --control-border: var(--control-choice-border);
-    --control-background: oklch(
-      from color-mix(in srgb, var(--line) 30%, var(--canvas)) l c h / alpha
+  [data-theme='dark'],
+  [data-theme='light'] {
+    --surf-control-height: 36px;
+    --surf-control-radius: 8px;
+    --surf-control-padding-x: 10px;
+    --surf-control-icon-size: 16px;
+    --surf-control-icon-gap: var(--surf-space-2);
+    --surf-control-border: var(--surf-control-choice-border);
+    --surf-control-background: oklch(
+      from color-mix(in srgb, var(--surf-line) 30%, var(--surf-canvas)) l c h /
+        alpha
     );
-    --control-hover-background: var(--surface);
-    --control-hover-border: var(--control-choice-hover-border);
-    --control-focus: var(--interaction-focus);
-    --control-focus-background: var(--control-background);
-    --control-disabled-background: var(--surface);
-    --control-disabled-opacity: 0.55;
-    --control-placeholder: var(--ink-muted);
+    --surf-control-hover-background: var(--surf-surface);
+    --surf-control-hover-border: var(--surf-control-choice-hover-border);
+    --surf-control-focus: var(--surf-interaction-focus);
+    --surf-control-focus-background: var(--surf-control-background);
+    --surf-control-disabled-background: var(--surf-surface);
+    --surf-control-disabled-opacity: 0.55;
+    --surf-control-placeholder: var(--surf-ink-muted);
     /* Focus is one ring: outside the element, or inside it where a container would clip
-     * it. Text fields show a soft halo of --control-focus-ring instead. */
-    --focus-ring-width: 2px;
-    --focus-ring-offset: 2px;
-    --focus-ring-inset: calc(-1 * var(--focus-ring-width));
-    --control-focus-ring-size: 3px;
+     * it. Text fields show a soft halo of --surf-control-focus-ring instead. */
+    --surf-focus-ring-width: 2px;
+    --surf-focus-ring-offset: 2px;
+    --surf-focus-ring-inset: calc(-1 * var(--surf-focus-ring-width));
+    --surf-control-focus-ring-size: 3px;
     /* The smallest pointer target on narrow screens and touch (WCAG 2.5.5). */
-    --control-target-size: 44px;
+    --surf-control-target-size: 44px;
     /* The smallest text in a text field. Narrow screens and touch raise it to 16px,
      * below which iOS zooms the page into a focused field. */
-    --control-text-min-size: 0px;
+    --surf-control-text-min-size: 0px;
   }
 
   /* Semantic status colors derive from the base status palette. Success has its own
    * base, so an accent theme never recolors it. */
   :root,
-  [data-theme] {
-    --status-success-fg: var(--success);
-    --status-success-bg: oklch(
-      from color-mix(in srgb, var(--success) 9%, var(--canvas)) l c h / alpha
+  [data-theme='dark'],
+  [data-theme='light'] {
+    --surf-status-success-fg: var(--surf-success);
+    --surf-status-success-bg: oklch(
+      from color-mix(in srgb, var(--surf-success) 9%, var(--surf-canvas)) l c
+        h / alpha
     );
-    --status-success-border: oklch(
-      from color-mix(in srgb, var(--success) 32%, var(--canvas)) 0.61 c h /
+    --surf-status-success-border: oklch(
+      from color-mix(in srgb, var(--surf-success) 32%, var(--surf-canvas)) 0.61
+        c h / alpha
+    );
+    --surf-status-danger-fg: oklch(
+      from color-mix(in srgb, var(--surf-danger) 48%, var(--surf-ink)) l c h /
         alpha
     );
-    --status-danger-fg: oklch(
-      from color-mix(in srgb, var(--danger) 48%, var(--ink)) l c h / alpha
+    --surf-status-danger-bg: oklch(
+      from color-mix(in srgb, var(--surf-danger) 10%, var(--surf-canvas)) l c
+        h / alpha
     );
-    --status-danger-bg: oklch(
-      from color-mix(in srgb, var(--danger) 10%, var(--canvas)) l c h / alpha
+    --surf-status-danger-border: oklch(
+      from color-mix(in srgb, var(--surf-danger) 38%, var(--surf-canvas)) 0.61 c
+        h / alpha
     );
-    --status-danger-border: oklch(
-      from color-mix(in srgb, var(--danger) 38%, var(--canvas)) 0.61 c h / alpha
+    --surf-status-caution-fg: var(--surf-caution);
+    --surf-status-caution-bg: oklch(
+      from color-mix(in srgb, var(--surf-caution) 9%, var(--surf-canvas)) l c
+        h / alpha
     );
-    --status-caution-fg: var(--caution);
-    --status-caution-bg: oklch(
-      from color-mix(in srgb, var(--caution) 9%, var(--canvas)) l c h / alpha
+    --surf-status-caution-border: oklch(
+      from color-mix(in srgb, var(--surf-caution) 32%, var(--surf-canvas)) 0.61
+        c h / alpha
     );
-    --status-caution-border: oklch(
-      from color-mix(in srgb, var(--caution) 32%, var(--canvas)) 0.61 c h /
+    --surf-status-progress-fg: var(--surf-ink);
+    --surf-status-progress-bg: var(--surf-selected);
+    --surf-status-progress-border: var(--surf-control-border);
+    --surf-status-neutral-fg: var(--surf-ink-muted);
+    --surf-status-neutral-bg: var(--surf-surface);
+    --surf-status-neutral-border: var(--surf-control-border);
+    --surf-status-info-fg: oklch(
+      from color-mix(in srgb, var(--surf-info) 70%, var(--surf-ink)) l c h /
         alpha
     );
-    --status-progress-fg: var(--ink);
-    --status-progress-bg: var(--selected);
-    --status-progress-border: var(--control-border);
-    --status-neutral-fg: var(--ink-muted);
-    --status-neutral-bg: var(--surface);
-    --status-neutral-border: var(--control-border);
-    --status-info-fg: oklch(
-      from color-mix(in srgb, var(--info) 70%, var(--ink)) l c h / alpha
-    );
-    --status-info-bg: oklch(
-      from color-mix(in srgb, var(--info) 10%, var(--canvas)) l c h / alpha
-    );
-    --status-info-border: oklch(
-      from color-mix(in srgb, var(--info) 35%, var(--canvas)) 0.61 c h / alpha
-    );
-    --trend-up-fg: var(--trend-up);
-    --trend-up-bg: oklch(
-      from color-mix(in srgb, var(--trend-up) 10%, var(--canvas)) l c h / alpha
-    );
-    --trend-down-fg: oklch(
-      from color-mix(in srgb, var(--trend-down) 48%, var(--ink)) l c h / alpha
-    );
-    --trend-down-bg: oklch(
-      from color-mix(in srgb, var(--trend-down) 10%, var(--canvas)) l c h /
+    --surf-status-info-bg: oklch(
+      from color-mix(in srgb, var(--surf-info) 10%, var(--surf-canvas)) l c h /
         alpha
     );
-    --trend-flat-fg: var(--ink-muted);
+    --surf-status-info-border: oklch(
+      from color-mix(in srgb, var(--surf-info) 35%, var(--surf-canvas)) 0.61 c
+        h / alpha
+    );
+    --surf-trend-up-fg: var(--surf-trend-up);
+    --surf-trend-up-bg: oklch(
+      from color-mix(in srgb, var(--surf-trend-up) 10%, var(--surf-canvas)) l c
+        h / alpha
+    );
+    --surf-trend-down-fg: oklch(
+      from color-mix(in srgb, var(--surf-trend-down) 48%, var(--surf-ink)) l c
+        h / alpha
+    );
+    --surf-trend-down-bg: oklch(
+      from color-mix(in srgb, var(--surf-trend-down) 10%, var(--surf-canvas)) l
+        c h / alpha
+    );
+    --surf-trend-flat-fg: var(--surf-ink-muted);
     /* A state layer: ink at 8% over whatever the item rests on. It lifts a hovered
        item one visible step on the sheet, the chrome or a recessed bar alike, where
        a fixed surface color matched the bar and vanished. One ink keeps a row's
        cells one color, whatever each cell's text color. */
-    --interaction-hover-bg: oklch(from var(--ink) l c h / 0.08);
+    --surf-interaction-hover-bg: oklch(from var(--surf-ink) l c h / 0.08);
     /* Pressed: the same layer, stronger, so touch shows feedback in the item's own shape. */
-    --interaction-active-bg: oklch(from var(--ink) l c h / 0.14);
-    --interaction-focus: var(--brand-ink);
+    --surf-interaction-active-bg: oklch(from var(--surf-ink) l c h / 0.14);
+    --surf-interaction-focus: var(--surf-brand-ink);
     /* The edge of a selected row or item: the focus color, faint, over the selected
        tone, so a selection reads as held without looking focused. */
-    --selected-edge: color-mix(
+    --surf-selected-edge: color-mix(
       in oklch,
-      var(--interaction-focus) 35%,
-      var(--selected)
+      var(--surf-interaction-focus) 35%,
+      var(--surf-selected)
     );
     /* Brand as a mark on the sheet, such as a progress fill or a range end: the brand
        itself where it stands out, darker in light themes so it keeps 3:1. */
-    --brand-mark: var(--brand);
+    --surf-brand-mark: var(--surf-brand);
     /* A slider's track, 3:1 against the brand indicator on it. */
-    --slider-track: oklch(from var(--ink-muted) 0.52 c h);
+    --surf-slider-track: oklch(from var(--surf-ink-muted) 0.52 c h);
   }
   :root[data-theme='light'],
   [data-theme='light'] {
-    --brand-mark: oklch(from var(--brand) min(l, 0.63) c h);
-    --slider-track: var(--ink-muted);
-    --status-success-fg: oklch(
-      from color-mix(in srgb, var(--success) 25%, var(--ink)) l c h / alpha
+    --surf-brand-mark: oklch(from var(--surf-brand) min(l, 0.63) c h);
+    --surf-slider-track: var(--surf-ink-muted);
+    --surf-status-success-fg: oklch(
+      from color-mix(in srgb, var(--surf-success) 25%, var(--surf-ink)) l c h /
+        alpha
     );
-    --status-success-bg: oklch(
-      from color-mix(in srgb, var(--success) 9%, var(--canvas)) l c h / alpha
+    --surf-status-success-bg: oklch(
+      from color-mix(in srgb, var(--surf-success) 9%, var(--surf-canvas)) l c
+        h / alpha
     );
-    --status-success-border: oklch(
-      from color-mix(in srgb, var(--success) 25%, var(--line)) 0.64 c h / alpha
+    --surf-status-success-border: oklch(
+      from color-mix(in srgb, var(--surf-success) 25%, var(--surf-line)) 0.64 c
+        h / alpha
     );
-    --status-danger-fg: oklch(
-      from color-mix(in srgb, var(--danger) 65%, var(--ink)) l c h / alpha
+    --surf-status-danger-fg: oklch(
+      from color-mix(in srgb, var(--surf-danger) 65%, var(--surf-ink)) l c h /
+        alpha
     );
-    --status-danger-bg: oklch(
-      from color-mix(in srgb, var(--danger) 5%, var(--canvas)) l c h / alpha
+    --surf-status-danger-bg: oklch(
+      from color-mix(in srgb, var(--surf-danger) 5%, var(--surf-canvas)) l c h /
+        alpha
     );
-    --status-danger-border: oklch(
-      from color-mix(in srgb, var(--danger) 30%, var(--line)) 0.64 c h / alpha
+    --surf-status-danger-border: oklch(
+      from color-mix(in srgb, var(--surf-danger) 30%, var(--surf-line)) 0.64 c
+        h / alpha
     );
-    --status-caution-fg: oklch(
-      from color-mix(in srgb, var(--caution) 25%, var(--ink)) l c h / alpha
+    --surf-status-caution-fg: oklch(
+      from color-mix(in srgb, var(--surf-caution) 25%, var(--surf-ink)) l c h /
+        alpha
     );
-    --status-caution-bg: oklch(
-      from color-mix(in srgb, var(--caution) 12%, var(--canvas)) l c h / alpha
+    --surf-status-caution-bg: oklch(
+      from color-mix(in srgb, var(--surf-caution) 12%, var(--surf-canvas)) l c
+        h / alpha
     );
-    --status-caution-border: oklch(
-      from color-mix(in srgb, var(--caution) 45%, var(--line)) 0.64 c h / alpha
+    --surf-status-caution-border: oklch(
+      from color-mix(in srgb, var(--surf-caution) 45%, var(--surf-line)) 0.64 c
+        h / alpha
     );
-    --status-info-fg: oklch(
-      from color-mix(in srgb, var(--info) 45%, var(--ink)) l c h / alpha
+    --surf-status-info-fg: oklch(
+      from color-mix(in srgb, var(--surf-info) 45%, var(--surf-ink)) l c h /
+        alpha
     );
-    --status-info-bg: oklch(
-      from color-mix(in srgb, var(--info) 8%, var(--canvas)) l c h / alpha
+    --surf-status-info-bg: oklch(
+      from color-mix(in srgb, var(--surf-info) 8%, var(--surf-canvas)) l c h /
+        alpha
     );
-    --status-info-border: oklch(
-      from color-mix(in srgb, var(--info) 30%, var(--line)) 0.64 c h / alpha
+    --surf-status-info-border: oklch(
+      from color-mix(in srgb, var(--surf-info) 30%, var(--surf-line)) 0.64 c h /
+        alpha
     );
-    --trend-up-fg: oklch(
-      from color-mix(in srgb, var(--trend-up) 55%, var(--ink)) l c h / alpha
+    --surf-trend-up-fg: oklch(
+      from color-mix(in srgb, var(--surf-trend-up) 55%, var(--surf-ink)) l c h /
+        alpha
     );
-    --trend-up-bg: oklch(
-      from color-mix(in srgb, var(--trend-up) 8%, var(--canvas)) l c h / alpha
+    --surf-trend-up-bg: oklch(
+      from color-mix(in srgb, var(--surf-trend-up) 8%, var(--surf-canvas)) l c
+        h / alpha
     );
-    --trend-down-fg: oklch(
-      from color-mix(in srgb, var(--trend-down) 65%, var(--ink)) l c h / alpha
+    --surf-trend-down-fg: oklch(
+      from color-mix(in srgb, var(--surf-trend-down) 65%, var(--surf-ink)) l c
+        h / alpha
     );
-    --trend-down-bg: oklch(
-      from color-mix(in srgb, var(--trend-down) 5%, var(--canvas)) l c h / alpha
+    --surf-trend-down-bg: oklch(
+      from color-mix(in srgb, var(--surf-trend-down) 5%, var(--surf-canvas)) l c
+        h / alpha
     );
   }
 
   :root,
-  [data-theme] {
-    --menu-background: var(--canvas);
-    --menu-border: var(--line);
-    --menu-hover-background: var(--surface);
-    --menu-selected-background: var(--selected);
-    --control-focus-ring: oklch(
-      from color-mix(in srgb, var(--control-focus) 20%, var(--canvas)) l c h /
-        alpha
+  [data-theme='dark'],
+  [data-theme='light'] {
+    --surf-menu-background: var(--surf-canvas);
+    --surf-menu-border: var(--surf-line);
+    --surf-menu-hover-background: var(--surf-surface);
+    --surf-menu-selected-background: var(--surf-selected);
+    --surf-control-focus-ring: oklch(
+      from color-mix(in srgb, var(--surf-control-focus) 20%, var(--surf-canvas))
+        l c h / alpha
     );
   }
 
   :root[data-theme='light'],
   [data-theme='light'] {
-    --control-background: var(--canvas);
+    --surf-control-background: var(--surf-canvas);
   }
   @media (max-width: 760px), (pointer: coarse) {
     :root,
-    [data-theme] {
-      --control-height: var(--control-target-size);
-      --control-text-min-size: 16px;
+    [data-theme='dark'],
+    [data-theme='light'] {
+      --surf-control-height: var(--surf-control-target-size);
+      --surf-control-text-min-size: 16px;
     }
   }
 
   /* Motion roles: effects stay quick; spatial entrances get a little more room. */
   :root,
-  [data-theme] {
-    --motion-feedback: 120ms;
-    --motion-reveal: 160ms;
-    --motion-enter: 200ms;
-    --motion-exit: 100ms;
-    --motion-ease: cubic-bezier(0.2, 0, 0, 1);
-    --motion-spatial-ease: cubic-bezier(0.16, 1, 0.3, 1);
-    --motion-lift: 4px;
-    --skeleton-base: oklch(
-      from color-mix(in srgb, var(--ink-muted) 14%, var(--canvas)) l c h / alpha
+  [data-theme='dark'],
+  [data-theme='light'] {
+    --surf-motion-feedback: 120ms;
+    --surf-motion-reveal: 160ms;
+    --surf-motion-enter: 200ms;
+    --surf-motion-exit: 100ms;
+    --surf-motion-ease: cubic-bezier(0.2, 0, 0, 1);
+    --surf-motion-spatial-ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --surf-motion-lift: 4px;
+    --surf-skeleton-base: oklch(
+      from color-mix(in srgb, var(--surf-ink-muted) 14%, var(--surf-canvas)) l c
+        h / alpha
     );
-    --skeleton-highlight: oklch(
-      from color-mix(in srgb, var(--ink-muted) 24%, var(--canvas)) l c h / alpha
+    --surf-skeleton-highlight: oklch(
+      from color-mix(in srgb, var(--surf-ink-muted) 24%, var(--surf-canvas)) l c
+        h / alpha
     );
   }
 
   :root,
-  [data-theme] {
-    --scrollbar-size: 8px;
+  [data-theme='dark'],
+  [data-theme='light'] {
+    --surf-scrollbar-size: 8px;
     /* ScrollArea's overlay thumb. On touch it only shows the position, as native
      * mobile scrollbars do, so it is thinner there. */
-    --scrollbar-indicator-size: 6px;
-    --scrollbar-radius: var(--radius-full);
-    --scrollbar-track: oklch(0 0 0 / 0);
-    --scrollbar-thumb: oklch(
-      from color-mix(in srgb, var(--ink-muted) 60%, var(--canvas)) l c h / alpha
+    --surf-scrollbar-indicator-size: 6px;
+    --surf-scrollbar-radius: var(--surf-radius-full);
+    --surf-scrollbar-track: oklch(0 0 0 / 0);
+    --surf-scrollbar-thumb: oklch(
+      from color-mix(in srgb, var(--surf-ink-muted) 60%, var(--surf-canvas)) l c
+        h / alpha
     );
-    --scrollbar-thumb-hover: var(--ink-muted);
+    --surf-scrollbar-thumb-hover: var(--surf-ink-muted);
   }
   @media (hover: none) and (pointer: coarse) {
     :root,
-    [data-theme] {
-      --scrollbar-indicator-size: 3px;
+    [data-theme='dark'],
+    [data-theme='light'] {
+      --surf-scrollbar-indicator-size: 3px;
     }
   }
 
   @media (max-width: 760px) {
     :root,
-    [data-theme] {
-      --collection-inset: var(--space-3);
+    [data-theme='dark'],
+    [data-theme='light'] {
+      --surf-collection-inset: var(--surf-space-3);
     }
   }
 
   @media (prefers-color-scheme: light) {
-    :root:not([data-theme]) {
-      --brand-mark: oklch(from var(--brand) min(l, 0.63) c h);
-      --slider-track: var(--ink-muted);
+    :root:not([data-theme='dark']):not([data-theme='light']) {
+      --surf-brand-mark: oklch(from var(--surf-brand) min(l, 0.63) c h);
+      --surf-slider-track: var(--surf-ink-muted);
       color-scheme: light;
-      --chrome: oklch(0.9781762 0.0034179 247.8580546); /* Gray 10 */
-      --canvas: oklch(1 0 0); /* White */
-      --surface: oklch(0.9781762 0.0034179 247.8580546); /* Gray 10 */
-      --code-bg: oklch(0.95972296 0.00515149 247.87778139); /* Gray 20 */
-      --hover: oklch(0.95972296 0.00515149 247.87778139); /* Gray 20 */
-      --selected: oklch(0.93531009 0.01353396 240.96010253); /* Gray 30 */
-      --line: oklch(0.93531009 0.01353396 240.96010253); /* Gray 30 */
+      --surf-chrome: oklch(0.9781762 0.0034179 247.8580546); /* Gray 10 */
+      --surf-canvas: oklch(1 0 0); /* White */
+      --surf-surface: oklch(0.9781762 0.0034179 247.8580546); /* Gray 10 */
+      --surf-code-bg: oklch(0.95972296 0.00515149 247.87778139); /* Gray 20 */
+      --surf-hover: oklch(0.95972296 0.00515149 247.87778139); /* Gray 20 */
+      --surf-selected: oklch(0.93531009 0.01353396 240.96010253); /* Gray 30 */
+      --surf-line: oklch(0.93531009 0.01353396 240.96010253); /* Gray 30 */
 
-      --ink-muted: oklch(0.37866351 0.01730498 248.2836448); /* Gray 70 */
-      --ink-body: oklch(0.27850211 0.01320057 253.03643104); /* Gray 80 */
-      --ink: oklch(0.2368845 0.00973297 248.23792711); /* Gray 90 */
+      --surf-ink-muted: oklch(0.37866351 0.01730498 248.2836448); /* Gray 70 */
+      --surf-ink-body: oklch(0.27850211 0.01320057 253.03643104); /* Gray 80 */
+      --surf-ink: oklch(0.2368845 0.00973297 248.23792711); /* Gray 90 */
 
-      --brand: oklch(0.82 0.12 210);
-      --brand-ink: oklch(
+      --surf-brand: oklch(0.82 0.12 210);
+      --surf-brand-ink: oklch(
         0.2368845 0.00973297 248.23792711
       ); /* On light backgrounds, accent text uses ink instead. Links are distinguished by underlines */
-      --on-brand: oklch(0.2368845 0.00973297 248.23792711);
-      --brand-tint: oklch(
+      --surf-on-brand: oklch(0.2368845 0.00973297 248.23792711);
+      --surf-brand-tint: oklch(
         0.82 0.12 210 / 0.30196078
       ); /* Accent cyan 30%. Needs to be slightly stronger on white to look equally visible */
 
-      --success: oklch(
-        0.82 0.12 210
-      ); /* Accent cyan by default; accent themes leave it */
+      --surf-success: oklch(
+        0.74 0.15 155
+      ); /* Green 50, apart from the brand, so a success never reads as the main action */
 
-      --caution: oklch(0.88362398 0.17366333 93.66977695);
-      --danger: oklch(0.64886666 0.23697091 26.97276512);
-      --info: oklch(0.72 0.13 255);
-      --trend-up: oklch(0.74 0.15 155);
-      --trend-down: var(--danger);
+      --surf-caution: oklch(0.88362398 0.17366333 93.66977695);
+      --surf-danger: oklch(0.64886666 0.23697091 26.97276512);
+      --surf-info: oklch(0.72 0.13 255);
+      --surf-trend-up: oklch(0.74 0.15 155);
+      --surf-trend-down: var(--surf-danger);
 
-      --grid-minor: oklch(0.95972296 0.00515149 247.87778139); /* Gray 20 */
-      --grid-major: oklch(0.93531009 0.01353396 240.96010253); /* Gray 30 */
-      --guide: oklch(0.91321146 0.017061 242.44074644); /* Gray 40 */
+      --surf-grid-minor: oklch(
+        0.95972296 0.00515149 247.87778139
+      ); /* Gray 20 */
+      --surf-grid-major: oklch(
+        0.93531009 0.01353396 240.96010253
+      ); /* Gray 30 */
+      --surf-guide: oklch(0.91321146 0.017061 242.44074644); /* Gray 40 */
 
-      --shadow-sheet:
+      --surf-shadow-sheet:
         0 1px 2px oklch(0.2368845 0.00973297 248.23792711 / 0.05),
         0 10px 28px -14px oklch(0.2368845 0.00973297 248.23792711 / 0.14);
-      --shadow-float: 0 12px 32px -8px
+      --surf-shadow-float: 0 12px 32px -8px
         oklch(0.2368845 0.00973297 248.23792711 / 0.18);
 
-      --status-success-fg: oklch(
-        from color-mix(in srgb, var(--success) 25%, var(--ink)) l c h / alpha
+      --surf-status-success-fg: oklch(
+        from color-mix(in srgb, var(--surf-success) 25%, var(--surf-ink)) l c
+          h / alpha
       );
-      --status-success-bg: oklch(
-        from color-mix(in srgb, var(--success) 9%, var(--canvas)) l c h / alpha
+      --surf-status-success-bg: oklch(
+        from color-mix(in srgb, var(--surf-success) 9%, var(--surf-canvas)) l c
+          h / alpha
       );
-      --status-success-border: oklch(
-        from color-mix(in srgb, var(--success) 25%, var(--line)) 0.64 c h /
+      --surf-status-success-border: oklch(
+        from color-mix(in srgb, var(--surf-success) 25%, var(--surf-line)) 0.64
+          c h / alpha
+      );
+      --surf-status-danger-fg: oklch(
+        from color-mix(in srgb, var(--surf-danger) 65%, var(--surf-ink)) l c h /
           alpha
       );
-      --status-danger-fg: oklch(
-        from color-mix(in srgb, var(--danger) 65%, var(--ink)) l c h / alpha
+      --surf-status-danger-bg: oklch(
+        from color-mix(in srgb, var(--surf-danger) 5%, var(--surf-canvas)) l c
+          h / alpha
       );
-      --status-danger-bg: oklch(
-        from color-mix(in srgb, var(--danger) 5%, var(--canvas)) l c h / alpha
+      --surf-status-danger-border: oklch(
+        from color-mix(in srgb, var(--surf-danger) 30%, var(--surf-line)) 0.64 c
+          h / alpha
       );
-      --status-danger-border: oklch(
-        from color-mix(in srgb, var(--danger) 30%, var(--line)) 0.64 c h / alpha
+      --surf-status-caution-fg: oklch(
+        from color-mix(in srgb, var(--surf-caution) 25%, var(--surf-ink)) l c
+          h / alpha
       );
-      --status-caution-fg: oklch(
-        from color-mix(in srgb, var(--caution) 25%, var(--ink)) l c h / alpha
+      --surf-status-caution-bg: oklch(
+        from color-mix(in srgb, var(--surf-caution) 12%, var(--surf-canvas)) l c
+          h / alpha
       );
-      --status-caution-bg: oklch(
-        from color-mix(in srgb, var(--caution) 12%, var(--canvas)) l c h / alpha
+      --surf-status-caution-border: oklch(
+        from color-mix(in srgb, var(--surf-caution) 45%, var(--surf-line)) 0.64
+          c h / alpha
       );
-      --status-caution-border: oklch(
-        from color-mix(in srgb, var(--caution) 45%, var(--line)) 0.64 c h /
+      --surf-status-info-fg: oklch(
+        from color-mix(in srgb, var(--surf-info) 45%, var(--surf-ink)) l c h /
           alpha
       );
-      --status-info-fg: oklch(
-        from color-mix(in srgb, var(--info) 45%, var(--ink)) l c h / alpha
-      );
-      --status-info-bg: oklch(
-        from color-mix(in srgb, var(--info) 8%, var(--canvas)) l c h / alpha
-      );
-      --status-info-border: oklch(
-        from color-mix(in srgb, var(--info) 30%, var(--line)) 0.64 c h / alpha
-      );
-      --trend-up-fg: oklch(
-        from color-mix(in srgb, var(--trend-up) 55%, var(--ink)) l c h / alpha
-      );
-      --trend-up-bg: oklch(
-        from color-mix(in srgb, var(--trend-up) 8%, var(--canvas)) l c h / alpha
-      );
-      --trend-down-fg: oklch(
-        from color-mix(in srgb, var(--trend-down) 65%, var(--ink)) l c h / alpha
-      );
-      --trend-down-bg: oklch(
-        from color-mix(in srgb, var(--trend-down) 5%, var(--canvas)) l c h /
+      --surf-status-info-bg: oklch(
+        from color-mix(in srgb, var(--surf-info) 8%, var(--surf-canvas)) l c h /
           alpha
+      );
+      --surf-status-info-border: oklch(
+        from color-mix(in srgb, var(--surf-info) 30%, var(--surf-line)) 0.64 c
+          h / alpha
+      );
+      --surf-trend-up-fg: oklch(
+        from color-mix(in srgb, var(--surf-trend-up) 55%, var(--surf-ink)) l c
+          h / alpha
+      );
+      --surf-trend-up-bg: oklch(
+        from color-mix(in srgb, var(--surf-trend-up) 8%, var(--surf-canvas)) l c
+          h / alpha
+      );
+      --surf-trend-down-fg: oklch(
+        from color-mix(in srgb, var(--surf-trend-down) 65%, var(--surf-ink)) l c
+          h / alpha
+      );
+      --surf-trend-down-bg: oklch(
+        from color-mix(in srgb, var(--surf-trend-down) 5%, var(--surf-canvas)) l
+          c h / alpha
       );
 
-      --control-background: var(--canvas);
+      --surf-control-background: var(--surf-canvas);
     }
   }
 
   :root,
-  [data-theme] {
-    --font-mono: var(--font-code);
+  [data-theme='dark'],
+  [data-theme='light'] {
+    --surf-font-mono: var(--surf-font-code);
   }
 
   :root,
-  [data-theme] {
-    --layer-chrome: 1000;
-    --layer-backdrop: 1090;
-    --layer-dialog: 1100;
-    --layer-popup: 1200;
-    --layer-tooltip: 1300;
-    --tooltip-background: var(--ink);
-    --tooltip-foreground: var(--canvas);
+  [data-theme='dark'],
+  [data-theme='light'] {
+    --surf-layer-chrome: 1000;
+    --surf-layer-backdrop: 1090;
+    --surf-layer-dialog: 1100;
+    --surf-layer-popup: 1200;
+    --surf-layer-tooltip: 1300;
+    --surf-tooltip-background: var(--surf-ink);
+    --surf-tooltip-foreground: var(--surf-canvas);
   }
 
   :root,
-  [data-theme] {
-    --dialog-enter-duration: var(--motion-enter);
-    --dialog-enter-offset: 8px;
-    --dialog-exit-duration: 0ms;
-    --toast-enter-duration: 320ms;
-    --toast-stack-duration: 360ms;
-    --toast-stack-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  [data-theme='dark'],
+  [data-theme='light'] {
+    --surf-dialog-enter-duration: var(--surf-motion-enter);
+    --surf-dialog-enter-offset: 8px;
+    --surf-dialog-exit-duration: 0ms;
+    --surf-toast-enter-duration: 320ms;
+    --surf-toast-stack-duration: 360ms;
+    --surf-toast-stack-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
   }
 
   :root,
-  [data-theme] {
-    --control-choice-size: 20px;
+  [data-theme='dark'],
+  [data-theme='light'] {
+    --surf-control-choice-size: 20px;
     /* Follows the radius scale, so a square theme squares checkboxes too. */
-    --control-choice-radius: var(--radius-sm);
-    --control-choice-border: oklch(
-      from color-mix(in srgb, var(--ink-muted) 60%, var(--line)) l c h / alpha
+    --surf-control-choice-radius: var(--surf-radius-sm);
+    --surf-control-choice-border: oklch(
+      from color-mix(in srgb, var(--surf-ink-muted) 60%, var(--surf-line)) l c
+        h / alpha
     );
-    --control-choice-hover-border: oklch(
-      from color-mix(in srgb, var(--ink-muted) 75%, var(--line)) l c h / alpha
+    --surf-control-choice-hover-border: oklch(
+      from color-mix(in srgb, var(--surf-ink-muted) 75%, var(--surf-line)) l c
+        h / alpha
     );
-    --control-choice-selected-bg: var(--brand);
-    --control-choice-selected-hover-bg: color-mix(
+    --surf-control-choice-selected-bg: var(--surf-brand);
+    --surf-control-choice-selected-hover-bg: color-mix(
       in oklch,
-      var(--brand) 90%,
-      var(--on-brand)
+      var(--surf-brand) 90%,
+      var(--surf-on-brand)
     );
-    --control-choice-selected-border: oklch(
+    --surf-control-choice-selected-border: oklch(
       from
         color-mix(
           in srgb,
-          var(--control-choice-selected-bg) 54%,
-          var(--control-choice-selected-fg)
+          var(--surf-control-choice-selected-bg) 54%,
+          var(--surf-control-choice-selected-fg)
         )
         l c h / alpha
     );
-    --control-choice-selected-fg: var(--on-brand);
-    --control-switch-width: 36px;
-    --control-switch-height: 22px;
-    --control-switch-thumb: 14px;
+    --surf-control-choice-selected-fg: var(--surf-on-brand);
+    --surf-control-switch-width: 36px;
+    --surf-control-switch-height: 22px;
+    --surf-control-switch-thumb: 14px;
   }
 
   :root,
-  [data-theme] {
-    /* Deprecated: use --size-avatar-small, -default and -large. Removed in a later
+  [data-theme='dark'],
+  [data-theme='light'] {
+    /* Deprecated: use --surf-size-avatar-small, -default and -large. Removed in a later
        minor. */
-    --avatar-size-sm: var(--size-avatar-small);
-    --avatar-size-md: var(--size-avatar-default);
-    --avatar-size-lg: var(--size-avatar-large);
-    --status-badge-gap: var(--space-1);
+    --surf-avatar-size-sm: var(--surf-size-avatar-small);
+    --surf-avatar-size-md: var(--surf-size-avatar-default);
+    --surf-avatar-size-lg: var(--surf-size-avatar-large);
+    --surf-status-badge-gap: var(--surf-space-1);
   }
 
   /* Opaque paired text-selection colors remain readable on code, controls and status surfaces. */
   :root,
-  [data-theme] {
+  [data-theme='dark'],
+  [data-theme='light'] {
     /* One step from the selected tone, so text selected on a selected row, segment
        or day still shows. */
-    --selection-background: oklch(from var(--selected) 0.48 c h);
-    --selection-foreground: var(--ink);
+    --surf-selection-background: oklch(from var(--surf-selected) 0.48 c h);
+    --surf-selection-foreground: var(--surf-ink);
   }
   :root[data-theme='light'],
   [data-theme='light'] {
-    --selection-background: oklch(from var(--selected) 0.8 c h);
+    --surf-selection-background: oklch(from var(--surf-selected) 0.8 c h);
   }
   @media (prefers-color-scheme: light) {
-    :root:not([data-theme]) {
-      --selection-background: oklch(from var(--selected) 0.8 c h);
+    :root:not([data-theme='dark']):not([data-theme='light']) {
+      --surf-selection-background: oklch(from var(--surf-selected) 0.8 c h);
     }
   }
   ::selection {
-    background-color: var(--selection-background);
-    color: var(--selection-foreground);
+    background-color: var(--surf-selection-background);
+    color: var(--surf-selection-foreground);
     text-shadow: none;
   }
   @media (forced-colors: active) {
@@ -648,105 +715,118 @@
 
   /* Small status badges use a slightly stronger face without an outline. */
   :root,
-  [data-theme] {
-    --badge-neutral-bg: var(--status-neutral-bg);
-    --badge-success-bg: oklch(
+  [data-theme='dark'],
+  [data-theme='light'] {
+    --surf-badge-neutral-bg: var(--surf-status-neutral-bg);
+    --surf-badge-success-bg: oklch(
       from
         color-mix(
           in srgb,
-          var(--status-success-fg) 3%,
-          var(--status-success-bg)
+          var(--surf-status-success-fg) 3%,
+          var(--surf-status-success-bg)
         )
         l c h / alpha
     );
-    --badge-danger-bg: oklch(
-      from
-        color-mix(in srgb, var(--status-danger-fg) 3%, var(--status-danger-bg))
-        l c h / alpha
-    );
-    --badge-caution-bg: oklch(
+    --surf-badge-danger-bg: oklch(
       from
         color-mix(
           in srgb,
-          var(--status-caution-fg) 3%,
-          var(--status-caution-bg)
+          var(--surf-status-danger-fg) 3%,
+          var(--surf-status-danger-bg)
         )
         l c h / alpha
     );
-    --badge-progress-bg: var(--status-progress-bg);
-    --badge-info-bg: oklch(
-      from color-mix(in srgb, var(--status-info-fg) 3%, var(--status-info-bg)) l
-        c h / alpha
+    --surf-badge-caution-bg: oklch(
+      from
+        color-mix(
+          in srgb,
+          var(--surf-status-caution-fg) 3%,
+          var(--surf-status-caution-bg)
+        )
+        l c h / alpha
+    );
+    --surf-badge-progress-bg: var(--surf-status-progress-bg);
+    --surf-badge-info-bg: oklch(
+      from
+        color-mix(
+          in srgb,
+          var(--surf-status-info-fg) 3%,
+          var(--surf-status-info-bg)
+        )
+        l c h / alpha
     );
   }
 
   /* Neutral/brand strokes are distinguished by marker and dash or fill pattern. */
   :root,
-  [data-theme] {
-    --chart-series-1: var(--brand-ink);
-    --chart-series-2: var(--ink-body);
-    --chart-series-3: var(--ink-muted);
+  [data-theme='dark'],
+  [data-theme='light'] {
+    --surf-chart-series-1: var(--surf-brand-ink);
+    --surf-chart-series-2: var(--surf-ink-body);
+    --surf-chart-series-3: var(--surf-ink-muted);
   }
   /* Categories that color must tell apart, such as buckets or sectors. Six hues at one
    * lightness, each 3:1 against the sheet; charts still add marks and dashes. */
   :root,
-  [data-theme] {
-    --chart-category-1: oklch(0.76 0.12 250);
-    --chart-category-2: oklch(0.78 0.11 185);
-    --chart-category-3: oklch(0.8 0.14 135);
-    --chart-category-4: oklch(0.82 0.13 80);
-    --chart-category-5: oklch(0.74 0.14 25);
-    --chart-category-6: oklch(0.74 0.12 310);
+  [data-theme='dark'],
+  [data-theme='light'] {
+    --surf-chart-category-1: oklch(0.76 0.12 250);
+    --surf-chart-category-2: oklch(0.78 0.11 185);
+    --surf-chart-category-3: oklch(0.8 0.14 135);
+    --surf-chart-category-4: oklch(0.82 0.13 80);
+    --surf-chart-category-5: oklch(0.74 0.14 25);
+    --surf-chart-category-6: oklch(0.74 0.12 310);
   }
   :root[data-theme='light'],
   [data-theme='light'] {
-    --chart-category-1: oklch(0.5 0.14 255);
-    --chart-category-2: oklch(0.52 0.09 190);
-    --chart-category-3: oklch(0.52 0.12 140);
-    --chart-category-4: oklch(0.56 0.12 70);
-    --chart-category-5: oklch(0.54 0.17 25);
-    --chart-category-6: oklch(0.5 0.15 310);
+    --surf-chart-category-1: oklch(0.5 0.14 255);
+    --surf-chart-category-2: oklch(0.52 0.09 190);
+    --surf-chart-category-3: oklch(0.52 0.12 140);
+    --surf-chart-category-4: oklch(0.56 0.12 70);
+    --surf-chart-category-5: oklch(0.54 0.17 25);
+    --surf-chart-category-6: oklch(0.5 0.15 310);
   }
   @media (prefers-color-scheme: light) {
-    :root:not([data-theme]) {
-      --chart-category-1: oklch(0.5 0.14 255);
-      --chart-category-2: oklch(0.52 0.09 190);
-      --chart-category-3: oklch(0.52 0.12 140);
-      --chart-category-4: oklch(0.56 0.12 70);
-      --chart-category-5: oklch(0.54 0.17 25);
-      --chart-category-6: oklch(0.5 0.15 310);
+    :root:not([data-theme='dark']):not([data-theme='light']) {
+      --surf-chart-category-1: oklch(0.5 0.14 255);
+      --surf-chart-category-2: oklch(0.52 0.09 190);
+      --surf-chart-category-3: oklch(0.52 0.12 140);
+      --surf-chart-category-4: oklch(0.56 0.12 70);
+      --surf-chart-category-5: oklch(0.54 0.17 25);
+      --surf-chart-category-6: oklch(0.5 0.15 310);
     }
   }
 
   /* Platform Quiet: structure in cool hues, values in sage/amber; neutral details.
      Every role, including comments, meets 4.5:1 on code, canvas and surface. */
   :root,
-  [data-theme] {
-    --syntax-plain: var(--ink-body);
-    --syntax-comment: oklch(0.7 0.012 250);
-    --syntax-keyword: oklch(0.78 0.08 295);
-    --syntax-string: oklch(0.8 0.065 150);
-    --syntax-number: oklch(0.82 0.075 80);
-    --syntax-function: oklch(0.81 0.075 245);
-    --syntax-tag: var(--syntax-function);
-    --syntax-attribute: var(--syntax-plain);
-    --syntax-punctuation: var(--syntax-comment);
+  [data-theme='dark'],
+  [data-theme='light'] {
+    --surf-syntax-plain: var(--surf-ink-body);
+    --surf-syntax-comment: oklch(0.7 0.012 250);
+    --surf-syntax-keyword: oklch(0.78 0.08 295);
+    --surf-syntax-string: oklch(0.8 0.065 150);
+    --surf-syntax-number: oklch(0.82 0.075 80);
+    --surf-syntax-function: oklch(0.81 0.075 245);
+    --surf-syntax-tag: var(--surf-syntax-function);
+    --surf-syntax-attribute: var(--surf-syntax-plain);
+    --surf-syntax-punctuation: var(--surf-syntax-comment);
   }
   :root[data-theme='light'],
   [data-theme='light'] {
-    --syntax-comment: oklch(0.47 0.012 250);
-    --syntax-keyword: oklch(0.43 0.08 295);
-    --syntax-string: oklch(0.43 0.065 150);
-    --syntax-number: oklch(0.43 0.075 80);
-    --syntax-function: oklch(0.44 0.075 245);
+    --surf-syntax-comment: oklch(0.47 0.012 250);
+    --surf-syntax-keyword: oklch(0.43 0.08 295);
+    --surf-syntax-string: oklch(0.43 0.065 150);
+    --surf-syntax-number: oklch(0.43 0.075 80);
+    --surf-syntax-function: oklch(0.44 0.075 245);
   }
   @media (prefers-color-scheme: light) {
-    :root:not([data-theme]) {
-      --syntax-comment: oklch(0.47 0.012 250);
-      --syntax-keyword: oklch(0.43 0.08 295);
-      --syntax-string: oklch(0.43 0.065 150);
-      --syntax-number: oklch(0.43 0.075 80);
-      --syntax-function: oklch(0.44 0.075 245);
+    :root:not([data-theme='dark']):not([data-theme='light']) {
+      --surf-syntax-comment: oklch(0.47 0.012 250);
+      --surf-syntax-keyword: oklch(0.43 0.08 295);
+      --surf-syntax-string: oklch(0.43 0.065 150);
+      --surf-syntax-number: oklch(0.43 0.075 80);
+      --surf-syntax-function: oklch(0.44 0.075 245);
     }
   }
 }

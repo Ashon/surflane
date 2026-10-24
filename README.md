@@ -7,72 +7,77 @@
   </a>
 </h1>
 
-A design system for platform development. Surflane connects reusable React components, framework-neutral tokens and application patterns with an [interactive catalog](https://surflane.page) of implementation guidance and working examples.
+React components and design tokens for consoles, dashboards and developer tools. Browse every component, pattern and token in the [catalog](https://surflane.page).
 
-The catalog contains 11 foundations, 58 components and 12 patterns. Availability describes implemented examples, not accessibility certification. All application names, accounts, services and data in examples are fictional.
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/images/console-dark.png" />
+  <img src="docs/images/console-light.png" alt="A deployments console built with Surflane: an app shell sidebar, a page header with a primary button, and a table of services with status badges." width="784" />
+</picture>
 
-## Develop
+## Why Surflane
 
-Requires Node.js 24 and React 19 for UI consumers.
+- **Strict rules.** Hierarchy comes from planes first, then elevation, then borders. Space, size and color come from tokens. A component bends a rule only through a prop or a token.
+- **Measured color.** Colors are OKLCH. Every semantic pair states its contrast target, and the catalog measures it in your browser.
+- **Korean and English.** Type, spacing and line breaks follow the rules of both languages. The catalog reads in both.
+- **Your CSS wins.** Surflane's styles sit in `surflane.*` cascade layers, so a plain rule in your app overrides them without `!important`. Classes are `surf-*` and tokens `--surf-*`, so they never collide with yours.
+- **Server first.** Card, Table, Stat and the other stateless parts render as server components and send no JavaScript. Interactive parts build on [Base UI](https://base-ui.com).
+- **Tested where you run it.** Every component renders on the server in plain Node. CI builds a Next.js, React Router, Astro and Vite app from every change, and runs the catalog in Chromium, Firefox and WebKit.
+
+## Status
+
+Surflane is pre-1.0. A 0.x minor may rename, remove or restyle parts of the API. The [changelog](CHANGELOG.md) lists each such change with its migration. A patch only fixes.
+
+Breaking changes ship in batches. One minor collects them, so you migrate once instead of every week.
+
+Surflane reaches 1.0 when:
+
+- No rename of a class, token, prop or part is planned.
+- Every component has visual regression baselines in both themes.
+- CI passes against the lowest and the latest Base UI in the peer range.
+- Every component has passed a manual check with VoiceOver and NVDA.
+
+## Install
 
 ```sh
-npm ci
-npm run dev                 # http://127.0.0.1:8066
-npm run build:catalog
-npm run build:pages         # catalog site, https://surflane.page
-npm run build:brand         # render PNG brand assets from the mark
-npm run check:package
-npm run check:ssr            # server-render every component in plain Node
-npx playwright install chromium firefox webkit
-npm run check:examples       # Vite, Next.js, React Router and Astro apps
-npm run test:browsers        # production catalog must be built first
-npm test                    # full Chromium suite
+npm install @surflane/ui @surflane/design-tokens @surflane/css @base-ui/react
 ```
 
-The catalog ships in English and Korean. Read [CONTRIBUTING.md](CONTRIBUTING.md) before you add or change catalog text.
+Surflane needs React 19 and ships ESM only.
+
+```tsx
+import '@surflane/ui/all.css'
+import { Button } from '@surflane/ui/button'
+import { Input } from '@surflane/ui/input'
+
+<Input name='name' aria-label='Name' />
+<Button type='submit'>Save</Button>
+```
+
+The [install guide](https://surflane.page/install) writes the setup for your framework, package manager and Tailwind CSS. [Framework integration](docs/frameworks.md) covers Next.js, React Router, Astro, Vite and the cascade layers. [Examples](examples) has a tested app for each framework.
+
+- In server components, use flat part names: `DialogRoot`, not `Dialog.Root`.
+- Chart, DatePicker, Markdown, Tree and syntax highlighting have their own entry points. Install their libraries only when you use them; see [optional components](docs/frameworks.md#optional-components).
+- Load the fonts once in your app. The catalog uses Manrope, Pretendard, JetBrains Mono and Noto Sans JP from their font packages.
+- Your app owns theme persistence, authentication, routing and data.
 
 ## Packages
 
-- `@surflane/design-tokens`: framework-neutral color, spacing, typography, sizing and motion tokens.
-- `@surflane/ui`: React components built on Base UI, plus data, chart, code and Markdown components.
+| Package                                      | Holds                                                                                  |
+| -------------------------------------------- | -------------------------------------------------------------------------------------- |
+| [`@surflane/design-tokens`](packages/tokens) | Tokens and themes as CSS custom properties, and bridges for Tailwind CSS and shadcn/ui |
+| [`@surflane/css`](packages/css)              | Classes for controls, layout, presentation and document type that work without React   |
+| [`@surflane/ui`](packages/ui)                | React components on Base UI, with data, chart, code and Markdown components            |
 
-Both packages are released together with the same version under the `@surflane` npm scope. Install them with `npm install @surflane/ui @surflane/design-tokens`; the packages are ESM-only and require React 19. Chart, DatePicker, Markdown, Tree and syntax highlighting are separate entry points whose libraries you install only when you use them; see [optional components](docs/frameworks.md#optional-components).
+The three packages ship together with one version. Each component has its own entry point, named after its catalog page: `@surflane/ui/checkbox` is the [Checkbox](https://surflane.page/components/checkbox) page.
 
-```tsx
-import '@surflane/ui/all.css';
-import { Button } from '@surflane/ui/button';
-import { Input } from '@surflane/ui/input';
+## Catalog
 
-<Input name="name" aria-label="Name" />
-<Button variant="primary" type="submit">Save</Button>
-```
+The catalog holds <!-- catalog-counts -->12 foundations, 61 components and 12 patterns<!-- /catalog-counts -->, in English and Korean. Each page shows live examples, the API and keyboard behavior. "Available" means an implementation, example and docs exist. It is not an accessibility certification. Names and data in examples are fictional.
 
-Surflane supports React Server Components, SSR and client-only apps. The [install guide](https://surflane.page/install) builds the setup for your framework and options. [Framework integration](docs/frameworks.md) covers Next.js, React Router, Astro, Vite, Tailwind CSS and the cascade layers, and [examples](examples) contains a verified app for each framework. In Server Components, use flat part names such as `DialogRoot` and `TabsList` instead of `Dialog.Root`.
+## Contributing
 
-Load the fonts once in the host application. The catalog demonstrates Manrope, Pretendard, JetBrains Mono and Noto Sans JP through their independent font packages. Theme persistence, authentication, routing and application data belong to the consuming application.
-
-## Design direction
-
-Surfaces establish hierarchy, with outlines reserved for boundaries and explicit outline variants. Colors use OKLCH and semantic roles. Text selection is neutral. Small/default/large sizing, reduced motion, keyboard focus, localized content and touch targets share common contracts.
-
-These principles evolve through explicit design decisions and working examples. New direction belongs in the relevant foundation, component or pattern, with its tokens and interaction guidance kept in sync.
-
-Every component also has its own entry point, named after its catalog page: `@surflane/ui/checkbox` is the [Checkbox](https://surflane.page/components/checkbox) page, `@surflane/ui/app-shell` the [App shell](https://surflane.page/patterns/app-shell) pattern. Root imports remain available. Every namespace part also has a flat export with the same component, for example `Dialog.Trigger` and `DialogTrigger`. Button variants are primary, secondary, outline, ghost, destructive and link; default aliases primary. Component docs and live examples describe their detailed API.
-
-## Artifacts and release checks
-
-```sh
-npm run pack            # local content-addressed package tarballs
-npm run export:source   # clean source directory + tarball, without Git history
-npm run check:public    # scan distributable source for private context
-npm run release:version -- 0.2.0  # set both package versions
-npm run release:verify -- v0.2.0  # check versions, peer range and changelog
-```
-
-`pack:local` is an alias for local packing. Local tarballs use a `-dev.<hash>` prerelease of the release version without changing the manifests. No command copies artifacts into neighboring repositories or updates other applications. The source export includes only project source/configuration; it excludes Git metadata, dependencies, local logs, reports, credentials, built catalog output and old artifacts.
-
-Pushing a `v*` tag runs the release workflow, which publishes both packages to npm with trusted publishing and provenance. See [release validation](docs/release-and-validation.md), [changelog](CHANGELOG.md) and [source preparation](docs/source-preparation.md). The package scope and CSS namespace changed as part of this independent edition. Consumers must update imports and any custom `pui-*` selectors together; no legacy namespace adapter is shipped.
+[CONTRIBUTING.md](CONTRIBUTING.md) covers the development setup, the commands, catalog text and releases.
 
 ## License
 
-Copyright (c) 2026 ashon. Licensed under either of [MIT](LICENSE-MIT) or [Apache-2.0](LICENSE-APACHE), at your option (`MIT OR Apache-2.0`). Third-party dependencies, including font packages, retain their own licenses.
+Copyright (c) 2026 ashon. Licensed under either of [MIT](LICENSE-MIT) or [Apache-2.0](LICENSE-APACHE), at your option (`MIT OR Apache-2.0`). Third-party dependencies, including font packages, keep their own licenses.

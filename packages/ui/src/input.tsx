@@ -3,27 +3,28 @@ import * as React from 'react'
 import { cx } from './parts.js'
 import { useComponentSize, type ComponentSizeAlias } from './sizing.js'
 import { Input as BaseInput } from '@base-ui/react/input'
-export const Input = /* @__PURE__ */ React.forwardRef<
-  HTMLInputElement,
-  Omit<React.ComponentPropsWithoutRef<'input'>, 'size'> & {
-    size?: number | ComponentSizeAlias
-    leadingIcon?: React.ReactNode
-    wrapperClassName?: string
-  }
->(function Input(
-  { className, leadingIcon, wrapperClassName, size, ...props },
+export const Input = function Input({
+  className,
+  leadingIcon,
+  wrapperClassName,
+  size,
   ref,
-) {
+  ...props
+}: Omit<React.ComponentPropsWithoutRef<'input'>, 'size'> & {
+  size?: number | ComponentSizeAlias
+  leadingIcon?: React.ReactNode
+  wrapperClassName?: string
+} & { ref?: React.Ref<HTMLInputElement> }) {
   const scheme = useComponentSize(typeof size === 'string' ? size : undefined)
   return (
     <span
       data-ui-size={scheme}
-      className={cx('pui-control', wrapperClassName)}
+      className={cx('surf-control', wrapperClassName)}
       data-leading-icon={leadingIcon ? '' : undefined}
       data-disabled={props.disabled || undefined}
     >
       {leadingIcon && (
-        <span className='pui-control-icon' aria-hidden='true'>
+        <span className='surf-control-icon' aria-hidden='true'>
           {leadingIcon}
         </span>
       )}
@@ -31,8 +32,8 @@ export const Input = /* @__PURE__ */ React.forwardRef<
         {...props}
         size={typeof size === 'number' ? size : undefined}
         ref={ref}
-        className={cx('pui-input', className)}
+        className={cx('surf-input', className)}
       />
     </span>
   )
-})
+}

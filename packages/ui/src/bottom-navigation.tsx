@@ -15,28 +15,29 @@ export type BottomNavigationRootProps =
     position?: 'fixed' | 'static'
   }
 /** A phone's primary destinations along the bottom edge, within thumb reach. Pad the
- * scrolling content by --size-bottom-navigation so the last line stays visible. */
-const Root = /* @__PURE__ */ React.forwardRef<
-  HTMLElement,
-  BottomNavigationRootProps
->(function BottomNavigationRoot(
-  { visible = 'mobile', position = 'fixed', className, children, ...props },
+ * scrolling content by --surf-size-bottom-navigation so the last line stays visible. */
+const Root = function BottomNavigationRoot({
+  visible = 'mobile',
+  position = 'fixed',
+  className,
+  children,
   ref,
-) {
+  ...props
+}: BottomNavigationRootProps & { ref?: React.Ref<HTMLElement> }) {
   return (
     <nav
       {...props}
       ref={ref}
       data-visible={visible}
       data-position={position}
-      className={cx('pui-bottom-nav', className)}
+      className={cx('surf-bottom-nav', className)}
     >
-      <ul role='list' className='pui-bottom-nav-list'>
+      <ul role='list' className='surf-bottom-nav-list'>
         {children}
       </ul>
     </nav>
   )
-})
+}
 
 export type BottomNavigationItemProps = Omit<
   useRender.ComponentProps<'a'>,
@@ -54,13 +55,17 @@ export type BottomNavigationItemProps = Omit<
 }
 /** One destination: an icon above its label. Pass a router's link element as
  * `render` to keep client navigation. */
-const Item = /* @__PURE__ */ React.forwardRef<
-  HTMLAnchorElement,
-  BottomNavigationItemProps
->(function BottomNavigationItem(
-  { icon, label, current, badge, badgeLabel, render, className, ...props },
+const Item = function BottomNavigationItem({
+  icon,
+  label,
+  current,
+  badge,
+  badgeLabel,
+  render,
+  className,
   ref,
-) {
+  ...props
+}: BottomNavigationItemProps & { ref?: React.Ref<HTMLAnchorElement> }) {
   const count =
     typeof badge === 'number' && badge > 0
       ? badge > 99
@@ -76,30 +81,30 @@ const Item = /* @__PURE__ */ React.forwardRef<
     props: {
       ...props,
       'aria-current': current ? 'page' : props['aria-current'],
-      className: cx('pui-bottom-nav-item', className),
+      className: cx('surf-bottom-nav-item', className),
       children: (
         <>
-          <span className='pui-bottom-nav-icon' aria-hidden='true'>
+          <span className='surf-bottom-nav-icon' aria-hidden='true'>
             {icon}
             {shown && (
               <span
-                className='pui-bottom-nav-badge'
+                className='surf-bottom-nav-badge'
                 data-dot={count ? undefined : ''}
               >
                 {count}
               </span>
             )}
           </span>
-          <span className='pui-bottom-nav-label'>{label}</span>
+          <span className='surf-bottom-nav-label'>{label}</span>
           {shown && spoken && (
-            <span className='pui-feedback-sr'>, {spoken}</span>
+            <span className='surf-feedback-sr'>, {spoken}</span>
           )}
         </>
       ),
     },
   })
-  return <li className='pui-bottom-nav-entry'>{link}</li>
-})
+  return <li className='surf-bottom-nav-entry'>{link}</li>
+}
 
 export const BottomNavigation = { Root, Item }
 

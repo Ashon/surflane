@@ -6,50 +6,51 @@
 @import './choice.css';
 
 @layer surflane.components {
-  .pui-choice-label {
+  .surf-choice-label {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: var(--space-3);
-    min-height: var(--control-height);
+    gap: var(--surf-space-3);
+    min-height: var(--surf-control-height);
     width: fit-content;
     max-width: 100%;
     cursor: pointer;
-    color: var(--ink-body);
-    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
-      var(--font-body);
+    color: var(--surf-ink-body);
+    font: var(--surf-weight-regular)
+      var(--surf-type-body-size)/var(--surf-type-body-leading)
+      var(--surf-font-body);
   }
-  .pui-choice-label:has([data-disabled]) {
+  .surf-choice-label:has([data-disabled]) {
     cursor: not-allowed;
   }
-  .pui-choice-label > span:last-child {
+  .surf-choice-label > span:last-child {
     min-width: 0;
     overflow-wrap: anywhere;
   }
   /* ChoiceLabel: the control holds one line, so it centers on the first line of the text
      whether or not a description follows. */
-  .pui-choice-label:has(> .pui-choice-text > .pui-choice-description) {
+  .surf-choice-label:has(> .surf-choice-text > .surf-choice-description) {
     align-items: flex-start;
   }
-  .pui-choice-control {
+  .surf-choice-control {
     display: inline-flex;
     flex: none;
     align-items: center;
     min-block-size: 1lh;
   }
-  .pui-choice-text {
+  .surf-choice-text {
     display: grid;
-    gap: var(--space-1);
+    gap: var(--surf-space-1);
     min-width: 0;
     overflow-wrap: anywhere;
   }
-  .pui-choice-description {
-    color: var(--ink-muted);
-    font-size: var(--type-caption-size);
-    line-height: var(--type-caption-leading);
-    letter-spacing: var(--type-caption-tracking);
+  .surf-choice-description {
+    color: var(--surf-ink-muted);
+    font-size: var(--surf-type-caption-size);
+    line-height: var(--surf-type-caption-leading);
+    letter-spacing: var(--surf-type-caption-tracking);
   }
-  .pui-choice-label:has([data-readonly]) {
+  .surf-choice-label:has([data-readonly]) {
     cursor: default;
   }
 }

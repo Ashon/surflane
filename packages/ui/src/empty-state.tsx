@@ -1,35 +1,39 @@
-'use client'
 import * as React from 'react'
-import { part, cx } from './parts.js'
+import { cx } from './class-names.js'
+import { elementPart } from './element-part.js'
 
-const EmptyTitle = /* @__PURE__ */ React.forwardRef<
-  HTMLHeadingElement,
-  React.ComponentPropsWithoutRef<'h3'> & { level?: 2 | 3 | 4 | 5 | 6 }
->(function EmptyTitle({ level = 3, className, ...props }, ref) {
+const EmptyTitle = function EmptyTitle({
+  level = 3,
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<'h3'> & { level?: 2 | 3 | 4 | 5 | 6 } & {
+  ref?: React.Ref<HTMLHeadingElement>
+}) {
   return React.createElement(`h${level}`, {
     ...props,
     ref,
-    className: cx('pui-empty-title', className),
+    className: cx('surf-empty-title', className),
   })
-})
+}
 export const EmptyState = {
-  Root: /* @__PURE__ */ part<
+  Root: /* @__PURE__ */ elementPart<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<'div'>
-  >('div', 'pui-empty'),
-  Icon: /* @__PURE__ */ part<
+  >('div', 'surf-empty'),
+  Icon: /* @__PURE__ */ elementPart<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<'div'>
-  >('div', 'pui-empty-icon'),
+  >('div', 'surf-empty-icon'),
   Title: EmptyTitle,
-  Description: /* @__PURE__ */ part<
+  Description: /* @__PURE__ */ elementPart<
     HTMLParagraphElement,
     React.ComponentPropsWithoutRef<'p'>
-  >('p', 'pui-empty-description'),
-  Actions: /* @__PURE__ */ part<
+  >('p', 'surf-empty-description'),
+  Actions: /* @__PURE__ */ elementPart<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<'div'>
-  >('div', 'pui-empty-actions'),
+  >('div', 'surf-empty-actions'),
 }
 // Flat names for React Server Components, which cannot dot into client exports.
 export const {

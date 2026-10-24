@@ -20,7 +20,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className='pui-typography'>
+      <body className='surf-typography'>
         {children}
         <ScrollRestoration />
         <Scripts />

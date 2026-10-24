@@ -5,13 +5,17 @@ import { NumberField as BaseNumberField } from '@base-ui/react/number-field'
 import { part, skin } from './parts.js'
 import { useRootRef, useResetValue } from './form-state.js'
 
-const NumberRoot = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<typeof BaseNumberField.Root>
->(function NumberRoot(
-  { value, defaultValue, onValueChange, className, form, ...props },
+const NumberRoot = function NumberRoot({
+  value,
+  defaultValue,
+  onValueChange,
+  className,
+  form,
   ref,
-) {
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseNumberField.Root> & {
+  ref?: React.Ref<HTMLDivElement>
+}) {
   const [element, attach] = useRootRef(ref)
   const [numeric, setNumeric] = useResetValue(
     value,
@@ -25,44 +29,52 @@ const NumberRoot = /* @__PURE__ */ React.forwardRef<
       form={form}
       ref={attach}
       value={numeric}
-      className={skin('pui-number-field', className)}
+      className={skin('surf-number-field', className)}
       onValueChange={(next, event) => {
         onValueChange?.(next, event)
         if (value === undefined && !event.isCanceled) setNumeric(next)
       }}
     />
   )
-})
-const NumberIncrement = /* @__PURE__ */ React.forwardRef<
-  HTMLButtonElement,
-  React.ComponentPropsWithoutRef<typeof BaseNumberField.Increment>
->(function NumberIncrement({ className, children, ...props }, ref) {
+}
+const NumberIncrement = function NumberIncrement({
+  className,
+  children,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseNumberField.Increment> & {
+  ref?: React.Ref<HTMLButtonElement>
+}) {
   return (
     <BaseNumberField.Increment
       aria-label='Increase value'
       {...props}
       ref={ref}
-      className={skin('pui-number-step', className)}
+      className={skin('surf-number-step', className)}
     >
       {children ?? <Icon name='plus' />}
     </BaseNumberField.Increment>
   )
-})
-const NumberDecrement = /* @__PURE__ */ React.forwardRef<
-  HTMLButtonElement,
-  React.ComponentPropsWithoutRef<typeof BaseNumberField.Decrement>
->(function NumberDecrement({ className, children, ...props }, ref) {
+}
+const NumberDecrement = function NumberDecrement({
+  className,
+  children,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseNumberField.Decrement> & {
+  ref?: React.Ref<HTMLButtonElement>
+}) {
   return (
     <BaseNumberField.Decrement
       aria-label='Decrease value'
       {...props}
       ref={ref}
-      className={skin('pui-number-step', className)}
+      className={skin('surf-number-step', className)}
     >
       {children ?? <Icon name='minus' />}
     </BaseNumberField.Decrement>
   )
-})
+}
 export const NumberField = {
   ...BaseNumberField,
   Root: NumberRoot,
@@ -71,15 +83,15 @@ export const NumberField = {
   Group: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseNumberField.Group>
-  >(BaseNumberField.Group, 'pui-number-group'),
+  >(BaseNumberField.Group, 'surf-number-group'),
   Input: /* @__PURE__ */ part<
     HTMLInputElement,
     React.ComponentPropsWithoutRef<typeof BaseNumberField.Input>
-  >(BaseNumberField.Input, 'pui-number-input'),
+  >(BaseNumberField.Input, 'surf-number-input'),
   ScrubArea: /* @__PURE__ */ part<
     HTMLSpanElement,
     React.ComponentPropsWithoutRef<typeof BaseNumberField.ScrubArea>
-  >(BaseNumberField.ScrubArea, 'pui-number-scrub'),
+  >(BaseNumberField.ScrubArea, 'surf-number-scrub'),
 }
 // Flat names for React Server Components, which cannot dot into client exports.
 export const {

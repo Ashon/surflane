@@ -10,37 +10,41 @@ export type BadgeProps = React.ComponentPropsWithoutRef<'span'> & {
   tone?: StatusTone
   icon?: React.ReactNode
 }
-export const Badge = /* @__PURE__ */ React.forwardRef<
-  HTMLSpanElement,
-  BadgeProps
->(function Badge(
-  { tone = 'neutral', icon, children, className, size, ...props },
+export const Badge = function Badge({
+  tone = 'neutral',
+  icon,
+  children,
+  className,
+  size,
   ref,
-) {
+  ...props
+}: BadgeProps & { ref?: React.Ref<HTMLSpanElement> }) {
   const scheme = useComponentSize(size)
   const elementRef = useToneTransition<HTMLSpanElement>(tone, ref)
   return (
     <span
       {...props}
       ref={elementRef}
-      className={cx('pui-badge', className)}
+      className={cx('surf-badge', className)}
       data-tone={tone}
       data-ui-size={scheme}
     >
       {icon && (
-        <span className='pui-badge-icon' aria-hidden='true'>
+        <span className='surf-badge-icon' aria-hidden='true'>
           {icon}
         </span>
       )}
       {children}
     </span>
   )
-})
+}
 /** Domain status labels and live announcements remain the caller's responsibility. */
-export const StatusBadge = /* @__PURE__ */ React.forwardRef<
-  HTMLSpanElement,
-  BadgeProps
->(function StatusBadge({ tone = 'neutral', icon, ...props }, ref) {
+export const StatusBadge = function StatusBadge({
+  tone = 'neutral',
+  icon,
+  ref,
+  ...props
+}: BadgeProps & { ref?: React.Ref<HTMLSpanElement> }) {
   return (
     <Badge
       {...props}
@@ -49,5 +53,5 @@ export const StatusBadge = /* @__PURE__ */ React.forwardRef<
       icon={icon === undefined ? <StatusIcon tone={tone} /> : icon}
     />
   )
-})
+}
 export type { StatusTone } from './status.js'

@@ -50,8 +50,8 @@ test('document and navigation use shared scroll viewports without changing sheet
   await waitForCatalogReady(page)
   const doc = documentViewport(page),
     nav = page.getByRole('region', { name: 'Catalog sections', exact: true })
-  await expect(doc).toHaveClass(/pui-scroll-viewport/)
-  await expect(nav).toHaveClass(/pui-scroll-viewport/)
+  await expect(doc).toHaveClass(/surf-scroll-viewport/)
+  await expect(nav).toHaveClass(/surf-scroll-viewport/)
   await expect(doc).toHaveCSS('scrollbar-width', 'none')
   const initial = (await page.getByRole('main').boundingBox())!
   const sidebar = (await page.getByRole('complementary').boundingBox())!
@@ -145,7 +145,7 @@ for (const [width, columns, tracks, gutter] of [
     const grid = page
       .getByRole('region', { name: 'Forms', exact: true })
       .locator('.catalog-item-list')
-    await expect(grid).toHaveClass(/pui-grid/)
+    await expect(grid).toHaveClass(/surf-grid/)
     expect(
       await grid.evaluate(
         (el) => getComputedStyle(el).gridTemplateColumns.split(' ').length,

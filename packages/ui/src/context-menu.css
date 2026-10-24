@@ -7,7 +7,7 @@
 @import './menu.css';
 
 @layer surflane.components {
-  .pui-context-trigger {
+  .surf-context-trigger {
     -webkit-touch-callout: none;
   }
 }

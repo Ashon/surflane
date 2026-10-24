@@ -131,38 +131,33 @@ function accepts(file: File, accept: string) {
   )
 }
 /** Native selection/validation and a cancellable transport adapter; no network request is built in. */
-export const FileUpload = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  FileUploadProps
->(function FileUpload(
-  {
-    label,
-    description,
-    name,
-    form,
-    accept = '',
-    capture,
-    multiple = false,
-    required = false,
-    maxFiles = Infinity,
-    maxFileSize = Infinity,
-    files: controlled,
-    defaultFiles = [],
-    onFilesChange,
-    onReject,
-    transport,
-    getUploadError,
-    labels: customLabels,
-    disabled = false,
-    className,
-    onDragEnter,
-    onDragLeave,
-    onDragOver,
-    onDrop,
-    ...props
-  },
-  forwardedRef,
-) {
+export const FileUpload = function FileUpload({
+  label,
+  description,
+  name,
+  form,
+  accept = '',
+  capture,
+  multiple = false,
+  required = false,
+  maxFiles = Infinity,
+  maxFileSize = Infinity,
+  files: controlled,
+  defaultFiles = [],
+  onFilesChange,
+  onReject,
+  transport,
+  getUploadError,
+  labels: customLabels,
+  disabled = false,
+  className,
+  onDragEnter,
+  onDragLeave,
+  onDragOver,
+  onDrop,
+  ref: forwardedRef,
+  ...props
+}: FileUploadProps & { ref?: React.Ref<HTMLDivElement> }) {
   const labels = {
     ...labelsDefault,
     ...customLabels,
@@ -401,7 +396,7 @@ export const FileUpload = /* @__PURE__ */ React.forwardRef<
       ref={ref}
       name={name}
       disabled={disabled}
-      className={skin('pui-field pui-file-upload', className)}
+      className={skin('surf-field surf-file-upload', className)}
       data-dragging={dragging || undefined}
     >
       <Field.Label>{label}</Field.Label>
@@ -409,7 +404,7 @@ export const FileUpload = /* @__PURE__ */ React.forwardRef<
         <Field.Description>{description}</Field.Description>
       )}
       <div
-        className='pui-file-dropzone'
+        className='surf-file-dropzone'
         onDragEnter={(event) => {
           onDragEnter?.(event)
           if (!event.defaultPrevented && hasFiles(event) && !disabled) {
@@ -440,7 +435,7 @@ export const FileUpload = /* @__PURE__ */ React.forwardRef<
           }
         }}
       >
-        <div className='pui-file-picker'>
+        <div className='surf-file-picker'>
           <Field.Control
             ref={input}
             id={inputId}
@@ -452,7 +447,7 @@ export const FileUpload = /* @__PURE__ */ React.forwardRef<
             multiple={multiple}
             required={required}
             disabled={disabled}
-            className='pui-file-native'
+            className='surf-file-native'
             aria-describedby={errorId}
             onKeyDown={(event) => {
               if (event.key === 'Enter') event.preventBaseUIHandler()
@@ -466,18 +461,18 @@ export const FileUpload = /* @__PURE__ */ React.forwardRef<
           />
           <label
             htmlFor={inputId}
-            className='pui-button pui-file-trigger'
+            className='surf-button surf-file-trigger'
             data-variant='outline'
             data-disabled={disabled || undefined}
           >
             <Icon name='upload' />
             {labels.choose}
           </label>
-          <p className='pui-file-drop-hint'>{labels.drop}</p>
+          <p className='surf-file-drop-hint'>{labels.drop}</p>
         </div>
         {/* The files continue the drop zone's plane, so a drop on them adds more. */}
         {files.length > 0 && (
-          <ul className='pui-file-list' role='list'>
+          <ul className='surf-file-list' role='list'>
             {files.map((file) => {
               const state = metadata.get(file) ?? {
                 status: 'ready',
@@ -487,8 +482,8 @@ export const FileUpload = /* @__PURE__ */ React.forwardRef<
                 identities.current.set(file, `${uid}-${++nextId.current}`)
               const itemId = identities.current.get(file)!
               return (
-                <li key={itemId} className='pui-file-item'>
-                  <div className='pui-file-info'>
+                <li key={itemId} className='surf-file-item'>
+                  <div className='surf-file-info'>
                     <strong>{file.name}</strong>
                     <span>{labels.size(file.size)}</span>
                     <StatusBadge
@@ -505,7 +500,7 @@ export const FileUpload = /* @__PURE__ */ React.forwardRef<
                       {labels.status[state.status]}
                     </StatusBadge>
                   </div>
-                  <div className='pui-file-actions'>
+                  <div className='surf-file-actions'>
                     {transport && state.status !== 'success' && (
                       <Button
                         ref={(node) => {
@@ -574,7 +569,10 @@ export const FileUpload = /* @__PURE__ */ React.forwardRef<
                     </Progress.Root>
                   )}
                   {state.error && (
-                    <p id={`${itemId}-error`} className='pui-file-upload-error'>
+                    <p
+                      id={`${itemId}-error`}
+                      className='surf-file-upload-error'
+                    >
                       {state.error}
                     </p>
                   )}
@@ -584,7 +582,7 @@ export const FileUpload = /* @__PURE__ */ React.forwardRef<
           </ul>
         )}
       </div>
-      <div id={errorId} role='alert' className='pui-file-errors'>
+      <div id={errorId} role='alert' className='surf-file-errors'>
         {rejections.length > 0 && (
           <ul>
             {rejections.map((rejection, index) => (
@@ -594,9 +592,9 @@ export const FileUpload = /* @__PURE__ */ React.forwardRef<
         )}
       </div>
       <Field.Error />
-      <span className='pui-feedback-sr' role='status'>
+      <span className='surf-feedback-sr' role='status'>
         {announcement}
       </span>
     </Field.Root>
   )
-})
+}

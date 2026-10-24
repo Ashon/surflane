@@ -4,74 +4,75 @@
 @import './base.css';
 
 @layer surflane.components {
-  .pui-combobox-group,
-  .pui-number-group {
+  .surf-combobox-group,
+  .surf-number-group {
     box-sizing: border-box;
     display: flex;
     align-items: center;
     min-width: 0;
     width: 100%;
-    min-height: var(--control-height);
-    border: 1px solid var(--control-border);
-    border-radius: var(--control-radius);
-    background: var(--control-background);
+    min-height: var(--surf-control-height);
+    border: 1px solid var(--surf-control-border);
+    border-radius: var(--surf-control-radius);
+    background: var(--surf-control-background);
     transition:
-      background-color var(--duration-fast) var(--ease-out),
-      border-color var(--duration-fast) var(--ease-out),
-      box-shadow var(--duration-fast) var(--ease-out);
+      background-color var(--surf-duration-fast) var(--surf-ease-out),
+      border-color var(--surf-duration-fast) var(--surf-ease-out),
+      box-shadow var(--surf-duration-fast) var(--surf-ease-out);
   }
-  .pui-combobox-group:hover,
-  .pui-number-group:hover {
-    border-color: var(--control-hover-border);
-    background: var(--control-hover-background);
+  .surf-combobox-group:hover,
+  .surf-number-group:hover {
+    border-color: var(--surf-control-hover-border);
+    background: var(--surf-control-hover-background);
   }
-  .pui-combobox-group:focus-within,
-  .pui-number-group:focus-within {
-    border-color: var(--control-focus);
-    box-shadow: 0 0 0 var(--control-focus-ring-size) var(--control-focus-ring);
+  .surf-combobox-group:focus-within,
+  .surf-number-group:focus-within {
+    border-color: var(--surf-control-focus);
+    box-shadow: 0 0 0 var(--surf-control-focus-ring-size)
+      var(--surf-control-focus-ring);
   }
-  .pui-combobox-action,
-  .pui-number-step,
-  .pui-combobox-chip-remove {
+  .surf-combobox-action,
+  .surf-number-step,
+  .surf-combobox-chip-remove {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     flex: none;
-    width: var(--control-height);
-    height: var(--control-height);
+    width: var(--surf-control-height);
+    height: var(--surf-control-height);
     padding: 0;
     border: 0;
-    border-radius: var(--control-radius);
+    border-radius: var(--surf-control-radius);
     background: transparent;
-    color: var(--ink-body);
+    color: var(--surf-ink-body);
     cursor: pointer;
   }
-  .pui-combobox-action:focus-visible,
-  .pui-number-step:focus-visible,
-  .pui-combobox-chip-remove:focus-visible {
-    outline: var(--focus-ring-width) solid var(--interaction-focus);
-    outline-offset: var(--focus-ring-inset);
+  .surf-combobox-action:focus-visible,
+  .surf-number-step:focus-visible,
+  .surf-combobox-chip-remove:focus-visible {
+    outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+    outline-offset: var(--surf-focus-ring-inset);
   }
-  .pui-combobox-group[data-disabled],
-  .pui-number-group[data-disabled] {
-    opacity: var(--control-disabled-opacity);
+  .surf-combobox-group[data-disabled],
+  .surf-number-group[data-disabled] {
+    opacity: var(--surf-control-disabled-opacity);
     cursor: not-allowed;
   }
-  .pui-combobox-action[data-disabled],
-  .pui-number-step[data-disabled],
-  .pui-combobox-chip-remove[data-disabled] {
-    opacity: var(--control-disabled-opacity);
+  .surf-combobox-action[data-disabled],
+  .surf-number-step[data-disabled],
+  .surf-combobox-chip-remove[data-disabled] {
+    opacity: var(--surf-control-disabled-opacity);
     cursor: not-allowed;
   }
-  .pui-combobox-group[data-invalid],
-  .pui-number-group[data-invalid] {
-    border-color: var(--status-danger-fg);
+  .surf-combobox-group[data-invalid],
+  .surf-number-group[data-invalid] {
+    border-color: var(--surf-status-danger-fg);
   }
   @media (forced-colors: active) {
-    .pui-combobox-group:focus-within,
-    .pui-number-group:focus-within {
-      outline: var(--focus-ring-width) solid Highlight;
-      outline-offset: var(--focus-ring-offset);
+    .surf-combobox-group:focus-within,
+    .surf-number-group:focus-within {
+      outline: var(--surf-focus-ring-width) solid Highlight;
+      outline-offset: var(--surf-focus-ring-offset);
     }
   }
 }

@@ -9,12 +9,12 @@ export const doc: ComponentDoc = {
   keyboard:
     "Tab reaches links and copy buttons, and Enter activates them natively. Headings start at h2 by default. Each instance's internal links point to its own IDs. HTML is excluded, and the default URL policy blocks unsafe URLs. Long tables and code scroll independently instead of overflowing the document.",
   tokens: [
-    '--type-reading-size',
-    '--type-reading-leading',
-    '--layout-reading',
-    '--code-bg',
-    '--syntax-keyword',
-    '--ink-body',
+    '--surf-type-reading-size',
+    '--surf-type-reading-leading',
+    '--surf-layout-reading',
+    '--surf-code-bg',
+    '--surf-syntax-keyword',
+    '--surf-ink-body',
   ],
   code: `// Needs react-markdown and remark-gfm: npm install react-markdown remark-gfm
 import { Markdown } from '@surflane/ui/markdown'

@@ -6,24 +6,24 @@
 @import './choice.css';
 
 @layer surflane.components {
-  .pui-radio {
-    border-radius: var(--radius-full);
+  .surf-radio {
+    border-radius: var(--surf-radius-full);
   }
-  .pui-radio-indicator {
+  .surf-radio-indicator {
     width: 8px;
     height: 8px;
-    border-radius: var(--radius-full);
+    border-radius: var(--surf-radius-full);
     background: currentColor;
   }
   @media (prefers-reduced-motion: reduce) {
-    .pui-radio {
+    .surf-radio {
       transition: none;
     }
   }
 }
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *).pui-radio-indicator {
-    width: calc(var(--control-choice-size) * 0.4);
-    height: calc(var(--control-choice-size) * 0.4);
+  :where([data-ui-size], [data-ui-size] *).surf-radio-indicator {
+    width: calc(var(--surf-control-choice-size) * 0.4);
+    height: calc(var(--surf-control-choice-size) * 0.4);
   }
 }

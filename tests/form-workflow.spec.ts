@@ -82,7 +82,7 @@ test('server field errors, request retry and permission recovery preserve values
   await expect(name(page)).toHaveAttribute('aria-invalid', 'true')
   await expect(url(page)).toHaveValue('https://api.example.test')
   await expect(
-    page.locator('.pui-field-error').filter({ hasText: 'already registered' }),
+    page.locator('.surf-field-error').filter({ hasText: 'already registered' }),
   ).toBeVisible()
   await name(page).fill('new-environment')
   await expect(name(page)).not.toHaveAttribute('aria-invalid', 'true')

@@ -91,21 +91,16 @@ function visit(node: Root | RootContent, callback: (element: Element) => void) {
 }
 /** CommonMark + GFM. HTML stays disabled, URLs use react-markdown's safe default.
  * Fetching, permissions, frontmatter, MDX and script execution are caller concerns. */
-export const Markdown = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  MarkdownProps
->(function Markdown(
-  {
-    source,
-    label = 'Markdown content',
-    headingLevel = 2,
-    codeWrap = false,
-    labels,
-    className,
-    ...props
-  },
+export const Markdown = function Markdown({
+  source,
+  label = 'Markdown content',
+  headingLevel = 2,
+  codeWrap = false,
+  labels,
+  className,
   ref,
-) {
+  ...props
+}: MarkdownProps & { ref?: React.Ref<HTMLDivElement> }) {
   const taskLabel = labels?.task ?? markdownLabels.task
   const prefix = `md-${React.useId().replace(/[^a-zA-Z0-9_-]/g, '')}`
   const headings = React.useMemo(
@@ -214,12 +209,12 @@ export const Markdown = /* @__PURE__ */ React.forwardRef<
         )
       },
       code({ node: _node, ...codeProps }) {
-        return <code {...codeProps} className='pui-markdown-inline-code' />
+        return <code {...codeProps} className='surf-markdown-inline-code' />
       },
       table({ node, children, ...tableProps }) {
         return (
           <MarkdownTable label={label} line={node?.position?.start.line ?? 1}>
-            <table {...tableProps} className='pui-table'>
+            <table {...tableProps} className='surf-table'>
               {children}
             </table>
           </MarkdownTable>
@@ -230,12 +225,12 @@ export const Markdown = /* @__PURE__ */ React.forwardRef<
           <th
             {...cellProps}
             scope='col'
-            className='pui-table-cell pui-table-header'
+            className='surf-table-cell surf-table-header'
           />
         )
       },
       td({ node: _node, ...cellProps }) {
-        return <td {...cellProps} className='pui-table-cell' />
+        return <td {...cellProps} className='surf-table-cell' />
       },
       a({ node: _node, href, children, ...linkProps }) {
         return href ? (
@@ -260,7 +255,7 @@ export const Markdown = /* @__PURE__ */ React.forwardRef<
       {...props}
       ref={ref}
       role='article'
-      className={cx('pui-prose pui-markdown', className)}
+      className={cx('surf-prose surf-markdown', className)}
       aria-label={label}
     >
       <LabelsContext.Provider value={labels ?? {}}>
@@ -276,4 +271,4 @@ export const Markdown = /* @__PURE__ */ React.forwardRef<
       </LabelsContext.Provider>
     </div>
   )
-})
+}

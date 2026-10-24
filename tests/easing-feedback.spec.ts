@@ -78,7 +78,7 @@ for (const theme of ['light', 'dark'])
       theme,
     )
     await page.getByRole('button', { name: 'Inspect logs' }).focus()
-    const tip = page.locator('.pui-tooltip')
+    const tip = page.locator('.surf-tooltip')
     await expect(tip).toBeVisible()
     await expect(tip).toHaveCSS('border-top-width', '0px')
     const colors = await tip.evaluate((el) => {
@@ -88,8 +88,8 @@ for (const theme of ['light', 'dark'])
         probe.style.color = `var(${token})`
         return getComputedStyle(probe).color
       }
-      const expectedBg = resolve('--ink'),
-        expectedFg = resolve('--canvas')
+      const expectedBg = resolve('--surf-ink'),
+        expectedFg = resolve('--surf-canvas')
       probe.remove()
       return {
         bg: getComputedStyle(el).backgroundColor,
@@ -127,8 +127,10 @@ test('table sorting has inset hover surface and inline progress replaces its sta
   await page.goto('/components/inline-message')
   await waitForCatalogReady(page)
   await page.getByRole('button', { name: 'Retry preview', exact: true }).click()
-  await expect(page.locator('.pui-message-icon .pui-spinner')).toHaveCount(1)
-  await expect(page.locator('.pui-message-actions .pui-spinner')).toHaveCount(0)
+  await expect(page.locator('.surf-message-icon .surf-spinner')).toHaveCount(1)
+  await expect(page.locator('.surf-message-actions .surf-spinner')).toHaveCount(
+    0,
+  )
 })
 test('toast expansion keeps grid and animates continuous card positions', async ({
   page,
@@ -140,8 +142,8 @@ test('toast expansion keeps grid and animates continuous card positions', async 
     .getByRole('option', { name: 'Until dismissed', exact: true })
     .click()
   await page.getByRole('button', { name: 'Show batch', exact: true }).click()
-  const viewport = page.locator('.pui-toast-viewport')
-  const cards = viewport.locator('.pui-toast:not([data-limited])')
+  const viewport = page.locator('.surf-toast-viewport')
+  const cards = viewport.locator('.surf-toast:not([data-limited])')
   await expect(cards).toHaveCount(3)
   await expect(cards.first()).toHaveCSS('border-top-width', '0px')
   expect(
@@ -177,8 +179,8 @@ test('pointer crossing toast gaps preserves expanded state without churn', async
     .getByRole('option', { name: 'Until dismissed', exact: true })
     .click()
   await page.getByRole('button', { name: 'Show batch', exact: true }).click()
-  const viewport = page.locator('.pui-toast-viewport')
-  const cards = viewport.locator('.pui-toast:not([data-limited])')
+  const viewport = page.locator('.surf-toast-viewport')
+  const cards = viewport.locator('.surf-toast:not([data-limited])')
   await cards.first().hover()
   await expect(viewport).toHaveAttribute('data-expanded', '')
   await expect
@@ -232,11 +234,11 @@ test('a new toast rises while existing cards retain opacity and move in one dire
     .getByRole('option', { name: 'Until dismissed', exact: true })
     .click()
   await page.getByRole('button', { name: 'Show success', exact: true }).click()
-  const first = page.locator('.pui-toast:not([data-limited])')
+  const first = page.locator('.surf-toast:not([data-limited])')
   await expect(first).toHaveCSS('opacity', '1')
   await expect(first).not.toHaveAttribute('data-starting-style')
   const samples = await page.evaluate(async () => {
-    const old = document.querySelector<HTMLElement>('.pui-toast')!
+    const old = document.querySelector<HTMLElement>('.surf-toast')!
     const button = Array.from(document.querySelectorAll('button')).find(
       (el) => el.textContent?.trim() === 'Archive preview item',
     )!
@@ -271,8 +273,8 @@ test('dismissing from an expanded stack does not clip moving cards, and tall sta
     .getByRole('option', { name: 'Until dismissed', exact: true })
     .click()
   await page.getByRole('button', { name: 'Show batch', exact: true }).click()
-  const viewport = page.locator('.pui-toast-viewport')
-  const cards = viewport.locator('.pui-toast:not([data-limited])')
+  const viewport = page.locator('.surf-toast-viewport')
+  const cards = viewport.locator('.surf-toast:not([data-limited])')
   await cards.first().hover()
   await expect(viewport).toHaveAttribute('data-expanded', '')
   await expect(viewport).toHaveCSS('overflow-y', 'visible')
@@ -282,13 +284,13 @@ test('dismissing from an expanded stack does not clip moving cards, and tall sta
     .first()
     .getByRole('button', { name: 'Dismiss notification' })
     .click()
-  await expect.poll(() => page.locator('.pui-toast').count()).toBe(3)
+  await expect.poll(() => page.locator('.surf-toast').count()).toBe(3)
   await expect(viewport).toHaveCSS('overflow-y', 'visible')
   await cards
     .first()
     .getByRole('button', { name: 'Dismiss notification' })
     .click()
-  await expect(page.locator('.pui-toast')).toHaveCount(2)
+  await expect(page.locator('.surf-toast')).toHaveCount(2)
   await expect(viewport).toHaveCSS('overflow-y', 'visible')
   await page.setViewportSize({ width: 320, height: 240 })
   await page
@@ -326,8 +328,8 @@ for (const width of [1440, 320])
       await page
         .getByRole('button', { name: 'Show success', exact: true })
         .click()
-      const viewport = page.locator('.pui-toast-viewport'),
-        cards = viewport.locator('.pui-toast:not([data-limited])')
+      const viewport = page.locator('.surf-toast-viewport'),
+        cards = viewport.locator('.surf-toast:not([data-limited])')
       await expect(cards).toHaveCount(2)
       await expect(viewport).not.toHaveAttribute('data-expanded')
       await expect

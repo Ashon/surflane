@@ -8,10 +8,10 @@ test('icon sizes follow the component scale, the stroke is shape metadata and vo
   expect(new Set(iconNames).size).toBe(iconNames.length)
   expect(iconNames).toHaveLength(30)
   for (const [name, category] of [
-    ['--size-icon-small', 'Controls'],
-    ['--size-icon-default', 'Controls'],
-    ['--size-icon-large', 'Controls'],
-    ['--icon-stroke-width', 'Shape'],
+    ['--surf-size-icon-small', 'Controls'],
+    ['--surf-size-icon-default', 'Controls'],
+    ['--surf-size-icon-large', 'Controls'],
+    ['--surf-icon-stroke-width', 'Shape'],
   ]) {
     const token = tokenCatalog.tokens.find((token) => token.name === name)
     expect(token?.category, name).toBe(category)
@@ -55,7 +55,7 @@ test('glyphs retain geometry, explicit semantics and noninteractive focus behavi
   await expect(page.getByRole('img')).toHaveCount(1)
   await expect(
     page.getByRole('img', { name: 'Supplementary information' }),
-  ).toHaveAttribute('class', 'pui-icon')
+  ).toHaveAttribute('class', 'surf-icon')
   await expect(
     page
       .getByRole('button', { name: 'Reset preview', exact: true })
@@ -156,10 +156,10 @@ test('forced colors follows system color and token links keep the correct public
     page.getByRole('button', { name: 'Reset preview', exact: true }),
   ).toBeEnabled()
   await page
-    .getByRole('link', { name: '--size-icon-default', exact: true })
+    .getByRole('link', { name: '--surf-size-icon-default', exact: true })
     .click()
   await waitForCatalogReady(page)
-  await expect(page).toHaveURL(/tokens\?q=--size-icon-default/)
+  await expect(page).toHaveURL(/tokens\?q=--surf-size-icon-default/)
   await page.goBack()
   await waitForCatalogReady(page)
   await expect(page.locator('#page-title')).toHaveText('Iconography')

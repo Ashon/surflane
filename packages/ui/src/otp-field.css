@@ -6,66 +6,67 @@
 @import './input.css';
 
 @layer surflane.components {
-  .pui-otp-field,
-  .pui-otp-group {
+  .surf-otp-field,
+  .surf-otp-group {
     display: flex;
     align-items: center;
-    gap: var(--space-2);
+    gap: var(--surf-space-2);
     min-width: 0;
     max-width: 100%;
     width: fit-content;
   }
-  .pui-otp-group {
+  .surf-otp-group {
     flex: 1 1 auto;
   }
-  .pui-otp-input {
-    flex: 0 1 var(--control-target-size);
-    width: var(--control-target-size);
-    height: var(--control-target-size);
+  .surf-otp-input {
+    flex: 0 1 var(--surf-control-target-size);
+    width: var(--surf-control-target-size);
+    height: var(--surf-control-target-size);
     min-width: 0;
     padding: 0;
     text-align: center;
-    font: var(--weight-regular)
-      var(--type-section-size)/var(--type-section-leading) var(--font-code);
-    letter-spacing: var(--tracking-mono);
+    font: var(--surf-weight-regular)
+      var(--surf-type-section-size)/var(--surf-type-section-leading)
+      var(--surf-font-code);
+    letter-spacing: var(--surf-tracking-mono);
     font-variant-numeric: tabular-nums;
-    caret-color: var(--control-focus);
+    caret-color: var(--surf-control-focus);
   }
-  .pui-otp-separator {
+  .surf-otp-separator {
     flex: none;
-    width: var(--space-2);
+    width: var(--surf-space-2);
     height: 0;
     border: 0;
-    border-top: 1px solid var(--line);
+    border-top: 1px solid var(--surf-line);
   }
   @media (max-width: 760px) {
-    .pui-otp-field,
-    .pui-otp-group {
-      gap: var(--space-1);
+    .surf-otp-field,
+    .surf-otp-group {
+      gap: var(--surf-space-1);
     }
   }
   @media (forced-colors: active) {
-    .pui-otp-input {
+    .surf-otp-input {
       background: Field;
       color: FieldText;
       border-color: ButtonText;
     }
-    .pui-otp-input:focus-visible {
+    .surf-otp-input:focus-visible {
       outline: 2px solid Highlight;
-      outline-offset: var(--focus-ring-offset);
+      outline-offset: var(--surf-focus-ring-offset);
     }
-    .pui-otp-input[aria-invalid='true'] {
+    .surf-otp-input[aria-invalid='true'] {
       border-color: LinkText;
     }
-    .pui-otp-separator {
+    .surf-otp-separator {
       border-color: CanvasText;
     }
   }
 }
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *).pui-otp-input {
-    flex-basis: var(--ui-otp);
-    width: var(--ui-otp);
-    height: var(--ui-otp);
+  :where([data-ui-size], [data-ui-size] *).surf-otp-input {
+    flex-basis: var(--surf-ui-otp);
+    width: var(--surf-ui-otp);
+    height: var(--surf-ui-otp);
   }
 }

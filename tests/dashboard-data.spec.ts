@@ -37,21 +37,21 @@ test('Stat names its value and shows direction by sign, arrow and color', async 
   await page.goto('/components/stat')
   await waitForCatalogReady(page)
   const preview = page.locator('[data-preview-size]')
-  const stats = preview.locator('dl.pui-stat')
+  const stats = preview.locator('dl.surf-stat')
   await expect(stats).toHaveCount(3)
   const first = stats.first()
   await expect(first.locator('> dt')).toHaveText('Deploy success')
-  await expect(first.locator('> dd.pui-stat-value')).toHaveText('99%')
-  const change = first.locator('.pui-stat-change')
+  await expect(first.locator('> dd.surf-stat-value')).toHaveText('99%')
+  const change = first.locator('.surf-stat-change')
   await expect(change).toHaveAttribute('data-direction', 'up')
   await expect(change).toHaveAttribute('data-tone', 'up')
   await expect(change).toHaveText(/^\+0\.5%$/)
-  await expect(change.locator('svg.pui-icon')).toHaveAttribute(
+  await expect(change.locator('svg.surf-icon')).toHaveAttribute(
     'aria-hidden',
     'true',
   )
   // Latency fell, and a fall is good there: the arrow points down, the color is up's.
-  const latency = stats.nth(1).locator('.pui-stat-change')
+  const latency = stats.nth(1).locator('.surf-stat-change')
   await expect(latency).toHaveAttribute('data-direction', 'down')
   await expect(latency).toHaveAttribute('data-tone', 'up')
   const colors = await page.evaluate(() => {
@@ -61,7 +61,10 @@ test('Stat names its value and shows direction by sign, arrow and color', async 
       probe.style.color = `var(${token})`
       return getComputedStyle(probe).color
     }
-    const result = { up: read('--trend-up-fg'), down: read('--trend-down-fg') }
+    const result = {
+      up: read('--surf-trend-up-fg'),
+      down: read('--surf-trend-down-fg'),
+    }
     probe.remove()
     return result
   })
@@ -71,12 +74,12 @@ test('Stat names its value and shows direction by sign, arrow and color', async 
   expect(await latency.evaluate((el) => getComputedStyle(el).color)).toBe(
     colors.up,
   )
-  const cost = stats.nth(2).locator('.pui-stat-change')
+  const cost = stats.nth(2).locator('.surf-stat-change')
   await expect(cost).toHaveAttribute('data-tone', 'down')
   expect(await cost.evaluate((el) => getComputedStyle(el).color)).toBe(
     colors.down,
   )
-  await expect(stats.nth(2).locator('.pui-stat-value')).toHaveText('₩4.9M')
+  await expect(stats.nth(2).locator('.surf-stat-value')).toHaveText('₩4.9M')
 })
 
 test('Sparkline is a named image with sizes, a baseline, a marker and gaps', async ({
@@ -84,7 +87,7 @@ test('Sparkline is a named image with sizes, a baseline, a marker and gaps', asy
 }) => {
   await page.goto('/components/sparkline')
   await waitForCatalogReady(page)
-  const lines = page.locator('[data-preview-size] svg.pui-sparkline')
+  const lines = page.locator('[data-preview-size] svg.surf-sparkline')
   await expect(lines).toHaveCount(4)
   for (const [index, height] of [24, 32, 48].entries()) {
     const line = lines.nth(index)
@@ -93,17 +96,17 @@ test('Sparkline is a named image with sizes, a baseline, a marker and gaps', asy
     expect(await line.evaluate((el) => el.getBoundingClientRect().height)).toBe(
       height,
     )
-    await expect(line.locator('.pui-sparkline-baseline')).toHaveCount(1)
-    await expect(line.locator('.pui-sparkline-marker')).toHaveCount(1)
+    await expect(line.locator('.surf-sparkline-baseline')).toHaveCount(1)
+    await expect(line.locator('.surf-sparkline-marker')).toHaveCount(1)
     await expect(line).toHaveAttribute('data-tone', 'up')
   }
   // A missing week starts a second segment instead of drawing through zero.
   const gap = await lines
     .nth(3)
-    .locator('.pui-sparkline-line')
+    .locator('.surf-sparkline-line')
     .getAttribute('d')
   expect(gap?.match(/M/g)).toHaveLength(2)
-  await expect(lines.nth(3).locator('.pui-sparkline-baseline')).toHaveCount(0)
+  await expect(lines.nth(3).locator('.surf-sparkline-baseline')).toHaveCount(0)
 })
 
 test('Chart can leave zero off its axis and color categories', async ({
@@ -117,7 +120,7 @@ test('Chart can leave zero off its axis and color categories', async ({
   }
   const ticks = () =>
     page
-      .locator('figure.pui-chart svg text')
+      .locator('figure.surf-chart svg text')
       .allTextContents()
       .then((texts) => texts.filter((text) => /^\d+$/.test(text)))
   await pick('Chart data', 'Latency far from zero')
@@ -137,11 +140,11 @@ test('Chart can leave zero off its axis and color categories', async ({
   await pick('Palette', 'Categorical')
   const strokes = await page
     .locator(
-      'figure.pui-chart .pui-chart-legend-button svg > path:first-of-type',
+      'figure.surf-chart .surf-chart-legend-button svg > path:first-of-type',
     )
     .evaluateAll((paths) => paths.map((p) => p.getAttribute('stroke')))
   expect(strokes).toEqual(
-    [1, 2, 3, 4, 5].map((index) => `var(--chart-category-${index})`),
+    [1, 2, 3, 4, 5].map((index) => `var(--surf-chart-category-${index})`),
   )
 })
 
@@ -149,10 +152,10 @@ test('StatusBadge has an info tone with its own icon', async ({ page }) => {
   await page.goto('/components/badge')
   await waitForCatalogReady(page)
   const badge = page
-    .locator('[data-preview-size] .pui-badge[data-tone="info"]')
+    .locator('[data-preview-size] .surf-badge[data-tone="info"]')
     .first()
   await expect(badge).toHaveText('Scheduled')
-  await expect(badge.locator('svg.pui-icon')).toHaveCount(1)
+  await expect(badge.locator('svg.surf-icon')).toHaveCount(1)
 })
 
 for (const theme of ['light', 'dark'])

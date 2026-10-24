@@ -118,10 +118,10 @@ test('transitions guide reports the toast roles and links to actual interaction 
   await page.goto('/foundations/motion#transitions')
   await waitForCatalogReady(page)
   await expect(
-    page.locator('[data-motion-token="--toast-enter-duration"]'),
+    page.locator('[data-motion-token="--surf-toast-enter-duration"]'),
   ).toHaveText('320ms')
   await expect(
-    page.locator('[data-motion-token="--toast-stack-duration"]'),
+    page.locator('[data-motion-token="--surf-toast-stack-duration"]'),
   ).toHaveText('360ms')
   await expect(
     page.getByRole('table', {

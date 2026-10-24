@@ -7,7 +7,11 @@ export const doc: ComponentDoc = {
   keyboard:
     'Focusing the trigger shows the tooltip. Escape closes it. The tooltip never receives focus.',
   anatomy: 'TooltipProvider → Tooltip(label) → single focusable trigger',
-  tokens: ['--tooltip-background', '--tooltip-foreground', '--control-radius'],
+  tokens: [
+    '--surf-tooltip-background',
+    '--surf-tooltip-foreground',
+    '--surf-control-radius',
+  ],
   code: `import { TooltipProvider, Tooltip, Button } from '@surflane/ui'
 
 <TooltipProvider>

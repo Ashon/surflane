@@ -6,4 +6,4 @@ import { part } from './parts.js'
 export const Menubar = /* @__PURE__ */ part<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseMenubar>
->(BaseMenubar, 'pui-menubar')
+>(BaseMenubar, 'surf-menubar')

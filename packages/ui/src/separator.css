@@ -3,4 +3,4 @@
   surflane.sizes;
 @import './base.css';
 @import './sizing.css';
-@import '@surflane/design-tokens/presentation/separator.css';
+@import '@surflane/css/presentation/separator.css';

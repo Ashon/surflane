@@ -4,13 +4,17 @@ import { useRender } from '@base-ui/react/use-render'
 import { OTPField as BaseOTPField } from '@base-ui/react/otp-field'
 import { part, skin } from './parts.js'
 import { useResetValue, useRootRef } from './form-state.js'
-const Root = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<typeof BaseOTPField.Root>
->(function Root(
-  { value, defaultValue = '', form, onValueChange, className, ...props },
-  forwardedRef,
-) {
+const Root = function Root({
+  value,
+  defaultValue = '',
+  form,
+  onValueChange,
+  className,
+  ref: forwardedRef,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseOTPField.Root> & {
+  ref?: React.Ref<HTMLDivElement>
+}) {
   const [element, ref] = useRootRef(forwardedRef)
   const [local, setLocal, revision] = useResetValue(
     value,
@@ -25,27 +29,30 @@ const Root = /* @__PURE__ */ React.forwardRef<
       ref={ref}
       form={form}
       value={local}
-      className={skin('pui-otp-field', className)}
+      className={skin('surf-otp-field', className)}
       onValueChange={(next, event) => {
         onValueChange?.(next, event)
         if (value === undefined && !event.isCanceled) setLocal(next)
       }}
     />
   )
-})
-const Separator = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<typeof BaseOTPField.Separator>
->(function Separator({ className, ...props }, ref) {
+}
+const Separator = function Separator({
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseOTPField.Separator> & {
+  ref?: React.Ref<HTMLDivElement>
+}) {
   return (
     <BaseOTPField.Separator
       aria-hidden='true'
       {...props}
       ref={ref}
-      className={skin('pui-otp-separator', className)}
+      className={skin('surf-otp-separator', className)}
     />
   )
-})
+}
 // Preserve Base UI's DOM refs and user render composition while fixing native-validation ARIA.
 function SlotElement({
   domProps,
@@ -71,21 +78,25 @@ function SlotElement({
     },
   })
 }
-const Input = /* @__PURE__ */ React.forwardRef<
-  HTMLInputElement,
-  React.ComponentPropsWithoutRef<typeof BaseOTPField.Input>
->(function Input({ render, className, ...props }, ref) {
+const Input = function Input({
+  render,
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseOTPField.Input> & {
+  ref?: React.Ref<HTMLInputElement>
+}) {
   return (
     <BaseOTPField.Input
       {...props}
       ref={ref}
-      className={skin('pui-input pui-otp-input', className)}
+      className={skin('surf-input surf-otp-input', className)}
       render={(domProps, state) => (
         <SlotElement domProps={domProps} state={state} render={render} />
       )}
     />
   )
-})
+}
 export const OTPField = {
   ...BaseOTPField,
   Root,
@@ -93,7 +104,7 @@ export const OTPField = {
   Group: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<'div'>
-  >('div', 'pui-otp-group'),
+  >('div', 'surf-otp-group'),
   Separator,
 }
 

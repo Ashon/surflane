@@ -3,7 +3,7 @@ import { Link } from './router'
 
 /**
  * Renders a sentence that stays whole for translation. `--token` becomes a link to
- * the token (a wildcard such as `--layer-*` stays plain code), other `code` becomes
+ * the token (a wildcard such as `--surf-layer-*` stays plain code), other `code` becomes
  * code, and [label](/path) becomes a catalog link.
  */
 export function codeText(text: string) {

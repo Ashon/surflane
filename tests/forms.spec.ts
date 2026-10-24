@@ -24,7 +24,7 @@ test('Field associates labels and errors, focuses invalid input and submits vali
   await expect(input).toHaveAttribute('aria-invalid', 'true')
   const describedBy = await input.getAttribute('aria-describedby')
   expect(describedBy).toBeTruthy()
-  const error = page.locator('.component-example .pui-field-error').first()
+  const error = page.locator('.component-example .surf-field-error').first()
   await expect(error).toBeVisible()
   expect(describedBy!.split(' ')).toContain(await error.getAttribute('id'))
   expect(
@@ -125,7 +125,7 @@ test('Checkbox renders mixed, readonly, disabled and state callback classes; sup
     exact: true,
   })
   await expect(choice).toBeChecked()
-  await expect(choice).toHaveClass(/pui-checkbox/)
+  await expect(choice).toHaveClass(/surf-checkbox/)
   await expect(choice).toHaveClass(/preview-checked/)
   await expect(
     page.getByRole('checkbox', { name: 'Partial selection', exact: true }),
@@ -387,7 +387,7 @@ test('choice controls reflow with enlarged text, respect RTL and forced colors, 
   await waitForCatalogReady(page)
   expect(
     await page
-      .locator('.component-example .pui-choice-label')
+      .locator('.component-example .surf-choice-label')
       .first()
       .evaluate((el) => el.getBoundingClientRect().height),
   ).toBeGreaterThanOrEqual(44)
@@ -398,8 +398,8 @@ test('choice controls reflow with enlarged text, respect RTL and forced colors, 
   expect(
     await page.evaluate(() => document.body.scrollWidth <= innerWidth),
   ).toBe(true)
-  const root = page.locator('.component-example .pui-switch').first(),
-    thumb = root.locator('.pui-switch-thumb')
+  const root = page.locator('.component-example .surf-switch').first(),
+    thumb = root.locator('.surf-switch-thumb')
   const r = await root.boundingBox(),
     t = await thumb.boundingBox()
   expect(t!.x + t!.width / 2).toBeLessThan(r!.x + r!.width / 2)
@@ -480,10 +480,10 @@ test('ChoiceLabel names the control by its text, describes it and centers it on 
   for (const id of ['plain-choice', 'described-choice']) {
     const offset = await page.locator(`#${id}`).evaluate((label) => {
       const box = label
-        .querySelector('.pui-choice-control > *')!
+        .querySelector('.surf-choice-control > *')!
         .getBoundingClientRect()
       const text = label
-        .querySelector('.pui-choice-text > span')!
+        .querySelector('.surf-choice-text > span')!
         .getBoundingClientRect()
       return box.top + box.height / 2 - (text.top + text.height / 2)
     })
@@ -510,7 +510,7 @@ test('Textarea is a block box, and text fields keep 16px text on narrow screens 
 }) => {
   await page.goto('/components/textarea')
   await waitForCatalogReady(page)
-  const textarea = page.locator('.component-example .pui-textarea').first()
+  const textarea = page.locator('.component-example .surf-textarea').first()
   expect(await textarea.evaluate((el) => getComputedStyle(el).display)).toBe(
     'block',
   )
@@ -529,7 +529,9 @@ test('Textarea is a block box, and text fields keep 16px text on narrow screens 
       await touch.goto(`/components/${id}`)
       await waitForCatalogReady(touch)
       const sizes = await touch.evaluate(() => {
-        const fields = [...document.querySelectorAll<HTMLElement>('.pui-input')]
+        const fields = [
+          ...document.querySelectorAll<HTMLElement>('.surf-input'),
+        ]
         // A small size scope keeps the floor too.
         fields[0]?.parentElement?.setAttribute('data-ui-size', 'small')
         return fields.map((el) => parseFloat(getComputedStyle(el).fontSize))

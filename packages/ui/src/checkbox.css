@@ -6,22 +6,22 @@
 @import './choice.css';
 
 @layer surflane.components {
-  .pui-checkbox-indicator {
+  .surf-checkbox-indicator {
     display: flex;
     align-items: center;
     justify-content: center;
   }
-  .pui-checkbox-mixed {
+  .surf-checkbox-mixed {
     display: none;
   }
-  .pui-checkbox[data-indeterminate] .pui-checkbox-check {
+  .surf-checkbox[data-indeterminate] .surf-checkbox-check {
     display: none;
   }
-  .pui-checkbox[data-indeterminate] .pui-checkbox-mixed {
+  .surf-checkbox[data-indeterminate] .surf-checkbox-mixed {
     display: block;
   }
   @media (prefers-reduced-motion: reduce) {
-    .pui-checkbox {
+    .surf-checkbox {
       transition: none;
     }
   }

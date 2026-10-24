@@ -1,0 +1,25 @@
+/* Presentation classes: base. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+
+@layer surflane.components {
+  .surf-code-scroll {
+    max-width: 100%;
+    overflow: auto;
+  }
+  .surf-feedback-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  /* Registered progress keeps status transitions in the explicit OKLCH space. */
+  @property --surf-status-progress {
+    syntax: '<number>';
+    inherits: false;
+    initial-value: 1;
+  }
+}

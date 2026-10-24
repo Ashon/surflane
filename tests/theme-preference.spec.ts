@@ -46,7 +46,7 @@ test('the browser chrome follows the chosen theme, not the OS scheme', async ({
   await page.goto('/')
   await waitForCatalogReady(page)
   const chrome = page.locator('meta[name="theme-color"]')
-  // The meta color is the sRGB form of the page's --chrome token.
+  // The meta color is the sRGB form of the page's --surf-chrome token.
   const pageChrome = () =>
     page.evaluate(() => {
       const context = document.createElement('canvas').getContext('2d')!

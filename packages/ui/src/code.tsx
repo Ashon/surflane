@@ -32,25 +32,20 @@ export type CodeBlockLabels = {
 const copyIcons = { idle: 'copy', copied: 'check', failed: 'alert' } as const
 // Feedback stays inside the copy button and returns to the action after this long.
 const copyFeedbackDuration = 2000
-export const CodeBlock = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  CodeBlockProps
->(function CodeBlock(
-  {
-    code,
-    label = 'Code',
-    language,
-    wrap = false,
-    labels,
-    copyLabel: legacyCopyLabel,
-    copiedLabel: legacyCopiedLabel,
-    copyErrorLabel: legacyCopyErrorLabel,
-    onCopy,
-    className,
-    ...props
-  },
+export const CodeBlock = function CodeBlock({
+  code,
+  label = 'Code',
+  language,
+  wrap = false,
+  labels,
+  copyLabel: legacyCopyLabel,
+  copiedLabel: legacyCopiedLabel,
+  copyErrorLabel: legacyCopyErrorLabel,
+  onCopy,
+  className,
   ref,
-) {
+  ...props
+}: CodeBlockProps & { ref?: React.Ref<HTMLDivElement> }) {
   const copyLabel = labels?.copy ?? legacyCopyLabel ?? 'Copy code'
   const copiedLabel = labels?.copied ?? legacyCopiedLabel ?? 'Copied'
   const copyErrorLabel =
@@ -122,19 +117,19 @@ export const CodeBlock = /* @__PURE__ */ React.forwardRef<
       {...props}
       ref={ref}
       data-wrap={wrap || undefined}
-      className={cx('pui-code-block', className)}
+      className={cx('surf-code-block', className)}
     >
-      <div className='pui-code-toolbar'>
-        <span className='pui-code-label'>
+      <div className='surf-code-toolbar'>
+        <span className='surf-code-label'>
           {label}
-          {language && <span className='pui-code-language'>{language}</span>}
+          {language && <span className='surf-code-language'>{language}</span>}
         </span>
         <Button
           ref={button}
           type='button'
           variant='outline'
           size='small'
-          className='pui-code-copy'
+          className='surf-code-copy'
           onClick={copy}
           // A pending copy blocks a second start but keeps focus on the button.
           disabled={state === 'busy'}
@@ -146,11 +141,11 @@ export const CodeBlock = /* @__PURE__ */ React.forwardRef<
           <Icon
             key={icon}
             name={copyIcons[icon]}
-            className='pui-code-copy-icon'
+            className='surf-code-copy-icon'
           />
           {/* The label is the result: screen readers hear it change in place. */}
           <span aria-live='polite'>
-            <span key={icon} className='pui-code-copy-label'>
+            <span key={icon} className='surf-code-copy-label'>
               {state === 'copied'
                 ? copiedLabel
                 : state === 'failed'
@@ -161,10 +156,10 @@ export const CodeBlock = /* @__PURE__ */ React.forwardRef<
         </Button>
       </div>
       <ScrollArea label={label} orientation='horizontal'>
-        <pre ref={source} className='pui-code-text'>
+        <pre ref={source} className='surf-code-text'>
           <SyntaxHighlighter code={code} language={language} inline />
         </pre>
       </ScrollArea>
     </div>
   )
-})
+}

@@ -15,13 +15,13 @@ export const doc: ComponentDoc = {
     'For a vertical layout, set orientation=vertical. It changes both semantics and layout.',
   ],
   tokens: [
-    '--menu-background',
-    '--menu-border',
-    '--menu-hover-background',
-    '--selected',
-    '--interaction-focus',
-    '--radius-lg',
-    '--dialog-enter-duration',
+    '--surf-menu-background',
+    '--surf-menu-border',
+    '--surf-menu-hover-background',
+    '--surf-selected',
+    '--surf-interaction-focus',
+    '--surf-radius-lg',
+    '--surf-dialog-enter-duration',
   ],
   code: `import { NavigationMenu } from '@surflane/ui'
 

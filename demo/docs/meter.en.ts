@@ -7,7 +7,12 @@ export const doc: ComponentDoc = {
   keyboard:
     "Meter is a read-only measurement and isn't in the Tab order. Describe what it measures and its unit in Label and aria-valuetext. In RTL, the fill still grows from the logical start.",
   anatomy: 'Root → Label + Value + Track(Indicator)',
-  tokens: ['--ink-body', '--surface', '--space-2', '--duration-base'],
+  tokens: [
+    '--surf-ink-body',
+    '--surf-surface',
+    '--surf-space-2',
+    '--surf-duration-base',
+  ],
   code: `import { Meter } from '@surflane/ui'
 
 <Meter.Root value={30} min={0} max={64} aria-valuetext='30 GiB of 64 GiB'>

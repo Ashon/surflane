@@ -8,9 +8,9 @@ export const doc: ComponentDoc = {
     'Tab focuses the region. Arrow keys and Page Up or Page Down scroll it. Wheel and touch scrolling keep working. label gives the region its accessible name.',
   anatomy: 'ScrollArea(label) → Root / Viewport + Scrollbar / Thumb / Corner',
   tokens: [
-    '--scrollbar-indicator-size',
-    '--scrollbar-thumb',
-    '--scrollbar-track',
+    '--surf-scrollbar-indicator-size',
+    '--surf-scrollbar-thumb',
+    '--surf-scrollbar-track',
   ],
   code: `import { ScrollArea } from '@surflane/ui'
 

@@ -8,53 +8,54 @@
 @import './input-group.css';
 
 @layer surflane.components {
-  .pui-number-group {
+  .surf-number-group {
     display: grid;
-    grid-template-columns: var(--control-height) minmax(0, 1fr) var(
-        --control-height
+    grid-template-columns: var(--surf-control-height) minmax(0, 1fr) var(
+        --surf-control-height
       );
   }
-  .pui-number-input {
+  .surf-number-input {
     box-sizing: border-box;
     width: 100%;
     min-width: 0;
-    height: var(--control-height);
-    padding: 0 var(--space-2);
+    height: var(--surf-control-height);
+    padding: 0 var(--surf-space-2);
     border: 0;
     outline: none;
     background: transparent;
-    color: var(--ink);
-    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
-      var(--font-body);
-    letter-spacing: var(--type-body-tracking);
+    color: var(--surf-ink);
+    font: var(--surf-weight-regular)
+      var(--surf-type-body-size)/var(--surf-type-body-leading)
+      var(--surf-font-body);
+    letter-spacing: var(--surf-type-body-tracking);
     text-align: center;
     font-variant-numeric: tabular-nums;
   }
-  .pui-number-scrub {
+  .surf-number-scrub {
     cursor: ew-resize;
     touch-action: none;
   }
   @media (prefers-reduced-motion: reduce) {
-    .pui-number-group {
+    .surf-number-group {
       transition: none;
     }
   }
-  .pui-number-step,
-  .pui-number-input {
-    height: calc(var(--control-height) - 2px);
+  .surf-number-step,
+  .surf-number-input {
+    height: calc(var(--surf-control-height) - 2px);
   }
-  .pui-number-scrub[data-readonly],
-  .pui-number-scrub[data-disabled] {
+  .surf-number-scrub[data-readonly],
+  .surf-number-scrub[data-disabled] {
     cursor: default;
   }
-  .pui-number-field {
+  .surf-number-field {
     width: 100%;
     max-width: 20rem;
   }
 }
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *):is(.pui-number-input) {
-    font-size: var(--ui-font);
-    line-height: var(--ui-leading);
+  :where([data-ui-size], [data-ui-size] *):is(.surf-number-input) {
+    font-size: var(--surf-ui-font);
+    line-height: var(--surf-ui-leading);
   }
 }

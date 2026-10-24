@@ -6,21 +6,19 @@ import { skin } from './parts.js'
 import { useRootRef, useResetValue } from './form-state.js'
 import { ChoiceResetPaint, type ChoiceSize } from './choice.js'
 
-const CheckboxRoot = /* @__PURE__ */ React.forwardRef<
-  React.ComponentRef<typeof BaseCheckbox.Root>,
-  React.ComponentPropsWithoutRef<typeof BaseCheckbox.Root> & ChoiceSize
->(function CheckboxRoot(
-  {
-    size,
-    checked,
-    defaultChecked = false,
-    onCheckedChange,
-    className,
-    form,
-    ...props
-  },
+const CheckboxRoot = function CheckboxRoot({
+  size,
+  checked,
+  defaultChecked = false,
+  onCheckedChange,
+  className,
+  form,
   ref,
-) {
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseCheckbox.Root> &
+  ChoiceSize & {
+    ref?: React.Ref<React.ComponentRef<typeof BaseCheckbox.Root>>
+  }) {
   React.useContext(ChoiceResetPaint)
   const scheme = useComponentSize(size)
   const [element, attach] = useRootRef<HTMLElement>(ref)
@@ -37,23 +35,27 @@ const CheckboxRoot = /* @__PURE__ */ React.forwardRef<
       form={form}
       ref={attach}
       checked={selected}
-      className={skin('pui-checkbox', className)}
+      className={skin('surf-checkbox', className)}
       onCheckedChange={(next, event) => {
         onCheckedChange?.(next, event)
         if (checked === undefined && !event.isCanceled) setSelected(next)
       }}
     />
   )
-})
-const CheckboxIndicator = /* @__PURE__ */ React.forwardRef<
-  React.ComponentRef<typeof BaseCheckbox.Indicator>,
-  React.ComponentPropsWithoutRef<typeof BaseCheckbox.Indicator>
->(function CheckboxIndicator({ className, children, ...props }, ref) {
+}
+const CheckboxIndicator = function CheckboxIndicator({
+  className,
+  children,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseCheckbox.Indicator> & {
+  ref?: React.Ref<React.ComponentRef<typeof BaseCheckbox.Indicator>>
+}) {
   return (
     <BaseCheckbox.Indicator
       {...props}
       ref={ref}
-      className={skin('pui-checkbox-indicator', className)}
+      className={skin('surf-checkbox-indicator', className)}
     >
       {children ?? (
         <svg
@@ -65,13 +67,13 @@ const CheckboxIndicator = /* @__PURE__ */ React.forwardRef<
           strokeWidth='2'
           aria-hidden='true'
         >
-          <path className='pui-checkbox-check' d='m4 10 4 4 8-8' />
-          <path className='pui-checkbox-mixed' d='M4 10h12' />
+          <path className='surf-checkbox-check' d='m4 10 4 4 8-8' />
+          <path className='surf-checkbox-mixed' d='M4 10h12' />
         </svg>
       )}
     </BaseCheckbox.Indicator>
   )
-})
+}
 export const Checkbox = {
   ...BaseCheckbox,
   Root: CheckboxRoot,

@@ -6,40 +6,35 @@ import { useComponentSize, type ComponentSizeAlias } from './sizing.js'
 import { AlertDialog as BaseAlertDialog } from '@base-ui/react/alert-dialog'
 import { DialogFooter, DialogHeader } from './dialog.js'
 
-const AlertDialogContent = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<typeof BaseAlertDialog.Popup> & {
-    /** Width and density; an alert dialog is small unless set. */
-    size?: ComponentSizeAlias
-    focusBoundaryLabel?: string
-  }
->(function AlertDialogContent(
-  {
-    size,
-    className,
-    focusBoundaryLabel = 'Continue dialog navigation',
-    ...props
-  },
+const AlertDialogContent = function AlertDialogContent({
+  size,
+  className,
+  focusBoundaryLabel = 'Continue dialog navigation',
   ref,
-) {
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseAlertDialog.Popup> & {
+  /** Width and density; an alert dialog is small unless set. */
+  size?: ComponentSizeAlias
+  focusBoundaryLabel?: string
+} & { ref?: React.Ref<HTMLDivElement> }) {
   const scheme = useComponentSize(size)
   const portalRef = useDialogFocusBoundary(focusBoundaryLabel)
   return (
     <BaseAlertDialog.Portal ref={portalRef}>
-      <BaseAlertDialog.Backdrop className='pui-dialog-backdrop' />
+      <BaseAlertDialog.Backdrop className='surf-dialog-backdrop' />
       <BaseAlertDialog.Popup
         data-ui-size={scheme}
         data-size={sizeName(size)}
         {...props}
         ref={ref}
         className={skin(
-          'pui-dialog-popup pui-dialog-content pui-confirm-content',
+          'surf-dialog-popup surf-dialog-content surf-confirm-content',
           className,
         )}
       />
     </BaseAlertDialog.Portal>
   )
-})
+}
 export const AlertDialog = {
   ...BaseAlertDialog,
   Content: AlertDialogContent,

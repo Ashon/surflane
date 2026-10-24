@@ -10,34 +10,37 @@ function Root<Value>(props: BaseNavigationMenu.Root.Props<Value>) {
       {...rest}
       orientation={orientation}
       data-orientation={orientation}
-      className={skin('pui-navigation-menu', className)}
+      className={skin('surf-navigation-menu', className)}
     />
   )
 }
-const Trigger = /* @__PURE__ */ React.forwardRef<
-  HTMLButtonElement,
-  React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.Trigger> & {
-    indicator?: React.ReactNode
-  }
->(function Trigger({ className, children, indicator, ...props }, ref) {
+const Trigger = function Trigger({
+  className,
+  children,
+  indicator,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.Trigger> & {
+  indicator?: React.ReactNode
+} & { ref?: React.Ref<HTMLButtonElement> }) {
   return (
     <BaseNavigationMenu.Trigger
       data-variant='ghost'
       {...props}
       ref={ref}
-      className={skin('pui-button pui-navigation-trigger', className)}
+      className={skin('surf-button surf-navigation-trigger', className)}
     >
       {children}
       {indicator === false
         ? null
         : (indicator ?? (
-            <BaseNavigationMenu.Icon className='pui-navigation-icon'>
+            <BaseNavigationMenu.Icon className='surf-navigation-icon'>
               <Icon name='chevron-down' />
             </BaseNavigationMenu.Icon>
           ))}
     </BaseNavigationMenu.Trigger>
   )
-})
+}
 export const NavigationMenu = {
   ...BaseNavigationMenu,
   Root,
@@ -45,47 +48,55 @@ export const NavigationMenu = {
   List: /* @__PURE__ */ part<
     HTMLUListElement,
     React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.List>
-  >(BaseNavigationMenu.List, 'pui-navigation-list'),
+  >(BaseNavigationMenu.List, 'surf-navigation-list'),
   Item: /* @__PURE__ */ part<
     HTMLLIElement,
     React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.Item>
-  >(BaseNavigationMenu.Item, 'pui-navigation-item'),
+  >(BaseNavigationMenu.Item, 'surf-navigation-item'),
   Link: /* @__PURE__ */ part<
     HTMLAnchorElement,
     React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.Link>
-  >(BaseNavigationMenu.Link, 'pui-navigation-link'),
+  >(BaseNavigationMenu.Link, 'surf-navigation-link'),
   Content: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.Content>
-  >(BaseNavigationMenu.Content, 'pui-navigation-content'),
+  >(BaseNavigationMenu.Content, 'surf-navigation-content'),
   Positioner: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.Positioner>
-  >(BaseNavigationMenu.Positioner, 'pui-positioner pui-navigation-positioner', {
-    portal: true,
-  }),
+  >(
+    BaseNavigationMenu.Positioner,
+    'surf-positioner surf-navigation-positioner',
+    {
+      portal: true,
+    },
+  ),
   Popup: /* @__PURE__ */ part<
     HTMLElement,
     React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.Popup>
-  >(BaseNavigationMenu.Popup, 'pui-navigation-popup', { portal: true }),
+  >(BaseNavigationMenu.Popup, 'surf-navigation-popup', { portal: true }),
   Viewport: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.Viewport>
-  >(BaseNavigationMenu.Viewport, 'pui-navigation-viewport'),
-  Icon: /* @__PURE__ */ React.forwardRef<
-    HTMLSpanElement,
-    React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.Icon>
-  >(function NavigationMenuIcon({ children, className, ...props }, ref) {
+  >(BaseNavigationMenu.Viewport, 'surf-navigation-viewport'),
+  Icon: function NavigationMenuIcon({
+    children,
+    className,
+    ref,
+    ...props
+  }: React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.Icon> & {
+    ref?: React.Ref<HTMLSpanElement>
+  }) {
     return (
       <BaseNavigationMenu.Icon
         {...props}
         ref={ref}
-        className={skin('pui-navigation-icon', className)}
+        className={skin('surf-navigation-icon', className)}
       >
         {children ?? <Icon name='chevron-down' />}
       </BaseNavigationMenu.Icon>
     )
-  }),
+  },
 }
 
 // Flat names for React Server Components, which cannot dot into client exports.

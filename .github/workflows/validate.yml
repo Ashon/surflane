@@ -42,6 +42,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build:catalog
+      - name: Catalog counts in the docs match demo/catalog.ts
+        run: git diff --exit-code -- README.md docs/catalog-coverage.md
       - run: npm run check:package
       - run: npm run check:ssr
       - run: npm run check:public
@@ -67,6 +69,30 @@ jobs:
       - run: npm run build:catalog
       - run: npm run check:tailwind
       - run: npm run test:browsers
+  # The built package with only its own CSS, compared with its screenshot baselines.
+  visual:
+    needs: playwright
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    container:
+      image: ${{ needs.playwright.outputs.image }}
+      options: --user 1001
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm run test:visual
+      - if: failure()
+        uses: actions/upload-artifact@v5
+        with:
+          name: visual-diffs
+          path: test-results
   # Packed tarballs installed into real framework apps: build, SSR, hydration.
   examples:
     needs: playwright

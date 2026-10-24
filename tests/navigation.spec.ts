@@ -116,7 +116,7 @@ test('Accordion uses ordinary Tab order, preserves mounted input and respects si
     .getByRole('checkbox', { name: 'Allow multiple sections', exact: true })
     .click()
   expect(
-    await page.locator('.pui-accordion-trigger[aria-expanded="true"]').count(),
+    await page.locator('.surf-accordion-trigger[aria-expanded="true"]').count(),
   ).toBeLessThanOrEqual(1)
 })
 test('Collapsible links trigger/panel, retains draft and handles disabled state without pretending to be a modal', async ({
@@ -158,13 +158,13 @@ test('Disclosure entry measures content and exit is immediate; reduced motion re
     exact: true,
   })
   await trigger.click()
-  const panel = page.locator('.pui-collapsible-panel')
+  const panel = page.locator('.surf-collapsible-panel')
   await expect(panel).not.toHaveAttribute('data-starting-style', '')
   await panel.evaluate((el) =>
     Promise.all(el.getAnimations().map((a) => a.finished.catch(() => {}))),
   )
   const box = await panel.boundingBox(),
-    body = await panel.locator('.pui-disclosure-body').boundingBox()
+    body = await panel.locator('.surf-disclosure-body').boundingBox()
   expect(box!.height).toBeGreaterThanOrEqual(body!.height - 1)
   expect(
     await panel.evaluate((el) =>
@@ -197,7 +197,7 @@ test('Avatar retains accessible names through image load, failure, recovery and 
   await page
     .getByRole('button', { name: 'Preview broken image', exact: true })
     .click()
-  await expect(preview.locator('.pui-avatar-fallback')).toHaveText('CG')
+  await expect(preview.locator('.surf-avatar-fallback')).toHaveText('CG')
   await expect(
     page.locator('.component-example').getByRole('status'),
   ).toHaveText('Image status: error')
@@ -221,13 +221,13 @@ test('Badges use quiet surfaces and text/icons; live updates are opt-in at sente
   await waitForCatalogReady(page)
   const preview = page.locator('.component-example'),
     sentence = preview.getByRole('status')
-  await expect(preview.locator('.pui-badge')).toHaveCount(8)
+  await expect(preview.locator('.surf-badge')).toHaveCount(8)
   await expect(
     preview.getByRole('button', { name: 'Passed', exact: true }),
   ).toHaveCount(0)
   expect(
     await preview
-      .locator('.pui-badge')
+      .locator('.surf-badge')
       .first()
       .evaluate((el) => {
         const c = getComputedStyle(el)
@@ -244,7 +244,7 @@ test('Badges use quiet surfaces and text/icons; live updates are opt-in at sente
     .click()
   await page.getByRole('option', { name: 'Error', exact: true }).click()
   await expect(sentence).toContainText('Error')
-  await expect(sentence.locator('.pui-badge')).toHaveAttribute(
+  await expect(sentence.locator('.surf-badge')).toHaveAttribute(
     'data-tone',
     'danger',
   )
@@ -256,10 +256,10 @@ test('Separator exposes orientation and its inset changes only the line extent',
   await page.goto('/components/separator')
   await waitForCatalogReady(page)
   const horizontal = page.locator(
-      '.component-example .pui-separator[data-orientation="horizontal"]',
+      '.component-example .surf-separator[data-orientation="horizontal"]',
     ),
     vertical = page.locator(
-      '.component-example .pui-separator[data-orientation="vertical"]',
+      '.component-example .surf-separator[data-orientation="vertical"]',
     )
   await expect(
     page.locator('.component-example').getByRole('separator'),
@@ -307,7 +307,7 @@ test('Link and Breadcrumbs retain native navigation and ordered current-location
   await expect(breadcrumb.getByRole('link')).toHaveCount(2)
   expect(
     await breadcrumb
-      .locator('.pui-breadcrumb-separator')
+      .locator('.surf-breadcrumb-separator')
       .evaluateAll((nodes) =>
         nodes.every((el) => el.getAttribute('aria-hidden') === 'true'),
       ),
@@ -361,7 +361,7 @@ test('navigation examples reflow with enlarged text and retain RTL structure', a
   // The separator chevron mirrors itself in right-to-left text.
   expect(
     await page
-      .locator('.component-example .pui-breadcrumb-separator svg')
+      .locator('.component-example .surf-breadcrumb-separator svg')
       .first()
       .evaluate((el) => getComputedStyle(el).transform),
   ).toBe('matrix(-1, 0, 0, 1, 0, 0)')

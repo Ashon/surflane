@@ -12,16 +12,17 @@ export type PanelOptions = {
   flush?: boolean
 }
 export function Header({ className, ...props }: React.ComponentProps<'div'>) {
-  return <div {...props} className={cx('pui-panel-header', className)} />
+  return <div {...props} className={cx('surf-panel-header', className)} />
 }
-export const Body = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  React.ComponentProps<'div'>
->(function Body({ className, ...props }, ref) {
+export const Body = function Body({
+  className,
+  ref,
+  ...props
+}: React.ComponentProps<'div'> & { ref?: React.Ref<HTMLDivElement> }) {
   return (
-    <div {...props} ref={ref} className={cx('pui-panel-body', className)} />
+    <div {...props} ref={ref} className={cx('surf-panel-body', className)} />
   )
-})
+}
 export function Footer({ className, ...props }: React.ComponentProps<'div'>) {
-  return <div {...props} className={cx('pui-panel-footer', className)} />
+  return <div {...props} className={cx('surf-panel-footer', className)} />
 }

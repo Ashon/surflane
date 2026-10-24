@@ -159,7 +159,7 @@ export function FormExample({ id }: { id: string }) {
     case 'checkbox':
       example = (
         <Form onSubmit={submitNative}>
-          <div className='pui-choice-group'>
+          <div className='surf-choice-group'>
             <ChoiceLabel
               control={
                 <Checkbox.Root
@@ -294,7 +294,7 @@ export function FormExample({ id }: { id: string }) {
     case 'switch':
       example = (
         <Form onSubmit={submitNative}>
-          <div className='pui-choice-group'>
+          <div className='surf-choice-group'>
             <ChoiceLabel
               control={
                 <Switch.Root

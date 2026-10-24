@@ -6,10 +6,17 @@ import { cx } from './parts.js'
 
 /** A multi-line text field. Inside Field.Root it takes the label, description and
  * error from the field, as Input does. */
-export const Textarea = /* @__PURE__ */ React.forwardRef<
-  HTMLTextAreaElement,
-  React.ComponentPropsWithoutRef<'textarea'> & { size?: ComponentSizeAlias }
->(function Textarea({ className, size, rows, cols, wrap, ...props }, ref) {
+export const Textarea = function Textarea({
+  className,
+  size,
+  rows,
+  cols,
+  wrap,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<'textarea'> & {
+  size?: ComponentSizeAlias
+} & { ref?: React.Ref<HTMLTextAreaElement> }) {
   const scheme = useComponentSize(size)
   return (
     <BaseField.Control
@@ -17,7 +24,7 @@ export const Textarea = /* @__PURE__ */ React.forwardRef<
       ref={ref as unknown as React.Ref<HTMLInputElement>}
       data-ui-size={scheme}
       render={<textarea rows={rows} cols={cols} wrap={wrap} />}
-      className={cx('pui-input pui-textarea', className)}
+      className={cx('surf-input surf-textarea', className)}
     />
   )
-})
+}

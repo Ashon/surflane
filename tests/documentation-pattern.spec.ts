@@ -101,13 +101,13 @@ test('sample code copy uses translated announcements and long code stays in its 
     .getByRole('button', { name: 'Copy sample configuration', exact: true })
     .click()
   await expect(
-    page.locator('.documentation-article .pui-code-copy'),
+    page.locator('.documentation-article .surf-code-copy'),
   ).toHaveText('Copied')
   expect(await page.evaluate(() => (window as any).copiedGuide)).toContain(
     "mode: 'read-only'",
   )
   const code = page
-    .locator('.documentation-article .pui-code-block')
+    .locator('.documentation-article .surf-code-block')
     .getByRole('region', {
       name: 'Sample configuration',
       exact: true,
@@ -117,7 +117,7 @@ test('sample code copy uses translated announcements and long code stays in its 
   await expect.poll(() => code.evaluate((e) => e.scrollLeft)).toBeGreaterThan(0)
   await page.getByRole('checkbox', { name: 'Wrap sample code' }).check()
   await expect(
-    page.locator('.documentation-article .pui-code-block'),
+    page.locator('.documentation-article .surf-code-block'),
   ).toHaveAttribute('data-wrap')
   expect(
     await page

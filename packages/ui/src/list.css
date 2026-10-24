@@ -3,11 +3,11 @@
   surflane.sizes;
 @import './base.css';
 @import './sizing.css';
-@import '@surflane/design-tokens/presentation/list.css';
+@import '@surflane/css/presentation/list.css';
 
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *).pui-list-item {
-    padding: var(--ui-table-padding-y) var(--ui-surface-padding);
-    gap: var(--ui-surface-padding);
+  :where([data-ui-size], [data-ui-size] *).surf-list-item {
+    padding: var(--surf-ui-table-padding-y) var(--surf-ui-surface-padding);
+    gap: var(--surf-ui-surface-padding);
   }
 }

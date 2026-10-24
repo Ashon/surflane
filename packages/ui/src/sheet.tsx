@@ -27,36 +27,39 @@ function SheetRoot({
     </SheetSide.Provider>
   )
 }
-const SheetContent = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<typeof BaseDialog.Popup> & PanelOptions
->(function SheetContent(
-  { size, flush, closeLabel = 'Close panel', className, children, ...props },
+const SheetContent = function SheetContent({
+  size,
+  flush,
+  closeLabel = 'Close panel',
+  className,
+  children,
   ref,
-) {
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseDialog.Popup> &
+  PanelOptions & { ref?: React.Ref<HTMLDivElement> }) {
   const scheme = useComponentSize(size)
   const { side, modal } = React.useContext(SheetSide)
   return (
     <BaseDialog.Portal>
-      <div className='pui-panel-layer' data-ui-size={scheme}>
+      <div className='surf-panel-layer' data-ui-size={scheme}>
         {modal === true && (
-          <BaseDialog.Backdrop className='pui-panel-backdrop' />
+          <BaseDialog.Backdrop className='surf-panel-backdrop' />
         )}
         <div
-          className='pui-panel-viewport'
+          className='surf-panel-viewport'
           data-side={side}
           data-flush={flush || undefined}
         >
           <BaseDialog.Popup
             {...props}
             ref={ref}
-            className={skin('pui-panel', className)}
+            className={skin('surf-panel', className)}
             data-side={side}
             data-size={normalizeSize(size) ?? 'default'}
             data-flush={flush || undefined}
           >
             <BaseDialog.Close
-              className='pui-panel-close pui-icon-button'
+              className='surf-panel-close surf-icon-button'
               aria-label={closeLabel}
             >
               <Icon name='close' />
@@ -67,7 +70,7 @@ const SheetContent = /* @__PURE__ */ React.forwardRef<
       </div>
     </BaseDialog.Portal>
   )
-})
+}
 function SheetTitle({
   className,
   ...props
@@ -75,7 +78,7 @@ function SheetTitle({
   return (
     <BaseDialog.Title
       {...props}
-      className={skin('pui-panel-title', className)}
+      className={skin('surf-panel-title', className)}
     />
   )
 }
@@ -86,7 +89,7 @@ function SheetDescription({
   return (
     <BaseDialog.Description
       {...props}
-      className={skin('pui-panel-description', className)}
+      className={skin('surf-panel-description', className)}
     />
   )
 }

@@ -15,7 +15,7 @@ test('toast entry is unhurried and a swipe never widens the document', async ({
   await page
     .getByRole('button', { name: 'Archive preview item', exact: true })
     .tap()
-  const card = page.locator('.pui-toast:not([data-limited])')
+  const card = page.locator('.surf-toast:not([data-limited])')
   await expect(card).toBeVisible()
   await expect(card).toHaveCSS(
     'transition-duration',
@@ -60,7 +60,7 @@ test('avatar status is a separate ringed marker and survives fallback', async ({
     exact: true,
   })
   await expect(avatar).toHaveAccessibleDescription('Online')
-  const marker = avatar.locator('.pui-avatar-status')
+  const marker = avatar.locator('.surf-avatar-status')
   await expect(marker).toHaveAttribute('aria-hidden', 'true')
   await expect(marker).toHaveCSS('border-top-width', '2px')
   const box = (await avatar.boundingBox())!,
@@ -72,6 +72,6 @@ test('avatar status is a separate ringed marker and survives fallback', async ({
   await page
     .getByRole('button', { name: 'Preview broken image', exact: true })
     .click()
-  await expect(avatar.locator('.pui-avatar-fallback')).toBeVisible()
+  await expect(avatar.locator('.surf-avatar-fallback')).toBeVisible()
   await expect(marker).toBeVisible()
 })

@@ -11,11 +11,11 @@ export const doc: ComponentDoc = {
     'Stat is static text: a description list in which the label names the value. Nothing enters the Tab order. A link or button you add keeps its own focus.',
   anatomy: 'Root(dl) → Label(dt) + Value(dd) + Change(dd) + Caption(dd)',
   tokens: [
-    '--type-metric-size',
-    '--trend-up-fg',
-    '--trend-down-fg',
-    '--trend-flat-fg',
-    '--ink-muted',
+    '--surf-type-metric-size',
+    '--surf-trend-up-fg',
+    '--surf-trend-down-fg',
+    '--surf-trend-flat-fg',
+    '--surf-ink-muted',
   ],
   code: `import { Stat, formatCurrency } from '@surflane/ui'
 

@@ -1,0 +1,45 @@
+{
+  "name": "@surflane/css",
+  "version": "0.9.0",
+  "description": "Surflane's CSS-only layer: control, layout composition, document typography and presentation classes that work without React, on top of @surflane/design-tokens.",
+  "keywords": [
+    "design-system",
+    "css",
+    "css-layers",
+    "surflane"
+  ],
+  "homepage": "https://surflane.page",
+  "bugs": {
+    "url": "https://github.com/Ashon/surflane/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ashon/surflane.git",
+    "directory": "packages/css"
+  },
+  "license": "MIT OR Apache-2.0",
+  "author": "ashon",
+  "type": "module",
+  "files": [
+    "*.css",
+    "presentation/*.css",
+    "foundations/*.css",
+    "LICENSE-MIT",
+    "LICENSE-APACHE"
+  ],
+  "exports": {
+    "./controls.css": "./controls.css",
+    "./foundations.css": "./foundations.css",
+    "./foundations/*.css": "./foundations/*.css",
+    "./presentation.css": "./presentation.css",
+    "./presentation/*.css": "./presentation/*.css",
+    "./typography.css": "./typography.css",
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@surflane/design-tokens": "^0.9.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

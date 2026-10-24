@@ -11,11 +11,11 @@ Surflane's mark is **Shell**: a near-black rounded square cut into the three reg
 
 ## Color
 
-| Role       | Value                              | Use                                 |
-| ---------- | ---------------------------------- | ----------------------------------- |
-| Ink        | `#1b1f23` (`--ink` in light theme) | Mark and wordmark on light surfaces |
-| Paper      | `#f6f8fa` (`--ink` in dark theme)  | Mark and wordmark on dark surfaces  |
-| Brand cyan | `#50d9ef` (`oklch(0.82 0.12 210)`) | Product accents, not the mark       |
+| Role       | Value                                   | Use                                 |
+| ---------- | --------------------------------------- | ----------------------------------- |
+| Ink        | `#1b1f23` (`--surf-ink` in light theme) | Mark and wordmark on light surfaces |
+| Paper      | `#f6f8fa` (`--surf-ink` in dark theme)  | Mark and wordmark on dark surfaces  |
+| Brand cyan | `#50d9ef` (`oklch(0.82 0.12 210)`)      | Product accents, not the mark       |
 
 The mark is monochrome. In the catalog it follows `currentColor`, so it inverts with the theme.
 

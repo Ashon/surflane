@@ -8,37 +8,40 @@
 @layer surflane.components {
   /* A popover fits its content up to its width, so long text wraps at a readable
      measure instead of the viewport. */
-  .pui-popover {
-    --popover-width: var(--size-popover-default);
+  .surf-popover {
+    --surf-popover-width: var(--surf-size-popover-default);
     width: max-content;
-    max-width: min(var(--popover-width), calc(100vw - var(--space-6)));
-    padding: var(--space-4);
+    max-width: min(
+      var(--surf-popover-width),
+      calc(100vw - var(--surf-space-6))
+    );
+    padding: var(--surf-space-4);
     max-height: var(--available-height);
     overflow: auto;
   }
-  .pui-popover[data-size='small'] {
-    --popover-width: var(--size-popover-small);
+  .surf-popover[data-size='small'] {
+    --surf-popover-width: var(--surf-size-popover-small);
   }
-  .pui-popover[data-size='large'] {
-    --popover-width: var(--size-popover-large);
+  .surf-popover[data-size='large'] {
+    --surf-popover-width: var(--surf-size-popover-large);
   }
-  .pui-popover-title {
-    margin: 0 0 var(--space-2);
-    color: var(--ink);
-    font: var(--weight-medium) var(--type-subsection-size) /
-      var(--type-subsection-leading) var(--font-body);
-    letter-spacing: var(--type-subsection-tracking);
+  .surf-popover-title {
+    margin: 0 0 var(--surf-space-2);
+    color: var(--surf-ink);
+    font: var(--surf-weight-medium) var(--surf-type-subsection-size) /
+      var(--surf-type-subsection-leading) var(--surf-font-body);
+    letter-spacing: var(--surf-type-subsection-tracking);
   }
-  .pui-popover-description {
-    margin: 0 0 var(--space-4);
-    color: var(--ink-body);
+  .surf-popover-description {
+    margin: 0 0 var(--surf-space-4);
+    color: var(--surf-ink-body);
   }
-  .pui-popover-description:last-child {
+  .surf-popover-description:last-child {
     margin-bottom: 0;
   }
 }
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *).pui-popover {
-    padding: var(--ui-surface-padding);
+  :where([data-ui-size], [data-ui-size] *).surf-popover {
+    padding: var(--surf-ui-surface-padding);
   }
 }

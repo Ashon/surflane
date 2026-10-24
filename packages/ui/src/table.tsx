@@ -1,47 +1,52 @@
-'use client'
 import * as React from 'react'
 import { Icon } from './icon.js'
 import { Button } from './button.js'
-import { part, cx } from './parts.js'
+import { cx } from './class-names.js'
+import { elementPart } from './element-part.js'
 import { ScrollArea } from './scroll-area.js'
 
-const TableContainer = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<typeof ScrollArea> & {
-    label: string
-    /** Hangs the table into the gutter by its cell inset, so cell text lines up with
-     * the text around it and a row's hover reaches past it evenly on both sides. */
-    bleed?: boolean
-  }
->(function TableContainer({ bleed, rootClassName, ...props }, ref) {
+const TableContainer = function TableContainer({
+  bleed,
+  rootClassName,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof ScrollArea> & {
+  label: string
+  /** Hangs the table into the gutter by its cell inset, so cell text lines up with
+   * the text around it and a row's hover reaches past it evenly on both sides. */
+  bleed?: boolean
+} & { ref?: React.Ref<HTMLDivElement> }) {
   return (
     <ScrollArea
       {...props}
       ref={ref}
-      rootClassName={cx(bleed && 'pui-table-bleed', rootClassName)}
+      rootClassName={cx(bleed && 'surf-table-bleed', rootClassName)}
     />
   )
-})
-const RootPart = /* @__PURE__ */ part<
+}
+const RootPart = /* @__PURE__ */ elementPart<
   HTMLTableElement,
   React.ComponentPropsWithoutRef<'table'>
->('table', 'pui-table')
+>('table', 'surf-table')
 export type TableDensity = 'default' | 'compact'
 export type TableVariant = 'plain' | 'lined' | 'grid' | 'striped'
-const TableRoot = /* @__PURE__ */ React.forwardRef<
-  HTMLTableElement,
-  React.ComponentPropsWithoutRef<typeof RootPart> & {
-    /** compact tightens rows for scanning many records with a pointer. */
-    density?: TableDensity
-    /**
-     * plain separates rows by space; lined draws lines between rows, grid between
-     * rows and columns, both inside the table only; striped tones every other row.
-     */
-    variant?: TableVariant
-    /** Keeps the header visible while a bounded Container scrolls vertically. */
-    stickyHeader?: boolean
-  }
->(function TableRoot({ density, variant, stickyHeader, ...props }, ref) {
+const TableRoot = function TableRoot({
+  density,
+  variant,
+  stickyHeader,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof RootPart> & {
+  /** compact tightens rows for scanning many records with a pointer. */
+  density?: TableDensity
+  /**
+   * plain separates rows by space; lined draws lines between rows, grid between
+   * rows and columns, both inside the table only; striped tones every other row.
+   */
+  variant?: TableVariant
+  /** Keeps the header visible while a bounded Container scrolls vertically. */
+  stickyHeader?: boolean
+} & { ref?: React.Ref<HTMLTableElement> }) {
   return (
     <RootPart
       {...props}
@@ -51,7 +56,7 @@ const TableRoot = /* @__PURE__ */ React.forwardRef<
       data-sticky-header={stickyHeader || undefined}
     />
   )
-})
+}
 type CellLayout = {
   align?: 'start' | 'center' | 'end'
   /** Aligns to the end with tabular figures, so digits line up down the column. */
@@ -61,28 +66,33 @@ const layout = ({ align, numeric }: CellLayout) => ({
   'data-align': numeric ? 'end' : align,
   'data-numeric': numeric || undefined,
 })
-const HeaderCellPart = /* @__PURE__ */ part<
+const HeaderCellPart = /* @__PURE__ */ elementPart<
   HTMLTableCellElement,
   React.ComponentPropsWithoutRef<'th'>
->('th', 'pui-table-cell pui-table-header')
-const CellPart = /* @__PURE__ */ part<
+>('th', 'surf-table-cell surf-table-header')
+const CellPart = /* @__PURE__ */ elementPart<
   HTMLTableCellElement,
   React.ComponentPropsWithoutRef<'td'>
->('td', 'pui-table-cell')
+>('td', 'surf-table-cell')
 // align replaces the obsolete HTML align attribute of th and td.
-const TableHeaderCell = /* @__PURE__ */ React.forwardRef<
-  HTMLTableCellElement,
-  Omit<React.ComponentPropsWithoutRef<typeof HeaderCellPart>, 'align'> &
-    CellLayout
->(function TableHeaderCell({ align, numeric, ...props }, ref) {
+const TableHeaderCell = function TableHeaderCell({
+  align,
+  numeric,
+  ref,
+  ...props
+}: Omit<React.ComponentPropsWithoutRef<typeof HeaderCellPart>, 'align'> &
+  CellLayout & { ref?: React.Ref<HTMLTableCellElement> }) {
   return <HeaderCellPart {...props} {...layout({ align, numeric })} ref={ref} />
-})
-const TableCell = /* @__PURE__ */ React.forwardRef<
-  HTMLTableCellElement,
-  Omit<React.ComponentPropsWithoutRef<typeof CellPart>, 'align'> & CellLayout
->(function TableCell({ align, numeric, ...props }, ref) {
+}
+const TableCell = function TableCell({
+  align,
+  numeric,
+  ref,
+  ...props
+}: Omit<React.ComponentPropsWithoutRef<typeof CellPart>, 'align'> &
+  CellLayout & { ref?: React.Ref<HTMLTableCellElement> }) {
   return <CellPart {...props} {...layout({ align, numeric })} ref={ref} />
-})
+}
 export type TableSort = 'ascending' | 'descending'
 function SortIcon({ sort }: { sort?: TableSort }) {
   return (
@@ -94,36 +104,38 @@ function SortIcon({ sort }: { sort?: TableSort }) {
             ? 'arrow-down'
             : 'sort'
       }
-      className='pui-table-sort-icon'
+      className='surf-table-sort-icon'
     />
   )
 }
 /** A column header whose button sorts the column. aria-sort names the order on the sorted column only. */
-const TableSortHeader = /* @__PURE__ */ React.forwardRef<
-  HTMLTableCellElement,
-  Omit<
-    React.ComponentPropsWithoutRef<typeof TableHeaderCell>,
-    'scope' | 'aria-sort' | 'onClick'
-  > & {
-    sort?: TableSort
-    onSort: () => void
-    disabled?: boolean
-  }
->(function TableSortHeader(
-  { sort, onSort, disabled, children, className, ...props },
+const TableSortHeader = function TableSortHeader({
+  sort,
+  onSort,
+  disabled,
+  children,
+  className,
   ref,
-) {
+  ...props
+}: Omit<
+  React.ComponentPropsWithoutRef<typeof TableHeaderCell>,
+  'scope' | 'aria-sort' | 'onClick'
+> & {
+  sort?: TableSort
+  onSort: () => void
+  disabled?: boolean
+} & { ref?: React.Ref<HTMLTableCellElement> }) {
   return (
     <TableHeaderCell
       {...props}
       ref={ref}
       scope='col'
       aria-sort={sort}
-      className={cx('pui-table-sort-header', className)}
+      className={cx('surf-table-sort-header', className)}
     >
       <Button
         variant='ghost'
-        className='pui-table-sort'
+        className='surf-table-sort'
         data-sort={sort}
         disabled={disabled}
         onClick={onSort}
@@ -133,70 +145,82 @@ const TableSortHeader = /* @__PURE__ */ React.forwardRef<
       </Button>
     </TableHeaderCell>
   )
-})
+}
 /** One-line text that ends in an ellipsis. String content also becomes the title. */
-const TableTruncate = /* @__PURE__ */ React.forwardRef<
-  HTMLSpanElement,
-  React.ComponentPropsWithoutRef<'span'>
->(function TableTruncate({ className, title, children, ...props }, ref) {
+const TableTruncate = function TableTruncate({
+  className,
+  title,
+  children,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<'span'> & {
+  ref?: React.Ref<HTMLSpanElement>
+}) {
   return (
     <span
       {...props}
       ref={ref}
       title={title ?? (typeof children === 'string' ? children : undefined)}
-      className={cx('pui-table-truncate', className)}
+      className={cx('surf-table-truncate', className)}
     >
       {children}
     </span>
   )
-})
+}
 /** A full-width body row for loading, empty, error and permission messages. It has no hover. */
-const TableMessage = /* @__PURE__ */ React.forwardRef<
-  HTMLTableCellElement,
-  React.ComponentPropsWithoutRef<'td'> & { colSpan: number }
->(function TableMessage({ className, ...props }, ref) {
+const TableMessage = function TableMessage({
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<'td'> & { colSpan: number } & {
+  ref?: React.Ref<HTMLTableCellElement>
+}) {
   return (
-    <tr className='pui-table-row pui-table-message-row'>
+    <tr className='surf-table-row surf-table-message-row'>
       <td
         {...props}
         ref={ref}
-        className={cx('pui-table-cell pui-table-message', className)}
+        className={cx('surf-table-cell surf-table-message', className)}
       />
     </tr>
   )
-})
-const TableRow = /* @__PURE__ */ React.forwardRef<
-  HTMLTableRowElement,
-  React.ComponentPropsWithoutRef<'tr'> & { selected?: boolean }
->(function TableRow({ selected, className, ...props }, ref) {
+}
+const TableRow = function TableRow({
+  selected,
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<'tr'> & { selected?: boolean } & {
+  ref?: React.Ref<HTMLTableRowElement>
+}) {
   return (
     <tr
       {...props}
       ref={ref}
       data-selected={selected || undefined}
-      className={cx('pui-table-row', className)}
+      className={cx('surf-table-row', className)}
     />
   )
-})
+}
 export const Table = {
   Container: TableContainer,
   Root: TableRoot,
-  Caption: /* @__PURE__ */ part<
+  Caption: /* @__PURE__ */ elementPart<
     HTMLTableCaptionElement,
     React.ComponentPropsWithoutRef<'caption'>
-  >('caption', 'pui-table-caption'),
-  Head: /* @__PURE__ */ part<
+  >('caption', 'surf-table-caption'),
+  Head: /* @__PURE__ */ elementPart<
     HTMLTableSectionElement,
     React.ComponentPropsWithoutRef<'thead'>
-  >('thead', 'pui-table-head'),
-  Body: /* @__PURE__ */ part<
+  >('thead', 'surf-table-head'),
+  Body: /* @__PURE__ */ elementPart<
     HTMLTableSectionElement,
     React.ComponentPropsWithoutRef<'tbody'>
-  >('tbody', 'pui-table-body'),
-  Foot: /* @__PURE__ */ part<
+  >('tbody', 'surf-table-body'),
+  Foot: /* @__PURE__ */ elementPart<
     HTMLTableSectionElement,
     React.ComponentPropsWithoutRef<'tfoot'>
-  >('tfoot', 'pui-table-foot'),
+  >('tfoot', 'surf-table-foot'),
   Row: TableRow,
   HeaderCell: TableHeaderCell,
   SortHeader: TableSortHeader,

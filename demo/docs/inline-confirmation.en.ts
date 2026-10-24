@@ -6,7 +6,7 @@ export const doc: ComponentDoc = {
     "Don't use it for high-risk actions, such as deleting or changing permissions. Use AlertDialog instead.",
   keyboard: 'Focus, Escape, and focus restoration work as in Popover.',
   anatomy: 'Popover + description + cancel / confirm Button',
-  tokens: ['--menu-border', '--shadow-float'],
+  tokens: ['--surf-menu-border', '--surf-shadow-float'],
   code: `import { Popover, Button } from '@surflane/ui'
 
 // Compose Popover + Button; no standalone Confirm export.

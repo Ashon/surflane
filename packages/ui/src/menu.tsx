@@ -6,29 +6,24 @@ import { OwnPortal, part, scopedPortal, skin } from './parts.js'
 const MenuPopup = /* @__PURE__ */ part<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseMenu.Popup>
->(BaseMenu.Popup, 'pui-menu', { portal: true })
+>(BaseMenu.Popup, 'surf-menu', { portal: true })
 const MenuPositioner = /* @__PURE__ */ part<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseMenu.Positioner>
->(BaseMenu.Positioner, 'pui-positioner', { portal: true })
-const MenuContent = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<typeof BaseMenu.Popup> &
-    Pick<
-      React.ComponentPropsWithoutRef<typeof BaseMenu.Positioner>,
-      'align' | 'side' | 'sideOffset' | 'collisionPadding'
-    >
->(function MenuContent(
-  {
-    align = 'end',
-    sideOffset = 6,
-    side,
-    collisionPadding,
-    className,
-    ...props
-  },
+>(BaseMenu.Positioner, 'surf-positioner', { portal: true })
+const MenuContent = function MenuContent({
+  align = 'end',
+  sideOffset = 6,
+  side,
+  collisionPadding,
+  className,
   ref,
-) {
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseMenu.Popup> &
+  Pick<
+    React.ComponentPropsWithoutRef<typeof BaseMenu.Positioner>,
+    'align' | 'side' | 'sideOffset' | 'collisionPadding'
+  > & { ref?: React.Ref<HTMLDivElement> }) {
   return (
     <OwnPortal portal={BaseMenu.Portal}>
       <MenuPositioner
@@ -41,45 +36,56 @@ const MenuContent = /* @__PURE__ */ React.forwardRef<
       </MenuPositioner>
     </OwnPortal>
   )
-})
-const MenuTrigger = /* @__PURE__ */ React.forwardRef<
-  HTMLButtonElement,
-  React.ComponentPropsWithoutRef<typeof BaseMenu.Trigger>
->(function MenuTrigger({ className, ...props }, ref) {
+}
+const MenuTrigger = function MenuTrigger({
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseMenu.Trigger> & {
+  ref?: React.Ref<HTMLButtonElement>
+}) {
   return (
     <BaseMenu.Trigger
       data-variant='ghost'
       {...props}
       ref={ref}
-      className={skin('pui-button pui-menu-trigger', className)}
+      className={skin('surf-button surf-menu-trigger', className)}
     />
   )
-})
-const CheckboxIndicator = /* @__PURE__ */ React.forwardRef<
-  HTMLSpanElement,
-  React.ComponentPropsWithoutRef<typeof BaseMenu.CheckboxItemIndicator>
->(function CheckboxIndicator({ className, children, ...props }, ref) {
+}
+const CheckboxIndicator = function CheckboxIndicator({
+  className,
+  children,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseMenu.CheckboxItemIndicator> & {
+  ref?: React.Ref<HTMLSpanElement>
+}) {
   return (
     <BaseMenu.CheckboxItemIndicator
       keepMounted
       {...props}
       ref={ref}
-      className={skin('pui-menu-indicator', className)}
+      className={skin('surf-menu-indicator', className)}
     >
       {children ?? <Icon name='check' />}
     </BaseMenu.CheckboxItemIndicator>
   )
-})
-const RadioIndicator = /* @__PURE__ */ React.forwardRef<
-  HTMLSpanElement,
-  React.ComponentPropsWithoutRef<typeof BaseMenu.RadioItemIndicator>
->(function RadioIndicator({ className, children, ...props }, ref) {
+}
+const RadioIndicator = function RadioIndicator({
+  className,
+  children,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseMenu.RadioItemIndicator> & {
+  ref?: React.Ref<HTMLSpanElement>
+}) {
   return (
     <BaseMenu.RadioItemIndicator
       keepMounted
       {...props}
       ref={ref}
-      className={skin('pui-menu-indicator', className)}
+      className={skin('surf-menu-indicator', className)}
     >
       {children ?? (
         <svg
@@ -94,28 +100,31 @@ const RadioIndicator = /* @__PURE__ */ React.forwardRef<
       )}
     </BaseMenu.RadioItemIndicator>
   )
-})
-const SubmenuTrigger = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<typeof BaseMenu.SubmenuTrigger> & {
-    indicator?: React.ReactNode
-  }
->(function SubmenuTrigger({ className, children, indicator, ...props }, ref) {
+}
+const SubmenuTrigger = function SubmenuTrigger({
+  className,
+  children,
+  indicator,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseMenu.SubmenuTrigger> & {
+  indicator?: React.ReactNode
+} & { ref?: React.Ref<HTMLDivElement> }) {
   return (
     <BaseMenu.SubmenuTrigger
       {...props}
       ref={ref}
-      className={skin('pui-menu-item pui-menu-submenu-trigger', className)}
+      className={skin('surf-menu-item surf-menu-submenu-trigger', className)}
     >
       {children}
       {indicator === false
         ? null
         : (indicator ?? (
-            <Icon name='chevron-forward' className='pui-submenu-arrow' />
+            <Icon name='chevron-forward' className='surf-submenu-arrow' />
           ))}
     </BaseMenu.SubmenuTrigger>
   )
-})
+}
 /** Content brings its own portal; Portal stays for wrapping it, or raw parts. */
 const MenuPortal = /* @__PURE__ */ scopedPortal(BaseMenu.Portal)
 export const Menu = {
@@ -131,31 +140,31 @@ export const Menu = {
   Item: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseMenu.Item>
-  >(BaseMenu.Item, 'pui-menu-item'),
+  >(BaseMenu.Item, 'surf-menu-item'),
   LinkItem: /* @__PURE__ */ part<
     HTMLAnchorElement,
     React.ComponentPropsWithoutRef<typeof BaseMenu.LinkItem>
-  >(BaseMenu.LinkItem, 'pui-menu-item'),
+  >(BaseMenu.LinkItem, 'surf-menu-item'),
   CheckboxItem: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseMenu.CheckboxItem>
-  >(BaseMenu.CheckboxItem, 'pui-menu-item pui-menu-check-item'),
+  >(BaseMenu.CheckboxItem, 'surf-menu-item surf-menu-check-item'),
   RadioItem: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseMenu.RadioItem>
-  >(BaseMenu.RadioItem, 'pui-menu-item pui-menu-check-item'),
+  >(BaseMenu.RadioItem, 'surf-menu-item surf-menu-check-item'),
   GroupLabel: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseMenu.GroupLabel>
-  >(BaseMenu.GroupLabel, 'pui-menu-group-label'),
+  >(BaseMenu.GroupLabel, 'surf-menu-group-label'),
   Separator: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseMenu.Separator>
-  >(BaseMenu.Separator, 'pui-menu-separator'),
+  >(BaseMenu.Separator, 'surf-menu-separator'),
   Input: /* @__PURE__ */ part<
     HTMLInputElement,
     React.ComponentPropsWithoutRef<typeof BaseMenu.Input>
-  >(BaseMenu.Input, 'pui-input'),
+  >(BaseMenu.Input, 'surf-input'),
 }
 
 // Flat names for React Server Components, which cannot dot into client exports.

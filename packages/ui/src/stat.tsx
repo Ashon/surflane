@@ -1,7 +1,7 @@
-'use client'
 import * as React from 'react'
 import { Icon } from './icon.js'
-import { part, cx } from './parts.js'
+import { cx } from './class-names.js'
+import { elementPart } from './element-part.js'
 import { formatPercent } from './format.js'
 
 export type StatDirection = 'up' | 'down' | 'flat'
@@ -24,13 +24,15 @@ const arrows = { up: 'arrow-up', down: 'arrow-down', flat: 'minus' } as const
 
 /** A change against an earlier value: an arrow, a signed figure and its direction's
  * color. The sign and the arrow carry the direction, so color is never alone. */
-const ChangePart = /* @__PURE__ */ React.forwardRef<
-  HTMLElement,
-  StatChangeProps
->(function StatChange(
-  { value, format = signed, direction, lowerIsBetter, className, ...props },
+const ChangePart = function StatChange({
+  value,
+  format = signed,
+  direction,
+  lowerIsBetter,
+  className,
   ref,
-) {
+  ...props
+}: StatChangeProps & { ref?: React.Ref<HTMLElement> }) {
   const way: StatDirection =
     direction ?? (value > 0 ? 'up' : value < 0 ? 'down' : 'flat')
   const tone =
@@ -41,33 +43,33 @@ const ChangePart = /* @__PURE__ */ React.forwardRef<
       ref={ref}
       data-direction={way}
       data-tone={tone}
-      className={cx('pui-stat-change', className)}
+      className={cx('surf-stat-change', className)}
     >
       <Icon name={arrows[way]} />
       {format(value)}
     </dd>
   )
-})
+}
 /** A key figure: what it measures, its value, how it moved and what it covers. Renders
  * a description list, so the label names the value for assistive technology. */
 export const Stat = {
-  Root: /* @__PURE__ */ part<
+  Root: /* @__PURE__ */ elementPart<
     HTMLDListElement,
     React.ComponentPropsWithoutRef<'dl'>
-  >('dl', 'pui-stat'),
-  Label: /* @__PURE__ */ part<
+  >('dl', 'surf-stat'),
+  Label: /* @__PURE__ */ elementPart<
     HTMLElement,
     React.ComponentPropsWithoutRef<'dt'>
-  >('dt', 'pui-stat-label'),
-  Value: /* @__PURE__ */ part<
+  >('dt', 'surf-stat-label'),
+  Value: /* @__PURE__ */ elementPart<
     HTMLElement,
     React.ComponentPropsWithoutRef<'dd'>
-  >('dd', 'pui-stat-value'),
+  >('dd', 'surf-stat-value'),
   Change: ChangePart,
-  Caption: /* @__PURE__ */ part<
+  Caption: /* @__PURE__ */ elementPart<
     HTMLElement,
     React.ComponentPropsWithoutRef<'dd'>
-  >('dd', 'pui-stat-caption'),
+  >('dd', 'surf-stat-caption'),
 }
 
 // Flat names for React Server Components, which cannot dot into client exports.

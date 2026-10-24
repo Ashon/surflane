@@ -66,7 +66,9 @@ export function LandingHero() {
         <CodeBlock
           className='landing-install'
           label={t.install}
-          code='npm i @surflane/ui @surflane/design-tokens'
+          code={
+            'npm i @surflane/ui @surflane/css \\\n  @surflane/design-tokens @base-ui/react'
+          }
           labels={{ copy: t.copyInstall }}
         />
       </div>
@@ -81,32 +83,24 @@ export function LandingHero() {
           <AppShell.Root layout='workspace' shortcut={false}>
             <AppShell.Sidebar data-blueprint-guide>
               {/* A fictional product: Acme is the customary placeholder company. */}
-              <div className='landing-console-brand' data-blueprint-guide>
-                <svg
-                  className='landing-console-logo'
-                  viewBox='0 0 24 24'
-                  aria-hidden='true'
-                  data-blueprint-guide
-                >
-                  <rect width='24' height='24' rx='6' />
-                  <path d='m6.5 9.5 5.5-3 5.5 3-5.5 3z' />
-                  <path d='m6.5 12.75 5.5 3 5.5-3' />
-                  <path d='m6.5 15.75 5.5 3 5.5-3' />
-                </svg>
-                <span className='app-shell-brand-text'>
-                  <AppShell.Label
-                    className='app-shell-brand-name'
-                    title='Acme Platform'
+              <AppShell.Brand
+                mark={
+                  <svg
+                    className='landing-console-logo'
+                    viewBox='0 0 24 24'
                     data-blueprint-guide
                   >
-                    Acme Platform
-                  </AppShell.Label>
-                  <span className='app-shell-brand-workspace'>
-                    platform-core
-                  </span>
-                </span>
-              </div>
-              <nav className='landing-console-nav'>
+                    <rect width='24' height='24' rx='6' />
+                    <path d='m6.5 9.5 5.5-3 5.5 3-5.5 3z' />
+                    <path d='m6.5 12.75 5.5 3 5.5-3' />
+                    <path d='m6.5 15.75 5.5 3 5.5-3' />
+                  </svg>
+                }
+                name='Acme Platform'
+                description='platform-core'
+                data-blueprint-guide
+              />
+              <AppShell.Nav aria-label='Acme Platform'>
                 {destinations.map(([label, icon]) => (
                   <AppShell.Link
                     key={label}
@@ -116,7 +110,7 @@ export function LandingHero() {
                     aria-current={label === t.deployments ? 'page' : undefined}
                   />
                 ))}
-              </nav>
+              </AppShell.Nav>
               <AppShell.Footer>
                 <div className='landing-console-account' data-blueprint-guide>
                   <Avatar.Root size='small' data-blueprint-guide>

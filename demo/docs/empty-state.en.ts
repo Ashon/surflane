@@ -8,7 +8,12 @@ export const doc: ComponentDoc = {
     'Root → optional decorative Icon + Title(h3) + Description + Actions',
   keyboard:
     "It doesn't take focus or create a live region. Set Title.level to fit the surrounding heading hierarchy. Offer clearing a search, creating an item, and permission guidance as clearly named buttons or links.",
-  tokens: ['--space-6', '--space-4', '--ink-body', '--ink-muted'],
+  tokens: [
+    '--surf-space-6',
+    '--surf-space-4',
+    '--surf-ink-body',
+    '--surf-ink-muted',
+  ],
   code: `import { EmptyState, Button } from '@surflane/ui'
 
 <EmptyState.Root>

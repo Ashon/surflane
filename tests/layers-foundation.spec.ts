@@ -50,8 +50,8 @@ test('nested selection, tooltip, popover and modal preserve layer roles, selecti
   await expect(dialog).toBeVisible()
   const select = dialog.getByRole('combobox', { name: 'Preview environment' })
   await select.click()
-  await expect(page.locator('.pui-select-popup')).toBeVisible()
-  await expect(page.locator('.pui-select-popup').locator('..')).toHaveCSS(
+  await expect(page.locator('.surf-select-popup')).toBeVisible()
+  await expect(page.locator('.surf-select-popup').locator('..')).toHaveCSS(
     'z-index',
     '1200',
   )
@@ -67,8 +67,8 @@ test('nested selection, tooltip, popover and modal preserve layer roles, selecti
   await page.keyboard.press('Tab')
   await page.keyboard.press('Tab')
   await expect(tipButton).toBeFocused()
-  await expect(page.locator('.pui-tooltip')).toBeVisible()
-  await expect(page.locator('.pui-tooltip-positioner')).toHaveCSS(
+  await expect(page.locator('.surf-tooltip')).toBeVisible()
+  await expect(page.locator('.surf-tooltip-positioner')).toHaveCSS(
     'z-index',
     '1300',
   )
@@ -78,7 +78,7 @@ test('nested selection, tooltip, popover and modal preserve layer roles, selecti
     name: 'Inspect overlay details',
   })
   await popoverButton.click()
-  await expect(page.locator('.pui-popover')).toContainText('production')
+  await expect(page.locator('.surf-popover')).toContainText('production')
   await page.keyboard.press('Escape')
   await expect(popoverButton).toBeFocused()
   const childTrigger = dialog.getByRole('button', {
@@ -113,16 +113,18 @@ test('the layer scale reads its values from the tokens and links to the real cat
 }) => {
   await page.goto('/foundations/layers')
   await waitForCatalogReady(page)
-  await expect(page.locator('[data-layer-token="--layer-popup"]')).toHaveText(
-    '1200',
-  )
-  await expect(page.locator('[data-layer-token="--layer-tooltip"]')).toHaveText(
-    '1300',
-  )
-  await page.getByRole('link', { name: '--layer-tooltip', exact: true }).click()
+  await expect(
+    page.locator('[data-layer-token="--surf-layer-popup"]'),
+  ).toHaveText('1200')
+  await expect(
+    page.locator('[data-layer-token="--surf-layer-tooltip"]'),
+  ).toHaveText('1300')
+  await page
+    .getByRole('link', { name: '--surf-layer-tooltip', exact: true })
+    .click()
   await waitForCatalogReady(page)
   await expect(page.locator('#page-title')).toHaveText('Design tokens')
-  await expect(page.locator('main')).toContainText('--layer-tooltip')
+  await expect(page.locator('main')).toContainText('--surf-layer-tooltip')
 })
 for (const width of [1440, 320])
   for (const theme of ['light', 'dark'])

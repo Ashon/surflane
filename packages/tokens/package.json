@@ -28,26 +28,18 @@
     "*.js",
     "*.d.ts",
     "themes/*.css",
-    "presentation/*.css",
-    "foundations/*.css",
     "LICENSE-MIT",
     "LICENSE-APACHE"
   ],
   "exports": {
     "./tokens.css": "./tokens.css",
-    "./controls.css": "./controls.css",
     "./theme.json": "./theme.json",
     "./motion.css": "./motion.css",
     "./theme-transition": {
       "types": "./theme-transition.d.ts",
       "import": "./theme-transition.js"
     },
-    "./foundations.css": "./foundations.css",
-    "./foundations/*.css": "./foundations/*.css",
     "./catalog.json": "./catalog.json",
-    "./presentation.css": "./presentation.css",
-    "./presentation/*.css": "./presentation/*.css",
-    "./typography.css": "./typography.css",
     "./tailwind.css": "./tailwind.css",
     "./theme-builder": {
       "types": "./theme-builder.d.ts",

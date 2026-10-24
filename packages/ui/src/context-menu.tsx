@@ -13,20 +13,22 @@ import {
 const ContextPositioner = /* @__PURE__ */ part<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseContextMenu.Positioner>
->(BaseContextMenu.Positioner, 'pui-positioner', { portal: true })
-const ContextContent = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<typeof BaseContextMenu.Popup> &
-    Placement<typeof BaseContextMenu.Positioner> & {
-      /** @deprecated Pass side, align, sideOffset and collisionPadding directly. */
-      positionerProps?: React.ComponentPropsWithoutRef<
-        typeof BaseContextMenu.Positioner
-      >
-    }
->(function ContextContent(
-  { side, align, sideOffset, collisionPadding, positionerProps, ...props },
+>(BaseContextMenu.Positioner, 'surf-positioner', { portal: true })
+const ContextContent = function ContextContent({
+  side,
+  align,
+  sideOffset,
+  collisionPadding,
+  positionerProps,
   ref,
-) {
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseContextMenu.Popup> &
+  Placement<typeof BaseContextMenu.Positioner> & {
+    /** @deprecated Pass side, align, sideOffset and collisionPadding directly. */
+    positionerProps?: React.ComponentPropsWithoutRef<
+      typeof BaseContextMenu.Positioner
+    >
+  } & { ref?: React.Ref<HTMLDivElement> }) {
   return (
     <OwnPortal portal={BaseContextMenu.Portal}>
       <ContextPositioner
@@ -37,14 +39,14 @@ const ContextContent = /* @__PURE__ */ React.forwardRef<
       </ContextPositioner>
     </OwnPortal>
   )
-})
+}
 /** Same menu anatomy and styling, with the context-specific cursor positioner. */
 export const ContextMenu = {
   ...BaseContextMenu,
   Trigger: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseContextMenu.Trigger>
-  >(BaseContextMenu.Trigger, 'pui-context-trigger'),
+  >(BaseContextMenu.Trigger, 'surf-context-trigger'),
   Portal: /* @__PURE__ */ scopedPortal(BaseContextMenu.Portal),
   Positioner: ContextPositioner,
   Content: ContextContent,

@@ -8,27 +8,27 @@ export const Toolbar = {
   Root: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseToolbar.Root>
-  >(BaseToolbar.Root, 'pui-toolbar'),
+  >(BaseToolbar.Root, 'surf-toolbar'),
   Group: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseToolbar.Group>
-  >(BaseToolbar.Group, 'pui-toolbar-group'),
+  >(BaseToolbar.Group, 'surf-toolbar-group'),
   Button: /* @__PURE__ */ part<
     HTMLButtonElement,
     React.ComponentPropsWithoutRef<typeof BaseToolbar.Button>
-  >(BaseToolbar.Button, 'pui-button pui-toolbar-button'),
+  >(BaseToolbar.Button, 'surf-button surf-toolbar-button'),
   Link: /* @__PURE__ */ part<
     HTMLAnchorElement,
     React.ComponentPropsWithoutRef<typeof BaseToolbar.Link>
-  >(BaseToolbar.Link, 'pui-button pui-toolbar-link'),
+  >(BaseToolbar.Link, 'surf-button surf-toolbar-link'),
   Input: /* @__PURE__ */ part<
     HTMLInputElement,
     React.ComponentPropsWithoutRef<typeof BaseToolbar.Input>
-  >(BaseToolbar.Input, 'pui-input pui-toolbar-input'),
+  >(BaseToolbar.Input, 'surf-input surf-toolbar-input'),
   Separator: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseToolbar.Separator>
-  >(BaseToolbar.Separator, 'pui-toolbar-separator'),
+  >(BaseToolbar.Separator, 'surf-toolbar-separator'),
 }
 // Flat names for React Server Components, which cannot dot into client exports.
 export const {

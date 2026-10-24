@@ -6,31 +6,31 @@
 @import './sizing.css';
 
 @layer surflane.components {
-  .pui-input::placeholder {
-    color: var(--control-placeholder);
+  .surf-input::placeholder {
+    color: var(--surf-control-placeholder);
     opacity: 1;
   }
-  .pui-control-icon {
+  .surf-control-icon {
     pointer-events: none;
     position: absolute;
-    inset-inline-start: var(--control-padding-x);
+    inset-inline-start: var(--surf-control-padding-x);
     top: 50%;
     transform: translateY(-50%);
     display: flex;
     align-items: center;
-    color: var(--ink-muted);
+    color: var(--surf-ink-muted);
     z-index: 1;
   }
-  .pui-control[data-leading-icon] .pui-input {
+  .surf-control[data-leading-icon] .surf-input {
     padding-inline-start: calc(
-      var(--control-padding-x) + var(--control-icon-size) +
-        var(--control-icon-gap)
+      var(--surf-control-padding-x) + var(--surf-control-icon-size) +
+        var(--surf-control-icon-gap)
     );
   }
 }
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *):is(.pui-input) {
-    font-size: max(var(--control-text-min-size), var(--ui-font));
-    line-height: var(--ui-leading);
+  :where([data-ui-size], [data-ui-size] *):is(.surf-input) {
+    font-size: max(var(--surf-control-text-min-size), var(--surf-ui-font));
+    line-height: var(--surf-ui-leading);
   }
 }

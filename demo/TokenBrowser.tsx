@@ -238,7 +238,7 @@ function Browser({ initialQuery }: { initialQuery: string }) {
               <span aria-live='polite'>
                 <span
                   key={copied?.name === token.name ? String(copied.ok) : 'idle'}
-                  className='pui-code-copy-label'
+                  className='surf-code-copy-label'
                 >
                   {copied?.name !== token.name
                     ? t.copy

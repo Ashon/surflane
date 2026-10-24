@@ -182,7 +182,7 @@ export function SpacingScaleMark({ step }: { step: number }) {
     <span
       ref={hostRef}
       className='spacing-scale-mark'
-      style={{ inlineSize: `var(--space-${step})` }}
+      style={{ inlineSize: `var(--surf-space-${step})` }}
       aria-hidden='true'
     >
       <BlueprintCanvas

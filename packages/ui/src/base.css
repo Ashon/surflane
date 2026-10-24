@@ -2,10 +2,10 @@
 @layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
   surflane.sizes;
 @import '@surflane/design-tokens/tokens.css';
-@import '@surflane/design-tokens/presentation/base.css';
+@import '@surflane/css/presentation/base.css';
 
 @layer surflane.components {
-  @keyframes pui-progress-pulse {
+  @keyframes surf-progress-pulse {
     50% {
       opacity: 0.45;
     }
@@ -13,35 +13,35 @@
   /* Touch feedback is each control's own hover and pressed layer, drawn in its own
      shape. The browser's tap highlight is a rectangle over the box, so it is off. */
   :where(
-    .pui-button,
-    .pui-tabs-tab,
-    .pui-disclosure-trigger,
-    .pui-app-shell-link,
-    .pui-tree-item,
-    .pui-tree-toggle,
-    .pui-chart-legend-button,
-    .pui-checkbox,
-    .pui-radio,
-    .pui-switch,
-    .pui-choice-label,
-    .pui-select-trigger,
-    .pui-select-item,
-    .pui-combobox-item,
-    .pui-combobox-action,
-    .pui-combobox-chip-remove,
-    .pui-menu-item,
-    .pui-navigation-trigger,
-    .pui-navigation-link,
-    .pui-link,
-    .pui-breadcrumb-item a,
-    .pui-calendar-day,
-    .pui-calendar-nav,
-    .pui-date-trigger,
-    .pui-file-trigger,
-    .pui-number-step,
-    .pui-slider-control,
-    .pui-toast-action,
-    .pui-toast-close
+    .surf-button,
+    .surf-tabs-tab,
+    .surf-disclosure-trigger,
+    .surf-app-shell-link,
+    .surf-tree-item,
+    .surf-tree-toggle,
+    .surf-chart-legend-button,
+    .surf-checkbox,
+    .surf-radio,
+    .surf-switch,
+    .surf-choice-label,
+    .surf-select-trigger,
+    .surf-select-item,
+    .surf-combobox-item,
+    .surf-combobox-action,
+    .surf-combobox-chip-remove,
+    .surf-menu-item,
+    .surf-navigation-trigger,
+    .surf-navigation-link,
+    .surf-link,
+    .surf-breadcrumb-item a,
+    .surf-calendar-day,
+    .surf-calendar-nav,
+    .surf-date-trigger,
+    .surf-file-trigger,
+    .surf-number-step,
+    .surf-slider-control,
+    .surf-toast-action,
+    .surf-toast-close
   ) {
     -webkit-tap-highlight-color: transparent;
   }

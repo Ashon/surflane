@@ -1,72 +1,88 @@
-'use client'
 import * as React from 'react'
-import { cx } from './parts.js'
+import { cx } from './class-names.js'
 /** Layout only: filtering, routing and async results remain controlled by the caller. */
-const Root = /* @__PURE__ */ React.forwardRef<
-  HTMLFormElement,
-  React.ComponentPropsWithoutRef<'form'> & { label: string }
->(function FilterBarRoot({ label, className, ...props }, ref) {
+const Root = function FilterBarRoot({
+  label,
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<'form'> & { label: string } & {
+  ref?: React.Ref<HTMLFormElement>
+}) {
   return (
     <form
       {...props}
       ref={ref}
       role='search'
       aria-label={label}
-      className={cx('pui-filter-bar', className)}
+      className={cx('surf-filter-bar', className)}
     />
   )
-})
-const Controls = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<'div'>
->(function FilterBarControls({ className, ...props }, ref) {
+}
+const Controls = function FilterBarControls({
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<'div'> & {
+  ref?: React.Ref<HTMLDivElement>
+}) {
   return (
     <div
       {...props}
       ref={ref}
-      className={cx('pui-filter-bar-controls', className)}
+      className={cx('surf-filter-bar-controls', className)}
     />
   )
-})
-const Field = /* @__PURE__ */ React.forwardRef<
-  HTMLLabelElement,
-  React.ComponentPropsWithoutRef<'label'> & { width?: 'search' | 'filter' }
->(function FilterBarField({ width = 'filter', className, ...props }, ref) {
+}
+const Field = function FilterBarField({
+  width = 'filter',
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<'label'> & { width?: 'search' | 'filter' } & {
+  ref?: React.Ref<HTMLLabelElement>
+}) {
   return (
     <label
       {...props}
       ref={ref}
       data-width={width}
-      className={cx('pui-filter-bar-field', className)}
+      className={cx('surf-filter-bar-field', className)}
     />
   )
-})
-const Actions = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<'div'>
->(function FilterBarActions({ className, ...props }, ref) {
+}
+const Actions = function FilterBarActions({
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<'div'> & {
+  ref?: React.Ref<HTMLDivElement>
+}) {
   return (
     <div
       {...props}
       ref={ref}
-      className={cx('pui-filter-bar-actions', className)}
+      className={cx('surf-filter-bar-actions', className)}
     />
   )
-})
-const Summary = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<'div'>
->(function FilterBarSummary({ className, ...props }, ref) {
+}
+const Summary = function FilterBarSummary({
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<'div'> & {
+  ref?: React.Ref<HTMLDivElement>
+}) {
   return (
     <div
       role='status'
       aria-atomic='true'
       {...props}
       ref={ref}
-      className={cx('pui-filter-bar-summary', className)}
+      className={cx('surf-filter-bar-summary', className)}
     />
   )
-})
+}
 export const FilterBar = { Root, Controls, Field, Actions, Summary }
 
 // Flat names for React Server Components, which cannot dot into client exports.

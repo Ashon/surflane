@@ -2,8 +2,8 @@ import { test, expect, type Page } from '@playwright/test'
 import { waitForCatalogReady } from './catalog-ready'
 test.use({ reducedMotion: 'reduce' })
 const code = (page: Page, label: string) =>
-  page.locator('.pui-code-block', {
-    has: page.locator('.pui-code-label', { hasText: label }),
+  page.locator('.surf-code-block', {
+    has: page.locator('.surf-code-label', { hasText: label }),
   })
 const choose = (page: Page, name: string) =>
   page.getByRole('button', { name, exact: true }).click()
@@ -18,7 +18,7 @@ test('the install guide follows the chosen setup and keeps it in the address', a
   await page.goto('/install')
   await waitForCatalogReady(page)
   await expect(code(page, 'Packages')).toContainText(
-    'npm install @surflane/ui @surflane/design-tokens',
+    'npm install @surflane/ui @surflane/design-tokens @surflane/css @base-ui/react',
   )
   // Without Tailwind CSS, the root module imports the one stylesheet entry.
   await expect(page.getByRole('tab')).toHaveText(['layout.tsx', 'page.tsx'])

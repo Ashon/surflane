@@ -79,9 +79,9 @@ test('the Korean Tree names its folder toggles in Korean', async ({ page }) => {
   await page.goto('/ko/components/tree')
   await waitForCatalogReady(page)
   await expect(
-    page.locator('.pui-tree-toggle[aria-label$="펼치기"]').first(),
+    page.locator('.surf-tree-toggle[aria-label$="펼치기"]').first(),
   ).toBeAttached()
   await expect(
-    page.locator('.pui-tree-toggle[aria-label^="Expand"]'),
+    page.locator('.surf-tree-toggle[aria-label^="Expand"]'),
   ).toHaveCount(0)
 })

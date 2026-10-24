@@ -59,11 +59,13 @@ export function Tooltip({
           align={align}
           sideOffset={sideOffset}
           collisionPadding={8}
-          className='pui-positioner pui-tooltip-positioner'
+          className='surf-positioner surf-tooltip-positioner'
         >
-          <BaseTooltip.Popup className='pui-tooltip' data-ui-size={scheme}>
+          <BaseTooltip.Popup className='surf-tooltip' data-ui-size={scheme}>
             {label}
-            {shortcut && <kbd className='pui-tooltip-shortcut'>{shortcut}</kbd>}
+            {shortcut && (
+              <kbd className='surf-tooltip-shortcut'>{shortcut}</kbd>
+            )}
           </BaseTooltip.Popup>
         </BaseTooltip.Positioner>
       </BaseTooltip.Portal>

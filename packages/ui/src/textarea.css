@@ -8,20 +8,20 @@
 
 @layer surflane.components {
   /* A block box, so no baseline gap opens under it. */
-  .pui-textarea {
+  .surf-textarea {
     display: block;
     height: auto;
-    min-height: calc(var(--control-height) * 2.5);
-    padding-block: var(--space-3);
+    min-height: calc(var(--surf-control-height) * 2.5);
+    padding-block: var(--surf-space-3);
     resize: vertical;
     scrollbar-width: thin;
-    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+    scrollbar-color: var(--surf-scrollbar-thumb) var(--surf-scrollbar-track);
   }
 }
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *).pui-textarea {
+  :where([data-ui-size], [data-ui-size] *).surf-textarea {
     height: auto;
-    min-height: calc(var(--control-height) * 2.5);
-    padding-block: var(--ui-textarea-padding);
+    min-height: calc(var(--surf-control-height) * 2.5);
+    padding-block: var(--surf-ui-textarea-padding);
   }
 }

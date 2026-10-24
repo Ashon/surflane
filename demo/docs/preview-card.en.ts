@@ -9,11 +9,11 @@ export const doc: ComponentDoc = {
   keyboard:
     "The link keeps its Tab and Enter navigation. When the Popup opens after its delay, focus doesn't move into it or get trapped. Escape closes it, as does moving focus or the pointer away. Make all preview information available at the destination too.",
   tokens: [
-    '--menu-background',
-    '--menu-border',
-    '--shadow-float',
-    '--radius-md',
-    '--dialog-enter-duration',
+    '--surf-menu-background',
+    '--surf-menu-border',
+    '--surf-shadow-float',
+    '--surf-radius-md',
+    '--surf-dialog-enter-duration',
   ],
   code: `import { PreviewCard } from '@surflane/ui'
 

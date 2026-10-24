@@ -5,13 +5,16 @@ import { skin } from './parts.js'
 import { useRootRef, useResetValue } from './form-state.js'
 import { ChoiceResetPaint } from './choice.js'
 
-export const CheckboxGroup = /* @__PURE__ */ React.forwardRef<
-  React.ComponentRef<typeof BaseCheckboxGroup>,
-  React.ComponentPropsWithoutRef<typeof BaseCheckboxGroup>
->(function CheckboxGroup(
-  { value, defaultValue = [], onValueChange, className, ...props },
+export const CheckboxGroup = function CheckboxGroup({
+  value,
+  defaultValue = [],
+  onValueChange,
+  className,
   ref,
-) {
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseCheckboxGroup> & {
+  ref?: React.Ref<React.ComponentRef<typeof BaseCheckboxGroup>>
+}) {
   const [element, attach] = useRootRef<HTMLDivElement>(ref)
   const [selected, setSelected, revision] = useResetValue(
     value,
@@ -24,7 +27,7 @@ export const CheckboxGroup = /* @__PURE__ */ React.forwardRef<
         {...props}
         ref={attach}
         value={selected}
-        className={skin('pui-choice-group', className)}
+        className={skin('surf-choice-group', className)}
         onValueChange={(next, event) => {
           onValueChange?.(next, event)
           if (value === undefined && !event.isCanceled) setSelected(next)
@@ -32,4 +35,4 @@ export const CheckboxGroup = /* @__PURE__ */ React.forwardRef<
       />
     </ChoiceResetPaint.Provider>
   )
-})
+}

@@ -51,7 +51,7 @@ const syntaxRoles = [
 function Swatch({
   token,
   kind,
-  on = '--canvas',
+  on = '--surf-canvas',
   theme,
 }: {
   token: string
@@ -100,17 +100,21 @@ export function ColorFoundation() {
       id: 'text',
       threshold: 4.5,
       pairs: [
-        [t.title, '--ink', '--canvas'],
-        [t.body, '--ink-body', '--canvas'],
-        [t.secondaryText, '--ink-muted', '--canvas'],
-        [t.insetContent, '--ink-body', '--surface'],
-        [t.chromeText, '--ink-body', '--chrome'],
-        [t.selectedContent, '--ink', '--selected'],
-        [t.errorTextOnSelection, '--status-danger-fg', '--selected'],
-        [t.brandAction, '--on-brand', '--brand'],
-        [t.brandTextLink, '--brand-ink', '--canvas'],
-        [t.textSelection, '--selection-foreground', '--selection-background'],
-        [t.tooltip, '--tooltip-foreground', '--tooltip-background'],
+        [t.title, '--surf-ink', '--surf-canvas'],
+        [t.body, '--surf-ink-body', '--surf-canvas'],
+        [t.secondaryText, '--surf-ink-muted', '--surf-canvas'],
+        [t.insetContent, '--surf-ink-body', '--surf-surface'],
+        [t.chromeText, '--surf-ink-body', '--surf-chrome'],
+        [t.selectedContent, '--surf-ink', '--surf-selected'],
+        [t.errorTextOnSelection, '--surf-status-danger-fg', '--surf-selected'],
+        [t.brandAction, '--surf-on-brand', '--surf-brand'],
+        [t.brandTextLink, '--surf-brand-ink', '--surf-canvas'],
+        [
+          t.textSelection,
+          '--surf-selection-foreground',
+          '--surf-selection-background',
+        ],
+        [t.tooltip, '--surf-tooltip-foreground', '--surf-tooltip-background'],
       ],
     },
     {
@@ -119,13 +123,13 @@ export function ColorFoundation() {
       pairs: [
         ...tones.map((tone): Pair => [
           t.status(tone),
-          `--status-${tone}-fg`,
-          `--status-${tone}-bg`,
+          `--surf-status-${tone}-fg`,
+          `--surf-status-${tone}-bg`,
         ]),
         ...tones.map((tone): Pair => [
           t.badge(tone),
-          `--status-${tone}-fg`,
-          `--badge-${tone}-bg`,
+          `--surf-status-${tone}-fg`,
+          `--surf-badge-${tone}-bg`,
         ]),
       ],
     },
@@ -133,11 +137,11 @@ export function ColorFoundation() {
       id: 'trend',
       threshold: 4.5,
       pairs: (['up', 'down'] as const).flatMap((direction): Pair[] => [
-        [t.trend(direction), `--trend-${direction}-fg`, '--canvas'],
+        [t.trend(direction), `--surf-trend-${direction}-fg`, '--surf-canvas'],
         [
           t.trendSurface(direction),
-          `--trend-${direction}-fg`,
-          `--trend-${direction}-bg`,
+          `--surf-trend-${direction}-fg`,
+          `--surf-trend-${direction}-bg`,
         ],
       ]),
     },
@@ -145,10 +149,14 @@ export function ColorFoundation() {
       id: 'controlText',
       threshold: 4.5,
       pairs: [
-        [t.inputText, '--ink', '--control-background'],
-        [t.inputPlaceholder, '--control-placeholder', '--control-background'],
-        [t.inputHoverText, '--ink', '--control-hover-background'],
-        [t.focusedInputText, '--ink', '--control-focus-background'],
+        [t.inputText, '--surf-ink', '--surf-control-background'],
+        [
+          t.inputPlaceholder,
+          '--surf-control-placeholder',
+          '--surf-control-background',
+        ],
+        [t.inputHoverText, '--surf-ink', '--surf-control-hover-background'],
+        [t.focusedInputText, '--surf-ink', '--surf-control-focus-background'],
       ],
     },
     {
@@ -157,40 +165,52 @@ export function ColorFoundation() {
       pairs: [
         [
           t.choiceMark,
-          '--control-choice-selected-fg',
-          '--control-choice-selected-bg',
+          '--surf-control-choice-selected-fg',
+          '--surf-control-choice-selected-bg',
         ],
         [
           t.choiceHoverMark,
-          '--control-choice-selected-fg',
-          '--control-choice-selected-hover-bg',
+          '--surf-control-choice-selected-fg',
+          '--surf-control-choice-selected-hover-bg',
         ],
-        [t.inputBoundary, '--control-border', '--canvas'],
-        [t.inputBoundaryInside, '--control-border', '--control-background'],
-        [t.inputHoverBoundary, '--control-hover-border', '--canvas'],
+        [t.inputBoundary, '--surf-control-border', '--surf-canvas'],
+        [
+          t.inputBoundaryInside,
+          '--surf-control-border',
+          '--surf-control-background',
+        ],
+        [t.inputHoverBoundary, '--surf-control-hover-border', '--surf-canvas'],
         [
           t.inputHoverBoundaryInside,
-          '--control-hover-border',
-          '--control-hover-background',
+          '--surf-control-hover-border',
+          '--surf-control-hover-background',
         ],
-        [t.inputFocusOutside, '--control-focus', '--canvas'],
-        [t.inputFocusInside, '--control-focus', '--control-focus-background'],
-        [t.choiceBoundary, '--control-choice-border', '--canvas'],
-        [t.choiceHoverBoundary, '--control-choice-hover-border', '--canvas'],
+        [t.inputFocusOutside, '--surf-control-focus', '--surf-canvas'],
+        [
+          t.inputFocusInside,
+          '--surf-control-focus',
+          '--surf-control-focus-background',
+        ],
+        [t.choiceBoundary, '--surf-control-choice-border', '--surf-canvas'],
+        [
+          t.choiceHoverBoundary,
+          '--surf-control-choice-hover-border',
+          '--surf-canvas',
+        ],
         [
           t.choiceSelectedBoundary,
-          '--control-choice-selected-border',
-          '--canvas',
+          '--surf-control-choice-selected-border',
+          '--surf-canvas',
         ],
-        [t.errorBoundary, '--status-danger-fg', '--canvas'],
-        [t.progressFill, '--brand-mark', '--surface'],
-        [t.progressFillSheet, '--brand-mark', '--canvas'],
-        [t.sliderFill, '--brand', '--slider-track'],
+        [t.errorBoundary, '--surf-status-danger-fg', '--surf-canvas'],
+        [t.progressFill, '--surf-brand-mark', '--surf-surface'],
+        [t.progressFillSheet, '--surf-brand-mark', '--surf-canvas'],
+        [t.sliderFill, '--surf-brand', '--surf-slider-track'],
         ...(['success', 'danger', 'caution', 'info', 'neutral'] as const).map(
           (tone): Pair => [
             t.statusBorder(tone),
-            `--status-${tone}-border`,
-            '--canvas',
+            `--surf-status-${tone}-border`,
+            '--surf-canvas',
           ],
         ),
       ],
@@ -201,13 +221,13 @@ export function ColorFoundation() {
       pairs: [
         ...[1, 2, 3].map((index): Pair => [
           t.chartSeries(index),
-          `--chart-series-${index}`,
-          '--canvas',
+          `--surf-chart-series-${index}`,
+          '--surf-canvas',
         ]),
         ...[1, 2, 3, 4, 5, 6].map((index): Pair => [
           t.chartCategory(index),
-          `--chart-category-${index}`,
-          '--canvas',
+          `--surf-chart-category-${index}`,
+          '--surf-canvas',
         ]),
       ],
     },
@@ -216,8 +236,8 @@ export function ColorFoundation() {
       threshold: 4.5,
       pairs: syntaxRoles.map((role): Pair => [
         t.syntax(role),
-        `--syntax-${role}`,
-        '--code-bg',
+        `--surf-syntax-${role}`,
+        '--surf-code-bg',
       ]),
     },
   ]
@@ -359,16 +379,22 @@ export function ColorFoundation() {
                     </Table.HeaderCell>
                     <Table.Cell>
                       <SwatchPair
-                        token={`--status-${tone}-fg`}
+                        token={`--surf-status-${tone}-fg`}
                         kind='text'
-                        on={`--status-${tone}-bg`}
+                        on={`--surf-status-${tone}-bg`}
                       />
                     </Table.Cell>
                     <Table.Cell>
-                      <SwatchPair token={`--status-${tone}-bg`} kind='fill' />
+                      <SwatchPair
+                        token={`--surf-status-${tone}-bg`}
+                        kind='fill'
+                      />
                     </Table.Cell>
                     <Table.Cell>
-                      <SwatchPair token={`--badge-${tone}-bg`} kind='fill' />
+                      <SwatchPair
+                        token={`--surf-badge-${tone}-bg`}
+                        kind='fill'
+                      />
                     </Table.Cell>
                   </Table.Row>
                 ))}
@@ -397,12 +423,12 @@ export function ColorFoundation() {
                     </Table.HeaderCell>
                     <Table.Cell>
                       <SwatchPair
-                        token={`--trend-${direction}-fg`}
+                        token={`--surf-trend-${direction}-fg`}
                         kind='text'
                         on={
                           direction === 'flat'
-                            ? '--canvas'
-                            : `--trend-${direction}-bg`
+                            ? '--surf-canvas'
+                            : `--surf-trend-${direction}-bg`
                         }
                       />
                     </Table.Cell>
@@ -411,7 +437,7 @@ export function ColorFoundation() {
                         '—'
                       ) : (
                         <SwatchPair
-                          token={`--trend-${direction}-bg`}
+                          token={`--surf-trend-${direction}-bg`}
                           kind='fill'
                         />
                       )}
@@ -486,7 +512,7 @@ export function ColorFoundation() {
           language='css'
           label={t.codeExampleLabel}
           code={
-            '.resource-summary {\n  color: var(--ink-body);\n  background: var(--surface);\n}\n.resource-summary a {\n  color: var(--brand-ink);\n  text-decoration: underline;\n}'
+            '.resource-summary {\n  color: var(--surf-ink-body);\n  background: var(--surf-surface);\n}\n.resource-summary a {\n  color: var(--surf-brand-ink);\n  text-decoration: underline;\n}'
           }
         />
       </FoundationSection>

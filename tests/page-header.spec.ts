@@ -51,7 +51,7 @@ test('page header keeps semantic rank, optional slots and native action focus', 
   await page.getByRole('checkbox', { name: 'Supporting content' }).uncheck()
   await expect(preview.getByRole('navigation')).toHaveCount(0)
   await expect(preview.getByRole('group')).toHaveCount(0)
-  await expect(preview.locator('.pui-page-header-description')).toHaveCount(0)
+  await expect(preview.locator('.surf-page-header-description')).toHaveCount(0)
   await expect(preview.getByRole('heading')).toBeVisible()
 })
 for (const theme of ['light', 'dark'])

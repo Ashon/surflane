@@ -49,7 +49,7 @@ export function preloadSyntaxHighlighting(root: ParentNode = document) {
   return Promise.all(
     Array.from(
       root.querySelectorAll<HTMLElement>(
-        'code.pui-syntax[data-highlighted="true"]',
+        'code.surf-syntax[data-highlighted="true"]',
       ),
       (code) => {
         const text = code.textContent ?? ''

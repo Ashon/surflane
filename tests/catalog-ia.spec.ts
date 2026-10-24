@@ -245,7 +245,7 @@ test('current sidebar item stays clear of full-width edge fades on entry and res
   await expect.poll(gap).toBeGreaterThanOrEqual(15)
   await viewport.focus()
   const bar = scroll.locator(
-    ':scope > .pui-scrollbar[data-orientation="vertical"]',
+    ':scope > .surf-scrollbar[data-orientation="vertical"]',
   )
   await expect(bar).toHaveCSS('opacity', '1')
   expect(

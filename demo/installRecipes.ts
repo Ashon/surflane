@@ -98,7 +98,7 @@ export function installCommand(setup: Setup) {
   const { framework, manager, tailwind, fonts } = setup
   return [
     manager === 'npm' ? 'npm install' : `${manager} add`,
-    '@surflane/ui @surflane/design-tokens',
+    '@surflane/ui @surflane/design-tokens @surflane/css @base-ui/react',
     ...(fonts
       ? [
           '@fontsource-variable/manrope @fontsource-variable/jetbrains-mono pretendard',
@@ -201,7 +201,7 @@ function documentFile(setup: Setup): GuideFile[] {
           remember &&
             `    <script>\n      document.documentElement.dataset.theme =\n        ${themeRead}\n    </script>`,
           '  </head>',
-          '  <body class="pui-typography">',
+          '  <body class="surf-typography">',
           '    <div id="root"></div>',
           '    <script type="module" src="/src/main.tsx"></script>',
           '  </body>',
@@ -230,8 +230,8 @@ function documentFile(setup: Setup): GuideFile[] {
             ? "    <html lang='en' data-theme='light' suppressHydrationWarning>\n      <head>\n        <script dangerouslySetInnerHTML={{ __html: themeScript }} />\n      </head>"
             : "    <html lang='en' data-theme='light'>",
           highlights(setup)
-            ? "      <body className='pui-typography'>\n        <SyntaxHighlighting>{children}</SyntaxHighlighting>\n      </body>"
-            : "      <body className='pui-typography'>{children}</body>",
+            ? "      <body className='surf-typography'>\n        <SyntaxHighlighting>{children}</SyntaxHighlighting>\n      </body>"
+            : "      <body className='surf-typography'>{children}</body>",
           '    </html>',
           '  )',
           '}',
@@ -273,7 +273,7 @@ function documentFile(setup: Setup): GuideFile[] {
           '        <Meta />',
           '        <Links />',
           '      </head>',
-          "      <body className='pui-typography'>",
+          "      <body className='surf-typography'>",
           highlights(setup)
             ? '        <SyntaxHighlighting>{children}</SyntaxHighlighting>'
             : '        {children}',
@@ -315,7 +315,7 @@ function documentFile(setup: Setup): GuideFile[] {
         remember &&
           `    <script is:inline>\n      document.documentElement.dataset.theme =\n        ${themeRead}\n    </script>`,
         '  </head>',
-        '  <body class="pui-typography">',
+        '  <body class="surf-typography">',
         '    <slot />',
         '  </body>',
         '</html>',
@@ -449,11 +449,17 @@ export function guideFiles(setup: Setup): GuideFile[] {
 }
 
 // AppShell fills the window with a square edge, so the document around it must not
-// show: no browser margin, and the shell's chrome behind it.
+// show: no browser margin, and the shell's chrome behind it. The shell takes its
+// container's height, so the document and the app's root pass the window's down.
 export const appShellBody = lines(
+  'html,',
+  'body,',
+  '#root {',
+  '  height: 100%;',
+  '}',
   'body {',
   '  margin: 0;',
-  '  background: var(--chrome);',
+  '  background: var(--surf-chrome);',
   '}',
 )
 

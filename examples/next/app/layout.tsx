@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: 'Surflane on Next.js' }
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang='en' data-theme='light'>
-      <body className='pui-typography'>{children}</body>
+      <body className='surf-typography'>{children}</body>
     </html>
   )
 }

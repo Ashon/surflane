@@ -9,11 +9,11 @@ export const doc: ComponentDoc = {
   keyboard:
     "Typing narrows the suggestions. Arrow keys and Enter complete the text. Escape or Tab closes the popup. By default, selecting an item doesn't submit the form. Base UI types for non-string object suggestions and grouped items are preserved.",
   tokens: [
-    '--control-height',
-    '--control-radius',
-    '--menu-background',
-    '--menu-hover-background',
-    '--layer-popup',
+    '--surf-control-height',
+    '--surf-control-radius',
+    '--surf-menu-background',
+    '--surf-menu-hover-background',
+    '--surf-layer-popup',
   ],
   code: `import { Autocomplete, Field } from '@surflane/ui'
 

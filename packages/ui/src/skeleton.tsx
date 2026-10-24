@@ -1,6 +1,5 @@
-'use client'
 import * as React from 'react'
-import { cx } from './parts.js'
+import { cx } from './class-names.js'
 
 export type SkeletonProps = Omit<
   React.ComponentPropsWithoutRef<'span'>,
@@ -9,17 +8,19 @@ export type SkeletonProps = Omit<
   shape?: 'text' | 'block' | 'circle'
 }
 /** Decorative placeholder; the owning region provides aria-busy and loading text. */
-export const Skeleton = /* @__PURE__ */ React.forwardRef<
-  HTMLSpanElement,
-  SkeletonProps
->(function Skeleton({ shape = 'text', className, ...props }, ref) {
+export const Skeleton = function Skeleton({
+  shape = 'text',
+  className,
+  ref,
+  ...props
+}: SkeletonProps & { ref?: React.Ref<HTMLSpanElement> }) {
   return (
     <span
       {...props}
       ref={ref}
-      className={cx('pui-skeleton', className)}
+      className={cx('surf-skeleton', className)}
       data-shape={shape}
       aria-hidden='true'
     />
   )
-})
+}

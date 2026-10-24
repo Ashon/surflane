@@ -4,14 +4,14 @@ import { waitForCatalogReady } from './catalog-ready'
 test.use({ reducedMotion: 'reduce' })
 const route = '/components/date-picker'
 const picker = (page: Page, label: string) =>
-  page.locator('.pui-date-picker').filter({
-    has: page.locator('.pui-field-label', {
+  page.locator('.surf-date-picker').filter({
+    has: page.locator('.surf-field-label', {
       hasText: new RegExp(`^${label}$`),
     }),
   })
 const dialog = (page: Page) => page.getByRole('dialog')
 async function open(page: Page, label = 'Run date') {
-  await picker(page, label).locator('.pui-date-trigger').click()
+  await picker(page, label).locator('.surf-date-trigger').click()
   await expect(dialog(page)).toBeVisible()
 }
 async function option(page: Page, label: string, value: string) {
@@ -34,7 +34,7 @@ test('segmented date input, calendar keyboard movement and Escape preserve value
   await day.focus()
   await day.press('ArrowUp')
   await expect(page.locator('[data-date-value]')).toContainText('2026-10-21')
-  const trigger = picker(page, 'Run date').locator('.pui-date-trigger')
+  const trigger = picker(page, 'Run date').locator('.surf-date-trigger')
   await trigger.focus()
   await trigger.press('Enter')
   await expect(
@@ -71,13 +71,13 @@ test('min/max months and unavailable dates restrict calendar selection', async (
   })
   await expect(sunday).toHaveAttribute('aria-disabled', 'true')
   await expect(page.locator('[data-date-value]')).toContainText('2026-10-20')
-  await dialog(page).locator('.pui-calendar-nav[slot="next"]').click()
-  await dialog(page).locator('.pui-calendar-nav[slot="next"]').click()
+  await dialog(page).locator('.surf-calendar-nav[slot="next"]').click()
+  await dialog(page).locator('.surf-calendar-nav[slot="next"]').click()
   await expect(dialog(page).getByRole('grid')).toHaveAccessibleName(
     'December 2026',
   )
   await expect(
-    dialog(page).locator('.pui-calendar-nav[slot="next"]'),
+    dialog(page).locator('.surf-calendar-nav[slot="next"]'),
   ).toBeDisabled()
   await page.keyboard.press('Escape')
 })
@@ -139,12 +139,12 @@ test('required input validation names its error and blocks submission; disabled/
   await expect(root).toHaveAttribute('data-invalid')
   const focused = root.locator('[role="spinbutton"]:focus')
   await expect(focused).toHaveCount(1)
-  await expect(root.locator('.pui-field-error')).toContainText(
+  await expect(root.locator('.surf-field-error')).toContainText(
     'Choose an available date',
   )
   await expect(focused).toHaveAttribute(
     'aria-describedby',
-    new RegExp((await root.locator('.pui-field-error').getAttribute('id'))!),
+    new RegExp((await root.locator('.surf-field-error').getAttribute('id'))!),
   )
   await page
     .getByRole('button', { name: 'Reset local dates', exact: true })
@@ -162,7 +162,7 @@ test('required input validation names its error and blocks submission; disabled/
   await page
     .getByRole('checkbox', { name: 'Disable date controls', exact: true })
     .check()
-  await expect(root.locator('.pui-date-trigger')).toBeDisabled()
+  await expect(root.locator('.surf-date-trigger')).toBeDisabled()
   await expect(day).toHaveAttribute('aria-disabled', 'true')
 })
 
@@ -268,7 +268,7 @@ test('typed dates and times outside their bounds surface errors and prevent nati
     .click()
   await expect(picker(page, 'Run date')).toHaveAttribute('data-invalid')
   await expect(
-    picker(page, 'Run date').locator('.pui-field-error'),
+    picker(page, 'Run date').locator('.surf-field-error'),
   ).toBeVisible()
   await expect(
     page.getByRole('status', { name: 'Date form result', exact: true }),
@@ -286,10 +286,10 @@ test('typed dates and times outside their bounds surface errors and prevent nati
   await page
     .getByRole('button', { name: 'Submit local dates', exact: true })
     .click()
-  await expect(page.locator('.pui-time-field')).toHaveAttribute('data-invalid')
-  await expect(page.locator('.pui-time-field .pui-field-error')).toContainText(
-    '09:00 through 18:00',
-  )
+  await expect(page.locator('.surf-time-field')).toHaveAttribute('data-invalid')
+  await expect(
+    page.locator('.surf-time-field .surf-field-error'),
+  ).toContainText('09:00 through 18:00')
 })
 
 test('ranges cannot bridge unavailable weekends', async ({ page }) => {
@@ -323,15 +323,15 @@ test('RTL calendar keeps localized direction, focus and real touch selection', a
   await page.goto('http://127.0.0.1:8066' + route)
   await waitForCatalogReady(page)
   await option(page, 'Locale', 'العربية / Gregorian')
-  await picker(page, 'Run date').locator('.pui-date-trigger').tap()
+  await picker(page, 'Run date').locator('.surf-date-trigger').tap()
   await expect(dialog(page)).toBeVisible()
   expect(
     await dialog(page)
-      .locator('.pui-calendar')
+      .locator('.surf-calendar')
       .evaluate((el) => getComputedStyle(el).direction),
   ).toBe('rtl')
   await dialog(page)
-    .locator('.pui-calendar-day:not([data-outside-month])')
+    .locator('.surf-calendar-day:not([data-outside-month])')
     .filter({ hasText: /^٢٢$/ })
     .tap()
   await expect(dialog(page)).toHaveCount(0)

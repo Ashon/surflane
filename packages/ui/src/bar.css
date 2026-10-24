@@ -4,30 +4,30 @@
 @import './base.css';
 
 @layer surflane.components {
-  .pui-toggle-group,
-  .pui-toolbar,
-  .pui-menubar {
+  .surf-toggle-group,
+  .surf-toolbar,
+  .surf-menubar {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--space-1);
+    gap: var(--surf-space-1);
     min-width: 0;
   }
-  .pui-toggle-group[data-orientation='vertical'],
-  .pui-toolbar[data-orientation='vertical'],
-  .pui-menubar[data-orientation='vertical'] {
+  .surf-toggle-group[data-orientation='vertical'],
+  .surf-toolbar[data-orientation='vertical'],
+  .surf-menubar[data-orientation='vertical'] {
     flex-direction: column;
     align-items: flex-start;
     width: fit-content;
     max-width: 100%;
   }
-  .pui-toggle,
-  .pui-toolbar-button {
+  .surf-toggle,
+  .surf-toolbar-button {
     position: relative;
   }
   @media (forced-colors: active) {
-    .pui-toggle[data-pressed]::after,
-    .pui-toolbar-button[aria-pressed='true']::after {
+    .surf-toggle[data-pressed]::after,
+    .surf-toolbar-button[aria-pressed='true']::after {
       content: '';
       position: absolute;
       inset: 3px;

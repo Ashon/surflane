@@ -86,7 +86,11 @@ test('shell options preserve state, reflow at 320px and pass both theme audits',
 }) => {
   await page.goto('/patterns/app-shell')
   await waitForCatalogReady(page)
-  await expect(page.locator('.app-shell-brand')).toHaveText('Surflane')
+  await expect(
+    page.locator(
+      '.app-shell-preview .surf-app-shell-sidebar .surf-app-shell-brand',
+    ),
+  ).toHaveText('Surflane')
   for (const dark of [false, true]) {
     if (dark) {
       await page.setViewportSize({ width: 1440, height: 1000 })
@@ -138,7 +142,9 @@ test('workspace benchmark keeps brand and account fixed while menu and body scro
   const account = page.getByRole('button', {
     name: 'Preview user account menu',
   })
-  const brand = page.locator('.app-shell-brand')
+  const brand = page.locator(
+    '.app-shell-preview .surf-app-shell-sidebar .surf-app-shell-brand',
+  )
   await content.scrollIntoViewIfNeeded()
   const accountY = (await account.boundingBox())!.y,
     brandY = (await brand.boundingBox())!.y
@@ -219,12 +225,12 @@ test('long content scrolls with the wheel and thumb, then hands the wheel to the
   await expect
     .poll(() => content.evaluate((el) => el.scrollTop))
     .toBeGreaterThan(100)
-  const bar = root.locator('.pui-scrollbar[data-orientation="vertical"]')
+  const bar = root.locator('.surf-scrollbar[data-orientation="vertical"]')
   await expect(bar).toHaveCSS('opacity', '1')
   expect(await outer.evaluate((el) => el.scrollTop)).toBe(outerTop)
   const bounds = (await content.boundingBox())!
   await page.mouse.move(bounds.x + bounds.width - 4, bounds.y + 30)
-  const thumb = root.locator('.pui-scroll-thumb')
+  const thumb = root.locator('.surf-scroll-thumb')
   await expect(thumb).toBeVisible()
   const before = await content.evaluate((el) => el.scrollTop)
   const handle = (await thumb.boundingBox())!
@@ -273,7 +279,7 @@ test('the workspace surface grows through the scroll boundary and closes only at
         name: 'Workspace content',
         exact: true,
       })
-      const surface = page.locator('.app-shell-preview .pui-app-shell-page')
+      const surface = page.locator('.app-shell-preview .surf-app-shell-page')
       // A desktop page insets 12px on each side; on a phone it meets the edges.
       const inset = width > 760 ? 12 : 0
       await long.uncheck()
@@ -351,14 +357,14 @@ test('the shell keeps and remembers its sidebar state, with a shortcut and rail 
   )
   // The toggle's tooltip names the shortcut.
   await toggle.hover()
-  await expect(page.locator('.pui-tooltip')).toContainText(/⌘B|Ctrl\+B/)
+  await expect(page.locator('.surf-tooltip')).toContainText(/⌘B|Ctrl\+B/)
   // The shortcut toggles from anywhere but a text field.
   await page.locator('body').click({ position: { x: 5, y: 5 } })
   await page.keyboard.press('ControlOrMeta+b')
   await expect(shell).toHaveAttribute('data-sidebar', 'collapsed')
   // On the rail, a link's name appears as a tooltip.
   await sidebar.getByRole('link', { name: 'Resources', exact: true }).hover()
-  await expect(page.locator('.pui-tooltip')).toHaveText('Resources')
+  await expect(page.locator('.surf-tooltip')).toHaveText('Resources')
   // The state survives a reload.
   await page.reload()
   await waitForCatalogReady(page)
@@ -368,7 +374,7 @@ test('the shell keeps and remembers its sidebar state, with a shortcut and rail 
     .click()
   await expect(shell).toHaveAttribute('data-sidebar', 'expanded')
   await sidebar.getByRole('link', { name: 'Resources', exact: true }).hover()
-  await expect(page.locator('.pui-tooltip')).toHaveCount(0)
+  await expect(page.locator('.surf-tooltip')).toHaveCount(0)
 })
 
 test('a shell that fills the window keeps a square edge, rounds only its page and goes flush on a phone', async ({
@@ -393,7 +399,7 @@ test('a shell that fills the window keeps a square edge, rounds only its page an
   // The install guide gives the document what a window-filling shell needs.
   const body = page.locator('#install-app-shell')
   await expect(body).toContainText('margin: 0;')
-  await expect(body).toContainText('background: var(--chrome);')
+  await expect(body).toContainText('background: var(--surf-chrome);')
   await page.evaluate((html) => {
     const host = document.createElement('div')
     host.style.cssText =
@@ -401,8 +407,8 @@ test('a shell that fills the window keeps a square edge, rounds only its page an
     host.innerHTML = html
     document.body.append(host)
   }, markup)
-  const shell = page.locator('body > div > .pui-app-shell')
-  const sheet = shell.locator('.pui-app-shell-page')
+  const shell = page.locator('body > div > .surf-app-shell')
+  const sheet = shell.locator('.surf-app-shell-page')
   await expect(shell).toHaveCSS('border-top-left-radius', '0px')
   expect(await shell.boundingBox()).toEqual({
     x: 0,
@@ -484,25 +490,25 @@ test('a workspace shell takes the window height, scrolls its menu and page insid
       document.body.append(host)
     }, html)
   await mount(shell(false))
-  const root = page.locator('#harbor > .pui-app-shell')
+  const root = page.locator('#harbor > .surf-app-shell')
   expect((await root.boundingBox())!.height).toBe(900)
   const scrolls = (selector: string) =>
     root
-      .locator(`${selector} > .pui-scroll-root > .pui-scroll-viewport`)
+      .locator(`${selector} > .surf-scroll-root > .surf-scroll-viewport`)
       .evaluate((el) => ({
         height: el.clientHeight,
         scrolls: el.scrollHeight > el.clientHeight,
       }))
-  expect(await scrolls('.pui-app-shell-content')).toEqual({
+  expect(await scrolls('.surf-app-shell-content')).toEqual({
     height: 900,
     scrolls: true,
   })
-  expect((await scrolls('.pui-app-shell-sidebar')).scrolls).toBe(true)
-  const footer = (await root.locator('.pui-app-shell-footer').boundingBox())!
+  expect((await scrolls('.surf-app-shell-sidebar')).scrolls).toBe(true)
+  const footer = (await root.locator('.surf-app-shell-footer').boundingBox())!
   expect(footer.y + footer.height).toBeLessThanOrEqual(900)
   // Expanded, the round toggle straddles the sidebar's edge.
-  const toggle = root.locator('.pui-app-shell-toggle')
-  const sidebar = (await root.locator('.pui-app-shell-sidebar').boundingBox())!
+  const toggle = root.locator('.surf-app-shell-toggle')
+  const sidebar = (await root.locator('.surf-app-shell-sidebar').boundingBox())!
   let box = (await toggle.boundingBox())!
   expect(box.width).toBe(32)
   expect(box.x + box.width / 2).toBe(sidebar.x + sidebar.width)
@@ -512,4 +518,136 @@ test('a workspace shell takes the window height, scrolls its menu and page insid
   box = (await toggle.boundingBox())!
   expect(box.width).toBe(40)
   expect(box.x + box.width / 2).toBe(36)
+})
+
+test('Brand, Nav and a Link rendered as a button line up on the icon column, and only the sidebar collapses', async ({
+  page,
+}) => {
+  const React = await import('react')
+  const { renderToStaticMarkup } = await import('react-dom/server')
+  const { AppShell, Icon, ScrollArea } = await import('@surflane/ui')
+  const h = React.createElement
+  const mark = h(
+    'svg',
+    { viewBox: '0 0 24 24' },
+    h('rect', { width: 24, height: 24, rx: 6 }),
+  )
+  const shell = (defaultCollapsed: boolean) =>
+    renderToStaticMarkup(
+      h(
+        AppShell.Root,
+        { layout: 'workspace', shortcut: false, defaultCollapsed },
+        h(AppShell.Header, null, h(AppShell.Brand, { mark, name: 'Harbor' })),
+        h(
+          AppShell.Sidebar,
+          { 'aria-label': 'Harbor' },
+          h(AppShell.Brand, {
+            mark,
+            name: 'Harbor',
+            description: 'Port of Busan',
+          }),
+          h(AppShell.SidebarToggle),
+          h(
+            ScrollArea,
+            { orientation: 'vertical', label: 'Destinations' },
+            h(
+              AppShell.Nav,
+              { label: 'Berths' },
+              ['North', 'South'].map((label) =>
+                h(AppShell.Link, {
+                  key: label,
+                  href: '#',
+                  label,
+                  icon: h(Icon, { name: 'monitor', decorative: true }),
+                }),
+              ),
+            ),
+          ),
+          h(
+            AppShell.Footer,
+            null,
+            // A menu trigger in an app; any element takes the row through render.
+            h(AppShell.Link, {
+              render: h('button', { type: 'button' }),
+              label: 'Account',
+              icon: h(Icon, { name: 'info', decorative: true }),
+            }),
+          ),
+        ),
+        h(AppShell.Content, null, h(AppShell.Page, null, 'Arrivals')),
+      ),
+    )
+  await page.goto('/install')
+  await waitForCatalogReady(page)
+  const mount = (html: string) =>
+    page.evaluate((html) => {
+      document.querySelector('#harbor')?.remove()
+      const host = document.createElement('div')
+      host.id = 'harbor'
+      host.style.cssText = 'position: fixed; inset: 0; z-index: 2000'
+      host.innerHTML = html
+      document.body.append(host)
+    }, html)
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await mount(shell(false))
+  const root = page.locator('#harbor > .surf-app-shell')
+  const sidebar = root.locator('.surf-app-shell-sidebar')
+  await expect(
+    sidebar.getByRole('navigation', { name: 'Berths', exact: true }),
+  ).toHaveCount(1)
+  const account = sidebar.locator('.surf-app-shell-footer button')
+  await expect(account).toHaveClass('surf-app-shell-link')
+  await expect(account).toHaveAccessibleName('Account')
+  const center = async (selector: string) => {
+    const box = (await sidebar.locator(selector).first().boundingBox())!
+    return box.x + box.width / 2
+  }
+  const left = async (selector: string) =>
+    (await sidebar.locator(selector).first().boundingBox())!.x
+  // The mark, the links' icons and the account's icon share one column.
+  const column = await center('.surf-app-shell-nav .surf-app-shell-icon')
+  expect(await center('.surf-app-shell-brand-mark')).toBe(column)
+  expect(await center('.surf-app-shell-footer .surf-app-shell-icon')).toBe(
+    column,
+  )
+  // The brand's name and the account's start on the links' label line.
+  const line = await left(
+    '.surf-app-shell-nav .surf-app-shell-link .surf-app-shell-label',
+  )
+  expect(await left('.surf-app-shell-brand-name')).toBe(line)
+  expect(await left('.surf-app-shell-footer .surf-app-shell-label')).toBe(line)
+  await expect(sidebar.locator('.surf-app-shell-brand-name')).toHaveAttribute(
+    'title',
+    'Harbor',
+  )
+  await expect(sidebar.locator('.surf-app-shell-brand')).toHaveCSS(
+    'height',
+    '80px',
+  )
+  // Collapsed, the toggle takes the brand's place; the group label keeps its row.
+  await mount(shell(true))
+  await expect(sidebar.locator('.surf-app-shell-brand')).toHaveCSS(
+    'visibility',
+    'hidden',
+  )
+  expect(await center('.surf-app-shell-nav .surf-app-shell-icon')).toBe(column)
+  // On a phone the header's brand stays whole, whatever the sidebar's state.
+  await page.setViewportSize({ width: 390, height: 844 })
+  const name = root.locator('.surf-app-shell-header .surf-app-shell-brand-name')
+  await expect(name).toBeVisible()
+  await expect(name).toHaveCSS('opacity', '1')
+  // A Link outside the shell, such as in a mobile Sheet, keeps the row's icon column.
+  await mount(
+    renderToStaticMarkup(
+      h(AppShell.Link, {
+        href: '#',
+        label: 'Loose',
+        icon: h(Icon, { name: 'monitor', decorative: true }),
+      }),
+    ),
+  )
+  await expect(page.locator('#harbor > .surf-app-shell-link')).toHaveCSS(
+    'grid-template-columns',
+    /^40px /,
+  )
 })

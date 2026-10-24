@@ -112,7 +112,7 @@ test('LinkButton stays a link, takes its size and keeps the router navigation it
   const link = page
     .getByRole('link', { name: 'Browse components', exact: true })
     .first()
-  await expect(link).toHaveClass(/pui-button/)
+  await expect(link).toHaveClass(/surf-button/)
   await expect(link).toHaveAttribute('data-ui-size', 'large')
   expect((await link.boundingBox())!.height).toBe(44)
   // The catalog router navigates in place: the page keeps its state, no document load.
@@ -123,5 +123,5 @@ test('LinkButton stays a link, takes its size and keeps the router navigation it
   const text = page
     .locator('.catalog-page-header')
     .getByRole('link', { name: 'Surflane', exact: true })
-  await expect(text).toHaveClass(/pui-link/)
+  await expect(text).toHaveClass(/surf-link/)
 })

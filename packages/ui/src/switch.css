@@ -6,52 +6,54 @@
 @import './choice.css';
 
 @layer surflane.components {
-  .pui-switch {
-    width: var(--control-switch-width);
-    height: var(--control-switch-height);
+  .surf-switch {
+    width: var(--surf-control-switch-width);
+    height: var(--surf-control-switch-height);
     padding: calc(
-      (var(--control-switch-height) - var(--control-switch-thumb)) / 2 - 1px
+      (var(--surf-control-switch-height) - var(--surf-control-switch-thumb)) /
+        2 - 1px
     );
-    border-radius: var(--radius-pill);
+    border-radius: var(--surf-radius-pill);
     justify-content: flex-start;
   }
-  .pui-switch-thumb {
-    width: var(--control-switch-thumb);
-    height: var(--control-switch-thumb);
+  .surf-switch-thumb {
+    width: var(--surf-control-switch-thumb);
+    height: var(--surf-control-switch-thumb);
     /* Concentric with the track: its corner less the gap around the thumb. */
     border-radius: max(
       0px,
-      var(--radius-pill) -
-        (var(--control-switch-height) - var(--control-switch-thumb)) / 2
+      var(--surf-radius-pill) -
+        (var(--surf-control-switch-height) - var(--surf-control-switch-thumb)) /
+        2
     );
-    background: var(--ink-muted);
+    background: var(--surf-ink-muted);
     transform: translateX(0);
     transition:
-      transform var(--duration-fast) var(--ease-out),
-      background-color var(--duration-fast) var(--ease-out);
+      transform var(--surf-duration-fast) var(--surf-ease-out),
+      background-color var(--surf-duration-fast) var(--surf-ease-out);
   }
-  .pui-switch[data-checked] .pui-switch-thumb {
-    background: var(--on-brand);
+  .surf-switch[data-checked] .surf-switch-thumb {
+    background: var(--surf-on-brand);
     transform: translateX(
-      calc(var(--control-switch-width) - var(--control-switch-height))
+      calc(var(--surf-control-switch-width) - var(--surf-control-switch-height))
     );
   }
-  .pui-switch:dir(rtl)[data-checked] .pui-switch-thumb {
+  .surf-switch:dir(rtl)[data-checked] .surf-switch-thumb {
     transform: translateX(
-      calc(var(--control-switch-height) - var(--control-switch-width))
+      calc(var(--surf-control-switch-height) - var(--surf-control-switch-width))
     );
   }
   @media (prefers-reduced-motion: reduce) {
-    .pui-switch,
-    .pui-switch-thumb {
+    .surf-switch,
+    .surf-switch-thumb {
       transition: none;
     }
   }
   @media (forced-colors: active) {
-    .pui-switch[data-checked] .pui-switch-thumb {
+    .surf-switch[data-checked] .surf-switch-thumb {
       background: HighlightText;
     }
-    .pui-switch-thumb {
+    .surf-switch-thumb {
       background: ButtonText;
     }
   }

@@ -1,0 +1,104 @@
+/* Presentation classes: Pagination. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+
+@layer surflane.components {
+  .surf-pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--surf-space-2);
+  }
+  .surf-pagination-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--surf-space-1);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .surf-pagination-control {
+    min-width: var(--surf-control-height);
+  }
+  /* A Button control keeps the Button's box, type and colors. */
+  .surf-pagination-control:where(:not(.surf-button)) {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--surf-control-height);
+    gap: var(--surf-space-2);
+    padding: 0 var(--surf-space-3);
+    border-radius: var(--surf-radius-pill);
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--surf-ink);
+    text-decoration: none;
+    font: var(--surf-weight-medium)
+      var(--surf-type-label-size)/var(--surf-type-label-leading)
+      var(--surf-font-body);
+    letter-spacing: var(--surf-type-label-tracking);
+  }
+  .surf-pagination .surf-pagination-control[aria-current='page'] {
+    background-color: var(--surf-selected);
+    border-color: var(--surf-control-border);
+  }
+  /* Only a control that can act shows hover and pressed layers. */
+  .surf-pagination-control:is(a, button):where([href], :enabled):hover {
+    background: var(--surf-interaction-hover-bg);
+  }
+  /* Pressed layers show touch feedback in the control's shape instead. */
+  .surf-pagination-control:is(a, button) {
+    -webkit-tap-highlight-color: transparent;
+  }
+  .surf-pagination-control:is(a, button):where([href], :enabled):active {
+    background: var(--surf-interaction-active-bg);
+  }
+  .surf-pagination-control[aria-disabled='true'] {
+    opacity: var(--surf-control-disabled-opacity);
+  }
+  .surf-pagination-control:focus-visible {
+    outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+    outline-offset: var(--surf-focus-ring-offset);
+  }
+  .surf-pagination-gap {
+    display: inline-flex;
+    align-items: center;
+    padding-inline: var(--surf-space-1);
+    color: var(--surf-ink-muted);
+  }
+  /* Icon arrows mirror themselves. */
+  .surf-pagination:dir(rtl) .surf-pagination-arrow:where(:not(.surf-icon)) {
+    transform: rotate(180deg);
+  }
+  @media (forced-colors: active) {
+    .surf-pagination .surf-pagination-control[aria-current='page'] {
+      border-color: CanvasText;
+    }
+  }
+  .surf-pagination-summary {
+    display: none;
+    color: var(--surf-ink-body);
+    font-size: var(--surf-type-body-size);
+    letter-spacing: var(--surf-type-body-tracking);
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+  @media (max-width: 560px) {
+    .surf-pagination-list {
+      display: none;
+    }
+    /* "Page 1 of 3" stays on one line; the controls wrap around it instead. */
+    .surf-pagination-summary {
+      display: block;
+      flex: none;
+      white-space: nowrap;
+    }
+    .surf-pagination > .surf-pagination-control > span {
+      display: none;
+    }
+  }
+}

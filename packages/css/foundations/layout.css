@@ -1,0 +1,127 @@
+/* Composition classes: Container, Stack, Inline, Grid and Surface. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+
+@layer surflane.base {
+  .surf-container {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    margin-inline: auto;
+  }
+  .surf-container[data-width='workspace'] {
+    max-width: var(--surf-layout-workspace);
+  }
+  .surf-container[data-width='reading'] {
+    max-width: var(--surf-layout-reading);
+  }
+  .surf-container[data-width='wide'] {
+    max-width: var(--surf-layout-wide);
+  }
+  .surf-stack,
+  .surf-inline,
+  .surf-grid {
+    min-width: 0;
+    gap: var(--surf-layout-gap, var(--surf-layout-gutter));
+  }
+  .surf-stack {
+    display: flex;
+    flex-direction: column;
+  }
+  .surf-inline {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .surf-inline[data-justify='between'] {
+    justify-content: space-between;
+  }
+  .surf-inline[data-justify='end'] {
+    justify-content: flex-end;
+  }
+  .surf-grid {
+    --surf-layout-grid-columns: 3;
+    --surf-grid-inline-bleed: 0px;
+    display: grid;
+    margin-inline: calc(-1 * var(--surf-grid-inline-bleed));
+    grid-template-columns: repeat(
+      var(--surf-layout-grid-columns, 3),
+      minmax(0, 1fr)
+    );
+  }
+  .surf-grid > *,
+  .surf-stack > *,
+  .surf-inline > * {
+    min-width: 0;
+  }
+  .surf-grid[data-columns='1'] {
+    --surf-layout-grid-columns: 1;
+  }
+  .surf-grid[data-columns='2'] {
+    --surf-layout-grid-columns: 2;
+  }
+  .surf-grid[data-columns='4'] {
+    --surf-layout-grid-columns: 4;
+  }
+  .surf-surface {
+    box-sizing: border-box;
+    min-width: 0;
+    padding: var(--surf-surface-padding, var(--surf-space-6));
+    border-radius: var(--surf-radius-lg);
+    background: var(--surf-surface);
+    color: var(--surf-ink);
+  }
+  /* data-tone is the earlier name of data-surface. */
+  .surf-surface:is([data-surface='canvas'], [data-tone='canvas']) {
+    background: var(--surf-canvas);
+    border-radius: var(--surf-radius-sheet);
+  }
+  @media (max-width: 1100px) and (min-width: 761px) {
+    .surf-grid:not([data-columns='1']) {
+      --surf-layout-grid-columns: 2;
+    }
+  }
+  @media (max-width: 760px) {
+    .surf-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  /* A 12 / 6 / 4 track composition grid, separate from equal-card Grid columns. */
+  .surf-grid[data-columns='layout'] {
+    grid-template-columns: repeat(var(--surf-layout-columns), minmax(0, 1fr));
+  }
+  .surf-grid[data-columns='layout'] > .surf-grid-item {
+    grid-column: span
+      min(
+        var(--surf-grid-item-span, var(--surf-layout-columns)),
+        var(--surf-layout-columns)
+      );
+  }
+  @media (max-width: 1100px) and (min-width: 761px) {
+    .surf-grid[data-columns='layout'] > .surf-grid-item {
+      grid-column: span
+        min(
+          var(
+            --surf-grid-item-span-medium,
+            var(--surf-grid-item-span, var(--surf-layout-columns))
+          ),
+          var(--surf-layout-columns)
+        );
+    }
+  }
+  @media (max-width: 760px) {
+    .surf-grid[data-columns='layout'] > .surf-grid-item {
+      grid-column: span
+        min(
+          var(
+            --surf-grid-item-span-small,
+            var(
+              --surf-grid-item-span-medium,
+              var(--surf-grid-item-span, var(--surf-layout-columns))
+            )
+          ),
+          var(--surf-layout-columns)
+        );
+    }
+  }
+}

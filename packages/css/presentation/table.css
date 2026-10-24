@@ -1,0 +1,228 @@
+/* Presentation classes: Table. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+
+@layer surflane.components {
+  /* Native data structures preserve table/list semantics and generous hover insets. */
+  .surf-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 var(--surf-space-1);
+    font: inherit;
+    color: var(--surf-ink-body);
+    /* Columns size to whole words: break-word only splits a word that cannot fit,
+     * while an inherited overflow-wrap: anywhere would squeeze columns mid-word. */
+    overflow-wrap: break-word;
+  }
+  .surf-table-caption {
+    text-align: start;
+    font-weight: var(--surf-weight-regular);
+    color: var(--surf-ink);
+    padding: 0 var(--surf-space-4) var(--surf-space-3);
+  }
+  .surf-table-cell {
+    padding: var(--surf-space-3) var(--surf-space-4);
+    text-align: start;
+    vertical-align: middle;
+    border: 0;
+  }
+  .surf-table-header {
+    font-weight: var(--surf-weight-medium);
+    color: var(--surf-ink);
+  }
+  .surf-table-body > .surf-table-row > :first-child {
+    border-start-start-radius: var(--surf-radius-md);
+    border-end-start-radius: var(--surf-radius-md);
+  }
+  .surf-table-body > .surf-table-row > :last-child {
+    border-start-end-radius: var(--surf-radius-md);
+    border-end-end-radius: var(--surf-radius-md);
+  }
+  /* Striped tones every other body row with the recessed surface, a plane in place
+   * of a line. Hover and selection paint over it. */
+  :where(.surf-table[data-variant='striped'])
+    > .surf-table-body
+    > .surf-table-row:nth-child(even)
+    > * {
+    background: var(--surf-surface);
+  }
+  .surf-table-body > .surf-table-row:is(:hover, :focus-within) > * {
+    background: var(--surf-interaction-hover-bg);
+  }
+  /* A selected row takes the selected tone and a faint edge in the focus color, so it
+   * reads as held. Each cell draws its share of the edge; inset shadows follow a
+   * rounded row's corners. */
+  .surf-table-body > .surf-table-row[data-selected] > * {
+    --surf-table-edge-start: 0px;
+    --surf-table-edge-end: 0px;
+    --surf-table-edge-top: 1px;
+    --surf-table-edge-bottom: 1px;
+    background: var(--surf-selected);
+    box-shadow:
+      inset 0 var(--surf-table-edge-top) var(--surf-selected-edge),
+      inset 0 calc(-1 * var(--surf-table-edge-bottom)) var(--surf-selected-edge),
+      inset calc(var(--surf-table-direction, 1) * var(--surf-table-edge-start))
+        0 var(--surf-selected-edge),
+      inset
+        calc(-1 * var(--surf-table-direction, 1) * var(--surf-table-edge-end)) 0
+        var(--surf-selected-edge);
+  }
+  .surf-table-body > .surf-table-row[data-selected] > :first-child {
+    --surf-table-edge-start: 1px;
+  }
+  .surf-table-body > .surf-table-row[data-selected] > :last-child {
+    --surf-table-edge-end: 1px;
+  }
+  .surf-table:dir(rtl) {
+    --surf-table-direction: -1;
+  }
+  @media (forced-colors: active) {
+    .surf-table-row[data-selected] > * {
+      outline: 1px solid CanvasText;
+      outline-offset: -1px;
+    }
+  }
+  .surf-table-header > .surf-button {
+    margin-inline-start: calc(-1 * var(--surf-space-3));
+  }
+  /* Column alignment. Numbers align to the end with tabular figures, so digits
+   * line up down the column; the header follows its column. */
+  .surf-table-cell[data-align='center'] {
+    text-align: center;
+  }
+  .surf-table-cell[data-align='end'] {
+    text-align: end;
+  }
+  .surf-table-cell[data-numeric] {
+    font-variant-numeric: tabular-nums;
+  }
+  .surf-table-header[data-align='end'] > .surf-button {
+    margin-inline: 0 calc(-1 * var(--surf-space-3));
+  }
+  /* Sort headers show their icon on every sortable column, so sorting is
+   * discoverable without hovering. An end-aligned column puts the icon before
+   * the label, so the label's end lines up with the numbers below it. */
+  /* A Button sort control keeps the Button's gap, weight and color. */
+  .surf-table-sort:where(:not(.surf-button)) {
+    gap: var(--surf-space-1);
+    font-weight: inherit;
+    color: inherit;
+  }
+  .surf-table-header[data-align='end'] > .surf-table-sort {
+    flex-direction: row-reverse;
+  }
+  .surf-table-sort-icon {
+    flex: none;
+    color: var(--surf-ink-muted);
+  }
+  .surf-table-sort[data-sort] .surf-table-sort-icon {
+    color: var(--surf-ink);
+  }
+  /* Compact density: 4px row padding and 2px between rows, for scanning many
+   * records with a pointer. It overrides the component size's cell padding. */
+  .surf-table[data-density='compact'] {
+    border-spacing: 0 2px;
+  }
+  /* Lined, grid and striped rows meet edge to edge, square, so lines and stripes
+   * run unbroken. Lines stay inside the table: none above the header, below the
+   * last row or at its sides. */
+  .surf-table[data-variant] {
+    border-spacing: 0;
+  }
+  .surf-table[data-variant] > .surf-table-body > .surf-table-row > * {
+    border-radius: 0;
+  }
+  .surf-table:is([data-variant='lined'], [data-variant='grid'])
+    > :is(.surf-table-head, .surf-table-body, .surf-table-foot)
+    > .surf-table-row
+    + .surf-table-row
+    > *,
+  .surf-table:is([data-variant='lined'], [data-variant='grid'])
+    > .surf-table-head
+    + .surf-table-body
+    > .surf-table-row:first-child
+    > *,
+  .surf-table:is([data-variant='lined'], [data-variant='grid'])
+    > .surf-table-body
+    + .surf-table-foot
+    > .surf-table-row:first-child
+    > * {
+    border-block-start: 1px solid var(--surf-line);
+  }
+  .surf-table[data-variant='grid'] .surf-table-cell + .surf-table-cell {
+    border-inline-start: 1px solid var(--surf-line);
+  }
+  /* A sticky header draws its own line beneath it. */
+  .surf-table[data-sticky-header]
+    > .surf-table-head
+    + .surf-table-body
+    > .surf-table-row:first-child
+    > * {
+    border-block-start: 0;
+  }
+  /* Selected rows that meet share one edge around the run. */
+  .surf-table[data-variant]
+    > .surf-table-body
+    > .surf-table-row[data-selected]
+    + .surf-table-row[data-selected]
+    > * {
+    --surf-table-edge-top: 0px;
+  }
+  .surf-table[data-variant]
+    > .surf-table-body
+    > .surf-table-row[data-selected]:has(+ .surf-table-row[data-selected])
+    > * {
+    --surf-table-edge-bottom: 0px;
+  }
+  /* A bleeding container hangs by the cell inset, which density and size set; it
+     outranks the scroll root's own width cap. */
+  .surf-scroll-root.surf-table-bleed {
+    --surf-table-bleed: var(--surf-space-4);
+    max-inline-size: none;
+    margin-inline: calc(-1 * var(--surf-table-bleed));
+  }
+  :where([data-ui-size], [data-ui-size] *).surf-scroll-root.surf-table-bleed {
+    --surf-table-bleed: var(--surf-ui-table-padding-x);
+  }
+  .surf-scroll-root.surf-table-bleed:has(.surf-table[data-density='compact']) {
+    --surf-table-bleed: var(--surf-space-3);
+  }
+  /* A sticky header needs a Container with a bounded block size that scrolls
+   * vertically. --table-surface matches the surface behind the table. */
+  .surf-table[data-sticky-header]
+    > .surf-table-head
+    > .surf-table-row
+    > .surf-table-cell {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 1;
+    background: var(--table-surface, var(--surf-canvas));
+    box-shadow: inset 0 -1px var(--surf-line);
+  }
+  .surf-table-truncate {
+    display: inline-block;
+    max-inline-size: 32ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: bottom;
+  }
+  /* Loading, empty, error and permission messages span every column. */
+  .surf-table-body > .surf-table-message-row:is(:hover, :focus-within) > * {
+    background: none;
+  }
+}
+@layer surflane.sizes {
+  /* Extra-small and icon buttons keep their own inset. */
+  .surf-table-header
+    > .surf-button:where(:not([data-size='xs'], [data-size^='icon'])) {
+    padding-inline: var(--surf-space-3);
+  }
+  .surf-table[data-density='compact'] .surf-table-cell {
+    padding: var(--surf-space-1) var(--surf-space-3);
+  }
+  .surf-table[data-density='compact'] .surf-table-sort {
+    height: auto;
+    min-height: 28px;
+  }
+}

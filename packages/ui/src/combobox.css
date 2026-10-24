@@ -11,7 +11,7 @@
 @import './input-group.css';
 
 @layer surflane.components {
-  .pui-combobox-group > .pui-combobox-input {
+  .surf-combobox-group > .surf-combobox-input {
     flex: 1;
     min-width: 0;
     width: 0;
@@ -19,95 +19,99 @@
     background: transparent;
     box-shadow: none;
   }
-  .pui-combobox-popup {
+  .surf-combobox-popup {
     box-sizing: border-box;
     width: var(--anchor-width);
     max-width: calc(100vw - 24px);
     max-height: var(--available-height);
     overflow: auto;
-    padding: var(--space-1);
-    border: 1px solid var(--menu-border);
-    border-radius: var(--radius-md);
-    background: var(--menu-background);
-    color: var(--ink);
-    box-shadow: var(--shadow-float);
-    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
-      var(--font-body);
-    letter-spacing: var(--type-body-tracking);
+    padding: var(--surf-space-1);
+    border: 1px solid var(--surf-menu-border);
+    border-radius: var(--surf-radius-md);
+    background: var(--surf-menu-background);
+    color: var(--surf-ink);
+    box-shadow: var(--surf-shadow-float);
+    font: var(--surf-weight-regular)
+      var(--surf-type-body-size)/var(--surf-type-body-leading)
+      var(--surf-font-body);
+    letter-spacing: var(--surf-type-body-tracking);
     outline: none;
     transition:
-      opacity var(--duration-fast) var(--ease-out),
-      transform var(--duration-fast) var(--ease-out);
+      opacity var(--surf-duration-fast) var(--surf-ease-out),
+      transform var(--surf-duration-fast) var(--surf-ease-out);
   }
-  .pui-combobox-popup[data-starting-style] {
+  .surf-combobox-popup[data-starting-style] {
     opacity: 0;
     transform: translateY(4px);
   }
-  .pui-combobox-popup[data-ending-style] {
+  .surf-combobox-popup[data-ending-style] {
     opacity: 0;
     transition: none;
   }
-  .pui-combobox-list {
+  .surf-combobox-list {
     max-height: min(280px, var(--available-height));
     overflow: auto;
   }
   /* Select, Menu and Combobox items share one row: the control height. */
-  .pui-combobox-item {
+  .surf-combobox-item {
     display: flex;
     align-items: center;
-    gap: var(--space-2);
-    padding: max(var(--space-1), calc((var(--control-height) - 1lh) / 2))
-      var(--space-3);
-    min-height: var(--control-height);
+    gap: var(--surf-space-2);
+    padding: max(
+        var(--surf-space-1),
+        calc((var(--surf-control-height) - 1lh) / 2)
+      )
+      var(--surf-space-3);
+    min-height: var(--surf-control-height);
     box-sizing: border-box;
-    border-radius: var(--control-radius);
+    border-radius: var(--surf-control-radius);
     cursor: default;
     outline: none;
     overflow-wrap: anywhere;
   }
-  .pui-combobox-item[data-highlighted] {
-    background: var(--menu-hover-background);
+  .surf-combobox-item[data-highlighted] {
+    background: var(--surf-menu-hover-background);
   }
-  .pui-combobox-item[data-selected] {
-    background: var(--selected);
+  .surf-combobox-item[data-selected] {
+    background: var(--surf-selected);
   }
-  .pui-combobox-item[data-disabled] {
-    opacity: var(--control-disabled-opacity);
+  .surf-combobox-item[data-disabled] {
+    opacity: var(--surf-control-disabled-opacity);
   }
-  .pui-combobox-indicator {
+  .surf-combobox-indicator {
     display: inline-flex;
     align-items: center;
   }
-  .pui-combobox-empty,
-  .pui-combobox-status {
-    padding: var(--space-3);
-    color: var(--ink-body);
+  .surf-combobox-empty,
+  .surf-combobox-status {
+    padding: var(--surf-space-3);
+    color: var(--surf-ink-body);
   }
-  .pui-combobox-empty:empty,
-  .pui-combobox-status:empty {
+  .surf-combobox-empty:empty,
+  .surf-combobox-status:empty {
     padding: 0;
   }
-  .pui-combobox-section-label {
-    padding: var(--space-2) var(--space-3);
-    color: var(--ink-muted);
-    font-size: var(--type-caption-size);
-    line-height: var(--type-caption-leading);
-    letter-spacing: var(--type-caption-tracking);
+  .surf-combobox-section-label {
+    padding: var(--surf-space-2) var(--surf-space-3);
+    color: var(--surf-ink-muted);
+    font-size: var(--surf-type-caption-size);
+    line-height: var(--surf-type-caption-leading);
+    letter-spacing: var(--surf-type-caption-tracking);
   }
-  .pui-combobox-separator {
+  .surf-combobox-separator {
     height: 1px;
-    background: var(--line);
-    margin-block: var(--space-1);
+    background: var(--surf-line);
+    margin-block: var(--surf-space-1);
   }
-  .pui-combobox-chips {
+  .surf-combobox-chips {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--space-1);
+    gap: var(--surf-space-1);
     width: 100%;
-    padding: var(--space-1);
+    padding: var(--surf-space-1);
   }
-  .pui-combobox-chips .pui-combobox-input {
+  .surf-combobox-chips .surf-combobox-input {
     flex: 1;
     width: 100px;
     min-width: 80px;
@@ -115,75 +119,75 @@
     box-shadow: none;
     background: transparent;
   }
-  .pui-combobox-chip {
+  .surf-combobox-chip {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-1);
-    padding-inline-start: var(--space-3);
-    border-radius: var(--radius-pill);
-    background: var(--selected);
-    color: var(--ink);
-    font-size: var(--type-caption-size);
-    line-height: var(--type-caption-leading);
-    letter-spacing: var(--type-caption-tracking);
+    gap: var(--surf-space-1);
+    padding-inline-start: var(--surf-space-3);
+    border-radius: var(--surf-radius-pill);
+    background: var(--surf-selected);
+    color: var(--surf-ink);
+    font-size: var(--surf-type-caption-size);
+    line-height: var(--surf-type-caption-leading);
+    letter-spacing: var(--surf-type-caption-tracking);
   }
-  .pui-combobox-chip-remove {
+  .surf-combobox-chip-remove {
     width: 28px;
     height: 28px;
   }
   @media (max-width: 760px), (pointer: coarse) {
-    .pui-combobox-item {
-      min-height: var(--control-target-size);
+    .surf-combobox-item {
+      min-height: var(--surf-control-target-size);
     }
-    .pui-combobox-chip-remove {
-      width: var(--control-target-size);
-      height: var(--control-target-size);
+    .surf-combobox-chip-remove {
+      width: var(--surf-control-target-size);
+      height: var(--surf-control-target-size);
     }
   }
   @media (prefers-reduced-motion: reduce) {
-    .pui-combobox-popup,
-    .pui-combobox-group {
+    .surf-combobox-popup,
+    .surf-combobox-group {
       transition: none;
     }
   }
   @media (forced-colors: active) {
-    .pui-combobox-item:is([data-selected], [data-highlighted]) {
+    .surf-combobox-item:is([data-selected], [data-highlighted]) {
       outline: 1px solid CanvasText;
       outline-offset: -1px;
     }
     /* The group draws the field's focus, so its input draws none of its own. */
-    .pui-combobox-group .pui-combobox-input:focus {
+    .surf-combobox-group .surf-combobox-input:focus {
       outline: none;
     }
   }
-  .pui-combobox-group > .pui-combobox-input,
-  .pui-combobox-action {
-    height: calc(var(--control-height) - 2px);
+  .surf-combobox-group > .surf-combobox-input,
+  .surf-combobox-action {
+    height: calc(var(--surf-control-height) - 2px);
   }
   /* Reserve the selection mark so every option label shares one alignment line. */
-  .pui-combobox-indicator {
+  .surf-combobox-indicator {
     width: 16px;
     flex: none;
   }
-  .pui-combobox-item:not([data-selected]) .pui-combobox-indicator {
+  .surf-combobox-item:not([data-selected]) .surf-combobox-indicator {
     visibility: hidden;
   }
 }
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *):is(.pui-combobox-input) {
-    font-size: max(var(--control-text-min-size), var(--ui-font));
-    line-height: var(--ui-leading);
+  :where([data-ui-size], [data-ui-size] *):is(.surf-combobox-input) {
+    font-size: max(var(--surf-control-text-min-size), var(--surf-ui-font));
+    line-height: var(--surf-ui-leading);
   }
-  :where([data-ui-size], [data-ui-size] *):is(.pui-combobox-item) {
-    min-block-size: var(--ui-row);
-    font-size: var(--ui-font);
-    line-height: var(--ui-leading);
+  :where([data-ui-size], [data-ui-size] *):is(.surf-combobox-item) {
+    min-block-size: var(--surf-ui-row);
+    font-size: var(--surf-ui-font);
+    line-height: var(--surf-ui-leading);
   }
-  :where([data-ui-size], [data-ui-size] *):is(.pui-combobox-item) {
+  :where([data-ui-size], [data-ui-size] *):is(.surf-combobox-item) {
     box-sizing: border-box;
     padding-block: max(
-      var(--space-1),
-      calc((var(--ui-row) - var(--ui-leading)) / 2)
+      var(--surf-space-1),
+      calc((var(--surf-ui-row) - var(--surf-ui-leading)) / 2)
     );
   }
 }

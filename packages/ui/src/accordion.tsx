@@ -11,40 +11,48 @@ function AccordionRoot<Value = string>({
   return (
     <BaseAccordion.Root<Value>
       {...props}
-      className={skin('pui-accordion', className)}
+      className={skin('surf-accordion', className)}
     />
   )
 }
-const AccordionTrigger = /* @__PURE__ */ React.forwardRef<
-  React.ComponentRef<typeof BaseAccordion.Trigger>,
-  React.ComponentPropsWithoutRef<typeof BaseAccordion.Trigger> & {
-    indicator?: React.ReactNode
-  }
->(function AccordionTrigger({ className, children, indicator, ...props }, ref) {
+const AccordionTrigger = function AccordionTrigger({
+  className,
+  children,
+  indicator,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseAccordion.Trigger> & {
+  indicator?: React.ReactNode
+} & { ref?: React.Ref<React.ComponentRef<typeof BaseAccordion.Trigger>> }) {
   return (
     <BaseAccordion.Trigger
       {...props}
       ref={ref}
-      className={skin('pui-disclosure-trigger', className)}
+      className={skin('surf-disclosure-trigger', className)}
     >
-      <span className='pui-disclosure-label'>{children}</span>
+      <span className='surf-disclosure-label'>{children}</span>
       {indicator === undefined ? (
-        <Icon name='chevron-forward' className='pui-disclosure-chevron' />
+        <Icon name='chevron-forward' className='surf-disclosure-chevron' />
       ) : (
         indicator
       )}
     </BaseAccordion.Trigger>
   )
-})
-const AccordionPanel = /* @__PURE__ */ React.forwardRef<
-  React.ComponentRef<typeof BaseAccordion.Panel>,
-  React.ComponentPropsWithoutRef<typeof BaseAccordion.Panel>
->(function AccordionPanel({ className, children, render, ...props }, ref) {
+}
+const AccordionPanel = function AccordionPanel({
+  className,
+  children,
+  render,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseAccordion.Panel> & {
+  ref?: React.Ref<React.ComponentRef<typeof BaseAccordion.Panel>>
+}) {
   return (
     <BaseAccordion.Panel
       {...props}
       ref={ref}
-      className={skin('pui-accordion-panel', className)}
+      className={skin('surf-accordion-panel', className)}
       render={
         render ??
         ((panelProps, state) => (
@@ -56,21 +64,21 @@ const AccordionPanel = /* @__PURE__ */ React.forwardRef<
         ))
       }
     >
-      <div className='pui-disclosure-body'>{children}</div>
+      <div className='surf-disclosure-body'>{children}</div>
     </BaseAccordion.Panel>
   )
-})
+}
 export const Accordion = {
   ...BaseAccordion,
   Root: AccordionRoot,
   Item: /* @__PURE__ */ part<
     React.ComponentRef<typeof BaseAccordion.Item>,
     React.ComponentPropsWithoutRef<typeof BaseAccordion.Item>
-  >(BaseAccordion.Item, 'pui-accordion-item'),
+  >(BaseAccordion.Item, 'surf-accordion-item'),
   Header: /* @__PURE__ */ part<
     React.ComponentRef<typeof BaseAccordion.Header>,
     React.ComponentPropsWithoutRef<typeof BaseAccordion.Header>
-  >(BaseAccordion.Header, 'pui-accordion-header'),
+  >(BaseAccordion.Header, 'surf-accordion-header'),
   Trigger: AccordionTrigger,
   Panel: AccordionPanel,
 }

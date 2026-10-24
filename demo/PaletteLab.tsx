@@ -57,17 +57,29 @@ type Tokens = Record<Theme, Record<string, Oklch | null>>
 
 const barHeights = [62, 88, 46, 74, 96, 54, 80, 66]
 const tokenGroups = {
-  text: ['--ink', '--ink-body', '--ink-muted', '--brand-ink', '--on-brand'],
-  surfaces: ['--canvas', '--chrome', '--surface', '--selected', '--code-bg'],
+  text: [
+    '--surf-ink',
+    '--surf-ink-body',
+    '--surf-ink-muted',
+    '--surf-brand-ink',
+    '--surf-on-brand',
+  ],
+  surfaces: [
+    '--surf-canvas',
+    '--surf-chrome',
+    '--surf-surface',
+    '--surf-selected',
+    '--surf-code-bg',
+  ],
   accents: [
-    '--brand',
-    '--status-danger-fg',
-    '--status-success-fg',
-    '--status-caution-fg',
-    '--status-info-fg',
-    '--status-danger-bg',
-    '--badge-info-bg',
-    '--chart-category-1',
+    '--surf-brand',
+    '--surf-status-danger-fg',
+    '--surf-status-success-fg',
+    '--surf-status-caution-fg',
+    '--surf-status-info-fg',
+    '--surf-status-danger-bg',
+    '--surf-badge-info-bg',
+    '--surf-chart-category-1',
   ],
 }
 const allTokens = Object.values(tokenGroups).flat()
@@ -536,7 +548,10 @@ const ContrastChecker = memo(function ContrastChecker({
                 <Table.HeaderCell scope='col' numeric>
                   {t.target}
                 </Table.HeaderCell>
-                <Table.HeaderCell scope='col'>{t.nearest}</Table.HeaderCell>
+                {/* The suggestion takes the spare width, so the targets sit by it. */}
+                <Table.HeaderCell scope='col' style={{ inlineSize: '100%' }}>
+                  {t.nearest}
+                </Table.HeaderCell>
               </Table.Row>
             </Table.Head>
             <Table.Body>
@@ -612,8 +627,8 @@ export function PaletteLab() {
   const [vision, setVision] = useState<Vision>('typical')
   const [slot, setSlot] = useState<Slot>('foreground')
   const [sources, setSources] = useState<Record<Slot, string>>({
-    foreground: '--ink-muted',
-    background: '--canvas',
+    foreground: '--surf-ink-muted',
+    background: '--surf-canvas',
   })
   const [custom, setCustom] = useState<Record<Slot, Oklch>>({
     foreground: oklch(0.38, 0.017, 248),
@@ -626,10 +641,10 @@ export function PaletteLab() {
 
   const surfaces = useMemo(
     () => ({
-      canvas: tokens[theme]['--canvas'] ?? oklch(1, 0, 0),
-      white: tokens.light['--canvas'] ?? oklch(1, 0, 0),
-      darkCanvas: tokens.dark['--canvas'] ?? oklch(0.279, 0.013, 253),
-      ink: tokens.light['--ink'] ?? oklch(0.237, 0.01, 248),
+      canvas: tokens[theme]['--surf-canvas'] ?? oklch(1, 0, 0),
+      white: tokens.light['--surf-canvas'] ?? oklch(1, 0, 0),
+      darkCanvas: tokens.dark['--surf-canvas'] ?? oklch(0.279, 0.013, 253),
+      ink: tokens.light['--surf-ink'] ?? oklch(0.237, 0.01, 248),
     }),
     [tokens, theme],
   )
@@ -806,7 +821,7 @@ export function PaletteLab() {
               variant='outline'
               className='palette-action'
               onClick={() => {
-                const brand = tokens.light['--brand']
+                const brand = tokens.light['--surf-brand']
                 if (!brand) return
                 setHue(Math.round(brand.h))
                 setChroma(Number(fixed(brand.c, 3)))

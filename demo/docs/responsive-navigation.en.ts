@@ -25,14 +25,14 @@ export const doc: ComponentDoc = {
     'The mobile Sheet has a meaningful title and description. Long names keep their full accessible name when visually truncated.',
   ],
   tokens: [
-    '--space-3',
-    '--space-4',
-    '--control-focus',
-    '--selected',
-    '--radius-md',
-    '--radius-sheet',
-    '--chrome',
-    '--canvas',
+    '--surf-space-3',
+    '--surf-space-4',
+    '--surf-control-focus',
+    '--surf-selected',
+    '--surf-radius-md',
+    '--surf-radius-sheet',
+    '--surf-chrome',
+    '--surf-canvas',
   ],
   code: `import { AppShell, Sheet, Button, ScrollArea } from '@surflane/ui'
 

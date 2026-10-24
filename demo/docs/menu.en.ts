@@ -7,13 +7,13 @@ export const doc: ComponentDoc = {
     'Arrow keys, Home, End, and typing move between items. Enter or Space activates an item. Escape closes the menu.',
   anatomy:
     'Root → Trigger + Content(Portal + Positioner + Popup) → Item / Group / Separator',
-  tokens: ['--menu-border', '--shadow-float', '--selected'],
+  tokens: ['--surf-menu-border', '--surf-shadow-float', '--surf-selected'],
   code: `import { Menu, Button } from '@surflane/ui'
 
 <Menu.Root>
   <Menu.Trigger render={<Button />}>Actions</Menu.Trigger>
   <Menu.Content>
-    <Menu.Item className='pui-select-item' onClick={inspect}>
+    <Menu.Item className='surf-select-item' onClick={inspect}>
       Inspect
     </Menu.Item>
   </Menu.Content>

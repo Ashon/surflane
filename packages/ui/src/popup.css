@@ -4,25 +4,26 @@
 @import './base.css';
 
 @layer surflane.components {
-  .pui-positioner {
-    z-index: var(--layer-popup);
+  .surf-positioner {
+    z-index: var(--surf-layer-popup);
     outline: none;
     isolation: isolate;
   }
-  .pui-select-popup,
-  .pui-popover,
-  .pui-menu,
-  .pui-tooltip {
+  .surf-select-popup,
+  .surf-popover,
+  .surf-menu,
+  .surf-tooltip {
     box-sizing: border-box;
     max-width: calc(100vw - 24px);
-    border: 1px solid var(--menu-border);
-    border-radius: var(--radius-md);
-    background: var(--menu-background);
-    color: var(--ink);
-    box-shadow: var(--shadow-float);
-    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
-      var(--font-body);
-    letter-spacing: var(--type-body-tracking);
+    border: 1px solid var(--surf-menu-border);
+    border-radius: var(--surf-radius-md);
+    background: var(--surf-menu-background);
+    color: var(--surf-ink);
+    box-shadow: var(--surf-shadow-float);
+    font: var(--surf-weight-regular)
+      var(--surf-type-body-size)/var(--surf-type-body-leading)
+      var(--surf-font-body);
+    letter-spacing: var(--surf-type-body-tracking);
     outline: none;
   }
 }

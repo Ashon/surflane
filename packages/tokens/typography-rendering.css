@@ -6,7 +6,8 @@
 
 @layer surflane.tokens {
   :root,
-  [data-theme] {
+  [data-theme='dark'],
+  [data-theme='light'] {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;

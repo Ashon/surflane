@@ -1,9 +1,9 @@
 import type { ComponentDoc } from '../componentDocs'
 const overlays = [
-  '--radius-sheet',
-  '--shadow-float',
-  '--chrome',
-  '--dialog-enter-duration',
+  '--surf-radius-sheet',
+  '--surf-shadow-float',
+  '--surf-chrome',
+  '--surf-dialog-enter-duration',
 ]
 export const doc: ComponentDoc = {
   usage:

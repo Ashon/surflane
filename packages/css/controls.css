@@ -1,0 +1,120 @@
+/* Framework-neutral chrome controls. Astro retains native links and buttons. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components, surflane.sizes;
+
+@layer surflane.components {
+  .surf-control-group,
+  .surf-icon-button {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    height: var(--surf-control-height);
+    border: 1px solid var(--surf-line);
+    border-radius: var(--surf-radius-pill);
+    background: transparent;
+    color: var(--surf-ink-muted);
+    font: var(--surf-weight-medium) var(--surf-type-caption-size)/1
+      var(--surf-font-body);
+    letter-spacing: var(--surf-type-caption-tracking);
+    flex-shrink: 0;
+  }
+  .surf-control-group {
+    padding: 2px;
+  }
+  .surf-segment {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: calc(var(--surf-control-height) - 6px);
+    height: calc(var(--surf-control-height) - 6px);
+    padding-inline: var(--surf-space-2);
+    border-radius: var(--surf-radius-pill);
+    color: var(--surf-ink-muted);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .surf-icon-button {
+    width: var(--surf-control-height);
+    cursor: pointer;
+  }
+  .surf-segment,
+  .surf-icon-button {
+    transition:
+      background-color var(--surf-duration-fast) var(--surf-ease-out),
+      color var(--surf-duration-fast) var(--surf-ease-out);
+  }
+  .surf-segment,
+  .surf-icon-button,
+  .surf-theme-action {
+    /* Pressed layers show touch feedback in each control's shape instead. */
+    -webkit-tap-highlight-color: transparent;
+  }
+  .surf-segment:hover,
+  .surf-icon-button:hover {
+    background: var(--surf-interaction-hover-bg);
+    color: var(--surf-ink);
+  }
+  .surf-segment:active,
+  .surf-icon-button:active {
+    background: var(--surf-interaction-active-bg);
+  }
+  .surf-segment[aria-current='page'] {
+    background: var(--surf-selected);
+    color: var(--surf-ink);
+  }
+  .surf-segment:focus-visible,
+  .surf-icon-button:focus-visible {
+    outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+    outline-offset: var(--surf-focus-ring-offset);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .surf-segment,
+    .surf-icon-button {
+      transition: none;
+    }
+  }
+
+  .surf-theme-action {
+    display: flex;
+    align-items: center;
+    gap: var(--surf-space-2);
+    width: 100%;
+    min-height: var(--surf-control-height);
+    padding: var(--surf-space-2);
+    border: 0;
+    border-radius: var(--surf-control-radius);
+    background: transparent;
+    color: var(--surf-ink);
+    font: var(--surf-weight-regular)
+      var(--surf-type-body-size)/var(--surf-type-body-leading)
+      var(--surf-font-body);
+    letter-spacing: var(--surf-type-body-tracking);
+    cursor: pointer;
+  }
+  .surf-theme-action:hover {
+    background: var(--surf-interaction-hover-bg);
+  }
+  .surf-theme-action:active {
+    background: var(--surf-interaction-active-bg);
+  }
+  .surf-theme-action:focus-visible {
+    outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+    outline-offset: var(--surf-focus-ring-offset);
+  }
+
+  .surf-segment {
+    min-block-size: calc(var(--surf-control-height) - 6px);
+    font: var(--surf-weight-medium) var(--surf-type-caption-size)/1
+      var(--surf-font-body);
+    letter-spacing: var(--surf-type-caption-tracking);
+  }
+  .surf-control-group label:has(input:checked) .surf-segment {
+    background: var(--surf-selected);
+    color: var(--surf-ink);
+  }
+  .surf-control-group input:focus-visible + .surf-segment {
+    outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+    outline-offset: var(--surf-focus-ring-offset);
+  }
+}

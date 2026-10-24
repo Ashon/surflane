@@ -35,24 +35,34 @@ const en = {
   statesTableCaption: 'How each state shows',
   stateColumns: ['State', 'Means', 'Shown as'],
   states: [
-    ['Hover', 'Pointer over the target', '--interaction-hover-bg', 'ink at 8%'],
+    [
+      'Hover',
+      'Pointer over the target',
+      '--surf-interaction-hover-bg',
+      'ink at 8%',
+    ],
     [
       'Pressed',
       'Pressed right now',
-      '--interaction-active-bg',
+      '--surf-interaction-active-bg',
       'ink at 14%, gone on release',
     ],
-    ['Focus visible', 'Keyboard position', '--control-focus', 'ring or halo'],
+    [
+      'Focus visible',
+      'Keyboard position',
+      '--surf-control-focus',
+      'ring or halo',
+    ],
     [
       'Selected',
       'A choice that persists',
-      '--selected',
+      '--surf-selected',
       'fill, set with its ARIA state',
     ],
     [
       'Disabled',
       "Can't run now",
-      '--control-disabled-opacity',
+      '--surf-control-disabled-opacity',
       '0.55, reason beside it',
     ],
     ['Read only', 'Readable, not editable', '', 'full contrast, focusable'],
@@ -60,9 +70,9 @@ const en = {
     ['Error / success', 'The real result', '', 'a message that stays'],
   ],
   focusRing:
-    'Buttons and choices draw a `--focus-ring-width` ring at `--focus-ring-offset`, both 2px, in `--control-focus`. They show it for keyboard focus only (`:focus-visible`).',
+    'Buttons and choices draw a `--surf-focus-ring-width` ring at `--surf-focus-ring-offset`, both 2px, in `--surf-control-focus`. They show it for keyboard focus only (`:focus-visible`).',
   focusHalo:
-    'Text fields turn their border `--control-focus` and add a 3px `--control-focus-ring` halo on any focus. Where a container clips, the ring moves inside by `--focus-ring-inset`.',
+    'Text fields turn their border `--surf-control-focus` and add a 3px `--surf-control-focus-ring` halo on any focus. Where a container clips, the ring moves inside by `--surf-focus-ring-inset`.',
   activationIntro:
     "Mouse, touch, Enter, and Space run the same action. Below, the toggle keeps a selection, the disabled button can't run, and the read-only field stays copyable.",
   includeEvidence: 'Include evidence',
@@ -135,19 +145,24 @@ export const text: Record<Locale, typeof en> = {
     statesTableCaption: '상태별 표시 방식',
     stateColumns: ['상태', '뜻', '표시'],
     states: [
-      ['호버', '포인터가 대상 위에 있음', '--interaction-hover-bg', '잉크 8%'],
+      [
+        '호버',
+        '포인터가 대상 위에 있음',
+        '--surf-interaction-hover-bg',
+        '잉크 8%',
+      ],
       [
         '누름',
         '지금 누르고 있음',
-        '--interaction-active-bg',
+        '--surf-interaction-active-bg',
         '잉크 14%, 손을 떼면 사라짐',
       ],
-      ['포커스 표시', '키보드 위치', '--control-focus', '링 또는 헤일로'],
-      ['선택됨', '유지되는 선택', '--selected', '채움, ARIA 상태와 함께'],
+      ['포커스 표시', '키보드 위치', '--surf-control-focus', '링 또는 헤일로'],
+      ['선택됨', '유지되는 선택', '--surf-selected', '채움, ARIA 상태와 함께'],
       [
         '비활성',
         '지금 실행할 수 없음',
-        '--control-disabled-opacity',
+        '--surf-control-disabled-opacity',
         '0.55, 옆에 이유',
       ],
       [
@@ -160,9 +175,9 @@ export const text: Record<Locale, typeof en> = {
       ['오류 / 성공', '실제 결과', '', '남아 있는 메시지'],
     ],
     focusRing:
-      '버튼과 선택 컨트롤은 `--control-focus` 색으로 `--focus-ring-width` 링을 `--focus-ring-offset`만큼 띄워 그립니다. 둘 다 2px이고, 키보드 포커스(`:focus-visible`)에서만 보입니다.',
+      '버튼과 선택 컨트롤은 `--surf-control-focus` 색으로 `--surf-focus-ring-width` 링을 `--surf-focus-ring-offset`만큼 띄워 그립니다. 둘 다 2px이고, 키보드 포커스(`:focus-visible`)에서만 보입니다.',
     focusHalo:
-      '텍스트 필드는 포커스를 받으면 테두리를 `--control-focus`로 바꾸고 3px `--control-focus-ring` 헤일로를 더합니다. 컨테이너가 잘라 내는 곳에서는 링이 `--focus-ring-inset`만큼 안쪽으로 들어갑니다.',
+      '텍스트 필드는 포커스를 받으면 테두리를 `--surf-control-focus`로 바꾸고 3px `--surf-control-focus-ring` 헤일로를 더합니다. 컨테이너가 잘라 내는 곳에서는 링이 `--surf-focus-ring-inset`만큼 안쪽으로 들어갑니다.',
     activationIntro:
       '마우스, 터치, Enter, Space는 같은 작업을 실행합니다. 아래에서 토글은 선택을 유지하고, 비활성 버튼은 실행되지 않고, 읽기 전용 필드는 복사할 수 있습니다.',
     includeEvidence: '증거 포함',

@@ -1,0 +1,92 @@
+/* Presentation classes: Inline message. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+
+@layer surflane.components {
+  .surf-message {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--surf-space-3);
+    padding: var(--surf-space-4);
+    border-radius: var(--surf-radius-md);
+    background: var(--surf-status-neutral-bg);
+    color: var(--surf-status-neutral-fg);
+  }
+  .surf-message[data-tone='success'] {
+    background: var(--surf-status-success-bg);
+    color: var(--surf-status-success-fg);
+  }
+  .surf-message[data-tone='danger'] {
+    background: var(--surf-status-danger-bg);
+    color: var(--surf-status-danger-fg);
+  }
+  .surf-message[data-tone='caution'] {
+    background: var(--surf-status-caution-bg);
+    color: var(--surf-status-caution-fg);
+  }
+  .surf-message[data-tone='progress'] {
+    background: var(--surf-status-progress-bg);
+    color: var(--surf-status-progress-fg);
+  }
+  .surf-message[data-tone='info'] {
+    background: var(--surf-status-info-bg);
+    color: var(--surf-status-info-fg);
+  }
+  .surf-message-icon {
+    display: inline-flex;
+    align-items: center;
+    min-height: 22px;
+    flex: none;
+  }
+  .surf-message-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+  .surf-message-content {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .surf-message-title {
+    display: block;
+    font-weight: var(--surf-weight-medium);
+  }
+  .surf-message-description {
+    margin: var(--surf-space-1) 0 0;
+    color: inherit;
+  }
+  .surf-message-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--surf-space-2);
+    margin-top: var(--surf-space-4);
+  }
+  @media (forced-colors: active) {
+    .surf-message {
+      outline: 1px solid CanvasText;
+      outline-offset: -1px;
+    }
+  }
+  :is(.surf-message)[data-status-transition] {
+    background-color: color-mix(
+      in oklch,
+      var(--surf-status-from-0),
+      var(--surf-status-to-0) calc(var(--surf-status-progress) * 100%)
+    );
+    color: color-mix(
+      in oklch,
+      var(--surf-status-from-1),
+      var(--surf-status-to-1) calc(var(--surf-status-progress) * 100%)
+    );
+    border-color: color-mix(
+      in oklch,
+      var(--surf-status-from-2),
+      var(--surf-status-to-2) calc(var(--surf-status-progress) * 100%)
+    );
+  }
+  @media (prefers-reduced-motion: reduce), (forced-colors: active) {
+    :is(.surf-message)[data-status-transition] {
+      --surf-status-progress: 1 !important;
+    }
+  }
+}

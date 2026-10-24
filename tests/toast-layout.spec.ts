@@ -2,7 +2,7 @@ import { test, expect, type Page } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 import { waitForCatalogReady } from './catalog-ready'
 test.use({ reducedMotion: 'reduce' })
-const cards = (page: Page) => page.locator('.pui-toast:not([data-limited])')
+const cards = (page: Page) => page.locator('.surf-toast:not([data-limited])')
 async function batch(page: Page) {
   await page.goto('/components/toast')
   await waitForCatalogReady(page)
@@ -34,7 +34,7 @@ test('compact stack peeks without overlapping its readable controls, and hover e
   const viewport = page.getByRole('region', { name: 'Preview notifications' })
   await expect(viewport).not.toHaveAttribute('data-expanded')
   const behind = viewport.locator(
-    '.pui-toast:not([data-limited]) .pui-toast-content[data-behind]',
+    '.surf-toast:not([data-limited]) .surf-toast-content[data-behind]',
   )
   await expect(behind).toHaveCount(2)
   for (const element of await behind.all())
@@ -59,7 +59,7 @@ test('F6 expands the deck and keeps keyboard dismissal available', async ({
   const dismissedId = await cards(page).first().getAttribute('id')
   await page.keyboard.press('Escape')
   // The previously limited fourth notification takes the freed visible slot.
-  await expect(page.locator('.pui-toast')).toHaveCount(3)
+  await expect(page.locator('.surf-toast')).toHaveCount(3)
   await expect(cards(page)).toHaveCount(3)
   await expect(page.locator(`[id="${dismissedId}"]`)).toHaveCount(0)
 })
@@ -72,12 +72,12 @@ test('expanded list is available without hover and retains all card content', as
     .click()
   await page.getByRole('option', { name: 'Expanded list', exact: true }).click()
   await page.getByRole('button', { name: 'Show batch', exact: true }).click()
-  await expect(page.locator('.pui-toast-viewport')).toHaveAttribute(
+  await expect(page.locator('.surf-toast-viewport')).toHaveAttribute(
     'data-layout',
     'list',
   )
   await separated(page)
-  for (const content of await page.locator('.pui-toast-content').all())
+  for (const content of await page.locator('.surf-toast-content').all())
     await expect(content).toHaveCSS('opacity', '1')
 })
 for (const theme of ['light', 'dark'])
@@ -161,7 +161,7 @@ test('settings share a control baseline and actions keep consistent sizes', asyn
   await waitForCatalogReady(page)
   const settings = page.locator('.toast-demo-settings')
   const select = (await settings.getByRole('combobox').boundingBox())!
-  for (const choice of await settings.locator('.pui-choice-label').all()) {
+  for (const choice of await settings.locator('.surf-choice-label').all()) {
     const box = (await choice.boundingBox())!
     expect(box.y + box.height / 2).toBeCloseTo(select.y + select.height / 2, 0)
   }
@@ -184,11 +184,11 @@ test('expanded notification scrollport reserves shadow space without visible scr
   await batch(page)
   await cards(page).first().hover()
   await separated(page)
-  const viewport = page.locator('.pui-toast-viewport')
+  const viewport = page.locator('.surf-toast-viewport')
   await expect(viewport).toHaveCSS('scrollbar-width', 'none')
   const geometry = await viewport.evaluate((element) => {
     const parent = element.getBoundingClientRect()
-    return [...element.querySelectorAll('.pui-toast:not([data-limited])')].map(
+    return [...element.querySelectorAll('.surf-toast:not([data-limited])')].map(
       (item) => {
         const box = item.getBoundingClientRect()
         return {
@@ -247,7 +247,7 @@ test('mixed-height stack keeps its bottom anchor throughout pointer leave and fo
           const frame = () => {
             values.push(
               document
-                .querySelector('.pui-toast:not([data-limited])')!
+                .querySelector('.surf-toast:not([data-limited])')!
                 .getBoundingClientRect().bottom,
             )
             if (performance.now() < until) requestAnimationFrame(frame)

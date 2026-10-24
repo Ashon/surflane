@@ -24,13 +24,13 @@ export function easedProgress(time: number, curve: number[] | null) {
 export function EasingLab() {
   const t = text[useLocale().locale]
   const roles: [string, string][] = [
-    ['--motion-ease', t.stateFeedback],
-    ['--motion-spatial-ease', t.dialogRise],
-    ['--toast-stack-ease', t.toastStack],
-    ['--ease-in', t.accelerationComparison],
+    ['--surf-motion-ease', t.stateFeedback],
+    ['--surf-motion-spatial-ease', t.dialogRise],
+    ['--surf-toast-stack-ease', t.toastStack],
+    ['--surf-ease-in', t.accelerationComparison],
     ['linear', t.linearComparison],
   ]
-  const [role, setRole] = useState('--motion-ease')
+  const [role, setRole] = useState('--surf-motion-ease')
   const [duration, setDuration] = useState(200)
   const [easing, setEasing] = useState('linear')
   const [time, setTime] = useState(0)
@@ -172,13 +172,13 @@ export function EasingLab() {
           <path
             d='M40 20 V220 H240 M40 220 L240 20'
             fill='none'
-            stroke='var(--line)'
+            stroke='var(--surf-line)'
           />
           {curve && (
             <path
               d={`M40 220 L${40 + 200 * curve[0]} ${220 - 200 * curve[1]} M240 20 L${40 + 200 * curve[2]} ${220 - 200 * curve[3]}`}
               fill='none'
-              stroke='var(--ink-muted)'
+              stroke='var(--surf-ink-muted)'
               strokeDasharray='4 4'
             />
           )}
@@ -189,14 +189,14 @@ export function EasingLab() {
                 : 'M40 220 L240 20'
             }
             fill='none'
-            stroke='var(--brand-ink)'
+            stroke='var(--surf-brand-ink)'
             strokeWidth='3'
           />
           <circle
             cx={40 + 2 * time}
             cy={220 - 200 * progress}
             r='5'
-            fill='var(--ink)'
+            fill='var(--surf-ink)'
           />
           <text x='40' y='244'>
             0%

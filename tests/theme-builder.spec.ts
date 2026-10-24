@@ -37,7 +37,7 @@ test('the default inputs reproduce every role in tokens.css', () => {
     accent: accentPresets.cyan,
     radius: radiusPresets.default,
   })
-  const dark = declared(':root, [data-theme]')
+  const dark = declared(":root, [data-theme='dark'], [data-theme='light']")
   const light = declared(":root[data-theme='light'], [data-theme='light']")
   for (const [token, value] of Object.entries(theme.dark))
     same(value, dark[token])
@@ -49,12 +49,12 @@ test('the default inputs reproduce every role in tokens.css', () => {
 
 test('every preset combination stays in gamut and keeps text at 4.5:1', () => {
   const pairs = [
-    ['--ink-body', '--canvas'],
-    ['--ink-muted', '--canvas'],
-    ['--ink', '--chrome'],
-    ['--ink-muted', '--surface'],
-    ['--on-brand', '--brand'],
-    ['--brand-ink', '--canvas'],
+    ['--surf-ink-body', '--surf-canvas'],
+    ['--surf-ink-muted', '--surf-canvas'],
+    ['--surf-ink', '--surf-chrome'],
+    ['--surf-ink-muted', '--surf-surface'],
+    ['--surf-on-brand', '--surf-brand'],
+    ['--surf-brand-ink', '--surf-canvas'],
   ]
   for (const neutral of Object.values(neutralPresets))
     for (const accent of Object.values(accentPresets)) {
@@ -73,11 +73,11 @@ test('every preset combination stays in gamut and keeps text at 4.5:1', () => {
 
 test('accent chroma is clamped to the gamut and success keeps its own color', () => {
   const theme = createTheme({ accent: { hue: 255, chroma: 0.3 } })
-  expect(inGamut('rgb')(theme.dark['--brand'])).toBe(true)
-  expect(theme.dark['--brand']).toMatch(/^oklch\(0\.82 0\.0\d+ 255\)$/)
-  expect(Object.keys(theme.dark)).not.toContain('--success')
+  expect(inGamut('rgb')(theme.dark['--surf-brand'])).toBe(true)
+  expect(theme.dark['--surf-brand']).toMatch(/^oklch\(0\.82 0\.0\d+ 255\)$/)
+  expect(Object.keys(theme.dark)).not.toContain('--surf-success')
   // Light text on a light accent would fail, so light links stay on the neutral ink.
-  expect(theme.light['--brand-ink']).toBe('var(--ink)')
+  expect(theme.light['--surf-brand-ink']).toBe('var(--surf-ink)')
 })
 
 test('a preset never carries a dark value into light, chosen or from the system', async ({
@@ -90,7 +90,7 @@ test('a preset never carries a dark value into light, chosen or from the system'
   )
   // A token the theme sets only for dark keeps the tokens' own light value.
   const custom = themeCss({
-    dark: { '--canvas': 'oklch(0.5 0.2 30)' },
+    dark: { '--surf-canvas': 'oklch(0.5 0.2 30)' },
     light: {},
     shared: {},
   })
@@ -101,9 +101,9 @@ test('a preset never carries a dark value into light, chosen or from the system'
       const style = getComputedStyle(document.documentElement)
       const value = (name: string) => style.getPropertyValue(name).trim()
       return {
-        brandInk: value('--brand-ink'),
-        ink: value('--ink'),
-        canvas: value('--canvas'),
+        brandInk: value('--surf-brand-ink'),
+        ink: value('--surf-ink'),
+        canvas: value('--surf-canvas'),
       }
     }, theme)
   await page.setContent(
@@ -147,13 +147,15 @@ test('theme CSS keeps dark values out of light regions and mirrors the system co
         : '',
   )
   expect(selectors).toEqual([
-    ':root, [data-theme]',
-    ":root, [data-theme]:not([data-theme='light'])",
+    ":root, [data-theme='dark'], [data-theme='light']",
+    ":root, [data-theme='dark']",
     ":root[data-theme='light'], [data-theme='light']",
     '@media (prefers-color-scheme: light)',
   ])
-  expect(css).toContain('--radius-md: 6px;')
-  expect(css).toContain(':root:not([data-theme])')
+  expect(css).toContain('--surf-radius-md: 6px;')
+  expect(css).toContain(
+    ":root:not([data-theme='dark']):not([data-theme='light'])",
+  )
 })
 
 test('preset files match the theme builder', () => {
@@ -217,20 +219,20 @@ test.describe('theme builder page', () => {
     await inputs.getByRole('button', { name: 'Stone', exact: true }).click()
     await inputs.getByRole('button', { name: 'Violet', exact: true }).click()
     await inputs.getByRole('button', { name: 'Small', exact: true }).click()
-    expect(await token('--brand')).toBe('oklch(0.82 0.105 300)')
-    expect(await token('--radius-md')).toBe('6px')
+    expect(await token('--surf-brand')).toBe('oklch(0.82 0.105 300)')
+    expect(await token('--surf-radius-md')).toBe('6px')
     // Success mixes its own base with the neutral ink; the accent never enters it.
-    const success = (await token('--status-success-fg'))
+    const success = (await token('--surf-status-success-fg'))
       .replace(/\s+/g, ' ')
       .replace(/\( /g, '(')
       .replace(/ \)/g, ')')
-    expect(success).toContain('oklch(0.82 0.12 210)')
+    expect(success).toContain('oklch(0.74 0.15 155)')
     expect(success).not.toContain('300)')
     // The catalog outside the preview keeps its own theme.
     expect(
       await page.evaluate(() =>
         getComputedStyle(document.documentElement)
-          .getPropertyValue('--brand')
+          .getPropertyValue('--surf-brand')
           .trim(),
       ),
     ).toBe('oklch(0.82 0.12 210)')
@@ -242,7 +244,7 @@ test.describe('theme builder page', () => {
     const code = page.locator('pre').filter({
       hasText: 'Surflane theme: stone, accent violet, radius small',
     })
-    await expect(code).toContainText('--brand: oklch(0.82 0.105 300);')
+    await expect(code).toContainText('--surf-brand: oklch(0.82 0.105 300);')
     await expect(page.getByText("themes/accent-violet.css';")).toBeVisible()
     await expect(page.getByText("themes/radius-small.css';")).toBeVisible()
   })
@@ -271,16 +273,16 @@ test.describe('theme builder page', () => {
         .evaluate((el) => el.getBoundingClientRect().height)
     const inputs = page.getByRole('region', { name: 'Theme inputs' })
     // Default: every pill part is a full pill.
-    for (const selector of ['.pui-button', '.pui-switch', '.pui-badge'])
+    for (const selector of ['.surf-button', '.surf-switch', '.surf-badge'])
       expect(await corner(selector), selector).toBe(
         (await height(selector)) / 2,
       )
     // Small: 13px rounds the button's corners, while the shorter badge stays a pill.
     await inputs.getByRole('button', { name: 'Small', exact: true }).click()
-    expect(await corner('.pui-button')).toBe(13)
-    expect(await corner('.pui-badge')).toBe((await height('.pui-badge')) / 2)
+    expect(await corner('.surf-button')).toBe(13)
+    expect(await corner('.surf-badge')).toBe((await height('.surf-badge')) / 2)
     await inputs.getByRole('button', { name: 'None', exact: true }).click()
-    for (const selector of ['.pui-button', '.pui-switch', '.pui-badge'])
+    for (const selector of ['.surf-button', '.surf-switch', '.surf-badge'])
       expect(await corner(selector), selector).toBe(0)
   })
 
@@ -307,4 +309,34 @@ test.describe('theme builder page', () => {
       ).toEqual([])
     }
   })
+})
+
+test('data-theme takes dark or light; any other value keeps the theme around it, and on the root follows the system', async ({
+  page,
+}) => {
+  const tokens = readFileSync('packages/tokens/tokens.css', 'utf8')
+  await page.setContent(
+    `<style>${tokens}</style><div id="light" data-theme="light"><div id="odd" data-theme="brand"></div></div>`,
+  )
+  const canvas = (selector: string) =>
+    page
+      .locator(selector)
+      .evaluate((el) =>
+        getComputedStyle(el).getPropertyValue('--surf-canvas').trim(),
+      )
+  // Inside a light region, an unknown value inherits light instead of turning dark.
+  expect(await canvas('#odd')).toBe(await canvas('#light'))
+  // On the root, an unknown value follows the system preference.
+  for (const colorScheme of ['light', 'dark'] as const) {
+    await page.emulateMedia({ colorScheme })
+    await page.evaluate(
+      () => (document.documentElement.dataset.theme = 'brand'),
+    )
+    const root = await canvas('html')
+    await page.evaluate(
+      (scheme) => (document.documentElement.dataset.theme = scheme),
+      colorScheme,
+    )
+    expect(root, colorScheme).toBe(await canvas('html'))
+  }
 })

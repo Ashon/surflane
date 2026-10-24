@@ -19,12 +19,12 @@ export const doc: ComponentDoc = {
     'Result announcements update only the text summary. The whole list is never a live region.',
   ],
   tokens: [
-    '--space-2',
-    '--space-4',
-    '--control-height',
-    '--ink-muted',
-    '--type-caption-size',
-    '--type-caption-leading',
+    '--surf-space-2',
+    '--surf-space-4',
+    '--surf-control-height',
+    '--surf-ink-muted',
+    '--surf-type-caption-size',
+    '--surf-type-caption-leading',
   ],
   code: `import { FilterBar, Input, Select, Button } from '@surflane/ui'
 

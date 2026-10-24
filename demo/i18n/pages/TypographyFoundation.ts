@@ -72,7 +72,7 @@ const en = {
   serviceName: 'Service name',
   deployPreview: 'Deploy preview',
   setupIntro:
-    'Put pui-typography on body so dialogs, menus, and other portals take the roles too.',
+    'Put surf-typography on body so dialogs, menus, and other portals take the roles too.',
   codeLabel: 'Typography setup',
   measureStart: 'Reading text stops at ',
   measureEnd:
@@ -82,7 +82,7 @@ const en = {
   koreanIntro: "Set lang='ko' on Korean text so these rules apply.",
   korean: [
     'Lines break between words (word-break: keep-all). Only a word longer than the line breaks inside.',
-    "Word spaces widen by --type-hangul-word-spacing (0.05em) to match Pretendard's space.",
+    "Word spaces widen by --surf-type-hangul-word-spacing (0.05em) to match Pretendard's space.",
     'Hangul has no italic. Emphasize with weight 500 instead.',
   ],
 }
@@ -159,7 +159,7 @@ export const text: Record<Locale, typeof en> = {
     serviceName: '서비스 이름',
     deployPreview: '배포 미리보기',
     setupIntro:
-      'body에 pui-typography를 두면 대화상자, 메뉴 같은 포털도 역할을 따릅니다.',
+      'body에 surf-typography를 두면 대화상자, 메뉴 같은 포털도 역할을 따릅니다.',
     codeLabel: '타이포그래피 설정',
     measureStart: '읽기 텍스트는 ',
     measureEnd:
@@ -170,7 +170,7 @@ export const text: Record<Locale, typeof en> = {
       '한국어 글에는 lang="ko"를 지정해 아래 규칙이 적용되게 하세요.',
     korean: [
       '줄은 어절 사이에서 바꿉니다(word-break: keep-all). 한 줄보다 긴 어절만 안에서 나뉩니다.',
-      '어절 사이 공백은 --type-hangul-word-spacing(0.05em)만큼 넓혀 Pretendard의 공백 폭에 맞춥니다.',
+      '어절 사이 공백은 --surf-type-hangul-word-spacing(0.05em)만큼 넓혀 Pretendard의 공백 폭에 맞춥니다.',
       '한글에는 기울임꼴이 없습니다. 강조는 굵기 500으로 하세요.',
     ],
   },

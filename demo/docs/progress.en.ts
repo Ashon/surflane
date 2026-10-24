@@ -7,7 +7,12 @@ export const doc: ComponentDoc = {
   keyboard:
     "Progress is a status display and isn't in the Tab order. Label provides the accessible name. The min, max, and value props, with aria-valuetext, convey the units. Don't announce every frequent value change through a live region. Announce the completed result instead.",
   anatomy: 'Root → Label + Value + Track(Indicator)',
-  tokens: ['--brand', '--surface', '--space-2', '--duration-base'],
+  tokens: [
+    '--surf-brand',
+    '--surf-surface',
+    '--surf-space-2',
+    '--surf-duration-base',
+  ],
   code: `import { Progress } from '@surflane/ui'
 
 <Progress.Root value={30} aria-valuetext='30 of 100 checks completed'>

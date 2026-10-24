@@ -31,6 +31,7 @@
     "LICENSE-MIT",
     "LICENSE-APACHE"
   ],
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -401,12 +402,11 @@
     "build": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\" && tsc -p tsconfig.json && node ../../scripts/build-styles.mjs",
     "prepack": "npm run build"
   },
-  "dependencies": {
-    "@base-ui/react": "1.9.0"
-  },
   "peerDependencies": {
+    "@base-ui/react": "^1.9.0",
     "@headless-tree/core": "^1.8.0",
     "@headless-tree/react": "^1.8.0",
+    "@surflane/css": "^0.9.0",
     "@surflane/design-tokens": "^0.9.0",
     "@tanstack/react-virtual": "^3.14.21",
     "react": "^19.0.0",
@@ -444,6 +444,7 @@
     }
   },
   "devDependencies": {
+    "@base-ui/react": "1.9.0",
     "@headless-tree/core": "1.8.0",
     "@headless-tree/react": "1.8.0",
     "@tanstack/react-virtual": "3.14.21",

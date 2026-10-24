@@ -12,7 +12,7 @@ export function ToggleGroup<Value extends string>({
     <BaseToggleGroup<Value>
       {...props}
       ref={ref}
-      className={skin('pui-toggle-group', className)}
+      className={skin('surf-toggle-group', className)}
     />
   )
 }

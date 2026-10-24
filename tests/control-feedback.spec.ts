@@ -117,13 +117,13 @@ for (const theme of ['light', 'dark']) {
     page,
   }) => {
     for (const [route, selector] of [
-      ['toolbar', '.pui-toolbar-button:not([aria-pressed="true"])'],
-      ['menubar', '.pui-menubar > .pui-menu-trigger'],
-      ['button', '.pui-button[data-variant="primary"]'],
-      ['button', '.pui-button[data-variant="secondary"]'],
-      ['button', '.pui-button[data-variant="outline"]'],
-      ['button', '.pui-button[data-variant="ghost"]'],
-      ['button', '.pui-button[data-variant="destructive"]'],
+      ['toolbar', '.surf-toolbar-button:not([aria-pressed="true"])'],
+      ['menubar', '.surf-menubar > .surf-menu-trigger'],
+      ['button', '.surf-button[data-variant="primary"]'],
+      ['button', '.surf-button[data-variant="secondary"]'],
+      ['button', '.surf-button[data-variant="outline"]'],
+      ['button', '.surf-button[data-variant="ghost"]'],
+      ['button', '.surf-button[data-variant="destructive"]'],
     ]) {
       await page.goto(`/components/${route}`)
       await waitForCatalogReady(page)

@@ -15,11 +15,11 @@ export const doc: ComponentDoc = {
     'Control menu selection values from the parent.',
   ],
   tokens: [
-    '--menu-background',
-    '--menu-hover-background',
-    '--menu-border',
-    '--radius-md',
-    '--layer-popup',
+    '--surf-menu-background',
+    '--surf-menu-hover-background',
+    '--surf-menu-border',
+    '--surf-radius-md',
+    '--surf-layer-popup',
   ],
   code: `import { Menubar, Menu } from '@surflane/ui'
 

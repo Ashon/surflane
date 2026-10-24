@@ -38,8 +38,8 @@ for (const name of ['ui', 'tokens']) {
   assert.equal(pkg.license, 'MIT OR Apache-2.0', `${pkg.name}: license`)
 }
 // Server Components cannot dot into client exports: each namespace part needs a flat name.
-// Type goes through the role tokens: size, leading and weight come from --type-* and
-// --weight-* (or the component size scheme), never a literal. Relative em sizes for
+// Type goes through the role tokens: size, leading and weight come from --surf-type-* and
+// --surf-weight-* (or the component size scheme), never a literal. Relative em sizes for
 // inline code and a line-height of 1 for single-glyph chips stay allowed.
 const cssIn = (dir) =>
   readdirSync(dir)
@@ -48,10 +48,10 @@ const cssIn = (dir) =>
 const uiSheets = cssIn('packages/ui/src')
 const typeSheets = [
   ...uiSheets,
-  ...cssIn('packages/tokens/presentation'),
-  ...cssIn('packages/tokens/foundations'),
-  'packages/tokens/controls.css',
-  'packages/tokens/typography.css',
+  ...cssIn('packages/css/presentation'),
+  ...cssIn('packages/css/foundations'),
+  'packages/css/controls.css',
+  'packages/css/typography.css',
 ]
 const literalType = typeSheets.flatMap((file) =>
   readFileSync(file, 'utf8')
@@ -75,7 +75,7 @@ console.log(
 // Other lengths and durations move to tokens over time. The count may only fall: lower
 // it when values move to tokens, never raise it. 0, 1px hairlines and @media
 // conditions stay literal.
-const literalCeiling = 125
+const literalCeiling = 121
 const literalLengths = typeSheets
   .map((file) => readFileSync(file, 'utf8').replace(/\/\*[\s\S]*?\*\//g, ''))
   .flatMap((css) => css.split('\n'))
@@ -102,11 +102,11 @@ const componentSource = readdirSync('packages/ui/src')
   .filter((name) => /\.tsx?$/.test(name))
   .map((name) => readFileSync(`packages/ui/src/${name}`, 'utf8'))
   .join('\n')
-const renderedClasses = new Set(componentSource.match(/pui-[a-z0-9-]+/g))
+const renderedClasses = new Set(componentSource.match(/surf-[a-z0-9-]+/g))
 const selectorsOf = (css) =>
   new Set(
     (css.replace(/\/\*[\s\S]*?\*\//g, '').match(/[^{}]+(?=\{)/g) ?? []).flatMap(
-      (selector) => selector.match(/(?<=\.)pui-[a-z0-9-]+/g) ?? [],
+      (selector) => selector.match(/(?<=\.)surf-[a-z0-9-]+/g) ?? [],
     ),
   )
 const selectedClasses = selectorsOf(
@@ -123,22 +123,22 @@ console.log(
 // misspelled or missing class fails here instead of changing what the reader sees.
 // Hooks name a part for apps and tests to select; the classes beside them style it.
 const hookClasses = new Set([
-  'pui-combobox-section',
-  'pui-date-range-picker',
-  'pui-meter',
-  'pui-navigation-item',
-  'pui-page-header-breadcrumb',
-  'pui-preview-trigger',
-  'pui-select-group',
-  'pui-table-message',
-  'pui-table-sort-header',
+  'surf-combobox-section',
+  'surf-date-range-picker',
+  'surf-meter',
+  'surf-navigation-item',
+  'surf-page-header-breadcrumb',
+  'surf-preview-trigger',
+  'surf-select-group',
+  'surf-table-message',
+  'surf-table-sort-header',
 ])
 const styledClasses = selectorsOf(
   typeSheets.map((file) => readFileSync(file, 'utf8')).join('\n'),
 )
-// Custom property names such as --pui-status-progress are not classes.
+// Custom property names such as --surf-status-progress are not classes.
 const unstyledClasses = [
-  ...new Set(componentSource.match(/(?<![\w-])pui-[a-z0-9-]+/g)),
+  ...new Set(componentSource.match(/(?<![\w-])surf-[a-z0-9-]+/g)),
 ].filter((name) => !styledClasses.has(name) && !hookClasses.has(name))
 assert.deepEqual(
   unstyledClasses,
@@ -156,15 +156,15 @@ assert.deepEqual(
 console.log(
   `@surflane/ui: every rendered class has a rule, apart from ${hookClasses.size} hooks`,
 )
-// Components render only pui- classes, so an app's own .form-control or .scroll-area
+// Components render only surf- classes, so an app's own .form-control or .scroll-area
 // never styles them.
 const unprefixed = [
   ...new Set(
     (componentSource.match(/'[a-z][a-z0-9 -]*'/g) ?? [])
       .map((literal) => literal.slice(1, -1).split(' '))
-      .filter((names) => names.some((name) => name.startsWith('pui-')))
+      .filter((names) => names.some((name) => name.startsWith('surf-')))
       .flat()
-      .filter((name) => !name.startsWith('pui-')),
+      .filter((name) => !name.startsWith('surf-')),
   ),
 ]
 assert.deepEqual(unprefixed, [], `Unprefixed classes: ${unprefixed}`)
@@ -194,6 +194,9 @@ console.log(`@surflane/ui: ${flatNames} namespace parts have flat exports`)
 const internalModules = [
   'index',
   'parts',
+  'size',
+  'class-names',
+  'element-part',
   'choice',
   'panel',
   'status',
@@ -270,8 +273,9 @@ const packageSheets = [
   ...uiSheets,
   ...[
     'packages/tokens',
-    'packages/tokens/presentation',
-    'packages/tokens/foundations',
+    'packages/css',
+    'packages/css/presentation',
+    'packages/css/foundations',
     'packages/tokens/themes',
   ].flatMap(cssIn),
 ].filter((file) => !/(tailwind)\.css$/.test(file))
@@ -353,7 +357,7 @@ const renders = (name, seen = new Set()) => {
     ? `packages/ui/src/${name}.tsx`
     : `packages/ui/src/${name}.ts`
   const out = new Set(
-    readFileSync(file, 'utf8').match(/(?<![a-z0-9-])pui-[a-z0-9-]+/g),
+    readFileSync(file, 'utf8').match(/(?<![a-z0-9-])surf-[a-z0-9-]+/g),
   )
   for (const dep of jsImports(name))
     for (const c of renders(dep, seen)) out.add(c)

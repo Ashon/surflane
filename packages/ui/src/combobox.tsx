@@ -28,27 +28,29 @@ function ComboboxRoot<
 const ComboPopup = /* @__PURE__ */ part<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseCombobox.Popup>
->(BaseCombobox.Popup, 'pui-combobox-popup', { portal: true })
+>(BaseCombobox.Popup, 'surf-combobox-popup', { portal: true })
 const ComboPositioner = /* @__PURE__ */ part<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BaseCombobox.Positioner>
->(BaseCombobox.Positioner, 'pui-positioner', { portal: true })
-const ComboContent = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<typeof BaseCombobox.Popup> &
-    Pick<
-      React.ComponentPropsWithoutRef<typeof BaseCombobox.Positioner>,
-      'side' | 'align' | 'sideOffset' | 'collisionPadding'
-    > & {
-      /** @deprecated Pass side, align, sideOffset and collisionPadding directly. */
-      positionerProps?: React.ComponentPropsWithoutRef<
-        typeof BaseCombobox.Positioner
-      >
-    }
->(function ComboContent(
-  { side, align, sideOffset, collisionPadding, positionerProps, ...props },
+>(BaseCombobox.Positioner, 'surf-positioner', { portal: true })
+const ComboContent = function ComboContent({
+  side,
+  align,
+  sideOffset,
+  collisionPadding,
+  positionerProps,
   ref,
-) {
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseCombobox.Popup> &
+  Pick<
+    React.ComponentPropsWithoutRef<typeof BaseCombobox.Positioner>,
+    'side' | 'align' | 'sideOffset' | 'collisionPadding'
+  > & {
+    /** @deprecated Pass side, align, sideOffset and collisionPadding directly. */
+    positionerProps?: React.ComponentPropsWithoutRef<
+      typeof BaseCombobox.Positioner
+    >
+  } & { ref?: React.Ref<HTMLDivElement> }) {
   return (
     <OwnPortal portal={BaseCombobox.Portal}>
       <ComboPositioner
@@ -60,66 +62,82 @@ const ComboContent = /* @__PURE__ */ React.forwardRef<
       </ComboPositioner>
     </OwnPortal>
   )
-})
-const ComboTrigger = /* @__PURE__ */ React.forwardRef<
-  HTMLButtonElement,
-  React.ComponentPropsWithoutRef<typeof BaseCombobox.Trigger>
->(function ComboTrigger({ children, className, ...props }, ref) {
+}
+const ComboTrigger = function ComboTrigger({
+  children,
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseCombobox.Trigger> & {
+  ref?: React.Ref<HTMLButtonElement>
+}) {
   return (
     <BaseCombobox.Trigger
       aria-label='Show options'
       {...props}
       ref={ref}
-      className={skin('pui-combobox-action', className)}
+      className={skin('surf-combobox-action', className)}
     >
       {children ?? <Icon name='chevron-down' />}
     </BaseCombobox.Trigger>
   )
-})
-const ComboClear = /* @__PURE__ */ React.forwardRef<
-  HTMLButtonElement,
-  React.ComponentPropsWithoutRef<typeof BaseCombobox.Clear>
->(function ComboClear({ children, className, ...props }, ref) {
+}
+const ComboClear = function ComboClear({
+  children,
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseCombobox.Clear> & {
+  ref?: React.Ref<HTMLButtonElement>
+}) {
   return (
     <BaseCombobox.Clear
       aria-label='Clear selection'
       {...props}
       ref={ref}
-      className={skin('pui-combobox-action', className)}
+      className={skin('surf-combobox-action', className)}
     >
       {children ?? <Icon name='close' />}
     </BaseCombobox.Clear>
   )
-})
-const ComboIndicator = /* @__PURE__ */ React.forwardRef<
-  HTMLSpanElement,
-  React.ComponentPropsWithoutRef<typeof BaseCombobox.ItemIndicator>
->(function ComboIndicator({ children, className, ...props }, ref) {
+}
+const ComboIndicator = function ComboIndicator({
+  children,
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseCombobox.ItemIndicator> & {
+  ref?: React.Ref<HTMLSpanElement>
+}) {
   return (
     <BaseCombobox.ItemIndicator
       keepMounted
       {...props}
       ref={ref}
-      className={skin('pui-combobox-indicator', className)}
+      className={skin('surf-combobox-indicator', className)}
     >
       {children ?? <Icon name='check' />}
     </BaseCombobox.ItemIndicator>
   )
-})
-const ComboRemove = /* @__PURE__ */ React.forwardRef<
-  HTMLButtonElement,
-  React.ComponentPropsWithoutRef<typeof BaseCombobox.ChipRemove>
->(function ComboRemove({ children, className, ...props }, ref) {
+}
+const ComboRemove = function ComboRemove({
+  children,
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseCombobox.ChipRemove> & {
+  ref?: React.Ref<HTMLButtonElement>
+}) {
   return (
     <BaseCombobox.ChipRemove
       {...props}
       ref={ref}
-      className={skin('pui-combobox-chip-remove', className)}
+      className={skin('surf-combobox-chip-remove', className)}
     >
       {children ?? <Icon name='close' />}
     </BaseCombobox.ChipRemove>
   )
-})
+}
 export const Combobox = {
   ...BaseCombobox,
   Root: ComboboxRoot,
@@ -134,47 +152,47 @@ export const Combobox = {
   Input: /* @__PURE__ */ part<
     HTMLInputElement,
     React.ComponentPropsWithoutRef<typeof BaseCombobox.Input>
-  >(BaseCombobox.Input, 'pui-input pui-combobox-input'),
+  >(BaseCombobox.Input, 'surf-input surf-combobox-input'),
   InputGroup: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseCombobox.InputGroup>
-  >(BaseCombobox.InputGroup, 'pui-combobox-group'),
+  >(BaseCombobox.InputGroup, 'surf-combobox-group'),
   List: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseCombobox.List>
-  >(BaseCombobox.List, 'pui-combobox-list'),
+  >(BaseCombobox.List, 'surf-combobox-list'),
   Item: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseCombobox.Item>
-  >(BaseCombobox.Item, 'pui-combobox-item'),
+  >(BaseCombobox.Item, 'surf-combobox-item'),
   Empty: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseCombobox.Empty>
-  >(BaseCombobox.Empty, 'pui-combobox-empty'),
+  >(BaseCombobox.Empty, 'surf-combobox-empty'),
   Status: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseCombobox.Status>
-  >(BaseCombobox.Status, 'pui-combobox-status'),
+  >(BaseCombobox.Status, 'surf-combobox-status'),
   Group: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseCombobox.Group>
-  >(BaseCombobox.Group, 'pui-combobox-section'),
+  >(BaseCombobox.Group, 'surf-combobox-section'),
   GroupLabel: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseCombobox.GroupLabel>
-  >(BaseCombobox.GroupLabel, 'pui-combobox-section-label'),
+  >(BaseCombobox.GroupLabel, 'surf-combobox-section-label'),
   Separator: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseCombobox.Separator>
-  >(BaseCombobox.Separator, 'pui-combobox-separator'),
+  >(BaseCombobox.Separator, 'surf-combobox-separator'),
   Chips: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseCombobox.Chips>
-  >(BaseCombobox.Chips, 'pui-combobox-chips'),
+  >(BaseCombobox.Chips, 'surf-combobox-chips'),
   Chip: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseCombobox.Chip>
-  >(BaseCombobox.Chip, 'pui-combobox-chip'),
+  >(BaseCombobox.Chip, 'surf-combobox-chip'),
 }
 // Flat names for React Server Components, which cannot dot into client exports.
 export { ComboboxRoot }

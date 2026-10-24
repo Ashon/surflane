@@ -21,10 +21,24 @@ type Run = {
 }
 
 const tokens = {
-  plane: ['--chrome', '--canvas', '--surface', '--selected'],
-  elevation: ['--shadow-float', '--shadow-sheet', '--layer-popup'],
-  line: ['--control-border', '--line', '--menu-border'],
-  point: ['--ink', '--ink-muted', '--brand-ink', '--icon-size-md'],
+  plane: [
+    '--surf-chrome',
+    '--surf-canvas',
+    '--surf-surface',
+    '--surf-selected',
+  ],
+  elevation: [
+    '--surf-shadow-float',
+    '--surf-shadow-sheet',
+    '--surf-layer-popup',
+  ],
+  line: ['--surf-control-border', '--surf-line', '--surf-menu-border'],
+  point: [
+    '--surf-ink',
+    '--surf-ink-muted',
+    '--surf-brand-ink',
+    '--surf-icon-size-md',
+  ],
 }
 
 const en = {
@@ -148,25 +162,25 @@ const en = {
     },
   ] as Run[],
   planeRules: [
-    'Use the roles by depth: `--chrome` for the frame, `--canvas` for the sheet, `--surface` for a secondary area, and `--selected` for the current item.',
+    'Use the roles by depth: `--surf-chrome` for the frame, `--surf-canvas` for the sheet, `--surf-surface` for a secondary area, and `--surf-selected` for the current item.',
     'Neighboring roles differ by at least 1.05:1, enough to read as regions without a line.',
     'Keep one surface level inside the sheet.',
     'Inset a nested plane equally on all sides, with the radius max(0, outer radius − inset).',
     'Blur the screen to check: the regions should still read from tone and spacing alone.',
   ],
   elevationRules: [
-    'Floating UI takes `--shadow-float` on an opaque `--menu-background`, with its `--layer-*` token. A shadow without its layer misreports what is on top.',
-    'The only resting shadow is `--shadow-sheet`, a hairline between the sheet and the frame.',
-    'Floating UI keeps its 1px `--menu-border`, because shadows fade in the dark theme and vanish in forced colors.',
+    'Floating UI takes `--surf-shadow-float` on an opaque `--surf-menu-background`, with its `--surf-layer-*` token. A shadow without its layer misreports what is on top.',
+    'The only resting shadow is `--surf-shadow-sheet`, a hairline between the sheet and the frame.',
+    'Floating UI keeps its 1px `--surf-menu-border`, because shadows fade in the dark theme and vanish in forced colors.',
   ],
   lineRules: [
-    '`--control-border` marks inputs, selects, checkboxes, and outline buttons. As the one line with meaning, it meets 3:1 against its plane (WCAG 1.4.11).',
-    '`--line` is decorative: section dividers, and the edge where fixed chrome meets same-tone scrolling content.',
+    '`--surf-control-border` marks inputs, selects, checkboxes, and outline buttons. As the one line with meaning, it meets 3:1 against its plane (WCAG 1.4.11).',
+    '`--surf-line` is decorative: section dividers, and the edge where fixed chrome meets same-tone scrolling content.',
     "Don't box what tone or spacing already separates. Table rows part by spacing, and hover and selection fill them.",
     "Don't mark status with a one-sided accent border. Use a label and an icon.",
   ],
   pointRules: [
-    'Rank points by type role and ink, not decoration: `--ink`, then `--ink-body`, then `--ink-muted`.',
+    'Rank points by type role and ink, not decoration: `--surf-ink`, then `--surf-ink-body`, then `--surf-ink-muted`.',
     'Spend small saturated points, such as badges and status dots, on status, the current location, and the primary action.',
   ],
 }
@@ -289,25 +303,25 @@ export const text: Record<Locale, typeof en> = {
       },
     ],
     planeRules: [
-      '깊이에 따라 역할을 쓰세요. 틀은 `--chrome`, 시트는 `--canvas`, 보조 영역은 `--surface`, 현재 항목은 `--selected`입니다.',
+      '깊이에 따라 역할을 쓰세요. 틀은 `--surf-chrome`, 시트는 `--surf-canvas`, 보조 영역은 `--surf-surface`, 현재 항목은 `--surf-selected`입니다.',
       '이웃한 역할은 1.05:1 이상 차이 나서 선 없이도 영역으로 읽힙니다.',
       '시트 안의 보조 면은 한 단계만 두세요.',
       '안에 놓는 면은 네 변의 여백을 같게 두고, 반경을 max(0, 바깥 반경 − 여백)로 맞추세요.',
       '화면을 흐리게 보며 확인하세요. 영역은 톤과 간격만으로 읽혀야 합니다.',
     ],
     elevationRules: [
-      '떠 있는 UI는 불투명한 `--menu-background`에 `--shadow-float`와 `--layer-*` 토큰을 함께 씁니다. 레이어 없는 그림자는 무엇이 위인지 잘못 알립니다.',
-      '머무는 그림자는 시트와 틀 사이의 가는 `--shadow-sheet` 하나뿐입니다.',
-      '떠 있는 UI는 1px `--menu-border`를 유지하세요. 그림자는 다크 테마에서 흐려지고 강제 색상 모드에서 사라집니다.',
+      '떠 있는 UI는 불투명한 `--surf-menu-background`에 `--surf-shadow-float`와 `--surf-layer-*` 토큰을 함께 씁니다. 레이어 없는 그림자는 무엇이 위인지 잘못 알립니다.',
+      '머무는 그림자는 시트와 틀 사이의 가는 `--surf-shadow-sheet` 하나뿐입니다.',
+      '떠 있는 UI는 1px `--surf-menu-border`를 유지하세요. 그림자는 다크 테마에서 흐려지고 강제 색상 모드에서 사라집니다.',
     ],
     lineRules: [
-      '`--control-border`는 입력, 선택, 체크박스, 외곽선 버튼의 경계입니다. 의미를 싣는 유일한 선이라 면과 3:1 이상 대비됩니다(WCAG 1.4.11).',
-      '`--line`은 장식입니다. 섹션 구분선과, 고정 크롬이 같은 톤의 스크롤 콘텐츠와 만나는 가장자리에 씁니다.',
+      '`--surf-control-border`는 입력, 선택, 체크박스, 외곽선 버튼의 경계입니다. 의미를 싣는 유일한 선이라 면과 3:1 이상 대비됩니다(WCAG 1.4.11).',
+      '`--surf-line`은 장식입니다. 섹션 구분선과, 고정 크롬이 같은 톤의 스크롤 콘텐츠와 만나는 가장자리에 씁니다.',
       '톤이나 간격으로 나뉜 곳을 상자로 두르지 마세요. 표의 행은 간격으로 나누고, 호버와 선택은 면으로 채웁니다.',
       '한쪽 강조 테두리로 상태를 표시하지 마세요. 라벨과 아이콘을 쓰세요.',
     ],
     pointRules: [
-      '점의 서열은 장식이 아니라 타입 역할과 잉크로 정하세요. `--ink`, `--ink-body`, `--ink-muted` 순입니다.',
+      '점의 서열은 장식이 아니라 타입 역할과 잉크로 정하세요. `--surf-ink`, `--surf-ink-body`, `--surf-ink-muted` 순입니다.',
       '배지와 상태 점처럼 채도가 높은 작은 점은 상태, 현재 위치, 주요 작업에만 쓰세요.',
     ],
   },

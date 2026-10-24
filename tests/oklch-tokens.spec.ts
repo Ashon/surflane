@@ -17,9 +17,9 @@ test('OKLCH accent and status roles retain their configured channels and alpha',
   const ast = postcss.parse(readFileSync('packages/tokens/tokens.css', 'utf8'))
   const rgb = converter('rgb')
   const expected = {
-    '--brand': 'oklch(0.82 0.12 210)',
-    '--caution': '#ffd527',
-    '--danger': '#ff3333',
+    '--surf-brand': 'oklch(0.82 0.12 210)',
+    '--surf-caution': '#ffd527',
+    '--surf-danger': '#ff3333',
   }
   ast.walkDecls(/^--/, (decl) => {
     if (!(decl.prop in expected)) return
@@ -29,7 +29,7 @@ test('OKLCH accent and status roles retain their configured channels and alpha',
       expect(actual[channel]).toBeCloseTo(original[channel], 6)
   })
   const tints: string[] = []
-  ast.walkDecls('--brand-tint', (decl) => {
+  ast.walkDecls('--surf-brand-tint', (decl) => {
     tints.push(decl.value)
   })
   expect(tints.map((value) => rgb(value).alpha)).toEqual([
@@ -45,7 +45,7 @@ test('theme JSON is generated from the CSS palette without hex-only parsing', ()
   )
   const theme = JSON.parse(readFileSync('packages/tokens/theme.json', 'utf8'))
   const chrome = catalog.tokens.find(
-    (token: { name: string }) => token.name === '--chrome',
+    (token: { name: string }) => token.name === '--surf-chrome',
   )
   expect(theme.dark.chrome).toBe(
     chrome.variants.find(

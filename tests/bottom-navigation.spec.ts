@@ -18,8 +18,8 @@ test('Bottom navigation marks the current destination and reads badges after lab
   await expect(
     nav.getByRole('link', { name: /^Account ?, needs attention$/ }),
   ).toBeVisible()
-  await expect(nav.locator('.pui-bottom-nav-badge').first()).toHaveText('3')
-  await expect(nav.locator('.pui-bottom-nav-badge[data-dot]')).toHaveCount(1)
+  await expect(nav.locator('.surf-bottom-nav-badge').first()).toHaveText('3')
+  await expect(nav.locator('.surf-bottom-nav-badge[data-dot]')).toHaveCount(1)
 
   const schedule = nav.getByRole('link', { name: 'Schedule', exact: true })
   await schedule.focus()
@@ -36,13 +36,13 @@ test('Bottom navigation marks the current destination and reads badges after lab
   expect(list?.height).toBe(56)
   const selected = await page.evaluate(() => {
     const probe = document.createElement('i')
-    probe.style.background = 'var(--selected)'
-    document.querySelector('.pui-bottom-nav')?.append(probe)
+    probe.style.background = 'var(--surf-selected)'
+    document.querySelector('.surf-bottom-nav')?.append(probe)
     const color = getComputedStyle(probe).backgroundColor
     probe.remove()
     return color
   })
-  await expect(schedule.locator('.pui-bottom-nav-icon')).toHaveCSS(
+  await expect(schedule.locator('.surf-bottom-nav-icon')).toHaveCSS(
     'background-color',
     selected,
   )
@@ -51,7 +51,7 @@ test('Bottom navigation marks the current destination and reads badges after lab
   await expect(
     nav.getByRole('link', { name: 'Activity', exact: true }),
   ).toBeVisible()
-  await expect(nav.locator('.pui-bottom-nav-badge')).toHaveCount(0)
+  await expect(nav.locator('.surf-bottom-nav-badge')).toHaveCount(0)
 
   const results = await new AxeBuilder({ page })
     .include('.bottom-nav-preview')
@@ -62,12 +62,12 @@ test('Bottom navigation marks the current destination and reads badges after lab
 test('Bottom navigation mirrors its badge in RTL', async ({ page }) => {
   await page.goto('/components/bottom-navigation')
   await waitForCatalogReady(page)
-  const activity = page.locator('.pui-bottom-nav-item').nth(2)
+  const activity = page.locator('.surf-bottom-nav-item').nth(2)
   const side = async () =>
     activity.evaluate((link) => {
       const icon = link.querySelector('svg')!.getBoundingClientRect()
       const badge = link
-        .querySelector('.pui-bottom-nav-badge')!
+        .querySelector('.surf-bottom-nav-badge')!
         .getBoundingClientRect()
       return badge.left + badge.width / 2 > icon.left + icon.width / 2
         ? 'right'
@@ -108,7 +108,7 @@ test('Bottom navigation shows where the sidebar hides and stays fixed under over
   )
   expect(markup).toContain('>99+</span>')
   expect(markup).toContain('>, 99+</span>')
-  expect(markup.match(/pui-bottom-nav-badge/g)).toHaveLength(1)
+  expect(markup.match(/surf-bottom-nav-badge/g)).toHaveLength(1)
 
   await page.setViewportSize({ width: 1280, height: 800 })
   await page.goto('/components/bottom-navigation')

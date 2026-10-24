@@ -1,0 +1,45 @@
+/* Presentation classes: Empty state. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+
+@layer surflane.components {
+  .surf-empty-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--surf-space-2);
+    margin-top: var(--surf-space-4);
+  }
+  .surf-empty {
+    padding: var(--surf-space-6);
+    text-align: center;
+    color: var(--surf-ink-body);
+    overflow-wrap: anywhere;
+  }
+  .surf-empty-icon {
+    display: flex;
+    justify-content: center;
+    color: var(--surf-ink-muted);
+    margin-bottom: var(--surf-space-3);
+  }
+  .surf-empty-title {
+    font: var(--surf-weight-medium)
+      var(--surf-type-section-size)/var(--surf-type-section-leading)
+      var(--surf-font-display);
+    letter-spacing: var(--surf-type-section-tracking);
+    color: var(--surf-ink);
+    margin: 0;
+  }
+  .surf-empty-description {
+    max-width: 52ch;
+    margin: var(--surf-space-2) auto 0;
+    color: var(--surf-ink-body);
+  }
+  .surf-empty-actions {
+    justify-content: center;
+  }
+  @media (max-width: 560px) {
+    .surf-empty {
+      padding: var(--surf-space-4);
+    }
+  }
+}

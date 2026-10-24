@@ -18,17 +18,18 @@ export type ChoiceLabelProps = Omit<
 }
 /** A checkbox, radio or switch with its label, and an optional description below it.
  * The whole label toggles the control; the control sits on the first line. */
-export const ChoiceLabel = /* @__PURE__ */ React.forwardRef<
-  HTMLLabelElement,
-  ChoiceLabelProps
->(function ChoiceLabel(
-  { control, children, description, className, ...props },
+export const ChoiceLabel = function ChoiceLabel({
+  control,
+  children,
+  description,
+  className,
   ref,
-) {
+  ...props
+}: ChoiceLabelProps & { ref?: React.Ref<HTMLLabelElement> }) {
   const id = React.useId()
   return (
-    <label {...props} ref={ref} className={cx('pui-choice-label', className)}>
-      <span className='pui-choice-control'>
+    <label {...props} ref={ref} className={cx('surf-choice-label', className)}>
+      <span className='surf-choice-control'>
         {React.cloneElement(control, {
           'aria-labelledby': control.props['aria-labelledby'] ?? `${id}-label`,
           'aria-describedby':
@@ -36,14 +37,14 @@ export const ChoiceLabel = /* @__PURE__ */ React.forwardRef<
             (description ? `${id}-description` : undefined),
         })}
       </span>
-      <span className='pui-choice-text'>
+      <span className='surf-choice-text'>
         <span id={`${id}-label`}>{children}</span>
         {description && (
-          <span className='pui-choice-description' id={`${id}-description`}>
+          <span className='surf-choice-description' id={`${id}-description`}>
             {description}
           </span>
         )}
       </span>
     </label>
   )
-})
+}

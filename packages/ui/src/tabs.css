@@ -6,71 +6,72 @@
 
 @layer surflane.components {
   /* Navigation: whole-surface selection and stable controls. */
-  .pui-tabs {
+  .surf-tabs {
     min-width: 0;
   }
-  .pui-tabs-list {
+  .surf-tabs-list {
     display: flex;
-    gap: var(--space-1);
+    gap: var(--surf-space-1);
     position: relative;
     min-width: 0;
     max-width: 100%;
-    padding: var(--space-1);
-    background: var(--surface);
-    border-radius: var(--radius-md);
+    padding: var(--surf-space-1);
+    background: var(--surf-surface);
+    border-radius: var(--surf-radius-md);
     overflow: auto;
     scrollbar-width: thin;
-    scrollbar-color: var(--scrollbar-thumb) transparent;
+    scrollbar-color: var(--surf-scrollbar-thumb) transparent;
   }
-  .pui-tabs-tab {
+  .surf-tabs-tab {
     box-sizing: border-box;
     flex: none;
     position: relative;
     z-index: 1;
     border: 0;
-    border-radius: var(--control-radius);
-    min-height: var(--control-height);
-    padding: 0 var(--space-3);
+    border-radius: var(--surf-control-radius);
+    min-height: var(--surf-control-height);
+    padding: 0 var(--surf-space-3);
     background: transparent;
-    color: var(--ink-muted);
-    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
-      var(--font-body);
+    color: var(--surf-ink-muted);
+    font: var(--surf-weight-regular)
+      var(--surf-type-body-size)/var(--surf-type-body-leading)
+      var(--surf-font-body);
     cursor: pointer;
     white-space: nowrap;
     outline: none;
   }
-  .pui-tabs-tab:hover:not(:disabled):not([data-disabled]) {
-    color: var(--ink);
-    background: var(--interaction-hover-bg);
+  .surf-tabs-tab:hover:not(:disabled):not([data-disabled]) {
+    color: var(--surf-ink);
+    background: var(--surf-interaction-hover-bg);
   }
-  .pui-tabs-tab:active:not(:disabled):not([data-disabled]) {
-    background: var(--interaction-active-bg);
+  .surf-tabs-tab:active:not(:disabled):not([data-disabled]) {
+    background: var(--surf-interaction-active-bg);
   }
-  .pui-tabs-tab[data-active] {
-    background: var(--canvas);
-    color: var(--ink);
-    font-weight: var(--weight-medium);
+  .surf-tabs-tab[data-active] {
+    background: var(--surf-canvas);
+    color: var(--surf-ink);
+    font-weight: var(--surf-weight-medium);
   }
-  .pui-tabs-tab:focus-visible {
-    outline: var(--focus-ring-width) solid var(--interaction-focus);
-    outline-offset: var(--focus-ring-inset);
+  .surf-tabs-tab:focus-visible {
+    outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+    outline-offset: var(--surf-focus-ring-inset);
   }
-  .pui-tabs-tab:is(:disabled, [data-disabled]) {
-    opacity: var(--control-disabled-opacity);
+  .surf-tabs-tab:is(:disabled, [data-disabled]) {
+    opacity: var(--surf-control-disabled-opacity);
     cursor: not-allowed;
   }
-  .pui-tabs-panel {
+  .surf-tabs-panel {
     min-width: 0;
-    padding-block: var(--space-4);
+    padding-block: var(--surf-space-4);
     outline: none;
     overflow-wrap: anywhere;
   }
-  .pui-tabs-panel:focus-visible {
-    outline: var(--focus-ring-width) solid var(--interaction-focus);
-    outline-offset: var(--focus-ring-offset);
-    border-radius: var(--radius-md);
+  .surf-tabs-panel:focus-visible {
+    outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+    outline-offset: var(--surf-focus-ring-offset);
+    border-radius: var(--surf-radius-md);
   }
-  .pui-tabs-indicator {
+  .surf-tabs-indicator {
     position: absolute;
     top: var(--active-tab-top);
     left: var(--active-tab-left);
@@ -78,51 +79,51 @@
     height: var(--active-tab-height);
     box-sizing: border-box;
     border: 0;
-    background: var(--canvas);
-    border-radius: var(--control-radius);
+    background: var(--surf-canvas);
+    border-radius: var(--surf-control-radius);
     pointer-events: none;
   }
-  .pui-tabs-list:has(.pui-tabs-indicator) .pui-tabs-tab[data-active] {
+  .surf-tabs-list:has(.surf-tabs-indicator) .surf-tabs-tab[data-active] {
     background: transparent;
     border-color: transparent;
   }
-  .pui-tabs[data-orientation='vertical'] {
+  .surf-tabs[data-orientation='vertical'] {
     display: grid;
     grid-template-columns: minmax(0, 180px) minmax(0, 1fr);
-    gap: var(--space-6);
+    gap: var(--surf-space-6);
     align-items: start;
   }
-  .pui-tabs-list[data-orientation='vertical'] {
+  .surf-tabs-list[data-orientation='vertical'] {
     flex-direction: column;
   }
-  .pui-tabs-list[data-orientation='vertical'] .pui-tabs-tab {
+  .surf-tabs-list[data-orientation='vertical'] .surf-tabs-tab {
     text-align: start;
   }
-  .pui-tabs[data-orientation='vertical'] > .pui-tabs-panel {
-    padding-block: var(--space-1);
+  .surf-tabs[data-orientation='vertical'] > .surf-tabs-panel {
+    padding-block: var(--surf-space-1);
   }
   @media (max-width: 760px) {
-    .pui-tabs[data-orientation='vertical'] {
+    .surf-tabs[data-orientation='vertical'] {
       grid-template-columns: minmax(0, 1fr);
-      gap: var(--space-3);
+      gap: var(--surf-space-3);
     }
   }
   @media (forced-colors: active) {
-    .pui-tabs-tab[data-active] {
+    .surf-tabs-tab[data-active] {
       background: Highlight;
       color: HighlightText;
       forced-color-adjust: none;
     }
-    .pui-tabs-indicator {
+    .surf-tabs-indicator {
       background: Highlight;
       forced-color-adjust: none;
     }
   }
 }
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *):is(.pui-tabs-tab) {
-    min-block-size: var(--ui-row);
-    font-size: var(--ui-font);
-    line-height: var(--ui-leading);
+  :where([data-ui-size], [data-ui-size] *):is(.surf-tabs-tab) {
+    min-block-size: var(--surf-ui-row);
+    font-size: var(--surf-ui-font);
+    line-height: var(--surf-ui-leading);
   }
 }

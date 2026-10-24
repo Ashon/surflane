@@ -1,9 +1,9 @@
 import type { ComponentDoc } from '../componentDocs'
 const overlays = [
-  '--radius-sheet',
-  '--shadow-float',
-  '--chrome',
-  '--dialog-enter-duration',
+  '--surf-radius-sheet',
+  '--surf-shadow-float',
+  '--surf-chrome',
+  '--surf-dialog-enter-duration',
 ]
 export const doc: ComponentDoc = {
   usage:
@@ -41,7 +41,7 @@ export const doc: ComponentDoc = {
       'false',
     ],
     [
-      '--panel-width',
+      '--surf-panel-width',
       'custom property: a width that keeps the surrounding density',
       'the size width',
     ],

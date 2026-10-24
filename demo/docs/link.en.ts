@@ -7,7 +7,7 @@ export const doc: ComponentDoc = {
   keyboard:
     'Tab to the link and press Enter to open it. Modifier-key clicks, new tabs, downloads, and hash navigation keep browser defaults.',
   anatomy: 'native anchor + shared link class',
-  tokens: ['--ink', '--brand-ink', '--interaction-focus'],
+  tokens: ['--surf-ink', '--surf-brand-ink', '--surf-interaction-focus'],
   code: `import { Link } from '@surflane/ui'
 
 <Link href='/components'>Browse components</Link>

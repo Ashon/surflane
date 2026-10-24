@@ -5,7 +5,7 @@ import * as React from 'react'
  * color interpolation space, determines every intermediate status color. */
 export function useToneTransition<Element extends HTMLElement>(
   tone: string,
-  forwardedRef: React.ForwardedRef<Element>,
+  forwardedRef: React.Ref<Element> | undefined,
 ) {
   const ref = React.useRef<Element>(null)
   React.useImperativeHandle(forwardedRef, () => ref.current!, [])
@@ -22,8 +22,8 @@ export function useToneTransition<Element extends HTMLElement>(
     const element = ref.current
     element?.removeAttribute('data-status-transition')
     for (let i = 0; i < 3; i++) {
-      element?.style.removeProperty(`--pui-status-from-${i}`)
-      element?.style.removeProperty(`--pui-status-to-${i}`)
+      element?.style.removeProperty(`--surf-status-from-${i}`)
+      element?.style.removeProperty(`--surf-status-to-${i}`)
     }
   }, [])
   React.useLayoutEffect(() => {
@@ -44,25 +44,26 @@ export function useToneTransition<Element extends HTMLElement>(
     )
       return
     const durationToken = getComputedStyle(element)
-      .getPropertyValue('--motion-feedback')
+      .getPropertyValue('--surf-motion-feedback')
       .trim()
     const duration =
       parseFloat(durationToken) * (durationToken.endsWith('ms') ? 1 : 1000)
     if (!Number.isFinite(duration) || duration <= 0) return
     from.forEach((value, i) =>
-      element.style.setProperty(`--pui-status-from-${i}`, value),
+      element.style.setProperty(`--surf-status-from-${i}`, value),
     )
     to.forEach((value, i) =>
-      element.style.setProperty(`--pui-status-to-${i}`, value),
+      element.style.setProperty(`--surf-status-to-${i}`, value),
     )
     element.setAttribute('data-status-transition', '')
     animation.current = element.animate(
-      [{ '--pui-status-progress': '0' }, { '--pui-status-progress': '1' }],
+      [{ '--surf-status-progress': '0' }, { '--surf-status-progress': '1' }],
       {
         duration,
         easing:
-          getComputedStyle(element).getPropertyValue('--ease-out').trim() ||
-          'ease-out',
+          getComputedStyle(element)
+            .getPropertyValue('--surf-ease-out')
+            .trim() || 'ease-out',
       },
     )
     animation.current.onfinish = clear

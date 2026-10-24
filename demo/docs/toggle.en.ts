@@ -8,10 +8,10 @@ export const doc: ComponentDoc = {
   keyboard:
     "Tab to the toggle and press Enter or Space to change its state. Disabled toggles don't change. Control it with pressed and onPressedChange, or set defaultPressed. event.cancel() cancels a change.",
   tokens: [
-    '--selected',
-    '--control-border',
-    '--radius-full',
-    '--interaction-focus',
+    '--surf-selected',
+    '--surf-control-border',
+    '--surf-radius-full',
+    '--surf-interaction-focus',
   ],
   code: `import { Toggle } from '@surflane/ui'
 

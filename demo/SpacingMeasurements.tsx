@@ -26,8 +26,8 @@ export function SpacingMeasurements({
       const results: Measure[] = []
       const pairs = [
         ['title', '[data-spacing-title]', '[data-spacing-description]', 'y'],
-        ['label', '[data-spacing-label]', '.pui-control', 'y'],
-        ['actions', '.pui-control', '[data-spacing-actions]', 'y'],
+        ['label', '[data-spacing-label]', '.surf-control', 'y'],
+        ['actions', '.surf-control', '[data-spacing-actions]', 'y'],
         [
           'buttons',
           '[data-spacing-actions] > :first-child',
@@ -70,7 +70,7 @@ export function SpacingMeasurements({
     resize.observe(host)
     host
       .querySelectorAll(
-        '[data-spacing-title], [data-spacing-description], [data-spacing-label], .pui-control, [data-spacing-actions], button',
+        '[data-spacing-title], [data-spacing-description], [data-spacing-label], .surf-control, [data-spacing-actions], button',
       )
       .forEach((element) => resize.observe(element))
     update()

@@ -51,7 +51,7 @@ test('Combobox exposes disabled options and a mounted empty live region, and res
   ).toBeVisible()
   expect(
     await page
-      .locator('.pui-combobox-empty')
+      .locator('.surf-combobox-empty')
       .evaluate((e) => getComputedStyle(e).display),
   ).not.toBe('none')
   await input.press('Escape')
@@ -267,7 +267,7 @@ for (const id of advancedFormExampleIds)
         expect(
           (
             await new AxeBuilder({ page })
-              .include('.pui-combobox-popup')
+              .include('.surf-combobox-popup')
               .analyze()
           ).violations,
         ).toEqual([])
@@ -341,7 +341,7 @@ for (const id of advancedFormExampleIds)
       .click()
     await expect(input).toBeFocused()
     await expect(input).toHaveAttribute('aria-invalid', 'true')
-    const error = page.locator('.pui-field-error').first()
+    const error = page.locator('.surf-field-error').first()
     await expect(error).toHaveText('Please fill out this field.')
     expect(
       (await input.getAttribute('aria-describedby'))?.split(' '),
@@ -374,12 +374,12 @@ test('Combobox reserves selection-mark space so selected and unselected option l
     }),
   )
   expect(Math.abs(positions[0] - positions[1])).toBeLessThan(1)
-  await expect(page.locator('.pui-combobox-indicator')).toHaveCount(2)
+  await expect(page.locator('.surf-combobox-indicator')).toHaveCount(2)
   expect(
     await page
       .getByRole('option')
       .nth(1)
-      .locator('.pui-combobox-indicator')
+      .locator('.surf-combobox-indicator')
       .evaluate((e) => getComputedStyle(e).visibility),
   ).toBe('hidden')
 })

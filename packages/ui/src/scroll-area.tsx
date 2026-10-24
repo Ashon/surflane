@@ -2,31 +2,26 @@
 import * as React from 'react'
 import { ScrollArea as BaseScrollArea } from '@base-ui/react/scroll-area'
 import { cx } from './parts.js'
-export const ScrollArea = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<'div'> & {
-    label?: string
-    rootClassName?: string
-    rootStyle?: React.CSSProperties
-    orientation?: 'horizontal' | 'vertical' | 'both'
-    scrollChain?: 'auto' | 'contain'
-  }
->(function ScrollArea(
-  {
-    label,
-    orientation = 'horizontal',
-    scrollChain = 'auto',
-    style,
-    rootClassName,
-    rootStyle,
-    tabIndex = label ? 0 : undefined,
-    role = label ? 'region' : undefined,
-    className,
-    children,
-    ...props
-  },
+export const ScrollArea = function ScrollArea({
+  label,
+  orientation = 'horizontal',
+  scrollChain = 'auto',
+  style,
+  rootClassName,
+  rootStyle,
+  tabIndex = label ? 0 : undefined,
+  role = label ? 'region' : undefined,
+  className,
+  children,
   ref,
-) {
+  ...props
+}: React.ComponentPropsWithoutRef<'div'> & {
+  label?: string
+  rootClassName?: string
+  rootStyle?: React.CSSProperties
+  orientation?: 'horizontal' | 'vertical' | 'both'
+  scrollChain?: 'auto' | 'contain'
+} & { ref?: React.Ref<HTMLDivElement> }) {
   const dragPointer = React.useRef<number | null>(null)
   const clearDrag = (event: React.PointerEvent<HTMLDivElement>) => {
     if (dragPointer.current !== event.pointerId) return
@@ -35,7 +30,7 @@ export const ScrollArea = /* @__PURE__ */ React.forwardRef<
   }
   return (
     <BaseScrollArea.Root
-      className={cx('pui-scroll-root', rootClassName)}
+      className={cx('surf-scroll-root', rootClassName)}
       style={rootStyle}
       onPointerMoveCapture={(event) => {
         if (event.pointerType === 'touch') return
@@ -56,7 +51,7 @@ export const ScrollArea = /* @__PURE__ */ React.forwardRef<
       }}
       onPointerDownCapture={(event) => {
         const target = event.target as Element
-        const bar = target.closest('.pui-scrollbar')
+        const bar = target.closest('.surf-scrollbar')
         if (event.button === 0 && bar?.parentElement === event.currentTarget) {
           dragPointer.current = event.pointerId
           event.currentTarget.setAttribute(
@@ -72,7 +67,7 @@ export const ScrollArea = /* @__PURE__ */ React.forwardRef<
       <BaseScrollArea.Viewport
         {...props}
         ref={ref}
-        className={cx('pui-scroll-viewport', className)}
+        className={cx('surf-scroll-viewport', className)}
         role={role}
         aria-label={label}
         tabIndex={tabIndex}
@@ -88,7 +83,7 @@ export const ScrollArea = /* @__PURE__ */ React.forwardRef<
         }}
       >
         <BaseScrollArea.Content
-          className='pui-scroll-content'
+          className='surf-scroll-content'
           style={orientation === 'vertical' ? { minWidth: 0 } : undefined}
         >
           {children}
@@ -97,20 +92,20 @@ export const ScrollArea = /* @__PURE__ */ React.forwardRef<
       {orientation !== 'vertical' && (
         <BaseScrollArea.Scrollbar
           orientation='horizontal'
-          className='pui-scrollbar'
+          className='surf-scrollbar'
         >
-          <BaseScrollArea.Thumb className='pui-scroll-thumb' />
+          <BaseScrollArea.Thumb className='surf-scroll-thumb' />
         </BaseScrollArea.Scrollbar>
       )}
       {orientation !== 'horizontal' && (
         <BaseScrollArea.Scrollbar
           orientation='vertical'
-          className='pui-scrollbar'
+          className='surf-scrollbar'
         >
-          <BaseScrollArea.Thumb className='pui-scroll-thumb' />
+          <BaseScrollArea.Thumb className='surf-scroll-thumb' />
         </BaseScrollArea.Scrollbar>
       )}
       <BaseScrollArea.Corner />
     </BaseScrollArea.Root>
   )
-})
+}

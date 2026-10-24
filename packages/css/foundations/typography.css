@@ -1,0 +1,196 @@
+/* Composition classes: Heading, Text and Prose. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+
+@layer surflane.base {
+  .surf-heading,
+  .surf-text {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+  /* Korean wraps between words, not syllables. Only for lang="ko": keep-all would
+   * stop Chinese and Japanese from wrapping at all. */
+  :is(.surf-heading, .surf-text, .surf-prose):lang(ko),
+  :is(.surf-heading, .surf-text, .surf-prose) :lang(ko) {
+    word-break: keep-all;
+  }
+  .surf-heading {
+    font-family: var(--surf-font-display);
+    font-size: var(--surf-type-page-size);
+    line-height: var(--surf-type-page-leading);
+    font-weight: var(--surf-weight-medium);
+    letter-spacing: var(--surf-type-page-tracking);
+    text-wrap: balance;
+    color: var(--surf-ink);
+  }
+  .surf-heading[data-size='display'] {
+    font-size: var(--surf-type-display-size);
+    line-height: var(--surf-type-display-leading);
+    letter-spacing: var(--surf-type-display-tracking);
+  }
+  .surf-heading[data-size='title'] {
+    font-size: var(--surf-type-title-size);
+    line-height: var(--surf-type-title-leading);
+    letter-spacing: var(--surf-type-title-tracking);
+  }
+  .surf-heading[data-size='section'] {
+    font-size: var(--surf-type-section-size);
+    line-height: var(--surf-type-section-leading);
+    letter-spacing: var(--surf-type-section-tracking);
+  }
+  .surf-heading[data-size='subsection'] {
+    font-family: var(--surf-font-body);
+    font-size: var(--surf-type-subsection-size);
+    line-height: var(--surf-type-subsection-leading);
+    letter-spacing: var(--surf-type-subsection-tracking);
+  }
+  .surf-text {
+    font-family: var(--surf-font-body);
+    font-size: var(--surf-type-body-size);
+    line-height: var(--surf-type-body-leading);
+    font-weight: var(--surf-weight-regular);
+    color: var(--surf-ink);
+  }
+  .surf-text[data-variant='reading'] {
+    font-size: var(--surf-type-reading-size);
+    line-height: var(--surf-type-reading-leading);
+    letter-spacing: var(--surf-type-reading-tracking);
+  }
+  .surf-text[data-variant='caption'] {
+    font-size: var(--surf-type-caption-size);
+    line-height: var(--surf-type-caption-leading);
+    letter-spacing: var(--surf-type-caption-tracking);
+  }
+  .surf-text[data-variant='table'] {
+    font-size: var(--surf-type-compact-size);
+    line-height: var(--surf-type-compact-leading);
+    letter-spacing: var(--surf-type-compact-tracking);
+    font-variant-numeric: tabular-nums;
+  }
+  .surf-text[data-variant='mono'] {
+    font-family: var(--surf-font-code);
+    font-variant-ligatures: none;
+    font-size: var(--surf-type-code-size);
+    line-height: var(--surf-type-code-leading);
+    letter-spacing: var(--surf-tracking-mono);
+  }
+  .surf-text[data-variant='metric'] {
+    font-family: var(--surf-font-display);
+    font-size: var(--surf-type-metric-size);
+    line-height: var(--surf-type-metric-leading);
+    letter-spacing: var(--surf-type-metric-tracking);
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--surf-weight-medium);
+  }
+  .surf-text[data-weight='medium'] {
+    font-weight: var(--surf-weight-medium);
+  }
+  .surf-text[data-color='secondary'] {
+    color: var(--surf-ink-body);
+  }
+  .surf-text[data-color='muted'] {
+    color: var(--surf-ink-muted);
+  }
+  .surf-text strong {
+    font-weight: var(--surf-weight-medium);
+  }
+  .surf-prose {
+    max-width: var(--surf-layout-reading);
+    font: var(--surf-weight-regular)
+      var(--surf-type-reading-size)/var(--surf-type-reading-leading)
+      var(--surf-font-body);
+    color: var(--surf-ink-body);
+    overflow-wrap: anywhere;
+  }
+  .surf-prose > * {
+    margin-block: 0 var(--surf-space-4);
+  }
+  /* Text blocks keep the reading measure, however deep in sections; tables, code and
+   * images use the full width, and components inside prose lay out their own text. */
+  .surf-prose :is(p, ul, ol, blockquote):not(.surf-prose [class*='surf-'] *) {
+    max-inline-size: var(--surf-layout-reading-measure);
+  }
+  .surf-prose > :last-child {
+    margin-bottom: 0;
+  }
+  .surf-prose :is(h2, h3, h4) {
+    font-family: var(--surf-font-display);
+    font-weight: var(--surf-weight-medium);
+    color: var(--surf-ink);
+    margin-block: var(--surf-space-8) var(--surf-space-3);
+  }
+  .surf-prose h2 {
+    font-size: var(--surf-type-page-size);
+    line-height: var(--surf-type-page-leading);
+    letter-spacing: var(--surf-type-page-tracking);
+  }
+  .surf-prose h3 {
+    font-size: var(--surf-type-section-size);
+    line-height: var(--surf-type-section-leading);
+    letter-spacing: var(--surf-type-section-tracking);
+  }
+  .surf-prose h4 {
+    font-family: var(--surf-font-body);
+    font-size: var(--surf-type-subsection-size);
+    line-height: var(--surf-type-subsection-leading);
+    letter-spacing: var(--surf-type-subsection-tracking);
+  }
+  .surf-prose strong {
+    font-weight: var(--surf-weight-medium);
+  }
+  .surf-prose code {
+    font-family: var(--surf-font-code);
+    font-variant-ligatures: none;
+    font-size: 0.875em;
+    background: var(--surf-code-bg);
+    border-radius: var(--surf-radius-sm);
+    padding: 2px 4px;
+  }
+  .surf-prose pre {
+    max-width: 100%;
+    overflow: auto;
+    padding: var(--surf-space-4);
+    border-radius: var(--surf-radius-md);
+    background: var(--surf-code-bg);
+  }
+  .surf-prose pre code {
+    padding: 0;
+    white-space: pre;
+    overflow-wrap: normal;
+  }
+  .surf-prose a {
+    color: var(--surf-brand-ink);
+    text-underline-offset: 0.2em;
+  }
+  .surf-text[data-variant='label'] {
+    font-size: var(--surf-type-label-size);
+    line-height: var(--surf-type-label-leading);
+    letter-spacing: var(--surf-type-label-tracking);
+  }
+  /* Earlier page title sizes; both now render the display role. */
+  .surf-heading:is([data-size='workspace'], [data-size='document']) {
+    font-size: var(--surf-type-display-size);
+    line-height: var(--surf-type-display-leading);
+    letter-spacing: var(--surf-type-display-tracking);
+  }
+  .surf-text {
+    letter-spacing: var(--surf-type-body-tracking);
+  }
+  .surf-prose {
+    letter-spacing: var(--surf-type-reading-tracking);
+  }
+  .surf-text[data-variant='mono'],
+  .surf-prose code {
+    letter-spacing: var(--surf-tracking-mono);
+  }
+  /* Reapply after any font shorthand: shorthand resets inherited kerning. */
+  .surf-heading,
+  .surf-text,
+  .surf-prose,
+  .surf-prose code,
+  .surf-prose pre {
+    font-kerning: normal;
+    font-optical-sizing: auto;
+    font-synthesis-weight: none;
+  }
+}

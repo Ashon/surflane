@@ -4,7 +4,7 @@
 @layer surflane.tokens, surflane.themes, surflane.base, surflane.components, surflane.sizes;
 @import '@surflane/design-tokens/tokens.css';
 @import '@surflane/design-tokens/motion.css';
-@import '@surflane/design-tokens/controls.css';
-@import '@surflane/design-tokens/foundations.css';
-@import '@surflane/design-tokens/typography.css';
+@import '@surflane/css/controls.css';
+@import '@surflane/css/foundations.css';
+@import '@surflane/css/typography.css';
 @import './styles.css';

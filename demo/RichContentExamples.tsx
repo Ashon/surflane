@@ -19,7 +19,7 @@ export function RunAction() {
   return <Button disabled={count === 0}>Deploy service</Button>
 }
 `,
-  css: '.workspace {\n  color: var(--ink-body);\n  padding: 24px;\n  background: var(--canvas);\n}\n',
+  css: '.workspace {\n  color: var(--surf-ink-body);\n  padding: 24px;\n  background: var(--surf-canvas);\n}\n',
   yaml: 'name: platform-api\nenvironment: staging\nretries: 3\nenabled: true\n# Keep credentials outside source control.\n',
   json: '{\n  "name": "Platform workspace",\n  "available": true,\n  "environments": ["staging", "production"]\n}\n',
   bash: '# Inspect the local example\nnpm run build:catalog\nprintf "%s\\n" "Build complete"\n',

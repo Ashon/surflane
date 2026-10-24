@@ -9,7 +9,12 @@ const read = (page: Page, selector: string, names: string[]) =>
     },
     [selector, names] as const,
   )
-const names = ['--canvas', '--ink', '--surface', '--control-hover-background']
+const names = [
+  '--surf-canvas',
+  '--surf-ink',
+  '--surf-surface',
+  '--surf-control-hover-background',
+]
 
 test('data-theme on any element re-themes its subtree, including alias tokens', async ({
   page,

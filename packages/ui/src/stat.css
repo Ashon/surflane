@@ -8,55 +8,55 @@
 @layer surflane.components {
   /* The label and caption take their own lines; the value and its change share one,
      on a common baseline. */
-  .pui-stat {
+  .surf-stat {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    gap: var(--space-1) var(--space-2);
+    gap: var(--surf-space-1) var(--surf-space-2);
     min-width: 0;
     margin: 0;
   }
-  .pui-stat > :where(dt, dd) {
+  .surf-stat > :where(dt, dd) {
     margin: 0;
   }
-  .pui-stat-label {
+  .surf-stat-label {
     flex: 1 0 100%;
-    color: var(--ink-muted);
-    font-size: var(--type-label-size);
-    line-height: var(--type-label-leading);
-    letter-spacing: var(--type-label-tracking);
+    color: var(--surf-ink-muted);
+    font-size: var(--surf-type-label-size);
+    line-height: var(--surf-type-label-leading);
+    letter-spacing: var(--surf-type-label-tracking);
   }
-  .pui-stat-value {
-    color: var(--ink);
-    font-family: var(--font-display);
-    font-size: var(--type-metric-size);
-    line-height: var(--type-metric-leading);
-    letter-spacing: var(--type-metric-tracking);
-    font-weight: var(--weight-medium);
+  .surf-stat-value {
+    color: var(--surf-ink);
+    font-family: var(--surf-font-display);
+    font-size: var(--surf-type-metric-size);
+    line-height: var(--surf-type-metric-leading);
+    letter-spacing: var(--surf-type-metric-tracking);
+    font-weight: var(--surf-weight-medium);
     font-variant-numeric: tabular-nums;
   }
-  .pui-stat-change {
+  .surf-stat-change {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-1);
-    color: var(--trend-flat-fg);
-    font-size: var(--type-label-size);
-    line-height: var(--type-label-leading);
-    letter-spacing: var(--type-label-tracking);
-    font-weight: var(--weight-medium);
+    gap: var(--surf-space-1);
+    color: var(--surf-trend-flat-fg);
+    font-size: var(--surf-type-label-size);
+    line-height: var(--surf-type-label-leading);
+    letter-spacing: var(--surf-type-label-tracking);
+    font-weight: var(--surf-weight-medium);
     font-variant-numeric: tabular-nums;
   }
-  .pui-stat-change[data-tone='up'] {
-    color: var(--trend-up-fg);
+  .surf-stat-change[data-tone='up'] {
+    color: var(--surf-trend-up-fg);
   }
-  .pui-stat-change[data-tone='down'] {
-    color: var(--trend-down-fg);
+  .surf-stat-change[data-tone='down'] {
+    color: var(--surf-trend-down-fg);
   }
-  .pui-stat-caption {
+  .surf-stat-caption {
     flex: 1 0 100%;
-    color: var(--ink-muted);
-    font-size: var(--type-caption-size);
-    line-height: var(--type-caption-leading);
-    letter-spacing: var(--type-caption-tracking);
+    color: var(--surf-ink-muted);
+    font-size: var(--surf-type-caption-size);
+    line-height: var(--surf-type-caption-leading);
+    letter-spacing: var(--surf-type-caption-tracking);
   }
 }

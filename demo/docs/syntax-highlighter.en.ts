@@ -13,11 +13,11 @@ export const doc: ComponentDoc = {
   keyboard:
     'The source keeps native text selection and copying. It scrolls horizontally in a ScrollArea. Setting wrap breaks lines visually without changing the source. Colors meet at least 4.5:1 in both themes and use the system text color in forced colors mode.',
   tokens: [
-    '--code-bg',
-    '--font-code',
-    '--syntax-keyword',
-    '--syntax-string',
-    '--syntax-comment',
+    '--surf-code-bg',
+    '--surf-font-code',
+    '--surf-syntax-keyword',
+    '--surf-syntax-string',
+    '--surf-syntax-comment',
   ],
   code: `// Highlighting needs shiki: npm install shiki
 import { SyntaxHighlighter, CodeBlock } from '@surflane/ui'

@@ -60,7 +60,7 @@ for (const { theme, token } of mappings) {
   else throw new Error(`No expectation for ${theme}`)
 }
 const browserUtilities = [
-  'pui-button',
+  'surf-button',
   'px-8',
   'rounded-sheet',
   'text-ink-muted',
@@ -110,7 +110,9 @@ const { css } =
 @import '@surflane/ui/all.css' layer(components);
 @import '@surflane/design-tokens/shadcn.css' layer(components);
 @import '@surflane/design-tokens/tailwind.css';`)
-const violet = createTheme({ accent: accentPresets.violet }).light['--brand']
+const violet = createTheme({ accent: accentPresets.violet }).light[
+  '--surf-brand'
+]
 // Each stylesheet arrives once: Tailwind keeps duplicate imports, so a nested import
 // graph would multiply the output.
 assert(
@@ -124,10 +126,10 @@ try {
   await page.setContent(`<!doctype html>
 <html data-theme="light"><head><style>${css}</style>
 <style>.app-padding { padding-inline: 2px }</style></head>
-<body class="pui-typography">
-  <button id="button" class="pui-button px-8 rounded-sheet" data-variant="primary">Run</button>
-  <button id="plain" class="pui-button" data-variant="primary">Plain</button>
-  <button id="app" class="pui-button app-padding">App</button>
+<body class="surf-typography">
+  <button id="button" class="surf-button px-8 rounded-sheet" data-variant="primary">Run</button>
+  <button id="plain" class="surf-button" data-variant="primary">Plain</button>
+  <button id="app" class="surf-button app-padding">App</button>
   <i id="violet" style="color: ${violet}"></i>
   <i id="primary" style="color: var(--primary)"></i>
   <p id="text" class="text-ink-muted text-title font-display">Title</p>
@@ -135,8 +137,8 @@ try {
     <div data-theme="light"><span id="island" class="dark:bg-surface">Light island</span></div>
   </div>
   <span id="light" class="dark:bg-surface">Light</span>
-  <i id="tokens" style="color: var(--ink-muted); border-radius: var(--radius-sheet); font-size: var(--type-title-size)"></i>
-  <div data-theme="dark"><i id="surface" style="background: var(--surface)"></i></div>
+  <i id="tokens" style="color: var(--surf-ink-muted); border-radius: var(--surf-radius-sheet); font-size: var(--surf-type-title-size)"></i>
+  <div data-theme="dark"><i id="surface" style="background: var(--surf-surface)"></i></div>
 </body></html>`)
   const style = (id, property) =>
     page.$eval(
@@ -148,32 +150,32 @@ try {
   assert.equal(
     await style('button', 'paddingLeft'),
     '32px',
-    'px-8 overrides .pui-button',
+    'px-8 overrides .surf-button',
   )
   // Surflane in the components layer overrides Preflight's button reset in base.
   assert.notEqual(
     await style('plain', 'paddingLeft'),
     '0px',
-    '.pui-button overrides Preflight',
+    '.surf-button overrides Preflight',
   )
   // A theme preset overrides the tokens, whichever loads first.
   const brand = await style('violet', 'color')
   assert.equal(
     await style('plain', 'backgroundColor'),
     brand,
-    'the accent preset sets --brand',
+    'the accent preset sets --surf-brand',
   )
   assert.equal(await style('primary', 'color'), brand, 'shadcn --primary')
   // Unlayered application CSS overrides every layer.
   assert.equal(
     await style('app', 'paddingLeft'),
     '2px',
-    'unlayered CSS overrides .pui-button',
+    'unlayered CSS overrides .surf-button',
   )
   assert.equal(
     await style('button', 'borderTopLeftRadius'),
     await style('tokens', 'borderTopLeftRadius'),
-    'rounded-sheet uses --radius-sheet',
+    'rounded-sheet uses --surf-radius-sheet',
   )
   assert.equal(
     await style('text', 'color'),

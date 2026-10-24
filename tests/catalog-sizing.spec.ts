@@ -49,9 +49,9 @@ test('forms stay bounded and section descriptions stop at the reading measure', 
   })
   expect((await form.boundingBox())!.width).toBe(640)
   const gap = await form.evaluate((element) => {
-    const field = element.querySelector('.pui-field')!.getBoundingClientRect()
+    const field = element.querySelector('.surf-field')!.getBoundingClientRect()
     const actions = element
-      .querySelector('.pui-inline')!
+      .querySelector('.surf-inline')!
       .getBoundingClientRect()
     return actions.top - field.bottom
   })

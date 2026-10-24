@@ -6,27 +6,27 @@ import { part } from './parts.js'
 const FieldRoot = /* @__PURE__ */ part<
   React.ComponentRef<typeof BaseField.Root>,
   React.ComponentPropsWithoutRef<typeof BaseField.Root>
->(BaseField.Root, 'pui-field')
+>(BaseField.Root, 'surf-field')
 const FieldLabel = /* @__PURE__ */ part<
   React.ComponentRef<typeof BaseField.Label>,
   React.ComponentPropsWithoutRef<typeof BaseField.Label>
->(BaseField.Label, 'pui-field-label')
+>(BaseField.Label, 'surf-field-label')
 const FieldControl = /* @__PURE__ */ part<
   React.ComponentRef<typeof BaseField.Control>,
   React.ComponentPropsWithoutRef<typeof BaseField.Control>
->(BaseField.Control, 'pui-input')
+>(BaseField.Control, 'surf-input')
 const FieldDescription = /* @__PURE__ */ part<
   React.ComponentRef<typeof BaseField.Description>,
   React.ComponentPropsWithoutRef<typeof BaseField.Description>
->(BaseField.Description, 'pui-field-description')
+>(BaseField.Description, 'surf-field-description')
 const FieldError = /* @__PURE__ */ part<
   React.ComponentRef<typeof BaseField.Error>,
   React.ComponentPropsWithoutRef<typeof BaseField.Error>
->(BaseField.Error, 'pui-field-error')
+>(BaseField.Error, 'surf-field-error')
 const FieldItem = /* @__PURE__ */ part<
   React.ComponentRef<typeof BaseField.Item>,
   React.ComponentPropsWithoutRef<typeof BaseField.Item>
->(BaseField.Item, 'pui-field-item')
+>(BaseField.Item, 'surf-field-item')
 export const Field = {
   ...BaseField,
   Root: FieldRoot,

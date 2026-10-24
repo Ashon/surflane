@@ -26,13 +26,13 @@ export const doc: ComponentDoc = {
     'The table keeps native semantics with scope=col and scope=row. Only the sorted column has aria-sort, and sort buttons are disabled while the table has no rows.',
   ],
   tokens: [
-    '--space-2',
-    '--space-4',
-    '--ink-body',
-    '--selected',
-    '--control-focus',
-    '--interaction-hover-bg',
-    '--scrollbar-thumb',
+    '--surf-space-2',
+    '--surf-space-4',
+    '--surf-ink-body',
+    '--surf-selected',
+    '--surf-control-focus',
+    '--surf-interaction-hover-bg',
+    '--surf-scrollbar-thumb',
   ],
   code: `import { Table, Checkbox, Pagination, useTableSelection } from '@surflane/ui'
 

@@ -25,24 +25,19 @@ export type PaginationProps = CommonPaginationProps &
     | { getPageHref: (page: number) => string; onPageChange?: never }
     | { getPageHref?: never; onPageChange: (page: number) => void }
   )
-export const Pagination = /* @__PURE__ */ React.forwardRef<
-  HTMLElement,
-  PaginationProps
->(function Pagination(
-  {
-    page,
-    pageCount,
-    siblings = 1,
-    disabled = false,
-    labels,
-    getPageHref,
-    onPageChange,
-    className,
-    'aria-label': ariaLabel = 'Pagination',
-    ...props
-  },
+export const Pagination = function Pagination({
+  page,
+  pageCount,
+  siblings = 1,
+  disabled = false,
+  labels,
+  getPageHref,
+  onPageChange,
+  className,
+  'aria-label': ariaLabel = 'Pagination',
   ref,
-) {
+  ...props
+}: PaginationProps & { ref?: React.Ref<HTMLElement> }) {
   const count = Number.isFinite(pageCount)
     ? Math.min(Number.MAX_SAFE_INTEGER, Math.max(0, Math.floor(pageCount)))
     : 0
@@ -77,7 +72,7 @@ export const Pagination = /* @__PURE__ */ React.forwardRef<
     const currentPage =
       !boundary && target === current && typeof children === 'number'
     const attributes = {
-      className: 'pui-pagination-control',
+      className: 'surf-pagination-control',
       'aria-label': name,
       'aria-current': currentPage ? ('page' as const) : undefined,
     }
@@ -112,29 +107,29 @@ export const Pagination = /* @__PURE__ */ React.forwardRef<
       {...props}
       ref={ref}
       aria-label={ariaLabel}
-      className={cx('pui-pagination', className)}
+      className={cx('surf-pagination', className)}
     >
       {control(
         Math.max(1, current - 1),
         labels?.previous ?? 'Previous page',
         <>
-          <Icon name='chevron-back' className='pui-pagination-arrow' />
+          <Icon name='chevron-back' className='surf-pagination-arrow' />
           <span>{labels?.previous ?? 'Previous page'}</span>
         </>,
         current === 1,
       )}
-      <span className='pui-pagination-summary'>
+      <span className='surf-pagination-summary'>
         {labels?.summary?.(current, count) ?? `Page ${current} of ${count}`}
       </span>
-      <ul role='list' className='pui-pagination-list'>
+      <ul role='list' className='surf-pagination-list'>
         {items.map((item) => (
           <li key={item}>
             {typeof item === 'number' ? (
               control(item, labels?.page?.(item) ?? `Page ${item}`, item)
             ) : (
-              <span className='pui-pagination-gap'>
+              <span className='surf-pagination-gap'>
                 <Icon name='more' />
-                <span className='pui-feedback-sr'>
+                <span className='surf-feedback-sr'>
                   {labels?.more ?? 'More pages'}
                 </span>
               </span>
@@ -147,10 +142,10 @@ export const Pagination = /* @__PURE__ */ React.forwardRef<
         labels?.next ?? 'Next page',
         <>
           <span>{labels?.next ?? 'Next page'}</span>
-          <Icon name='chevron-forward' className='pui-pagination-arrow' />
+          <Icon name='chevron-forward' className='surf-pagination-arrow' />
         </>,
         current === count,
       )}
     </nav>
   )
-})
+}

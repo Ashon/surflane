@@ -23,12 +23,12 @@ export const doc: ComponentDoc = {
   anatomy:
     'Trigger / scoped shortcut → Dialog(Title, Description) → Combobox.Input → result count + ScrollArea(Empty, List, disabled/planned Item) → route or local command',
   tokens: [
-    '--space-3',
-    '--space-4',
-    '--ink-muted',
-    '--canvas',
-    '--control-focus',
-    '--selected',
+    '--surf-space-3',
+    '--surf-space-4',
+    '--surf-ink-muted',
+    '--surf-canvas',
+    '--surf-control-focus',
+    '--surf-selected',
   ],
   code: `import { Combobox, Dialog, ScrollArea } from '@surflane/ui'
 

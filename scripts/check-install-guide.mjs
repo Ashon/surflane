@@ -155,7 +155,7 @@ for (const name of selected)
     )
 const tarballs = tarballDir
   ? readdirSync(tarballDir)
-      .filter((file) => /^surflane-(design-tokens|ui)-.+\.tgz$/.test(file))
+      .filter((file) => /^surflane-(design-tokens|css|ui)-.+\.tgz$/.test(file))
       .map((file) => resolve(tarballDir, file))
   : [
       ...execFileSync('node', ['scripts/distribute.mjs', '--pack-only'], {
@@ -230,11 +230,11 @@ async function check(browser, url, setup) {
     const state = await page.evaluate(async () => {
       await document.fonts.ready
       const probe = document.body.appendChild(document.createElement('i'))
-      probe.style.color = 'var(--brand)'
+      probe.style.color = 'var(--surf-brand)'
       const brand = getComputedStyle(probe).color
       probe.remove()
       const button = document.querySelector(
-        '.pui-button[data-variant="primary"]',
+        '.surf-button[data-variant="primary"]',
       )
       return {
         parsed: window.parsedTheme,
@@ -264,7 +264,7 @@ async function check(browser, url, setup) {
     }
     if (setup.extras.includes('highlighting'))
       await page
-        .locator('.pui-syntax[data-highlighted="true"]')
+        .locator('.surf-syntax[data-highlighted="true"]')
         .waitFor({ timeout: 10000 })
         .catch(() => {
           throw new Error('The code block was not highlighted')

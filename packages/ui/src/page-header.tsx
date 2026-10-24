@@ -1,6 +1,5 @@
-'use client'
 import * as React from 'react'
-import { cx } from './parts.js'
+import { cx } from './class-names.js'
 import { Heading, Text } from './typography.js'
 
 export function PageHeader({
@@ -30,26 +29,26 @@ export function PageHeader({
   size?: 'title' | 'page' | 'workspace' | 'document'
 }) {
   return (
-    <Root {...props} className={cx('pui-page-header', className)}>
+    <Root {...props} className={cx('surf-page-header', className)}>
       {breadcrumb != null && breadcrumb !== false && breadcrumb !== '' && (
-        <div className='pui-page-header-breadcrumb'>{breadcrumb}</div>
+        <div className='surf-page-header-breadcrumb'>{breadcrumb}</div>
       )}
-      <div className='pui-page-header-content'>
-        <div className='pui-page-header-copy'>
+      <div className='surf-page-header-content'>
+        <div className='surf-page-header-copy'>
           <Heading {...headingProps} level={level} size={size}>
             {title}
           </Heading>
           {description != null &&
             description !== false &&
             description !== '' && (
-              <Text color='secondary' className='pui-page-header-description'>
+              <Text color='secondary' className='surf-page-header-description'>
                 {description}
               </Text>
             )}
         </div>
         {actions != null && actions !== false && actions !== '' && (
           <div
-            className='pui-page-header-actions'
+            className='surf-page-header-actions'
             role={actionsLabel ? 'group' : undefined}
             aria-label={actionsLabel}
           >

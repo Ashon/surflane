@@ -17,7 +17,8 @@ const en = {
   rememberHint: "Saves the reader's light or dark choice. Off, always light.",
   step: (n: number, title: string) => `${n}. ${title}`,
   installTitle: 'Install',
-  installIntro: 'Both packages ship with the same version and need React 19.',
+  installIntro:
+    'The three Surflane packages ship with one version. Base UI is a peer, and everything needs React 19.',
   installLabel: 'Packages',
   extrasLabel: 'Extra components',
   extrasHint:
@@ -67,7 +68,7 @@ const en = {
     return (
       (framework === 'vite' ? '' : styles) +
       (!remember
-        ? '`data-theme` picks the theme before the first paint; `pui-typography` applies document typography.'
+        ? '`data-theme` picks the theme before the first paint; `surf-typography` applies document typography.'
         : framework === 'react-router'
           ? 'The root `loader` reads the saved theme, so the server renders it.'
           : framework === 'next'
@@ -88,7 +89,7 @@ const en = {
   },
   appShellTitle: 'With AppShell',
   appShellIntro:
-    "AppShell fills the window and its edge is square, so the document around it must not show: remove the browser's 8px body margin and paint the background in the shell's chrome. On a phone the page inside meets the screen's edges.",
+    "AppShell fills the window and its edge is square, so the document around it must not show: remove the browser's 8px body margin and paint the background in the shell's chrome. The shell takes its container's height, so give the window's height to the document and to the element your app renders into, #root here. On a phone the page inside meets the screen's edges.",
   appShellFile: 'Your global stylesheet',
   layersTitle: 'Your CSS and the layers',
   layerRules: {
@@ -140,7 +141,8 @@ export const text: Record<Locale, typeof en> = {
       '고른 라이트·다크 테마를 저장합니다. 끄면 항상 라이트 테마입니다.',
     step: (n: number, title: string) => `${n}. ${title}`,
     installTitle: '설치',
-    installIntro: '두 패키지는 같은 버전으로 배포되며 React 19가 필요합니다.',
+    installIntro:
+      'Surflane 패키지 세 개는 한 버전으로 함께 배포됩니다. Base UI는 피어 의존성이고, 모두 React 19가 필요합니다.',
     installLabel: '패키지',
     extrasLabel: '추가 컴포넌트',
     extrasHint:
@@ -190,7 +192,7 @@ export const text: Record<Locale, typeof en> = {
       return (
         (framework === 'vite' ? '' : styles) +
         (!remember
-          ? '`data-theme`이 첫 페인트 전에 테마를 정하고, `pui-typography`가 문서 타이포그래피를 적용합니다.'
+          ? '`data-theme`이 첫 페인트 전에 테마를 정하고, `surf-typography`가 문서 타이포그래피를 적용합니다.'
           : framework === 'react-router'
             ? '루트 `loader`가 저장된 테마를 읽으므로 서버가 그 테마로 렌더링합니다.'
             : framework === 'next'
@@ -211,7 +213,7 @@ export const text: Record<Locale, typeof en> = {
     },
     appShellTitle: 'AppShell을 쓸 때',
     appShellIntro:
-      'AppShell은 창 전체를 채우고 가장자리가 직각이므로, 그 바깥 문서가 보이면 안 됩니다. 브라우저의 기본 body 여백 8px를 없애고 배경을 셸의 크롬 색으로 칠하세요. 휴대폰에서는 안쪽 페이지가 화면 가장자리까지 닿습니다.',
+      'AppShell은 창 전체를 채우고 가장자리가 직각이므로, 그 바깥 문서가 보이면 안 됩니다. 브라우저의 기본 body 여백 8px를 없애고 배경을 셸의 크롬 색으로 칠하세요. 셸은 담는 요소의 높이를 따르므로, 문서와 앱을 그리는 요소(여기서는 #root)에 창 높이를 넘겨 주세요. 휴대폰에서는 안쪽 페이지가 화면 가장자리까지 닿습니다.',
     appShellFile: '전역 스타일시트',
     layersTitle: '앱 CSS와 레이어',
     layerRules: {

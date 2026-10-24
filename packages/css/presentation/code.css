@@ -1,0 +1,81 @@
+/* Presentation classes: Code block. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+
+@layer surflane.components {
+  /* Plain source display is also available to non-React consumers. */
+  .surf-code-block {
+    position: relative;
+    min-width: 0;
+    color: var(--surf-ink-body);
+  }
+  .surf-code-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--surf-space-3);
+    margin-bottom: var(--surf-space-3);
+  }
+  .surf-code-label {
+    display: inline-flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--surf-space-3);
+    font-weight: var(--surf-weight-medium);
+    overflow-wrap: anywhere;
+  }
+  .surf-code-language {
+    color: var(--surf-ink-muted);
+    font: var(--surf-weight-regular)
+      var(--surf-type-caption-size)/var(--surf-type-caption-leading)
+      var(--surf-font-code);
+    letter-spacing: var(--surf-tracking-mono);
+  }
+  .surf-code-block > :is(.surf-scroll-root, .surf-code-scroll) {
+    background: var(--surf-code-bg);
+    border-radius: var(--surf-radius-md);
+  }
+  .surf-code-text {
+    margin: 0;
+    padding: var(--surf-space-4);
+    font: var(--surf-weight-regular)
+      var(--surf-type-code-size)/var(--surf-type-code-leading)
+      var(--surf-font-code);
+    letter-spacing: var(--surf-tracking-mono);
+    font-variant-ligatures: none;
+    white-space: pre;
+    overflow-wrap: normal;
+    tab-size: 2;
+  }
+  .surf-code-text code {
+    font: inherit;
+  }
+  .surf-code-block[data-wrap] .surf-code-text {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+  /* Copy results stay inside the button. */
+  .surf-code-copy[data-copy-state='copied'] {
+    color: var(--surf-status-success-fg);
+  }
+  .surf-code-copy[data-copy-state='failed'] {
+    color: var(--surf-status-danger-fg);
+  }
+  /* The result fades in where the action was, and the action fades back. */
+  .surf-code-copy[data-copy-used]
+    :is(.surf-code-copy-icon, .surf-code-copy-label) {
+    animation: surf-copy-fade var(--surf-duration-base) var(--surf-ease-out);
+  }
+  @keyframes surf-copy-fade {
+    from {
+      opacity: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .surf-code-copy[data-copy-used]
+      :is(.surf-code-copy-icon, .surf-code-copy-label) {
+      animation: none;
+    }
+  }
+}

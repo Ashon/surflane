@@ -1,10 +1,10 @@
 import type { ComponentDoc } from '../componentDocs'
 const selection = [
-  '--control-choice-size',
-  '--control-choice-border',
-  '--control-choice-selected-bg',
-  '--control-choice-selected-fg',
-  '--interaction-focus',
+  '--surf-control-choice-size',
+  '--surf-control-choice-border',
+  '--surf-control-choice-selected-bg',
+  '--surf-control-choice-selected-fg',
+  '--surf-interaction-focus',
 ]
 export const doc: ComponentDoc = {
   usage:
@@ -16,9 +16,9 @@ export const doc: ComponentDoc = {
   anatomy: 'ChoiceLabel(control) → Switch.Root + Thumb + stable label',
   tokens: [
     ...selection,
-    '--control-switch-width',
-    '--control-switch-height',
-    '--control-switch-thumb',
+    '--surf-control-switch-width',
+    '--surf-control-switch-height',
+    '--surf-control-switch-thumb',
   ],
   code: `import { ChoiceLabel, Switch } from '@surflane/ui'
 

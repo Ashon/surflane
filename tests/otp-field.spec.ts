@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 test.use({ reducedMotion: 'reduce' })
 const inputs = (page: import('@playwright/test').Page, index = 0) =>
-  page.locator('.pui-otp-field').nth(index).locator('input.pui-otp-input')
+  page.locator('.surf-otp-field').nth(index).locator('input.surf-otp-input')
 async function paste(input: import('@playwright/test').Locator, text: string) {
   await input.focus()
   await input.evaluate((el, text) => {
@@ -163,10 +163,10 @@ test('Required and server errors label the group and invalid slots; reissue clea
   await page
     .getByRole('button', { name: 'Verify preview', exact: true })
     .click()
-  const error = page.locator('#preview .pui-field-error').first()
+  const error = page.locator('#preview .surf-field-error').first()
   await expect(error).toContainText('This example code was rejected')
   const errorId = await error.getAttribute('id')
-  await expect(page.locator('.pui-otp-field').first()).toHaveAttribute(
+  await expect(page.locator('.surf-otp-field').first()).toHaveAttribute(
     'aria-describedby',
     new RegExp(errorId!),
   )
@@ -218,7 +218,7 @@ for (const theme of ['light', 'dark'])
     ).toBe(true)
     // The field never outgrows its container; its inputs shrink to fit instead.
     const fit = await page
-      .locator('.pui-otp-field')
+      .locator('.surf-otp-field')
       .first()
       .evaluate((field) => {
         const own = field.getBoundingClientRect(),

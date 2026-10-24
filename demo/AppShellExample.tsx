@@ -70,8 +70,13 @@ export function AppShellExample({
   useLayoutEffect(() => {
     contentViewport.current?.scrollTo({ top: 0 })
   }, [view, account])
+  // The sidebar names its links with the visible group label; the sheet titles itself.
   const links = (panel = false) => (
-    <nav aria-label={panel ? t.mobileNavAria : t.navAria}>
+    <AppShell.Nav
+      {...(panel
+        ? { 'aria-label': t.mobileNavAria }
+        : { label: t.workspaceGroup })}
+    >
       {[
         ...destinations,
         ...(longNavigation
@@ -104,24 +109,17 @@ export function AppShellExample({
             }}
           />
         ))}
-    </nav>
+    </AppShell.Nav>
   )
+  // The account row is a Link row rendered as the menu's trigger.
   const accountMenu = (
     <Menu.Root>
-      <Menu.Trigger
-        render={
-          <Button
-            variant='ghost'
-            className='app-shell-account'
-            aria-label={t.accountMenuAria}
-          />
-        }
-      >
-        <span className='pui-app-shell-icon'>
-          <Icon name='info' decorative />
-        </span>
-        <AppShell.Label>{t.previewUser}</AppShell.Label>
-      </Menu.Trigger>
+      <AppShell.Link
+        render={<Menu.Trigger />}
+        icon={<Icon name='info' decorative />}
+        label={t.previewUser}
+        aria-label={t.accountMenuAria}
+      />
       <Menu.Portal>
         <Menu.Content>
           <Menu.Item
@@ -208,10 +206,10 @@ export function AppShellExample({
             className='app-shell-preview'
           >
             <AppShell.Header>
-              <div className='app-shell-mobile-brand'>
-                <Icon name='monitor' decorative />
-                <strong>{profile}</strong>
-              </div>
+              <AppShell.Brand
+                mark={<Icon name='monitor' decorative />}
+                name={profile}
+              />
               {/* The same bottom sheet as the catalog's own mobile menu. */}
               <Sheet.Root
                 side='bottom'
@@ -275,17 +273,11 @@ export function AppShellExample({
               </Sheet.Root>
             </AppShell.Header>
             <AppShell.Sidebar ref={sidebar} aria-label={t.sidebarAria}>
-              <div className='app-shell-brand' data-blueprint-guide>
-                <span className='app-shell-brand-mark'>
-                  <span className='catalog-brand-mark' aria-hidden='true' />
-                </span>
-                <AppShell.Label
-                  className='app-shell-brand-name'
-                  title={profile}
-                >
-                  {profile}
-                </AppShell.Label>
-              </div>
+              <AppShell.Brand
+                mark={<span className='catalog-brand-mark' />}
+                name={profile}
+                data-blueprint-guide
+              />
               <AppShell.SidebarToggle
                 labels={{
                   collapse: t.collapseSidebar,
@@ -297,12 +289,7 @@ export function AppShellExample({
                 label={t.destinationsLabel}
                 rootClassName='app-shell-menu-scroll'
               >
-                <div id={`${previewId}-navigation`}>
-                  <p className='app-shell-section-label'>
-                    <AppShell.Label>{t.workspaceGroup}</AppShell.Label>
-                  </p>
-                  {links()}
-                </div>
+                {links()}
               </ScrollArea>
               <AppShell.Footer>{accountMenu}</AppShell.Footer>
             </AppShell.Sidebar>

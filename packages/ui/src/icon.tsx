@@ -1,7 +1,6 @@
-'use client'
 import * as React from 'react'
-import { cx } from './parts.js'
-import type { ComponentSize } from './sizing.js'
+import { cx } from './class-names.js'
+import type { ComponentSize } from './size.js'
 const shapes = {
   search: (
     <>
@@ -147,34 +146,35 @@ export type IconProps = Omit<
 // The short spellings map by pixel size: sm was 16px, which is now the default.
 const iconSizes = { sm: 'default', md: 'large', lg: 'lg' } as const
 /** Static SVG only. Actions, focus, accessible button names and hit targets belong to the parent control. */
-export const Icon = /* @__PURE__ */ React.forwardRef<SVGSVGElement, IconProps>(
-  function Icon(
-    { name, size, decorative = true, label, className, ...props },
-    ref,
-  ) {
-    return (
-      <svg
-        {...props}
-        ref={ref}
-        className={cx('pui-icon', className)}
-        data-size={
-          size === 'sm' || size === 'md' || size === 'lg'
-            ? iconSizes[size]
-            : size
-        }
-        data-directional={directional.has(name) ? 'true' : undefined}
-        viewBox='0 0 24 24'
-        fill='none'
-        stroke='currentColor'
-        strokeLinecap='round'
-        strokeLinejoin='round'
-        focusable='false'
-        aria-hidden={decorative ? true : undefined}
-        role={decorative ? undefined : 'img'}
-        aria-label={decorative ? undefined : label}
-      >
-        {shapes[name]}
-      </svg>
-    )
-  },
-)
+export const Icon = function Icon({
+  name,
+  size,
+  decorative = true,
+  label,
+  className,
+  ref,
+  ...props
+}: IconProps & { ref?: React.Ref<SVGSVGElement> }) {
+  return (
+    <svg
+      {...props}
+      ref={ref}
+      className={cx('surf-icon', className)}
+      data-size={
+        size === 'sm' || size === 'md' || size === 'lg' ? iconSizes[size] : size
+      }
+      data-directional={directional.has(name) ? 'true' : undefined}
+      viewBox='0 0 24 24'
+      fill='none'
+      stroke='currentColor'
+      strokeLinecap='round'
+      strokeLinejoin='round'
+      focusable='false'
+      aria-hidden={decorative ? true : undefined}
+      role={decorative ? undefined : 'img'}
+      aria-label={decorative ? undefined : label}
+    >
+      {shapes[name]}
+    </svg>
+  )
+}

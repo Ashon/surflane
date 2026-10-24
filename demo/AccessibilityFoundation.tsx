@@ -59,8 +59,8 @@ export function AccessibilityFoundation() {
         <p>{t.keyboardOrder}</p>
         <p>
           {t.keyboardTargetStart}
-          <Link href='/tokens?q=--control-target-size'>
-            <code>--control-target-size</code>
+          <Link href='/tokens?q=--surf-control-target-size'>
+            <code>--surf-control-target-size</code>
           </Link>
           {t.keyboardTargetEnd}
         </p>

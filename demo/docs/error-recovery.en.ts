@@ -23,13 +23,13 @@ export const doc: ComponentDoc = {
     'Errors use role=alert. Progress and recovery results use status announcements.',
   ],
   tokens: [
-    '--space-3',
-    '--space-4',
-    '--status-danger-fg',
-    '--status-caution-bg',
-    '--status-success-bg',
-    '--ink-muted',
-    '--control-focus',
+    '--surf-space-3',
+    '--surf-space-4',
+    '--surf-status-danger-fg',
+    '--surf-status-caution-bg',
+    '--surf-status-success-bg',
+    '--surf-ink-muted',
+    '--surf-control-focus',
   ],
   code: `import { InlineMessage, Button, EmptyState } from '@surflane/ui'
 

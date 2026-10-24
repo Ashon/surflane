@@ -28,13 +28,13 @@ function PopoverContent({
         align={align}
         sideOffset={sideOffset}
         collisionPadding={collisionPadding}
-        className='pui-positioner'
+        className='surf-positioner'
       >
         <BasePopover.Popup
           data-ui-size={scheme}
           data-size={sizeName(size)}
           {...props}
-          className={skin('pui-popover', className)}
+          className={skin('surf-popover', className)}
         />
       </BasePopover.Positioner>
     </OwnPortal>
@@ -43,11 +43,11 @@ function PopoverContent({
 const PopoverTitle = /* @__PURE__ */ part<
   HTMLHeadingElement,
   React.ComponentPropsWithoutRef<typeof BasePopover.Title>
->(BasePopover.Title, 'pui-popover-title')
+>(BasePopover.Title, 'surf-popover-title')
 const PopoverDescription = /* @__PURE__ */ part<
   HTMLParagraphElement,
   React.ComponentPropsWithoutRef<typeof BasePopover.Description>
->(BasePopover.Description, 'pui-popover-description')
+>(BasePopover.Description, 'surf-popover-description')
 /** Content brings its own portal; Portal stays for wrapping it, or raw parts. */
 const PopoverPortal = /* @__PURE__ */ scopedPortal(BasePopover.Portal)
 export const Popover = {

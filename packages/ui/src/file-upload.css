@@ -10,10 +10,10 @@
 @import './badge.css';
 
 @layer surflane.components {
-  .pui-file-upload {
+  .surf-file-upload {
     min-width: 0;
   }
-  .pui-file-native {
+  .surf-file-native {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -26,68 +26,69 @@
   }
   /* One plane: the picker row, then a row per file. Rows meet at a line, and the
      plane keeps one inset on every edge. */
-  .pui-file-dropzone {
-    --file-inset: var(--space-5);
+  .surf-file-dropzone {
+    --surf-file-inset: var(--surf-space-5);
     display: flex;
     flex-direction: column;
-    padding-inline: var(--file-inset);
+    padding-inline: var(--surf-file-inset);
     border: 1px solid transparent;
-    border-radius: var(--radius-lg);
-    background: var(--surface);
-    transition: background-color var(--duration-fast) var(--ease-out);
+    border-radius: var(--surf-radius-lg);
+    background: var(--surf-surface);
+    transition: background-color var(--surf-duration-fast) var(--surf-ease-out);
   }
-  .pui-file-upload[data-dragging] .pui-file-dropzone {
-    background: var(--selected);
+  .surf-file-upload[data-dragging] .surf-file-dropzone {
+    background: var(--surf-selected);
   }
-  .pui-file-picker {
+  .surf-file-picker {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--space-3);
-    padding-block: var(--file-inset);
+    gap: var(--surf-space-3);
+    padding-block: var(--surf-file-inset);
   }
-  .pui-file-trigger {
+  .surf-file-trigger {
     flex-direction: row;
     width: fit-content;
     cursor: pointer;
-    font-size: var(--type-body-size);
-    letter-spacing: var(--type-body-tracking);
-    line-height: var(--type-body-leading);
+    font-size: var(--surf-type-body-size);
+    letter-spacing: var(--surf-type-body-tracking);
+    line-height: var(--surf-type-body-leading);
   }
-  .pui-file-trigger[data-disabled] {
-    opacity: var(--control-disabled-opacity);
+  .surf-file-trigger[data-disabled] {
+    opacity: var(--surf-control-disabled-opacity);
     cursor: not-allowed;
   }
-  .pui-file-upload:has(.pui-file-native:focus-visible) .pui-file-trigger {
-    outline: var(--focus-ring-width) solid var(--interaction-focus);
-    outline-offset: var(--focus-ring-offset);
+  .surf-file-upload:has(.surf-file-native:focus-visible) .surf-file-trigger {
+    outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+    outline-offset: var(--surf-focus-ring-offset);
   }
-  .pui-file-upload:has(.pui-file-native[aria-invalid='true'])
-    .pui-file-dropzone {
-    border-color: var(--status-danger-fg);
+  .surf-file-upload:has(.surf-file-native[aria-invalid='true'])
+    .surf-file-dropzone {
+    border-color: var(--surf-status-danger-fg);
   }
-  .pui-file-drop-hint {
+  .surf-file-drop-hint {
     margin: 0;
-    color: var(--ink-muted);
-    font-size: var(--type-compact-size);
-    line-height: var(--type-compact-leading);
-    letter-spacing: var(--type-compact-tracking);
+    color: var(--surf-ink-muted);
+    font-size: var(--surf-type-compact-size);
+    line-height: var(--surf-type-compact-leading);
+    letter-spacing: var(--surf-type-compact-tracking);
   }
-  .pui-file-errors {
-    color: var(--status-danger-fg);
-    font: var(--weight-regular)
-      var(--type-compact-size)/var(--type-compact-leading) var(--font-body);
-    letter-spacing: var(--type-compact-tracking);
+  .surf-file-errors {
+    color: var(--surf-status-danger-fg);
+    font: var(--surf-weight-regular)
+      var(--surf-type-compact-size)/var(--surf-type-compact-leading)
+      var(--surf-font-body);
+    letter-spacing: var(--surf-type-compact-tracking);
     overflow-wrap: anywhere;
   }
-  .pui-file-errors:empty {
+  .surf-file-errors:empty {
     display: none;
   }
-  .pui-file-errors ul {
+  .surf-file-errors ul {
     margin: 0;
-    padding-inline-start: var(--space-5);
+    padding-inline-start: var(--surf-space-5);
   }
-  .pui-file-list {
+  .surf-file-list {
     display: grid;
     list-style: none;
     padding: 0;
@@ -95,80 +96,80 @@
   }
   /* The file's details lead its row and its actions end it, wrapping below when the
      row is narrow. Progress and an upload error run under the whole row. */
-  .pui-file-item {
+  .surf-file-item {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--space-3) var(--space-4);
+    gap: var(--surf-space-3) var(--surf-space-4);
     min-width: 0;
-    padding-block: var(--space-3);
-    border-top: 1px solid var(--line);
+    padding-block: var(--surf-space-3);
+    border-top: 1px solid var(--surf-line);
   }
-  .pui-file-item:last-child {
-    padding-block-end: var(--file-inset);
+  .surf-file-item:last-child {
+    padding-block-end: var(--surf-file-inset);
   }
-  .pui-file-item > :not(.pui-file-info, .pui-file-actions) {
+  .surf-file-item > :not(.surf-file-info, .surf-file-actions) {
     flex-basis: 100%;
   }
-  .pui-file-info {
+  .surf-file-info {
     flex: 1 1 auto;
     min-width: 0;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--space-2) var(--space-3);
-    font-size: var(--type-compact-size);
-    line-height: var(--type-compact-leading);
-    letter-spacing: var(--type-compact-tracking);
+    gap: var(--surf-space-2) var(--surf-space-3);
+    font-size: var(--surf-type-compact-size);
+    line-height: var(--surf-type-compact-leading);
+    letter-spacing: var(--surf-type-compact-tracking);
   }
-  .pui-file-info > strong {
+  .surf-file-info > strong {
     min-width: 0;
     max-width: 100%;
     overflow-wrap: anywhere;
-    font-weight: var(--weight-medium);
+    font-weight: var(--surf-weight-medium);
   }
-  .pui-file-info > span:not(.pui-badge) {
-    color: var(--ink-muted);
+  .surf-file-info > span:not(.surf-badge) {
+    color: var(--surf-ink-muted);
   }
-  .pui-file-actions {
+  .surf-file-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-2);
+    gap: var(--surf-space-2);
   }
-  .pui-file-upload-error {
+  .surf-file-upload-error {
     margin: 0;
-    color: var(--status-danger-fg);
-    font-size: var(--type-compact-size);
-    line-height: var(--type-compact-leading);
-    letter-spacing: var(--type-compact-tracking);
+    color: var(--surf-status-danger-fg);
+    font-size: var(--surf-type-compact-size);
+    line-height: var(--surf-type-compact-leading);
+    letter-spacing: var(--surf-type-compact-tracking);
   }
   @media (max-width: 760px), (pointer: coarse) {
-    .pui-file-trigger {
-      min-height: var(--control-target-size);
+    .surf-file-trigger {
+      min-height: var(--surf-control-target-size);
     }
   }
   @media (max-width: 760px) {
-    .pui-file-dropzone {
-      --file-inset: var(--space-4);
+    .surf-file-dropzone {
+      --surf-file-inset: var(--surf-space-4);
     }
   }
   @media (forced-colors: active) {
-    .pui-file-dropzone {
+    .surf-file-dropzone {
       border-color: ButtonText;
       background: Canvas;
     }
-    .pui-file-upload[data-dragging] .pui-file-dropzone {
+    .surf-file-upload[data-dragging] .surf-file-dropzone {
       border-color: Highlight;
     }
   }
   @media (prefers-reduced-motion: reduce) {
-    .pui-file-dropzone {
+    .surf-file-dropzone {
       transition: none;
     }
   }
 }
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *).pui-file-dropzone {
-    --file-inset: var(--ui-file-padding);
+  :where([data-ui-size], [data-ui-size] *).surf-file-dropzone {
+    --surf-file-inset: var(--surf-ui-file-padding);
   }
 }

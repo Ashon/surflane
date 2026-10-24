@@ -27,7 +27,7 @@ test('four sheet edges fit the viewport and restore focus after nested selection
       expect(box!.y).toBeGreaterThanOrEqual(0)
       expect(box!.x + box!.width).toBeLessThanOrEqual(width)
       expect(box!.y + box!.height).toBeLessThanOrEqual(850)
-      const body = panel.locator('.pui-panel-body')
+      const body = panel.locator('.surf-panel-body')
       expect(
         await body.evaluate((el) => el.scrollHeight > el.clientHeight),
       ).toBe(true)
@@ -138,7 +138,7 @@ test('panels share themes, remain accessible and dismiss on outside press', asyn
         ).toBe(
           await page.evaluate(() => {
             const probe = document.createElement('span')
-            probe.style.backgroundColor = 'var(--canvas)'
+            probe.style.backgroundColor = 'var(--surf-canvas)'
             document.body.append(probe)
             const color = getComputedStyle(probe).backgroundColor
             probe.remove()
@@ -161,7 +161,7 @@ test('drawer can be dragged closed and returns focus', async ({ page }) => {
   await trigger.click()
   const drawer = page.getByRole('dialog', { name: 'Prepare deployment' })
   await expect(drawer).toBeVisible()
-  const handle = drawer.locator('.pui-drawer-handle')
+  const handle = drawer.locator('.surf-drawer-handle')
   await handle.hover()
   const b = await handle.boundingBox()
   await page.mouse.move(b!.x + b!.width / 2, b!.y + 2)
@@ -194,7 +194,7 @@ test('mobile touch swipe dismisses the drawer', async ({ browser }) => {
           .map((animation) => animation.finished.catch(() => {})),
       ),
     )
-    const b = await drawer.locator('.pui-drawer-handle').boundingBox()
+    const b = await drawer.locator('.surf-drawer-handle').boundingBox()
     const client = await context.newCDPSession(page)
     const x = b!.x + b!.width / 2,
       y = b!.y + 2

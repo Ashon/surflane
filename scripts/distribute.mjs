@@ -17,10 +17,12 @@ if (process.argv.slice(2).some((arg) => arg !== '--pack-only'))
   throw new Error('Usage: node scripts/distribute.mjs [--pack-only]')
 const source = [
   'scripts/build-tokens.mjs',
-  ...readdirSync(resolve(root, 'packages/tokens'))
-    .filter((f) => /\.(css|svg|js|ts)$/.test(f))
-    .sort()
-    .map((f) => 'packages/tokens/' + f),
+  ...['tokens', 'css'].flatMap((name) =>
+    readdirSync(resolve(root, 'packages', name), { recursive: true })
+      .filter((f) => /\.(css|svg|js|ts)$/.test(f))
+      .sort()
+      .map((f) => `packages/${name}/${f}`),
+  ),
   ...readdirSync(resolve(root, 'packages/ui/src'))
     .sort()
     .map((f) => 'packages/ui/src/' + f),
@@ -29,7 +31,8 @@ const hash = createHash('sha256')
 for (const path of source)
   hash.update(path + '\0' + readFileSync(resolve(root, path), 'utf8') + '\0')
 const manifests = {}
-for (const name of ['tokens', 'ui']) {
+const names = ['tokens', 'css', 'ui']
+for (const name of names) {
   manifests[name] = JSON.parse(
     readFileSync(resolve(root, 'packages', name, 'package.json'), 'utf8'),
   )
@@ -45,7 +48,7 @@ const artifacts = resolve(root, 'artifacts')
 mkdirSync(artifacts, { recursive: true })
 const stage = mkdtempSync(join(tmpdir(), 'surflane-pack-'))
 try {
-  for (const name of ['tokens', 'ui']) {
+  for (const name of names) {
     const target = join(stage, name)
     cpSync(resolve(root, 'packages', name), target, {
       recursive: true,
@@ -54,11 +57,9 @@ try {
     const pkg = { ...manifests[name], version }
     // Build outputs are already staged; lifecycle scripts have no inputs here.
     delete pkg.scripts
-    if (pkg.peerDependencies?.['@surflane/design-tokens'])
-      pkg.peerDependencies = {
-        ...pkg.peerDependencies,
-        '@surflane/design-tokens': version,
-      }
+    for (const peerName of ['@surflane/design-tokens', '@surflane/css'])
+      if (pkg.peerDependencies?.[peerName])
+        pkg.peerDependencies = { ...pkg.peerDependencies, [peerName]: version }
     writeFileSync(
       join(target, 'package.json'),
       JSON.stringify(pkg, null, 2) + '\n',

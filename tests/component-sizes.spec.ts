@@ -364,8 +364,8 @@ test('sheet titles keep clear of the close button at every size', async ({
     const sheet = page.getByRole('dialog')
     await expect(sheet).toBeVisible()
     const { contentEnd, closeStart } = await sheet.evaluate((panel) => {
-      const header = panel.querySelector('.pui-panel-header')!
-      const close = panel.querySelector('.pui-panel-close')!
+      const header = panel.querySelector('.surf-panel-header')!
+      const close = panel.querySelector('.surf-panel-close')!
       const end =
         header.getBoundingClientRect().right -
         parseFloat(getComputedStyle(header).paddingInlineEnd)
@@ -392,7 +392,7 @@ test('select, popover and dialog portal contents retain size and keyboard behavi
       exact: true,
     })
     await trigger.click()
-    const popup = page.locator('.pui-select-popup')
+    const popup = page.locator('.surf-select-popup')
     await expect(popup).toHaveAttribute('data-ui-size', size)
     expect(
       (await page
@@ -407,13 +407,13 @@ test('select, popover and dialog portal contents retain size and keyboard behavi
   await page
     .getByRole('button', { name: 'Inspect account', exact: true })
     .click()
-  await expect(page.locator('.pui-popover')).toHaveAttribute(
+  await expect(page.locator('.surf-popover')).toHaveAttribute(
     'data-ui-size',
     'large',
   )
   expect(
     await page
-      .locator('.pui-popover')
+      .locator('.surf-popover')
       .evaluate((el) => getComputedStyle(el).padding),
   ).toBe('24px')
   expect(
@@ -513,7 +513,7 @@ for (const width of [1440, 320])
         ).violations,
       ).toEqual([])
       await page.emulateMedia({ forcedColors: 'active' })
-      const badge = page.locator('[data-size-specimen="small"] .pui-badge')
+      const badge = page.locator('[data-size-specimen="small"] .surf-badge')
       expect((await badge.boundingBox())!.height).toBe(22)
       await page.screenshot({
         path: `.data/component-sizes-${width}-${theme}.png`,
@@ -527,10 +527,10 @@ test('existing default gauge, upload and list insets keep their role-specific ba
 }) => {
   await page.setViewportSize({ width: 1440, height: 1000 })
   for (const [id, selector, property, expected] of [
-    ['progress', '.pui-gauge-track', 'height', [6, 8, 10]],
+    ['progress', '.surf-gauge-track', 'height', [6, 8, 10]],
     // The drop zone holds the picker and the file rows, which own the block inset.
-    ['file-upload', '.pui-file-dropzone', 'paddingLeft', [12, 20, 28]],
-    ['list', '.pui-list-item', 'paddingTop', [8, 12, 16]],
+    ['file-upload', '.surf-file-dropzone', 'paddingLeft', [12, 20, 28]],
+    ['list', '.surf-list-item', 'paddingTop', [8, 12, 16]],
   ] as const) {
     await open(page, id)
     for (const [index, size] of values.entries()) {
@@ -570,10 +570,12 @@ test('choice controls take an explicit size and otherwise the surrounding one', 
     ),
   ]
   const control = (id: string) =>
-    page.locator(`#${id} > :is(.pui-checkbox, .pui-switch)`).evaluate((el) => {
-      const box = el.getBoundingClientRect()
-      return { width: box.width, height: box.height }
-    })
+    page
+      .locator(`#${id} > :is(.surf-checkbox, .surf-switch)`)
+      .evaluate((el) => {
+        const box = el.getBoundingClientRect()
+        return { width: box.width, height: box.height }
+      })
   await mount(
     page,
     renderToStaticMarkup(

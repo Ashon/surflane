@@ -9,102 +9,104 @@
 
 @layer surflane.components {
   /* Date and time share the same field feedback and nested surface hierarchy. */
-  .pui-date-picker,
-  .pui-time-field {
+  .surf-date-picker,
+  .surf-time-field {
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
+    gap: var(--surf-space-2);
     min-width: 0;
     max-width: 100%;
   }
-  .pui-date-group {
+  .surf-date-group {
     display: flex;
     align-items: center;
     box-sizing: border-box;
-    min-height: var(--control-height);
-    gap: var(--space-2);
-    padding-inline: var(--control-padding-x) var(--space-1);
-    border: 1px solid var(--control-border);
-    border-radius: var(--control-radius);
-    background: var(--control-background);
-    color: var(--ink);
+    min-height: var(--surf-control-height);
+    gap: var(--surf-space-2);
+    padding-inline: var(--surf-control-padding-x) var(--surf-space-1);
+    border: 1px solid var(--surf-control-border);
+    border-radius: var(--surf-control-radius);
+    background: var(--surf-control-background);
+    color: var(--surf-ink);
     outline: none;
     transition:
-      background-color var(--duration-fast) var(--ease-out),
-      border-color var(--duration-fast) var(--ease-out),
-      box-shadow var(--duration-fast) var(--ease-out);
+      background-color var(--surf-duration-fast) var(--surf-ease-out),
+      border-color var(--surf-duration-fast) var(--surf-ease-out),
+      box-shadow var(--surf-duration-fast) var(--surf-ease-out);
   }
-  :is(.pui-date-picker, .pui-time-field):not([data-disabled], [data-readonly])
-    .pui-date-group:hover:not([data-focus-within], :focus-within) {
-    background: var(--control-hover-background);
-    border-color: var(--control-hover-border);
+  :is(.surf-date-picker, .surf-time-field):not([data-disabled], [data-readonly])
+    .surf-date-group:hover:not([data-focus-within], :focus-within) {
+    background: var(--surf-control-hover-background);
+    border-color: var(--surf-control-hover-border);
   }
-  .pui-date-group[data-focus-within],
-  .pui-date-group:focus-within {
-    background: var(--control-focus-background);
-    border-color: var(--control-focus);
-    box-shadow: 0 0 0 var(--control-focus-ring-size) var(--control-focus-ring);
+  .surf-date-group[data-focus-within],
+  .surf-date-group:focus-within {
+    background: var(--surf-control-focus-background);
+    border-color: var(--surf-control-focus);
+    box-shadow: 0 0 0 var(--surf-control-focus-ring-size)
+      var(--surf-control-focus-ring);
   }
   /* An invalid field keeps its edge while hovered; hover still tints the fill. */
-  :is(.pui-date-picker, .pui-time-field)[data-invalid] .pui-date-group,
-  :is(.pui-date-picker, .pui-time-field)[data-invalid]:not(
+  :is(.surf-date-picker, .surf-time-field)[data-invalid] .surf-date-group,
+  :is(.surf-date-picker, .surf-time-field)[data-invalid]:not(
       [data-disabled],
       [data-readonly]
     )
-    .pui-date-group:hover {
-    border-color: var(--status-danger-fg);
+    .surf-date-group:hover {
+    border-color: var(--surf-status-danger-fg);
   }
-  :is(.pui-date-picker, .pui-time-field)[data-disabled] {
-    opacity: var(--control-disabled-opacity);
+  :is(.surf-date-picker, .surf-time-field)[data-disabled] {
+    opacity: var(--surf-control-disabled-opacity);
   }
-  :is(.pui-date-picker, .pui-time-field)[data-disabled] .pui-date-group {
+  :is(.surf-date-picker, .surf-time-field)[data-disabled] .surf-date-group {
     cursor: not-allowed;
-    background: var(--control-disabled-background);
+    background: var(--surf-control-disabled-background);
   }
-  .pui-date-input {
+  .surf-date-input {
     display: flex;
     align-items: center;
     flex: 1;
     min-width: 0;
-    padding-block: var(--space-1);
-    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
-      var(--font-body);
+    padding-block: var(--surf-space-1);
+    font: var(--surf-weight-regular)
+      var(--surf-type-body-size)/var(--surf-type-body-leading)
+      var(--surf-font-body);
     white-space: nowrap;
   }
-  .pui-date-segment {
+  .surf-date-segment {
     font-variant-numeric: tabular-nums;
-    border-radius: calc(var(--radius-sm) * 2 / 3);
+    border-radius: calc(var(--surf-radius-sm) * 2 / 3);
     padding: 1px;
     outline: none;
   }
-  .pui-date-segment[data-type='literal'] {
+  .surf-date-segment[data-type='literal'] {
     padding: 0;
     white-space: pre;
   }
-  .pui-date-segment[data-placeholder] {
-    color: var(--control-placeholder);
+  .surf-date-segment[data-placeholder] {
+    color: var(--surf-control-placeholder);
   }
-  .pui-date-segment[data-focused] {
-    background: var(--selected);
-    color: var(--ink);
-    outline: 1px solid var(--control-focus);
+  .surf-date-segment[data-focused] {
+    background: var(--surf-selected);
+    color: var(--surf-ink);
+    outline: 1px solid var(--surf-control-focus);
   }
-  .pui-date-range-inputs {
+  .surf-date-range-inputs {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--space-1) var(--space-2);
+    gap: var(--surf-space-1) var(--surf-space-2);
     min-width: 0;
     flex: 1;
   }
-  .pui-date-range-inputs .pui-date-input {
+  .surf-date-range-inputs .surf-date-input {
     flex: 0 1 auto;
   }
-  .pui-date-range-separator {
-    color: var(--ink-muted);
+  .surf-date-range-separator {
+    color: var(--surf-ink-muted);
   }
-  .pui-date-trigger,
-  .pui-calendar-nav {
+  .surf-date-trigger,
+  .surf-calendar-nav {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -114,76 +116,80 @@
     min-width: 32px;
     padding: 0;
     border: 0;
-    border-radius: var(--radius-pill);
+    border-radius: var(--surf-radius-pill);
     background: transparent;
-    color: var(--ink);
+    color: var(--surf-ink);
     cursor: pointer;
     outline: none;
-    transition: background-color var(--duration-fast) var(--ease-out);
+    transition: background-color var(--surf-duration-fast) var(--surf-ease-out);
   }
-  :is(.pui-date-trigger, .pui-calendar-nav)[data-hovered]:not([data-disabled]) {
-    background: var(--selected);
+  :is(.surf-date-trigger, .surf-calendar-nav)[data-hovered]:not(
+      [data-disabled]
+    ) {
+    background: var(--surf-selected);
   }
-  :is(.pui-date-trigger, .pui-calendar-nav)[data-focus-visible] {
-    outline: var(--focus-ring-width) solid var(--interaction-focus);
-    outline-offset: var(--focus-ring-offset);
+  :is(.surf-date-trigger, .surf-calendar-nav)[data-focus-visible] {
+    outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+    outline-offset: var(--surf-focus-ring-offset);
   }
-  :is(.pui-date-trigger, .pui-calendar-nav)[data-disabled] {
-    opacity: var(--control-disabled-opacity);
+  :is(.surf-date-trigger, .surf-calendar-nav)[data-disabled] {
+    opacity: var(--surf-control-disabled-opacity);
     cursor: not-allowed;
   }
-  .pui-date-popover {
+  .surf-date-popover {
     box-sizing: border-box;
-    max-width: calc(100vw - var(--space-4));
+    max-width: calc(100vw - var(--surf-space-4));
     max-height: var(--available-height);
     overflow: auto;
     overscroll-behavior: contain;
-    padding: var(--space-2);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    background: var(--canvas);
-    color: var(--ink);
-    box-shadow: var(--shadow-float);
-    z-index: var(--layer-popup);
+    padding: var(--surf-space-2);
+    border: 1px solid var(--surf-line);
+    border-radius: var(--surf-radius-lg);
+    background: var(--surf-canvas);
+    color: var(--surf-ink);
+    box-shadow: var(--surf-shadow-float);
+    z-index: var(--surf-layer-popup);
   }
-  .pui-date-dialog {
+  .surf-date-dialog {
     outline: none;
   }
-  .pui-calendar {
+  .surf-calendar {
     width: 280px;
     max-width: 100%;
-    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
-      var(--font-body);
+    font: var(--surf-weight-regular)
+      var(--surf-type-body-size)/var(--surf-type-body-leading)
+      var(--surf-font-body);
   }
-  .pui-calendar-header {
+  .surf-calendar-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--space-1);
-    margin-bottom: var(--space-2);
+    gap: var(--surf-space-1);
+    margin-bottom: var(--surf-space-2);
   }
-  .pui-calendar-heading {
+  .surf-calendar-heading {
     margin: 0;
-    font: var(--weight-medium) var(--type-body-size)/var(--type-body-leading)
-      var(--font-body);
+    font: var(--surf-weight-medium)
+      var(--surf-type-body-size)/var(--surf-type-body-leading)
+      var(--surf-font-body);
     text-align: center;
   }
-  .pui-calendar-grid {
+  .surf-calendar-grid {
     min-width: 0;
     width: 100%;
     border-collapse: separate;
     border-spacing: 2px;
     table-layout: fixed;
   }
-  .pui-calendar-weekday {
-    color: var(--ink-muted);
-    font-weight: var(--weight-regular);
-    font-size: var(--type-caption-size);
-    line-height: var(--type-caption-leading);
-    letter-spacing: var(--type-caption-tracking);
+  .surf-calendar-weekday {
+    color: var(--surf-ink-muted);
+    font-weight: var(--surf-weight-regular);
+    font-size: var(--surf-type-caption-size);
+    line-height: var(--surf-type-caption-leading);
+    letter-spacing: var(--surf-type-caption-tracking);
     text-align: center;
   }
-  .pui-calendar-day {
+  .surf-calendar-day {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -191,122 +197,122 @@
     width: 100%;
     min-height: 36px;
     border: 1px solid transparent;
-    border-radius: var(--radius-sm);
+    border-radius: var(--surf-radius-sm);
     cursor: pointer;
     outline: none;
     font-variant-numeric: tabular-nums;
   }
-  .pui-calendar-day[data-hovered]:not(
+  .surf-calendar-day[data-hovered]:not(
       [data-disabled],
       [data-unavailable],
       [data-selected]
     ) {
-    background: var(--hover);
+    background: var(--surf-hover);
   }
-  .pui-calendar-day[data-selected] {
-    background: var(--selected);
-    color: var(--ink);
+  .surf-calendar-day[data-selected] {
+    background: var(--surf-selected);
+    color: var(--surf-ink);
   }
-  .pui-calendar-day:is([data-selection-start], [data-selection-end]) {
-    background: var(--brand-mark);
-    color: var(--on-brand);
+  .surf-calendar-day:is([data-selection-start], [data-selection-end]) {
+    background: var(--surf-brand-mark);
+    color: var(--surf-on-brand);
   }
-  .pui-calendar-day[data-focus-visible] {
-    outline: var(--focus-ring-width) solid var(--interaction-focus);
-    outline-offset: var(--focus-ring-inset);
+  .surf-calendar-day[data-focus-visible] {
+    outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+    outline-offset: var(--surf-focus-ring-inset);
   }
-  .pui-calendar-day[data-today] {
-    border-color: var(--control-border);
+  .surf-calendar-day[data-today] {
+    border-color: var(--surf-control-border);
   }
-  .pui-calendar-day[data-outside-month] {
+  .surf-calendar-day[data-outside-month] {
     visibility: hidden;
   }
-  .pui-calendar-day:is([data-disabled], [data-unavailable]) {
-    color: var(--ink-muted);
+  .surf-calendar-day:is([data-disabled], [data-unavailable]) {
+    color: var(--surf-ink-muted);
     text-decoration: line-through;
     cursor: not-allowed;
-    opacity: var(--control-disabled-opacity);
+    opacity: var(--surf-control-disabled-opacity);
   }
   @media (max-width: 760px), (pointer: coarse) {
-    .pui-date-trigger,
-    .pui-calendar-nav {
+    .surf-date-trigger,
+    .surf-calendar-nav {
       width: 40px;
       height: 40px;
       min-width: 40px;
     }
-    .pui-calendar-day {
+    .surf-calendar-day {
       min-height: 40px;
     }
   }
   @media (prefers-reduced-motion: reduce) {
-    .pui-date-group,
-    .pui-date-trigger,
-    .pui-calendar-nav {
+    .surf-date-group,
+    .surf-date-trigger,
+    .surf-calendar-nav {
       transition: none;
     }
   }
   @media (forced-colors: active) {
-    .pui-date-group,
-    .pui-date-popover {
+    .surf-date-group,
+    .surf-date-popover {
       border-color: CanvasText;
     }
-    .pui-date-group[data-focus-within],
-    .pui-date-group:focus-within {
+    .surf-date-group[data-focus-within],
+    .surf-date-group:focus-within {
       outline: 2px solid Highlight;
     }
-    .pui-calendar-day[data-selected] {
+    .surf-calendar-day[data-selected] {
       background: Highlight;
       color: HighlightText;
       forced-color-adjust: none;
     }
-    .pui-calendar-day[data-focus-visible],
-    .pui-date-segment[data-focused] {
+    .surf-calendar-day[data-focus-visible],
+    .surf-date-segment[data-focused] {
       outline-color: Highlight;
     }
   }
-  .pui-calendar-grid :is(th, td) {
+  .surf-calendar-grid :is(th, td) {
     padding: 0;
     border: 0;
     min-width: 0;
     text-align: center;
   }
-  .pui-calendar-day[data-focus-visible][data-selected] {
-    outline-color: var(--ink);
+  .surf-calendar-day[data-focus-visible][data-selected] {
+    outline-color: var(--surf-ink);
   }
 }
 @layer surflane.sizes {
   :where([data-ui-size], [data-ui-size] *):is(
-    .pui-date-input,
-    .pui-date-segment
+    .surf-date-input,
+    .surf-date-segment
   ) {
-    font-size: var(--ui-font);
-    line-height: var(--ui-leading);
+    font-size: var(--surf-ui-font);
+    line-height: var(--surf-ui-leading);
   }
-  :where([data-ui-size], [data-ui-size] *):is(.pui-date-trigger) > svg {
-    inline-size: var(--ui-icon);
-    block-size: var(--ui-icon);
+  :where([data-ui-size], [data-ui-size] *):is(.surf-date-trigger) > svg {
+    inline-size: var(--surf-ui-icon);
+    block-size: var(--surf-ui-icon);
   }
-  :where([data-ui-size], [data-ui-size] *).pui-date-popover {
-    padding: var(--ui-surface-padding);
+  :where([data-ui-size], [data-ui-size] *).surf-date-popover {
+    padding: var(--surf-ui-surface-padding);
   }
-  :where([data-ui-size], [data-ui-size] *).pui-calendar-day {
-    min-block-size: var(--ui-row);
+  :where([data-ui-size], [data-ui-size] *).surf-calendar-day {
+    min-block-size: var(--surf-ui-row);
   }
   :where([data-ui-size], [data-ui-size] *):is(
-    .pui-date-trigger,
-    .pui-calendar-nav
+    .surf-date-trigger,
+    .surf-calendar-nav
   ) {
-    inline-size: calc(var(--control-height) - 4px);
-    block-size: calc(var(--control-height) - 4px);
+    inline-size: calc(var(--surf-control-height) - 4px);
+    block-size: calc(var(--surf-control-height) - 4px);
     min-inline-size: 0;
   }
   @media (max-width: 760px), (pointer: coarse) {
     :where([data-ui-size], [data-ui-size] *):is(
-      .pui-date-trigger,
-      .pui-calendar-nav
+      .surf-date-trigger,
+      .surf-calendar-nav
     ) {
-      inline-size: var(--control-target-size);
-      block-size: var(--control-target-size);
+      inline-size: var(--surf-control-target-size);
+      block-size: var(--surf-control-target-size);
     }
   }
 }

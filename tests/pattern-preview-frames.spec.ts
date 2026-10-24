@@ -29,7 +29,7 @@ test('every available pattern has a visible token border at desktop and mobile w
           await expect(frame, item.id).toHaveCSS('border-top-style', 'solid')
           const colors = await frame.evaluate((el) => ({
             actual: getComputedStyle(el).borderTopColor,
-            line: getComputedStyle(el).getPropertyValue('--line').trim(),
+            line: getComputedStyle(el).getPropertyValue('--surf-line').trim(),
           }))
           expect(colors.actual, item.id).not.toBe('rgba(0, 0, 0, 0)')
           await expect
@@ -52,7 +52,7 @@ test('nested shell surfaces reduce radius by their inset with preview controls o
   await page.goto('/patterns/app-shell')
   await waitForCatalogReady(page)
   const shell = page.locator('.app-shell-preview'),
-    sheet = page.locator('.app-shell-preview .pui-app-shell-page'),
+    sheet = page.locator('.app-shell-preview .surf-app-shell-page'),
     frame = page.locator('.catalog-example-frame[data-kind="pattern"]')
   await expect(frame.getByRole('combobox')).toHaveCount(0)
   await expect(frame.getByRole('checkbox')).toHaveCount(0)
@@ -79,7 +79,7 @@ test('nested shell surfaces reduce radius by their inset with preview controls o
   }
   await page.setViewportSize({ width: 1440, height: 1000 })
   await shell.evaluate((el) =>
-    el.style.setProperty('--app-shell-page-radius', '4px'),
+    el.style.setProperty('--surf-app-shell-page-radius', '4px'),
   )
   await expect(sheet).toHaveCSS('border-top-left-radius', '4px')
 })

@@ -187,10 +187,10 @@ export function TypographyFoundation() {
           language='tsx'
           label={t.codeLabel}
           code={`import '@surflane/design-tokens/tokens.css'
-import '@surflane/design-tokens/foundations.css'
-import '@surflane/design-tokens/typography.css'
+import '@surflane/css/foundations.css'
+import '@surflane/css/typography.css'
 // Load the actual font files once in the application entry.
-<body className='pui-typography'>{application}</body>
+<body className='surf-typography'>{application}</body>
 
 <Heading level={3} size='subsection'>
   Card subhead
@@ -202,8 +202,8 @@ import '@surflane/design-tokens/typography.css'
       <FoundationSection id='measure'>
         <p>
           {t.measureStart}
-          <Link href='/tokens?q=--layout-reading-measure'>
-            <code>--layout-reading-measure</code>
+          <Link href='/tokens?q=--surf-layout-reading-measure'>
+            <code>--surf-layout-reading-measure</code>
           </Link>
           {t.measureEnd}
         </p>

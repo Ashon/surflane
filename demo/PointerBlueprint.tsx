@@ -54,7 +54,7 @@ const targets = [
   '[role="tab"]',
   '[role="checkbox"]',
   '[role="switch"]',
-  '.pui-card',
+  '.surf-card',
   '.catalog-page-header',
   '.sheet',
   '.grid',
@@ -63,7 +63,13 @@ const targets = [
 type Bounds = { left: number; top: number; right: number; bottom: number }
 // edges: where the element shows; an edge outside it is not drawn.
 // exclude: an inner scroll area whose own layer draws that part of the lines.
-type Guide = { bounds: Bounds; edges: Bounds; exclude: Bounds | null }
+type Guide = {
+  bounds: Bounds
+  edges: Bounds
+  exclude: Bounds | null
+  // Inside a [data-blueprint-ambient-quiet] area, such as the page body.
+  quiet: boolean
+}
 type Point = { x: number; y: number }
 // Guides paint on surfaces. The window surface is the fixed canvas over everything
 // outside scroll areas. Each scroll area gets a layer inside its own content: its guides
@@ -81,7 +87,7 @@ type Surface = {
   ambient: Guide[]
   painted: boolean
 }
-const scrollArea = '.pui-scroll-viewport'
+const scrollArea = '.surf-scroll-viewport'
 const unbounded: Bounds = {
   left: -Infinity,
   top: -Infinity,
@@ -121,6 +127,9 @@ const crosshair = 12
 // [data-blueprint-ambient] area (the whole catalog) light its real construction lines. They use the pointer's strength: one-device-
 // pixel lines at a quarter of it were invisible on high-density displays.
 const ambientStrength = 1
+// The probes draw the lines of the page body at this share of that strength, so they
+// stay behind the text people read. The pointer draws them at full strength.
+const ambientQuiet = 0.5
 const ambientInset = 48
 const ambientPeakSpeed = 18 // px/s
 const ambientDelay = 1200
@@ -141,7 +150,7 @@ const probes = [
 ]
 // How far the anchored probe's orbit reaches past the anchor's box.
 const anchorOrbit = 16
-// Approximates the --ease-out curve for the fade-in.
+// Approximates the --surf-ease-out curve for the fade-in.
 const easeOut = (progress: number) => 1 - (1 - progress) ** 3
 
 /** A decorative viewport paint layer. No DOM reparenting, listeners on controls, or hit targets. */
@@ -269,6 +278,24 @@ export function PointerBlueprint() {
       }
       const outer = (element: Element) =>
         element.parentElement?.closest<HTMLElement>(scrollArea) ?? null
+      const pinned = new WeakMap<Element, boolean>()
+      // True when a sticky or fixed box from `from` up to `scroller` keeps `from`
+      // still while the scroller's content moves.
+      const pinnedBetween = (from: Element, scroller: Element) => {
+        for (
+          let box: Element | null = from;
+          box && box !== scroller;
+          box = box.parentElement
+        ) {
+          let value = pinned.get(box)
+          if (value === undefined) {
+            value = /^(sticky|fixed)$/.test(getComputedStyle(box).position)
+            pinned.set(box, value)
+          }
+          if (value) return true
+        }
+        return false
+      }
       const clipFor = (
         element: Element | null,
         stop: Element | null,
@@ -308,6 +335,8 @@ export function PointerBlueprint() {
           elements.unshift(root)
         for (const element of elements) {
           if (hiddenFromGuides(element)) continue
+          const quiet =
+            element.closest('[data-blueprint-ambient-quiet]') !== null
           current.add(element)
           if (!observed.has(element)) resize.observe(element)
           const bounds = element.getBoundingClientRect()
@@ -317,13 +346,17 @@ export function PointerBlueprint() {
           if (visible.right <= visible.left || visible.bottom <= visible.top)
             continue
           // Innermost area first; each area leaves the part inside the previous one
-          // to that area's layer.
-          let inner: Bounds | null = null
+          // to that area's layer. An area whose content moves without the element,
+          // because a sticky or fixed box holds the element still, would carry its
+          // lines away on a scroll: the next surface out draws that part instead.
+          let inner: Bounds | null = null,
+            from: Element = element
           for (
             let scroller = outer(element);
             scroller;
-            scroller = outer(scroller)
+            from = scroller, scroller = outer(scroller)
           ) {
+            if (pinnedBetween(from, scroller)) continue
             const surface = layerFor(scroller)
             if (surface.host!.isConnected) {
               if (!surface.pointer.length && !surface.ambient.length) {
@@ -335,11 +368,12 @@ export function PointerBlueprint() {
                 bounds: shifted(bounds, -x, -y),
                 edges: shifted(edges, -x, -y),
                 exclude: inner && shifted(inner, -x, -y),
+                quiet,
               })
             }
             inner = viewportOf(scroller)
           }
-          fixed[key].push({ bounds, edges, exclude: inner })
+          fixed[key].push({ bounds, edges, exclude: inner, quiet })
         }
       }
       pointerMeasured = pointerActive()
@@ -511,9 +545,14 @@ export function PointerBlueprint() {
       const width = Math.max(1, right - left),
         height = Math.max(1, bottom - top)
       const origin = host.getBoundingClientRect()
-      const transform = `translate(${left / dpr - origin.left}px, ${top / dpr - origin.top}px)`
-      if (target.style.transform !== transform)
-        target.style.transform = transform
+      // Offsets, not a transform: the host often sits between device pixels, and the
+      // browser snaps a box before it applies a transform, so a translate resampled the
+      // canvas half a pixel off and smeared each line over two rows. A layout offset
+      // lands the canvas itself on the whole device pixel.
+      const x = `${left / dpr - origin.left}px`,
+        y = `${top / dpr - origin.top}px`
+      if (target.style.left !== x) target.style.left = x
+      if (target.style.top !== y) target.style.top = y
       const inline = `${width / dpr}px`,
         block = `${height / dpr}px`
       if (target.style.inlineSize !== inline) target.style.inlineSize = inline
@@ -658,19 +697,23 @@ export function PointerBlueprint() {
         )
         for (const [key, point, reach, strength] of near) {
           const local = { x: point.x - bounds.left, y: point.y - bounds.top }
-          const draw = (target: CanvasRenderingContext2D) =>
-            spotlight(
-              target,
-              dpr,
-              ink,
-              surface[key],
-              shift,
-              local,
-              reach,
-              strength,
-            )
-          if (near.length === 1) draw(context)
-          else layered(context, dpr, local, reach, draw)
+          // The probes light the quiet guides through a weaker spotlight of their own,
+          // so lines that cross or meet within it never add up to a darker dot.
+          const all = surface[key]
+          const groups: [Guide[], number][] =
+            key === 'ambient'
+              ? [
+                  [all.filter((guide) => !guide.quiet), strength],
+                  [all.filter((guide) => guide.quiet), strength * ambientQuiet],
+                ]
+              : [[all, strength]]
+          const passes = groups.filter(([list]) => list.length > 0)
+          for (const [list, alpha] of passes) {
+            const draw = (target: CanvasRenderingContext2D) =>
+              spotlight(target, dpr, ink, list, shift, local, reach, alpha)
+            if (near.length === 1 && passes.length === 1) draw(context)
+            else layered(context, dpr, local, reach, draw)
+          }
           surface.painted = true
         }
       }
@@ -746,7 +789,7 @@ export function PointerBlueprint() {
       const nextScope =
         target?.closest('[role="dialog"]') ??
         target?.closest(
-          '[role="menu"], [role="listbox"], .pui-popover, .pui-toast',
+          '[role="menu"], [role="listbox"], .surf-popover, .surf-toast',
         ) ??
         document
       if (scope !== nextScope) {

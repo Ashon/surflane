@@ -1,15 +1,18 @@
-// Lockstep release helper: @surflane/design-tokens and @surflane/ui ship as one versioned pair.
+// Lockstep release helper: @surflane/design-tokens, @surflane/css and @surflane/ui ship
+// together with one version.
 import { execFileSync, spawnSync } from 'node:child_process'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const names = ['tokens', 'ui']
+// Publish order follows the peer dependencies: tokens, then css, then ui.
+const names = ['tokens', 'css', 'ui']
+const peerNames = ['@surflane/design-tokens', '@surflane/css']
 const manifestPath = (name) => resolve(root, 'packages', name, 'package.json')
 const read = (name) => JSON.parse(readFileSync(manifestPath(name), 'utf8'))
 const semver = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/
 const usage = `Usage:
-  node scripts/release.mjs version <x.y.z[-pre]>  set both package versions
+  node scripts/release.mjs version <x.y.z[-pre]>  set every package version
   node scripts/release.mjs verify <vX.Y.Z>          check tag, manifests and changelog
   node scripts/release.mjs notes <vX.Y.Z>           print the changelog section
   node scripts/release.mjs publish [--dry-run] [--otp=<code>]
@@ -33,15 +36,18 @@ function changelogSection(version) {
 
 function verify(version) {
   const errors = []
-  const [tokens, ui] = names.map(read)
-  for (const pkg of [tokens, ui])
+  const packages = names.map(read)
+  for (const pkg of packages) {
     if (pkg.version !== version)
       errors.push(`${pkg.name} is ${pkg.version}, expected ${version}`)
-  const peer = ui.peerDependencies?.[tokens.name]
-  if (peer !== `^${version}`)
-    errors.push(
-      `${ui.name} peer ${tokens.name} is ${peer}, expected ^${version}`,
-    )
+    for (const peerName of peerNames) {
+      const peer = pkg.peerDependencies?.[peerName]
+      if (peer !== undefined && peer !== `^${version}`)
+        errors.push(
+          `${pkg.name} peer ${peerName} is ${peer}, expected ^${version}`,
+        )
+    }
+  }
   if (!changelogSection(version))
     errors.push(`CHANGELOG.md has no "## ${version}" section`)
   return errors
@@ -53,8 +59,9 @@ if (command === 'version') {
   for (const name of names) {
     const pkg = read(name)
     pkg.version = arg
-    if (pkg.peerDependencies?.['@surflane/design-tokens'])
-      pkg.peerDependencies['@surflane/design-tokens'] = `^${arg}`
+    for (const peerName of peerNames)
+      if (pkg.peerDependencies?.[peerName])
+        pkg.peerDependencies[peerName] = `^${arg}`
     writeFileSync(manifestPath(name), JSON.stringify(pkg, null, 2) + '\n')
   }
   execFileSync(
@@ -69,7 +76,9 @@ if (command === 'version') {
     { cwd: root, stdio: 'inherit' },
   )
   const errors = verify(arg)
-  console.log(`Set @surflane/design-tokens and @surflane/ui to ${arg}.`)
+  console.log(
+    `Set ${names.map((name) => read(name).name).join(', ')} to ${arg}.`,
+  )
   if (errors.length) console.log(`Before tagging:\n- ${errors.join('\n- ')}`)
   console.log(
     `Then commit, tag v${arg} and push the tag to run the release workflow.`,
@@ -98,7 +107,7 @@ if (command === 'version') {
     throw new Error(usage)
   const dryRun = flags.includes('--dry-run')
   const otp = flags.filter((flag) => flag.startsWith('--otp='))
-  // Tokens first: the UI package declares it as a peer dependency.
+  // Tokens first, then css: each later package declares the earlier ones as peers.
   for (const name of names) {
     const pkg = read(name)
     const published = spawnSync(

@@ -5,4 +5,4 @@
 @import './sizing.css';
 @import './icon.css';
 @import './button.css';
-@import '@surflane/design-tokens/presentation/pagination.css';
+@import '@surflane/css/presentation/pagination.css';

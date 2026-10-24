@@ -4,18 +4,18 @@
 @import './base.css';
 @import './sizing.css';
 @import './icon.css';
-@import '@surflane/design-tokens/presentation/avatar.css';
+@import '@surflane/css/presentation/avatar.css';
 
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *).pui-avatar {
-    width: var(--ui-avatar);
-    height: var(--ui-avatar);
+  :where([data-ui-size], [data-ui-size] *).surf-avatar {
+    width: var(--surf-ui-avatar);
+    height: var(--surf-ui-avatar);
   }
-  :where([data-ui-size], [data-ui-size] *).pui-avatar[data-ui-size] {
+  :where([data-ui-size], [data-ui-size] *).surf-avatar[data-ui-size] {
     font-size: clamp(
-      var(--type-caption-size),
-      calc(var(--ui-avatar) / 3),
-      var(--size-font-large)
+      var(--surf-type-caption-size),
+      calc(var(--surf-ui-avatar) / 3),
+      var(--surf-size-font-large)
     );
   }
 }

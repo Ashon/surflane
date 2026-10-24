@@ -17,11 +17,11 @@ export const doc: ComponentDoc = {
   anatomy:
     'Preview inputs → start / cancel / deliver controls → run identity + environment snapshot + status → completed check count → step list → selected logs',
   tokens: [
-    '--space-3',
-    '--space-4',
-    '--ink-muted',
-    '--control-focus',
-    '--status-caution-bg',
+    '--surf-space-3',
+    '--surf-space-4',
+    '--surf-ink-muted',
+    '--surf-control-focus',
+    '--surf-status-caution-bg',
   ],
   code: `import { Progress, StatusBadge, List } from '@surflane/ui'
 

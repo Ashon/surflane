@@ -5,19 +5,19 @@
 @import './sizing.css';
 @import './icon.css';
 @import './panel.css';
-@import '@surflane/design-tokens/controls.css';
+@import '@surflane/css/controls.css';
 
 @layer surflane.components {
-  .pui-drawer-handle {
+  .surf-drawer-handle {
     flex: none;
     width: 36px;
     height: 4px;
-    margin: var(--space-3) auto 0;
-    border-radius: var(--radius-full);
-    background: var(--line);
+    margin: var(--surf-space-3) auto 0;
+    border-radius: var(--surf-radius-full);
+    background: var(--surf-line);
   }
-  .pui-drawer[data-side='left'] > .pui-drawer-handle,
-  .pui-drawer[data-side='right'] > .pui-drawer-handle {
+  .surf-drawer[data-side='left'] > .surf-drawer-handle,
+  .surf-drawer[data-side='right'] > .surf-drawer-handle {
     display: none;
   }
 }

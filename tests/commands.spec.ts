@@ -216,7 +216,7 @@ test('Shared Menu skins support checkbox/radio states and submenu commands witho
     name: 'Show passed checks',
     exact: true,
   })
-  await expect(passed).toHaveClass(/pui-menu-item/)
+  await expect(passed).toHaveClass(/surf-menu-item/)
   await expect(passed).toHaveAttribute('aria-checked', 'true')
   await passed.click()
   await expect(passed).toHaveAttribute('aria-checked', 'false')
@@ -265,7 +265,7 @@ test('Command components fit light/dark narrow layouts, audit closed pages and s
           .getByRole('menuitem', { name: 'Run', exact: true })
           .click()
         expect(
-          (await new AxeBuilder({ page }).include('.pui-menu').analyze())
+          (await new AxeBuilder({ page }).include('.surf-menu').analyze())
             .violations,
         ).toEqual([])
         await page.keyboard.press('Escape')
@@ -274,7 +274,7 @@ test('Command components fit light/dark narrow layouts, audit closed pages and s
           .getByRole('menuitem', { name: 'View', exact: true })
           .click()
         expect(
-          (await new AxeBuilder({ page }).include('.pui-menu').analyze())
+          (await new AxeBuilder({ page }).include('.surf-menu').analyze())
             .violations,
         ).toEqual([])
         await page.keyboard.press('Escape')

@@ -124,7 +124,7 @@ import { LocaleProvider, localeNames, useLocale, useMessages } from './i18n'
 import { useCatalogText } from './catalogText'
 import './layers.css'
 import '@surflane/design-tokens/tokens.css'
-import '@surflane/design-tokens/controls.css'
+import '@surflane/css/controls.css'
 import '@surflane/design-tokens/motion.css'
 // The source stylesheets, so edits reload in place; the package publishes flattened
 // copies of the same files (scripts/build-styles.mjs).
@@ -133,7 +133,7 @@ import '@fontsource-variable/manrope'
 import '@fontsource-variable/jetbrains-mono'
 import './fonts/pretendard.css'
 import './style.css'
-import '@surflane/design-tokens/typography.css'
+import '@surflane/css/typography.css'
 const narrow = '(max-width: 960px)'
 function subscribeNarrow(notify: () => void) {
   const media = matchMedia(narrow)
@@ -640,7 +640,12 @@ function App() {
                 {!mobileNavigation && catalogNavigation}
               </div>
             </aside>
-            <main id='main-content' className='sheet' tabIndex={-1}>
+            <main
+              id='main-content'
+              className='sheet'
+              tabIndex={-1}
+              data-blueprint-ambient-quiet
+            >
               {route !== '/' && (
                 <PageHeader
                   as='header'

@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 test.use({ reducedMotion: 'reduce' })
 const visible = (page: import('@playwright/test').Page) =>
-  page.locator('.pui-toast:not([data-limited])')
+  page.locator('.surf-toast:not([data-limited])')
 async function duration(page: import('@playwright/test').Page, label: string) {
   await page.getByRole('combobox', { name: 'Notification duration' }).click()
   await page.getByRole('option', { name: label, exact: true }).click()
@@ -178,7 +178,7 @@ test('Visible limit keeps overflow notifications inert and hidden; dismiss all c
   await duration(page, 'Until dismissed')
   await page.getByRole('button', { name: 'Show batch', exact: true }).click()
   await expect(visible(page)).toHaveCount(3)
-  const limited = page.locator('.pui-toast[data-limited]')
+  const limited = page.locator('.surf-toast[data-limited]')
   await expect(limited).toHaveCount(1)
   await expect(limited).toHaveAttribute('inert', '')
   await expect(limited).toBeHidden()
@@ -186,7 +186,7 @@ test('Visible limit keeps overflow notifications inert and hidden; dismiss all c
     page.getByRole('dialog', { name: 'Batch notification 1', exact: true }),
   ).toHaveCount(0)
   await page.getByRole('button', { name: 'Dismiss all', exact: true }).click()
-  await expect(page.locator('.pui-toast')).toHaveCount(0)
+  await expect(page.locator('.surf-toast')).toHaveCount(0)
 })
 test('High priority announces an alert and becomes an accessible nonmodal dialog on F6', async ({
   page,
@@ -308,7 +308,7 @@ test('Anchored layout receives events from an outside-React manager and fits its
   await expect(
     page.getByRole('region', { name: 'Preview notifications', exact: true }),
   ).toHaveCount(0)
-  await expect(page.locator('.pui-toast-viewport')).toHaveAttribute(
+  await expect(page.locator('.surf-toast-viewport')).toHaveAttribute(
     'data-layout',
     'anchored',
   )
@@ -363,7 +363,7 @@ test('the toast() helper picks a tone for each kind of call', async ({
   await waitForCatalogReady(page)
   // A high-priority toast is an alert dialog, so find each by its title.
   const tone = (name: string) =>
-    page.locator('.pui-toast').filter({ hasText: name })
+    page.locator('.surf-toast').filter({ hasText: name })
   await page.getByRole('button', { name: 'Show success', exact: true }).click()
   await expect(tone('Export preview ready')).toHaveAttribute(
     'data-tone',

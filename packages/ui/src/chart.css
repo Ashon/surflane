@@ -7,252 +7,262 @@
 @import './table.css';
 
 @layer surflane.components {
-  .pui-chart {
+  .surf-chart {
     min-width: 0;
     max-width: 100%;
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
+    gap: var(--surf-space-3);
   }
-  .pui-chart-caption strong {
-    font: var(--weight-medium)
-      var(--type-subsection-size)/var(--type-subsection-leading)
-      var(--font-body);
+  .surf-chart-caption strong {
+    font: var(--surf-weight-medium)
+      var(--surf-type-subsection-size)/var(--surf-type-subsection-leading)
+      var(--surf-font-body);
   }
-  .pui-chart-caption p,
-  .pui-chart-help {
-    margin: var(--space-2) 0 0;
-    color: var(--ink-muted);
-    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
-      var(--font-body);
+  .surf-chart-caption p,
+  .surf-chart-help {
+    margin: var(--surf-space-2) 0 0;
+    color: var(--surf-ink-muted);
+    font: var(--surf-weight-regular)
+      var(--surf-type-body-size)/var(--surf-type-body-leading)
+      var(--surf-font-body);
   }
   /* The key, the plot and the x-axis name read as one block: the key sits right on
      the plot, the value axis name to its left and the legend to its right. */
-  .pui-chart-frame {
+  .surf-chart-frame {
     display: flex;
     flex-direction: column;
     min-width: 0;
   }
-  .pui-chart-key {
+  .surf-chart-key {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0 var(--space-4);
+    gap: 0 var(--surf-space-4);
   }
-  .pui-chart-legend {
+  .surf-chart-legend {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-1) var(--space-2);
+    gap: var(--surf-space-1) var(--surf-space-2);
     padding: 0;
     margin: 0 0 0 auto;
     list-style: none;
   }
-  .pui-chart-mark {
-    inline-size: var(--space-8);
-    block-size: var(--space-5);
+  .surf-chart-mark {
+    inline-size: var(--surf-space-8);
+    block-size: var(--surf-space-5);
   }
-  .pui-chart-legend-button {
+  .surf-chart-legend-button {
     max-width: 100%;
     display: inline-flex;
     align-items: center;
-    gap: var(--space-2);
+    gap: var(--surf-space-2);
     min-height: 36px;
-    padding: var(--space-1) var(--space-2);
+    padding: var(--surf-space-1) var(--surf-space-2);
     border: 0;
-    border-radius: var(--radius-md);
+    border-radius: var(--surf-radius-md);
     background: transparent;
-    color: var(--ink-body);
-    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
-      var(--font-body);
+    color: var(--surf-ink-body);
+    font: var(--surf-weight-regular)
+      var(--surf-type-body-size)/var(--surf-type-body-leading)
+      var(--surf-font-body);
     cursor: pointer;
     text-align: start;
   }
-  .pui-chart-legend-button svg {
+  .surf-chart-legend-button svg {
     flex: none;
   }
-  .pui-chart-legend-button span {
+  .surf-chart-legend-button span {
     overflow-wrap: anywhere;
   }
-  .pui-chart-legend-button:hover {
-    background: var(--interaction-hover-bg);
+  .surf-chart-legend-button:hover {
+    background: var(--surf-interaction-hover-bg);
   }
-  .pui-chart-legend-button:active {
-    background: var(--interaction-active-bg);
+  .surf-chart-legend-button:active {
+    background: var(--surf-interaction-active-bg);
   }
-  .pui-chart-legend-button[aria-pressed='false'] span {
+  .surf-chart-legend-button[aria-pressed='false'] span {
     text-decoration: line-through;
-    color: var(--ink-muted);
+    color: var(--surf-ink-muted);
   }
-  .pui-chart-legend-button:focus-visible,
-  .pui-chart-plot .recharts-surface:focus-visible,
-  .pui-chart-table summary:focus-visible {
-    outline: var(--focus-ring-width) solid var(--interaction-focus);
-    outline-offset: var(--focus-ring-offset);
-    border-radius: var(--radius-sm);
+  .surf-chart-legend-button:focus-visible,
+  .surf-chart-plot .recharts-surface:focus-visible,
+  .surf-chart-table summary:focus-visible {
+    outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+    outline-offset: var(--surf-focus-ring-offset);
+    border-radius: var(--surf-radius-sm);
   }
   /* The browser's SVG styles ring any :focus, so a tap or click would draw its own
      ring: around the surface, or around the layer a tapped line or point sits in,
      since Recharts gives each layer tabindex -1. Only the surface is a keyboard
      target, and it rings for keyboard focus only, like every other control. */
-  .pui-chart-plot .recharts-surface:focus:not(:focus-visible),
-  .pui-chart-plot .recharts-surface :focus {
+  .surf-chart-plot .recharts-surface:focus:not(:focus-visible),
+  .surf-chart-plot .recharts-surface :focus {
     outline: none;
   }
-  .pui-chart-axis-label {
+  .surf-chart-axis-label {
     margin: 0;
-    color: var(--ink-muted);
-    font: var(--weight-regular)
-      var(--type-caption-size)/var(--type-caption-leading) var(--font-body);
+    color: var(--surf-ink-muted);
+    font: var(--surf-weight-regular)
+      var(--surf-type-caption-size)/var(--surf-type-caption-leading)
+      var(--surf-font-body);
     overflow-wrap: anywhere;
   }
-  .pui-chart-x-label {
+  .surf-chart-x-label {
     text-align: center;
   }
-  .pui-chart-plot {
+  .surf-chart-plot {
     position: relative;
     min-width: 0;
     width: 100%;
-    font-family: var(--font-body);
+    font-family: var(--surf-font-body);
+  }
+  /* Recharts fits the last axis label inside the surface by a width it measures in
+     HTML. SVG text can round a pixel wider, so the surface lets that pixel show. */
+  .surf-chart-plot .recharts-surface {
+    overflow: visible;
   }
   /* The active point's values float beside it; the readout below says the same for
      assistive technology. On the right half the box turns to the left. */
-  .pui-chart-float {
+  .surf-chart-float {
     position: absolute;
     inset: 0;
     pointer-events: none;
   }
-  .pui-chart-tooltip {
+  .surf-chart-tooltip {
     position: absolute;
     z-index: 1;
     box-sizing: border-box;
     inline-size: max-content;
     max-inline-size: 100%;
-    translate: 0 var(--space-2);
-    padding: var(--space-2) var(--space-3);
-    border: 1px solid var(--menu-border);
-    border-radius: var(--radius-md);
-    background: var(--menu-background);
-    box-shadow: var(--shadow-float);
-    color: var(--ink-body);
-    font: var(--weight-regular)
-      var(--type-compact-size)/var(--type-compact-leading) var(--font-body);
+    translate: 0 var(--surf-space-2);
+    padding: var(--surf-space-2) var(--surf-space-3);
+    border: 1px solid var(--surf-menu-border);
+    border-radius: var(--surf-radius-md);
+    background: var(--surf-menu-background);
+    box-shadow: var(--surf-shadow-float);
+    color: var(--surf-ink-body);
+    font: var(--surf-weight-regular)
+      var(--surf-type-compact-size)/var(--surf-type-compact-leading)
+      var(--surf-font-body);
     overflow-wrap: break-word;
   }
-  .pui-chart-tooltip strong {
+  .surf-chart-tooltip strong {
     display: block;
-    color: var(--ink);
-    font-weight: var(--weight-medium);
+    color: var(--surf-ink);
+    font-weight: var(--surf-weight-medium);
   }
-  .pui-chart-tooltip ul {
+  .surf-chart-tooltip ul {
     display: grid;
-    gap: var(--space-1);
-    margin: var(--space-1) 0 0;
+    gap: var(--surf-space-1);
+    margin: var(--surf-space-1) 0 0;
     padding: 0;
     list-style: none;
   }
-  .pui-chart-tooltip li {
+  .surf-chart-tooltip li {
     display: flex;
     align-items: center;
-    gap: var(--space-2);
+    gap: var(--surf-space-2);
   }
-  .pui-chart-tooltip .pui-chart-mark {
+  .surf-chart-tooltip .surf-chart-mark {
     flex: none;
-    inline-size: var(--space-6);
-    block-size: var(--space-4);
+    inline-size: var(--surf-space-6);
+    block-size: var(--surf-space-4);
   }
-  .pui-chart-tooltip-value {
+  .surf-chart-tooltip-value {
     white-space: nowrap;
     margin-inline-start: auto;
-    padding-inline-start: var(--space-3);
-    color: var(--ink);
+    padding-inline-start: var(--surf-space-3);
+    color: var(--surf-ink);
     font-variant-numeric: tabular-nums;
   }
-  .pui-chart-inspector {
+  .surf-chart-inspector {
     box-sizing: border-box;
     min-height: 100px;
-    padding: var(--space-3) var(--space-4);
-    background: var(--surface);
-    color: var(--ink-body);
-    border-radius: var(--radius-md);
-    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
-      var(--font-body);
+    padding: var(--surf-space-3) var(--surf-space-4);
+    background: var(--surf-surface);
+    color: var(--surf-ink-body);
+    border-radius: var(--surf-radius-md);
+    font: var(--surf-weight-regular)
+      var(--surf-type-body-size)/var(--surf-type-body-leading)
+      var(--surf-font-body);
     overflow-wrap: anywhere;
   }
-  .pui-chart-inspector[hidden] {
+  .surf-chart-inspector[hidden] {
     display: none;
   }
-  .pui-chart-readout strong {
-    font-weight: var(--weight-medium);
+  .surf-chart-readout strong {
+    font-weight: var(--surf-weight-medium);
   }
-  .pui-chart-readout ul {
+  .surf-chart-readout ul {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-2) var(--space-4);
+    gap: var(--surf-space-2) var(--surf-space-4);
     list-style: none;
     padding: 0;
-    margin: var(--space-2) 0 0;
+    margin: var(--surf-space-2) 0 0;
   }
-  .pui-chart-empty {
+  .surf-chart-empty {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: var(--space-3);
+    gap: var(--surf-space-3);
     min-height: 160px;
-    padding: var(--space-4);
-    background: var(--surface);
-    color: var(--ink-muted);
-    border-radius: var(--radius-md);
+    padding: var(--surf-space-4);
+    background: var(--surf-surface);
+    color: var(--surf-ink-muted);
+    border-radius: var(--surf-radius-md);
   }
-  .pui-chart-empty p {
+  .surf-chart-empty p {
     margin: 0;
   }
-  .pui-chart-table {
+  .surf-chart-table {
     min-width: 0;
   }
-  .pui-chart-table summary {
+  .surf-chart-table summary {
     width: fit-content;
     cursor: pointer;
-    color: var(--ink);
-    padding-block: var(--space-2);
+    color: var(--surf-ink);
+    padding-block: var(--surf-space-2);
     text-decoration: underline;
     text-underline-offset: 3px;
   }
-  .pui-chart-table .pui-scroll-root {
-    margin-top: var(--space-2);
+  .surf-chart-table .surf-scroll-root {
+    margin-top: var(--surf-space-2);
   }
   /* The data table scrolls inside a bounded region, so long series stay compact. */
-  .pui-chart-table .pui-scroll-viewport {
+  .surf-chart-table .surf-scroll-viewport {
     max-block-size: 320px;
   }
   @media (max-width: 760px), (pointer: coarse) {
-    .pui-chart-legend-button {
-      min-height: var(--control-target-size);
+    .surf-chart-legend-button {
+      min-height: var(--surf-control-target-size);
     }
   }
   @media (forced-colors: active) {
-    .pui-chart {
-      --canvas: Canvas;
-      --ink-muted: CanvasText;
-      --line: GrayText;
-      --control-border: CanvasText;
-      --chart-series-1: CanvasText;
-      --chart-series-2: CanvasText;
-      --chart-series-3: CanvasText;
-      --chart-category-1: CanvasText;
-      --chart-category-2: CanvasText;
-      --chart-category-3: CanvasText;
-      --chart-category-4: CanvasText;
-      --chart-category-5: CanvasText;
-      --chart-category-6: CanvasText;
+    .surf-chart {
+      --surf-canvas: Canvas;
+      --surf-ink-muted: CanvasText;
+      --surf-line: GrayText;
+      --surf-control-border: CanvasText;
+      --surf-chart-series-1: CanvasText;
+      --surf-chart-series-2: CanvasText;
+      --surf-chart-series-3: CanvasText;
+      --surf-chart-category-1: CanvasText;
+      --surf-chart-category-2: CanvasText;
+      --surf-chart-category-3: CanvasText;
+      --surf-chart-category-4: CanvasText;
+      --surf-chart-category-5: CanvasText;
+      --surf-chart-category-6: CanvasText;
     }
-    .pui-chart-plot .recharts-surface,
-    .pui-chart-mark {
+    .surf-chart-plot .recharts-surface,
+    .surf-chart-mark {
       forced-color-adjust: none;
     }
-    .pui-chart-inspector,
-    .pui-chart-tooltip,
-    .pui-chart-empty {
+    .surf-chart-inspector,
+    .surf-chart-tooltip,
+    .surf-chart-empty {
       background: Canvas;
       color: CanvasText;
       border: 1px solid CanvasText;
@@ -261,7 +271,7 @@
 }
 @layer surflane.sizes {
   @media (forced-colors: active) {
-    .pui-chart-plot .recharts-cartesian-axis-tick text {
+    .surf-chart-plot .recharts-cartesian-axis-tick text {
       fill: CanvasText;
     }
   }

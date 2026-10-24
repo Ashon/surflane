@@ -379,10 +379,10 @@ export function Tree({
       tabIndex={-1}
       ref={viewport}
       scrollChain='contain'
-      rootClassName={cx('pui-tree-scroll', className)}
+      rootClassName={cx('surf-tree-scroll', className)}
       dir={dir}
       rootStyle={{ blockSize: height, direction: dir }}
-      className='pui-tree-viewport'
+      className='surf-tree-viewport'
     >
       {items.length ? (
         <div
@@ -392,7 +392,7 @@ export function Tree({
             containerProps.ref(element)
           }}
           dir={dir}
-          className='pui-tree'
+          className='surf-tree'
           data-ui-size={scheme}
           aria-multiselectable={selectionMode === 'multiple' || undefined}
           onKeyDown={keydown}
@@ -422,7 +422,7 @@ export function Tree({
               <div
                 {...props}
                 key={item.getId()}
-                className='pui-tree-item'
+                className='surf-tree-item'
                 data-tree-id={node.id}
                 aria-disabled={node.disabled || undefined}
                 aria-selected={
@@ -439,13 +439,13 @@ export function Tree({
                   insetInline: 0,
                   top: start,
                   blockSize: rowHeight,
-                  paddingInlineStart: `calc(var(--space-2) + ${Math.min(item.getItemMeta().level, 8)} * var(--space-4))`,
+                  paddingInlineStart: `calc(var(--surf-space-2) + ${Math.min(item.getItemMeta().level, 8)} * var(--surf-space-4))`,
                 }}
               >
                 {item.isFolder() ? (
                   <button
                     type='button'
-                    className='pui-tree-toggle'
+                    className='surf-tree-toggle'
                     tabIndex={-1}
                     disabled={node.disabled}
                     aria-label={
@@ -468,15 +468,15 @@ export function Tree({
                     />
                   </button>
                 ) : (
-                  <span className='pui-tree-leaf' aria-hidden='true' />
+                  <span className='surf-tree-leaf' aria-hidden='true' />
                 )}
-                <span className='pui-tree-label'>{node.label}</span>
+                <span className='surf-tree-label'>{node.label}</span>
               </div>
             )
           })}
         </div>
       ) : (
-        <div role='status' className='pui-tree-empty'>
+        <div role='status' className='surf-tree-empty'>
           {labels?.empty ?? emptyLabel ?? 'No items.'}
         </div>
       )}

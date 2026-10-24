@@ -6,29 +6,29 @@
 
 @layer surflane.components {
   /* Static glyphs share size/stroke tokens; parent controls own interaction. */
-  .pui-icon {
+  .surf-icon {
     display: inline-block;
     flex: 0 0 auto;
-    width: var(--size-icon-default);
-    height: var(--size-icon-default);
+    width: var(--surf-size-icon-default);
+    height: var(--surf-size-icon-default);
     vertical-align: -0.125em;
-    stroke-width: var(--icon-stroke-width);
+    stroke-width: var(--surf-icon-stroke-width);
     pointer-events: none;
   }
-  .pui-icon[data-size='small'] {
-    width: var(--size-icon-small);
-    height: var(--size-icon-small);
+  .surf-icon[data-size='small'] {
+    width: var(--surf-size-icon-small);
+    height: var(--surf-size-icon-small);
   }
-  .pui-icon[data-size='large'] {
-    width: var(--size-icon-large);
-    height: var(--size-icon-large);
+  .surf-icon[data-size='large'] {
+    width: var(--surf-size-icon-large);
+    height: var(--surf-size-icon-large);
   }
   /* Deprecated: the 24px size, off the scale. Removed in a later minor. */
-  .pui-icon[data-size='lg'] {
-    width: var(--icon-size-lg);
-    height: var(--icon-size-lg);
+  .surf-icon[data-size='lg'] {
+    width: var(--surf-icon-size-lg);
+    height: var(--surf-icon-size-lg);
   }
-  .pui-icon[data-directional='true']:dir(rtl) {
+  .surf-icon[data-directional='true']:dir(rtl) {
     transform: scaleX(-1);
   }
 }

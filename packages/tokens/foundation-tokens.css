@@ -3,216 +3,222 @@
 
 @layer surflane.tokens {
   :root,
-  [data-theme] {
-    --space-0: 0px;
-    --space-5: 20px;
-    --space-10: 40px;
-    --space-16: 64px;
-    --space-20: 80px;
-    --layout-workspace: 75rem;
-    --layout-wide: 96rem;
-    --layout-reading: var(--layout-content);
-    --layout-page-inset: var(--space-8);
-    --layout-section-gap: var(--space-12);
-    --layout-gutter: var(--space-6);
-    --layout-columns: 12;
-    --layout-description-measure: 68ch;
+  [data-theme='dark'],
+  [data-theme='light'] {
+    --surf-space-0: 0px;
+    --surf-space-5: 20px;
+    --surf-space-10: 40px;
+    --surf-space-16: 64px;
+    --surf-space-20: 80px;
+    --surf-layout-workspace: 75rem;
+    --surf-layout-wide: 96rem;
+    --surf-layout-reading: var(--surf-layout-content);
+    --surf-layout-page-inset: var(--surf-space-8);
+    --surf-layout-section-gap: var(--surf-space-12);
+    --surf-layout-gutter: var(--surf-space-6);
+    --surf-layout-columns: 12;
+    --surf-layout-description-measure: 68ch;
     /* About 70 Latin or 50 Hangul characters per line of reading text. */
-    --layout-reading-measure: 54ch;
+    --surf-layout-reading-measure: 54ch;
     /* Type roles: size, unitless leading and tracking. Leading falls as size grows,
      * and stays at 1.5 or more for text that wraps, which Korean needs. Manrope and
      * Pretendard have no optical size axis, so tracking tightens headings and opens
      * captions by hand. Text stays at 12px or larger. */
-    --type-display-size: clamp(2rem, 1.6rem + 1.6vw, 2.5rem);
-    --type-display-leading: 1.2;
-    --type-display-tracking: -0.02em;
-    --type-title-size: clamp(1.75rem, 1.4rem + 1.2vw, 2rem);
-    --type-title-leading: 1.25;
-    --type-title-tracking: -0.02em;
-    --type-page-size: 1.5rem;
-    --type-page-leading: 1.333333;
-    --type-page-tracking: -0.01em;
-    --type-section-size: 1.25rem;
-    --type-section-leading: 1.4;
-    --type-section-tracking: -0.01em;
-    --type-subsection-size: 1rem;
-    --type-subsection-leading: 1.5;
-    --type-subsection-tracking: 0;
-    --type-reading-size: 1rem;
-    --type-reading-leading: 1.75;
-    --type-reading-tracking: 0;
-    --type-body-size: 0.875rem;
-    --type-body-leading: 1.571429;
-    --type-body-tracking: 0;
+    --surf-type-display-size: clamp(2rem, 1.6rem + 1.6vw, 2.5rem);
+    --surf-type-display-leading: 1.2;
+    --surf-type-display-tracking: -0.02em;
+    --surf-type-title-size: clamp(1.75rem, 1.4rem + 1.2vw, 2rem);
+    --surf-type-title-leading: 1.25;
+    --surf-type-title-tracking: -0.02em;
+    --surf-type-page-size: 1.5rem;
+    --surf-type-page-leading: 1.333333;
+    --surf-type-page-tracking: -0.01em;
+    --surf-type-section-size: 1.25rem;
+    --surf-type-section-leading: 1.4;
+    --surf-type-section-tracking: -0.01em;
+    --surf-type-subsection-size: 1rem;
+    --surf-type-subsection-leading: 1.5;
+    --surf-type-subsection-tracking: 0;
+    --surf-type-reading-size: 1rem;
+    --surf-type-reading-leading: 1.75;
+    --surf-type-reading-tracking: 0;
+    --surf-type-body-size: 0.875rem;
+    --surf-type-body-leading: 1.571429;
+    --surf-type-body-tracking: 0;
     /* Single-line controls: buttons, tabs, menu items. */
-    --type-label-size: var(--type-body-size);
-    --type-label-leading: 1.428571;
-    --type-label-tracking: 0;
+    --surf-type-label-size: var(--surf-type-body-size);
+    --surf-type-label-leading: 1.428571;
+    --surf-type-label-tracking: 0;
     /* Dense secondary text: table cells, notifications, file details. */
-    --type-compact-size: 0.8125rem;
-    --type-compact-leading: 1.538462;
-    --type-compact-tracking: 0;
-    --type-caption-size: 0.75rem;
-    --type-caption-leading: 1.5;
-    --type-caption-tracking: 0.01em;
-    --type-metric-size: 1.5rem;
-    --type-metric-leading: 1.166667;
-    --type-metric-tracking: -0.01em;
-    --type-code-size: var(--type-compact-size);
-    --type-code-leading: var(--type-compact-leading);
-    --type-table-size: var(--type-compact-size);
-    --type-table-leading: var(--type-compact-leading);
+    --surf-type-compact-size: 0.8125rem;
+    --surf-type-compact-leading: 1.538462;
+    --surf-type-compact-tracking: 0;
+    --surf-type-caption-size: 0.75rem;
+    --surf-type-caption-leading: 1.5;
+    --surf-type-caption-tracking: 0.01em;
+    --surf-type-metric-size: 1.5rem;
+    --surf-type-metric-leading: 1.166667;
+    --surf-type-metric-tracking: -0.01em;
+    --surf-type-code-size: var(--surf-type-compact-size);
+    --surf-type-code-leading: var(--surf-type-compact-leading);
+    --surf-type-table-size: var(--surf-type-compact-size);
+    --surf-type-table-leading: var(--surf-type-compact-leading);
     /* Manrope comes first in the body stack, so Korean word spaces take its 0.20em space;
      * this widens them to Pretendard's 0.25em. Set 0 when a Hangul face comes first. */
-    --type-hangul-word-spacing: 0.05em;
+    --surf-type-hangul-word-spacing: 0.05em;
     /* Earlier page title roles, now the display role. */
-    --type-workspace-title-size: var(--type-display-size);
-    --type-workspace-title-leading: var(--type-display-leading);
-    --type-document-title-size: var(--type-display-size);
-    --type-document-title-leading: var(--type-display-leading);
-    --type-document-section-size: var(--type-title-size);
-    --page-header-gap: var(--space-2);
-    --page-header-breadcrumb-gap: var(--space-3);
+    --surf-type-workspace-title-size: var(--surf-type-display-size);
+    --surf-type-workspace-title-leading: var(--surf-type-display-leading);
+    --surf-type-document-title-size: var(--surf-type-display-size);
+    --surf-type-document-title-leading: var(--surf-type-display-leading);
+    --surf-type-document-section-size: var(--surf-type-title-size);
+    --surf-page-header-gap: var(--surf-space-2);
+    --surf-page-header-breadcrumb-gap: var(--surf-space-3);
   }
   @media (max-width: 1100px) {
     :root,
-    [data-theme] {
-      --layout-columns: 6;
+    [data-theme='dark'],
+    [data-theme='light'] {
+      --surf-layout-columns: 6;
     }
   }
   @media (max-width: 760px) {
     :root,
-    [data-theme] {
-      --layout-columns: 4;
-      --layout-page-inset: var(--space-4);
-      --layout-section-gap: var(--space-8);
-      --layout-gutter: var(--space-4);
-      --type-display-size: 2rem;
-      --type-title-size: 1.75rem;
+    [data-theme='dark'],
+    [data-theme='light'] {
+      --surf-layout-columns: 4;
+      --surf-layout-page-inset: var(--surf-space-4);
+      --surf-layout-section-gap: var(--surf-space-8);
+      --surf-layout-gutter: var(--surf-space-4);
+      --surf-type-display-size: 2rem;
+      --surf-type-title-size: 1.75rem;
     }
   }
 
   :root,
-  [data-theme] {
-    /* Deprecated: use --size-icon-default and --size-icon-large. --icon-size-lg is
+  [data-theme='dark'],
+  [data-theme='light'] {
+    /* Deprecated: use --surf-size-icon-default and --surf-size-icon-large. --surf-icon-size-lg is
        off the scale. All three are removed in a later minor. */
-    --icon-size-sm: var(--size-icon-default);
-    --icon-size-md: var(--size-icon-large);
-    --icon-size-lg: 24px;
-    --icon-stroke-width: 1.7;
+    --surf-icon-size-sm: var(--surf-size-icon-default);
+    --surf-icon-size-md: var(--surf-size-icon-large);
+    --surf-icon-size-lg: 24px;
+    --surf-icon-stroke-width: 1.7;
   }
 
   /* Three component size schemes; default preserves the existing visual scale. */
   :root,
-  [data-theme] {
-    --size-control-height-small: 32px;
-    --size-control-height-default: 36px;
-    --size-control-height-large: 44px;
-    --size-control-padding-small: 8px;
-    --size-control-padding-default: 10px;
-    --size-control-padding-large: 14px;
-    --size-button-padding-small: 10px;
-    --size-button-padding-default: 14px;
-    --size-button-padding-large: 18px;
-    --size-font-small: 13px;
-    --size-font-default: 14px;
-    --size-font-large: 16px;
-    --size-leading-small: 20px;
-    --size-leading-default: 22px;
-    --size-leading-large: 24px;
-    --size-choice-small: 16px;
-    --size-choice-default: 20px;
-    --size-choice-large: 24px;
-    --size-switch-width-small: 32px;
-    --size-switch-width-default: 36px;
-    --size-switch-width-large: 44px;
-    --size-switch-height-small: 20px;
-    --size-switch-height-default: 22px;
-    --size-switch-height-large: 26px;
-    --size-switch-thumb-small: 12px;
-    --size-switch-thumb-default: 14px;
-    --size-switch-thumb-large: 18px;
-    --size-icon-small: 14px;
-    --size-icon-default: 16px;
-    --size-icon-large: 20px;
-    --size-surface-padding-small: 12px;
-    --size-surface-padding-default: 16px;
-    --size-surface-padding-large: 24px;
-    --size-card-padding-small: 16px;
-    --size-card-padding-default: 24px;
-    --size-card-padding-large: 32px;
-    --size-gap-small: 6px;
-    --size-gap-default: 8px;
-    --size-gap-large: 12px;
-    --size-row-small: 32px;
-    --size-row-default: 36px;
-    --size-row-large: 44px;
-    --size-table-padding-y-small: 8px;
-    --size-table-padding-y-default: 12px;
-    --size-table-padding-y-large: 16px;
-    --size-table-padding-x-small: 12px;
-    --size-table-padding-x-default: 16px;
-    --size-table-padding-x-large: 20px;
-    --size-avatar-small: 24px;
-    --size-avatar-default: 36px;
-    --size-avatar-large: 48px;
+  [data-theme='dark'],
+  [data-theme='light'] {
+    --surf-size-control-height-small: 32px;
+    --surf-size-control-height-default: 36px;
+    --surf-size-control-height-large: 44px;
+    --surf-size-control-padding-small: 8px;
+    --surf-size-control-padding-default: 10px;
+    --surf-size-control-padding-large: 14px;
+    --surf-size-button-padding-small: 10px;
+    --surf-size-button-padding-default: 14px;
+    --surf-size-button-padding-large: 18px;
+    --surf-size-font-small: 13px;
+    --surf-size-font-default: 14px;
+    --surf-size-font-large: 16px;
+    --surf-size-leading-small: 20px;
+    --surf-size-leading-default: 22px;
+    --surf-size-leading-large: 24px;
+    --surf-size-choice-small: 16px;
+    --surf-size-choice-default: 20px;
+    --surf-size-choice-large: 24px;
+    --surf-size-switch-width-small: 32px;
+    --surf-size-switch-width-default: 36px;
+    --surf-size-switch-width-large: 44px;
+    --surf-size-switch-height-small: 20px;
+    --surf-size-switch-height-default: 22px;
+    --surf-size-switch-height-large: 26px;
+    --surf-size-switch-thumb-small: 12px;
+    --surf-size-switch-thumb-default: 14px;
+    --surf-size-switch-thumb-large: 18px;
+    --surf-size-icon-small: 14px;
+    --surf-size-icon-default: 16px;
+    --surf-size-icon-large: 20px;
+    --surf-size-surface-padding-small: 12px;
+    --surf-size-surface-padding-default: 16px;
+    --surf-size-surface-padding-large: 24px;
+    --surf-size-card-padding-small: 16px;
+    --surf-size-card-padding-default: 24px;
+    --surf-size-card-padding-large: 32px;
+    --surf-size-gap-small: 6px;
+    --surf-size-gap-default: 8px;
+    --surf-size-gap-large: 12px;
+    --surf-size-row-small: 32px;
+    --surf-size-row-default: 36px;
+    --surf-size-row-large: 44px;
+    --surf-size-table-padding-y-small: 8px;
+    --surf-size-table-padding-y-default: 12px;
+    --surf-size-table-padding-y-large: 16px;
+    --surf-size-table-padding-x-small: 12px;
+    --surf-size-table-padding-x-default: 16px;
+    --surf-size-table-padding-x-large: 20px;
+    --surf-size-avatar-small: 24px;
+    --surf-size-avatar-default: 36px;
+    --surf-size-avatar-large: 48px;
     /* Overlay widths. An overlay's size prop sets its width and its content density;
      * without one, it keeps the default width and the surrounding density. */
-    --size-bottom-navigation: 56px;
-    --size-dialog-small: 420px;
-    --size-dialog-default: 640px;
-    --size-dialog-large: 840px;
-    --size-panel-small: 320px;
-    --size-panel-default: 440px;
-    --size-panel-large: 640px;
-    --size-popover-small: 240px;
-    --size-popover-default: 320px;
-    --size-popover-large: 480px;
-    --size-spinner-small: 14px;
-    --size-spinner-default: 20px;
-    --size-spinner-large: 28px;
-    --size-badge-padding-y-small: 2px;
-    --size-badge-padding-y-default: 4px;
-    --size-badge-padding-y-large: 6px;
-    --size-badge-padding-x-small: 7px;
-    --size-badge-padding-x-default: 9px;
-    --size-badge-padding-x-large: 12px;
-    --size-badge-font-small: 12px;
-    --size-badge-font-default: 12px;
-    --size-badge-font-large: 13px;
-    --size-gauge-small: 6px;
-    --size-gauge-default: 8px;
-    --size-gauge-large: 10px;
-    --size-slider-thumb-small: 16px;
-    --size-slider-thumb-default: 20px;
-    --size-slider-thumb-large: 24px;
-    --size-otp-small: 36px;
-    --size-otp-default: 44px;
-    --size-otp-large: 52px;
-    --size-tree-row-small: 36px;
-    --size-tree-row-default: 44px;
-    --size-tree-row-large: 52px;
-    --size-textarea-padding-small: 8px;
-    --size-textarea-padding-default: 12px;
-    --size-textarea-padding-large: 16px;
-    --size-tooltip-padding-y-small: 6px;
-    --size-tooltip-padding-y-default: 8px;
-    --size-tooltip-padding-y-large: 10px;
-    --size-tooltip-padding-x-small: 10px;
-    --size-tooltip-padding-x-default: 12px;
-    --size-tooltip-padding-x-large: 16px;
+    --surf-size-bottom-navigation: 56px;
+    --surf-size-dialog-small: 420px;
+    --surf-size-dialog-default: 640px;
+    --surf-size-dialog-large: 840px;
+    --surf-size-panel-small: 320px;
+    --surf-size-panel-default: 440px;
+    --surf-size-panel-large: 640px;
+    --surf-size-popover-small: 240px;
+    --surf-size-popover-default: 320px;
+    --surf-size-popover-large: 480px;
+    --surf-size-spinner-small: 14px;
+    --surf-size-spinner-default: 20px;
+    --surf-size-spinner-large: 28px;
+    --surf-size-badge-padding-y-small: 2px;
+    --surf-size-badge-padding-y-default: 4px;
+    --surf-size-badge-padding-y-large: 6px;
+    --surf-size-badge-padding-x-small: 7px;
+    --surf-size-badge-padding-x-default: 9px;
+    --surf-size-badge-padding-x-large: 12px;
+    --surf-size-badge-font-small: 12px;
+    --surf-size-badge-font-default: 12px;
+    --surf-size-badge-font-large: 13px;
+    --surf-size-gauge-small: 6px;
+    --surf-size-gauge-default: 8px;
+    --surf-size-gauge-large: 10px;
+    --surf-size-slider-thumb-small: 16px;
+    --surf-size-slider-thumb-default: 20px;
+    --surf-size-slider-thumb-large: 24px;
+    --surf-size-otp-small: 36px;
+    --surf-size-otp-default: 44px;
+    --surf-size-otp-large: 52px;
+    --surf-size-tree-row-small: 36px;
+    --surf-size-tree-row-default: 44px;
+    --surf-size-tree-row-large: 52px;
+    --surf-size-textarea-padding-small: 8px;
+    --surf-size-textarea-padding-default: 12px;
+    --surf-size-textarea-padding-large: 16px;
+    --surf-size-tooltip-padding-y-small: 6px;
+    --surf-size-tooltip-padding-y-default: 8px;
+    --surf-size-tooltip-padding-y-large: 10px;
+    --surf-size-tooltip-padding-x-small: 10px;
+    --surf-size-tooltip-padding-x-default: 12px;
+    --surf-size-tooltip-padding-x-large: 16px;
   }
 
   :root,
-  [data-theme] {
-    --size-slider-track-small: 4px;
-    --size-slider-track-default: 6px;
-    --size-slider-track-large: 8px;
-    --size-file-padding-small: 12px;
-    --size-file-padding-default: 20px;
-    --size-file-padding-large: 28px;
-    --size-content-gap-small: 8px;
-    --size-content-gap-default: 12px;
-    --size-content-gap-large: 16px;
+  [data-theme='dark'],
+  [data-theme='light'] {
+    --surf-size-slider-track-small: 4px;
+    --surf-size-slider-track-default: 6px;
+    --surf-size-slider-track-large: 8px;
+    --surf-size-file-padding-small: 12px;
+    --surf-size-file-padding-default: 20px;
+    --surf-size-file-padding-large: 28px;
+    --surf-size-content-gap-small: 8px;
+    --surf-size-content-gap-default: 12px;
+    --surf-size-content-gap-large: 16px;
   }
 }

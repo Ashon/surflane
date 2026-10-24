@@ -39,13 +39,16 @@ function DrawerRoot({
     </DrawerSide.Provider>
   )
 }
-const DrawerContent = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<typeof BaseDrawer.Popup> & PanelOptions
->(function DrawerContent(
-  { size, flush, closeLabel = 'Close panel', className, children, ...props },
+const DrawerContent = function DrawerContent({
+  size,
+  flush,
+  closeLabel = 'Close panel',
+  className,
+  children,
   ref,
-) {
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseDrawer.Popup> &
+  PanelOptions & { ref?: React.Ref<HTMLDivElement> }) {
   const scheme = useComponentSize(size)
   const { side, modal } = React.useContext(DrawerSide)
   const KeyboardProvider =
@@ -53,31 +56,31 @@ const DrawerContent = /* @__PURE__ */ React.forwardRef<
   return (
     <KeyboardProvider>
       <BaseDrawer.Portal>
-        <div className='pui-panel-layer' data-ui-size={scheme}>
+        <div className='surf-panel-layer' data-ui-size={scheme}>
           {modal === true && (
-            <BaseDrawer.Backdrop className='pui-panel-backdrop' />
+            <BaseDrawer.Backdrop className='surf-panel-backdrop' />
           )}
           <BaseDrawer.Viewport
-            className='pui-panel-viewport'
+            className='surf-panel-viewport'
             data-side={side}
             data-flush={flush || undefined}
           >
             <BaseDrawer.Popup
               {...props}
               ref={ref}
-              className={skin('pui-panel pui-drawer', className)}
+              className={skin('surf-panel surf-drawer', className)}
               data-side={side}
               data-size={normalizeSize(size) ?? 'large'}
               data-flush={flush || undefined}
             >
-              <div className='pui-drawer-handle' aria-hidden='true' />
+              <div className='surf-drawer-handle' aria-hidden='true' />
               <BaseDrawer.Close
-                className='pui-panel-close pui-icon-button'
+                className='surf-panel-close surf-icon-button'
                 aria-label={closeLabel}
               >
                 <Icon name='close' />
               </BaseDrawer.Close>
-              <BaseDrawer.Content className='pui-panel-content'>
+              <BaseDrawer.Content className='surf-panel-content'>
                 {children}
               </BaseDrawer.Content>
             </BaseDrawer.Popup>
@@ -86,7 +89,7 @@ const DrawerContent = /* @__PURE__ */ React.forwardRef<
       </BaseDrawer.Portal>
     </KeyboardProvider>
   )
-})
+}
 function DrawerTitle({
   className,
   ...props
@@ -94,7 +97,7 @@ function DrawerTitle({
   return (
     <BaseDrawer.Title
       {...props}
-      className={skin('pui-panel-title', className)}
+      className={skin('surf-panel-title', className)}
     />
   )
 }
@@ -105,7 +108,7 @@ function DrawerDescription({
   return (
     <BaseDrawer.Description
       {...props}
-      className={skin('pui-panel-description', className)}
+      className={skin('surf-panel-description', className)}
     />
   )
 }

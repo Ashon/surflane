@@ -10,21 +10,19 @@ npm install @surflane/design-tokens
 
 ## Entry points
 
-| Export             | Contents                                                                              |
-| ------------------ | ------------------------------------------------------------------------------------- |
-| `tokens.css`       | Theme roles, color, spacing, sizing, typography and motion tokens                     |
-| `controls.css`     | Framework-neutral control classes such as `.pui-icon-button` and `.pui-control-group` |
-| `foundations.css`  | Layout composition classes such as `.pui-container` and `.pui-stack`                  |
-| `presentation.css` | Native presentation classes such as `.pui-avatar`                                     |
-| `typography.css`   | Opt-in document typography through `.pui-typography`                                  |
-| `motion.css`       | Theme transition timing and the `data-theme-switching` state                          |
-| `theme.json`       | Each theme's `chrome` color, for example for `<meta name="theme-color">`              |
-| `catalog.json`     | Generated token catalog with values, aliases and source locations                     |
-| `tailwind.css`     | Tailwind CSS v4 theme: utilities such as `bg-canvas`, `p-page` and `rounded-sheet`    |
-| `theme-transition` | `transitionTheme(update)`, a reduced-motion-aware crossfade for theme changes         |
-| `themes/*.css`     | Theme presets: neutral tints, accents and radius scales, layered above the tokens     |
-| `theme-builder`    | `createTheme` and `themeCss` for your own neutral, accent and radius inputs           |
-| `shadcn.css`       | shadcn/ui variables such as `--background` and `--primary` mapped to Surflane tokens  |
+| Export             | Contents                                                                             |
+| ------------------ | ------------------------------------------------------------------------------------ |
+| `tokens.css`       | Theme roles, color, spacing, sizing, typography and motion tokens                    |
+| `motion.css`       | Theme transition timing and the `data-theme-switching` state                         |
+| `theme.json`       | Each theme's `chrome` color, for example for `<meta name="theme-color">`             |
+| `catalog.json`     | Generated token catalog with values, aliases and source locations                    |
+| `tailwind.css`     | Tailwind CSS v4 theme: utilities such as `bg-canvas`, `p-page` and `rounded-sheet`   |
+| `theme-transition` | `transitionTheme(update)`, a reduced-motion-aware crossfade for theme changes        |
+| `themes/*.css`     | Theme presets: neutral tints, accents and radius scales, layered above the tokens    |
+| `theme-builder`    | `createTheme` and `themeCss` for your own neutral, accent and radius inputs          |
+| `shadcn.css`       | shadcn/ui variables such as `--background` and `--primary` mapped to Surflane tokens |
+
+The CSS-only classes that once shipped here, such as controls, layout composition, presentation and document typography, are in [`@surflane/css`](https://www.npmjs.com/package/@surflane/css).
 
 Tokens default to the dark theme. `data-theme="light"` on `<html>` selects the light theme. Set the attribute before the first paint, for example from a cookie on the server. `data-theme="light"` or `"dark"` on any other element scopes that theme to its subtree.
 

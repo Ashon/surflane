@@ -520,7 +520,7 @@ test('table horizontal scroll repaints cell edges in the same event dispatch', a
     .poll(async () => (await pixels(page.locator('.pointer-blueprint'))).count)
     .toBeGreaterThan(0)
   const samples = await cell.evaluate((target) => {
-    const viewport = target.closest<HTMLElement>('.pui-scroll-viewport')!
+    const viewport = target.closest<HTMLElement>('.surf-scroll-viewport')!
     const ctx = document
       .querySelector<HTMLCanvasElement>('.pointer-blueprint')!
       .getContext('2d')!
@@ -645,7 +645,10 @@ test('the decorative landing console still shows construction guides, unless an 
     .poll(() => alphaInside(page, '.landing-console-sheet'))
     .toBeGreaterThan(60)
   // Brand and account rows are plain containers; they opt in with data-blueprint-guide.
-  for (const row of ['.landing-console-brand', '.landing-console-account']) {
+  for (const row of [
+    '.landing-console .surf-app-shell-brand',
+    '.landing-console-account',
+  ]) {
     const area = (await page.locator(row).boundingBox())!
     await page.mouse.move(area.x + area.width / 2, area.y + area.height / 2)
     await expect.poll(() => alphaInside(page, row)).toBeGreaterThan(60)
@@ -808,7 +811,7 @@ test('guides in a scroll area paint on a layer inside its content that takes no 
   // The cell's guides belong to the table's own layer.
   const own = await cell.evaluate((el, box) => {
     const canvas = el
-      .closest('.pui-scroll-viewport')!
+      .closest('.surf-scroll-viewport')!
       .querySelector<HTMLCanvasElement>(
         ':scope > .pointer-blueprint-scroll canvas',
       )!
@@ -859,4 +862,130 @@ test('a guide continues past the edge of its scroll area instead of stopping the
   await expect.poll(() => alpha(area.x + 6, box.y)).toBeGreaterThan(20)
   await expect.poll(() => alpha(area.x - 6, box.y)).toBeGreaterThan(20)
   expect(await row.boundingBox()).toEqual(box)
+})
+
+test('a scroll area layer sits on whole device pixels by its offsets, not a transform', async ({
+  browser,
+}) => {
+  // The browser snaps a box before it applies a transform, so a translate from a host
+  // between device pixels resampled the canvas and smeared each line over two rows.
+  const context = await browser.newContext({
+    viewport: { width: 1440, height: 1000 },
+    deviceScaleFactor: 2,
+    reducedMotion: 'reduce',
+  })
+  try {
+    const page = await context.newPage()
+    await page.goto('http://127.0.0.1:8066/components/table')
+    await waitForCatalogReady(page)
+    // Put the scroll areas between device pixels.
+    await page
+      .locator('.catalog-shell')
+      .evaluate((shell) => (shell.style.marginTop = '0.33px'))
+    const cell = page.locator('[data-preview-size] tbody td').first()
+    await cell.scrollIntoViewIfNeeded()
+    const box = (await cell.boundingBox())!
+    await page.mouse.move(box.x + 20, box.y + box.height / 2)
+    await expect(
+      page.locator('.pointer-blueprint-layer').first(),
+    ).toBeAttached()
+    const layers = await page.evaluate(() =>
+      [
+        ...document.querySelectorAll<HTMLElement>('.pointer-blueprint-layer'),
+      ].map((canvas) => {
+        const rect = canvas.getBoundingClientRect()
+        return {
+          transform: canvas.style.transform,
+          left: rect.left * devicePixelRatio,
+          top: rect.top * devicePixelRatio,
+        }
+      }),
+    )
+    expect(layers.length).toBeGreaterThan(0)
+    for (const layer of layers) {
+      expect(layer.transform).toBe('')
+      expect(Math.abs(layer.left - Math.round(layer.left))).toBeLessThan(0.02)
+      expect(Math.abs(layer.top - Math.round(layer.top))).toBeLessThan(0.02)
+    }
+  } finally {
+    await context.close()
+  }
+})
+
+test("a sticky sidebar's lines outside it stay put while the page scrolls", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/components')
+  await waitForCatalogReady(page)
+  const navigation = page.locator('.catalog-navigation-viewport')
+  const right = await navigation.evaluate((viewport) => {
+    const box = viewport.getBoundingClientRect()
+    return box.left + viewport.clientLeft + viewport.clientWidth
+  })
+  const link = page.locator('#catalog-navigation-links a').nth(5)
+  // Rows the window canvas draws in one column just outside the sidebar.
+  const rows = () =>
+    page.locator('.pointer-blueprint').evaluate((node, x) => {
+      const canvas = node as HTMLCanvasElement
+      const dpr = devicePixelRatio
+      const data = canvas
+        .getContext('2d')!
+        .getImageData(Math.round(x * dpr), 0, 1, canvas.height).data
+      const found: number[] = []
+      for (let y = 0; y < canvas.height; y++)
+        if (data[y * 4 + 3]) found.push((y + 0.5) / dpr)
+      return found
+    }, right + 30)
+  for (const scroll of [0, 400]) {
+    await page
+      .locator('.catalog-document-scroll')
+      .evaluate((viewport, top) => (viewport.scrollTop = top), scroll)
+    const box = (await link.boundingBox())!
+    await page.mouse.move(right - 25, box.y + box.height / 2)
+    // The sidebar holds still, so the window canvas, not the document's layer that
+    // scrolls with the page, draws the part of its lines past the sidebar.
+    await expect
+      .poll(async () => (await rows()).some((y) => Math.abs(y - box.y) < 1))
+      .toBe(true)
+  }
+})
+
+test('ambient probes draw the page body fainter than the chrome', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await page.goto('/components/button')
+  await waitForCatalogReady(page)
+  // The body's guides paint on the document's layer and the layers of the scroll
+  // areas inside it; the pointer stays away.
+  const body = () =>
+    page.evaluate(() => {
+      let count = 0,
+        maximum = 0
+      for (const canvas of document.querySelectorAll<HTMLCanvasElement>(
+        'main .pointer-blueprint-layer, .catalog-document-scroll > .pointer-blueprint-scroll > .pointer-blueprint-layer',
+      )) {
+        const data = canvas
+          .getContext('2d')!
+          .getImageData(0, 0, canvas.width, canvas.height).data
+        for (let i = 3; i < data.length; i += 4)
+          if (data[i]) {
+            count++
+            maximum = Math.max(maximum, data[i])
+          }
+      }
+      return { count, maximum }
+    })
+  await expect
+    .poll(async () => (await body()).count, { timeout: 8000 })
+    .toBeGreaterThan(100)
+  // Half of the pointer layer's 0.3 alpha, with room for rounding. Lines that cross
+  // within one spotlight don't add up.
+  for (let sample = 0; sample < 5; sample++) {
+    expect((await body()).maximum).toBeLessThanOrEqual(42)
+    await page.waitForTimeout(200)
+  }
 })

@@ -1,0 +1,54 @@
+/* Presentation classes: Card / Surface. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+
+@layer surflane.components {
+  /* Cards use one surface; children provide hierarchy without extra frames. */
+  .surf-card {
+    display: grid;
+    gap: var(--surf-space-4);
+    min-width: 0;
+    padding: var(--surf-surface-padding, var(--surf-space-6));
+    border-radius: var(--surf-radius-lg);
+    background: var(--surf-surface);
+    color: var(--surf-ink-body);
+  }
+  .surf-card:is([data-surface='canvas'], [data-tone='canvas']) {
+    background: var(--surf-canvas);
+  }
+  .surf-card-header {
+    display: grid;
+    gap: var(--surf-space-2);
+    min-width: 0;
+  }
+  .surf-card-title {
+    margin: 0;
+    color: var(--surf-ink);
+    font: var(--surf-weight-medium)
+      var(--surf-type-section-size)/var(--surf-type-section-leading)
+      var(--surf-font-body);
+    letter-spacing: var(--surf-type-section-tracking);
+    overflow-wrap: anywhere;
+  }
+  .surf-card-description {
+    margin: 0;
+    color: var(--surf-ink-body);
+  }
+  .surf-card-body {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .surf-card-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--surf-space-3);
+  }
+  .surf-card-body > :first-child {
+    margin-top: 0;
+  }
+  .surf-card-body > :last-child {
+    margin-bottom: 0;
+  }
+}

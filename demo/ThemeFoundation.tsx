@@ -90,18 +90,18 @@ function Presets<Name extends string>({
 }
 function Brand({ workspace }: { workspace: string }) {
   return (
-    <div className='theme-preview-brand'>
-      <svg viewBox='0 0 24 24' aria-hidden='true'>
-        <rect width='24' height='24' rx='6' />
-        <path d='m6.5 9.5 5.5-3 5.5 3-5.5 3z' />
-        <path d='m6.5 12.75 5.5 3 5.5-3' />
-        <path d='m6.5 15.75 5.5 3 5.5-3' />
-      </svg>
-      <span>
-        <AppShell.Label>Acme Platform</AppShell.Label>
-        <small>{workspace}</small>
-      </span>
-    </div>
+    <AppShell.Brand
+      mark={
+        <svg className='theme-preview-logo' viewBox='0 0 24 24'>
+          <rect width='24' height='24' rx='6' />
+          <path d='m6.5 9.5 5.5-3 5.5 3-5.5 3z' />
+          <path d='m6.5 12.75 5.5 3 5.5-3' />
+          <path d='m6.5 15.75 5.5 3 5.5-3' />
+        </svg>
+      }
+      name='Acme Platform'
+      description={workspace}
+    />
   )
 }
 const deployments = [
@@ -137,7 +137,7 @@ function Preview({
           </AppShell.Header>
           <AppShell.Sidebar>
             <Brand workspace={t.workspace} />
-            <nav aria-label='Acme Platform'>
+            <AppShell.Nav aria-label='Acme Platform'>
               {(
                 [
                   [t.overview, 'monitor'],
@@ -155,7 +155,7 @@ function Preview({
                   onClick={(event) => event.preventDefault()}
                 />
               ))}
-            </nav>
+            </AppShell.Nav>
           </AppShell.Sidebar>
           <AppShell.Content>
             <AppShell.Page className='theme-preview-sheet'>
@@ -205,7 +205,9 @@ function Preview({
                     <Table.Head>
                       <Table.Row>
                         <Table.HeaderCell scope='col'>
-                          <span className='pui-feedback-sr'>{t.selection}</span>
+                          <span className='surf-feedback-sr'>
+                            {t.selection}
+                          </span>
                         </Table.HeaderCell>
                         <Table.HeaderCell scope='col'>
                           {t.service}
@@ -275,12 +277,12 @@ function Preview({
   )
 }
 const pairs = [
-  ['body', '--ink-body', '--canvas'],
-  ['muted', '--ink-muted', '--canvas'],
-  ['heading', '--ink', '--chrome'],
-  ['recessed', '--ink-muted', '--surface'],
-  ['onAccent', '--on-brand', '--brand'],
-  ['link', '--brand-ink', '--canvas'],
+  ['body', '--surf-ink-body', '--surf-canvas'],
+  ['muted', '--surf-ink-muted', '--surf-canvas'],
+  ['heading', '--surf-ink', '--surf-chrome'],
+  ['recessed', '--surf-ink-muted', '--surf-surface'],
+  ['onAccent', '--surf-on-brand', '--surf-brand'],
+  ['link', '--surf-brand-ink', '--surf-canvas'],
 ] as const
 function ContrastReport({ theme, t }: { theme: Theme; t: Copy }) {
   const ratio = (mode: 'dark' | 'light', fg: string, bg: string) =>
@@ -471,7 +473,9 @@ ${files
                 value={inputs.accent.preset}
                 t={t}
                 swatch={(name) =>
-                  createTheme({ accent: accentPresets[name] }).dark['--brand']
+                  createTheme({ accent: accentPresets[name] }).dark[
+                    '--surf-brand'
+                  ]
                 }
                 onChange={(preset) =>
                   setInputs((old) => ({

@@ -1,10 +1,10 @@
 import type { ComponentDoc } from '../componentDocs'
 const selection = [
-  '--control-choice-size',
-  '--control-choice-border',
-  '--control-choice-selected-bg',
-  '--control-choice-selected-fg',
-  '--interaction-focus',
+  '--surf-control-choice-size',
+  '--surf-control-choice-border',
+  '--surf-control-choice-selected-bg',
+  '--surf-control-choice-selected-fg',
+  '--surf-interaction-focus',
 ]
 export const doc: ComponentDoc = {
   usage:

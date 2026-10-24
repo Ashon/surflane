@@ -7,7 +7,7 @@ export const doc: ComponentDoc = {
   keyboard:
     "Separators are non-interactive and aren't in the Tab order. aria-orientation conveys the orientation.",
   anatomy: 'Separator(orientation, optional horizontal inset)',
-  tokens: ['--line', '--space-4'],
+  tokens: ['--surf-line', '--surf-space-4'],
   code: `import { Separator } from '@surflane/ui'
 
 <Separator />

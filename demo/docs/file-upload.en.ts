@@ -19,16 +19,16 @@ export const doc: ComponentDoc = {
   keyboard:
     'Tabbing to the native file input shows a focus ring on the choose button. Enter or Space opens the file picker. In the file list, Tab reaches the Upload, Cancel, Retry, and Remove buttons. Enter or Space activates them. Every file selection works without dragging. disabled blocks selection and submission, and cancels transfers in progress.',
   tokens: [
-    '--control-border',
-    '--control-focus',
-    '--interaction-focus',
-    '--surface',
-    '--line',
-    '--radius-lg',
-    '--status-danger-fg',
-    '--space-3',
-    '--space-4',
-    '--space-5',
+    '--surf-control-border',
+    '--surf-control-focus',
+    '--surf-interaction-focus',
+    '--surf-surface',
+    '--surf-line',
+    '--surf-radius-lg',
+    '--surf-status-danger-fg',
+    '--surf-space-3',
+    '--surf-space-4',
+    '--surf-space-5',
   ],
   code: `import { FileUpload, Form } from '@surflane/ui'
 

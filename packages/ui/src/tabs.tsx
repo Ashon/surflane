@@ -7,23 +7,23 @@ export const Tabs = {
   Root: /* @__PURE__ */ part<
     React.ComponentRef<typeof BaseTabs.Root>,
     React.ComponentPropsWithoutRef<typeof BaseTabs.Root>
-  >(BaseTabs.Root, 'pui-tabs'),
+  >(BaseTabs.Root, 'surf-tabs'),
   List: /* @__PURE__ */ part<
     React.ComponentRef<typeof BaseTabs.List>,
     React.ComponentPropsWithoutRef<typeof BaseTabs.List>
-  >(BaseTabs.List, 'pui-tabs-list'),
+  >(BaseTabs.List, 'surf-tabs-list'),
   Tab: /* @__PURE__ */ part<
     React.ComponentRef<typeof BaseTabs.Tab>,
     React.ComponentPropsWithoutRef<typeof BaseTabs.Tab>
-  >(BaseTabs.Tab, 'pui-tabs-tab'),
+  >(BaseTabs.Tab, 'surf-tabs-tab'),
   Panel: /* @__PURE__ */ part<
     React.ComponentRef<typeof BaseTabs.Panel>,
     React.ComponentPropsWithoutRef<typeof BaseTabs.Panel>
-  >(BaseTabs.Panel, 'pui-tabs-panel'),
+  >(BaseTabs.Panel, 'surf-tabs-panel'),
   Indicator: /* @__PURE__ */ part<
     React.ComponentRef<typeof BaseTabs.Indicator>,
     React.ComponentPropsWithoutRef<typeof BaseTabs.Indicator>
-  >(BaseTabs.Indicator, 'pui-tabs-indicator'),
+  >(BaseTabs.Indicator, 'surf-tabs-indicator'),
 }
 
 // Flat names for React Server Components, which cannot dot into client exports.

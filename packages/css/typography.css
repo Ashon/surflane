@@ -1,0 +1,86 @@
+/* Opt-in document typography, including portal descendants when placed on body.
+   Font families are independent open-source dependencies; role sizes are UI tokens. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components, surflane.sizes;
+
+@layer surflane.base {
+  .surf-typography {
+    font-family: var(--surf-font-body);
+    font-size: var(--surf-type-body-size);
+    line-height: var(--surf-type-body-leading);
+    font-weight: var(--surf-weight-regular);
+    letter-spacing: var(--surf-type-body-tracking);
+    font-kerning: normal;
+    font-optical-sizing: auto;
+    font-synthesis-weight: none;
+  }
+  /* Korean wraps between words (어절), never inside one, and its word spaces take the
+   * Hangul face's width. Set on the scope so components keep their own wrapping. */
+  .surf-typography:lang(ko),
+  .surf-typography [lang|='ko'] {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    word-spacing: var(--surf-type-hangul-word-spacing);
+  }
+  .surf-typography :where(code, pre, kbd, samp) {
+    word-spacing: normal;
+  }
+  .surf-typography :where(h1, h2) {
+    font-family: var(--surf-font-display);
+    font-weight: var(--surf-weight-medium);
+  }
+  /* Headings tighten as they grow; the role tokens hold the amounts. */
+  .surf-typography :where(h1) {
+    letter-spacing: var(--surf-type-title-tracking);
+  }
+  .surf-typography :where(h2) {
+    letter-spacing: var(--surf-type-page-tracking);
+  }
+  .surf-typography :where(h3) {
+    letter-spacing: var(--surf-type-section-tracking);
+  }
+  .surf-typography :where(h3, h4, h5, h6) {
+    font-family: var(--surf-font-body);
+    font-weight: var(--surf-weight-medium);
+  }
+  .surf-typography :where(h4, h5, h6) {
+    letter-spacing: var(--surf-type-subsection-tracking);
+  }
+  .surf-typography :where(strong, b, th, a) {
+    font-weight: var(--surf-weight-medium);
+  }
+  .surf-typography :where(button, input, select, textarea) {
+    letter-spacing: var(--surf-type-label-tracking);
+    font-kerning: normal;
+    font-optical-sizing: auto;
+    font-synthesis-weight: none;
+  }
+  .surf-typography :where(code, pre, kbd, samp),
+  .surf-typography :where(code, pre, kbd, samp) :where(strong, b),
+  .surf-typography .surf-otp-input {
+    font-family: var(--surf-font-code);
+    font-weight: var(--surf-weight-regular);
+    letter-spacing: var(--surf-tracking-mono);
+    font-kerning: normal;
+    font-optical-sizing: auto;
+    font-synthesis-weight: none;
+  }
+
+  /* Rendering hints for scoped content and portals. A component's own font shorthand sits
+   * in the later components layer and computes kerning as auto, which renders the same. */
+  .surf-typography :where(*) {
+    font-kerning: normal;
+    font-optical-sizing: auto;
+    font-synthesis-weight: none;
+  }
+
+  /* Resolve stacks at the language boundary; changing only a root alias would
+     leave inherited, already-computed font stacks pointing at Korean glyphs. */
+  .surf-typography:lang(ja),
+  .surf-typography :where([lang|='ja']) {
+    --surf-font-display: 'Manrope Variable', var(--surf-font-japanese);
+    --surf-font-body: 'Manrope Variable', var(--surf-font-japanese);
+    --surf-font-code:
+      'JetBrains Mono Variable', var(--surf-font-japanese), monospace;
+    font-family: var(--surf-font-body);
+  }
+}

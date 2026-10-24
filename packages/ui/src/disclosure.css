@@ -5,105 +5,107 @@
 @import './button.css';
 
 @layer surflane.components {
-  .pui-accordion-item,
-  .pui-collapsible {
-    border-radius: var(--radius-md);
+  .surf-accordion-item,
+  .surf-collapsible {
+    border-radius: var(--surf-radius-md);
     min-width: 0;
   }
-  .pui-accordion-item[data-open],
-  .pui-collapsible[data-open] {
-    background: var(--surface);
+  .surf-accordion-item[data-open],
+  .surf-collapsible[data-open] {
+    background: var(--surf-surface);
   }
-  .pui-disclosure-trigger {
+  .surf-disclosure-trigger {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--space-3);
+    gap: var(--surf-space-3);
     width: 100%;
-    min-height: var(--control-height);
-    padding: var(--space-3) var(--space-4);
+    min-height: var(--surf-control-height);
+    padding: var(--surf-space-3) var(--surf-space-4);
     border: 0;
-    border-radius: var(--radius-md);
+    border-radius: var(--surf-radius-md);
     background: transparent;
-    color: var(--ink);
-    font: var(--weight-medium) var(--type-body-size)/var(--type-body-leading)
-      var(--font-body);
+    color: var(--surf-ink);
+    font: var(--surf-weight-medium)
+      var(--surf-type-body-size)/var(--surf-type-body-leading)
+      var(--surf-font-body);
     text-align: start;
     cursor: pointer;
     outline: none;
   }
-  .pui-disclosure-label {
+  .surf-disclosure-label {
     min-width: 0;
     overflow-wrap: anywhere;
   }
-  .pui-disclosure-trigger:hover:not(:disabled) {
-    background: var(--interaction-hover-bg);
+  .surf-disclosure-trigger:hover:not(:disabled) {
+    background: var(--surf-interaction-hover-bg);
   }
-  .pui-disclosure-trigger:active:not(:disabled) {
-    background: var(--interaction-active-bg);
+  .surf-disclosure-trigger:active:not(:disabled) {
+    background: var(--surf-interaction-active-bg);
   }
-  .pui-disclosure-trigger:focus-visible {
-    outline: var(--focus-ring-width) solid var(--interaction-focus);
-    outline-offset: var(--focus-ring-inset);
+  .surf-disclosure-trigger:focus-visible {
+    outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+    outline-offset: var(--surf-focus-ring-inset);
   }
-  .pui-disclosure-trigger:disabled {
-    opacity: var(--control-disabled-opacity);
+  .surf-disclosure-trigger:disabled {
+    opacity: var(--surf-control-disabled-opacity);
     cursor: not-allowed;
   }
-  .pui-disclosure-chevron {
+  .surf-disclosure-chevron {
     flex: none;
-    transition: rotate var(--duration-fast) var(--ease-out);
+    transition: rotate var(--surf-duration-fast) var(--surf-ease-out);
   }
   /* The chevron mirrors itself in right-to-left text, so it turns the other way to
      point down when open. */
-  .pui-disclosure-trigger[data-panel-open] > .pui-disclosure-chevron {
+  .surf-disclosure-trigger[data-panel-open] > .surf-disclosure-chevron {
     rotate: 90deg;
   }
-  .pui-disclosure-trigger:dir(rtl)[data-panel-open] > .pui-disclosure-chevron {
+  .surf-disclosure-trigger:dir(rtl)[data-panel-open]
+    > .surf-disclosure-chevron {
     rotate: -90deg;
   }
-  .pui-accordion-panel,
-  .pui-collapsible-panel {
+  .surf-accordion-panel,
+  .surf-collapsible-panel {
     overflow: clip;
     opacity: 1;
     transition:
-      height var(--motion-reveal) var(--motion-ease),
-      opacity var(--motion-reveal) var(--motion-ease);
+      height var(--surf-motion-reveal) var(--surf-motion-ease),
+      opacity var(--surf-motion-reveal) var(--surf-motion-ease);
   }
-  .pui-accordion-panel[data-starting-style],
-  .pui-collapsible-panel[data-starting-style] {
+  .surf-accordion-panel[data-starting-style],
+  .surf-collapsible-panel[data-starting-style] {
     height: 0;
     opacity: 0;
   }
-  .pui-accordion-panel[data-ending-style],
-  .pui-collapsible-panel[data-ending-style] {
+  .surf-accordion-panel[data-ending-style],
+  .surf-collapsible-panel[data-ending-style] {
     height: 0;
     opacity: 0;
   }
-  .pui-disclosure-body {
-    padding: var(--space-2) var(--space-4) var(--space-4);
+  .surf-disclosure-body {
+    padding: var(--surf-space-2) var(--surf-space-4) var(--surf-space-4);
     overflow-wrap: anywhere;
     min-width: 0;
   }
-  .pui-disclosure-body > :first-child {
+  .surf-disclosure-body > :first-child {
     margin-top: 0;
   }
-  .pui-disclosure-body > :last-child {
+  .surf-disclosure-body > :last-child {
     margin-bottom: 0;
   }
   @media (prefers-reduced-motion: reduce) {
-    .pui-disclosure-chevron,
-    .pui-accordion-panel,
-    .pui-collapsible-panel {
+    .surf-disclosure-chevron,
+    .surf-accordion-panel,
+    .surf-collapsible-panel {
       transition: none;
     }
   }
 }
 @layer surflane.sizes {
   /* At the default size these equal the base rules: a default SizeProvider changes nothing. */
-  :where([data-ui-size], [data-ui-size] *).pui-disclosure-trigger {
-    min-block-size: var(--control-height);
-    font-size: var(--ui-font);
-    padding-block: calc(var(--ui-gap) * 1.5);
+  :where([data-ui-size], [data-ui-size] *).surf-disclosure-trigger {
+    min-block-size: var(--surf-control-height);
+    font-size: var(--surf-ui-font);
+    padding-block: calc(var(--surf-ui-gap) * 1.5);
   }
 }

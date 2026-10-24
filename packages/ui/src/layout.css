@@ -3,4 +3,4 @@
   surflane.sizes;
 @import './base.css';
 @import './sizing.css';
-@import '@surflane/design-tokens/foundations/layout.css';
+@import '@surflane/css/foundations/layout.css';

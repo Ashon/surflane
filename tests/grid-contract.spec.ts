@@ -124,12 +124,12 @@ test('opt-in grid bleed aligns padded card content while nested and default grid
     await page.setViewportSize({ width, height: 1000 })
     const title = (await page.locator('#bleed-title').boundingBox())!
     const text = (await page
-      .locator('#bleed-grid .pui-card-title')
+      .locator('#bleed-grid .surf-card-title')
       .first()
       .boundingBox())!
     expect(text.x).toBeCloseTo(title.x, 1)
     const last = (await page
-      .locator('#bleed-grid .pui-card-title')
+      .locator('#bleed-grid .surf-card-title')
       .last()
       .boundingBox())!
     expect(last.x + last.width).toBeCloseTo(title.x + title.width, 1)

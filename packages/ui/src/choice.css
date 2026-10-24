@@ -5,115 +5,115 @@
 @import './sizing.css';
 
 @layer surflane.components {
-  .pui-choice-group {
+  .surf-choice-group {
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
+    gap: var(--surf-space-2);
     min-width: 0;
   }
-  .pui-checkbox,
-  .pui-radio,
-  .pui-switch {
+  .surf-checkbox,
+  .surf-radio,
+  .surf-switch {
     box-sizing: border-box;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     flex: none;
-    width: var(--control-choice-size);
-    height: var(--control-choice-size);
-    border: 1px solid var(--control-choice-border);
+    width: var(--surf-control-choice-size);
+    height: var(--surf-control-choice-size);
+    border: 1px solid var(--surf-control-choice-border);
     /* A rounder theme rounds the box, but never past 3/8 of its side, so a
        checkbox never reads as a radio. */
     border-radius: min(
-      var(--control-choice-radius),
-      var(--control-choice-size) * 0.375
+      var(--surf-control-choice-radius),
+      var(--surf-control-choice-size) * 0.375
     );
-    background: var(--control-background);
-    color: var(--ink);
+    background: var(--surf-control-background);
+    color: var(--surf-ink);
     outline: none;
     cursor: pointer;
     transition:
-      background-color var(--duration-fast) var(--ease-out),
-      border-color var(--duration-fast) var(--ease-out),
-      box-shadow var(--duration-fast) var(--ease-out);
+      background-color var(--surf-duration-fast) var(--surf-ease-out),
+      border-color var(--surf-duration-fast) var(--surf-ease-out),
+      box-shadow var(--surf-duration-fast) var(--surf-ease-out);
   }
-  .pui-checkbox:hover:not([data-disabled], [data-readonly]),
-  .pui-radio:hover:not([data-disabled], [data-readonly]),
-  .pui-switch:hover:not([data-disabled], [data-readonly]) {
-    border-color: var(--control-choice-hover-border);
-    background: var(--control-hover-background);
+  .surf-checkbox:hover:not([data-disabled], [data-readonly]),
+  .surf-radio:hover:not([data-disabled], [data-readonly]),
+  .surf-switch:hover:not([data-disabled], [data-readonly]) {
+    border-color: var(--surf-control-choice-hover-border);
+    background: var(--surf-control-hover-background);
   }
-  .pui-checkbox:is([data-checked], [data-indeterminate]),
-  .pui-radio[data-checked],
-  .pui-switch[data-checked] {
-    background: var(--control-choice-selected-bg);
-    border-color: var(--control-choice-selected-border);
-    color: var(--control-choice-selected-fg);
+  .surf-checkbox:is([data-checked], [data-indeterminate]),
+  .surf-radio[data-checked],
+  .surf-switch[data-checked] {
+    background: var(--surf-control-choice-selected-bg);
+    border-color: var(--surf-control-choice-selected-border);
+    color: var(--surf-control-choice-selected-fg);
   }
   /* Label hover shares the same feedback as the small control itself. */
-  .pui-choice-label:hover
-    :is(.pui-checkbox, .pui-radio, .pui-switch):not(
+  .surf-choice-label:hover
+    :is(.surf-checkbox, .surf-radio, .surf-switch):not(
       [data-disabled],
       [data-readonly]
     ) {
-    background: var(--control-hover-background);
-    border-color: var(--control-choice-hover-border);
+    background: var(--surf-control-hover-background);
+    border-color: var(--surf-control-choice-hover-border);
   }
-  :is(.pui-checkbox, .pui-radio, .pui-switch):is(
+  :is(.surf-checkbox, .surf-radio, .surf-switch):is(
       [data-checked],
       [data-indeterminate]
     ):hover:not([data-disabled], [data-readonly]),
-  .pui-choice-label:hover
-    :is(.pui-checkbox, .pui-radio, .pui-switch):is(
+  .surf-choice-label:hover
+    :is(.surf-checkbox, .surf-radio, .surf-switch):is(
       [data-checked],
       [data-indeterminate]
     ):not([data-disabled], [data-readonly]) {
-    background: var(--control-choice-selected-hover-bg);
-    border-color: var(--control-choice-selected-border);
+    background: var(--surf-control-choice-selected-hover-bg);
+    border-color: var(--surf-control-choice-selected-border);
   }
-  .pui-checkbox:focus-visible,
-  .pui-radio:focus-visible,
-  .pui-switch:focus-visible {
-    outline: var(--focus-ring-width) solid var(--interaction-focus);
-    outline-offset: var(--focus-ring-offset);
+  .surf-checkbox:focus-visible,
+  .surf-radio:focus-visible,
+  .surf-switch:focus-visible {
+    outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+    outline-offset: var(--surf-focus-ring-offset);
   }
-  .pui-checkbox[data-disabled],
-  .pui-radio[data-disabled],
-  .pui-switch[data-disabled] {
-    opacity: var(--control-disabled-opacity);
+  .surf-checkbox[data-disabled],
+  .surf-radio[data-disabled],
+  .surf-switch[data-disabled] {
+    opacity: var(--surf-control-disabled-opacity);
     cursor: not-allowed;
   }
-  .pui-checkbox[data-readonly],
-  .pui-radio[data-readonly],
-  .pui-switch[data-readonly] {
+  .surf-checkbox[data-readonly],
+  .surf-radio[data-readonly],
+  .surf-switch[data-readonly] {
     cursor: default;
   }
   /* An invalid control keeps its edge through every hover, checked or not; hover
      still tints the fill. Each selector matches the hover rule it must outrank. */
-  :is(.pui-checkbox, .pui-radio, .pui-switch)[data-invalid],
-  :is(.pui-checkbox, .pui-radio, .pui-switch)[data-invalid]:hover,
-  :is(.pui-checkbox, .pui-radio, .pui-switch)[data-invalid]:is(
+  :is(.surf-checkbox, .surf-radio, .surf-switch)[data-invalid],
+  :is(.surf-checkbox, .surf-radio, .surf-switch)[data-invalid]:hover,
+  :is(.surf-checkbox, .surf-radio, .surf-switch)[data-invalid]:is(
       [data-checked],
       [data-indeterminate]
     ):hover,
-  .pui-choice-label:hover
-    :is(.pui-checkbox, .pui-radio, .pui-switch)[data-invalid],
-  .pui-choice-label:hover
-    :is(.pui-checkbox, .pui-radio, .pui-switch)[data-invalid]:is(
+  .surf-choice-label:hover
+    :is(.surf-checkbox, .surf-radio, .surf-switch)[data-invalid],
+  .surf-choice-label:hover
+    :is(.surf-checkbox, .surf-radio, .surf-switch)[data-invalid]:is(
       [data-checked],
       [data-indeterminate]
     ) {
-    border-color: var(--status-danger-fg);
+    border-color: var(--surf-status-danger-fg);
   }
   @media (forced-colors: active) {
-    .pui-checkbox,
-    .pui-radio,
-    .pui-switch {
+    .surf-checkbox,
+    .surf-radio,
+    .surf-switch {
       border-color: ButtonText;
     }
-    .pui-checkbox:is([data-checked], [data-indeterminate]),
-    .pui-radio[data-checked],
-    .pui-switch[data-checked] {
+    .surf-checkbox:is([data-checked], [data-indeterminate]),
+    .surf-radio[data-checked],
+    .surf-switch[data-checked] {
       background: Highlight;
       border-color: Highlight;
       color: HighlightText;

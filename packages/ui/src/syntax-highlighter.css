@@ -7,78 +7,79 @@
 
 @layer surflane.components {
   /* Syntax tokens are semantic color roles; source text, type and geometry remain unchanged. */
-  .pui-syntax {
-    color: var(--syntax-plain);
+  .surf-syntax {
+    color: var(--surf-syntax-plain);
     font: inherit;
     letter-spacing: inherit;
   }
-  .pui-syntax [data-syntax] {
+  .surf-syntax [data-syntax] {
     font: inherit;
     letter-spacing: inherit;
   }
-  .pui-syntax [data-syntax='plain'] {
-    color: var(--syntax-plain);
+  .surf-syntax [data-syntax='plain'] {
+    color: var(--surf-syntax-plain);
   }
-  .pui-syntax [data-syntax='comment'] {
-    color: var(--syntax-comment);
+  .surf-syntax [data-syntax='comment'] {
+    color: var(--surf-syntax-comment);
   }
-  .pui-syntax [data-syntax='keyword'] {
-    color: var(--syntax-keyword);
+  .surf-syntax [data-syntax='keyword'] {
+    color: var(--surf-syntax-keyword);
   }
-  .pui-syntax [data-syntax='string'] {
-    color: var(--syntax-string);
+  .surf-syntax [data-syntax='string'] {
+    color: var(--surf-syntax-string);
   }
-  .pui-syntax [data-syntax='number'] {
-    color: var(--syntax-number);
+  .surf-syntax [data-syntax='number'] {
+    color: var(--surf-syntax-number);
   }
-  .pui-syntax [data-syntax='function'] {
-    color: var(--syntax-function);
+  .surf-syntax [data-syntax='function'] {
+    color: var(--surf-syntax-function);
   }
-  .pui-syntax [data-syntax='tag'] {
-    color: var(--syntax-tag);
+  .surf-syntax [data-syntax='tag'] {
+    color: var(--surf-syntax-tag);
   }
-  .pui-syntax [data-syntax='attribute'] {
-    color: var(--syntax-attribute);
+  .surf-syntax [data-syntax='attribute'] {
+    color: var(--surf-syntax-attribute);
   }
-  .pui-syntax [data-syntax='punctuation'] {
-    color: var(--syntax-punctuation);
+  .surf-syntax [data-syntax='punctuation'] {
+    color: var(--surf-syntax-punctuation);
   }
-  .pui-syntax-pre {
+  .surf-syntax-pre {
     box-sizing: border-box;
     min-inline-size: 0;
     margin: 0;
-    padding: var(--ui-surface-padding, var(--space-4));
-    background: var(--code-bg);
-    border-radius: var(--radius-md);
-    font: var(--weight-regular) var(--type-code-size)/var(--type-code-leading)
-      var(--font-code);
+    padding: var(--surf-ui-surface-padding, var(--surf-space-4));
+    background: var(--surf-code-bg);
+    border-radius: var(--surf-radius-md);
+    font: var(--surf-weight-regular)
+      var(--surf-type-code-size)/var(--surf-type-code-leading)
+      var(--surf-font-code);
     /* Code shows the characters as typed, like the other code text: no === or => ligatures. */
     font-variant-ligatures: none;
-    letter-spacing: var(--tracking-mono);
+    letter-spacing: var(--surf-tracking-mono);
     tab-size: 2;
     white-space: pre;
   }
   /* The visible box keeps its background and corners while long lines scroll inside it. */
-  .pui-syntax-scroll {
-    border-radius: var(--radius-md);
-    background: var(--code-bg);
+  .surf-syntax-scroll {
+    border-radius: var(--surf-radius-md);
+    background: var(--surf-code-bg);
     overflow: hidden;
   }
-  .pui-syntax-scroll .pui-syntax-pre {
+  .surf-syntax-scroll .surf-syntax-pre {
     min-inline-size: max-content;
     border-radius: 0;
     background: none;
   }
-  .pui-syntax-scroll .pui-syntax-pre[data-wrap] {
+  .surf-syntax-scroll .surf-syntax-pre[data-wrap] {
     min-inline-size: 0;
   }
-  .pui-syntax-pre[data-wrap] {
+  .surf-syntax-pre[data-wrap] {
     white-space: pre-wrap;
     overflow-wrap: anywhere;
   }
   @media (forced-colors: active) {
-    .pui-syntax,
-    .pui-syntax [data-syntax] {
+    .surf-syntax,
+    .surf-syntax [data-syntax] {
       color: CanvasText;
     }
   }

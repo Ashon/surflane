@@ -167,12 +167,14 @@ test('component reference, token deep link and copy example use the documented v
     componentDocs.select.code,
   )
   await page
-    .getByRole('link', { name: '--control-height', exact: true })
+    .getByRole('link', { name: '--surf-control-height', exact: true })
     .click()
   await expect(
     page.getByRole('textbox', { name: 'Search design tokens' }),
-  ).toHaveValue('--control-height')
-  await expect(page.locator('[data-token="--control-height"]')).toBeVisible()
+  ).toHaveValue('--surf-control-height')
+  await expect(
+    page.locator('[data-token="--surf-control-height"]'),
+  ).toBeVisible()
 })
 test('mobile navigation expands, closes on navigation and preserves theme', async ({
   page,
@@ -351,14 +353,14 @@ test('individual component examples retain selection, overlay and focus behavior
   await page.keyboard.press('Shift+Tab')
   await page.keyboard.press('Tab')
   await expect(tooltip).toBeFocused()
-  await expect(page.locator('.pui-tooltip')).toBeVisible()
+  await expect(page.locator('.surf-tooltip')).toBeVisible()
   await page.keyboard.press('Escape')
-  await expect(page.locator('.pui-tooltip')).toBeHidden()
+  await expect(page.locator('.surf-tooltip')).toBeHidden()
   // A shortcut follows the label as a kbd element, in the tooltip's own face.
   await page.keyboard.press('Tab')
-  const tip = page.locator('.pui-tooltip')
+  const tip = page.locator('.surf-tooltip')
   await expect(tip).toHaveText('Run the pipeline again⌘⇧R')
-  await expect(tip.locator('kbd.pui-tooltip-shortcut')).toHaveText('⌘⇧R')
+  await expect(tip.locator('kbd.surf-tooltip-shortcut')).toHaveText('⌘⇧R')
   expect(
     await tip
       .locator('kbd')
@@ -397,7 +399,7 @@ test('catalog consumes shared badges and breadcrumbs and reveals the active side
     header.getByRole('link', { name: 'Components', exact: true }),
   ).toHaveAttribute('href', '/components')
   await expect(page.locator('.component-meta .catalog-stage')).toHaveClass(
-    /pui-badge/,
+    /surf-badge/,
   )
   const active = page
       .getByRole('navigation', { name: 'Catalog navigation' })

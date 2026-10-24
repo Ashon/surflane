@@ -1,0 +1,83 @@
+/* Presentation classes: Badge / Status. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+
+@layer surflane.components {
+  .surf-badge {
+    box-sizing: border-box;
+    display: inline-flex;
+    vertical-align: middle;
+    align-items: center;
+    gap: var(--surf-status-badge-gap);
+    max-width: 100%;
+    padding: 4px 9px;
+    border: 0;
+    border-radius: var(--surf-radius-pill);
+    background: var(--surf-badge-neutral-bg);
+    color: var(--surf-status-neutral-fg);
+    font: var(--surf-weight-medium)
+      var(--surf-type-caption-size)/var(--surf-type-caption-leading)
+      var(--surf-font-body);
+    overflow-wrap: anywhere;
+  }
+  .surf-badge-icon {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+  }
+  /* The glyph is as tall as the badge text. */
+  .surf-badge-icon > svg {
+    inline-size: 1em;
+    block-size: 1em;
+  }
+  .surf-badge[data-tone='success'] {
+    color: var(--surf-status-success-fg);
+    background: var(--surf-badge-success-bg);
+  }
+  .surf-badge[data-tone='danger'] {
+    color: var(--surf-status-danger-fg);
+    background: var(--surf-badge-danger-bg);
+  }
+  .surf-badge[data-tone='caution'] {
+    color: var(--surf-status-caution-fg);
+    background: var(--surf-badge-caution-bg);
+  }
+  .surf-badge[data-tone='progress'] {
+    color: var(--surf-status-progress-fg);
+    background: var(--surf-badge-progress-bg);
+  }
+  .surf-badge[data-tone='info'] {
+    color: var(--surf-status-info-fg);
+    background: var(--surf-badge-info-bg);
+  }
+  @media (forced-colors: active) {
+    .surf-badge {
+      border: 1px solid CanvasText;
+      padding: 3px 8px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce), (forced-colors: active) {
+    :is(.surf-badge)[data-status-transition] {
+      --surf-status-progress: 1 !important;
+    }
+  }
+}
+@layer surflane.sizes {
+  :is(.surf-badge)[data-status-transition] {
+    background-color: color-mix(
+      in oklch,
+      var(--surf-status-from-0),
+      var(--surf-status-to-0) calc(var(--surf-status-progress) * 100%)
+    );
+    color: color-mix(
+      in oklch,
+      var(--surf-status-from-1),
+      var(--surf-status-to-1) calc(var(--surf-status-progress) * 100%)
+    );
+    border-color: color-mix(
+      in oklch,
+      var(--surf-status-from-2),
+      var(--surf-status-to-2) calc(var(--surf-status-progress) * 100%)
+    );
+  }
+}

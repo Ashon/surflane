@@ -12,7 +12,7 @@ for (const theme of ['light', 'dark']) {
     )
     const state = await page.evaluate(async () => {
       const message = document.querySelector<HTMLElement>(
-        '.recovery-example .pui-message',
+        '.recovery-example .surf-message',
       )!
       const before = getComputedStyle(message).backgroundColor
       const retry = [
@@ -27,11 +27,11 @@ for (const theme of ['light', 'dark']) {
       const style = getComputedStyle(message)
       return {
         same:
-          message === document.querySelector('.recovery-example .pui-message'),
+          message === document.querySelector('.recovery-example .surf-message'),
         tone: message.dataset.tone,
         before,
         middle: style.backgroundColor,
-        progress: parseFloat(style.getPropertyValue('--pui-status-progress')),
+        progress: parseFloat(style.getPropertyValue('--surf-status-progress')),
         duration: animation.effect!.getTiming().duration,
       }
     })
@@ -49,7 +49,7 @@ for (const theme of ['light', 'dark']) {
       theme,
     )
     await expect(
-      page.locator('.recovery-example .pui-message'),
+      page.locator('.recovery-example .surf-message'),
     ).not.toHaveAttribute('data-status-transition')
     await expect(
       page.getByRole('button', { name: 'Cancel retry', exact: true }),
@@ -61,7 +61,7 @@ test('reduced motion changes tone immediately', async ({ page }) => {
   await page.goto('/patterns/error-recovery')
   await waitForCatalogReady(page)
   await page.getByRole('button', { name: 'Retry preview', exact: true }).click()
-  const message = page.locator('.recovery-example .pui-message')
+  const message = page.locator('.recovery-example .surf-message')
   await expect(message).toHaveAttribute('data-tone', 'progress')
   await expect(message).not.toHaveAttribute('data-status-transition')
   expect(await message.evaluate((el) => el.getAnimations().length)).toBe(0)

@@ -97,7 +97,7 @@ test('bar and area modes preserve zero, negatives, non-color patterns and data c
   await choose(page, 'Chart data', 'Negative and zero values')
   await choose(page, 'Chart type', 'Bar')
   await expect(page.locator('.recharts-bar')).toHaveCount(3)
-  const geometry = await page.locator('.pui-chart-plot').evaluate((plot) => {
+  const geometry = await page.locator('.surf-chart-plot').evaluate((plot) => {
     const zero = plot.querySelector(
       '.recharts-reference-line-line',
     ) as SVGLineElement
@@ -113,8 +113,8 @@ test('bar and area modes preserve zero, negatives, non-color patterns and data c
     }
   })
   expect(geometry).toEqual({ positive: true, negative: true })
-  await expect(page.locator('.pui-chart-plot pattern path')).toHaveCount(1)
-  await expect(page.locator('.pui-chart-plot pattern circle')).toHaveCount(1)
+  await expect(page.locator('.surf-chart-plot pattern path')).toHaveCount(1)
+  await expect(page.locator('.surf-chart-plot pattern circle')).toHaveCount(1)
   await page.getByText('View data table', { exact: true }).click()
   await expect(
     page
@@ -127,12 +127,12 @@ test('bar and area modes preserve zero, negatives, non-color patterns and data c
   const app = page.getByRole('application')
   await app.focus()
   await app.press('ArrowRight')
-  await expect(page.locator('.pui-chart-inspector')).toContainText('resources')
+  await expect(page.locator('.surf-chart-inspector')).toContainText('resources')
   await choose(page, 'Chart data', 'Trend with a missing value')
   await app.focus()
   await app.press('ArrowRight')
-  await expect(page.locator('.pui-chart-inspector')).toContainText('runs')
-  await expect(page.locator('.pui-chart-inspector')).not.toContainText(
+  await expect(page.locator('.surf-chart-inspector')).toContainText('runs')
+  await expect(page.locator('.surf-chart-inspector')).not.toContainText(
     'resources',
   )
 })
@@ -205,19 +205,19 @@ test('pointer readout, responsive themes, high contrast and reduced motion keep 
       ).violations
       expect(violations).toEqual([])
       await page
-        .locator('.pui-chart')
+        .locator('.surf-chart')
         .screenshot({ path: `.data/chart-${width}-${theme}.png` })
     }
   await page.emulateMedia({ forcedColors: 'active' })
   await choose(page, 'Chart type', 'Bar')
   expect(
     await page
-      .locator('.pui-chart')
+      .locator('.surf-chart')
       .evaluate((el) =>
-        getComputedStyle(el).getPropertyValue('--chart-series-1').trim(),
+        getComputedStyle(el).getPropertyValue('--surf-chart-series-1').trim(),
       ),
   ).toBe('CanvasText')
-  await expect(page.locator('.pui-chart-plot pattern path')).toHaveCount(1)
+  await expect(page.locator('.surf-chart-plot pattern path')).toHaveCount(1)
   await page.getByRole('application').focus()
   await page.keyboard.press('ArrowRight')
   await expect(page.locator('[data-chart-readout]')).toBeVisible()
@@ -242,22 +242,24 @@ test('touch exposes the same complete values without relying on hover', async ({
     box!.y + box!.height / 2,
   )
   await expect(page.locator('[data-chart-readout]')).toBeVisible()
-  await expect(page.locator('.pui-chart-inspector')).toContainText('Workspace:')
+  await expect(page.locator('.surf-chart-inspector')).toContainText(
+    'Workspace:',
+  )
   // A tap focuses the plot, or the Recharts layer the finger lands nearest, but draws
   // no ring; the browser's SVG styles would.
-  const tapped = page.locator('.pui-chart-plot :focus')
+  const tapped = page.locator('.surf-chart-plot :focus')
   await expect(tapped).toHaveCount(1)
   await expect(tapped).toHaveCSS('outline-style', 'none')
   // A tap on a point focuses the Recharts layer it sits in, which draws no ring either.
   const point = await page
-    .locator('.pui-chart-plot .recharts-line-dots circle')
+    .locator('.surf-chart-plot .recharts-line-dots circle')
     .nth(3)
     .boundingBox()
   await page.touchscreen.tap(
     point!.x + point!.width / 2,
     point!.y + point!.height / 2,
   )
-  const focused = page.locator('.pui-chart-plot g[tabindex="-1"]:focus')
+  const focused = page.locator('.surf-chart-plot g[tabindex="-1"]:focus')
   await expect(focused).toHaveCount(1)
   await expect(focused).toHaveCSS('outline-style', 'none')
   await context.close()
@@ -265,11 +267,11 @@ test('touch exposes the same complete values without relying on hover', async ({
 
 test('the plot rings for keyboard focus only', async ({ page }) => {
   await open(page)
-  const surface = page.locator('.pui-chart-plot .recharts-surface')
+  const surface = page.locator('.surf-chart-plot .recharts-surface')
   await surface.click({ position: { x: 120, y: 80 } })
   await expect(surface).toBeFocused()
   await expect(surface).toHaveCSS('outline-style', 'none')
-  await page.locator('.pui-chart-legend-button').last().focus()
+  await page.locator('.surf-chart-legend-button').last().focus()
   await page.keyboard.press('Tab')
   await expect(surface).toBeFocused()
   await expect(surface).toHaveCSS('outline-style', 'solid')
@@ -280,16 +282,16 @@ test('the key sits on the plot and the active values float beside the point', as
 }) => {
   await open(page)
   // The value axis name and the legend share the row right above the plot.
-  const frame = page.locator('.pui-chart-frame')
+  const frame = page.locator('.surf-chart-frame')
   await expect(frame.locator('> *')).toHaveCount(3)
-  await expect(frame.locator('> :nth-child(1)')).toHaveClass('pui-chart-key')
-  await expect(frame.locator('> :nth-child(2)')).toHaveClass('pui-chart-plot')
-  const key = await frame.locator('.pui-chart-key').boundingBox()
-  const plot = await frame.locator('.pui-chart-plot').boundingBox()
+  await expect(frame.locator('> :nth-child(1)')).toHaveClass('surf-chart-key')
+  await expect(frame.locator('> :nth-child(2)')).toHaveClass('surf-chart-plot')
+  const key = await frame.locator('.surf-chart-key').boundingBox()
+  const plot = await frame.locator('.surf-chart-plot').boundingBox()
   expect(plot!.y - (key!.y + key!.height)).toBeLessThanOrEqual(1)
 
   const chart = page.getByRole('application', { name: 'Pipeline activity' })
-  const tip = page.locator('.pui-chart-tooltip')
+  const tip = page.locator('.surf-chart-tooltip')
   await chart.focus()
   await chart.press('ArrowRight')
   await chart.press('ArrowRight')
@@ -301,7 +303,7 @@ test('the key sits on the plot and the active values float beside the point', as
     /Documentation\s*6 runs/,
   ])
   // Each row carries its series' mark, as the legend draws it.
-  await expect(tip.locator('li svg.pui-chart-mark')).toHaveCount(3)
+  await expect(tip.locator('li svg.surf-chart-mark')).toHaveCount(3)
   for (const index of [1, 4]) {
     for (let step = 0; step < index; step++) await chart.press('ArrowRight')
     const box = await tip.boundingBox()

@@ -17,11 +17,11 @@ export const doc: ComponentDoc = {
     'The caller decides how results are announced, how loading shows, and where focus goes after a page change.',
   ],
   tokens: [
-    '--selected',
-    '--control-border',
-    '--control-height',
-    '--radius-full',
-    '--interaction-focus',
+    '--surf-selected',
+    '--surf-control-border',
+    '--surf-control-height',
+    '--surf-radius-full',
+    '--surf-interaction-focus',
   ],
   code: `import { Pagination } from '@surflane/ui'
 

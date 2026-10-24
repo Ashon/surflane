@@ -7,7 +7,7 @@ export const doc: ComponentDoc = {
   keyboard:
     'Tab follows the natural order of the inputs. A disabled group is excluded from interaction and form submission. Legend gives the group its accessible name.',
   anatomy: 'Fieldset.Root → Legend + related Fields',
-  tokens: ['--space-4', '--type-subsection-size', '--ink'],
+  tokens: ['--surf-space-4', '--surf-type-subsection-size', '--surf-ink'],
   code: `import { Fieldset, Field } from '@surflane/ui'
 
 <Fieldset.Root disabled={disabled}>

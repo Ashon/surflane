@@ -17,50 +17,50 @@ const grays = {
 }
 const neutralRoles = {
   dark: {
-    '--chrome': 90,
-    '--canvas': 80,
-    '--surface': 90,
-    '--code-bg': 95,
-    '--hover': 75,
-    '--selected': 70,
-    '--line': 70,
-    '--ink-muted': 50,
-    '--ink-body': 40,
-    '--ink': 10,
-    '--on-brand': 90,
-    '--grid-minor': 90,
-    '--grid-major': 70,
-    '--guide': 70,
+    '--surf-chrome': 90,
+    '--surf-canvas': 80,
+    '--surf-surface': 90,
+    '--surf-code-bg': 95,
+    '--surf-hover': 75,
+    '--surf-selected': 70,
+    '--surf-line': 70,
+    '--surf-ink-muted': 50,
+    '--surf-ink-body': 40,
+    '--surf-ink': 10,
+    '--surf-on-brand': 90,
+    '--surf-grid-minor': 90,
+    '--surf-grid-major': 70,
+    '--surf-guide': 70,
   },
   light: {
-    '--chrome': 10,
-    '--canvas': 'white',
-    '--surface': 10,
-    '--code-bg': 20,
-    '--hover': 20,
-    '--selected': 30,
-    '--line': 30,
-    '--ink-muted': 70,
-    '--ink-body': 80,
-    '--ink': 90,
-    '--brand-ink': 90,
-    '--on-brand': 90,
-    '--grid-minor': 20,
-    '--grid-major': 30,
-    '--guide': 40,
+    '--surf-chrome': 10,
+    '--surf-canvas': 'white',
+    '--surf-surface': 10,
+    '--surf-code-bg': 20,
+    '--surf-hover': 20,
+    '--surf-selected': 30,
+    '--surf-line': 30,
+    '--surf-ink-muted': 70,
+    '--surf-ink-body': 80,
+    '--surf-ink': 90,
+    '--surf-brand-ink': 90,
+    '--surf-on-brand': 90,
+    '--surf-grid-minor': 20,
+    '--surf-grid-major': 30,
+    '--surf-guide': 40,
   },
 }
 /** Accent fills keep this lightness, so text on them keeps its contrast. */
 const accentLightness = 0.82
 const tintAlpha = { dark: 64 / 255, light: 77 / 255 }
 const radii = {
-  '--radius-sm': 6,
-  '--radius-md': 10,
-  '--radius-lg': 16,
-  '--radius-sheet': 20,
-  '--control-radius': 8,
+  '--surf-radius-sm': 6,
+  '--surf-radius-md': 10,
+  '--surf-radius-lg': 16,
+  '--surf-radius-sheet': 20,
+  '--surf-control-radius': 8,
   // Half the tallest control: a pill at every size until a smaller scale.
-  '--radius-pill': 22,
+  '--surf-radius-pill': 22,
 }
 
 /** hue omitted keeps each default step's own hue; chroma scales every step's chroma. */
@@ -155,17 +155,17 @@ export function createTheme({ neutral, accent, radius } = {}) {
       maxChroma(accentLightness, hue),
     )
     for (const mode of ['dark', 'light']) {
-      theme[mode]['--brand'] = oklch(accentLightness, chroma, hue)
-      theme[mode]['--brand-tint'] = oklch(
+      theme[mode]['--surf-brand'] = oklch(accentLightness, chroma, hue)
+      theme[mode]['--surf-brand-tint'] = oklch(
         accentLightness,
         chroma,
         hue,
         tintAlpha[mode],
       )
     }
-    theme.dark['--brand-ink'] = theme.dark['--brand']
+    theme.dark['--surf-brand-ink'] = theme.dark['--surf-brand']
     // Light text on a light accent would fail, so light accent text stays on the ink.
-    theme.light['--brand-ink'] ??= 'var(--ink)'
+    theme.light['--surf-brand-ink'] ??= 'var(--surf-ink)'
   }
   if (radius !== undefined)
     for (const [token, size] of Object.entries(radii))
@@ -194,15 +194,15 @@ export function themeCss(theme, comment) {
   const light = { ...theme.light }
   for (const token of Object.keys(theme.dark)) light[token] ??= 'revert-layer'
   const rules = [
-    block([':root', '[data-theme]'], theme.shared, '  '),
     block(
-      [':root', "[data-theme]:not([data-theme='light'])"],
-      theme.dark,
+      [':root', "[data-theme='dark']", "[data-theme='light']"],
+      theme.shared,
       '  ',
     ),
+    block([':root', "[data-theme='dark']"], theme.dark, '  '),
     block([":root[data-theme='light']", "[data-theme='light']"], light, '  '),
     Object.keys(light).length
-      ? `  @media (prefers-color-scheme: light) {\n${block([':root:not([data-theme])'], light, '    ')}  }\n`
+      ? `  @media (prefers-color-scheme: light) {\n${block([":root:not([data-theme='dark']):not([data-theme='light'])"], light, '    ')}  }\n`
       : '',
   ].join('')
   // The themes layer sits above the tokens, so a theme wins whichever file loads first.

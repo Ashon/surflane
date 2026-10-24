@@ -79,10 +79,10 @@ test('theme changes refresh actual ratios and token links retain names', async (
   await expect(ratio).not.toHaveText(before!)
   await page
     .locator('[data-color-row="Body"]')
-    .getByRole('link', { name: '--ink-body', exact: true })
+    .getByRole('link', { name: '--surf-ink-body', exact: true })
     .click()
   await waitForCatalogReady(page)
-  await expect(page).toHaveURL(/tokens\?q=--ink-body/)
+  await expect(page).toHaveURL(/tokens\?q=--surf-ink-body/)
   await page.goBack()
   await waitForCatalogReady(page)
   await expect(page.locator('#page-title')).toHaveText('Color')
@@ -162,22 +162,22 @@ for (const theme of ['light', 'dark'])
         )
       },
       [
-        '--chrome',
-        '--canvas',
-        '--surface',
-        '--code-bg',
-        '--hover',
-        '--selected',
+        '--surf-chrome',
+        '--surf-canvas',
+        '--surf-surface',
+        '--surf-code-bg',
+        '--surf-hover',
+        '--surf-selected',
       ],
     )
     for (const [layer, base] of [
-      ['--canvas', '--chrome'],
-      ['--surface', '--canvas'],
-      ['--code-bg', '--canvas'],
-      ['--code-bg', '--chrome'],
-      ['--hover', '--canvas'],
-      ['--hover', '--chrome'],
-      ['--selected', '--hover'],
+      ['--surf-canvas', '--surf-chrome'],
+      ['--surf-surface', '--surf-canvas'],
+      ['--surf-code-bg', '--surf-canvas'],
+      ['--surf-code-bg', '--surf-chrome'],
+      ['--surf-hover', '--surf-canvas'],
+      ['--surf-hover', '--surf-chrome'],
+      ['--surf-selected', '--surf-hover'],
     ])
       expect(
         contrastRatio(

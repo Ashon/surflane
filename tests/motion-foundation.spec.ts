@@ -9,7 +9,7 @@ test('preview cycles the shared theme and preserves a modal draft and active con
   await page.goto('/foundations/motion')
   await waitForCatalogReady(page)
   await expect(
-    page.locator('[data-motion-token="--dialog-exit-duration"]'),
+    page.locator('[data-motion-token="--surf-dialog-exit-duration"]'),
   ).toHaveText('0ms')
   await page
     .getByRole('button', { name: 'Open motion dialog', exact: true })
@@ -57,7 +57,7 @@ test('OS reduced motion changes update the guide and remove actual popup transit
   await page
     .getByRole('button', { name: 'Open motion dialog', exact: true })
     .click()
-  const popup = page.locator('.pui-dialog-popup')
+  const popup = page.locator('.surf-dialog-popup')
   await expect(popup).toBeVisible()
   expect(
     await popup.evaluate((el) => getComputedStyle(el).transitionDuration),
@@ -68,7 +68,7 @@ test('OS reduced motion changes update the guide and remove actual popup transit
     await popup.evaluate((el) => getComputedStyle(el).transitionDuration),
   ).toBe('0s')
   await expect(
-    page.locator('[data-motion-token="--dialog-enter-duration"]'),
+    page.locator('[data-motion-token="--surf-dialog-enter-duration"]'),
   ).toHaveText('200ms')
   await page.keyboard.press('Escape')
   await expect(popup).toBeHidden()
@@ -89,7 +89,7 @@ test('sheet uses its shared directional transition and honors reduced motion and
     exact: true,
   })
   await trigger.click()
-  const panel = page.locator('.pui-panel')
+  const panel = page.locator('.surf-panel')
   await expect(panel).toHaveAttribute('data-side', 'right')
   expect(
     await panel.evaluate((el) => getComputedStyle(el).transitionDuration),
@@ -124,7 +124,7 @@ for (const width of [1440, 320])
           .click()
         await expect(page.getByRole('dialog')).toBeVisible()
         await expect(
-          page.locator('.pui-dialog-popup, .pui-panel'),
+          page.locator('.surf-dialog-popup, .surf-panel'),
         ).not.toHaveAttribute('data-starting-style')
         expect((await new AxeBuilder({ page }).analyze()).violations).toEqual(
           [],
@@ -148,10 +148,10 @@ test('unsupported View Transitions API is accurately described and theme actions
   await expect(page.locator('[data-motion-theme]')).toHaveText('dark')
   await expect(page.locator('html')).not.toHaveAttribute('data-theme-switching')
   await page
-    .getByRole('link', { name: '--dialog-enter-offset', exact: true })
+    .getByRole('link', { name: '--surf-dialog-enter-offset', exact: true })
     .click()
   await waitForCatalogReady(page)
-  await expect(page).toHaveURL(/tokens\?q=--dialog-enter-offset/)
+  await expect(page).toHaveURL(/tokens\?q=--surf-dialog-enter-offset/)
   await page.goBack()
   await waitForCatalogReady(page)
   await expect(page.locator('#page-title')).toHaveText('Motion')

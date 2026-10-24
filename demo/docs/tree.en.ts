@@ -23,14 +23,14 @@ export const doc: ComponentDoc = {
   anatomy:
     'ScrollArea → tree container → virtualized treeitems(level, posinset, setsize, expanded, selected, disabled) → disclosure button + truncated label; product-owned result summary',
   tokens: [
-    '--space-1',
-    '--space-2',
-    '--space-4',
-    '--radius-md',
-    '--radius-full',
-    '--selected',
-    '--interaction-hover-bg',
-    '--control-focus',
+    '--surf-space-1',
+    '--surf-space-2',
+    '--surf-space-4',
+    '--surf-radius-md',
+    '--surf-radius-full',
+    '--surf-selected',
+    '--surf-interaction-hover-bg',
+    '--surf-control-focus',
   ],
   code: `// Needs headless-tree and react-virtual:
 // npm install @headless-tree/core @headless-tree/react @tanstack/react-virtual

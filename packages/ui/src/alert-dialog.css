@@ -6,21 +6,21 @@
 @import './dialog.css';
 
 @layer surflane.components {
-  .pui-confirm-content {
-    --dialog-width: var(--size-dialog-small);
+  .surf-confirm-content {
+    --surf-dialog-width: var(--surf-size-dialog-small);
   }
-  .pui-confirm-content .pui-dialog-footer {
+  .surf-confirm-content .surf-dialog-footer {
     border-top: 0;
-    padding-top: var(--space-2);
+    padding-top: var(--surf-space-2);
   }
 }
 @layer surflane.sizes {
-  .pui-confirm-content .pui-dialog-header {
-    padding-inline-end: var(--space-6);
+  .surf-confirm-content .surf-dialog-header {
+    padding-inline-end: var(--surf-space-6);
     border-bottom: 0;
   }
-  :where([data-ui-size], [data-ui-size] *).pui-confirm-content
-    .pui-dialog-header {
-    padding-inline-end: var(--ui-card-padding);
+  :where([data-ui-size], [data-ui-size] *).surf-confirm-content
+    .surf-dialog-header {
+    padding-inline-end: var(--surf-ui-card-padding);
   }
 }

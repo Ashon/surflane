@@ -6,28 +6,28 @@
 @import './popup.css';
 
 @layer surflane.components {
-  .pui-tooltip-positioner {
-    z-index: var(--layer-tooltip);
+  .surf-tooltip-positioner {
+    z-index: var(--surf-layer-tooltip);
   }
-  .pui-tooltip {
+  .surf-tooltip {
     border: 0;
-    background: var(--tooltip-background);
-    color: var(--tooltip-foreground);
-    padding: var(--space-2) var(--space-3);
+    background: var(--surf-tooltip-background);
+    color: var(--surf-tooltip-foreground);
+    padding: var(--surf-space-2) var(--surf-space-3);
     max-width: 256px;
-    font-size: var(--type-caption-size);
-    letter-spacing: var(--type-caption-tracking);
-    line-height: var(--type-caption-leading);
+    font-size: var(--surf-type-caption-size);
+    letter-spacing: var(--surf-type-caption-tracking);
+    line-height: var(--surf-type-caption-leading);
   }
   /* The shortcut follows the label in the same face, a step quieter. */
-  .pui-tooltip-shortcut {
-    margin-inline-start: var(--space-2);
+  .surf-tooltip-shortcut {
+    margin-inline-start: var(--surf-space-2);
     font: inherit;
     font-variant-numeric: tabular-nums;
     opacity: 0.72;
   }
   @media (forced-colors: active) {
-    .pui-tooltip {
+    .surf-tooltip {
       background: CanvasText;
       color: Canvas;
       forced-color-adjust: none;
@@ -35,7 +35,7 @@
   }
 }
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *).pui-tooltip {
-    padding: var(--ui-tooltip-padding-y) var(--ui-tooltip-padding-x);
+  :where([data-ui-size], [data-ui-size] *).surf-tooltip {
+    padding: var(--surf-ui-tooltip-padding-y) var(--surf-ui-tooltip-padding-x);
   }
 }

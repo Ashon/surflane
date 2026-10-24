@@ -1,6 +1,50 @@
 # Contributing to Surflane
 
-Set up and run the project as [Develop](README.md#develop) describes. Word catalog text by [Writing for Surflane](docs/writing.md).
+Word catalog text by [Writing for Surflane](docs/writing.md). [Release and validation](docs/release-and-validation.md) covers what each check proves and how a release ships.
+
+## Develop
+
+Use Node.js 24.
+
+```sh
+npm ci
+npm run dev                  # catalog at http://127.0.0.1:8066
+npm run build:catalog        # production catalog
+npm run build:pages          # the site at https://surflane.page
+npm run build:brand          # PNG brand assets from the mark
+npm run check:package        # exports, types, class rules and bundle budgets
+npm run check:ssr            # render every component in plain Node
+npx playwright install chromium firefox webkit
+npm run check:examples       # Vite, Next.js, React Router and Astro apps
+npm run test:browsers        # build the production catalog first
+npm test                     # the full Chromium suite
+npm run test:visual          # package screenshots, in Docker
+```
+
+## Check what the package looks like
+
+`tests/package` renders the built `@surflane/ui` with only its own CSS: no catalog styles that could hide a package bug. `npm run test:visual` compares each section of the SSR fixture, in both themes, with its baseline in `tests/package/__screenshots__`.
+
+- The test runs in the Playwright Linux image that CI uses, through Docker, so the pixels match on any machine.
+- Any changed pixel fails. Open the diff in `test-results` and decide whether the change is intended.
+- When it is, rewrite the baselines with `npm run test:visual -- --update-snapshots=all` and commit them with the change.
+- A component the fixture doesn't show isn't covered. Add it to `tests/ssr/fixture.tsx`, which the SSR check renders too.
+
+## Package and release
+
+```sh
+npm run pack                            # content-addressed tarballs in artifacts/
+npm run export:source                   # source archive without Git history
+npm run check:public                    # scan the source for private context
+npm run release:version -- 0.10.0       # set every package version
+npm run release:verify -- v0.10.0       # check versions, peer ranges and changelog
+```
+
+- Local tarballs are versioned `<release>-dev.<hash>`. The manifests keep the release version.
+- No command copies artifacts into other repositories or updates other apps.
+- The source export holds only source and configuration. It leaves out Git metadata, dependencies, logs, reports, credentials and built output.
+- A pushed `v*` tag runs the release workflow. It publishes the three packages to npm with trusted publishing and provenance.
+- Breaking changes ship in batches; see [Release cadence](docs/release-and-validation.md#release-cadence).
 
 ## Write catalog text in English and Korean
 
@@ -57,6 +101,6 @@ Word Korean by the [Korean](docs/writing.md#korean) rules in the writing guide.
 ## Put styles in the component's stylesheet
 
 - Each styled module has a stylesheet beside it, such as `packages/ui/src/menu.css` next to `menu.tsx`. Its rules style the classes that module renders. Rules that several components share live in an internal stylesheet, such as `choice.css` or `popup.css`, which each of them imports.
-- A stylesheet imports `./base.css`, then the stylesheets of what its component renders, then its piece of `@surflane/design-tokens`, if it has one. `npm run check:package` fails when a stylesheet misses rules for a class its module renders.
+- A stylesheet imports `./base.css`, then the stylesheets of what its component renders, then its piece of `@surflane/css`, if it has one. `npm run check:package` fails when a stylesheet misses rules for a class its module renders.
 - Rules that depend on size go in `@layer surflane.sizes`: the size scheme, a `size` variant or table density. They override a component's defaults whatever order the stylesheets load in.
 - The package build flattens these imports: `scripts/build-styles.mjs` writes each stylesheet's rules alone and lists them once each, in the order `styles.css` loads them, so Tailwind CSS and plain `@import` never repeat a file.

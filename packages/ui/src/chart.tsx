@@ -108,6 +108,29 @@ function axisStep(low: number, high: number) {
   return step
 }
 const dashes = [undefined, '7 4', '2 4', '10 3 2 3', '12 5', '4 3']
+/** True once the font of the tick labels has loaded. Recharts measures a label to keep
+ * it inside the chart and caches that width; measured in the fallback font, the last
+ * label overflows by a few pixels once the real font arrives. */
+function useFontReady(element: Element | null, text: string) {
+  const [ready, setReady] = React.useState(false)
+  React.useEffect(() => {
+    if (!element) return
+    if (!document.fonts) return setReady(true)
+    let live = true
+    const family = getComputedStyle(element).fontFamily
+    // load() starts the download of the faces that draw this text and waits for them.
+    void document.fonts
+      .load(`12px ${family}`, text || ' ')
+      .catch(() => [])
+      .then(() => {
+        if (live) setReady(true)
+      })
+    return () => {
+      live = false
+    }
+  }, [element, text])
+  return ready
+}
 function Marker({
   cx,
   cy,
@@ -121,7 +144,7 @@ function Marker({
     !Number.isFinite(cy)
   )
     return null
-  const props = { fill: 'var(--canvas)', stroke: color, strokeWidth: 1.8 }
+  const props = { fill: 'var(--surf-canvas)', stroke: color, strokeWidth: 1.8 }
   return index % 3 === 0 ? (
     <circle cx={cx} cy={cy} r={3.5} {...props} />
   ) : index % 3 === 1 ? (
@@ -145,11 +168,11 @@ function Pattern({
       {index % 3 === 1 ? (
         <path
           d='M-2 2L2-2M0 8L8 0M6 10L10 6'
-          stroke='var(--canvas)'
+          stroke='var(--surf-canvas)'
           strokeWidth='1.5'
         />
       ) : index % 3 === 2 ? (
-        <circle cx='4' cy='4' r='1.4' fill='var(--canvas)' />
+        <circle cx='4' cy='4' r='1.4' fill='var(--surf-canvas)' />
       ) : null}
     </pattern>
   )
@@ -169,7 +192,7 @@ function SeriesMark({
 }) {
   return (
     <svg
-      className='pui-chart-mark'
+      className='surf-chart-mark'
       viewBox='0 0 32 20'
       aria-hidden='true'
       focusable='false'
@@ -228,7 +251,7 @@ function FloatingValues({
     if (shown && box.current) setWidth(box.current.offsetWidth)
   }, [shown, label, plot?.width])
   if (!shown || !point || !plot) return null
-  // The gap between the point and the box, in px: the --space-3 step.
+  // The gap between the point and the box, in px: the --surf-space-3 step.
   const gap = 12
   const start = point.x > plot.x + plot.width / 2
   const left = Math.min(
@@ -238,7 +261,7 @@ function FloatingValues({
   return createPortal(
     <div
       ref={box}
-      className='pui-chart-tooltip'
+      className='surf-chart-tooltip'
       aria-hidden='true'
       style={{ left, top: plot.y, visibility: width ? undefined : 'hidden' }}
     >
@@ -250,464 +273,462 @@ function FloatingValues({
 
 /** Cartesian trends with a persistent, keyboard-readable tooltip region and a
  * full data-table alternative. Missing values are gaps, never fabricated zeros. */
-export const Chart = /* @__PURE__ */ React.forwardRef<HTMLElement, ChartProps>(
-  function Chart(
-    {
-      title,
-      description,
-      data,
-      series,
-      unit,
-      xLabel,
-      yLabel,
-      type = 'line',
-      height = 280,
-      includeZero = true,
-      palette = 'neutral',
-      locale = 'en-US',
-      formatValue,
-      labels,
-      hiddenSeries,
-      defaultHiddenSeries = [],
-      onHiddenSeriesChange,
-      className,
-      ...props
-    },
-    ref,
-  ) {
-    const text: ChartLabels = { ...chartLabels, ...labels }
-    const id = React.useId().replace(/[^a-zA-Z0-9_-]/g, '_')
-    const colorFor = (index: number) =>
-      palette === 'categorical'
-        ? `var(--chart-category-${(index % 6) + 1})`
-        : `var(--chart-series-${(index % 3) + 1})`
-    const [internalHidden, setInternalHidden] =
-      React.useState<readonly string[]>(defaultHiddenSeries)
-    const hidden = new Set(hiddenSeries ?? internalHidden)
-    const visible = series.filter((s) => !hidden.has(s.key))
-    const [host, setHost] = React.useState<HTMLDivElement | null>(null)
-    const [floatHost, setFloatHost] = React.useState<HTMLDivElement | null>(
-      null,
-    )
-    const [dismissed, setDismissed] = React.useState(false)
-    const firstLegend = React.useRef<HTMLButtonElement>(null)
-    const [restoreRequested, setRestoreRequested] = React.useState(false)
-    React.useLayoutEffect(() => {
-      if (!restoreRequested) return
-      if (visible.length > 0) firstLegend.current?.focus()
-      setRestoreRequested(false)
-    }, [restoreRequested, visible.length])
-    const number = React.useMemo(
-      () => new Intl.NumberFormat(locale, { maximumFractionDigits: 2 }),
-      [locale],
-    )
-    const compact = React.useMemo(
-      () =>
-        new Intl.NumberFormat(locale, {
-          notation: 'compact',
-          maximumFractionDigits: 1,
-        }),
-      [locale],
-    )
-    const format = (value: number | null | undefined) =>
-      typeof value === 'number' && Number.isFinite(value)
-        ? `${formatValue ? formatValue(value) : number.format(value)} ${unit}`
-        : text.missing
-    const rows = React.useMemo(() => {
-      const ids = new Set<string>(),
-        keys = new Set<string>()
-      for (const s of series) {
-        if (!s.key || keys.has(s.key))
-          throw new Error('Chart series keys must be non-empty and unique')
-        keys.add(s.key)
-      }
-      return data.map((row) => {
-        if (!row.id || ids.has(row.id))
-          throw new Error('Chart datum IDs must be non-empty and unique')
-        ids.add(row.id)
-        return {
-          ...row,
-          values: Object.fromEntries(
-            series.map((s) => [
-              s.key,
-              typeof row.values[s.key] === 'number' &&
-              Number.isFinite(row.values[s.key])
-                ? row.values[s.key]
-                : null,
-            ]),
-          ),
-        }
-      })
-    }, [data, series])
-    const byId = new Map(rows.map((row) => [row.id, row]))
-    const values = rows
-      .flatMap((row) => visible.map((s) => row.values[s.key]))
-      .filter((value): value is number => typeof value === 'number')
-    // Bars grow from zero, so they always keep it on the axis. Either way the axis
-    // spans the values, widened to round steps so its ticks read cleanly.
-    const keepZero = includeZero || type === 'bar'
-    const start = keepZero ? 0 : (values[0] ?? 0)
-    const low = values.reduce((a, b) => Math.min(a, b), start),
-      high = values.reduce((a, b) => Math.max(a, b), start)
-    const step = axisStep(low, high)
-    const min = step ? Math.floor(low / step) * step : low,
-      max = step ? Math.ceil(high / step) * step : high
-    const ticks = step
-      ? Array.from(
-          { length: Math.round((max - min) / step) + 1 },
-          // Rounded, so float steps never print as 0.30000000000000004.
-          (_, index) => Number((min + index * step).toPrecision(12)),
-        )
-      : undefined
-    const hasValues = values.length > 0
-    const changeHidden = (next: string[]) => {
-      if (hiddenSeries === undefined) setInternalHidden(next)
-      onHiddenSeriesChange?.(next)
+export const Chart = function Chart({
+  title,
+  description,
+  data,
+  series,
+  unit,
+  xLabel,
+  yLabel,
+  type = 'line',
+  height = 280,
+  includeZero = true,
+  palette = 'neutral',
+  locale = 'en-US',
+  formatValue,
+  labels,
+  hiddenSeries,
+  defaultHiddenSeries = [],
+  onHiddenSeriesChange,
+  className,
+  ref,
+  ...props
+}: ChartProps & { ref?: React.Ref<HTMLElement> }) {
+  const text: ChartLabels = { ...chartLabels, ...labels }
+  const id = React.useId().replace(/[^a-zA-Z0-9_-]/g, '_')
+  const colorFor = (index: number) =>
+    palette === 'categorical'
+      ? `var(--surf-chart-category-${(index % 6) + 1})`
+      : `var(--surf-chart-series-${(index % 3) + 1})`
+  const [internalHidden, setInternalHidden] =
+    React.useState<readonly string[]>(defaultHiddenSeries)
+  const hidden = new Set(hiddenSeries ?? internalHidden)
+  const visible = series.filter((s) => !hidden.has(s.key))
+  const [host, setHost] = React.useState<HTMLDivElement | null>(null)
+  const fontsReady = useFontReady(host, data.map((d) => d.label).join(''))
+  const [floatHost, setFloatHost] = React.useState<HTMLDivElement | null>(null)
+  const [dismissed, setDismissed] = React.useState(false)
+  const firstLegend = React.useRef<HTMLButtonElement>(null)
+  const [restoreRequested, setRestoreRequested] = React.useState(false)
+  React.useLayoutEffect(() => {
+    if (!restoreRequested) return
+    if (visible.length > 0) firstLegend.current?.focus()
+    setRestoreRequested(false)
+  }, [restoreRequested, visible.length])
+  const number = React.useMemo(
+    () => new Intl.NumberFormat(locale, { maximumFractionDigits: 2 }),
+    [locale],
+  )
+  const compact = React.useMemo(
+    () =>
+      new Intl.NumberFormat(locale, {
+        notation: 'compact',
+        maximumFractionDigits: 1,
+      }),
+    [locale],
+  )
+  const format = (value: number | null | undefined) =>
+    typeof value === 'number' && Number.isFinite(value)
+      ? `${formatValue ? formatValue(value) : number.format(value)} ${unit}`
+      : text.missing
+  const rows = React.useMemo(() => {
+    const ids = new Set<string>(),
+      keys = new Set<string>()
+    for (const s of series) {
+      if (!s.key || keys.has(s.key))
+        throw new Error('Chart series keys must be non-empty and unique')
+      keys.add(s.key)
     }
-    const toggle = (key: string) =>
-      changeHidden(
-        series
-          .filter((s) => (s.key === key ? !hidden.has(key) : hidden.has(s.key)))
-          .map((s) => s.key),
+    return data.map((row) => {
+      if (!row.id || ids.has(row.id))
+        throw new Error('Chart datum IDs must be non-empty and unique')
+      ids.add(row.id)
+      return {
+        ...row,
+        values: Object.fromEntries(
+          series.map((s) => [
+            s.key,
+            typeof row.values[s.key] === 'number' &&
+            Number.isFinite(row.values[s.key])
+              ? row.values[s.key]
+              : null,
+          ]),
+        ),
+      }
+    })
+  }, [data, series])
+  const byId = new Map(rows.map((row) => [row.id, row]))
+  const values = rows
+    .flatMap((row) => visible.map((s) => row.values[s.key]))
+    .filter((value): value is number => typeof value === 'number')
+  // Bars grow from zero, so they always keep it on the axis. Either way the axis
+  // spans the values, widened to round steps so its ticks read cleanly.
+  const keepZero = includeZero || type === 'bar'
+  const start = keepZero ? 0 : (values[0] ?? 0)
+  const low = values.reduce((a, b) => Math.min(a, b), start),
+    high = values.reduce((a, b) => Math.max(a, b), start)
+  const step = axisStep(low, high)
+  const min = step ? Math.floor(low / step) * step : low,
+    max = step ? Math.ceil(high / step) * step : high
+  const ticks = step
+    ? Array.from(
+        { length: Math.round((max - min) / step) + 1 },
+        // Rounded, so float steps never print as 0.30000000000000004.
+        (_, index) => Number((min + index * step).toPrecision(12)),
       )
-    const chartHeight = Number.isFinite(height) ? Math.max(200, height) : 280
-    return (
-      <figure
-        {...props}
-        ref={ref}
-        className={cx('pui-chart', className)}
-        aria-labelledby={`${id}-title`}
-      >
-        <figcaption className='pui-chart-caption'>
-          <strong id={`${id}-title`}>{title}</strong>
-          <p id={`${id}-summary`}>{description}</p>
-        </figcaption>
-        <div className='pui-chart-frame'>
-          <div className='pui-chart-key'>
-            <p className='pui-chart-axis-label'>
-              {yLabel} ({unit})
-            </p>
-            <ul className='pui-chart-legend' aria-label={text.legend(title)}>
-              {series.map((s, index) => (
-                <li key={s.key}>
-                  <button
-                    ref={index === 0 ? firstLegend : undefined}
-                    type='button'
-                    className='pui-chart-legend-button'
-                    aria-label={text.series(s.label)}
-                    aria-pressed={!hidden.has(s.key)}
-                    onClick={() => toggle(s.key)}
-                  >
-                    <SeriesMark
-                      type={type}
-                      index={index}
-                      color={colorFor(index)}
-                      pattern={`${id}-legend-${index}`}
-                    />
-                    <span>{s.label}</span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-          {hasValues ? (
-            <>
-              <div
-                className='pui-chart-plot'
-                onKeyDownCapture={(event) => {
-                  if (event.key === 'Escape') setDismissed(true)
-                  else if (
-                    event.key === 'ArrowLeft' ||
-                    event.key === 'ArrowRight'
-                  )
-                    setDismissed(false)
-                }}
-                onMouseMoveCapture={() => setDismissed(false)}
-                onTouchStartCapture={() => setDismissed(false)}
-                onFocusCapture={() => setDismissed(false)}
-              >
-                <ResponsiveContainer
-                  width='100%'
-                  height={chartHeight}
-                  minWidth={0}
-                  initialDimension={{ width: 320, height: chartHeight }}
+    : undefined
+  const hasValues = values.length > 0
+  const changeHidden = (next: string[]) => {
+    if (hiddenSeries === undefined) setInternalHidden(next)
+    onHiddenSeriesChange?.(next)
+  }
+  const toggle = (key: string) =>
+    changeHidden(
+      series
+        .filter((s) => (s.key === key ? !hidden.has(key) : hidden.has(s.key)))
+        .map((s) => s.key),
+    )
+  const chartHeight = Number.isFinite(height) ? Math.max(200, height) : 280
+  return (
+    <figure
+      {...props}
+      ref={ref}
+      className={cx('surf-chart', className)}
+      aria-labelledby={`${id}-title`}
+    >
+      <figcaption className='surf-chart-caption'>
+        <strong id={`${id}-title`}>{title}</strong>
+        <p id={`${id}-summary`}>{description}</p>
+      </figcaption>
+      <div className='surf-chart-frame'>
+        <div className='surf-chart-key'>
+          <p className='surf-chart-axis-label'>
+            {yLabel} ({unit})
+          </p>
+          <ul className='surf-chart-legend' aria-label={text.legend(title)}>
+            {series.map((s, index) => (
+              <li key={s.key}>
+                <button
+                  ref={index === 0 ? firstLegend : undefined}
+                  type='button'
+                  className='surf-chart-legend-button'
+                  aria-label={text.series(s.label)}
+                  aria-pressed={!hidden.has(s.key)}
+                  onClick={() => toggle(s.key)}
                 >
-                  <ComposedChart
-                    data={rows}
-                    accessibilityLayer
-                    role='application'
-                    aria-label={title}
-                    aria-describedby={`${id}-summary ${id}-keys`}
-                    margin={{ top: 16, right: 20, bottom: 8, left: 0 }}
-                  >
-                    <defs>
-                      {series.map((s, index) => (
-                        <Pattern
-                          key={s.key}
-                          id={`${id}-pattern-${index}`}
-                          index={index}
-                          color={colorFor(index)}
-                        />
-                      ))}
-                    </defs>
-                    <CartesianGrid vertical={false} stroke='var(--line)' />
-                    <XAxis
-                      dataKey='id'
-                      tickFormatter={(value) => {
-                        const label =
-                          byId.get(String(value))?.label ?? String(value)
-                        // minTickGap already drops ticks that would overlap; the cap
-                        // only keeps one very long label from crowding the axis.
-                        return label.length > 24
-                          ? label.slice(0, 23) + '…'
-                          : label
-                      }}
-                      tick={{ fill: 'var(--ink-muted)', fontSize: 12 }}
-                      tickLine={false}
-                      axisLine={{ stroke: 'var(--line)' }}
-                      minTickGap={24}
-                      interval='preserveStartEnd'
-                    />
-                    <YAxis
-                      width={56}
-                      tickFormatter={(value) =>
-                        formatValue
-                          ? formatValue(Number(value))
-                          : compact.format(Number(value))
-                      }
-                      tick={{ fill: 'var(--ink-muted)', fontSize: 12 }}
-                      tickLine={false}
-                      axisLine={false}
-                      domain={[min, max === min ? max + 1 : max]}
-                      ticks={ticks}
-                    />
-                    <ReferenceLine y={0} stroke='var(--ink-muted)' />
-                    {host && (
-                      <Tooltip
-                        portal={host}
-                        isAnimationActive={false}
-                        active={dismissed ? false : undefined}
-                        filterNull={false}
-                        cursor={
-                          dismissed
-                            ? false
-                            : {
-                                stroke: 'var(--control-border)',
-                                fill: 'transparent',
-                              }
-                        }
-                        wrapperStyle={{
-                          position: 'static',
-                          visibility: 'visible',
-                          pointerEvents: 'auto',
-                        }}
-                        content={(tooltip) => {
-                          const row =
-                            tooltip.active && !dismissed
-                              ? byId.get(String(tooltip.label))
-                              : undefined
-                          return (
-                            <div
-                              className='pui-chart-readout'
-                              data-chart-readout={row?.id}
-                            >
-                              {row ? (
-                                <>
-                                  <strong>{row.label}</strong>
-                                  <ul>
-                                    {visible.map((s) => (
-                                      <li key={s.key}>
-                                        {s.label}: {format(row.values[s.key])}
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </>
-                              ) : (
-                                <span>{text.inspectHint}</span>
-                              )}
-                            </div>
-                          )
-                        }}
+                  <SeriesMark
+                    type={type}
+                    index={index}
+                    color={colorFor(index)}
+                    pattern={`${id}-legend-${index}`}
+                  />
+                  <span>{s.label}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+        {hasValues ? (
+          <>
+            <div
+              className='surf-chart-plot'
+              onKeyDownCapture={(event) => {
+                if (event.key === 'Escape') setDismissed(true)
+                else if (
+                  event.key === 'ArrowLeft' ||
+                  event.key === 'ArrowRight'
+                )
+                  setDismissed(false)
+              }}
+              onMouseMoveCapture={() => setDismissed(false)}
+              onTouchStartCapture={() => setDismissed(false)}
+              onFocusCapture={() => setDismissed(false)}
+            >
+              <ResponsiveContainer
+                width='100%'
+                height={chartHeight}
+                minWidth={0}
+                initialDimension={{ width: 320, height: chartHeight }}
+              >
+                <ComposedChart
+                  data={rows}
+                  accessibilityLayer
+                  role='application'
+                  aria-label={title}
+                  aria-describedby={`${id}-summary ${id}-keys`}
+                  margin={{ top: 16, right: 20, bottom: 8, left: 0 }}
+                >
+                  <defs>
+                    {series.map((s, index) => (
+                      <Pattern
+                        key={s.key}
+                        id={`${id}-pattern-${index}`}
+                        index={index}
+                        color={colorFor(index)}
                       />
-                    )}
-                    {series.map((s, index) => {
-                      const common = {
-                        name: s.label,
-                        dataKey: (row: ChartDatum) => row.values[s.key] ?? null,
-                        hide: hidden.has(s.key),
-                        isAnimationActive: false,
-                        stroke: colorFor(index),
+                    ))}
+                  </defs>
+                  <CartesianGrid vertical={false} stroke='var(--surf-line)' />
+                  <XAxis
+                    dataKey='id'
+                    tickFormatter={(value) => {
+                      const label =
+                        byId.get(String(value))?.label ?? String(value)
+                      // minTickGap already drops ticks that would overlap; the cap
+                      // only keeps one very long label from crowding the axis.
+                      return label.length > 24
+                        ? label.slice(0, 23) + '…'
+                        : label
+                    }}
+                    tick={
+                      fontsReady && {
+                        fill: 'var(--surf-ink-muted)',
+                        fontSize: 12,
                       }
-                      return type === 'bar' ? (
-                        <Bar
-                          key={s.key}
-                          {...common}
-                          fill={`url(#${id}-pattern-${index})`}
-                          maxBarSize={48}
-                        />
-                      ) : type === 'area' ? (
-                        <Area
-                          key={s.key}
-                          {...common}
-                          type='linear'
-                          strokeWidth={2}
-                          strokeDasharray={dashes[index % dashes.length]}
-                          fill={`url(#${id}-pattern-${index})`}
-                          fillOpacity={0.12}
-                          connectNulls={false}
-                          dot={
-                            rows.length > 40
-                              ? false
-                              : (dot) => (
-                                  <Marker
-                                    {...dot}
-                                    color={colorFor(index)}
-                                    index={index}
-                                  />
-                                )
-                          }
-                          activeDot={false}
-                        />
-                      ) : (
-                        <Line
-                          key={s.key}
-                          {...common}
-                          type='linear'
-                          strokeWidth={2}
-                          strokeDasharray={dashes[index % dashes.length]}
-                          connectNulls={false}
-                          dot={
-                            rows.length > 40
-                              ? false
-                              : (dot) => (
-                                  <Marker
-                                    {...dot}
-                                    color={colorFor(index)}
-                                    index={index}
-                                  />
-                                )
-                          }
-                          activeDot={false}
-                        />
-                      )
-                    })}
-                    <FloatingValues
-                      host={floatHost}
-                      hidden={dismissed}
-                      render={(label) => {
-                        const row = byId.get(label)
-                        if (!row) return null
+                    }
+                    tickLine={false}
+                    axisLine={{ stroke: 'var(--surf-line)' }}
+                    minTickGap={24}
+                    interval='preserveStartEnd'
+                  />
+                  <YAxis
+                    width={56}
+                    tickFormatter={(value) =>
+                      formatValue
+                        ? formatValue(Number(value))
+                        : compact.format(Number(value))
+                    }
+                    tick={{ fill: 'var(--surf-ink-muted)', fontSize: 12 }}
+                    tickLine={false}
+                    axisLine={false}
+                    domain={[min, max === min ? max + 1 : max]}
+                    ticks={ticks}
+                  />
+                  <ReferenceLine y={0} stroke='var(--surf-ink-muted)' />
+                  {host && (
+                    <Tooltip
+                      portal={host}
+                      isAnimationActive={false}
+                      active={dismissed ? false : undefined}
+                      filterNull={false}
+                      cursor={
+                        dismissed
+                          ? false
+                          : {
+                              stroke: 'var(--surf-control-border)',
+                              fill: 'transparent',
+                            }
+                      }
+                      wrapperStyle={{
+                        position: 'static',
+                        visibility: 'visible',
+                        pointerEvents: 'auto',
+                      }}
+                      content={(tooltip) => {
+                        const row =
+                          tooltip.active && !dismissed
+                            ? byId.get(String(tooltip.label))
+                            : undefined
                         return (
-                          <>
-                            <strong>{row.label}</strong>
-                            <ul>
-                              {series.map((s, index) =>
-                                hidden.has(s.key) ? null : (
-                                  <li key={s.key}>
-                                    <SeriesMark
-                                      type={type}
-                                      index={index}
-                                      color={colorFor(index)}
-                                      pattern={`${id}-float-${index}`}
-                                    />
-                                    <span>{s.label}</span>
-                                    <span className='pui-chart-tooltip-value'>
-                                      {format(row.values[s.key])}
-                                    </span>
-                                  </li>
-                                ),
-                              )}
-                            </ul>
-                          </>
+                          <div
+                            className='surf-chart-readout'
+                            data-chart-readout={row?.id}
+                          >
+                            {row ? (
+                              <>
+                                <strong>{row.label}</strong>
+                                <ul>
+                                  {visible.map((s) => (
+                                    <li key={s.key}>
+                                      {s.label}: {format(row.values[s.key])}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </>
+                            ) : (
+                              <span>{text.inspectHint}</span>
+                            )}
+                          </div>
                         )
                       }}
                     />
-                  </ComposedChart>
-                </ResponsiveContainer>
-                <div className='pui-chart-float' ref={setFloatHost} />
-              </div>
-              <p className='pui-chart-axis-label pui-chart-x-label'>{xLabel}</p>
-            </>
-          ) : (
-            <div className='pui-chart-empty' role='status'>
-              {visible.length === 0 && series.length > 0 ? (
-                <>
-                  <p>{text.noSeries}</p>
-                  <Button
-                    variant='outline'
-                    onClick={() => {
-                      setRestoreRequested(true)
-                      changeHidden([])
+                  )}
+                  {series.map((s, index) => {
+                    const common = {
+                      name: s.label,
+                      dataKey: (row: ChartDatum) => row.values[s.key] ?? null,
+                      hide: hidden.has(s.key),
+                      isAnimationActive: false,
+                      stroke: colorFor(index),
+                    }
+                    return type === 'bar' ? (
+                      <Bar
+                        key={s.key}
+                        {...common}
+                        fill={`url(#${id}-pattern-${index})`}
+                        maxBarSize={48}
+                      />
+                    ) : type === 'area' ? (
+                      <Area
+                        key={s.key}
+                        {...common}
+                        type='linear'
+                        strokeWidth={2}
+                        strokeDasharray={dashes[index % dashes.length]}
+                        fill={`url(#${id}-pattern-${index})`}
+                        fillOpacity={0.12}
+                        connectNulls={false}
+                        dot={
+                          rows.length > 40
+                            ? false
+                            : (dot) => (
+                                <Marker
+                                  {...dot}
+                                  color={colorFor(index)}
+                                  index={index}
+                                />
+                              )
+                        }
+                        activeDot={false}
+                      />
+                    ) : (
+                      <Line
+                        key={s.key}
+                        {...common}
+                        type='linear'
+                        strokeWidth={2}
+                        strokeDasharray={dashes[index % dashes.length]}
+                        connectNulls={false}
+                        dot={
+                          rows.length > 40
+                            ? false
+                            : (dot) => (
+                                <Marker
+                                  {...dot}
+                                  color={colorFor(index)}
+                                  index={index}
+                                />
+                              )
+                        }
+                        activeDot={false}
+                      />
+                    )
+                  })}
+                  <FloatingValues
+                    host={floatHost}
+                    hidden={dismissed}
+                    render={(label) => {
+                      const row = byId.get(label)
+                      if (!row) return null
+                      return (
+                        <>
+                          <strong>{row.label}</strong>
+                          <ul>
+                            {series.map((s, index) =>
+                              hidden.has(s.key) ? null : (
+                                <li key={s.key}>
+                                  <SeriesMark
+                                    type={type}
+                                    index={index}
+                                    color={colorFor(index)}
+                                    pattern={`${id}-float-${index}`}
+                                  />
+                                  <span>{s.label}</span>
+                                  <span className='surf-chart-tooltip-value'>
+                                    {format(row.values[s.key])}
+                                  </span>
+                                </li>
+                              ),
+                            )}
+                          </ul>
+                        </>
+                      )
                     }}
-                  >
-                    {text.showAll}
-                  </Button>
-                </>
-              ) : (
-                <p>{text.empty}</p>
-              )}
+                  />
+                </ComposedChart>
+              </ResponsiveContainer>
+              <div className='surf-chart-float' ref={setFloatHost} />
             </div>
-          )}
-        </div>
-        {hasValues && (
-          <p className='pui-chart-help' id={`${id}-keys`}>
-            {text.keyboardHelp}
-          </p>
+            <p className='surf-chart-axis-label surf-chart-x-label'>{xLabel}</p>
+          </>
+        ) : (
+          <div className='surf-chart-empty' role='status'>
+            {visible.length === 0 && series.length > 0 ? (
+              <>
+                <p>{text.noSeries}</p>
+                <Button
+                  variant='outline'
+                  onClick={() => {
+                    setRestoreRequested(true)
+                    changeHidden([])
+                  }}
+                >
+                  {text.showAll}
+                </Button>
+              </>
+            ) : (
+              <p>{text.empty}</p>
+            )}
+          </div>
         )}
-        <div
-          className='pui-chart-inspector'
-          ref={setHost}
-          role='status'
-          aria-live='polite'
-          aria-atomic='true'
-          aria-label={text.values(title)}
-          hidden={!hasValues}
-        />
-        <details className='pui-chart-table'>
-          <summary>{text.viewTable}</summary>
-          <Table.Container
-            label={text.table(title)}
-            orientation='both'
-            scrollChain='contain'
-          >
-            <Table.Root>
-              <Table.Caption>{text.tableCaption(unit)}</Table.Caption>
-              <Table.Head>
-                <Table.Row>
-                  <Table.HeaderCell scope='col'>{xLabel}</Table.HeaderCell>
-                  {series.map((s) => (
-                    <Table.HeaderCell key={s.key} scope='col'>
-                      {s.label} ({unit})
-                    </Table.HeaderCell>
-                  ))}
-                </Table.Row>
-              </Table.Head>
-              <Table.Body>
-                {rows.length ? (
-                  rows.map((row) => (
-                    <Table.Row key={row.id}>
-                      <Table.HeaderCell scope='row'>
-                        {row.label}
-                      </Table.HeaderCell>
-                      {series.map((s) => (
-                        <Table.Cell key={s.key}>
-                          {format(row.values[s.key])}
-                        </Table.Cell>
-                      ))}
-                    </Table.Row>
-                  ))
-                ) : (
-                  <Table.Row>
-                    <Table.Cell colSpan={series.length + 1}>
-                      {text.noRows}
-                    </Table.Cell>
+      </div>
+      {hasValues && (
+        <p className='surf-chart-help' id={`${id}-keys`}>
+          {text.keyboardHelp}
+        </p>
+      )}
+      <div
+        className='surf-chart-inspector'
+        ref={setHost}
+        role='status'
+        aria-live='polite'
+        aria-atomic='true'
+        aria-label={text.values(title)}
+        hidden={!hasValues}
+      />
+      <details className='surf-chart-table'>
+        <summary>{text.viewTable}</summary>
+        <Table.Container
+          label={text.table(title)}
+          orientation='both'
+          scrollChain='contain'
+        >
+          <Table.Root>
+            <Table.Caption>{text.tableCaption(unit)}</Table.Caption>
+            <Table.Head>
+              <Table.Row>
+                <Table.HeaderCell scope='col'>{xLabel}</Table.HeaderCell>
+                {series.map((s) => (
+                  <Table.HeaderCell key={s.key} scope='col'>
+                    {s.label} ({unit})
+                  </Table.HeaderCell>
+                ))}
+              </Table.Row>
+            </Table.Head>
+            <Table.Body>
+              {rows.length ? (
+                rows.map((row) => (
+                  <Table.Row key={row.id}>
+                    <Table.HeaderCell scope='row'>{row.label}</Table.HeaderCell>
+                    {series.map((s) => (
+                      <Table.Cell key={s.key}>
+                        {format(row.values[s.key])}
+                      </Table.Cell>
+                    ))}
                   </Table.Row>
-                )}
-              </Table.Body>
-            </Table.Root>
-          </Table.Container>
-        </details>
-      </figure>
-    )
-  },
-)
+                ))
+              ) : (
+                <Table.Row>
+                  <Table.Cell colSpan={series.length + 1}>
+                    {text.noRows}
+                  </Table.Cell>
+                </Table.Row>
+              )}
+            </Table.Body>
+          </Table.Root>
+        </Table.Container>
+      </details>
+    </figure>
+  )
+}

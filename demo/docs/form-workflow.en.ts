@@ -19,14 +19,14 @@ export const doc: ComponentDoc = {
     'Field links each description and error to its control. Color never carries meaning alone.',
   ],
   tokens: [
-    '--space-2',
-    '--space-4',
-    '--control-height',
-    '--control-radius',
-    '--control-border',
-    '--control-focus',
-    '--status-danger-fg',
-    '--status-success-bg',
+    '--surf-space-2',
+    '--surf-space-4',
+    '--surf-control-height',
+    '--surf-control-radius',
+    '--surf-control-border',
+    '--surf-control-focus',
+    '--surf-status-danger-fg',
+    '--surf-status-success-bg',
   ],
   code: `import { Form, Field, Fieldset, Button } from '@surflane/ui'
 

@@ -1,9 +1,9 @@
 import type { ComponentDoc } from '../componentDocs'
 const controls = [
-  '--control-height',
-  '--control-radius',
-  '--interaction-focus',
-  '--control-background',
+  '--surf-control-height',
+  '--surf-control-radius',
+  '--surf-interaction-focus',
+  '--surf-control-background',
 ]
 export const doc: ComponentDoc = {
   usage:
@@ -14,7 +14,7 @@ export const doc: ComponentDoc = {
     'Enter, Space, or an arrow key opens the listbox. Arrow keys and typing move between items. Escape closes only the listbox and returns focus.',
   anatomy:
     'Select → Trigger / Value / SVG chevron → Portal / Positioner / List / Item / Indicator',
-  tokens: [...controls, '--menu-border', '--shadow-float'],
+  tokens: [...controls, '--surf-menu-border', '--surf-shadow-float'],
   code: `import { Select } from '@surflane/ui'
 
 <Select

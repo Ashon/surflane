@@ -24,14 +24,14 @@ export const doc: ComponentDoc = {
     'Loading, error, restricted access, first-use empty, and no search results each get their own message.',
   ],
   tokens: [
-    '--space-2',
-    '--space-3',
-    '--space-4',
-    '--radius-md',
-    '--selected',
-    '--interaction-hover-bg',
-    '--ink-body',
-    '--ink-muted',
+    '--surf-space-2',
+    '--surf-space-3',
+    '--surf-space-4',
+    '--surf-radius-md',
+    '--surf-selected',
+    '--surf-interaction-hover-bg',
+    '--surf-ink-body',
+    '--surf-ink-muted',
   ],
   code: `import { List, Checkbox, StatusBadge, Menu } from '@surflane/ui'
 

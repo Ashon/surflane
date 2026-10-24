@@ -5,10 +5,10 @@
 React 19 components for the Surflane design system, built on [Base UI](https://base-ui.com), with data, chart, date, tree, code highlighting and Markdown components. Browse them in the [catalog](https://surflane.page).
 
 ```sh
-npm install @surflane/ui @surflane/design-tokens
+npm install @surflane/ui @surflane/design-tokens @surflane/css @base-ui/react
 ```
 
-`@surflane/ui` and `@surflane/design-tokens` are released together with the same version. The package is ESM-only.
+`@surflane/ui`, `@surflane/design-tokens` and `@surflane/css` are released together with one version. Base UI is a peer dependency, 1.9 or later, so your app and Surflane share one copy. The package is ESM-only.
 
 ## Usage
 
@@ -18,7 +18,7 @@ Import the stylesheets once at the application root. `all.css` brings the tokens
 @import '@surflane/ui/all.css';
 ```
 
-To ship only what you use, import component stylesheets instead, such as `@surflane/ui/button.css` and `@surflane/ui/dialog.css`. Each brings the tokens and the styles of what its component renders. The rules sit in `surflane.*` cascade layers, so your unlayered CSS overrides them. Set `data-theme="light"` or `data-theme="dark"` on `<html>` before the first paint and add `pui-typography` to `<body>`. With AppShell, which fills the window, also give `<body>` no margin and the `--chrome` background. The [install guide](https://surflane.page/install) walks through Vite, Next.js, React Router and Astro, with or without Tailwind CSS.
+To ship only what you use, import component stylesheets instead, such as `@surflane/ui/button.css` and `@surflane/ui/dialog.css`. Each brings the tokens and the styles of what its component renders. The rules sit in `surflane.*` cascade layers, so your unlayered CSS overrides them. Set `data-theme="light"` or `data-theme="dark"` on `<html>` before the first paint and add `surf-typography` to `<body>`. With AppShell, which fills the window, also give `<body>` no margin and the `--surf-chrome` background. The [install guide](https://surflane.page/install) walks through Vite, Next.js, React Router and Astro, with or without Tailwind CSS.
 
 ```tsx
 import {

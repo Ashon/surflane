@@ -1,4 +1,3 @@
-'use client'
 // One entry per catalog page: each module is also its own entry point, such as
 // @surflane/ui/checkbox. Chart, DatePicker, Markdown, Tree and syntax highlighting
 // need optional packages, so they live only on their own entry points:
@@ -552,11 +551,16 @@ export {
   type AppShellRootProps,
   type AppShellSidebarToggleProps,
   type AppShellSidebarToggleLabels,
+  AppShellBrand,
+  type AppShellBrandProps,
+  AppShellNav,
+  type AppShellNavProps,
   AppShellContent,
   AppShellPage,
   AppShellFooter,
   AppShellLabel,
   AppShellLink,
+  type AppShellLinkProps,
 } from './app-shell.js'
 export { PageHeader } from './page-header.js'
 export {

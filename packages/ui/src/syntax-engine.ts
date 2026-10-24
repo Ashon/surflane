@@ -124,7 +124,15 @@ export async function highlightCode(
     )
   await languages.get(language)
   const tokens = instance
-    .codeToTokensBase(code, { lang: language, theme: 'platform-quiet' })
+    .codeToTokensBase(code, {
+      lang: language,
+      theme: 'platform-quiet',
+      // Shiki leaves the rest of a line plain once it has spent this long on it, and the
+      // lines after it too. Its 500ms default cut the first line short on a slow device,
+      // while the regular expressions were still compiling; the result was then cached.
+      // The limit stays only as a guard against runaway patterns.
+      tokenizeTimeLimit: 5000,
+    })
     .map((line) =>
       line.map((token) => ({
         content: token.content,

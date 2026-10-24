@@ -6,48 +6,48 @@
 
 @layer surflane.components {
   /* The line fills the width it is given; its height comes from the size. */
-  .pui-sparkline {
-    --sparkline-height: var(--space-8);
+  .surf-sparkline {
+    --surf-sparkline-height: var(--surf-space-8);
     display: block;
     inline-size: 100%;
-    block-size: var(--sparkline-height);
+    block-size: var(--surf-sparkline-height);
     overflow: visible;
-    color: var(--ink-body);
+    color: var(--surf-ink-body);
     fill: none;
   }
-  .pui-sparkline[data-size='small'] {
-    --sparkline-height: var(--space-6);
+  .surf-sparkline[data-size='small'] {
+    --surf-sparkline-height: var(--surf-space-6);
   }
-  .pui-sparkline[data-size='large'] {
-    --sparkline-height: var(--space-12);
+  .surf-sparkline[data-size='large'] {
+    --surf-sparkline-height: var(--surf-space-12);
   }
-  .pui-sparkline[data-tone='up'] {
-    color: var(--trend-up-fg);
+  .surf-sparkline[data-tone='up'] {
+    color: var(--surf-trend-up-fg);
   }
-  .pui-sparkline[data-tone='down'] {
-    color: var(--trend-down-fg);
+  .surf-sparkline[data-tone='down'] {
+    color: var(--surf-trend-down-fg);
   }
-  .pui-sparkline[data-tone='flat'] {
-    color: var(--trend-flat-fg);
+  .surf-sparkline[data-tone='flat'] {
+    color: var(--surf-trend-flat-fg);
   }
-  .pui-sparkline-line {
+  .surf-sparkline-line {
     stroke: currentColor;
-    stroke-width: var(--icon-stroke-width);
+    stroke-width: var(--surf-icon-stroke-width);
     stroke-linejoin: round;
     stroke-linecap: round;
   }
-  .pui-sparkline-baseline {
-    stroke: var(--ink-muted);
+  .surf-sparkline-baseline {
+    stroke: var(--surf-ink-muted);
     stroke-width: 1;
     stroke-dasharray: 2 3;
   }
-  .pui-sparkline-marker {
+  .surf-sparkline-marker {
     stroke: currentColor;
-    stroke-width: calc(var(--icon-stroke-width) * 3);
+    stroke-width: calc(var(--surf-icon-stroke-width) * 3);
     stroke-linecap: round;
   }
   @media (forced-colors: active) {
-    .pui-sparkline {
+    .surf-sparkline {
       color: CanvasText;
     }
   }

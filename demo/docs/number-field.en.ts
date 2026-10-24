@@ -13,11 +13,11 @@ export const doc: ComponentDoc = {
     "Form reset returns uncontrolled values to their initial value, and controlled values keep the parent's value. Canceled changes and resets are respected.",
   ],
   tokens: [
-    '--control-height',
-    '--control-radius',
-    '--control-background',
-    '--control-focus',
-    '--ink-body',
+    '--surf-control-height',
+    '--surf-control-radius',
+    '--surf-control-background',
+    '--surf-control-focus',
+    '--surf-ink-body',
   ],
   code: `import { NumberField, Field } from '@surflane/ui'
 

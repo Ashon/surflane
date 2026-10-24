@@ -9,12 +9,12 @@ export const doc: ComponentDoc = {
   anatomy:
     'Avatar.Root → Image + Fallback(initials or default SVG) + optional Status',
   tokens: [
-    '--size-avatar-small',
-    '--size-avatar-default',
-    '--size-avatar-large',
-    '--radius-full',
-    '--line',
-    '--surface',
+    '--surf-size-avatar-small',
+    '--surf-size-avatar-default',
+    '--surf-size-avatar-large',
+    '--surf-radius-full',
+    '--surf-line',
+    '--surf-surface',
   ],
   code: `import { Avatar } from '@surflane/ui'
 

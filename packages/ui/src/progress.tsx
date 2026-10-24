@@ -8,23 +8,23 @@ export const Progress = {
   Root: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseProgress.Root>
-  >(BaseProgress.Root, 'pui-gauge pui-progress'),
+  >(BaseProgress.Root, 'surf-gauge surf-progress'),
   Label: /* @__PURE__ */ part<
     HTMLSpanElement,
     React.ComponentPropsWithoutRef<typeof BaseProgress.Label>
-  >(BaseProgress.Label, 'pui-gauge-label'),
+  >(BaseProgress.Label, 'surf-gauge-label'),
   Value: /* @__PURE__ */ part<
     HTMLSpanElement,
     React.ComponentPropsWithoutRef<typeof BaseProgress.Value>
-  >(BaseProgress.Value, 'pui-gauge-value'),
+  >(BaseProgress.Value, 'surf-gauge-value'),
   Track: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseProgress.Track>
-  >(BaseProgress.Track, 'pui-gauge-track'),
+  >(BaseProgress.Track, 'surf-gauge-track'),
   Indicator: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseProgress.Indicator>
-  >(BaseProgress.Indicator, 'pui-gauge-indicator'),
+  >(BaseProgress.Indicator, 'surf-gauge-indicator'),
 }
 // Flat names for React Server Components, which cannot dot into client exports.
 export const {

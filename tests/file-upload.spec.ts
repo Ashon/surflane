@@ -2,7 +2,7 @@ import { waitForCatalogReady } from './catalog-ready'
 import { test, expect, type Page, type Locator } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 test.use({ reducedMotion: 'reduce' })
-const primary = (page: Page) => page.locator('.pui-file-upload').first()
+const primary = (page: Page) => page.locator('.surf-file-upload').first()
 const picker = (page: Page) =>
   page.getByLabel('Build artifacts', { exact: true })
 const file = (
@@ -36,7 +36,7 @@ async function drop(
       )
     return data
   }, files)
-  await (target ?? primary(page).locator('.pui-file-dropzone')).dispatchEvent(
+  await (target ?? primary(page).locator('.surf-file-dropzone')).dispatchEvent(
     'drop',
     { dataTransfer: transfer },
   )
@@ -48,7 +48,7 @@ test('Native keyboard picker remains visible through its focus ring and submits 
   await page.goto('/components/file-upload')
   await waitForCatalogReady(page)
   await picker(page).focus()
-  await expect(primary(page).locator('.pui-file-trigger')).toHaveCSS(
+  await expect(primary(page).locator('.surf-file-trigger')).toHaveCSS(
     'outline-width',
     '2px',
   )
@@ -150,12 +150,12 @@ test('Shared Form validates required files, links server errors and clears error
     .click()
   await expect(picker(page)).toBeFocused()
   await expect(picker(page)).toHaveAttribute('aria-invalid', 'true')
-  await expect(primary(page).locator('.pui-field-error')).toBeVisible()
+  await expect(primary(page).locator('.surf-field-error')).toBeVisible()
   await drop(page, [{ name: 'valid.json' }])
   await page
     .getByRole('button', { name: 'Show field error', exact: true })
     .click()
-  const error = primary(page).locator('.pui-field-error')
+  const error = primary(page).locator('.surf-field-error')
   await expect(error).toContainText('These files were rejected')
   await expect(picker(page)).toHaveAttribute(
     'aria-describedby',
@@ -254,7 +254,7 @@ test('Removing an in-flight file clears native data, ignores late results and re
   await expect(picker(page)).toBeFocused()
   await expect.poll(() => names(page)).toEqual([])
   await page.waitForTimeout(1200)
-  await expect(primary(page).locator('.pui-file-item')).toHaveCount(0)
+  await expect(primary(page).locator('.surf-file-item')).toHaveCount(0)
 })
 test('Native reset honors cancellation, aborts transfers and retains controlled external files', async ({
   page,
@@ -279,7 +279,7 @@ test('Native reset honors cancellation, aborts transfers and retains controlled 
     .click()
   await expect.poll(() => names(page)).toEqual([])
   await expect.poll(() => names(page, 'attachment')).toEqual(['data.csv'])
-  await expect(primary(page).locator('.pui-file-item')).toHaveCount(0)
+  await expect(primary(page).locator('.surf-file-item')).toHaveCount(0)
 })
 test('Disabled widget cancels pending work, excludes its payload and rejects drops', async ({
   page,
@@ -314,8 +314,8 @@ test('Nested drag highlights persist until the outer boundary leaves', async ({
     data.items.add(new File(['{}'], 'drag.json', { type: 'application/json' }))
     return data
   })
-  const zone = primary(page).locator('.pui-file-dropzone'),
-    label = primary(page).locator('.pui-file-trigger')
+  const zone = primary(page).locator('.surf-file-dropzone'),
+    label = primary(page).locator('.surf-file-trigger')
   await zone.dispatchEvent('dragenter', { dataTransfer: data })
   await label.dispatchEvent('dragenter', { dataTransfer: data })
   await label.dispatchEvent('dragleave', { dataTransfer: data })
@@ -346,7 +346,7 @@ for (const theme of ['light', 'dark'])
         () => document.documentElement.scrollWidth <= innerWidth,
       ),
     ).toBe(true)
-    await expect(primary(page).locator('.pui-file-trigger')).toHaveCSS(
+    await expect(primary(page).locator('.surf-file-trigger')).toHaveCSS(
       'min-height',
       '44px',
     )

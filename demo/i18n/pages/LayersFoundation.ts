@@ -4,7 +4,7 @@ const en = {
   principles: [
     [
       'Use a named layer, never a raw z-index.',
-      'The `--layer-*` scale keeps app chrome, dialogs, popups, and tooltips in one order.',
+      'The `--surf-layer-*` scale keeps app chrome, dialogs, popups, and tooltips in one order.',
     ],
     [
       'Portal anything that floats.',
@@ -28,11 +28,11 @@ const en = {
   scaleIntro:
     'Layers set paint order only. How a raised surface looks, its shadow and edge, is part of Visual hierarchy.',
   roles: [
-    ['--layer-chrome', 'Fixed app chrome, such as BottomNavigation'],
-    ['--layer-backdrop', 'The backdrop behind a Dialog'],
-    ['--layer-dialog', 'Dialog, Sheet, and Drawer'],
-    ['--layer-popup', 'Menus, select lists, popovers, and toasts'],
-    ['--layer-tooltip', 'Tooltip positioners'],
+    ['--surf-layer-chrome', 'Fixed app chrome, such as BottomNavigation'],
+    ['--surf-layer-backdrop', 'The backdrop behind a Dialog'],
+    ['--surf-layer-dialog', 'Dialog, Sheet, and Drawer'],
+    ['--surf-layer-popup', 'Menus, select lists, popovers, and toasts'],
+    ['--surf-layer-tooltip', 'Tooltip positioners'],
   ],
   surfaceTableLabel: 'Layer tokens',
   tableCaption: 'Layer tokens, back to front',
@@ -98,7 +98,7 @@ export const text: Record<Locale, typeof en> = {
     principles: [
       [
         'z-index 숫자 대신 이름 붙은 레이어를 쓰세요.',
-        '`--layer-*` 단계가 앱 크롬, 대화상자, 팝업, 툴팁을 한 순서로 묶습니다.',
+        '`--surf-layer-*` 단계가 앱 크롬, 대화상자, 팝업, 툴팁을 한 순서로 묶습니다.',
       ],
       [
         '떠 있는 것은 모두 포털하세요.',
@@ -122,11 +122,11 @@ export const text: Record<Locale, typeof en> = {
     scaleIntro:
       '레이어는 그리는 순서만 정합니다. 떠 있는 면의 모양, 즉 그림자와 가장자리는 시각 위계에서 다룹니다.',
     roles: [
-      ['--layer-chrome', 'BottomNavigation 같은 고정 앱 크롬'],
-      ['--layer-backdrop', 'Dialog 뒤의 배경'],
-      ['--layer-dialog', 'Dialog, Sheet, Drawer'],
-      ['--layer-popup', '메뉴, 선택 목록, Popover, 토스트'],
-      ['--layer-tooltip', 'Tooltip의 Positioner'],
+      ['--surf-layer-chrome', 'BottomNavigation 같은 고정 앱 크롬'],
+      ['--surf-layer-backdrop', 'Dialog 뒤의 배경'],
+      ['--surf-layer-dialog', 'Dialog, Sheet, Drawer'],
+      ['--surf-layer-popup', '메뉴, 선택 목록, Popover, 토스트'],
+      ['--surf-layer-tooltip', 'Tooltip의 Positioner'],
     ],
     surfaceTableLabel: '레이어 토큰',
     tableCaption: '뒤에서 앞 순서의 레이어 토큰',

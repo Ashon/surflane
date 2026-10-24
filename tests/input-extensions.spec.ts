@@ -108,7 +108,7 @@ test('Autocomplete required error links to the input, and readonly and disabled 
   await page.getByRole('button', { name: 'Submit search', exact: true }).click()
   await expect(input).toHaveAttribute('aria-invalid', 'true')
   await expect(input).toBeFocused()
-  const error = page.locator('.pui-field-error').first()
+  const error = page.locator('.surf-field-error').first()
   await expect(error).toHaveText('Please fill out this field.')
   expect((await input.getAttribute('aria-describedby'))?.split(' ')).toContain(
     await error.getAttribute('id'),
@@ -201,7 +201,7 @@ test('Slider range respects minimum distance and primary cancellation blocks key
   await primary.focus()
   await primary.press('ArrowRight')
   await expect(primary).toHaveAttribute('aria-valuenow', '3')
-  const control = page.locator('.pui-slider-control').first()
+  const control = page.locator('.surf-slider-control').first()
   const b = await control.boundingBox()
   await control.click({ position: { x: b!.width * 0.8, y: b!.height / 2 } })
   await expect(primary).toHaveAttribute('aria-valuenow', '3')
@@ -261,11 +261,11 @@ test('Slider direction provider synchronizes RTL geometry and arrow keys and dis
   await slider.press('ArrowRight')
   await expect(slider).toHaveAttribute('aria-valuenow', '2')
   const geometry = await page
-    .locator('.pui-slider-control')
+    .locator('.surf-slider-control')
     .first()
     .evaluate((el) => {
       const track = el.getBoundingClientRect(),
-        thumb = el.querySelector('.pui-slider-thumb')!.getBoundingClientRect()
+        thumb = el.querySelector('.surf-slider-thumb')!.getBoundingClientRect()
       return {
         offset: thumb.x + thumb.width / 2 - track.x,
         width: track.width,
@@ -290,9 +290,9 @@ test('Slider drag moves the thumb and mobile touch drag reaches a different valu
     const page = await context.newPage()
     await page.goto('/components/slider')
     await waitForCatalogReady(page)
-    const control = page.locator('.pui-slider-control').first()
+    const control = page.locator('.surf-slider-control').first()
     await control.scrollIntoViewIfNeeded()
-    const thumb = await control.locator('.pui-slider-thumb').boundingBox()
+    const thumb = await control.locator('.surf-slider-thumb').boundingBox()
     const client = await context.newCDPSession(page)
     const x = thumb!.x + thumb!.width / 2,
       y = thumb!.y + thumb!.height / 2
@@ -345,11 +345,11 @@ for (const id of inputExtensionExampleIds)
         })
         await input.focus()
         await input.press('ArrowDown')
-        await expect(page.locator('.pui-combobox-popup')).toBeVisible()
+        await expect(page.locator('.surf-combobox-popup')).toBeVisible()
         expect(
           (
             await new AxeBuilder({ page })
-              .include('.pui-combobox-popup')
+              .include('.surf-combobox-popup')
               .analyze()
           ).violations,
         ).toEqual([])

@@ -5,122 +5,122 @@
 @import './sizing.css';
 
 @layer surflane.components {
-  .pui-slider {
+  .surf-slider {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
-    column-gap: var(--space-4);
-    row-gap: var(--space-2);
+    column-gap: var(--surf-space-4);
+    row-gap: var(--surf-space-2);
     width: 100%;
     max-width: 32rem;
     min-width: 0;
-    color: var(--ink-body);
+    color: var(--surf-ink-body);
   }
-  .pui-slider-label {
-    font-weight: var(--weight-regular);
-    color: var(--ink);
+  .surf-slider-label {
+    font-weight: var(--surf-weight-regular);
+    color: var(--surf-ink);
     overflow-wrap: anywhere;
   }
-  .pui-slider-value {
+  .surf-slider-value {
     margin: 0;
     font: inherit;
     font-variant-numeric: tabular-nums;
     text-align: end;
   }
-  .pui-slider-control {
+  .surf-slider-control {
     position: relative;
     grid-column: 1/-1;
     display: flex;
     align-items: center;
     width: 100%;
     min-width: 0;
-    height: var(--control-target-size);
+    height: var(--surf-control-target-size);
     touch-action: pan-y;
     user-select: none;
     cursor: pointer;
   }
-  .pui-slider-track {
+  .surf-slider-track {
     width: 100%;
     height: 6px;
-    border-radius: var(--radius-full);
-    background: var(--slider-track);
+    border-radius: var(--surf-radius-full);
+    background: var(--surf-slider-track);
   }
-  .pui-slider-indicator {
-    background: var(--brand);
+  .surf-slider-indicator {
+    background: var(--surf-brand);
     border-radius: inherit;
   }
-  .pui-slider-thumb {
+  .surf-slider-thumb {
     box-sizing: border-box;
     width: 24px;
     height: 24px;
-    border: 2px solid var(--ink-body);
-    border-radius: var(--radius-full);
-    background: var(--canvas);
+    border: 2px solid var(--surf-ink-body);
+    border-radius: var(--surf-radius-full);
+    background: var(--surf-canvas);
   }
   /* The thumb's input is focused on pointer use too; only keyboard focus rings. */
-  .pui-slider-thumb:has(:focus-visible) {
-    outline: var(--focus-ring-width) solid var(--interaction-focus);
-    outline-offset: var(--focus-ring-offset);
+  .surf-slider-thumb:has(:focus-visible) {
+    outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+    outline-offset: var(--surf-focus-ring-offset);
   }
-  .pui-slider[data-disabled] {
-    opacity: var(--control-disabled-opacity);
+  .surf-slider[data-disabled] {
+    opacity: var(--surf-control-disabled-opacity);
   }
-  .pui-slider-control[data-disabled],
-  .pui-slider-thumb[data-disabled] {
+  .surf-slider-control[data-disabled],
+  .surf-slider-thumb[data-disabled] {
     cursor: not-allowed;
   }
-  .pui-slider[data-orientation='vertical'] {
+  .surf-slider[data-orientation='vertical'] {
     width: max-content;
     min-width: 120px;
   }
-  .pui-slider-control[data-orientation='vertical'] {
-    width: var(--control-target-size);
+  .surf-slider-control[data-orientation='vertical'] {
+    width: var(--surf-control-target-size);
     height: 192px;
     justify-content: center;
     justify-self: center;
     touch-action: pan-x;
   }
-  .pui-slider-track[data-orientation='vertical'] {
+  .surf-slider-track[data-orientation='vertical'] {
     width: 6px;
     height: 100%;
   }
   @media (max-width: 760px) {
-    .pui-slider-thumb {
+    .surf-slider-thumb {
       width: 28px;
       height: 28px;
     }
   }
   @media (forced-colors: active) {
-    .pui-slider-track {
+    .surf-slider-track {
       background: CanvasText;
     }
-    .pui-slider-indicator {
+    .surf-slider-indicator {
       background: Highlight;
     }
-    .pui-slider-thumb {
+    .surf-slider-thumb {
       border-color: CanvasText;
       background: Canvas;
     }
   }
 }
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *).pui-slider-thumb {
-    width: var(--ui-slider-thumb);
-    height: var(--ui-slider-thumb);
+  :where([data-ui-size], [data-ui-size] *).surf-slider-thumb {
+    width: var(--surf-ui-slider-thumb);
+    height: var(--surf-ui-slider-thumb);
   }
   @media (max-width: 760px), (pointer: coarse) {
-    :where([data-ui-size], [data-ui-size] *).pui-slider-control {
-      min-block-size: var(--control-target-size);
+    :where([data-ui-size], [data-ui-size] *).surf-slider-control {
+      min-block-size: var(--surf-control-target-size);
     }
   }
-  :where([data-ui-size], [data-ui-size] *).pui-slider-track:not(
+  :where([data-ui-size], [data-ui-size] *).surf-slider-track:not(
       [data-orientation='vertical']
     ) {
-    height: var(--ui-gauge);
+    height: var(--surf-ui-gauge);
   }
   :where(
       [data-ui-size],
       [data-ui-size] *
-    ).pui-slider-track[data-orientation='vertical'] {
-    width: var(--ui-slider-track);
+    ).surf-slider-track[data-orientation='vertical'] {
+    width: var(--surf-ui-slider-track);
   }
 }

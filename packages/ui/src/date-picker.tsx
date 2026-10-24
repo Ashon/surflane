@@ -67,9 +67,9 @@ export type TimeFieldProps<T extends TimeValue> = Omit<
 
 function Segments({ slot }: { slot?: 'start' | 'end' }) {
   return (
-    <DateInput slot={slot} className='pui-date-input'>
+    <DateInput slot={slot} className='surf-date-input'>
       {(segment) => (
-        <DateSegment segment={segment} className='pui-date-segment' />
+        <DateSegment segment={segment} className='surf-date-segment' />
       )}
     </DateInput>
   )
@@ -81,17 +81,17 @@ function FieldHelp({
   return (
     <>
       {description && (
-        <Text slot='description' className='pui-field-description'>
+        <Text slot='description' className='surf-field-description'>
           {description}
         </Text>
       )}
-      <FieldError className='pui-field-error'>{errorMessage}</FieldError>
+      <FieldError className='surf-field-error'>{errorMessage}</FieldError>
     </>
   )
 }
 function CalendarButton() {
   return (
-    <Button className='pui-date-trigger'>
+    <Button className='surf-date-trigger'>
       <Icon name='calendar' />
     </Button>
   )
@@ -100,26 +100,26 @@ function CalendarContents() {
   const { locale } = useLocale()
   return (
     <>
-      <div className='pui-calendar-header'>
-        <Button slot='previous' className='pui-calendar-nav'>
+      <div className='surf-calendar-header'>
+        <Button slot='previous' className='surf-calendar-nav'>
           <Icon name='chevron-back' />
         </Button>
-        <Heading className='pui-calendar-heading' />
-        <Button slot='next' className='pui-calendar-nav'>
+        <Heading className='surf-calendar-heading' />
+        <Button slot='next' className='surf-calendar-nav'>
           <Icon name='chevron-forward' />
         </Button>
       </div>
-      <CalendarGrid className='pui-calendar-grid' weekdayStyle='short'>
+      <CalendarGrid className='surf-calendar-grid' weekdayStyle='short'>
         <CalendarGridHeader>
           {(day) => (
-            <CalendarHeaderCell className='pui-calendar-weekday'>
+            <CalendarHeaderCell className='surf-calendar-weekday'>
               {day}
             </CalendarHeaderCell>
           )}
         </CalendarGridHeader>
         <CalendarGridBody>
           {(date) => (
-            <CalendarCell date={date} className='pui-calendar-day'>
+            <CalendarCell date={date} className='surf-calendar-day'>
               {({ formattedDate }) => {
                 const [before, after] = dayAffixes(locale)
                 return `${before}${formattedDate}${after}`
@@ -154,17 +154,17 @@ function CalendarPopup({ label, range }: { label: string; range?: boolean }) {
   return (
     <Popover
       data-ui-size={scheme}
-      className='pui-date-popover'
+      className='surf-date-popover'
       offset={8}
       placement='bottom start'
     >
-      <Dialog aria-label={label} className='pui-date-dialog'>
+      <Dialog aria-label={label} className='surf-date-dialog'>
         {range ? (
-          <RangeCalendar className='pui-calendar'>
+          <RangeCalendar className='surf-calendar'>
             <CalendarContents />
           </RangeCalendar>
         ) : (
-          <Calendar className='pui-calendar'>
+          <Calendar className='surf-calendar'>
             <CalendarContents />
           </Calendar>
         )}
@@ -183,9 +183,9 @@ export function DatePicker<T extends DateValue>({
   ...props
 }: DatePickerProps<T>) {
   return (
-    <AriaDatePicker {...props} className={skin('pui-date-picker', className)}>
-      <Label className='pui-field-label'>{label}</Label>
-      <Group className='pui-date-group'>
+    <AriaDatePicker {...props} className={skin('surf-date-picker', className)}>
+      <Label className='surf-field-label'>{label}</Label>
+      <Group className='surf-date-group'>
         <Segments />
         <CalendarButton />
       </Group>
@@ -205,13 +205,13 @@ export function DateRangePicker<T extends DateValue>({
   return (
     <AriaDateRangePicker
       {...props}
-      className={skin('pui-date-picker pui-date-range-picker', className)}
+      className={skin('surf-date-picker surf-date-range-picker', className)}
     >
-      <Label className='pui-field-label'>{label}</Label>
-      <Group className='pui-date-group'>
-        <div className='pui-date-range-inputs'>
+      <Label className='surf-field-label'>{label}</Label>
+      <Group className='surf-date-group'>
+        <div className='surf-date-range-inputs'>
           <Segments slot='start' />
-          <span aria-hidden='true' className='pui-date-range-separator'>
+          <span aria-hidden='true' className='surf-date-range-separator'>
             –
           </span>
           <Segments slot='end' />
@@ -231,9 +231,9 @@ export function TimeField<T extends TimeValue>({
   ...props
 }: TimeFieldProps<T>) {
   return (
-    <AriaTimeField {...props} className={skin('pui-time-field', className)}>
-      <Label className='pui-field-label'>{label}</Label>
-      <div className='pui-date-group'>
+    <AriaTimeField {...props} className={skin('surf-time-field', className)}>
+      <Label className='surf-field-label'>{label}</Label>
+      <div className='surf-date-group'>
         <Segments />
       </div>
       <FieldHelp description={description} errorMessage={errorMessage} />

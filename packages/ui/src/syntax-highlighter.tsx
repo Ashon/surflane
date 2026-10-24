@@ -54,21 +54,16 @@ export type SyntaxHighlighterProps = Omit<
  * Rendering remains selectable React text; it never inserts executable HTML. Tokens are
  * colored inside a SyntaxHighlighting provider; without one, the code renders plain.
  */
-export const SyntaxHighlighter = /* @__PURE__ */ React.forwardRef<
-  HTMLElement,
-  SyntaxHighlighterProps
->(function SyntaxHighlighter(
-  {
-    code,
-    language = 'text',
-    inline = false,
-    label = 'Highlighted source',
-    wrap = false,
-    className,
-    ...props
-  },
+export const SyntaxHighlighter = function SyntaxHighlighter({
+  code,
+  language = 'text',
+  inline = false,
+  label = 'Highlighted source',
+  wrap = false,
+  className,
   ref,
-) {
+  ...props
+}: SyntaxHighlighterProps & { ref?: React.Ref<HTMLElement> }) {
   const source = React.useContext(SyntaxEngineContext)
   const name = language.trim().toLowerCase()
   const lang = aliases[name] ?? name
@@ -108,7 +103,7 @@ export const SyntaxHighlighter = /* @__PURE__ */ React.forwardRef<
       <code
         {...props}
         ref={ref}
-        className={cx('pui-syntax', className)}
+        className={cx('surf-syntax', className)}
         data-language={lang}
         data-highlighted={valid ? 'true' : 'false'}
       >
@@ -148,11 +143,11 @@ export const SyntaxHighlighter = /* @__PURE__ */ React.forwardRef<
     <ScrollArea
       label={label}
       orientation='horizontal'
-      rootClassName='pui-syntax-scroll'
+      rootClassName='surf-syntax-scroll'
     >
-      <pre className='pui-syntax-pre' data-wrap={wrap || undefined}>
+      <pre className='surf-syntax-pre' data-wrap={wrap || undefined}>
         {element}
       </pre>
     </ScrollArea>
   )
-})
+}

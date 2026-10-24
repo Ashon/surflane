@@ -5,12 +5,12 @@
 @import './sizing.css';
 
 @layer surflane.components {
-  .pui-scroll-root {
+  .surf-scroll-root {
     position: relative;
     min-width: 0;
     max-width: 100%;
   }
-  .pui-scroll-viewport {
+  .surf-scroll-viewport {
     max-width: 100%;
     overscroll-behavior: auto;
     scrollbar-width: none !important;
@@ -18,37 +18,41 @@
   }
   /* A labeled scroller takes keyboard focus. Its root draws the shared ring, since
      the viewport's edge fade would clip a ring drawn on the viewport itself. */
-  .pui-scroll-root:has(> .pui-scroll-viewport:focus-visible) {
-    outline: var(--focus-ring-width) solid var(--interaction-focus);
-    outline-offset: var(--focus-ring-offset);
+  .surf-scroll-root:has(> .surf-scroll-viewport:focus-visible) {
+    outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+    outline-offset: var(--surf-focus-ring-offset);
   }
-  .pui-scroll-viewport::-webkit-scrollbar {
+  .surf-scroll-viewport::-webkit-scrollbar {
     display: none;
   }
   /* In a viewport of set height the content is at least as tall, so a child can
    * stretch to the bottom. A viewport sized by its content is unchanged. */
-  .pui-scroll-content {
+  .surf-scroll-content {
     min-block-size: 100%;
   }
   /* A horizontal scroller fades the edge that hides more content, so a cut-off table
    * or code line reads as scrollable before its scrollbar appears, on touch too. */
-  .pui-scroll-root[data-overflow-x-end] > .pui-scroll-viewport {
-    mask-image: linear-gradient(to left, transparent, #000 var(--space-6));
+  .surf-scroll-root[data-overflow-x-end] > .surf-scroll-viewport {
+    mask-image: linear-gradient(to left, transparent, #000 var(--surf-space-6));
   }
-  .pui-scroll-root[data-overflow-x-start] > .pui-scroll-viewport {
-    mask-image: linear-gradient(to right, transparent, #000 var(--space-6));
-  }
-  .pui-scroll-root[data-overflow-x-start][data-overflow-x-end]
-    > .pui-scroll-viewport {
+  .surf-scroll-root[data-overflow-x-start] > .surf-scroll-viewport {
     mask-image: linear-gradient(
       to right,
       transparent,
-      #000 var(--space-6),
-      #000 calc(100% - var(--space-6)),
+      #000 var(--surf-space-6)
+    );
+  }
+  .surf-scroll-root[data-overflow-x-start][data-overflow-x-end]
+    > .surf-scroll-viewport {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 var(--surf-space-6),
+      #000 calc(100% - var(--surf-space-6)),
       transparent
     );
   }
-  .pui-scrollbar {
+  .surf-scrollbar {
     display: flex;
     user-select: none;
     touch-action: none;
@@ -56,59 +60,60 @@
     background: transparent;
     z-index: 1;
     opacity: 0;
-    transition: opacity var(--duration-fast) var(--ease-out);
+    transition: opacity var(--surf-duration-fast) var(--surf-ease-out);
   }
-  .pui-scrollbar[data-scrolling],
-  .pui-scrollbar:hover,
-  .pui-scroll-root[data-scroll-near-x]
-    > .pui-scrollbar[data-orientation='horizontal'],
-  .pui-scroll-root[data-scroll-near-y]
-    > .pui-scrollbar[data-orientation='vertical'],
-  .pui-scroll-root[data-scroll-dragging='horizontal']
-    > .pui-scrollbar[data-orientation='horizontal'],
-  .pui-scroll-root[data-scroll-dragging='vertical']
-    > .pui-scrollbar[data-orientation='vertical'],
-  .pui-scroll-root:has(> .pui-scroll-viewport:focus-visible) > .pui-scrollbar {
+  .surf-scrollbar[data-scrolling],
+  .surf-scrollbar:hover,
+  .surf-scroll-root[data-scroll-near-x]
+    > .surf-scrollbar[data-orientation='horizontal'],
+  .surf-scroll-root[data-scroll-near-y]
+    > .surf-scrollbar[data-orientation='vertical'],
+  .surf-scroll-root[data-scroll-dragging='horizontal']
+    > .surf-scrollbar[data-orientation='horizontal'],
+  .surf-scroll-root[data-scroll-dragging='vertical']
+    > .surf-scrollbar[data-orientation='vertical'],
+  .surf-scroll-root:has(> .surf-scroll-viewport:focus-visible)
+    > .surf-scrollbar {
     opacity: 1;
   }
   /* The thumb plus the bar's padding on both sides. */
-  .pui-scrollbar[data-orientation='horizontal'] {
-    height: calc(var(--scrollbar-indicator-size) + 4px);
+  .surf-scrollbar[data-orientation='horizontal'] {
+    height: calc(var(--surf-scrollbar-indicator-size) + 4px);
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
   }
-  .pui-scrollbar[data-orientation='vertical'] {
+  .surf-scrollbar[data-orientation='vertical'] {
     flex-direction: column;
-    width: calc(var(--scrollbar-indicator-size) + 4px);
+    width: calc(var(--surf-scrollbar-indicator-size) + 4px);
     position: absolute;
     top: 0;
     bottom: 0;
     right: 0;
   }
-  .pui-scroll-thumb {
+  .surf-scroll-thumb {
     flex: none;
-    border-radius: var(--radius-full);
-    background: var(--ink-muted);
+    border-radius: var(--surf-radius-full);
+    background: var(--surf-ink-muted);
     opacity: 0.45;
   }
-  .pui-scrollbar:hover .pui-scroll-thumb {
+  .surf-scrollbar:hover .surf-scroll-thumb {
     opacity: 0.8;
   }
   /* On touch-only screens a scrollbar is a position indicator, as native mobile
    * scrollbars are: content scrolls by swiping, so the bar overlaying its edge
    * never takes a tap meant for the link or control beneath it. */
   @media (hover: none) and (pointer: coarse) {
-    .pui-scrollbar {
+    .surf-scrollbar {
       pointer-events: none;
     }
   }
   @media (forced-colors: active) {
-    .pui-scrollbar {
+    .surf-scrollbar {
       opacity: 1;
     }
-    .pui-scrollbar .pui-scroll-thumb {
+    .surf-scrollbar .surf-scroll-thumb {
       background: CanvasText;
       opacity: 1;
     }

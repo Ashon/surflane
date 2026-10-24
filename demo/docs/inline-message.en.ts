@@ -11,12 +11,12 @@ export const doc: ComponentDoc = {
   keyboard:
     "The message doesn't take focus. Tab reaches the action buttons, and Enter or Space activates them. The Icon is decorative. Title and Description convey the status. The caller sets Root.role.",
   tokens: [
-    '--status-danger-bg',
-    '--status-danger-fg',
-    '--status-caution-bg',
-    '--status-success-bg',
-    '--radius-md',
-    '--space-4',
+    '--surf-status-danger-bg',
+    '--surf-status-danger-fg',
+    '--surf-status-caution-bg',
+    '--surf-status-success-bg',
+    '--surf-radius-md',
+    '--surf-space-4',
   ],
   code: `import { InlineMessage, Button } from '@surflane/ui'
 

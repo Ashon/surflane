@@ -1,5 +1,6 @@
 'use client'
 import * as React from 'react'
+import { useRender } from '@base-ui/react/use-render'
 import { cx, skin } from './parts.js'
 import { Button, type ButtonProps } from './button.js'
 import { Icon } from './icon.js'
@@ -37,23 +38,18 @@ export type AppShellRootProps = React.ComponentPropsWithoutRef<'div'> & {
 }
 /** Layout only. Routing, session, theme and mobile disclosure belong to the caller;
  * the shell keeps the sidebar's collapsed state unless you control it. */
-const Root = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  AppShellRootProps
->(function AppShellRoot(
-  {
-    collapsed,
-    defaultCollapsed = false,
-    onCollapsedChange,
-    persist,
-    shortcut = true,
-    layout = 'header',
-    className,
-    children,
-    ...props
-  },
+const Root = function AppShellRoot({
+  collapsed,
+  defaultCollapsed = false,
+  onCollapsedChange,
+  persist,
+  shortcut = true,
+  layout = 'header',
+  className,
+  children,
   ref,
-) {
+  ...props
+}: AppShellRootProps & { ref?: React.Ref<HTMLDivElement> }) {
   const [own, setOwn] = React.useState(defaultCollapsed)
   const value = collapsed ?? own
   const latest = React.useRef(value)
@@ -105,13 +101,13 @@ const Root = /* @__PURE__ */ React.forwardRef<
         ref={ref}
         data-layout={layout}
         data-sidebar={value ? 'collapsed' : 'expanded'}
-        className={cx('pui-app-shell', className)}
+        className={cx('surf-app-shell', className)}
       >
         {children}
       </div>
     </ShellContext.Provider>
   )
-})
+}
 export type AppShellSidebarToggleLabels = {
   /** The button's name in each state; it is also the tooltip. */
   collapse: string
@@ -124,13 +120,14 @@ export type AppShellSidebarToggleProps = Omit<ButtonProps, 'children'> & {
   children?: React.ReactNode
 }
 /** Collapses the sidebar to its rail and back. Its tooltip names the shortcut. */
-const SidebarToggle = /* @__PURE__ */ React.forwardRef<
-  HTMLButtonElement,
-  AppShellSidebarToggleProps
->(function AppShellSidebarToggle(
-  { labels, className, children, onClick, ...props },
+const SidebarToggle = function AppShellSidebarToggle({
+  labels,
+  className,
+  children,
+  onClick,
   ref,
-) {
+  ...props
+}: AppShellSidebarToggleProps & { ref?: React.Ref<HTMLButtonElement> }) {
   const shell = React.useContext(ShellContext)
   if (!shell) throw new Error('AppShell.SidebarToggle belongs in AppShell.Root')
   const label = shell.collapsed
@@ -151,7 +148,7 @@ const SidebarToggle = /* @__PURE__ */ React.forwardRef<
         aria-label={label}
         aria-expanded={!shell.collapsed}
         aria-controls={shell.sidebarId}
-        className={skin('pui-app-shell-toggle', className)}
+        className={skin('surf-app-shell-toggle', className)}
         onClick={(event) => {
           onClick?.(event)
           if (!event.defaultPrevented) shell.setCollapsed(!shell.collapsed)
@@ -161,23 +158,28 @@ const SidebarToggle = /* @__PURE__ */ React.forwardRef<
       </Button>
     </Tooltip>
   )
-})
-const Header = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<'div'>
->(function AppShellHeader({ className, ...props }, ref) {
+}
+const Header = function AppShellHeader({
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<'div'> & {
+  ref?: React.Ref<HTMLDivElement>
+}) {
   return (
     <div
       {...props}
       ref={ref}
-      className={cx('pui-app-shell-header', className)}
+      className={cx('surf-app-shell-header', className)}
     />
   )
-})
-const Sidebar = /* @__PURE__ */ React.forwardRef<
-  HTMLElement,
-  React.ComponentPropsWithoutRef<'aside'>
->(function AppShellSidebar({ className, id, ...props }, ref) {
+}
+const Sidebar = function AppShellSidebar({
+  className,
+  id,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<'aside'> & { ref?: React.Ref<HTMLElement> }) {
   const shell = React.useContext(ShellContext)
   return (
     <SidebarContext.Provider value={true}>
@@ -185,90 +187,210 @@ const Sidebar = /* @__PURE__ */ React.forwardRef<
         {...props}
         ref={ref}
         id={id ?? shell?.sidebarId}
-        className={cx('pui-app-shell-sidebar', className)}
+        className={cx('surf-app-shell-sidebar', className)}
       />
     </SidebarContext.Provider>
   )
-})
-const Content = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<'div'>
->(function AppShellContent({ className, ...props }, ref) {
+}
+const Content = function AppShellContent({
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<'div'> & {
+  ref?: React.Ref<HTMLDivElement>
+}) {
   return (
     <div
       {...props}
       ref={ref}
-      className={cx('pui-app-shell-content', className)}
+      className={cx('surf-app-shell-content', className)}
     />
   )
-})
+}
 /**
  * The page surface inside a workspace Content. It insets from the shell on every
  * side but the sidebar's; without the sidebar, on narrow screens, it insets evenly.
  */
-const Page = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<'div'>
->(function AppShellPage({ className, ...props }, ref) {
-  return (
-    <div {...props} ref={ref} className={cx('pui-app-shell-page', className)} />
-  )
-})
-const Footer = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<'div'>
->(function AppShellFooter({ className, ...props }, ref) {
+const Page = function AppShellPage({
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<'div'> & {
+  ref?: React.Ref<HTMLDivElement>
+}) {
   return (
     <div
       {...props}
       ref={ref}
-      className={cx('pui-app-shell-footer', className)}
+      className={cx('surf-app-shell-page', className)}
     />
   )
-})
-const Label = /* @__PURE__ */ React.forwardRef<
-  HTMLSpanElement,
-  React.ComponentPropsWithoutRef<'span'>
->(function AppShellLabel({ className, ...props }, ref) {
+}
+const Footer = function AppShellFooter({
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<'div'> & {
+  ref?: React.Ref<HTMLDivElement>
+}) {
+  return (
+    <div
+      {...props}
+      ref={ref}
+      className={cx('surf-app-shell-footer', className)}
+    />
+  )
+}
+const Label = function AppShellLabel({
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<'span'> & {
+  ref?: React.Ref<HTMLSpanElement>
+}) {
   return (
     <span
       {...props}
       ref={ref}
-      className={cx('pui-app-shell-label', className)}
+      className={cx('surf-app-shell-label', className)}
     />
   )
-})
-const Link = /* @__PURE__ */ React.forwardRef<
-  HTMLAnchorElement,
-  Omit<React.ComponentPropsWithoutRef<'a'>, 'children'> & {
-    icon: React.ReactNode
-    label: string
-  }
->(function AppShellLink({ icon, label, className, ...props }, ref) {
+}
+export type AppShellBrandProps = Omit<
+  useRender.ComponentProps<'div'>,
+  'ref' | 'children'
+> & {
+  /** The product mark, about 24px. It is decorative: the name names the brand. */
+  mark?: React.ReactNode
+  /** The product name, on one line. A long one truncates and keeps its text in title. */
+  name: string
+  /** An optional second line, such as the workspace. */
+  description?: React.ReactNode
+}
+/** The product's mark and name. In the sidebar it is the top row, its mark centered
+ * on the links' icons; in the header it sits on one line. Pass `render`, such as
+ * `<a href='/' />`, to make it a link home. */
+const Brand = function AppShellBrand({
+  mark,
+  name,
+  description,
+  render,
+  className,
+  ref,
+  ...props
+}: AppShellBrandProps & { ref?: React.Ref<HTMLDivElement> }) {
+  return useRender({
+    defaultTagName: 'div',
+    render,
+    ref,
+    props: {
+      ...props,
+      className: cx('surf-app-shell-brand', className),
+      children: (
+        <>
+          {mark != null && (
+            <span className='surf-app-shell-brand-mark' aria-hidden='true'>
+              {mark}
+            </span>
+          )}
+          <span className='surf-app-shell-label surf-app-shell-brand-text'>
+            <span className='surf-app-shell-brand-name' title={name}>
+              {name}
+            </span>
+            {description != null && (
+              <span className='surf-app-shell-brand-description'>
+                {description}
+              </span>
+            )}
+          </span>
+        </>
+      ),
+    },
+  })
+}
+export type AppShellNavProps = React.ComponentPropsWithoutRef<'nav'> & {
+  /** A visible name over the links, which also names the navigation. Without it,
+   * name the navigation with aria-label. */
+  label?: string
+}
+/** A list of Links with even gaps. In the workspace sidebar it lines its links up
+ * with the brand and the rail. */
+const Nav = function AppShellNav({
+  label,
+  className,
+  children,
+  ref,
+  ...props
+}: AppShellNavProps & { ref?: React.Ref<HTMLElement> }) {
+  const id = React.useId()
+  return (
+    <nav
+      aria-labelledby={label ? id : undefined}
+      {...props}
+      ref={ref}
+      className={cx('surf-app-shell-nav', className)}
+    >
+      {label && (
+        <span id={id} className='surf-app-shell-nav-label'>
+          <Label>{label}</Label>
+        </span>
+      )}
+      {children}
+    </nav>
+  )
+}
+export type AppShellLinkProps = Omit<
+  useRender.ComponentProps<'a'>,
+  'ref' | 'children'
+> & {
+  icon: React.ReactNode
+  label: string
+}
+/** A destination with an icon and a name. Pass a router's link as `render` to keep
+ * client navigation, or another element, such as a menu trigger for the account, to
+ * give it the same row. */
+const Link = function AppShellLink({
+  icon,
+  label,
+  render,
+  className,
+  ref,
+  ...props
+}: AppShellLinkProps & { ref?: React.Ref<HTMLAnchorElement> }) {
   const shell = React.useContext(ShellContext)
   const inSidebar = React.useContext(SidebarContext)
+  const element = useRender({
+    defaultTagName: 'a',
+    render,
+    ref,
+    props: {
+      ...props,
+      'aria-label': props['aria-label'] ?? label,
+      className: cx('surf-app-shell-link', className),
+      children: (
+        <>
+          <span className='surf-app-shell-icon' aria-hidden='true'>
+            {icon}
+          </span>
+          <Label aria-hidden='true'>{label}</Label>
+        </>
+      ),
+    },
+  })
   // On the collapsed rail only the icon shows, so the name appears as a tooltip.
   return (
     <Tooltip label={label} disabled={!(shell?.collapsed && inSidebar)}>
-      <a
-        {...props}
-        ref={ref}
-        aria-label={props['aria-label'] ?? label}
-        className={cx('pui-app-shell-link', className)}
-      >
-        <span className='pui-app-shell-icon' aria-hidden='true'>
-          {icon}
-        </span>
-        <Label aria-hidden='true'>{label}</Label>
-      </a>
+      {element}
     </Tooltip>
   )
-})
+}
 export const AppShell = {
   Root,
   Header,
   Sidebar,
   SidebarToggle,
+  Brand,
+  Nav,
   Content,
   Page,
   Footer,
@@ -282,6 +404,8 @@ export const {
   Header: AppShellHeader,
   Sidebar: AppShellSidebar,
   SidebarToggle: AppShellSidebarToggle,
+  Brand: AppShellBrand,
+  Nav: AppShellNav,
   Content: AppShellContent,
   Page: AppShellPage,
   Footer: AppShellFooter,

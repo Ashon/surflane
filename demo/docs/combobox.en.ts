@@ -14,13 +14,13 @@ export const doc: ComponentDoc = {
     'Remove one value with its named ChipRemove.',
   ],
   tokens: [
-    '--control-height',
-    '--control-radius',
-    '--control-border',
-    '--menu-background',
-    '--menu-hover-background',
-    '--selected',
-    '--layer-popup',
+    '--surf-control-height',
+    '--surf-control-radius',
+    '--surf-control-border',
+    '--surf-menu-background',
+    '--surf-menu-hover-background',
+    '--surf-selected',
+    '--surf-layer-popup',
   ],
   code: `import { Combobox, Field } from '@surflane/ui'
 

@@ -9,8 +9,10 @@
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
+    "@base-ui/react": "^1.9.0",
     "@react-router/node": "^8.4.0",
     "@react-router/serve": "^8.4.0",
+    "@surflane/css": "^0.1.0",
     "@surflane/design-tokens": "^0.1.0",
     "@surflane/ui": "^0.1.0",
     "isbot": "^5.1.36",

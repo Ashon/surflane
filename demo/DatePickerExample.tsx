@@ -101,7 +101,7 @@ export function DatePickerExample() {
       <DateLocaleProvider locale={locale}>
         <div lang={locale} dir={locale.startsWith('ar') ? 'rtl' : 'ltr'}>
           <form
-            className='pui-form'
+            className='surf-form'
             aria-label={t.dateTimePreview}
             onSubmit={(event) => {
               event.preventDefault()
@@ -231,7 +231,7 @@ export function DatePickerExample() {
             </p>
           </form>
           <section
-            className='pui-stack date-time-resolution'
+            className='surf-stack date-time-resolution'
             aria-labelledby='local-time-heading'
           >
             <h3 id='local-time-heading'>{t.resolveLocalTimeHeading}</h3>

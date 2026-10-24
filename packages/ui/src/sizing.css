@@ -5,137 +5,140 @@
 
 @layer surflane.sizes {
   /* SizeProvider adds no layout box. Screen-reader semantics belong to its children. */
-  .pui-size-scope {
+  .surf-size-scope {
     display: contents;
   }
   [data-ui-size='small'] {
-    --ui-slider-track: var(--size-slider-track-small);
-    --ui-file-padding: var(--size-file-padding-small);
-    --ui-content-gap: var(--size-content-gap-small);
+    --surf-ui-slider-track: var(--surf-size-slider-track-small);
+    --surf-ui-file-padding: var(--surf-size-file-padding-small);
+    --surf-ui-content-gap: var(--surf-size-content-gap-small);
 
-    --ui-control-height: var(--size-control-height-small);
-    --ui-control-padding: var(--size-control-padding-small);
-    --ui-button-padding: var(--size-button-padding-small);
-    --ui-font: var(--size-font-small);
-    --ui-leading: var(--size-leading-small);
-    --ui-choice: var(--size-choice-small);
-    --ui-switch-width: var(--size-switch-width-small);
-    --ui-switch-height: var(--size-switch-height-small);
-    --ui-switch-thumb: var(--size-switch-thumb-small);
-    --ui-icon: var(--size-icon-small);
-    --ui-surface-padding: var(--size-surface-padding-small);
-    --ui-card-padding: var(--size-card-padding-small);
-    --ui-gap: var(--size-gap-small);
-    --ui-row: var(--size-row-small);
-    --ui-table-padding-y: var(--size-table-padding-y-small);
-    --ui-table-padding-x: var(--size-table-padding-x-small);
-    --ui-avatar: var(--size-avatar-small);
-    --ui-spinner: var(--size-spinner-small);
-    --ui-badge-padding-y: var(--size-badge-padding-y-small);
-    --ui-badge-padding-x: var(--size-badge-padding-x-small);
-    --ui-badge-font: var(--size-badge-font-small);
-    --ui-gauge: var(--size-gauge-small);
-    --ui-slider-thumb: var(--size-slider-thumb-small);
-    --ui-otp: var(--size-otp-small);
-    --ui-tree-row: var(--size-tree-row-small);
-    --ui-textarea-padding: var(--size-textarea-padding-small);
-    --ui-tooltip-padding-y: var(--size-tooltip-padding-y-small);
-    --ui-tooltip-padding-x: var(--size-tooltip-padding-x-small);
-    --control-height: var(--ui-control-height);
-    --control-padding-x: var(--ui-control-padding);
-    --control-choice-size: var(--ui-choice);
-    --control-switch-width: var(--ui-switch-width);
-    --control-switch-height: var(--ui-switch-height);
-    --control-switch-thumb: var(--ui-switch-thumb);
+    --surf-ui-control-height: var(--surf-size-control-height-small);
+    --surf-ui-control-padding: var(--surf-size-control-padding-small);
+    --surf-ui-button-padding: var(--surf-size-button-padding-small);
+    --surf-ui-font: var(--surf-size-font-small);
+    --surf-ui-leading: var(--surf-size-leading-small);
+    --surf-ui-choice: var(--surf-size-choice-small);
+    --surf-ui-switch-width: var(--surf-size-switch-width-small);
+    --surf-ui-switch-height: var(--surf-size-switch-height-small);
+    --surf-ui-switch-thumb: var(--surf-size-switch-thumb-small);
+    --surf-ui-icon: var(--surf-size-icon-small);
+    --surf-ui-surface-padding: var(--surf-size-surface-padding-small);
+    --surf-ui-card-padding: var(--surf-size-card-padding-small);
+    --surf-ui-gap: var(--surf-size-gap-small);
+    --surf-ui-row: var(--surf-size-row-small);
+    --surf-ui-table-padding-y: var(--surf-size-table-padding-y-small);
+    --surf-ui-table-padding-x: var(--surf-size-table-padding-x-small);
+    --surf-ui-avatar: var(--surf-size-avatar-small);
+    --surf-ui-spinner: var(--surf-size-spinner-small);
+    --surf-ui-badge-padding-y: var(--surf-size-badge-padding-y-small);
+    --surf-ui-badge-padding-x: var(--surf-size-badge-padding-x-small);
+    --surf-ui-badge-font: var(--surf-size-badge-font-small);
+    --surf-ui-gauge: var(--surf-size-gauge-small);
+    --surf-ui-slider-thumb: var(--surf-size-slider-thumb-small);
+    --surf-ui-otp: var(--surf-size-otp-small);
+    --surf-ui-tree-row: var(--surf-size-tree-row-small);
+    --surf-ui-textarea-padding: var(--surf-size-textarea-padding-small);
+    --surf-ui-tooltip-padding-y: var(--surf-size-tooltip-padding-y-small);
+    --surf-ui-tooltip-padding-x: var(--surf-size-tooltip-padding-x-small);
+    --surf-control-height: var(--surf-ui-control-height);
+    --surf-control-padding-x: var(--surf-ui-control-padding);
+    --surf-control-choice-size: var(--surf-ui-choice);
+    --surf-control-switch-width: var(--surf-ui-switch-width);
+    --surf-control-switch-height: var(--surf-ui-switch-height);
+    --surf-control-switch-thumb: var(--surf-ui-switch-thumb);
   }
   [data-ui-size='default'] {
-    --ui-slider-track: var(--size-slider-track-default);
-    --ui-file-padding: var(--size-file-padding-default);
-    --ui-content-gap: var(--size-content-gap-default);
+    --surf-ui-slider-track: var(--surf-size-slider-track-default);
+    --surf-ui-file-padding: var(--surf-size-file-padding-default);
+    --surf-ui-content-gap: var(--surf-size-content-gap-default);
 
-    --ui-control-height: var(--size-control-height-default);
-    --ui-control-padding: var(--size-control-padding-default);
-    --ui-button-padding: var(--size-button-padding-default);
-    --ui-font: var(--size-font-default);
-    --ui-leading: var(--size-leading-default);
-    --ui-choice: var(--size-choice-default);
-    --ui-switch-width: var(--size-switch-width-default);
-    --ui-switch-height: var(--size-switch-height-default);
-    --ui-switch-thumb: var(--size-switch-thumb-default);
-    --ui-icon: var(--size-icon-default);
-    --ui-surface-padding: var(--size-surface-padding-default);
-    --ui-card-padding: var(--size-card-padding-default);
-    --ui-gap: var(--size-gap-default);
-    --ui-row: var(--size-row-default);
-    --ui-table-padding-y: var(--size-table-padding-y-default);
-    --ui-table-padding-x: var(--size-table-padding-x-default);
-    --ui-avatar: var(--size-avatar-default);
-    --ui-spinner: var(--size-spinner-default);
-    --ui-badge-padding-y: var(--size-badge-padding-y-default);
-    --ui-badge-padding-x: var(--size-badge-padding-x-default);
-    --ui-badge-font: var(--size-badge-font-default);
-    --ui-gauge: var(--size-gauge-default);
-    --ui-slider-thumb: var(--size-slider-thumb-default);
-    --ui-otp: var(--size-otp-default);
-    --ui-tree-row: var(--size-tree-row-default);
-    --ui-textarea-padding: var(--size-textarea-padding-default);
-    --ui-tooltip-padding-y: var(--size-tooltip-padding-y-default);
-    --ui-tooltip-padding-x: var(--size-tooltip-padding-x-default);
-    --control-height: var(--ui-control-height);
-    --control-padding-x: var(--ui-control-padding);
-    --control-choice-size: var(--ui-choice);
-    --control-switch-width: var(--ui-switch-width);
-    --control-switch-height: var(--ui-switch-height);
-    --control-switch-thumb: var(--ui-switch-thumb);
+    --surf-ui-control-height: var(--surf-size-control-height-default);
+    --surf-ui-control-padding: var(--surf-size-control-padding-default);
+    --surf-ui-button-padding: var(--surf-size-button-padding-default);
+    --surf-ui-font: var(--surf-size-font-default);
+    --surf-ui-leading: var(--surf-size-leading-default);
+    --surf-ui-choice: var(--surf-size-choice-default);
+    --surf-ui-switch-width: var(--surf-size-switch-width-default);
+    --surf-ui-switch-height: var(--surf-size-switch-height-default);
+    --surf-ui-switch-thumb: var(--surf-size-switch-thumb-default);
+    --surf-ui-icon: var(--surf-size-icon-default);
+    --surf-ui-surface-padding: var(--surf-size-surface-padding-default);
+    --surf-ui-card-padding: var(--surf-size-card-padding-default);
+    --surf-ui-gap: var(--surf-size-gap-default);
+    --surf-ui-row: var(--surf-size-row-default);
+    --surf-ui-table-padding-y: var(--surf-size-table-padding-y-default);
+    --surf-ui-table-padding-x: var(--surf-size-table-padding-x-default);
+    --surf-ui-avatar: var(--surf-size-avatar-default);
+    --surf-ui-spinner: var(--surf-size-spinner-default);
+    --surf-ui-badge-padding-y: var(--surf-size-badge-padding-y-default);
+    --surf-ui-badge-padding-x: var(--surf-size-badge-padding-x-default);
+    --surf-ui-badge-font: var(--surf-size-badge-font-default);
+    --surf-ui-gauge: var(--surf-size-gauge-default);
+    --surf-ui-slider-thumb: var(--surf-size-slider-thumb-default);
+    --surf-ui-otp: var(--surf-size-otp-default);
+    --surf-ui-tree-row: var(--surf-size-tree-row-default);
+    --surf-ui-textarea-padding: var(--surf-size-textarea-padding-default);
+    --surf-ui-tooltip-padding-y: var(--surf-size-tooltip-padding-y-default);
+    --surf-ui-tooltip-padding-x: var(--surf-size-tooltip-padding-x-default);
+    --surf-control-height: var(--surf-ui-control-height);
+    --surf-control-padding-x: var(--surf-ui-control-padding);
+    --surf-control-choice-size: var(--surf-ui-choice);
+    --surf-control-switch-width: var(--surf-ui-switch-width);
+    --surf-control-switch-height: var(--surf-ui-switch-height);
+    --surf-control-switch-thumb: var(--surf-ui-switch-thumb);
   }
   [data-ui-size='large'] {
-    --ui-slider-track: var(--size-slider-track-large);
-    --ui-file-padding: var(--size-file-padding-large);
-    --ui-content-gap: var(--size-content-gap-large);
+    --surf-ui-slider-track: var(--surf-size-slider-track-large);
+    --surf-ui-file-padding: var(--surf-size-file-padding-large);
+    --surf-ui-content-gap: var(--surf-size-content-gap-large);
 
-    --ui-control-height: var(--size-control-height-large);
-    --ui-control-padding: var(--size-control-padding-large);
-    --ui-button-padding: var(--size-button-padding-large);
-    --ui-font: var(--size-font-large);
-    --ui-leading: var(--size-leading-large);
-    --ui-choice: var(--size-choice-large);
-    --ui-switch-width: var(--size-switch-width-large);
-    --ui-switch-height: var(--size-switch-height-large);
-    --ui-switch-thumb: var(--size-switch-thumb-large);
-    --ui-icon: var(--size-icon-large);
-    --ui-surface-padding: var(--size-surface-padding-large);
-    --ui-card-padding: var(--size-card-padding-large);
-    --ui-gap: var(--size-gap-large);
-    --ui-row: var(--size-row-large);
-    --ui-table-padding-y: var(--size-table-padding-y-large);
-    --ui-table-padding-x: var(--size-table-padding-x-large);
-    --ui-avatar: var(--size-avatar-large);
-    --ui-spinner: var(--size-spinner-large);
-    --ui-badge-padding-y: var(--size-badge-padding-y-large);
-    --ui-badge-padding-x: var(--size-badge-padding-x-large);
-    --ui-badge-font: var(--size-badge-font-large);
-    --ui-gauge: var(--size-gauge-large);
-    --ui-slider-thumb: var(--size-slider-thumb-large);
-    --ui-otp: var(--size-otp-large);
-    --ui-tree-row: var(--size-tree-row-large);
-    --ui-textarea-padding: var(--size-textarea-padding-large);
-    --ui-tooltip-padding-y: var(--size-tooltip-padding-y-large);
-    --ui-tooltip-padding-x: var(--size-tooltip-padding-x-large);
-    --control-height: var(--ui-control-height);
-    --control-padding-x: var(--ui-control-padding);
-    --control-choice-size: var(--ui-choice);
-    --control-switch-width: var(--ui-switch-width);
-    --control-switch-height: var(--ui-switch-height);
-    --control-switch-thumb: var(--ui-switch-thumb);
+    --surf-ui-control-height: var(--surf-size-control-height-large);
+    --surf-ui-control-padding: var(--surf-size-control-padding-large);
+    --surf-ui-button-padding: var(--surf-size-button-padding-large);
+    --surf-ui-font: var(--surf-size-font-large);
+    --surf-ui-leading: var(--surf-size-leading-large);
+    --surf-ui-choice: var(--surf-size-choice-large);
+    --surf-ui-switch-width: var(--surf-size-switch-width-large);
+    --surf-ui-switch-height: var(--surf-size-switch-height-large);
+    --surf-ui-switch-thumb: var(--surf-size-switch-thumb-large);
+    --surf-ui-icon: var(--surf-size-icon-large);
+    --surf-ui-surface-padding: var(--surf-size-surface-padding-large);
+    --surf-ui-card-padding: var(--surf-size-card-padding-large);
+    --surf-ui-gap: var(--surf-size-gap-large);
+    --surf-ui-row: var(--surf-size-row-large);
+    --surf-ui-table-padding-y: var(--surf-size-table-padding-y-large);
+    --surf-ui-table-padding-x: var(--surf-size-table-padding-x-large);
+    --surf-ui-avatar: var(--surf-size-avatar-large);
+    --surf-ui-spinner: var(--surf-size-spinner-large);
+    --surf-ui-badge-padding-y: var(--surf-size-badge-padding-y-large);
+    --surf-ui-badge-padding-x: var(--surf-size-badge-padding-x-large);
+    --surf-ui-badge-font: var(--surf-size-badge-font-large);
+    --surf-ui-gauge: var(--surf-size-gauge-large);
+    --surf-ui-slider-thumb: var(--surf-size-slider-thumb-large);
+    --surf-ui-otp: var(--surf-size-otp-large);
+    --surf-ui-tree-row: var(--surf-size-tree-row-large);
+    --surf-ui-textarea-padding: var(--surf-size-textarea-padding-large);
+    --surf-ui-tooltip-padding-y: var(--surf-size-tooltip-padding-y-large);
+    --surf-ui-tooltip-padding-x: var(--surf-size-tooltip-padding-x-large);
+    --surf-control-height: var(--surf-ui-control-height);
+    --surf-control-padding-x: var(--surf-ui-control-padding);
+    --surf-control-choice-size: var(--surf-ui-choice);
+    --surf-control-switch-width: var(--surf-ui-switch-width);
+    --surf-control-switch-height: var(--surf-ui-switch-height);
+    --surf-control-switch-thumb: var(--surf-ui-switch-thumb);
   }
   /* Coarse pointers retain comfortable targets even with a compact visual scheme. */
   @media (max-width: 760px), (pointer: coarse) {
     [data-ui-size] {
-      --control-height: max(
-        var(--control-target-size),
-        var(--ui-control-height)
+      --surf-control-height: max(
+        var(--surf-control-target-size),
+        var(--surf-ui-control-height)
       );
-      --ui-row: max(var(--control-target-size), var(--ui-control-height));
+      --surf-ui-row: max(
+        var(--surf-control-target-size),
+        var(--surf-ui-control-height)
+      );
     }
   }
 }

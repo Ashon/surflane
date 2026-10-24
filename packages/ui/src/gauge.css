@@ -5,58 +5,58 @@
 
 @layer surflane.components {
   /* Feedback: completion and measurement share geometry, not semantics. */
-  .pui-gauge {
+  .surf-gauge {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
-    gap: var(--space-2) var(--space-4);
+    gap: var(--surf-space-2) var(--surf-space-4);
     min-width: 0;
-    color: var(--ink);
+    color: var(--surf-ink);
   }
-  .pui-gauge-label {
-    font-weight: var(--weight-regular);
+  .surf-gauge-label {
+    font-weight: var(--surf-weight-regular);
     overflow-wrap: anywhere;
   }
-  .pui-gauge-value {
-    color: var(--ink-body);
+  .surf-gauge-value {
+    color: var(--surf-ink-body);
     font-variant-numeric: tabular-nums;
   }
-  .pui-gauge-track {
+  .surf-gauge-track {
     grid-column: 1 / -1;
     position: relative;
-    height: var(--space-2);
+    height: var(--surf-space-2);
     overflow: hidden;
-    border-radius: var(--radius-full);
-    background: var(--surface);
+    border-radius: var(--surf-radius-full);
+    background: var(--surf-surface);
   }
-  .pui-gauge-indicator {
-    background: var(--ink-body);
+  .surf-gauge-indicator {
+    background: var(--surf-ink-body);
     border-radius: inherit;
-    transition: width var(--duration-base) var(--ease-out);
+    transition: width var(--surf-duration-base) var(--surf-ease-out);
   }
-  .pui-gauge-indicator[data-indeterminate] {
+  .surf-gauge-indicator[data-indeterminate] {
     width: 40%;
     height: inherit;
-    animation: pui-progress-pulse 1.4s ease-in-out infinite;
+    animation: surf-progress-pulse 1.4s ease-in-out infinite;
   }
   @media (prefers-reduced-motion: reduce) {
-    .pui-gauge-indicator,
-    .pui-gauge-indicator[data-indeterminate] {
+    .surf-gauge-indicator,
+    .surf-gauge-indicator[data-indeterminate] {
       animation: none;
       transition: none;
     }
   }
   @media (forced-colors: active) {
-    .pui-gauge-track {
+    .surf-gauge-track {
       background: Canvas;
       outline: 1px solid CanvasText;
     }
-    .pui-gauge-indicator {
+    .surf-gauge-indicator {
       background: CanvasText;
     }
   }
 }
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *).pui-gauge-track {
-    height: var(--ui-gauge);
+  :where([data-ui-size], [data-ui-size] *).surf-gauge-track {
+    height: var(--surf-ui-gauge);
   }
 }

@@ -8,11 +8,11 @@ export const doc: ComponentDoc = {
   keyboard:
     'The group is a single Tab stop. Arrow keys, Home, and End only move focus. Enter or Space selects the focused item. Disabled items are skipped. For RTL, set both DirectionProvider and the DOM dir.',
   tokens: [
-    '--selected',
-    '--control-border',
-    '--space-1',
-    '--radius-full',
-    '--interaction-focus',
+    '--surf-selected',
+    '--surf-control-border',
+    '--surf-space-1',
+    '--surf-radius-full',
+    '--surf-interaction-focus',
   ],
   code: `import { ToggleGroup, Toggle } from '@surflane/ui'
 

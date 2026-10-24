@@ -18,7 +18,7 @@ export function Toggle<Value extends string>({
     <BaseToggle<Value>
       {...props}
       ref={ref}
-      className={skin('pui-button pui-toggle', className)}
+      className={skin('surf-button surf-toggle', className)}
       data-size={sizeName(size)}
       data-ui-size={scheme}
     />

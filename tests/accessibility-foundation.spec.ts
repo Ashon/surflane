@@ -164,7 +164,7 @@ for (const width of [1440, 320])
       await page
         .getByRole('button', { name: 'Open focus preview', exact: true })
         .click()
-      await expect(page.locator('.pui-dialog-popup')).not.toHaveAttribute(
+      await expect(page.locator('.surf-dialog-popup')).not.toHaveAttribute(
         'data-starting-style',
       )
       expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([])

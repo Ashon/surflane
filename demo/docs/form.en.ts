@@ -1,10 +1,10 @@
 import type { ComponentDoc } from '../componentDocs'
 const fields = [
-  '--control-height',
-  '--control-radius',
-  '--control-background',
-  '--status-danger-fg',
-  '--space-2',
+  '--surf-control-height',
+  '--surf-control-radius',
+  '--surf-control-background',
+  '--surf-status-danger-fg',
+  '--surf-space-2',
 ]
 export const doc: ComponentDoc = {
   usage:

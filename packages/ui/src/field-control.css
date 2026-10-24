@@ -4,8 +4,8 @@
 @import './base.css';
 
 @layer surflane.components {
-  .pui-control,
-  .pui-select {
+  .surf-control,
+  .surf-select {
     position: relative;
     display: inline-flex;
     min-width: 0;
@@ -13,74 +13,79 @@
     width: 100%;
     vertical-align: middle;
   }
-  .pui-input,
-  .pui-select-trigger {
+  .surf-input,
+  .surf-select-trigger {
     box-sizing: border-box;
     width: 100%;
     min-width: 0;
-    height: var(--control-height);
-    padding: 0 var(--control-padding-x);
-    border: 1px solid var(--control-border);
-    border-radius: var(--control-radius);
-    background: var(--control-background);
-    color: var(--ink);
-    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
-      var(--font-body);
-    letter-spacing: var(--type-body-tracking);
+    height: var(--surf-control-height);
+    padding: 0 var(--surf-control-padding-x);
+    border: 1px solid var(--surf-control-border);
+    border-radius: var(--surf-control-radius);
+    background: var(--surf-control-background);
+    color: var(--surf-ink);
+    font: var(--surf-weight-regular)
+      var(--surf-type-body-size)/var(--surf-type-body-leading)
+      var(--surf-font-body);
+    letter-spacing: var(--surf-type-body-tracking);
     outline: none;
     transition:
-      background-color var(--duration-fast) var(--ease-out),
-      border-color var(--duration-fast) var(--ease-out),
-      box-shadow var(--duration-fast) var(--ease-out);
+      background-color var(--surf-duration-fast) var(--surf-ease-out),
+      border-color var(--surf-duration-fast) var(--surf-ease-out),
+      box-shadow var(--surf-duration-fast) var(--surf-ease-out);
   }
   /* iOS zooms the page into a focused field whose text is under 16px. */
-  .pui-input {
-    font-size: max(var(--control-text-min-size), var(--type-body-size));
+  .surf-input {
+    font-size: max(
+      var(--surf-control-text-min-size),
+      var(--surf-type-body-size)
+    );
   }
-  .pui-input:hover:not(:disabled, [aria-disabled='true'], [readonly], :focus),
-  .pui-select-trigger:hover:not(
+  .surf-input:hover:not(:disabled, [aria-disabled='true'], [readonly], :focus),
+  .surf-select-trigger:hover:not(
       :disabled,
       [aria-disabled='true'],
       :focus-visible
     ) {
-    background: var(--control-hover-background);
-    border-color: var(--control-hover-border);
+    background: var(--surf-control-hover-background);
+    border-color: var(--surf-control-hover-border);
   }
-  .pui-input:focus,
-  .pui-select-trigger:focus-visible {
-    background: var(--control-focus-background);
-    border-color: var(--control-focus);
-    box-shadow: 0 0 0 var(--control-focus-ring-size) var(--control-focus-ring);
+  .surf-input:focus,
+  .surf-select-trigger:focus-visible {
+    background: var(--surf-control-focus-background);
+    border-color: var(--surf-control-focus);
+    box-shadow: 0 0 0 var(--surf-control-focus-ring-size)
+      var(--surf-control-focus-ring);
   }
-  .pui-input:disabled,
-  .pui-select-trigger:disabled {
-    opacity: var(--control-disabled-opacity);
+  .surf-input:disabled,
+  .surf-select-trigger:disabled {
+    opacity: var(--surf-control-disabled-opacity);
     cursor: not-allowed;
-    background: var(--control-disabled-background);
+    background: var(--surf-control-disabled-background);
   }
   /* An invalid field keeps its edge while hovered; hover still tints the fill. */
-  .pui-input[aria-invalid='true'],
-  .pui-input[aria-invalid='true']:hover,
-  .pui-select-trigger[aria-invalid='true'],
-  .pui-select-trigger[aria-invalid='true']:hover {
-    border-color: var(--status-danger-fg);
+  .surf-input[aria-invalid='true'],
+  .surf-input[aria-invalid='true']:hover,
+  .surf-select-trigger[aria-invalid='true'],
+  .surf-select-trigger[aria-invalid='true']:hover {
+    border-color: var(--surf-status-danger-fg);
   }
   /* Forced colors drop the border color and the halo, so focus becomes an outline. */
   @media (forced-colors: active) {
-    .pui-input:focus,
-    .pui-select-trigger:focus-visible {
-      outline: var(--focus-ring-width) solid Highlight;
-      outline-offset: var(--focus-ring-offset);
+    .surf-input:focus,
+    .surf-select-trigger:focus-visible {
+      outline: var(--surf-focus-ring-width) solid Highlight;
+      outline-offset: var(--surf-focus-ring-offset);
     }
   }
   @media (prefers-reduced-motion: reduce) {
-    .pui-input,
-    .pui-select-trigger {
+    .surf-input,
+    .surf-select-trigger {
       transition: none;
     }
   }
-  .pui-textarea[readonly],
-  .pui-input[readonly] {
+  .surf-textarea[readonly],
+  .surf-input[readonly] {
     cursor: text;
   }
 }

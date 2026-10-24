@@ -26,17 +26,17 @@ export const doc: ComponentDoc = {
   anatomy:
     'figure → figcaption(title + summary) + legend toggle buttons + named axes + responsive Recharts ComposedChart + persistent inline value readout + details → Table.Container → full data table',
   tokens: [
-    '--chart-series-1',
-    '--chart-series-2',
-    '--chart-series-3',
-    '--ink-muted',
-    '--line',
-    '--canvas',
-    '--surface',
-    '--interaction-hover-bg',
-    '--interaction-focus',
-    '--space-3',
-    '--radius-md',
+    '--surf-chart-series-1',
+    '--surf-chart-series-2',
+    '--surf-chart-series-3',
+    '--surf-ink-muted',
+    '--surf-line',
+    '--surf-canvas',
+    '--surf-surface',
+    '--surf-interaction-hover-bg',
+    '--surf-interaction-focus',
+    '--surf-space-3',
+    '--surf-radius-md',
   ],
   code: `// Needs recharts: npm install recharts
 import { Chart, type ChartDatum } from '@surflane/ui/chart'

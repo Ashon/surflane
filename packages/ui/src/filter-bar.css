@@ -5,54 +5,55 @@
 @import './sizing.css';
 
 @layer surflane.components {
-  .pui-filter-bar {
+  .surf-filter-bar {
     display: grid;
-    gap: var(--space-4);
+    gap: var(--surf-space-4);
     min-inline-size: 0;
   }
-  .pui-filter-bar-controls {
+  .surf-filter-bar-controls {
     display: flex;
     flex-wrap: wrap;
     align-items: end;
-    gap: var(--space-4);
+    gap: var(--surf-space-4);
     min-inline-size: 0;
   }
-  .pui-filter-bar-field {
+  .surf-filter-bar-field {
     display: grid;
-    gap: var(--space-2);
+    gap: var(--surf-space-2);
     flex: 1 1 12rem;
     min-inline-size: 0;
     max-inline-size: 100%;
   }
-  .pui-filter-bar-field[data-width='search'] {
+  .surf-filter-bar-field[data-width='search'] {
     flex: 2 1 20rem;
   }
-  .pui-filter-bar-field > :is(.pui-control, .pui-select-trigger) {
+  .surf-filter-bar-field > :is(.surf-control, .surf-select-trigger) {
     inline-size: 100%;
     min-inline-size: 0;
   }
-  .pui-filter-bar-actions {
+  .surf-filter-bar-actions {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: var(--space-2);
+    gap: var(--surf-space-2);
     min-inline-size: 0;
   }
-  .pui-filter-bar-summary {
-    color: var(--ink-muted);
-    font: var(--weight-regular)
-      var(--type-caption-size)/var(--type-caption-leading) var(--font-body);
+  .surf-filter-bar-summary {
+    color: var(--surf-ink-muted);
+    font: var(--surf-weight-regular)
+      var(--surf-type-caption-size)/var(--surf-type-caption-leading)
+      var(--surf-font-body);
   }
 }
 @layer surflane.sizes {
-  .pui-filter-bar-actions > .pui-button {
+  .surf-filter-bar-actions > .surf-button {
     max-inline-size: 100%;
-    min-height: var(--control-height);
+    min-height: var(--surf-control-height);
     overflow-wrap: anywhere;
   }
   /* Labels wrap; an icon button stays square. */
-  .pui-filter-bar-actions > .pui-button:where(:not([data-size^='icon'])) {
+  .surf-filter-bar-actions > .surf-button:where(:not([data-size^='icon'])) {
     height: auto;
-    padding-block: var(--space-2);
+    padding-block: var(--surf-space-2);
   }
 }

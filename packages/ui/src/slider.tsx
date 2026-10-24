@@ -28,7 +28,7 @@ function SliderRoot<Value extends number | readonly number[]>({
       ref={attach}
       value={selected}
       thumbAlignment={thumbAlignment}
-      className={skin('pui-slider', className)}
+      className={skin('surf-slider', className)}
       onValueChange={(next, event) => {
         onValueChange?.(next, event)
         if (value === undefined && !event.isCanceled) setSelected(next as Value)
@@ -42,27 +42,27 @@ export const Slider = {
   Label: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseSlider.Label>
-  >(BaseSlider.Label, 'pui-slider-label'),
+  >(BaseSlider.Label, 'surf-slider-label'),
   Value: /* @__PURE__ */ part<
     HTMLOutputElement,
     React.ComponentPropsWithoutRef<typeof BaseSlider.Value>
-  >(BaseSlider.Value, 'pui-slider-value'),
+  >(BaseSlider.Value, 'surf-slider-value'),
   Control: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseSlider.Control>
-  >(BaseSlider.Control, 'pui-slider-control'),
+  >(BaseSlider.Control, 'surf-slider-control'),
   Track: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseSlider.Track>
-  >(BaseSlider.Track, 'pui-slider-track'),
+  >(BaseSlider.Track, 'surf-slider-track'),
   Indicator: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseSlider.Indicator>
-  >(BaseSlider.Indicator, 'pui-slider-indicator'),
+  >(BaseSlider.Indicator, 'surf-slider-indicator'),
   Thumb: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseSlider.Thumb>
-  >(BaseSlider.Thumb, 'pui-slider-thumb'),
+  >(BaseSlider.Thumb, 'surf-slider-thumb'),
 }
 // Flat names for React Server Components, which cannot dot into client exports.
 export { SliderRoot }

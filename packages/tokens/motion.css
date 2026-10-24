@@ -3,8 +3,8 @@
 
 @layer surflane.base {
   :root {
-    --theme-transition-duration: var(--duration-base);
-    --theme-transition-ease: var(--ease-out);
+    --surf-theme-transition-duration: var(--surf-duration-base);
+    --surf-theme-transition-ease: var(--surf-ease-out);
   }
   :root[data-theme-switching],
   :root[data-theme-switching] *,
@@ -16,8 +16,8 @@
     view-transition-name: none !important;
   }
   :root[data-theme-switching]::view-transition-group(root) {
-    animation-duration: var(--theme-transition-duration);
-    animation-timing-function: var(--theme-transition-ease);
+    animation-duration: var(--surf-theme-transition-duration);
+    animation-timing-function: var(--surf-theme-transition-ease);
   }
   :root[data-theme-switching]::view-transition-image-pair(root) {
     isolation: isolate;
@@ -27,14 +27,14 @@
     mix-blend-mode: normal;
   }
   :root[data-theme-switching]::view-transition-new(root) {
-    animation: pui-theme-enter var(--theme-transition-duration)
-      var(--theme-transition-ease) both;
+    animation: surf-theme-enter var(--surf-theme-transition-duration)
+      var(--surf-theme-transition-ease) both;
     mix-blend-mode: normal;
   }
   :root[data-theme-switching]::view-transition {
     pointer-events: none;
   }
-  @keyframes pui-theme-enter {
+  @keyframes surf-theme-enter {
     from {
       opacity: 0;
     }

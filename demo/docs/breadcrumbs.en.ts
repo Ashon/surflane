@@ -8,10 +8,10 @@ export const doc: ComponentDoc = {
     "Tab to an ancestor link and press Enter to open it. The current location isn't a Tab stop.",
   anatomy: 'Root(nav) → List(ol) → Item(Link / decorative Separator / Current)',
   tokens: [
-    '--type-caption-size',
-    '--space-2',
-    '--ink-muted',
-    '--interaction-focus',
+    '--surf-type-caption-size',
+    '--surf-space-2',
+    '--surf-ink-muted',
+    '--surf-interaction-focus',
   ],
   code: `import { Breadcrumbs } from '@surflane/ui'
 

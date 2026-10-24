@@ -37,8 +37,8 @@ export function IconographyFoundation() {
               {(['small', 'default', 'large'] as const).map((size) => (
                 <Table.Row key={size}>
                   <Table.HeaderCell scope='row'>
-                    <Link href={`/tokens?q=--size-icon-${size}`}>
-                      <code>--size-icon-{size}</code>
+                    <Link href={`/tokens?q=--surf-size-icon-${size}`}>
+                      <code>--surf-size-icon-{size}</code>
                     </Link>
                   </Table.HeaderCell>
                   <Table.Cell>
@@ -55,8 +55,8 @@ export function IconographyFoundation() {
               ))}
               <Table.Row>
                 <Table.HeaderCell scope='row'>
-                  <Link href='/tokens?q=--icon-stroke-width'>
-                    <code>--icon-stroke-width</code>
+                  <Link href='/tokens?q=--surf-icon-stroke-width'>
+                    <code>--surf-icon-stroke-width</code>
                   </Link>
                 </Table.HeaderCell>
                 <Table.Cell>{t.strokeWidthUsage}</Table.Cell>

@@ -7,7 +7,13 @@ export const doc: ComponentDoc = {
   anatomy: 'Root(Surface) → Header(Title + Description) + Body + Footer',
   keyboard:
     'Only the actions enter the Tab order. Root is a plain div with no focus or click behavior. Set Title.level to match the surrounding heading hierarchy. When the card needs a group name, connect it with aria-labelledby.',
-  tokens: ['--surface', '--canvas', '--space-6', '--space-4', '--radius-lg'],
+  tokens: [
+    '--surf-surface',
+    '--surf-canvas',
+    '--surf-space-6',
+    '--surf-space-4',
+    '--surf-radius-lg',
+  ],
   code: `import { Card, Button } from '@surflane/ui'
 
 <Card.Root aria-labelledby='environment-title'>

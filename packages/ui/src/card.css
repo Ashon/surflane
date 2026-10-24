@@ -4,11 +4,11 @@
 @import './base.css';
 @import './sizing.css';
 @import './layout.css';
-@import '@surflane/design-tokens/presentation/card.css';
+@import '@surflane/css/presentation/card.css';
 
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *).pui-card {
-    padding: var(--surface-padding, var(--ui-card-padding));
-    gap: var(--ui-surface-padding);
+  :where([data-ui-size], [data-ui-size] *).surf-card {
+    padding: var(--surf-surface-padding, var(--surf-ui-card-padding));
+    gap: var(--surf-ui-surface-padding);
   }
 }

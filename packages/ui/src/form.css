@@ -6,12 +6,12 @@
 
 @layer surflane.components {
   /* Form and selection primitives: semantic labels, consistent control states. */
-  .pui-form {
+  .surf-form {
     display: flex;
     flex-direction: column;
     min-width: 0;
   }
-  .pui-form {
-    gap: var(--space-6);
+  .surf-form {
+    gap: var(--surf-space-6);
   }
 }

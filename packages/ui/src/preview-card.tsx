@@ -13,21 +13,24 @@ import {
 const PreviewPositioner = /* @__PURE__ */ part<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof BasePreviewCard.Positioner>
->(BasePreviewCard.Positioner, 'pui-positioner', { portal: true })
+>(BasePreviewCard.Positioner, 'surf-positioner', { portal: true })
 // The preview is visual enhancement; its destination is the accessible interface.
-const PreviewPopup = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<typeof BasePreviewCard.Popup>
->(function PreviewPopup({ className, ...props }, ref) {
+const PreviewPopup = function PreviewPopup({
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BasePreviewCard.Popup> & {
+  ref?: React.Ref<HTMLDivElement>
+}) {
   return (
     <BasePreviewCard.Popup
       {...props}
       ref={ref}
       aria-hidden='true'
-      className={skin('pui-preview-card', className)}
+      className={skin('surf-preview-card', className)}
     />
   )
-})
+}
 function PreviewTrigger<Payload>(
   props: BasePreviewCard.Trigger.Props<Payload> &
     React.RefAttributes<HTMLElement>,
@@ -36,23 +39,25 @@ function PreviewTrigger<Payload>(
   return (
     <BasePreviewCard.Trigger
       {...rest}
-      className={skin('pui-link pui-preview-trigger', className)}
+      className={skin('surf-link surf-preview-trigger', className)}
     />
   )
 }
-const PreviewContent = /* @__PURE__ */ React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<typeof BasePreviewCard.Popup> &
-    Placement<typeof BasePreviewCard.Positioner> & {
-      /** @deprecated Pass side, align, sideOffset and collisionPadding directly. */
-      positionerProps?: React.ComponentPropsWithoutRef<
-        typeof BasePreviewCard.Positioner
-      >
-    }
->(function PreviewContent(
-  { side, align, sideOffset, collisionPadding, positionerProps, ...props },
+const PreviewContent = function PreviewContent({
+  side,
+  align,
+  sideOffset,
+  collisionPadding,
+  positionerProps,
   ref,
-) {
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BasePreviewCard.Popup> &
+  Placement<typeof BasePreviewCard.Positioner> & {
+    /** @deprecated Pass side, align, sideOffset and collisionPadding directly. */
+    positionerProps?: React.ComponentPropsWithoutRef<
+      typeof BasePreviewCard.Positioner
+    >
+  } & { ref?: React.Ref<HTMLDivElement> }) {
   return (
     <OwnPortal portal={BasePreviewCard.Portal}>
       <PreviewPositioner
@@ -65,7 +70,7 @@ const PreviewContent = /* @__PURE__ */ React.forwardRef<
       </PreviewPositioner>
     </OwnPortal>
   )
-})
+}
 export const PreviewCard = {
   ...BasePreviewCard,
   Portal: /* @__PURE__ */ scopedPortal(BasePreviewCard.Portal),

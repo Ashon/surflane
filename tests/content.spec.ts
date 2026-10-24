@@ -7,10 +7,10 @@ test('Card uses one surface with an explicit action and preserves Base UI state 
 }) => {
   await page.goto('/components/card')
   await waitForCatalogReady(page)
-  const card = page.locator('.pui-card')
+  const card = page.locator('.surf-card')
   await expect(card).not.toHaveAttribute('tabindex')
   await expect(card).not.toHaveAttribute('role', 'button')
-  await expect(card.locator('.pui-card')).toHaveCount(0)
+  await expect(card.locator('.surf-card')).toHaveCount(0)
   await expect(
     card.getByRole('heading', { name: 'DEMO main', level: 3 }),
   ).toBeVisible()
@@ -46,9 +46,9 @@ test('Code block preserves the exact source, copies Unicode and whitespace, and 
   )
   await page.goto('/components/code')
   await waitForCatalogReady(page)
-  const block = page.locator('#preview .pui-code-block').first(),
+  const block = page.locator('#preview .surf-code-block').first(),
     code = block.locator('pre code'),
-    copy = block.locator('.pui-code-copy')
+    copy = block.locator('.surf-code-copy')
   const source = await code.textContent()
   expect(source).toContain('한글')
   expect(source).toContain('\n  - access.identity-control')
@@ -76,11 +76,11 @@ test('Code block handles denied clipboard access without executing source text o
 }) => {
   await page.goto('/components/code')
   await waitForCatalogReady(page)
-  const block = page.locator('#preview .pui-code-block').nth(1)
+  const block = page.locator('#preview .surf-code-block').nth(1)
   await block
     .getByRole('button', { name: 'Try unavailable clipboard', exact: true })
     .click()
-  await expect(block.locator('.pui-code-copy')).toHaveText('Copy unavailable')
+  await expect(block.locator('.surf-code-copy')).toHaveText('Copy unavailable')
   // The source is selected, ready for the keyboard copy shortcut.
   expect(await page.evaluate(() => getSelection()!.toString())).toContain(
     '<script>Example text is never executed.</script>',
@@ -107,8 +107,8 @@ test('Code block ignores stale pending copy results when source changes and can 
   )
   await page.goto('/components/code')
   await waitForCatalogReady(page)
-  const block = page.locator('#preview .pui-code-block').first(),
-    button = block.locator('.pui-code-copy')
+  const block = page.locator('#preview .surf-code-block').first(),
+    button = block.locator('.surf-code-copy')
   await button.click()
   await expect(button).toBeDisabled()
   await page.getByRole('button', { name: 'Change source', exact: true }).click()
@@ -130,7 +130,7 @@ test('Long code scrolls inside a named region, wraps on request and keeps origin
   await page.setViewportSize({ width: 320, height: 900 })
   await page.goto('/components/code')
   await waitForCatalogReady(page)
-  const block = page.locator('#preview .pui-code-block').first(),
+  const block = page.locator('#preview .surf-code-block').first(),
     region = block.getByRole('region', { name: 'Runner task', exact: true })
   const source = await block.locator('code').textContent()
   expect(

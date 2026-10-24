@@ -2,22 +2,22 @@
 @layer surflane.tokens, surflane.themes, surflane.base, surflane.components, surflane.sizes;
 @layer surflane.themes {
   :root,
-  [data-theme]:not([data-theme='light']) {
-    --brand: oklch(0.82 0.12 210);
-    --brand-tint: oklch(0.82 0.12 210 / 0.25098039);
-    --brand-ink: oklch(0.82 0.12 210);
+  [data-theme='dark'] {
+    --surf-brand: oklch(0.82 0.12 210);
+    --surf-brand-tint: oklch(0.82 0.12 210 / 0.25098039);
+    --surf-brand-ink: oklch(0.82 0.12 210);
   }
   :root[data-theme='light'],
   [data-theme='light'] {
-    --brand: oklch(0.82 0.12 210);
-    --brand-tint: oklch(0.82 0.12 210 / 0.30196078);
-    --brand-ink: var(--ink);
+    --surf-brand: oklch(0.82 0.12 210);
+    --surf-brand-tint: oklch(0.82 0.12 210 / 0.30196078);
+    --surf-brand-ink: var(--surf-ink);
   }
   @media (prefers-color-scheme: light) {
-    :root:not([data-theme]) {
-      --brand: oklch(0.82 0.12 210);
-      --brand-tint: oklch(0.82 0.12 210 / 0.30196078);
-      --brand-ink: var(--ink);
+    :root:not([data-theme='dark']):not([data-theme='light']) {
+      --surf-brand: oklch(0.82 0.12 210);
+      --surf-brand-tint: oklch(0.82 0.12 210 / 0.30196078);
+      --surf-brand-ink: var(--surf-ink);
     }
   }
 }

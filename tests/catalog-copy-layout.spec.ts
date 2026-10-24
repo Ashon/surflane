@@ -108,10 +108,10 @@ test('document tables hang 16px past both page text lines, so row hover is symme
       // Detail sections render when they scroll into view.
       await page.locator(section).first().scrollIntoViewIfNeeded()
       const table = page
-        .locator(`${section} .pui-table:not(.catalog-example-frame *)`)
+        .locator(`${section} .surf-table:not(.catalog-example-frame *)`)
         .first()
       const edges = await table.evaluate((table) => {
-        const root = table.closest('.pui-scroll-root')!.getBoundingClientRect()
+        const root = table.closest('.surf-scroll-root')!.getBoundingClientRect()
         const text = table
           .closest('section')!
           .querySelector(':scope > h2')!

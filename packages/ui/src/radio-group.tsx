@@ -30,7 +30,7 @@ export function RadioGroup<Value = string>({
         form={form}
         ref={attach}
         value={selected}
-        className={skin('pui-choice-group', className)}
+        className={skin('surf-choice-group', className)}
         onValueChange={(next, event) => {
           onValueChange?.(next as Value, event)
           if (value === undefined && !event.isCanceled) setSelected(next)
@@ -39,10 +39,13 @@ export function RadioGroup<Value = string>({
     </ChoiceResetPaint.Provider>
   )
 }
-const RadioRoot = /* @__PURE__ */ React.forwardRef<
-  React.ComponentRef<typeof BaseRadio.Root>,
-  React.ComponentPropsWithoutRef<typeof BaseRadio.Root> & ChoiceSize
->(function RadioRoot({ size, className, ...props }, ref) {
+const RadioRoot = function RadioRoot({
+  size,
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof BaseRadio.Root> &
+  ChoiceSize & { ref?: React.Ref<React.ComponentRef<typeof BaseRadio.Root>> }) {
   React.useContext(ChoiceResetPaint)
   const scheme = useComponentSize(size)
   return (
@@ -50,17 +53,17 @@ const RadioRoot = /* @__PURE__ */ React.forwardRef<
       {...props}
       data-ui-size={size ? scheme : undefined}
       ref={ref}
-      className={skin('pui-radio', className)}
+      className={skin('surf-radio', className)}
     />
   )
-})
+}
 export const Radio = {
   ...BaseRadio,
   Root: RadioRoot,
   Indicator: /* @__PURE__ */ part<
     React.ComponentRef<typeof BaseRadio.Indicator>,
     React.ComponentPropsWithoutRef<typeof BaseRadio.Indicator>
-  >(BaseRadio.Indicator, 'pui-radio-indicator'),
+  >(BaseRadio.Indicator, 'surf-radio-indicator'),
 }
 // Flat names for React Server Components, which cannot dot into client exports.
 export { RadioRoot }

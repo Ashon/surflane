@@ -1,9 +1,9 @@
 import type { ComponentDoc } from '../componentDocs'
 const controls = [
-  '--control-height',
-  '--control-radius',
-  '--interaction-focus',
-  '--control-background',
+  '--surf-control-height',
+  '--surf-control-radius',
+  '--surf-interaction-focus',
+  '--surf-control-background',
 ]
 export const doc: ComponentDoc = {
   usage:

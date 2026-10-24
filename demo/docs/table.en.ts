@@ -13,13 +13,13 @@ export const doc: ComponentDoc = {
   keyboard:
     "Tab moves through sort buttons, row selection checkboxes, and actions. Rows aren't focus targets. On small screens, the labeled region takes focus and scrolls horizontally. SortHeader sets aria-sort on the sorted column only, and its button keeps the column's visible name.",
   tokens: [
-    '--space-1',
-    '--space-3',
-    '--space-4',
-    '--radius-md',
-    '--interaction-hover-bg',
-    '--selected',
-    '--line',
+    '--surf-space-1',
+    '--surf-space-3',
+    '--surf-space-4',
+    '--surf-radius-md',
+    '--surf-interaction-hover-bg',
+    '--surf-selected',
+    '--surf-line',
   ],
   code: `import { Table, Checkbox, useTableSelection } from '@surflane/ui'
 

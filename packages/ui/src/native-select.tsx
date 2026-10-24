@@ -36,15 +36,18 @@ function optionList(children: React.ReactNode): (SelectOption | SelectGroup)[] {
   })
 }
 /** Transitional HTML-option adapter. Submitted values use Base UI's native hidden input. */
-export const NativeSelect = /* @__PURE__ */ React.forwardRef<
-  HTMLButtonElement,
-  Omit<React.ComponentPropsWithoutRef<'select'>, 'size' | 'multiple'> & {
-    size?: ComponentSizeAlias
-  }
->(function NativeSelect(
-  { children, onChange, value, defaultValue, className, size, ...props },
+export const NativeSelect = function NativeSelect({
+  children,
+  onChange,
+  value,
+  defaultValue,
+  className,
+  size,
   ref,
-) {
+  ...props
+}: Omit<React.ComponentPropsWithoutRef<'select'>, 'size' | 'multiple'> & {
+  size?: ComponentSizeAlias
+} & { ref?: React.Ref<HTMLButtonElement> }) {
   const input = React.useRef<HTMLInputElement>(null)
   const options = optionList(children)
   return (
@@ -85,7 +88,7 @@ export const NativeSelect = /* @__PURE__ */ React.forwardRef<
       }}
     />
   )
-})
+}
 export function NativeSelectOption(props: React.ComponentProps<'option'>) {
   return <option {...props} />
 }

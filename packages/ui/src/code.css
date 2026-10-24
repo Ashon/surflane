@@ -7,10 +7,10 @@
 @import './button.css';
 @import './scroll-area.css';
 @import './syntax-highlighter.css';
-@import '@surflane/design-tokens/presentation/code.css';
+@import '@surflane/css/presentation/code.css';
 
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *).pui-code-text {
-    padding: var(--ui-surface-padding);
+  :where([data-ui-size], [data-ui-size] *).surf-code-text {
+    padding: var(--surf-ui-surface-padding);
   }
 }

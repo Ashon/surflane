@@ -5,129 +5,130 @@
 @import './sizing.css';
 
 @layer surflane.components {
-  .pui-button {
+  .surf-button {
     box-sizing: border-box;
-    height: var(--control-height);
+    height: var(--surf-control-height);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: var(--space-2);
-    min-height: var(--control-height);
-    padding: 0 var(--size-button-padding-default);
+    gap: var(--surf-space-2);
+    min-height: var(--surf-control-height);
+    padding: 0 var(--surf-size-button-padding-default);
     border: 1px solid transparent;
-    border-radius: var(--radius-pill);
-    font: var(--weight-medium) var(--type-label-size)/var(--type-label-leading)
-      var(--font-body);
-    letter-spacing: var(--type-label-tracking);
-    color: var(--ink);
-    background: var(--canvas);
+    border-radius: var(--surf-radius-pill);
+    font: var(--surf-weight-medium)
+      var(--surf-type-label-size)/var(--surf-type-label-leading)
+      var(--surf-font-body);
+    letter-spacing: var(--surf-type-label-tracking);
+    color: var(--surf-ink);
+    background: var(--surf-canvas);
     /* A link rendered as a button drops the user-agent underline. */
     text-decoration: none;
     cursor: pointer;
   }
-  .pui-button:is([data-variant='default'], [data-variant='primary']) {
+  .surf-button:is([data-variant='default'], [data-variant='primary']) {
     /* On the brand fill the layer is its ink: light ink barely moves bright cyan. */
-    --interaction-hover-bg: oklch(from var(--on-brand) l c h / 0.08);
-    --interaction-active-bg: oklch(from var(--on-brand) l c h / 0.14);
-    background: var(--brand);
+    --surf-interaction-hover-bg: oklch(from var(--surf-on-brand) l c h / 0.08);
+    --surf-interaction-active-bg: oklch(from var(--surf-on-brand) l c h / 0.14);
+    background: var(--surf-brand);
     border-color: transparent;
-    color: var(--on-brand);
+    color: var(--surf-on-brand);
   }
-  .pui-button[data-variant='outline'] {
-    border-color: var(--line);
+  .surf-button[data-variant='outline'] {
+    border-color: var(--surf-line);
     background: transparent;
   }
-  .pui-button[data-variant='ghost'] {
+  .surf-button[data-variant='ghost'] {
     border-color: transparent;
     background: transparent;
   }
   /* Hover adds the state layer over the variant's own fill, so a primary, a
      pressed toggle and a transparent toolbar button all step by the same amount. */
-  .pui-button:hover:not(:disabled, [data-disabled], [data-variant='link']) {
+  .surf-button:hover:not(:disabled, [data-disabled], [data-variant='link']) {
     background-image: linear-gradient(
-      var(--interaction-hover-bg),
-      var(--interaction-hover-bg)
+      var(--surf-interaction-hover-bg),
+      var(--surf-interaction-hover-bg)
     );
   }
-  .pui-button[data-variant='link']:hover:not(:disabled, [data-disabled]) {
+  .surf-button[data-variant='link']:hover:not(:disabled, [data-disabled]) {
     text-decoration-thickness: 2px;
   }
-  .pui-button:focus-visible {
-    outline: var(--focus-ring-width) solid var(--interaction-focus);
-    outline-offset: var(--focus-ring-offset);
+  .surf-button:focus-visible {
+    outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+    outline-offset: var(--surf-focus-ring-offset);
   }
-  .pui-button:is(:disabled, [data-disabled], [aria-disabled='true']) {
-    opacity: var(--control-disabled-opacity);
+  .surf-button:is(:disabled, [data-disabled], [aria-disabled='true']) {
+    opacity: var(--surf-control-disabled-opacity);
     cursor: not-allowed;
   }
-  /* Touch targets grow on narrow screens and on touch, as --control-height does. */
+  /* Touch targets grow on narrow screens and on touch, as --surf-control-height does. */
   @media (max-width: 760px), (pointer: coarse) {
-    .pui-button {
-      min-height: var(--control-target-size);
+    .surf-button {
+      min-height: var(--surf-control-target-size);
     }
   }
-  .pui-button[data-variant='secondary'] {
-    background: var(--selected);
-    color: var(--ink);
+  .surf-button[data-variant='secondary'] {
+    background: var(--surf-selected);
+    color: var(--surf-ink);
   }
-  .pui-button[data-variant='destructive'] {
-    background: var(--status-danger-bg);
-    color: var(--status-danger-fg);
+  .surf-button[data-variant='destructive'] {
+    background: var(--surf-status-danger-bg);
+    color: var(--surf-status-danger-fg);
     border-color: transparent;
   }
-  .pui-button[data-variant='link'] {
+  .surf-button[data-variant='link'] {
     background: transparent;
-    color: var(--brand-ink);
+    color: var(--surf-brand-ink);
     border-color: transparent;
     text-decoration: underline;
   }
   /* Active feedback is transient; persistent selection belongs to Toggle. */
-  .pui-button:active:not(:disabled, [data-disabled], [data-variant='link']) {
+  .surf-button:active:not(:disabled, [data-disabled], [data-variant='link']) {
     background-image: linear-gradient(
-      var(--interaction-active-bg),
-      var(--interaction-active-bg)
+      var(--surf-interaction-active-bg),
+      var(--surf-interaction-active-bg)
     );
   }
-  .pui-button[aria-busy='true'] {
+  .surf-button[aria-busy='true'] {
     cursor: progress;
   }
   @media (forced-colors: active) {
-    .pui-button {
+    .surf-button {
       border-color: ButtonText;
     }
-    .pui-button:active {
+    .surf-button:active {
       background-image: none;
     }
   }
 }
 @layer surflane.sizes {
-  .pui-button[data-size='xs'] {
+  .surf-button[data-size='xs'] {
     height: 24px;
     min-height: 24px;
-    padding-inline: var(--space-2);
-    font-size: var(--type-caption-size);
-    letter-spacing: var(--type-caption-tracking);
-    gap: var(--space-1);
+    padding-inline: var(--surf-space-2);
+    font-size: var(--surf-type-caption-size);
+    letter-spacing: var(--surf-type-caption-tracking);
+    gap: var(--surf-space-1);
   }
-  .pui-button[data-size^='icon'] {
-    width: var(--control-height);
+  .surf-button[data-size^='icon'] {
+    width: var(--surf-control-height);
     padding: 0;
   }
-  :where([data-ui-size], [data-ui-size] *).pui-button {
-    height: var(--control-height);
-    min-height: var(--control-height);
-    padding-inline: var(--ui-button-padding);
-    font-size: var(--ui-font);
-    line-height: var(--ui-leading);
+  :where([data-ui-size], [data-ui-size] *).surf-button {
+    height: var(--surf-control-height);
+    min-height: var(--surf-control-height);
+    padding-inline: var(--surf-ui-button-padding);
+    font-size: var(--surf-ui-font);
+    line-height: var(--surf-ui-leading);
   }
-  :where([data-ui-size], [data-ui-size] *).pui-button[data-size^='icon'] {
-    inline-size: var(--control-height);
-    block-size: var(--control-height);
+  :where([data-ui-size], [data-ui-size] *).surf-button[data-size^='icon'] {
+    inline-size: var(--surf-control-height);
+    block-size: var(--surf-control-height);
     padding: 0;
-    border-radius: var(--radius-pill);
+    border-radius: var(--surf-radius-pill);
   }
-  :where([data-ui-size], [data-ui-size] *):is(.pui-button) > svg {
-    inline-size: var(--ui-icon);
-    block-size: var(--ui-icon);
+  :where([data-ui-size], [data-ui-size] *):is(.surf-button) > svg {
+    inline-size: var(--surf-ui-icon);
+    block-size: var(--surf-ui-icon);
   }
 }

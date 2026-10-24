@@ -150,7 +150,7 @@ test('Select groups options under visible headings and submits the chosen value'
         range.selectNodeContents(node!)
         return range.getBoundingClientRect().left
       })
-  expect(await textStart('.pui-select-group-label')).toBeCloseTo(
+  expect(await textStart('.surf-select-group-label')).toBeCloseTo(
     await textStart('[role="option"]'),
     0,
   )
@@ -187,7 +187,7 @@ test('popup Content portals itself once, with or without a Portal around it', as
   await page.goto('/components/popover')
   await waitForCatalogReady(page)
   await page.locator('[data-preview-size] button').first().click()
-  expect(await portals('.pui-popover')).toEqual({ count: 1, inBody: true })
+  expect(await portals('.surf-popover')).toEqual({ count: 1, inBody: true })
   await page.keyboard.press('Escape')
   await page.goto('/components/menu')
   await waitForCatalogReady(page)
@@ -195,12 +195,12 @@ test('popup Content portals itself once, with or without a Portal around it', as
     .locator('[data-preview-size] button[aria-haspopup="menu"]')
     .first()
     .click()
-  expect(await portals('.pui-menu')).toEqual({ count: 1, inBody: true })
+  expect(await portals('.surf-menu')).toEqual({ count: 1, inBody: true })
   // The interaction lab's confirmation keeps <Popover.Portal> around Content.
   await page.goto('/patterns/interaction-lab')
   await waitForCatalogReady(page)
   await page
     .getByRole('button', { name: 'Preview reset confirmation', exact: true })
     .click()
-  expect(await portals('.pui-popover')).toEqual({ count: 1, inBody: true })
+  expect(await portals('.surf-popover')).toEqual({ count: 1, inBody: true })
 })

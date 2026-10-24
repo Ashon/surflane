@@ -55,7 +55,7 @@ test('sort headers mark only the sorted column and sort numbers descending first
   const headers = table.getByRole('columnheader')
   await expect(headers).toHaveCount(4)
   // Every sortable column shows its icon; only the sorted one has aria-sort.
-  await expect(table.locator('.pui-table-sort-icon')).toHaveCount(4)
+  await expect(table.locator('.surf-table-sort-icon')).toHaveCount(4)
   await expect(table.locator('th[aria-sort]')).toHaveCount(1)
   const latency = headers.filter({ hasText: 'p95 latency (ms)' })
   await expect(latency).toHaveAttribute('aria-sort', 'descending')
@@ -83,7 +83,7 @@ test('truncated identifiers keep their full value and a named copy action', asyn
 }) => {
   await open(page)
   const long = section(page, 'Long values')
-  const value = long.locator('.pui-table-truncate').first()
+  const value = long.locator('.surf-table-truncate').first()
   const full = await value.textContent()
   expect(full).toMatch(
     /^registry\.example\.com\/platform\/checkout-api@sha256:/,
@@ -163,10 +163,10 @@ test('state messages span every column, skip hover and mark loading as busy', as
   const states = section(page, 'Loading, empty and errors')
   const table = states.getByRole('table')
   await expect(table).toHaveAttribute('aria-busy', 'true')
-  await expect(table.locator('tbody .pui-skeleton')).toHaveCount(16)
+  await expect(table.locator('tbody .surf-skeleton')).toHaveCount(16)
   await states.getByRole('button', { name: 'No data', exact: true }).click()
   await expect(table).toHaveAttribute('aria-busy', 'false')
-  const message = table.locator('td.pui-table-message')
+  const message = table.locator('td.surf-table-message')
   await expect(message).toHaveAttribute('colspan', '4')
   await expect(message).toContainText('No services yet')
   await message.hover()

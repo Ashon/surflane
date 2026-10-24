@@ -8,23 +8,23 @@ export const Meter = {
   Root: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseMeter.Root>
-  >(BaseMeter.Root, 'pui-gauge pui-meter'),
+  >(BaseMeter.Root, 'surf-gauge surf-meter'),
   Label: /* @__PURE__ */ part<
     HTMLSpanElement,
     React.ComponentPropsWithoutRef<typeof BaseMeter.Label>
-  >(BaseMeter.Label, 'pui-gauge-label'),
+  >(BaseMeter.Label, 'surf-gauge-label'),
   Value: /* @__PURE__ */ part<
     HTMLSpanElement,
     React.ComponentPropsWithoutRef<typeof BaseMeter.Value>
-  >(BaseMeter.Value, 'pui-gauge-value'),
+  >(BaseMeter.Value, 'surf-gauge-value'),
   Track: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseMeter.Track>
-  >(BaseMeter.Track, 'pui-gauge-track'),
+  >(BaseMeter.Track, 'surf-gauge-track'),
   Indicator: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseMeter.Indicator>
-  >(BaseMeter.Indicator, 'pui-gauge-indicator'),
+  >(BaseMeter.Indicator, 'surf-gauge-indicator'),
 }
 // Flat names for React Server Components, which cannot dot into client exports.
 export const {

@@ -12,6 +12,10 @@ import {
   type PaginationLabels,
   type CodeBlockLabels,
   type AppShellSidebarToggleLabels,
+  type AppShellBrandProps,
+  type AppShellNavProps,
+  type AppShellLinkProps,
+  AppShell,
   type FileUploadLabels,
 } from '@surflane/ui'
 import type { TreeLabels } from '@surflane/ui/tree'
@@ -97,3 +101,24 @@ const serverMarkup = (
   </DialogRoot>
 )
 void serverMarkup
+// AppShell's brand, groups and rows: a router link or a menu trigger renders a row.
+const brand: AppShellBrandProps = {
+  name: 'Harbor',
+  description: 'Port of Busan',
+}
+const group: AppShellNavProps = { label: 'Berths' }
+const row: AppShellLinkProps = {
+  label: 'Account',
+  icon: null,
+  render: <button />,
+}
+const shellParts = (
+  <AppShell.Nav {...group}>
+    <AppShell.Brand {...brand} render={<a href='/' />} />
+    <AppShell.Link {...row} />
+  </AppShell.Nav>
+)
+void shellParts
+// @ts-expect-error A brand needs its name.
+const namelessBrand = <AppShell.Brand mark={<svg />} />
+void namelessBrand

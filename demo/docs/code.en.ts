@@ -17,11 +17,11 @@ export const doc: ComponentDoc = {
     'The label is a polite live region and returns to the action after 2 seconds.',
   ],
   tokens: [
-    '--code-bg',
-    '--font-code',
-    '--space-4',
-    '--radius-md',
-    '--ink-body',
+    '--surf-code-bg',
+    '--surf-font-code',
+    '--surf-space-4',
+    '--surf-radius-md',
+    '--surf-ink-body',
   ],
   code: `import { CodeBlock } from '@surflane/ui'
 

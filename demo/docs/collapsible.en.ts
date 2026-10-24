@@ -7,7 +7,12 @@ export const doc: ComponentDoc = {
   keyboard:
     'Tab to the Trigger. Enter or Space opens and closes the Panel. With keepMounted, the closed Panel keeps its input state.',
   anatomy: 'Collapsible.Root → Trigger + Panel(content body)',
-  tokens: ['--surface', '--space-4', '--motion-reveal', '--interaction-focus'],
+  tokens: [
+    '--surf-surface',
+    '--surf-space-4',
+    '--surf-motion-reveal',
+    '--surf-interaction-focus',
+  ],
   code: `import { Collapsible } from '@surflane/ui'
 
 <Collapsible.Root>

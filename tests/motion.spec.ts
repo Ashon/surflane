@@ -22,7 +22,7 @@ test('theme snapshots share one duration and suppress delayed component transiti
           ;(window as any).frames.push({
             duration: snapshot.animationDuration,
             name: snapshot.animationName,
-            transition: getComputedStyle(document.querySelector('.pui-input')!)
+            transition: getComputedStyle(document.querySelector('.surf-input')!)
               .transitionDuration,
             active: root.hasAttribute('data-theme-switching'),
           })
@@ -37,7 +37,7 @@ test('theme snapshots share one duration and suppress delayed component transiti
     .toBe(1)
   expect(await page.evaluate(() => (window as any).frames[0])).toEqual({
     duration: '0.2s',
-    name: 'pui-theme-enter',
+    name: 'surf-theme-enter',
     transition: '0s',
     active: true,
   })

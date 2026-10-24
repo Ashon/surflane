@@ -85,7 +85,7 @@ test('layout adapts its grid and maintains typography at 320px and enlarged text
       .click()
     expect(
       await page
-        .locator('#layout .pui-page-header .pui-heading')
+        .locator('#layout .surf-page-header .surf-heading')
         .evaluate((el) => getComputedStyle(el).fontSize),
     ).toBe('24px')
     expect(
@@ -154,24 +154,26 @@ test('token search, aliases, copy references and live theme values work', async 
   await page.goto('/foundations/lab')
   await waitForCatalogReady(page)
   const search = page.getByRole('textbox', { name: 'Search design tokens' })
-  await search.fill('--ink')
-  const row = page.locator('[data-token="--ink"]')
+  await search.fill('--surf-ink')
+  const row = page.locator('[data-token="--surf-ink"]')
   await expect(row.getByTestId('resolved-value')).toHaveText(/^oklch\(/)
   const lightInk = await row.getByTestId('resolved-value').innerText()
-  await row.getByRole('button', { name: 'Copy --ink', exact: true }).click()
+  await row
+    .getByRole('button', { name: 'Copy --surf-ink', exact: true })
+    .click()
   expect(await page.evaluate(() => (window as any).copiedToken)).toBe(
-    'var(--ink)',
+    'var(--surf-ink)',
   )
   await page.getByRole('button', { name: 'Toggle theme' }).click()
   await expect(row.getByTestId('resolved-value')).not.toHaveText(lightInk)
   await expect(row.getByTestId('resolved-value')).toHaveText(/^oklch\(/)
-  await search.fill('--layout-reading')
-  const reading = page.locator('[data-token="--layout-reading"]')
+  await search.fill('--surf-layout-reading')
+  const reading = page.locator('[data-token="--surf-layout-reading"]')
   await reading.getByText('Source and references', { exact: true }).click()
   await reading
-    .getByRole('button', { name: '--layout-content', exact: true })
+    .getByRole('button', { name: '--surf-layout-content', exact: true })
     .click()
-  await expect(search).toHaveValue('--layout-content')
+  await expect(search).toHaveValue('--surf-layout-content')
   await search.fill('not-a-real-token')
   await expect(
     page.getByText(

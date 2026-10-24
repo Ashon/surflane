@@ -1,26 +1,15 @@
 'use client'
 import * as React from 'react'
 
-export type ComponentSize = 'small' | 'default' | 'large'
-/**
- * @deprecated The short spellings sm, md and lg render as small, default and large.
- * Write the full names; the aliases are removed in a later minor.
- */
-export type ComponentSizeAlias = ComponentSize | 'sm' | 'md' | 'lg'
+import {
+  normalizeSize,
+  type ComponentSize,
+  type ComponentSizeAlias,
+} from './size.js'
+export { normalizeSize, type ComponentSize, type ComponentSizeAlias }
 export const ComponentSizeContext = /* @__PURE__ */ React.createContext<
   ComponentSize | undefined
 >(undefined)
-export function normalizeSize(
-  size?: ComponentSizeAlias,
-): ComponentSize | undefined {
-  return size === 'sm'
-    ? 'small'
-    : size === 'md'
-      ? 'default'
-      : size === 'lg'
-        ? 'large'
-        : size
-}
 /** Explicit sizes override the surrounding scheme; portals retain React context. */
 export function useComponentSize(size?: ComponentSizeAlias) {
   const inherited = React.useContext(ComponentSizeContext)
@@ -37,9 +26,24 @@ export function SizeProvider({
 }) {
   return (
     <ComponentSizeContext.Provider value={size}>
-      <div className='pui-size-scope' data-ui-size={size}>
+      <div className='surf-size-scope' data-ui-size={size}>
         {children}
       </div>
+    </ComponentSizeContext.Provider>
+  )
+}
+/** The size context for a part a server component renders with an explicit size, so
+ * the popups it portals keep that size. */
+export function SizeScope({
+  size,
+  children,
+}: {
+  size: ComponentSize
+  children: React.ReactNode
+}) {
+  return (
+    <ComponentSizeContext.Provider value={size}>
+      {children}
     </ComponentSizeContext.Provider>
   )
 }

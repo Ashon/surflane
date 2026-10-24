@@ -143,7 +143,7 @@ const source = `export function eta(knots: number, miles: number) {
   return miles / knots;
 }`
 
-function Foundations() {
+export function Foundations() {
   return (
     <section data-ssr='foundations'>
       <Container width='workspace'>
@@ -210,7 +210,7 @@ function Foundations() {
   )
 }
 
-function Controls() {
+export function Controls() {
   return (
     <section data-ssr='controls'>
       <TooltipProvider>
@@ -284,14 +284,14 @@ function Controls() {
           defaultValue={['north']}
           aria-label='Basins'
         >
-          <label className='pui-choice-label'>
+          <label className='surf-choice-label'>
             <Checkbox.Root parent>
               <Checkbox.Indicator />
             </Checkbox.Root>
             <span>All basins</span>
           </label>
           {['north', 'east'].map((value) => (
-            <label className='pui-choice-label' key={value}>
+            <label className='surf-choice-label' key={value}>
               <Checkbox.Root name='basins' value={value}>
                 <Checkbox.Indicator />
               </Checkbox.Root>
@@ -301,7 +301,7 @@ function Controls() {
         </CheckboxGroup>
         <RadioGroup name='priority' defaultValue='normal' aria-label='Priority'>
           {['normal', 'urgent'].map((value) => (
-            <label className='pui-choice-label' key={value}>
+            <label className='surf-choice-label' key={value}>
               <Radio.Root value={value}>
                 <Radio.Indicator />
               </Radio.Root>
@@ -309,7 +309,7 @@ function Controls() {
             </label>
           ))}
         </RadioGroup>
-        <label className='pui-choice-label'>
+        <label className='surf-choice-label'>
           <Switch.Root name='alerts' defaultChecked>
             <Switch.Thumb />
           </Switch.Root>
@@ -414,7 +414,7 @@ function Controls() {
   )
 }
 
-function Commands() {
+export function Commands() {
   return (
     <section data-ssr='commands'>
       <Toggle defaultPressed>Show tides</Toggle>
@@ -498,7 +498,7 @@ function Commands() {
   )
 }
 
-function Overlays() {
+export function Overlays() {
   return (
     <section data-ssr='overlays'>
       <Popover.Root>
@@ -602,7 +602,7 @@ function Overlays() {
   )
 }
 
-function Disclosure() {
+export function Disclosure() {
   return (
     <section data-ssr='disclosure'>
       <Tabs.Root defaultValue='overview'>
@@ -650,7 +650,7 @@ function Disclosure() {
   )
 }
 
-function Feedback() {
+export function Feedback() {
   return (
     <section data-ssr='feedback'>
       <Progress.Root value={30} aria-valuetext='30 of 100 containers unloaded'>
@@ -725,7 +725,7 @@ function Feedback() {
   )
 }
 
-function Data() {
+export function Data() {
   return (
     <section data-ssr='data'>
       <Table.Container label='Berth comparison'>
@@ -852,7 +852,7 @@ function Data() {
   )
 }
 
-function Content() {
+export function Content() {
   return (
     <section data-ssr='content'>
       <CodeBlock
@@ -875,7 +875,7 @@ function Content() {
 }
 
 // With suspense, the server waits for the tokens and renders the code highlighted.
-function Highlighted() {
+export function Highlighted() {
   return (
     <section data-ssr='highlighted'>
       <SyntaxHighlighting suspense>
@@ -890,24 +890,33 @@ function Highlighted() {
   )
 }
 
-function Shell() {
+export function Shell() {
   return (
     <section data-ssr='shell'>
       <AppShell.Root layout='workspace'>
         <AppShell.Header>
-          <AppShell.Label>Harbor</AppShell.Label>
+          <AppShell.Brand name='Harbor' />
         </AppShell.Header>
         <AppShell.Sidebar aria-label='Workspace'>
-          <nav aria-label='Workspace navigation'>
+          <AppShell.Brand
+            name='Harbor'
+            description='Port of Busan'
+            render={<a href='/harbor' />}
+          />
+          <AppShell.Nav label='Workspace'>
             <AppShell.Link
               href='/harbor/berths'
               label='Berths'
               icon={<Icon name='menu' />}
               aria-current='page'
             />
-          </nav>
+          </AppShell.Nav>
           <AppShell.Footer>
-            <AppShell.Label>Harbor master</AppShell.Label>
+            <AppShell.Link
+              render={<button type='button' />}
+              label='Harbor master'
+              icon={<Icon name='info' />}
+            />
           </AppShell.Footer>
         </AppShell.Sidebar>
         <AppShell.Content>

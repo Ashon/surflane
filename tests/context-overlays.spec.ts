@@ -122,29 +122,29 @@ test('Preview retains native link navigation, delay, cancellation and focus', as
 }) => {
   await page.goto('/components/preview-card')
   await waitForCatalogReady(page)
-  const link = page.locator('#preview a.pui-preview-trigger')
+  const link = page.locator('#preview a.surf-preview-trigger')
   await expect(link).toHaveAttribute('href', '#preview-destination')
   await link.hover()
   await page.waitForTimeout(150)
-  await expect(page.locator('.pui-preview-card')).toHaveCount(0)
-  await expect(page.locator('.pui-preview-card')).toBeVisible()
+  await expect(page.locator('.surf-preview-card')).toHaveCount(0)
+  await expect(page.locator('.surf-preview-card')).toBeVisible()
   await page.keyboard.press('Escape')
-  await expect(page.locator('.pui-preview-card')).toHaveCount(0)
+  await expect(page.locator('.surf-preview-card')).toHaveCount(0)
   await page.getByRole('checkbox', { name: 'Cancel preview opening' }).check()
   await link.focus()
   await page.waitForTimeout(750)
-  await expect(page.locator('.pui-preview-card')).toHaveCount(0)
+  await expect(page.locator('.surf-preview-card')).toHaveCount(0)
   await page.getByRole('checkbox', { name: 'Cancel preview opening' }).uncheck()
   await page
     .getByRole('checkbox', { name: 'Cancel preview opening' })
     .press('Tab')
-  await expect(page.locator('.pui-preview-card')).toBeVisible()
+  await expect(page.locator('.surf-preview-card')).toBeVisible()
   await expect(link).toBeFocused()
-  await expect(page.locator('.pui-preview-card')).toHaveAttribute(
+  await expect(page.locator('.surf-preview-card')).toHaveAttribute(
     'aria-hidden',
     'true',
   )
-  await expect(page.locator('.pui-preview-card')).not.toHaveAttribute(
+  await expect(page.locator('.surf-preview-card')).not.toHaveAttribute(
     'role',
     'dialog',
   )
@@ -157,8 +157,8 @@ test('Preview can be hovered without disappearing and dismisses after pointer le
 }) => {
   await page.goto('/components/preview-card')
   await waitForCatalogReady(page)
-  await page.locator('#preview a.pui-preview-trigger').hover()
-  const popup = page.locator('.pui-preview-card')
+  await page.locator('#preview a.surf-preview-trigger').hover()
+  const popup = page.locator('.surf-preview-card')
   await expect(popup).toBeVisible()
   await popup.hover()
   await page.waitForTimeout(450)
@@ -182,13 +182,13 @@ for (const theme of ['light', 'dark']) {
           .locator('.context-evidence-target')
           .click({ button: 'right' })
         expect(
-          (await new AxeBuilder({ page }).include('.pui-menu').analyze())
+          (await new AxeBuilder({ page }).include('.surf-menu').analyze())
             .violations,
         ).toEqual([])
         await page.keyboard.press('Escape')
       } else {
-        await page.locator('#preview a.pui-preview-trigger').focus()
-        await expect(page.locator('.pui-preview-card')).toBeVisible()
+        await page.locator('#preview a.surf-preview-trigger').focus()
+        await expect(page.locator('.surf-preview-card')).toBeVisible()
         expect((await new AxeBuilder({ page }).analyze()).violations).toEqual(
           [],
         )

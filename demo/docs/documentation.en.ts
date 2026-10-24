@@ -23,15 +23,15 @@ export const doc: ComponentDoc = {
     'Headings run page h1 → Preview h2 → document title h3 → body section h4. CodeBlock announces copy success or failure.',
   ],
   tokens: [
-    '--layout-reading',
-    '--type-reading-size',
-    '--type-reading-leading',
-    '--space-4',
-    '--space-8',
-    '--ink-body',
-    '--ink-muted',
-    '--selected',
-    '--control-focus',
+    '--surf-layout-reading',
+    '--surf-type-reading-size',
+    '--surf-type-reading-leading',
+    '--surf-space-4',
+    '--surf-space-8',
+    '--surf-ink-body',
+    '--surf-ink-muted',
+    '--surf-selected',
+    '--surf-control-focus',
   ],
   code: `import { PageHeader, Prose, CodeBlock, InlineMessage } from '@surflane/ui'
 
@@ -61,7 +61,7 @@ export const doc: ComponentDoc = {
     [
       'Prose',
       'explicit reading measure, typography, and wrapping for article content',
-      '--layout-reading',
+      '--surf-layout-reading',
     ],
     [
       'Heading IDs / TOC href',

@@ -9,14 +9,14 @@ export const doc: ComponentDoc = {
   anatomy:
     'PageHeader → optional breadcrumb → copy (semantic Heading + optional description) + optional wrapping action group',
   tokens: [
-    '--page-header-breadcrumb-gap',
-    '--page-header-gap',
-    '--layout-description-measure',
-    '--space-4',
-    '--space-2',
-    '--type-title-size',
-    '--type-display-size',
-    '--type-display-tracking',
+    '--surf-page-header-breadcrumb-gap',
+    '--surf-page-header-gap',
+    '--surf-layout-description-measure',
+    '--surf-space-4',
+    '--surf-space-2',
+    '--surf-type-title-size',
+    '--surf-type-display-size',
+    '--surf-type-display-tracking',
   ],
   code: `import { PageHeader, Button } from '@surflane/ui'
 

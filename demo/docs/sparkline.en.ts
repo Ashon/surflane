@@ -10,10 +10,10 @@ export const doc: ComponentDoc = {
     'Sparkline is an image with an accessible name. It takes no focus and has no interaction.',
   anatomy: 'svg(role=img, aria-label) → baseline + line + end marker',
   tokens: [
-    '--trend-up-fg',
-    '--trend-down-fg',
-    '--ink-body',
-    '--icon-stroke-width',
+    '--surf-trend-up-fg',
+    '--surf-trend-down-fg',
+    '--surf-ink-body',
+    '--surf-icon-stroke-width',
   ],
   code: `import { Sparkline } from '@surflane/ui'
 

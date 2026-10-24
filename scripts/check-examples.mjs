@@ -8,6 +8,7 @@ import {
   existsSync,
   mkdtempSync,
   readdirSync,
+  readFileSync,
   rmSync,
   statSync,
 } from 'node:fs'
@@ -24,6 +25,11 @@ const examples = {
     label: 'Next.js',
     port: 4402,
     serverHtml: true,
+    // Card, Stat and Table render on the server only; their code must not reach the browser.
+    serverOnly: {
+      chunks: '.next/static',
+      classes: ['surf-card', 'surf-stat', 'surf-table'],
+    },
     command: (port) => [
       'next',
       'start',
@@ -84,7 +90,7 @@ for (const name of selected)
 let tarballs
 if (tarballDir) {
   tarballs = readdirSync(tarballDir)
-    .filter((file) => /^surflane-(design-tokens|ui)-.+\.tgz$/.test(file))
+    .filter((file) => /^surflane-(design-tokens|css|ui)-.+\.tgz$/.test(file))
     .map((file) => resolve(tarballDir, file))
 } else {
   const output = execFileSync(
@@ -100,9 +106,9 @@ if (tarballDir) {
     ...output.matchAll(/^@surflane\/[\w-]+: (artifacts\/\S+\.tgz)$/gm),
   ].map((match) => resolve(root, match[1]))
 }
-if (tarballs.length !== 2)
+if (tarballs.length !== 3)
   throw new Error(
-    `Expected tokens and ui tarballs, found: ${tarballs.join(', ')}`,
+    `Expected tokens, css and ui tarballs, found: ${tarballs.join(', ')}`,
   )
 
 const run = (command, commandArgs, cwd) =>
@@ -126,7 +132,14 @@ const browser = await chromium.launch({
 const failures = []
 try {
   for (const name of selected) {
-    const { label, port, serverHtml, command, static: output } = examples[name]
+    const {
+      label,
+      port,
+      serverHtml,
+      serverOnly,
+      command,
+      static: output,
+    } = examples[name]
     const work = mkdtempSync(join(tmpdir(), `surflane-${name}-`))
     let server
     try {
@@ -141,6 +154,17 @@ try {
         work,
       )
       run('npm', ['run', 'build'], work)
+      if (serverOnly) {
+        const scripts = readdirSync(join(work, serverOnly.chunks), {
+          recursive: true,
+        }).filter((file) => file.endsWith('.js'))
+        for (const file of scripts) {
+          const code = readFileSync(join(work, serverOnly.chunks, file), 'utf8')
+          for (const name of serverOnly.classes)
+            if (new RegExp(`["'\`]${name}[\s"'\`-]`).test(code))
+              throw new Error(`Client chunk ${file} carries ${name}`)
+        }
+      }
       server = output
         ? await serveStatic(join(work, output), port)
         : spawn('npx', command(String(port)), {
@@ -154,10 +178,11 @@ try {
       if (serverHtml)
         for (const marker of [
           'data-theme="light"',
-          'pui-heading',
-          'pui-tabs',
-          'class="pui-button"',
+          'surf-heading',
+          'surf-tabs',
+          'class="surf-button"',
           'Open dialog',
+          ...(serverOnly?.classes ?? []),
         ])
           if (!html.includes(marker))
             throw new Error(`Server HTML lacks ${marker}`)
@@ -173,7 +198,7 @@ try {
       await page.goto(url, { waitUntil: 'networkidle' })
       const brand = await page.evaluate(() =>
         getComputedStyle(document.documentElement)
-          .getPropertyValue('--brand')
+          .getPropertyValue('--surf-brand')
           .trim(),
       )
       if (!brand) throw new Error('Design tokens are not loaded')
@@ -217,11 +242,11 @@ try {
       // Component styles apply: a primary button fills with the brand color.
       const button = await page.evaluate(() => {
         const probe = document.body.appendChild(document.createElement('i'))
-        probe.style.color = 'var(--brand)'
+        probe.style.color = 'var(--surf-brand)'
         const brand = getComputedStyle(probe).color
         probe.remove()
         const style = getComputedStyle(
-          document.querySelector('.pui-button[data-variant="primary"]'),
+          document.querySelector('.surf-button[data-variant="primary"]'),
         )
         return { brand, background: style.backgroundColor }
       })
@@ -252,7 +277,7 @@ try {
       if (errors.length)
         throw new Error(`Browser errors:\n${errors.join('\n')}`)
       console.log(
-        `✓ ${label}: ${serverHtml ? 'server HTML, ' : ''}layer order, component styles, hydration, dialog and focus return`,
+        `✓ ${label}: ${serverHtml ? 'server HTML, ' : ''}${serverOnly ? 'server-only parts, ' : ''}layer order, component styles, hydration, dialog and focus return`,
       )
     } catch (error) {
       failures.push(`${label}: ${error.message}`)

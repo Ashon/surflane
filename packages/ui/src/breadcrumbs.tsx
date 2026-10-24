@@ -1,46 +1,53 @@
-'use client'
 import * as React from 'react'
 import { Icon } from './icon.js'
-import { cx } from './parts.js'
+import { cx } from './class-names.js'
 import { Link } from './link.js'
 
-const BreadcrumbRoot = /* @__PURE__ */ React.forwardRef<
-  HTMLElement,
-  React.ComponentPropsWithoutRef<'nav'>
->(function BreadcrumbRoot(
-  { className, 'aria-label': label = 'Breadcrumb', ...props },
+const BreadcrumbRoot = function BreadcrumbRoot({
+  className,
+  'aria-label': label = 'Breadcrumb',
   ref,
-) {
+  ...props
+}: React.ComponentPropsWithoutRef<'nav'> & { ref?: React.Ref<HTMLElement> }) {
   return (
     <nav
       {...props}
       ref={ref}
       aria-label={label}
-      className={cx('pui-breadcrumbs', className)}
+      className={cx('surf-breadcrumbs', className)}
     />
   )
-})
-const BreadcrumbList = /* @__PURE__ */ React.forwardRef<
-  HTMLOListElement,
-  React.ComponentPropsWithoutRef<'ol'>
->(function BreadcrumbList({ className, role = 'list', ...props }, ref) {
+}
+const BreadcrumbList = function BreadcrumbList({
+  className,
+  role = 'list',
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<'ol'> & {
+  ref?: React.Ref<HTMLOListElement>
+}) {
   return (
     <ol
       {...props}
       role={role}
       ref={ref}
-      className={cx('pui-breadcrumb-list', className)}
+      className={cx('surf-breadcrumb-list', className)}
     />
   )
-})
-const BreadcrumbItem = /* @__PURE__ */ React.forwardRef<
-  HTMLLIElement,
-  React.ComponentPropsWithoutRef<'li'>
->(function BreadcrumbItem({ className, ...props }, ref) {
+}
+const BreadcrumbItem = function BreadcrumbItem({
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<'li'> & { ref?: React.Ref<HTMLLIElement> }) {
   return (
-    <li {...props} ref={ref} className={cx('pui-breadcrumb-item', className)} />
+    <li
+      {...props}
+      ref={ref}
+      className={cx('surf-breadcrumb-item', className)}
+    />
   )
-})
+}
 function BreadcrumbSeparator({
   className,
   ...props
@@ -48,7 +55,7 @@ function BreadcrumbSeparator({
   return (
     <span
       {...props}
-      className={cx('pui-breadcrumb-separator', className)}
+      className={cx('surf-breadcrumb-separator', className)}
       aria-hidden='true'
     >
       <Icon name='chevron-forward' />
@@ -62,7 +69,7 @@ function BreadcrumbCurrent({
   return (
     <span
       {...props}
-      className={cx('pui-breadcrumb-current', className)}
+      className={cx('surf-breadcrumb-current', className)}
       aria-current='page'
     />
   )

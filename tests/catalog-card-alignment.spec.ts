@@ -87,7 +87,7 @@ test('coverage wave copy, filters, table caption and first-column content share 
         '.delivery-waves p',
         '#coverage-inventory h2',
         '#coverage-inventory .catalog-filters > label:first-child',
-        '.pui-table-body tr:first-child th a',
+        '.surf-table-body tr:first-child th a',
       ]) {
         for (const el of await page.locator(selector).all())
           expect(
@@ -96,8 +96,8 @@ test('coverage wave copy, filters, table caption and first-column content share 
           ).toBeCloseTo(start, 1)
       }
       for (const selector of [
-        '.pui-table-caption',
-        '.pui-table-head th:first-child',
+        '.surf-table-caption',
+        '.surf-table-head th:first-child',
       ]) {
         const textStart = await page.locator(selector).evaluate((el) => {
           const range = document.createRange()

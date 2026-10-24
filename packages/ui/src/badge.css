@@ -4,18 +4,18 @@
 @import './base.css';
 @import './sizing.css';
 @import './icon.css';
-@import '@surflane/design-tokens/presentation/badge.css';
+@import '@surflane/css/presentation/badge.css';
 
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *).pui-badge {
-    padding: var(--ui-badge-padding-y) var(--ui-badge-padding-x);
-    font-size: var(--ui-badge-font);
+  :where([data-ui-size], [data-ui-size] *).surf-badge {
+    padding: var(--surf-ui-badge-padding-y) var(--surf-ui-badge-padding-x);
+    font-size: var(--surf-ui-badge-font);
   }
   @media (forced-colors: active) {
-    :where([data-ui-size], [data-ui-size] *).pui-badge {
+    :where([data-ui-size], [data-ui-size] *).surf-badge {
       border: 1px solid CanvasText;
-      padding: calc(var(--ui-badge-padding-y) - 1px)
-        calc(var(--ui-badge-padding-x) - 1px);
+      padding: calc(var(--surf-ui-badge-padding-y) - 1px)
+        calc(var(--surf-ui-badge-padding-x) - 1px);
     }
   }
 }

@@ -4,161 +4,167 @@
 @import './base.css';
 @import './sizing.css';
 @import './icon.css';
-@import '@surflane/design-tokens/controls.css';
+@import '@surflane/css/controls.css';
 
 @layer surflane.components {
   /* Dialog: acknowledge arrival; dismissal has no visual wait. */
-  .pui-dialog-backdrop {
+  .surf-dialog-backdrop {
     position: fixed;
     inset: 0;
-    z-index: var(--layer-backdrop);
-    background: color-mix(in srgb, var(--chrome), transparent 25%);
+    z-index: var(--surf-layer-backdrop);
+    background: color-mix(in srgb, var(--surf-chrome), transparent 25%);
     backdrop-filter: blur(3px);
     opacity: 1;
-    transition: opacity var(--dialog-enter-duration) var(--motion-ease);
+    transition: opacity var(--surf-dialog-enter-duration)
+      var(--surf-motion-ease);
   }
-  .pui-dialog-popup {
+  .surf-dialog-popup {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: var(--layer-dialog);
+    z-index: var(--surf-layer-dialog);
     margin: 0;
     outline: none;
     opacity: 1;
     translate: 0 0;
     transition:
-      opacity var(--dialog-enter-duration) var(--motion-ease),
-      translate var(--dialog-enter-duration) var(--motion-spatial-ease);
+      opacity var(--surf-dialog-enter-duration) var(--surf-motion-ease),
+      translate var(--surf-dialog-enter-duration)
+        var(--surf-motion-spatial-ease);
   }
-  .pui-dialog-popup[data-starting-style] {
+  .surf-dialog-popup[data-starting-style] {
     opacity: 0;
-    translate: 0 var(--dialog-enter-offset);
+    translate: 0 var(--surf-dialog-enter-offset);
   }
-  .pui-dialog-backdrop[data-starting-style] {
+  .surf-dialog-backdrop[data-starting-style] {
     opacity: 0;
   }
-  .pui-dialog-popup[data-ending-style],
-  .pui-dialog-backdrop[data-ending-style] {
+  .surf-dialog-popup[data-ending-style],
+  .surf-dialog-backdrop[data-ending-style] {
     transition: none;
-    transition-duration: var(--dialog-exit-duration);
+    transition-duration: var(--surf-dialog-exit-duration);
     opacity: 0;
   }
   @media (prefers-reduced-motion: reduce) {
-    .pui-dialog-popup,
-    .pui-dialog-backdrop {
+    .surf-dialog-popup,
+    .surf-dialog-backdrop {
       transition: none;
     }
-    .pui-dialog-popup {
+    .surf-dialog-popup {
       translate: none;
     }
   }
-  .pui-dialog-close {
+  .surf-dialog-close {
     position: absolute;
-    inset-block-start: var(--space-4);
-    inset-inline-end: var(--space-4);
+    inset-block-start: var(--surf-space-4);
+    inset-inline-end: var(--surf-space-4);
     z-index: 1;
   }
   /* Structural chrome never reserves scrollbar space; scrolling belongs to Body. */
-  .pui-dialog-content {
+  .surf-dialog-content {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    --dialog-width: var(--size-dialog-default);
-    width: min(var(--dialog-width), calc(100% - var(--space-4) * 2));
+    --surf-dialog-width: var(--surf-size-dialog-default);
+    width: min(var(--surf-dialog-width), calc(100% - var(--surf-space-4) * 2));
     max-height: calc(100dvh - 32px);
     overflow: hidden;
     scrollbar-gutter: auto;
     padding: 0;
-    border: 1px solid var(--line);
-    border-radius: var(--radius-sheet);
-    background: var(--canvas);
-    color: var(--ink);
-    box-shadow: var(--shadow-float);
-    font: var(--weight-regular) var(--type-body-size)/var(--type-body-leading)
-      var(--font-body);
-    letter-spacing: var(--type-body-tracking);
+    border: 1px solid var(--surf-line);
+    border-radius: var(--surf-radius-sheet);
+    background: var(--surf-canvas);
+    color: var(--surf-ink);
+    box-shadow: var(--surf-shadow-float);
+    font: var(--surf-weight-regular)
+      var(--surf-type-body-size)/var(--surf-type-body-leading)
+      var(--surf-font-body);
+    letter-spacing: var(--surf-type-body-tracking);
   }
-  .pui-dialog-header,
-  .pui-dialog-body,
-  .pui-dialog-footer {
+  .surf-dialog-header,
+  .surf-dialog-body,
+  .surf-dialog-footer {
     box-sizing: border-box;
     min-width: 0;
   }
-  .pui-dialog-header,
-  .pui-dialog-footer {
+  .surf-dialog-header,
+  .surf-dialog-footer {
     flex: none;
     align-self: stretch;
   }
-  .pui-dialog-header {
-    padding-block: var(--space-6) var(--space-5);
-    padding-inline: var(--space-6)
-      calc(var(--control-height) + var(--space-4) * 2);
-    border-bottom: 1px solid var(--line);
+  .surf-dialog-header {
+    padding-block: var(--surf-space-6) var(--surf-space-5);
+    padding-inline: var(--surf-space-6)
+      calc(var(--surf-control-height) + var(--surf-space-4) * 2);
+    border-bottom: 1px solid var(--surf-line);
   }
-  .pui-dialog-header h2 {
+  .surf-dialog-header h2 {
     margin: 0;
-    font: var(--weight-medium)
-      var(--type-section-size)/var(--type-section-leading) var(--font-display);
-    letter-spacing: var(--type-section-tracking);
+    font: var(--surf-weight-medium)
+      var(--surf-type-section-size)/var(--surf-type-section-leading)
+      var(--surf-font-display);
+    letter-spacing: var(--surf-type-section-tracking);
   }
-  .pui-dialog-header p {
-    margin: var(--space-2) 0 0;
-    color: var(--ink-body);
+  .surf-dialog-header p {
+    margin: var(--surf-space-2) 0 0;
+    color: var(--surf-ink-body);
   }
-  .pui-dialog-body {
+  .surf-dialog-body {
     flex: 1 1 auto;
     min-height: 0;
     overflow: auto;
-    padding: var(--space-6);
+    padding: var(--surf-space-6);
     overscroll-behavior: contain;
     scrollbar-width: thin;
-    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+    scrollbar-color: var(--surf-scrollbar-thumb) var(--surf-scrollbar-track);
   }
-  .pui-dialog-body::-webkit-scrollbar {
-    width: var(--scrollbar-size);
-    height: var(--scrollbar-size);
+  .surf-dialog-body::-webkit-scrollbar {
+    width: var(--surf-scrollbar-size);
+    height: var(--surf-scrollbar-size);
   }
-  .pui-dialog-body::-webkit-scrollbar-thumb {
-    background: var(--scrollbar-thumb);
-    border-radius: var(--scrollbar-radius);
+  .surf-dialog-body::-webkit-scrollbar-thumb {
+    background: var(--surf-scrollbar-thumb);
+    border-radius: var(--surf-scrollbar-radius);
   }
-  .pui-dialog-body::-webkit-scrollbar-thumb:hover {
-    background: var(--scrollbar-thumb-hover);
+  .surf-dialog-body::-webkit-scrollbar-thumb:hover {
+    background: var(--surf-scrollbar-thumb-hover);
   }
-  .pui-dialog-footer {
+  .surf-dialog-footer {
     display: flex;
     justify-content: flex-end;
     flex-wrap: wrap;
-    gap: var(--space-2);
-    padding: var(--space-5) var(--space-6);
-    border-top: 1px solid var(--line);
+    gap: var(--surf-space-2);
+    padding: var(--surf-space-5) var(--surf-space-6);
+    border-top: 1px solid var(--surf-line);
   }
-  .pui-dialog-close:disabled {
-    opacity: var(--control-disabled-opacity);
+  .surf-dialog-close:disabled {
+    opacity: var(--surf-control-disabled-opacity);
     cursor: not-allowed;
   }
-  .pui-dialog-content[data-size='small'] {
-    --dialog-width: var(--size-dialog-small);
+  .surf-dialog-content[data-size='small'] {
+    --surf-dialog-width: var(--surf-size-dialog-small);
   }
-  .pui-dialog-content[data-size='default'] {
-    --dialog-width: var(--size-dialog-default);
+  .surf-dialog-content[data-size='default'] {
+    --surf-dialog-width: var(--surf-size-dialog-default);
   }
-  .pui-dialog-content[data-size='large'] {
-    --dialog-width: var(--size-dialog-large);
+  .surf-dialog-content[data-size='large'] {
+    --surf-dialog-width: var(--surf-size-dialog-large);
   }
 }
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *).pui-dialog-body {
-    padding: var(--ui-card-padding);
+  :where([data-ui-size], [data-ui-size] *).surf-dialog-body {
+    padding: var(--surf-ui-card-padding);
   }
   :where([data-ui-size], [data-ui-size] *):is(
-    .pui-dialog-header,
-    .pui-dialog-footer
+    .surf-dialog-header,
+    .surf-dialog-footer
   ) {
-    padding-inline: var(--ui-card-padding);
+    padding-inline: var(--surf-ui-card-padding);
   }
-  :where([data-ui-size], [data-ui-size] *).pui-dialog-header {
-    padding-inline-end: calc(var(--control-height) + var(--space-4) * 2);
+  :where([data-ui-size], [data-ui-size] *).surf-dialog-header {
+    padding-inline-end: calc(
+      var(--surf-control-height) + var(--surf-space-4) * 2
+    );
   }
 }

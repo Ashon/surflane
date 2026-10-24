@@ -14,10 +14,10 @@ Other React 19 frameworks that bundle with Vite, webpack or Turbopack follow the
 ## 1. Install
 
 ```sh
-npm install @surflane/ui @surflane/design-tokens
+npm install @surflane/ui @surflane/design-tokens @surflane/css @base-ui/react
 ```
 
-Both packages are released together with the same version. Install matching versions.
+The three Surflane packages are released together with one version; install matching versions. Base UI is a peer dependency, 1.9 or later, so your app and Surflane share one copy.
 
 ## 2. Import CSS once
 
@@ -36,7 +36,7 @@ The stylesheets put their rules in [cascade layers](#cascade-layers), so your ow
 To ship only the styles of the components you use, import their stylesheets instead of `all.css`. Each component has one, at the path of its entry point with `.css`, and it brings the tokens and the styles of everything the component renders:
 
 ```css
-@import '@surflane/design-tokens/typography.css';
+@import '@surflane/css/typography.css';
 @import '@surflane/ui/button.css';
 @import '@surflane/ui/dialog.css';
 @import '@surflane/ui/select.css';
@@ -46,7 +46,7 @@ Dialog's stylesheet lists Button's, for its close button. Vite, webpack and Next
 
 The rules are the ones `all.css` brings, and they apply the same in any import order: a component's stylesheet comes after the stylesheets it includes, and size rules sit in their own layer. `styles.css` is the list of every component stylesheet. `@surflane/design-tokens` splits `presentation.css` and `foundations.css` the same way, under `presentation/` and `foundations/`.
 
-Add `pui-typography` to `<body>` to apply document typography, including portalled overlays. With AppShell, which fills the window with a square edge, also set `body { margin: 0; background: var(--chrome); }` so the browser's default margin never shows around it. Fonts are not bundled. Load Manrope, Pretendard, JetBrains Mono or your own families in the host, for example through `@fontsource-variable/*` packages. Without them, the token font stacks fall back to system fonts.
+Add `surf-typography` to `<body>` to apply document typography, including portalled overlays. With AppShell, which fills the window with a square edge, also set `body { margin: 0; background: var(--surf-chrome); }` so the browser's default margin never shows around it, and give `html`, `body` and the element your app renders into `height: 100%`, since the shell takes its container's height. Fonts are not bundled. Load Manrope, Pretendard, JetBrains Mono or your own families in the host, for example through `@fontsource-variable/*` packages. Without them, the token font stacks fall back to system fonts.
 
 ## 3. Set the theme before paint
 
@@ -60,7 +60,7 @@ The [install guide](https://surflane.page/install) shows each of these with a th
 
 Animate later changes with `transitionTheme` from `@surflane/design-tokens/theme-transition`. Persisting the preference belongs to the application.
 
-`data-theme` also works on any element: `<div data-theme="dark">` renders that subtree in the dark theme inside a light page, and the reverse. Every token, including aliases such as `--control-hover-background`, resolves again inside the subtree. Use it for previews and embedded surfaces, not as a second page theme.
+`data-theme` also works on any element: `<div data-theme="dark">` renders that subtree in the dark theme inside a light page, and the reverse. Every token, including aliases such as `--surf-control-hover-background`, resolves again inside the subtree. Use it for previews and embedded surfaces, not as a second page theme.
 
 ## Optional components
 
@@ -108,7 +108,7 @@ Every Surflane stylesheet puts its rules in five [cascade layers](https://develo
 
 Each file starts with the same `@layer` order statement, so the order holds whichever file loads first. The browser compares layers before specificity:
 
-- Unlayered CSS overrides every layer. Your `.settings-title { font-size: 20px }` overrides `.pui-card-title` whatever their specificity, and so does a stray `button { … }` rule.
+- Unlayered CSS overrides every layer. Your `.settings-title { font-size: 20px }` overrides `.surf-card-title` whatever their specificity, and so does a stray `button { … }` rule.
 - Keep a reset below Surflane by declaring its layer first. `@layer` statements may precede `@import`:
 
   ```css
@@ -136,19 +136,19 @@ Each file starts with the same `@layer` order statement, so the order holds whic
 @import '@surflane/design-tokens/tailwind.css';
 ```
 
-Import every Surflane stylesheet with `layer(components)`. Surflane's layers then nest inside Tailwind's `components` layer, keeping their own order: above Preflight in `base`, below utilities. A utility such as `px-8` adjusts a `.pui-button`, and Preflight's `button` reset does not. Keep `tailwind.css` itself unlayered: it holds Tailwind directives, not rules.
+Import every Surflane stylesheet with `layer(components)`. Surflane's layers then nest inside Tailwind's `components` layer, keeping their own order: above Preflight in `base`, below utilities. A utility such as `px-8` adjusts a `.surf-button`, and Preflight's `button` reset does not. Keep `tailwind.css` itself unlayered: it holds Tailwind directives, not rules.
 
-| Tokens                                                                | Utilities                                          |
-| --------------------------------------------------------------------- | -------------------------------------------------- |
-| Color roles: `--ink`, `--canvas`, `--surface`, `--line`, `--brand`, … | `text-ink`, `bg-canvas`, `border-line`, `bg-brand` |
-| `--space-*` (4px steps)                                               | `p-4`, `gap-6`, `p-10`: the same steps as Tailwind |
-| `--layout-page-inset`, `--layout-gutter`, `--layout-section-gap`      | `p-page`, `gap-gutter`, `py-section`               |
-| `--layout-reading`, `--layout-content`, `--layout-workspace`, …       | `max-w-reading`, `max-w-content`, …                |
-| `--radius-*`, `--shadow-*`                                            | `rounded-md`, `rounded-sheet`, `shadow-float`      |
-| `--font-*`, `--weight-*`, `--type-*` size, leading and tracking       | `font-display`, `font-medium`, `text-title`        |
-| `--tracking`, `--tracking-mono`, `--ease-in`, `--ease-out`            | `tracking-default`, `tracking-mono`, `ease-out`    |
+| Tokens                                                                                         | Utilities                                          |
+| ---------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| Color roles: `--surf-ink`, `--surf-canvas`, `--surf-surface`, `--surf-line`, `--surf-brand`, … | `text-ink`, `bg-canvas`, `border-line`, `bg-brand` |
+| `--surf-space-*` (4px steps)                                                                   | `p-4`, `gap-6`, `p-10`: the same steps as Tailwind |
+| `--surf-layout-page-inset`, `--surf-layout-gutter`, `--surf-layout-section-gap`                | `p-page`, `gap-gutter`, `py-section`               |
+| `--surf-layout-reading`, `--surf-layout-content`, `--surf-layout-workspace`, …                 | `max-w-reading`, `max-w-content`, …                |
+| `--surf-radius-*`, `--surf-shadow-*`                                                           | `rounded-md`, `rounded-sheet`, `shadow-float`      |
+| `--surf-font-*`, `--surf-weight-*`, `--surf-type-*` size, leading and tracking                 | `font-display`, `font-medium`, `text-title`        |
+| `--surf-tracking`, `--surf-tracking-mono`, `--surf-ease-in`, `--surf-ease-out`                 | `tracking-default`, `tracking-mono`, `ease-out`    |
 
-Utilities read the tokens through `var()`, so they follow `data-theme`, including scoped themes, without a `dark:` variant. When you need one, `dark:` follows the nearest `data-theme`, not the operating system. The bridge never redefines a token: Tailwind emits no theme variables for it, even where Surflane and Tailwind share a name such as `--radius-md`. Durations and layers have no Tailwind theme namespace; use them as `duration-(--duration-fast)` and `z-(--layer-dialog)`.
+Utilities read the tokens through `var()`, so they follow `data-theme`, including scoped themes, without a `dark:` variant. When you need one, `dark:` follows the nearest `data-theme`, not the operating system. The bridge never redefines a token: Tailwind emits no theme variables for it, even where Surflane and Tailwind share a name such as `--surf-radius-md`. Durations and layers have no Tailwind theme namespace; use them as `duration-(--surf-duration-fast)` and `z-(--surf-layer-dialog)`.
 
 `npm run check:tailwind` compiles this setup with Tailwind CSS v4, checks every mapped utility and verifies the layer contract and `dark:` in Chromium.
 
@@ -187,8 +187,8 @@ const css = themeCss(
 
 - Theme files mirror the contexts in `tokens.css`, so `data-theme` and scoped theme regions keep working. `themeCss` output carries the same layer statement as the presets. With Tailwind, import theme files with `layer(components)` like the other Surflane files.
 - Accent chroma is clamped to the sRGB gamut at the accent's fixed lightness. `contrastRatio(foreground, background)` measures any pair.
-- Success keeps its own color, `--success`, whatever the accent.
-- Buttons, badges, chips, switches and segments draw their corners with `--radius-pill`, half the tallest control, so by default every one is a pill. It scales with `radius` like the other corner tokens: a smaller scale rounds the larger parts' corners first, and `radius: 0` squares them. Circles and bars stay round: avatars, radios, slider knobs and progress bars.
+- Success keeps its own color, `--surf-success`, whatever the accent.
+- Buttons, badges, chips, switches and segments draw their corners with `--surf-radius-pill`, half the tallest control, so by default every one is a pill. It scales with `radius` like the other corner tokens: a smaller scale rounds the larger parts' corners first, and `radius: 0` squares them. Circles and bars stay round: avatars, radios, slider knobs and progress bars.
 
 ## shadcn/ui
 

@@ -1,27 +1,12 @@
+'use client'
 import {
   ComponentSizeContext,
-  normalizeSize,
   useComponentSize,
   type ComponentSize,
-  type ComponentSizeAlias,
 } from './sizing.js'
 import * as React from 'react'
-/** Joins class names, skipping empty ones. */
-export function cx(...classes: (string | false | null | undefined)[]) {
-  return classes.filter(Boolean).join(' ')
-}
-/** The data-size value: a deprecated short spelling (sm, md, lg, icon-sm, icon-xs,
- * icon-lg) renders as its full name, so both spellings meet the same CSS; other values
- * such as xs or icon pass through. */
-export function sizeName<Size extends string>(size?: Size) {
-  return size === 'sm' || size === 'md' || size === 'lg'
-    ? normalizeSize(size as ComponentSizeAlias)
-    : size === 'icon-sm' || size === 'icon-xs'
-      ? 'icon-small'
-      : size === 'icon-lg'
-        ? 'icon-large'
-        : size
-}
+import { cx } from './class-names.js'
+export { cx, sizeName } from './class-names.js'
 /** Preserve Base UI's state-dependent className contract when adding a skin. */
 export function skin<State>(
   base: string,
@@ -42,10 +27,12 @@ export function part<
   base: string,
   { portal = false }: { portal?: boolean } = {},
 ) {
-  return React.forwardRef<
-    Element,
-    Omit<Props, 'size'> & { size?: ComponentSize }
-  >(function ThemedPart(props, ref) {
+  return function ThemedPart({
+    ref,
+    ...props
+  }: Omit<Props, 'size'> & { size?: ComponentSize } & {
+    ref?: React.Ref<Element>
+  }) {
     const { className, size, ...rest } = props as Omit<Props, 'size'> & {
       size?: ComponentSize
     }
@@ -68,7 +55,7 @@ export function part<
         {element}
       </ComponentSizeContext.Provider>
     )
-  })
+  }
 }
 
 /** True inside a namespace's own Portal, so a Content that brings its portal adds no
@@ -78,13 +65,16 @@ const PortalScope = /* @__PURE__ */ React.createContext(false)
 export function scopedPortal<Portal extends React.ElementType>(
   BasePortal: Portal,
 ): Portal {
-  const Scoped = React.forwardRef(function Portal(props: object, ref) {
+  const Scoped = function Portal({
+    ref,
+    ...props
+  }: object & { ref?: React.Ref<unknown> }) {
     return (
       <PortalScope.Provider value={true}>
         {React.createElement(BasePortal, { ...props, ref })}
       </PortalScope.Provider>
     )
-  })
+  }
   return Scoped as unknown as Portal
 }
 /** Renders a Content's positioner in its portal, unless a namespace Portal holds it. */

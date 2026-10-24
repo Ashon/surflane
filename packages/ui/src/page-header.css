@@ -4,4 +4,4 @@
 @import './base.css';
 @import './sizing.css';
 @import './typography.css';
-@import '@surflane/design-tokens/foundations/page-header.css';
+@import '@surflane/css/foundations/page-header.css';

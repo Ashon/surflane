@@ -17,12 +17,12 @@ export const doc: ComponentDoc = {
     'Give each range thumb its own name and unit.',
   ],
   tokens: [
-    '--brand',
-    '--ink-muted',
-    '--ink-body',
-    '--canvas',
-    '--interaction-focus',
-    '--radius-full',
+    '--surf-brand',
+    '--surf-ink-muted',
+    '--surf-ink-body',
+    '--surf-canvas',
+    '--surf-interaction-focus',
+    '--surf-radius-full',
   ],
   code: `import { Slider } from '@surflane/ui'
 

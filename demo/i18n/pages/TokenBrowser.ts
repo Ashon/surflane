@@ -4,15 +4,15 @@ const en = {
   principles: [
     [
       'Reference a token, never its value.',
-      'Write `var(--ink)`, not the color it resolves to, so themes and screen sizes reach your code.',
+      'Write `var(--surf-ink)`, not the color it resolves to, so themes and screen sizes reach your code.',
     ],
     [
       'Choose a token by its role.',
-      'Role tokens such as `--ink-muted`, `--canvas`, and `--space-4` say what a value is for, and each theme decides how it looks.',
+      'Role tokens such as `--surf-ink-muted`, `--surf-canvas`, and `--surf-space-4` say what a value is for, and each theme decides how it looks.',
     ],
     [
       'Tune a component through its own tokens.',
-      'Component tokens such as `--control-height` alias role tokens, so one override reaches every part without restyling internals.',
+      'Component tokens such as `--surf-control-height` alias role tokens, so one override reaches every part without restyling internals.',
     ],
   ],
   sections: {
@@ -28,7 +28,7 @@ const en = {
     `${n} tokens, generated from the CSS source. Search by name, purpose, or alias.`,
   search: 'Search',
   searchAriaLabel: 'Search design tokens',
-  searchPlaceholder: 'e.g. --ink, typography, dialog',
+  searchPlaceholder: 'e.g. --surf-ink, typography, dialog',
   category: 'Category',
   categoryAriaLabel: 'Token category',
   allCategories: 'All categories',
@@ -47,15 +47,15 @@ export const text: Record<Locale, typeof en> = {
     principles: [
       [
         '값이 아니라 토큰을 참조하세요.',
-        '토큰이 가리키는 색 대신 `var(--ink)`를 써야 테마와 화면 크기가 코드에 반영됩니다.',
+        '토큰이 가리키는 색 대신 `var(--surf-ink)`를 써야 테마와 화면 크기가 코드에 반영됩니다.',
       ],
       [
         '토큰은 역할로 고르세요.',
-        '`--ink-muted`, `--canvas`, `--space-4` 같은 역할 토큰은 값의 용도를 말하고, 모습은 테마가 정합니다.',
+        '`--surf-ink-muted`, `--surf-canvas`, `--surf-space-4` 같은 역할 토큰은 값의 용도를 말하고, 모습은 테마가 정합니다.',
       ],
       [
         '컴포넌트는 자기 토큰으로 조정하세요.',
-        '`--control-height` 같은 컴포넌트 토큰은 역할 토큰을 참조하므로, 내부 스타일을 덮지 않고도 한 번의 재정의가 모든 부분에 닿습니다.',
+        '`--surf-control-height` 같은 컴포넌트 토큰은 역할 토큰을 참조하므로, 내부 스타일을 덮지 않고도 한 번의 재정의가 모든 부분에 닿습니다.',
       ],
     ],
     sections: {
@@ -71,7 +71,7 @@ export const text: Record<Locale, typeof en> = {
       `CSS 소스에서 생성한 토큰 ${n}개입니다. 이름, 용도, 별칭으로 검색하세요.`,
     search: '검색',
     searchAriaLabel: '디자인 토큰 검색',
-    searchPlaceholder: '예: --ink, typography, dialog',
+    searchPlaceholder: '예: --surf-ink, typography, dialog',
     category: '카테고리',
     categoryAriaLabel: '토큰 카테고리',
     allCategories: '모든 카테고리',
