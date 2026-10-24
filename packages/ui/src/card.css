@@ -11,4 +11,9 @@
     padding: var(--surf-surface-padding, var(--surf-ui-card-padding));
     gap: var(--surf-ui-surface-padding);
   }
+  :where([data-ui-size], [data-ui-size] *).surf-card-title {
+    font-size: var(--surf-ui-title-size);
+    line-height: var(--surf-ui-title-leading);
+    letter-spacing: var(--surf-ui-title-tracking);
+  }
 }

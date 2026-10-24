@@ -64,6 +64,11 @@ const views: Record<ExampleGroup, ComponentType<ExampleProps>> = {
       default: module.ResourceListExample,
     })),
   ),
+  dashboard: lazy(() =>
+    import('./DashboardExample').then((module) => ({
+      default: module.DashboardExample,
+    })),
+  ),
   filterBar: lazy(() =>
     import('./FilterBarExample').then((module) => ({
       default: module.FilterBarExample,
@@ -132,6 +137,11 @@ const views: Record<ExampleGroup, ComponentType<ExampleProps>> = {
   toast: lazy(() =>
     import('./ToastExample').then((module) => ({
       default: module.ToastExample,
+    })),
+  ),
+  timeRange: lazy(() =>
+    import('./TimeRangeExample').then((module) => ({
+      default: module.TimeRangeExample,
     })),
   ),
   otp: lazy(() =>

@@ -67,6 +67,13 @@ const en = {
   p95Latency: 'P95 latency',
   monthlyCost: 'Monthly cost',
   vsLastWeek: 'vs. last week',
+  freeDisk: 'Free disk',
+  belowLimit: 'Below 30 GiB',
+  lastScan: 'Last scan',
+  overdue: 'Over 2 hours ago',
+  gpuTemperature: 'GPU temperature',
+  diskByDirectory: 'Disk used by directory',
+  tokensByProject: 'Tokens this week by project',
   trendLabel: (what: string, change: string) =>
     `${what}, 12 weeks; last week ${change}`,
   indexLabel: (change: string) =>
@@ -148,6 +155,13 @@ export const text: Record<Locale, typeof en> = {
     p95Latency: 'P95 지연 시간',
     monthlyCost: '월 비용',
     vsLastWeek: '지난주 대비',
+    freeDisk: '남은 디스크',
+    belowLimit: '30 GiB 미만',
+    lastScan: '마지막 스캔',
+    overdue: '2시간 넘게 지남',
+    gpuTemperature: 'GPU 온도',
+    diskByDirectory: '디렉토리별 디스크 사용량',
+    tokensByProject: '이번 주 프로젝트별 토큰',
     trendLabel: (what: string, change: string) =>
       `${what}, 12주. 지난주 ${change}`,
     indexLabel: (change: string) => `지수, 10거래일, 전일 종가 대비 ${change}`,

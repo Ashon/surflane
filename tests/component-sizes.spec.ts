@@ -356,25 +356,43 @@ test('sheet titles keep clear of the close button at every size', async ({
 }) => {
   await page.setViewportSize({ width: 1440, height: 1000 })
   await open(page, 'sheet')
-  for (const size of values) {
+  for (const [i, size] of values.entries()) {
     await choose(page, size)
     await page
       .getByRole('button', { name: 'Open right sheet', exact: true })
       .click()
     const sheet = page.getByRole('dialog')
     await expect(sheet).toBeVisible()
-    const { contentEnd, closeStart } = await sheet.evaluate((panel) => {
-      const header = panel.querySelector('.surf-panel-header')!
-      const close = panel.querySelector('.surf-panel-close')!
-      const end =
-        header.getBoundingClientRect().right -
-        parseFloat(getComputedStyle(header).paddingInlineEnd)
-      return {
-        contentEnd: end,
-        closeStart: close.getBoundingClientRect().left,
-      }
-    })
+    const { contentEnd, closeStart, block, title } = await sheet.evaluate(
+      (panel) => {
+        const header = panel.querySelector('.surf-panel-header')!
+        const close = panel.querySelector('.surf-panel-close')!
+        const style = getComputedStyle(header)
+        const heading = getComputedStyle(
+          panel.querySelector('.surf-panel-title')!,
+        )
+        const end =
+          header.getBoundingClientRect().right -
+          parseFloat(style.paddingInlineEnd)
+        return {
+          contentEnd: end,
+          closeStart: close.getBoundingClientRect().left,
+          block: [style.paddingTop, style.paddingBottom],
+          title: `${heading.fontSize}/${heading.lineHeight}`,
+        }
+      },
+    )
     expect(contentEnd, size).toBeLessThanOrEqual(closeStart - 16)
+    // The head's space follows the size's card padding, like the body's.
+    expect(block, size).toEqual(
+      [
+        ['16px', '12px'],
+        ['24px', '20px'],
+        ['32px', '28px'],
+      ][i],
+    )
+    // Surface titles step down to the subsection role at Small only.
+    expect(title, size).toBe(['16px/24px', '20px/28px', '20px/28px'][i])
     await page.keyboard.press('Escape')
     await expect(sheet).toBeHidden()
   }
@@ -429,6 +447,14 @@ test('select, popover and dialog portal contents retain size and keyboard behavi
   const dialog = page.getByRole('dialog')
   await expect(dialog).toHaveAttribute('data-ui-size', 'small')
   expect((await dialog.getByRole('combobox').boundingBox())!.height).toBe(32)
+  expect(
+    await dialog.evaluate((el) =>
+      ['.surf-dialog-header', '.surf-dialog-footer'].map((part) => {
+        const style = getComputedStyle(el.querySelector(part)!)
+        return `${style.paddingTop} ${style.paddingBottom}`
+      }),
+    ),
+  ).toEqual(['16px 12px', '12px 12px'])
   await page.keyboard.press('Escape')
   await expect(
     page.getByRole('button', { name: 'Open deployment plan', exact: true }),

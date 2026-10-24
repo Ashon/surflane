@@ -52,11 +52,68 @@
   .surf-stat-change[data-tone='down'] {
     color: var(--surf-trend-down-fg);
   }
+  /* The value's state: the tone's icon and text, on the value's line. */
+  .surf-stat-status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--surf-space-1);
+    color: var(--surf-status-neutral-fg);
+    font-size: var(--surf-type-label-size);
+    line-height: var(--surf-type-label-leading);
+    letter-spacing: var(--surf-type-label-tracking);
+    font-weight: var(--surf-weight-medium);
+  }
+  .surf-stat-status[data-tone='info'] {
+    color: var(--surf-status-info-fg);
+  }
+  .surf-stat-status[data-tone='success'] {
+    color: var(--surf-status-success-fg);
+  }
+  .surf-stat-status[data-tone='progress'] {
+    color: var(--surf-status-progress-fg);
+  }
+  /* Past a threshold the value takes the status color as well. */
+  .surf-stat-status[data-tone='caution'],
+  .surf-stat:has(> .surf-stat-status[data-tone='caution']) > .surf-stat-value {
+    color: var(--surf-status-caution-fg);
+  }
+  .surf-stat-status[data-tone='danger'],
+  .surf-stat:has(> .surf-stat-status[data-tone='danger']) > .surf-stat-value {
+    color: var(--surf-status-danger-fg);
+  }
   .surf-stat-caption {
     flex: 1 0 100%;
     color: var(--surf-ink-muted);
     font-size: var(--surf-type-caption-size);
     line-height: var(--surf-type-caption-leading);
     letter-spacing: var(--surf-type-caption-tracking);
+  }
+  /* A group: the shared label, then each value under its own name, side by side. */
+  .surf-stat-group {
+    display: grid;
+    gap: var(--surf-space-2);
+    min-width: 0;
+  }
+  .surf-stat-group-label {
+    color: var(--surf-ink-muted);
+    font-size: var(--surf-type-label-size);
+    line-height: var(--surf-type-label-leading);
+    letter-spacing: var(--surf-type-label-tracking);
+  }
+  /* Each value takes its own width and wraps to a new line when the row is full. */
+  .surf-stat-group-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--surf-space-3) var(--surf-space-6);
+    min-width: 0;
+  }
+  /* In a group each value stacks its lines, so it is only as wide as the widest. */
+  .surf-stat-group-items > .surf-stat {
+    display: grid;
+    justify-items: start;
+    align-content: start;
+  }
+  .surf-stat-group-items .surf-stat-label {
+    color: var(--surf-ink-body);
   }
 }

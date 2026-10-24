@@ -162,9 +162,20 @@
   ) {
     padding-inline: var(--surf-ui-card-padding);
   }
+  /* Head and footer follow the size's card padding: 24/20px and 20px by default. */
   :where([data-ui-size], [data-ui-size] *).surf-dialog-header {
+    padding-block: var(--surf-ui-card-padding)
+      calc(var(--surf-ui-card-padding) - var(--surf-space-1));
     padding-inline-end: calc(
       var(--surf-control-height) + var(--surf-space-4) * 2
     );
+  }
+  :where([data-ui-size], [data-ui-size] *).surf-dialog-footer {
+    padding-block: calc(var(--surf-ui-card-padding) - var(--surf-space-1));
+  }
+  :where([data-ui-size], [data-ui-size] *).surf-dialog-header h2 {
+    font-size: var(--surf-ui-title-size);
+    line-height: var(--surf-ui-title-leading);
+    letter-spacing: var(--surf-ui-title-tracking);
   }
 }

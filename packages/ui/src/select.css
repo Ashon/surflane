@@ -17,10 +17,34 @@
     text-align: start;
     cursor: pointer;
   }
-  .surf-select-trigger > span:first-child {
+  .surf-select-trigger > span:first-child,
+  .surf-select-value {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+  /* Content width: the trigger fits its longest option and keeps that width. */
+  .surf-select[data-width='content'],
+  .surf-select[data-width='content'] .surf-select-trigger {
+    width: auto;
+  }
+  .surf-select-sizer {
+    display: grid;
+    min-width: 0;
+  }
+  .surf-select-sizer > * {
+    grid-area: 1 / 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .surf-select-sizer > [aria-hidden='true'] {
+    visibility: hidden;
+  }
+  .surf-select-separator {
+    block-size: 1px;
+    margin-block: var(--surf-space-1);
+    background: var(--surf-line);
   }
   .surf-select-icon {
     display: flex;

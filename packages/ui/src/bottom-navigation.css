@@ -119,6 +119,22 @@
     font-variant-numeric: tabular-nums;
     text-align: center;
   }
+  /* Status fills, each 4.5:1 against the canvas-colored count. */
+  .surf-bottom-nav-badge[data-tone='caution'] {
+    background: var(--surf-status-caution-fg);
+  }
+  .surf-bottom-nav-badge[data-tone='success'] {
+    background: var(--surf-status-success-fg);
+  }
+  .surf-bottom-nav-badge[data-tone='info'] {
+    background: var(--surf-status-info-fg);
+  }
+  .surf-bottom-nav-badge[data-tone='progress'] {
+    background: var(--surf-status-progress-fg);
+  }
+  .surf-bottom-nav-badge[data-tone='neutral'] {
+    background: var(--surf-status-neutral-fg);
+  }
   .surf-bottom-nav-badge[data-dot] {
     inset-block-start: 0;
     min-inline-size: 0;

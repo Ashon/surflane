@@ -1,6 +1,11 @@
 import React, { useState } from 'react'
 import { Checkbox, NativeSelect, ChoiceLabel } from '@surflane/ui'
-import { Chart, type ChartDatum } from '@surflane/ui/chart'
+import {
+  Chart,
+  type ChartDatum,
+  type ChartProps,
+  type ChartReference,
+} from '@surflane/ui/chart'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/ChartExample'
 
@@ -91,6 +96,98 @@ const memory: ChartDatum[] = [3.1, 3.4, 4.2, 3.9, 5.2, 5.6].map(
     },
   }),
 )
+// Local times, so the axis ticks fall on round hours wherever the page is read.
+const at = (day: number, hour: number, minute = 0) =>
+  new Date(2026, 9, day, hour, minute).getTime()
+const clock = (day: number, hour: number, minute = 0) =>
+  `October ${day}, 2026, ${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`
+const gpuSeries = [
+  { key: 'dgx-001', label: 'dgx-001' },
+  { key: 'dgx-002', label: 'dgx-002' },
+]
+// Every 10 minutes for a day, with nothing reported from 03:00 to 04:00.
+const gpu: ChartDatum[] = Array.from({ length: 144 }, (_, index) => {
+  const hour = Math.floor(index / 6),
+    minute = (index % 6) * 10
+  return {
+    id: `gpu-${index}`,
+    label: clock(17, hour, minute),
+    time: at(17, hour, minute),
+    values: {
+      'dgx-001': Math.round(62 + 9 * Math.sin(index / 14)),
+      'dgx-002': Math.round(70 + 12 * Math.sin(index / 11 + 1)),
+    },
+  }
+}).filter((row) => !(row.time >= at(17, 3, 10) && row.time < at(17, 4)))
+const gpuReferences: ChartReference[] = [
+  { y: 70, label: 'Warning', tone: 'caution' },
+  { y: 85, label: 'Limit', tone: 'danger' },
+]
+const tokenSeries = [
+  { key: 'prompt', label: 'Prompt' },
+  { key: 'completion', label: 'Completion' },
+  { key: 'cached', label: 'Cached' },
+]
+const tokens: ChartDatum[] = Array.from({ length: 7 }, (_, index) => ({
+  id: `tokens-${index}`,
+  label: `October ${index + 11}, 2026`,
+  time: at(index + 11, 0),
+  values: {
+    prompt: [4.2, 5.1, 3.8, 6.4, 5.9, 2.1, 1.8][index],
+    completion: [1.1, 1.4, 0.9, 1.8, 1.6, 0.5, 0.4][index],
+    cached: [2.4, 2.9, 2.2, 3.7, 3.1, 1.2, 1.0][index],
+  },
+}))
+const throughputSeries = [
+  { key: 'prefill', label: 'Prefill' },
+  { key: 'decode', label: 'Decode' },
+]
+const throughput: ChartDatum[] = Array.from({ length: 12 }, (_, index) => ({
+  id: `throughput-${index}`,
+  label: clock(17, index * 2),
+  time: at(17, index * 2),
+  values: {
+    prefill: [
+      3200, 4100, 3800, 5200, 6100, 5800, 4900, 7200, 6600, 5100, 4300, 3900,
+    ][index],
+    decode: [42, 38, 45, 51, 48, 55, 61, 58, 52, 47, 44, 40][index],
+  },
+}))
+const diskSeries = [{ key: 'models', label: '/srv/models' }]
+const disk: ChartDatum[] = Array.from({ length: 24 }, (_, index) => ({
+  id: `disk-${index}`,
+  label: clock(17, index),
+  time: at(17, index),
+  values: {
+    models: index < 5 ? 412 : index < 11 ? 468 : index < 19 ? 455 : 503,
+  },
+}))
+const projectSeries = Array.from({ length: 12 }, (_, index) => ({
+  key: `project-${index + 1}`,
+  label: `Project ${String.fromCharCode(65 + index)}`,
+}))
+const projects: ChartDatum[] = Array.from({ length: 7 }, (_, day) => ({
+  id: `projects-${day}`,
+  label: `October ${day + 11}, 2026`,
+  time: at(day + 11, 0),
+  values: Object.fromEntries(
+    projectSeries.map((s, index) => [
+      s.key,
+      Math.round((12 - index) * 3 + ((day * (index + 3)) % 7)),
+    ]),
+  ),
+}))
+type Preset = Partial<
+  Pick<ChartProps, 'type' | 'yScale' | 'curve' | 'stacked' | 'palette'>
+> & { legendLimit?: number }
+// What each sample is best read with; picking a sample applies it.
+const presets: Record<string, Preset> = {
+  gpu: { type: 'line' },
+  tokens: { type: 'bar', stacked: true, palette: 'categorical' },
+  throughput: { type: 'line', yScale: 'log' },
+  disk: { type: 'area', curve: 'step' },
+  projects: { type: 'line', palette: 'categorical', legendLimit: 4 },
+}
 export function ChartExample() {
   const t = text[useLocale().locale]
   const [type, setType] = useState<'line' | 'bar' | 'area'>('line')
@@ -100,6 +197,22 @@ export function ChartExample() {
   const [hidden, setHidden] = useState<string[]>([])
   const [palette, setPalette] = useState<'neutral' | 'categorical'>('neutral')
   const [includeZero, setIncludeZero] = useState(true)
+  const [yScale, setYScale] = useState<'linear' | 'log'>('linear')
+  const [curve, setCurve] = useState<'linear' | 'step'>('linear')
+  const [stacked, setStacked] = useState(false)
+  const [density, setDensity] = useState<'default' | 'compact'>('default')
+  const [legendPosition, setLegendPosition] = useState<'top' | 'bottom'>('top')
+  const [legendLimit, setLegendLimit] = useState<number | undefined>()
+  const choose = (next: string) => {
+    const preset = presets[next] ?? {}
+    setScenario(next)
+    setType(preset.type ?? 'line')
+    setYScale(preset.yScale ?? 'linear')
+    setCurve(preset.curve ?? 'linear')
+    setStacked(preset.stacked ?? false)
+    setPalette(preset.palette ?? 'neutral')
+    setLegendLimit(preset.legendLimit)
+  }
   const [notice, setNotice] = useState(t.allSeriesVisible)
   const scenarios: Record<
     string,
@@ -107,10 +220,60 @@ export function ChartExample() {
       data: ChartDatum[]
       unit: string
       description: string
-      series?: typeof bucketSeries
+      series?: { key: string; label: string }[]
       formatValue?: (value: number) => string
+      xScale?: 'time'
+      references?: ChartReference[]
+      xLabel?: string
+      yLabel?: string
     }
   > = {
+    gpu: {
+      data: gpu,
+      unit: '°C',
+      description: t.descriptions.gpu,
+      series: gpuSeries,
+      xScale: 'time',
+      references: gpuReferences,
+      xLabel: 'Time',
+      yLabel: 'GPU temperature',
+    },
+    tokens: {
+      data: tokens,
+      unit: 'M tokens',
+      description: t.descriptions.tokens,
+      series: tokenSeries,
+      xScale: 'time',
+      xLabel: 'Day',
+      yLabel: 'Tokens',
+    },
+    throughput: {
+      data: throughput,
+      unit: 't/s',
+      description: t.descriptions.throughput,
+      series: throughputSeries,
+      xScale: 'time',
+      xLabel: 'Time',
+      yLabel: 'Throughput',
+    },
+    disk: {
+      data: disk,
+      unit: 'GiB',
+      description: t.descriptions.disk,
+      series: diskSeries,
+      xScale: 'time',
+      xLabel: 'Time',
+      yLabel: 'Disk used',
+    },
+    projects: {
+      data: projects,
+      unit: 'k tokens',
+      description: t.descriptions.projects,
+      series: projectSeries,
+      xScale: 'time',
+      xLabel: 'Day',
+      yLabel: 'Tokens',
+    },
     latency: {
       data: latency,
       unit: 'ms',
@@ -176,7 +339,7 @@ export function ChartExample() {
           Chart data
           <NativeSelect
             value={scenario}
-            onChange={(event) => setScenario(event.target.value)}
+            onChange={(event) => choose(event.target.value)}
           >
             <option value='trend'>Trend with a missing value</option>
             <option value='mixed'>Negative and zero values</option>
@@ -186,6 +349,72 @@ export function ChartExample() {
             <option value='latency'>Latency far from zero</option>
             <option value='buckets'>Five duration buckets</option>
             <option value='memory'>Memory in bytes</option>
+            <option value='gpu'>GPU temperature over a day</option>
+            <option value='tokens'>Tokens by kind, stacked</option>
+            <option value='throughput'>Prefill and decode, log scale</option>
+            <option value='disk'>Disk used, hourly steps</option>
+            <option value='projects'>Twelve projects</option>
+          </NativeSelect>
+        </label>
+        <label>
+          Value scale
+          <NativeSelect
+            value={yScale}
+            onChange={(event) => setYScale(event.target.value as typeof yScale)}
+          >
+            <option value='linear'>Linear</option>
+            <option value='log'>Log</option>
+          </NativeSelect>
+        </label>
+        <label>
+          Curve
+          <NativeSelect
+            value={curve}
+            onChange={(event) => setCurve(event.target.value as typeof curve)}
+          >
+            <option value='linear'>Linear</option>
+            <option value='step'>Step</option>
+          </NativeSelect>
+        </label>
+        <label>
+          Density
+          <NativeSelect
+            value={density}
+            onChange={(event) =>
+              setDensity(event.target.value as typeof density)
+            }
+          >
+            <option value='default'>Default</option>
+            <option value='compact'>Compact</option>
+          </NativeSelect>
+        </label>
+        <label>
+          Legend
+          <NativeSelect
+            value={legendPosition}
+            onChange={(event) =>
+              setLegendPosition(event.target.value as typeof legendPosition)
+            }
+          >
+            <option value='top'>Top</option>
+            <option value='bottom'>Bottom</option>
+          </NativeSelect>
+        </label>
+        <label>
+          Legend limit
+          <NativeSelect
+            value={legendLimit ?? 'all'}
+            onChange={(event) =>
+              setLegendLimit(
+                event.target.value === 'all'
+                  ? undefined
+                  : Number(event.target.value),
+              )
+            }
+          >
+            <option value='all'>Every series</option>
+            <option value='4'>Four</option>
+            <option value='2'>Two</option>
           </NativeSelect>
         </label>
         <label>
@@ -231,24 +460,43 @@ export function ChartExample() {
         >
           Keep zero on the value axis
         </ChoiceLabel>
+        <ChoiceLabel
+          control={
+            <Checkbox.Root checked={stacked} onCheckedChange={setStacked}>
+              <Checkbox.Indicator />
+            </Checkbox.Root>
+          }
+        >
+          Stack bar and area series
+        </ChoiceLabel>
       </div>
       <Chart
         title='Pipeline activity'
         description={sample.description}
         xLabel={
-          ['trend', 'latency', 'buckets', 'memory'].includes(scenario)
+          sample.xLabel ??
+          (['trend', 'latency', 'buckets', 'memory'].includes(scenario)
             ? 'Reporting day'
-            : 'Resource'
+            : 'Resource')
         }
         yLabel={
-          scenario === 'mixed'
+          sample.yLabel ??
+          (scenario === 'mixed'
             ? 'Resource change'
             : scenario === 'latency'
               ? 'P95 latency'
               : scenario === 'memory'
                 ? 'Memory in use'
-                : 'Pipeline run count'
+                : 'Pipeline run count')
         }
+        xScale={sample.xScale}
+        references={sample.references}
+        yScale={yScale}
+        curve={curve}
+        stacked={stacked}
+        density={density}
+        legendPosition={legendPosition}
+        legendLimit={legendLimit}
         unit={sample.unit}
         type={type}
         data={sample.data}

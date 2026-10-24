@@ -14,6 +14,10 @@ export const doc: DocKo = {
     'Change.format': '(value) => ReactNode',
     'Change.direction': 'up | down | flat',
     'Change.lowerIsBetter': '하락이 좋은 지표에서 색을 맞바꿉니다',
+    'Status.tone':
+      "임계값에 대한 값의 상태. '30 GiB 미만'처럼 이유를 글로 함께 씁니다. caution과 danger는 값에도 색을 칠합니다",
+    'Group.label':
+      '묶음 안의 모든 값이 재는 것. 값들 위에 보이고 묶음의 이름이 됩니다. 각 Stat.Label은 노드처럼 값 하나를 가리킵니다',
     'Root / Label / Value / Caption': '네이티브 dl, dt, dd 속성',
   },
 }

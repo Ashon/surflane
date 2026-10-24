@@ -95,6 +95,8 @@ export function BottomNavigationExample() {
                       ? t.accountNeedsAttention
                       : undefined
                 }
+                // Unread runs need action; the account only needs a look.
+                badgeTone={id === 'account' ? 'caution' : undefined}
                 onClick={(event) => {
                   event.preventDefault()
                   setCurrent(id)

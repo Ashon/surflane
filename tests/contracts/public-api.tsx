@@ -15,7 +15,12 @@ import {
   type AppShellBrandProps,
   type AppShellNavProps,
   type AppShellLinkProps,
+  type AppShellMenuTriggerProps,
   AppShell,
+  Stat,
+  type StatStatusProps,
+  type StatGroupProps,
+  BottomNavigation,
   type FileUploadLabels,
 } from '@surflane/ui'
 import type { TreeLabels } from '@surflane/ui/tree'
@@ -119,6 +124,38 @@ const shellParts = (
   </AppShell.Nav>
 )
 void shellParts
+// The phone menu trigger renders into the caller's Sheet.Trigger.
+const menuTrigger: AppShellMenuTriggerProps = { label: 'Open navigation' }
+const phoneMenu = (
+  <AppShell.Header>
+    <AppShell.MenuTrigger {...menuTrigger} />
+  </AppShell.Header>
+)
+void phoneMenu
+// A threshold state and a group of values; a badge colored by meaning.
+const status: StatStatusProps = { tone: 'danger', children: 'Below 30 GiB' }
+const statGroup: StatGroupProps = { label: 'GPU temperature' }
+const dashboardParts = (
+  <Stat.Group {...statGroup}>
+    <Stat.Root>
+      <Stat.Label>dgx-001</Stat.Label>
+      <Stat.Value>24 GiB</Stat.Value>
+      <Stat.Status {...status} />
+    </Stat.Root>
+    <BottomNavigation.Item
+      icon={null}
+      label='Runs'
+      badge
+      badgeLabel='needs a look'
+      badgeTone='caution'
+    />
+    <Select options={[]} width='content' />
+  </Stat.Group>
+)
+void dashboardParts
+// @ts-expect-error A status needs its tone.
+const tonelessStatus = <Stat.Status>Low</Stat.Status>
+void tonelessStatus
 // @ts-expect-error A brand needs its name.
 const namelessBrand = <AppShell.Brand mark={<svg />} />
 void namelessBrand

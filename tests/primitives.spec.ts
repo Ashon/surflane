@@ -166,6 +166,74 @@ test('Select groups options under visible headings and submits the chosen value'
   ).toBe('ap-northeast-1')
 })
 
+test('a content-width Select fits its longest option and sits beside another', async ({
+  page,
+}) => {
+  await page.goto('/components/select')
+  await waitForCatalogReady(page)
+  const toolbar = page.getByRole('group', {
+    name: 'Content-width selects in a toolbar',
+  })
+  const range = toolbar.getByRole('combobox', { name: 'Time range' })
+  const refresh = toolbar.getByRole('combobox', { name: 'Refresh' })
+  const [rangeBox, refreshBox, toolbarBox] = await Promise.all([
+    range.boundingBox(),
+    refresh.boundingBox(),
+    toolbar.boundingBox(),
+  ])
+  // Side by side on one line, neither filling the row.
+  expect(rangeBox!.y).toBe(refreshBox!.y)
+  expect(rangeBox!.width + refreshBox!.width).toBeLessThan(toolbarBox!.width)
+  // Only the chosen label shows; the sizing labels are hidden.
+  await expect(range).toHaveText('Last 24 hours', { useInnerText: true })
+  await range.click()
+  await page.getByRole('option', { name: 'Last hour', exact: true }).click()
+  await expect(range).toHaveText('Last hour', { useInnerText: true })
+  expect((await range.boundingBox())!.width).toBe(rangeBox!.width)
+})
+
+test('a multiple Select sums up its choices, chooses all from its first option and submits only real values', async ({
+  page,
+}) => {
+  await page.goto('/components/select')
+  await waitForCatalogReady(page)
+  const projects = page.getByRole('combobox', { name: 'Projects' })
+  await expect(projects).toHaveText('2 projects', { useInnerText: true })
+  await projects.click()
+  await expect(page.getByRole('option')).toHaveText([
+    'All projects',
+    'Pacenote',
+    'Surflane',
+    'Folio',
+    'Homelab',
+  ])
+  await page.getByRole('option', { name: 'All projects' }).click()
+  await expect(projects).toHaveText('All projects', { useInnerText: true })
+  await expect(page.getByRole('option', { name: 'Folio' })).toHaveAttribute(
+    'aria-selected',
+    'true',
+  )
+  // Unchecking one option of all leaves the others.
+  await page.getByRole('option', { name: 'Folio' }).click()
+  await expect(projects).toHaveText('3 projects', { useInnerText: true })
+  await page.getByRole('option', { name: 'All projects' }).click()
+  await page.getByRole('option', { name: 'All projects' }).click()
+  await expect(projects).toHaveText('No projects', { useInnerText: true })
+  await page.getByRole('option', { name: 'Homelab' }).click()
+  await expect(projects).toHaveText('Homelab', { useInnerText: true })
+  await page.keyboard.press('Escape')
+  await expect(projects).toBeFocused()
+  const form = page.locator('.component-example form').first()
+  expect(
+    await form.evaluate((element: HTMLFormElement) =>
+      new FormData(element).getAll('projects'),
+    ),
+  ).toEqual(['homelab'])
+  // Reset restores the default choices.
+  await form.getByRole('button', { name: 'Reset' }).click()
+  await expect(projects).toHaveText('2 projects', { useInnerText: true })
+})
+
 test('popup Content portals itself once, with or without a Portal around it', async ({
   page,
 }) => {

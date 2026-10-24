@@ -6,7 +6,7 @@ import { waitForCatalogReady } from './catalog-ready'
 test.use({ reducedMotion: 'reduce' })
 test('icon sizes follow the component scale, the stroke is shape metadata and vocabulary names are unique', () => {
   expect(new Set(iconNames).size).toBe(iconNames.length)
-  expect(iconNames).toHaveLength(30)
+  expect(iconNames).toHaveLength(40)
   for (const [name, category] of [
     ['--surf-size-icon-small', 'Controls'],
     ['--surf-size-icon-default', 'Controls'],

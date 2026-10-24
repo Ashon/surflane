@@ -19,11 +19,8 @@ const isGroup = (item: SelectOption | SelectGroup): item is SelectGroup =>
   'options' in item
 const flatten = (items: (SelectOption | SelectGroup)[]) =>
   items.flatMap((item) => (isGroup(item) ? item.options : [item]))
-export type SelectProps = {
+type SelectCommonProps = {
   options: (SelectOption | SelectGroup)[]
-  value?: string
-  defaultValue?: string
-  onValueChange?: (value: string) => void
   name?: string
   form?: string
   required?: boolean
@@ -33,24 +30,76 @@ export type SelectProps = {
   inputRef?: React.Ref<HTMLInputElement>
   triggerRef?: React.Ref<HTMLButtonElement>
   size?: ComponentSizeAlias
+  /** fill takes its container's width, as a form field does. content fits the
+   * longest option, as a native select does, so it sits beside other controls in
+   * a header or toolbar and keeps its width when the value changes. */
+  width?: 'fill' | 'content'
   'aria-label'?: string
   'aria-labelledby'?: string
   'aria-describedby'?: string
   'aria-invalid'?: React.AriaAttributes['aria-invalid']
 }
-/** A single-choice list. The ref reaches the trigger button, as triggerRef does. */
-export const Select = function Select({
-  options: items,
-  value,
-  defaultValue,
-  onValueChange,
-  className,
-  inputRef,
-  triggerRef,
-  size,
-  ref,
-  ...props
-}: SelectProps & { ref?: React.Ref<HTMLButtonElement> }) {
+export type SelectProps = SelectCommonProps & {
+  multiple?: false
+  value?: string
+  defaultValue?: string
+  onValueChange?: (value: string) => void
+}
+/** What a multiple Select's trigger says, and its first option. */
+export type SelectMultipleLabels = {
+  /** Every option chosen, such as "All projects"; also the option that chooses them. */
+  all: string
+  /** Nothing chosen, such as "No projects". */
+  none: string
+  /** Several chosen, such as "3 projects". */
+  count: (count: number) => string
+}
+/** Several choices from a list, summed up on one line: a filter of projects, models
+ * or nodes. Its first option, labels.all, chooses every option or none. */
+export type SelectMultipleProps = SelectCommonProps & {
+  multiple: true
+  value?: readonly string[]
+  defaultValue?: readonly string[]
+  onValueChange?: (value: string[]) => void
+  labels?: Partial<SelectMultipleLabels>
+}
+const multipleLabels: SelectMultipleLabels = {
+  all: 'All',
+  none: 'None',
+  count: (count) => `${count} selected`,
+}
+// The value the "all" option carries; it never reaches a form or a callback.
+const ALL = '\u0000all'
+
+/** A choice from a list, or several with multiple. The ref reaches the trigger
+ * button, as triggerRef does. */
+export const Select = function Select(
+  allProps: (SelectProps | SelectMultipleProps) & {
+    ref?: React.Ref<HTMLButtonElement>
+  },
+) {
+  const {
+    options: items,
+    className,
+    inputRef,
+    triggerRef,
+    size,
+    width = 'fill',
+    ref,
+    multiple,
+    value: _value,
+    defaultValue: _defaultValue,
+    onValueChange: _onValueChange,
+    labels: _labels,
+    ...props
+  } = allProps as SelectCommonProps & {
+    ref?: React.Ref<HTMLButtonElement>
+    multiple?: boolean
+    value?: unknown
+    defaultValue?: unknown
+    onValueChange?: unknown
+    labels?: unknown
+  }
   const scheme = useComponentSize(size)
   const options = flatten(items)
   // One stable callback, so the trigger ref is not detached on every render.
@@ -62,13 +111,16 @@ export const Select = function Select({
     },
     [ref, triggerRef],
   )
-  const [localValue, setLocalValue] = React.useState(
-    defaultValue ?? options[0]?.value ?? '',
-  )
+  const many = allProps.multiple === true ? allProps : undefined
+  const one = allProps.multiple === true ? undefined : allProps
+  const initialValue: string | readonly string[] = many
+    ? (many.defaultValue ?? [])
+    : (one!.defaultValue ?? options[0]?.value ?? '')
+  const [localValue, setLocalValue] = React.useState(initialValue)
   const nativeInput = React.useRef<HTMLInputElement>(null)
-  const initialValue = defaultValue ?? options[0]?.value ?? ''
-  const resetCallback = React.useRef(onValueChange)
-  resetCallback.current = onValueChange
+  const resetCallback = React.useRef<(value: never) => void>(undefined)
+  resetCallback.current = allProps.onValueChange as (value: never) => void
+  const resetKey = many ? initialValue.toString() : (initialValue as string)
   React.useEffect(() => {
     const owner = nativeInput.current?.form
     if (!owner) return
@@ -78,7 +130,11 @@ export const Select = function Select({
         pending.delete(timer)
         if (event.defaultPrevented) return
         setLocalValue(initialValue)
-        resetCallback.current?.(initialValue)
+        resetCallback.current?.(
+          (Array.isArray(initialValue)
+            ? [...initialValue]
+            : initialValue) as never,
+        )
       }, 0)
       pending.add(timer)
     }
@@ -87,29 +143,79 @@ export const Select = function Select({
       owner.removeEventListener('reset', reset)
       pending.forEach(clearTimeout)
     }
-  }, [initialValue, props.form])
-  const selected = value ?? localValue
+    // initialValue is read through resetKey, so a new array of the same values
+    // does not re-register the listener.
+  }, [resetKey, props.form])
   const { name, form, required, disabled, id, ...aria } = props
+  const setInput = (node: HTMLInputElement | null) => {
+    nativeInput.current = node
+    if (typeof inputRef === 'function') inputRef(node)
+    else if (inputRef) inputRef.current = node
+  }
+  // Several values: the "all" option leads the list, and the trigger sums them up.
+  const choosable = options.filter((option) => !option.disabled)
+  const text = { ...multipleLabels, ...(many?.labels ?? {}) }
+  const chosen: readonly string[] = many
+    ? (many.value ?? (localValue as readonly string[]))
+    : []
+  const everything =
+    choosable.length > 0 &&
+    choosable.every((option) => chosen.includes(option.value))
+  const summary = (values: readonly string[]) =>
+    values.length === 0
+      ? text.none
+      : choosable.every((option) => values.includes(option.value))
+        ? text.all
+        : values.length === 1
+          ? options.find((option) => option.value === values[0])?.label
+          : text.count(values.length)
+  const selected = many
+    ? everything
+      ? [ALL, ...chosen]
+      : chosen
+    : (one!.value ?? (localValue as string))
+  const value = many ? summary(chosen) : <BaseSelect.Value />
+  // Content width: every label the trigger can show, stacked in one cell.
+  const sizes = many
+    ? [
+        text.all,
+        text.none,
+        text.count(options.length),
+        ...options.map((option) => option.label),
+      ]
+    : options.map((option) => option.label)
   return (
     <span
       className={cx('surf-select', className)}
       data-size={sizeName(size)}
       data-ui-size={scheme}
+      data-width={width}
       data-disabled={disabled || undefined}
     >
-      <BaseSelect.Root<string>
+      <BaseSelect.Root<string, boolean>
         items={options}
+        multiple={multiple}
         value={selected}
-        onValueChange={(v) => {
-          setLocalValue(v ?? '')
-          onValueChange?.(v ?? '')
+        onValueChange={(next) => {
+          if (many) {
+            const list = (next as string[]) ?? []
+            const toggledAll = list.includes(ALL) !== everything
+            const values = toggledAll
+              ? everything
+                ? []
+                : choosable.map((option) => option.value)
+              : // Unchecking one option of "all" leaves the others.
+                list.filter((item) => item !== ALL)
+            setLocalValue(values)
+            many.onValueChange?.(values)
+          } else {
+            setLocalValue((next as string) ?? '')
+            one!.onValueChange?.((next as string) ?? '')
+          }
         }}
-        inputRef={(node) => {
-          nativeInput.current = node
-          if (typeof inputRef === 'function') inputRef(node)
-          else if (inputRef) inputRef.current = node
-        }}
-        name={name}
+        inputRef={setInput}
+        // A multiple Select submits its own inputs, without the "all" value.
+        name={many ? undefined : name}
         form={form}
         required={required}
         disabled={disabled}
@@ -119,13 +225,39 @@ export const Select = function Select({
           {...aria}
           ref={setTrigger}
           className='surf-select-trigger'
-          data-value={selected}
+          data-value={many ? chosen.join(' ') : (selected as string)}
         >
-          <BaseSelect.Value />
+          {width === 'content' ? (
+            // Every label sits in one cell, hidden but the chosen one, so the
+            // trigger is as wide as the longest.
+            <span className='surf-select-sizer'>
+              <span className='surf-select-value'>{value}</span>
+              {sizes.map((label, index) => (
+                <span key={index} aria-hidden='true'>
+                  {label}
+                </span>
+              ))}
+            </span>
+          ) : many ? (
+            <span className='surf-select-value'>{value}</span>
+          ) : (
+            value
+          )}
           <BaseSelect.Icon className='surf-select-icon'>
             <Icon name='chevron-down' />
           </BaseSelect.Icon>
         </BaseSelect.Trigger>
+        {many &&
+          name &&
+          chosen.map((item) => (
+            <input
+              key={item}
+              type='hidden'
+              name={name}
+              value={item}
+              form={form}
+            />
+          ))}
         <BaseSelect.Portal>
           <BaseSelect.Positioner
             className='surf-positioner'
@@ -137,6 +269,16 @@ export const Select = function Select({
               data-ui-size={scheme}
             >
               <BaseSelect.List>
+                {many && (
+                  <>
+                    {renderOption({
+                      value: ALL,
+                      label: text.all,
+                      disabled: choosable.length === 0,
+                    })}
+                    <BaseSelect.Separator className='surf-select-separator' />
+                  </>
+                )}
                 {items.map((item, index) =>
                   isGroup(item) ? (
                     <BaseSelect.Group className='surf-select-group' key={index}>
@@ -162,7 +304,7 @@ function renderOption(option: SelectOption) {
     <BaseSelect.Item
       className='surf-select-item'
       value={option.value}
-      data-option-value={option.value}
+      data-option-value={option.value === ALL ? undefined : option.value}
       disabled={option.disabled}
       key={option.value}
     >

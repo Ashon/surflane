@@ -25,6 +25,7 @@ export const dataExampleIds = [
   'list',
   'stat',
   'sparkline',
+  'bar-list',
   'inline-message',
   'empty-state',
 ]
@@ -77,10 +78,12 @@ export const exampleGroups = {
   fileUpload: ['file-upload'],
   toast: ['toast'],
   otp: ['otp-field'],
+  timeRange: ['time-range-picker'],
   navigationMenu: ['navigation-menu'],
   bottomNavigation: ['bottom-navigation'],
   pageHeader: ['page-header'],
   filterBar: ['filter-bar'],
+  dashboard: ['dashboard'],
   resourceList: ['resource-list'],
   formWorkflow: ['form-workflow'],
 }

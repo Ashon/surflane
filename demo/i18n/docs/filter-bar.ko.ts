@@ -20,6 +20,8 @@ export const doc: DocKo = {
     'Root.label': '필수 접근성 검색 랜드마크 이름',
     'Root.onSubmit / onReset':
       '네이티브 폼 이벤트; 호출하는 쪽이 상태와 요청을 제어',
+    'Field.width':
+      'search는 줄에 남는 폭을 차지하고, filter는 12rem을 유지하며 늘어나지 않습니다. 폰에서는 모든 필드가 한 줄을 채웁니다.',
     'Field.htmlFor': '선택적 명시적 라벨 연결',
     Summary: 'polite 상태; aria-atomic=true, 속성 재정의 가능',
     'Controls / Actions': '래핑 레이아웃 슬롯; 네이티브 div 속성과 refs',

@@ -220,10 +220,18 @@
   ) {
     padding-inline: var(--surf-ui-card-padding);
   }
-  /* The title keeps clear of the close button: its 16px inset, its width and a 16px gap. */
+  /* The title keeps clear of the close button: its 16px inset, its width and a 16px gap.
+   * Above and below, the head follows the size's card padding: 24/20px by default. */
   :where([data-ui-size], [data-ui-size] *).surf-panel-header {
+    padding-block: var(--surf-ui-card-padding)
+      calc(var(--surf-ui-card-padding) - var(--surf-space-1));
     padding-inline-end: calc(
       var(--surf-control-height) + var(--surf-space-4) * 2
     );
+  }
+  :where([data-ui-size], [data-ui-size] *).surf-panel-title {
+    font-size: var(--surf-ui-title-size);
+    line-height: var(--surf-ui-title-leading);
+    letter-spacing: var(--surf-ui-title-tracking);
   }
 }

@@ -13,6 +13,7 @@ import {
   Grid,
   Stat,
   Sparkline,
+  BarList,
   formatCurrency,
   formatNumber,
   formatPercent,
@@ -338,6 +339,103 @@ function StatPreview() {
           </Card.Body>
         </Card.Root>
       ))}
+      {/* A value past its threshold, and one measure across nodes. */}
+      <Card.Root>
+        <Card.Body>
+          <Stat.Root>
+            <Stat.Label>{t.freeDisk}</Stat.Label>
+            <Stat.Value>24 GiB</Stat.Value>
+            <Stat.Status tone='danger'>{t.belowLimit}</Stat.Status>
+          </Stat.Root>
+        </Card.Body>
+      </Card.Root>
+      <Card.Root>
+        <Card.Body>
+          <Stat.Root>
+            <Stat.Label>{t.lastScan}</Stat.Label>
+            <Stat.Value>
+              {locale === 'ko' ? '2시간 40분' : '2 h 40 min'}
+            </Stat.Value>
+            <Stat.Status tone='caution'>{t.overdue}</Stat.Status>
+          </Stat.Root>
+        </Card.Body>
+      </Card.Root>
+      <Card.Root>
+        <Card.Body>
+          <Stat.Group label={t.gpuTemperature}>
+            <Stat.Root>
+              <Stat.Label>dgx-001</Stat.Label>
+              <Stat.Value>62 °C</Stat.Value>
+            </Stat.Root>
+            <Stat.Root>
+              <Stat.Label>dgx-002</Stat.Label>
+              <Stat.Value>71 °C</Stat.Value>
+            </Stat.Root>
+          </Stat.Group>
+        </Card.Body>
+      </Card.Root>
+    </Grid>
+  )
+}
+const directories = [
+  ['models', '/srv/models', 412],
+  ['cache', '/var/cache/huggingface', 168],
+  ['datasets', '/srv/datasets', 96],
+  ['checkpoints', '/srv/runs/checkpoints', 73],
+  ['logs', '/var/log', 21],
+  ['home', '/home/ashon', 14],
+  ['tmp', '/tmp', 6],
+  ['docker', '/var/lib/docker', 54],
+] as const
+const projectTokens = [
+  ['Pacenote', 18.4],
+  ['Surflane', 9.7],
+  ['Folio', 6.2],
+  ['Homelab', 3.1],
+  ['Supragnosis', 1.4],
+] as const
+function BarListPreview() {
+  const { locale } = useLocale()
+  const t = text[locale]
+  const tag = locale === 'ko' ? 'ko-KR' : 'en-US'
+  return (
+    <Grid columns={2} gap={4}>
+      <Card.Root>
+        <Card.Header>
+          <Card.Title>{t.diskByDirectory}</Card.Title>
+        </Card.Header>
+        <Card.Body>
+          {/* Eight directories, five rows before it scrolls. */}
+          <BarList
+            label={t.diskByDirectory}
+            items={directories.map(([id, detail, value]) => ({
+              id,
+              label: id,
+              detail,
+              value,
+              text: `${value} GiB`,
+            }))}
+            maxRows={5}
+            locale={tag}
+          />
+        </Card.Body>
+      </Card.Root>
+      <Card.Root>
+        <Card.Header>
+          <Card.Title>{t.tokensByProject}</Card.Title>
+        </Card.Header>
+        <Card.Body>
+          <BarList
+            label={t.tokensByProject}
+            items={projectTokens.map(([label, value]) => ({
+              id: label,
+              label,
+              value,
+            }))}
+            formatValue={(value) => `${formatNumber(value, { locale: tag })}M`}
+          />
+        </Card.Body>
+      </Card.Root>
     </Grid>
   )
 }
@@ -382,6 +480,7 @@ export function DataExample({ id }: { id: string }) {
     [inspected, setInspected] = useState('')
   if (id === 'stat') return <StatPreview />
   if (id === 'sparkline') return <SparklinePreview />
+  if (id === 'bar-list') return <BarListPreview />
   if (id === 'empty-state') return <EmptyPreview />
   if (id === 'inline-message') return <MessagePreview />
   const rows = environments

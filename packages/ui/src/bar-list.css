@@ -1,0 +1,104 @@
+/* Bar list, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './scroll-area.css';
+
+@layer surflane.components {
+  /* Every row is one height, so a list that scrolls shows whole rows: a name line,
+     and a detail line when any row has one. */
+  .surf-bar-list {
+    --surf-bar-list-row: calc(
+      var(--surf-type-body-size) * var(--surf-type-body-leading) +
+        var(--surf-space-2)
+    );
+    min-inline-size: 0;
+  }
+  .surf-bar-list[data-detail] {
+    --surf-bar-list-row: calc(
+      var(--surf-type-body-size) * var(--surf-type-body-leading) +
+        var(--surf-type-caption-size) * var(--surf-type-caption-leading) +
+        var(--surf-space-2)
+    );
+  }
+  .surf-bar-list .surf-scroll-viewport {
+    max-block-size: calc(var(--surf-bar-list-rows) * var(--surf-bar-list-row));
+  }
+  /* Name, bar and value share one line, in columns every row shares, so the bars
+     start together and the values line up at the end. */
+  .surf-bar-list-items {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(var(--surf-space-12), 3fr) auto;
+    column-gap: var(--surf-space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .surf-bar-list-item {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
+    align-items: center;
+    box-sizing: border-box;
+    block-size: var(--surf-bar-list-row);
+    padding-block: var(--surf-space-1);
+    color: var(--surf-ink-body);
+    font: var(--surf-weight-regular)
+      var(--surf-type-body-size)/var(--surf-type-body-leading)
+      var(--surf-font-body);
+  }
+  .surf-bar-list-label {
+    display: grid;
+    min-inline-size: 0;
+  }
+  .surf-bar-list-name,
+  .surf-bar-list-detail {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .surf-bar-list-name {
+    color: var(--surf-ink);
+  }
+  .surf-bar-list-detail {
+    color: var(--surf-ink-muted);
+    font-size: var(--surf-type-caption-size);
+    line-height: var(--surf-type-caption-leading);
+  }
+  /* The pair Progress and Slider use: the brand mark on the surface plane. */
+  .surf-bar-list-bar {
+    display: block;
+    block-size: var(--surf-space-2);
+    border-radius: var(--surf-radius-full);
+    background: var(--surf-surface);
+    overflow: hidden;
+  }
+  .surf-bar-list-fill {
+    display: block;
+    block-size: 100%;
+    border-radius: inherit;
+    background: var(--surf-brand-mark);
+  }
+  .surf-bar-list-value {
+    color: var(--surf-ink);
+    font-variant-numeric: tabular-nums;
+    text-align: end;
+    white-space: nowrap;
+  }
+  @media (forced-colors: active) {
+    .surf-bar-list-bar {
+      background: Canvas;
+      outline: 1px solid CanvasText;
+    }
+    .surf-bar-list-fill {
+      background: CanvasText;
+    }
+  }
+}
+@layer surflane.sizes {
+  /* The bar is as thick as Meter's and Progress's at each size. */
+  :where([data-ui-size], [data-ui-size] *).surf-bar-list-bar {
+    block-size: var(--surf-ui-gauge);
+  }
+}

@@ -55,9 +55,13 @@ test('keyboard values retain missing data, escape clears the readout and the com
   await expect(
     row.getByRole('cell', { name: 'Not available', exact: true }),
   ).toBeVisible()
+  // The unit is named once, in the header; cells hold numbers at the end.
   await expect(
-    row.getByRole('cell', { name: '14 runs', exact: true }),
-  ).toBeVisible()
+    row.getByRole('cell', { name: '14', exact: true }),
+  ).toHaveAttribute('data-numeric', 'true')
+  await expect(
+    table.getByRole('columnheader', { name: 'Inventory (runs)' }),
+  ).toHaveAttribute('data-numeric', 'true')
 })
 
 test('legend supports all-hidden recovery and calling-owner rejection without moving focus', async ({
@@ -120,7 +124,7 @@ test('bar and area modes preserve zero, negatives, non-color patterns and data c
     page
       .getByRole('table')
       .first()
-      .getByRole('cell', { name: '0 resources', exact: true }),
+      .getByRole('cell', { name: '0', exact: true }),
   ).toHaveCount(3)
   await choose(page, 'Chart type', 'Area')
   await expect(page.locator('.recharts-area-area')).toHaveCount(3)
@@ -318,4 +322,102 @@ test('the key sits on the plot and the active values float beside the point', as
   await chart.focus()
   await chart.press('ArrowLeft')
   await expect(tip.locator('li')).toHaveCount(2)
+})
+test('a time axis ticks on round times and breaks lines where sampling stopped', async ({
+  page,
+}) => {
+  await open(page)
+  await choose(page, 'Chart data', 'GPU temperature over a day')
+  const plot = page.locator('.surf-chart-plot')
+  const ticks = plot.locator('.recharts-xAxis-tick-labels text')
+  await expect(ticks.first()).toHaveText('Oct 17')
+  await expect(ticks.nth(1)).toHaveText('6:00 AM')
+  // The exporter stopped from 03:00 to 04:00, so each line has two segments.
+  const paths = await plot
+    .locator('.recharts-line-curve')
+    .evaluateAll((elements) => elements.map((el) => el.getAttribute('d') ?? ''))
+  expect(paths.map((d) => d.match(/M/g)?.length)).toEqual([2, 2])
+  // Thresholds draw over the plot and the legend names them with their values.
+  await expect(plot.locator('.recharts-reference-line')).toHaveCount(3)
+  const legend = page.getByRole('list', { name: 'Pipeline activity series' })
+  await expect(legend.locator('.surf-chart-legend-reference')).toHaveText([
+    'Warning 70 °C',
+    'Limit 85 °C',
+  ])
+  // Keys step through measurements by their own labels.
+  const chart = page.getByRole('application', { name: 'Pipeline activity' })
+  await chart.focus()
+  await chart.press('ArrowRight')
+  await expect(page.locator('.surf-chart-readout')).toContainText(
+    'October 17, 2026, 00:10',
+  )
+})
+test('stacked bars read their total, a log axis spans decades and a step line holds its value', async ({
+  page,
+}) => {
+  await open(page)
+  await choose(page, 'Chart data', 'Tokens by kind, stacked')
+  const chart = page.getByRole('application', { name: 'Pipeline activity' })
+  await chart.focus()
+  await chart.press('ArrowRight')
+  await expect(page.locator('.surf-chart-readout')).toContainText(
+    'Total: 9.4 M tokens',
+  )
+  await choose(page, 'Chart data', 'Prefill and decode, log scale')
+  await expect(
+    page.locator('.surf-chart-plot .recharts-yAxis-tick-labels text'),
+  ).toHaveText(['10', '100', '1K', '10K'])
+  await choose(page, 'Chart data', 'Disk used, hourly steps')
+  const points = await page
+    .locator('.surf-chart-plot .recharts-area-curve')
+    .first()
+    .evaluate((el) =>
+      (el.getAttribute('d') ?? '')
+        .replace(/[MLZ]/g, ' ')
+        .trim()
+        .split(/\s+/)
+        .map((pair) => pair.split(',').map(Number)),
+    )
+  // Every segment is level or upright: the value holds until the next measurement.
+  for (let index = 1; index < points.length; index++) {
+    const [[x1, y1], [x2, y2]] = [points[index - 1], points[index]]
+    expect(Math.abs(x1 - x2) < 0.01 || Math.abs(y1 - y2) < 0.01).toBe(true)
+  }
+})
+test('a legend limit folds the remaining series into a popover that still toggles them', async ({
+  page,
+}) => {
+  await open(page)
+  await choose(page, 'Chart data', 'Twelve projects')
+  const legend = page.getByRole('list', { name: 'Pipeline activity series' })
+  await expect(legend.getByRole('button', { pressed: true })).toHaveCount(4)
+  await legend.getByRole('button', { name: '8 more series' }).click()
+  const project = page.getByRole('button', { name: 'Project L series' })
+  await expect(project).toHaveAttribute('aria-pressed', 'true')
+  await project.click()
+  await expect(project).toHaveAttribute('aria-pressed', 'false')
+  await expect(page.locator('.surf-chart-plot .recharts-line')).toHaveCount(11)
+})
+test('compact keeps the plot and legend and leaves the caption and readout to assistive technology', async ({
+  page,
+}) => {
+  await open(page)
+  const figure = page.locator('figure.surf-chart')
+  // The table renders when it is first opened.
+  await expect(figure.getByRole('table')).toHaveCount(0)
+  await choose(page, 'Density', 'Compact')
+  await expect(figure).toHaveAttribute('data-density', 'compact')
+  await expect(
+    page.getByRole('figure', { name: 'Pipeline activity' }),
+  ).toBeVisible()
+  for (const part of [
+    '.surf-chart-caption',
+    '.surf-chart-help',
+    '.surf-chart-inspector',
+  ])
+    expect((await figure.locator(part).boundingBox())!.height, part).toBe(1)
+  const button = figure.locator('.surf-chart-legend-button').first()
+  expect((await button.boundingBox())!.height).toBe(24)
+  await figure.getByText('View data table', { exact: true }).click()
+  await expect(figure.getByRole('table')).toHaveCount(1)
 })

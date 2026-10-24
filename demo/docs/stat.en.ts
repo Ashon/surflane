@@ -9,7 +9,8 @@ export const doc: ComponentDoc = {
   ],
   keyboard:
     'Stat is static text: a description list in which the label names the value. Nothing enters the Tab order. A link or button you add keeps its own focus.',
-  anatomy: 'Root(dl) → Label(dt) + Value(dd) + Change(dd) + Caption(dd)',
+  anatomy:
+    'Root(dl) → Label(dt) + Value(dd) + Change(dd) + Status(dd) + Caption(dd); Group(role=group, label) → Root…',
   tokens: [
     '--surf-type-metric-size',
     '--surf-trend-up-fg',
@@ -39,6 +40,16 @@ export const doc: ComponentDoc = {
       'Change.lowerIsBetter',
       'swaps the colors for measures where a fall is good',
       'false',
+    ],
+    [
+      'Status.tone',
+      "the value's state against a threshold, with text that says why, such as 'Below 30 GiB'. caution and danger color the value too",
+      'required',
+    ],
+    [
+      'Group.label',
+      'what every value in the group measures, shown above them and naming the group; each Stat.Label names one, such as a node',
+      'required',
     ],
     ['Root / Label / Value / Caption', 'native dl, dt and dd props', '—'],
   ],

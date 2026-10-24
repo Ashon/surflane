@@ -218,20 +218,15 @@ export function AppShellExample({
               >
                 <Sheet.Trigger
                   render={
-                    <Button
+                    <AppShell.MenuTrigger
                       ref={trigger}
-                      variant='ghost'
-                      size='icon'
-                      className='app-shell-mobile-trigger'
-                      aria-label={t.openNavAria}
+                      label={t.openNavAria}
                       onClick={() => {
                         selectedInPanel.current = false
                       }}
                     />
                   }
-                >
-                  <Icon name='menu' decorative />
-                </Sheet.Trigger>
+                />
                 <Sheet.Content
                   ref={mobilePanel}
                   className='app-shell-mobile-panel navigation-sheet'

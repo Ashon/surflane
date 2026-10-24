@@ -31,6 +31,14 @@ const en = {
       'Daily runs by duration in five buckets. Categories that color must tell apart use the categorical palette.',
     memory:
       'Memory in use over six days, from 1.1 to 5.6 GB. The data holds raw bytes, and formatValue reads them as GB in the readout, the table and the value axis.',
+    gpu: 'GPU temperature on two nodes every 10 minutes for a day, against a 70 °C warning and an 85 °C limit. The exporter stopped from 03:00 to 04:00, so both lines break there.',
+    tokens:
+      'Tokens a day by kind over a week, stacked so the top of each bar is the day’s total.',
+    throughput:
+      'Prefill runs at thousands of tokens a second and decode at tens. A log value axis keeps both readable on one chart.',
+    disk: 'Disk used by one directory, measured every hour. The value holds until the next measurement, so a step line shows it.',
+    projects:
+      'Tokens a day for twelve projects. Twelve categorical colors stay apart, and the legend shows four and folds the rest.',
   },
   reportingDay: 'Reporting day',
   resource: 'Resource',
@@ -76,6 +84,14 @@ export const text: Record<Locale, typeof en> = {
         '하루 실행 수를 소요 시간에 따라 다섯 구간으로 나눴습니다. 색으로 구분해야 하는 범주라 범주형 팔레트를 씁니다.',
       memory:
         '6일 동안의 메모리 사용량으로, 1.1~5.6GB 사이입니다. 데이터는 바이트 그대로이고, formatValue가 읽기 값과 표, 값 축에서 GB로 보여 줍니다.',
+      gpu: '노드 두 대의 GPU 온도를 하루 동안 10분마다 잰 값과 70 °C 주의선, 85 °C 한계선입니다. 03:00부터 04:00까지 수집기가 멈춰 두 선 모두 그 구간에서 끊깁니다.',
+      tokens:
+        '한 주 동안 종류별로 쓴 하루 토큰 수입니다. 쌓아서 막대 꼭대기가 그날의 합계가 됩니다.',
+      throughput:
+        'prefill은 초당 수천 토큰, decode는 초당 수십 토큰입니다. 로그 값 축이면 한 차트에서 둘 다 읽힙니다.',
+      disk: '디렉토리 하나의 디스크 사용량을 한 시간마다 잰 값입니다. 다음 측정까지 값이 그대로이므로 계단선으로 보여 줍니다.',
+      projects:
+        '프로젝트 12개의 하루 토큰 수입니다. 범주형 12색이 서로 구분되고, 범례는 4개만 보이고 나머지는 접습니다.',
     },
     reportingDay: '보고일',
     resource: '리소스',

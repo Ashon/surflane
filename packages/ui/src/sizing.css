@@ -12,6 +12,10 @@
     --surf-ui-slider-track: var(--surf-size-slider-track-small);
     --surf-ui-file-padding: var(--surf-size-file-padding-small);
     --surf-ui-content-gap: var(--surf-size-content-gap-small);
+    /* Surface titles (Card, Sheet, Dialog) step down one role at Small. */
+    --surf-ui-title-size: var(--surf-type-subsection-size);
+    --surf-ui-title-leading: var(--surf-type-subsection-leading);
+    --surf-ui-title-tracking: var(--surf-type-subsection-tracking);
 
     --surf-ui-control-height: var(--surf-size-control-height-small);
     --surf-ui-control-padding: var(--surf-size-control-padding-small);
@@ -52,6 +56,9 @@
     --surf-ui-slider-track: var(--surf-size-slider-track-default);
     --surf-ui-file-padding: var(--surf-size-file-padding-default);
     --surf-ui-content-gap: var(--surf-size-content-gap-default);
+    --surf-ui-title-size: var(--surf-type-section-size);
+    --surf-ui-title-leading: var(--surf-type-section-leading);
+    --surf-ui-title-tracking: var(--surf-type-section-tracking);
 
     --surf-ui-control-height: var(--surf-size-control-height-default);
     --surf-ui-control-padding: var(--surf-size-control-padding-default);
@@ -92,6 +99,9 @@
     --surf-ui-slider-track: var(--surf-size-slider-track-large);
     --surf-ui-file-padding: var(--surf-size-file-padding-large);
     --surf-ui-content-gap: var(--surf-size-content-gap-large);
+    --surf-ui-title-size: var(--surf-type-section-size);
+    --surf-ui-title-leading: var(--surf-type-section-leading);
+    --surf-ui-title-tracking: var(--surf-type-section-tracking);
 
     --surf-ui-control-height: var(--surf-size-control-height-large);
     --surf-ui-control-padding: var(--surf-size-control-padding-large);

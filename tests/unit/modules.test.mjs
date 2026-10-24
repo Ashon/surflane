@@ -22,11 +22,21 @@ const server = [
   'breadcrumbs',
   'page-header',
   'sparkline',
+  'bar-list',
   'status',
   'spinner',
   'index',
 ]
-const client = ['button', 'dialog', 'select', 'tabs', 'file-upload', 'sizing']
+const client = [
+  'button',
+  'dialog',
+  'select',
+  'tabs',
+  'file-upload',
+  'sizing',
+  'dashboard',
+  'time-range-picker',
+]
 
 for (const module of server)
   test(`${module} renders on the server without a client boundary`, () => {

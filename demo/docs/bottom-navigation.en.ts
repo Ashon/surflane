@@ -87,6 +87,11 @@ import { Link } from 'react-router'
       '—',
     ],
     [
+      'Item.badgeTone',
+      "the badge's color by meaning: danger for what needs action now, caution for what needs a look, neutral for news; also info, success, progress",
+      'danger',
+    ],
+    [
       'Item.render / href / native a props',
       "a router's link element for client navigation, as with Link",
       'a',

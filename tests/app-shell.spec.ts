@@ -62,6 +62,19 @@ test('mobile sheet restores focus on Escape and moves focus to the selected page
   const trigger = page.getByRole('button', {
     name: 'Open workspace navigation',
   })
+  // AppShell.MenuTrigger shows where the sidebar hides, at the header's end.
+  const header = page.locator('.app-shell-preview .surf-app-shell-header')
+  const menu = header.locator('.surf-app-shell-menu-trigger')
+  await expect(trigger).toHaveClass(/surf-app-shell-menu-trigger/)
+  const [triggerEnd, headerEnd] = await Promise.all([
+    menu.evaluate((el) => el.getBoundingClientRect().right),
+    header.evaluate(
+      (el) =>
+        el.getBoundingClientRect().right -
+        parseFloat(getComputedStyle(el).paddingRight),
+    ),
+  ])
+  expect(triggerEnd).toBe(headerEnd)
   await trigger.click()
   const panel = page.getByRole('dialog', {
     name: 'Workspace navigation',
@@ -80,6 +93,8 @@ test('mobile sheet restores focus on Escape and moves focus to the selected page
   await trigger.click()
   await page.setViewportSize({ width: 1440, height: 1000 })
   await expect(panel).toBeHidden()
+  // Its own rule hides it beside the sidebar, whatever the header does.
+  expect(await menu.evaluate((el) => getComputedStyle(el).display)).toBe('none')
 })
 test('shell options preserve state, reflow at 320px and pass both theme audits', async ({
   page,

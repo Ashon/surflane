@@ -766,7 +766,8 @@
     --surf-chart-series-3: var(--surf-ink-muted);
   }
   /* Categories that color must tell apart, such as buckets or sectors. Six hues at one
-   * lightness, each 3:1 against the sheet; charts still add marks and dashes. */
+   * lightness, then six more halfway between them at another, each 3:1 against the
+   * sheet; charts still add marks and dashes. */
   :root,
   [data-theme='dark'],
   [data-theme='light'] {
@@ -776,6 +777,12 @@
     --surf-chart-category-4: oklch(0.82 0.13 80);
     --surf-chart-category-5: oklch(0.74 0.14 25);
     --surf-chart-category-6: oklch(0.74 0.12 310);
+    --surf-chart-category-7: oklch(0.88 0.08 280);
+    --surf-chart-category-8: oklch(0.88 0.08 215);
+    --surf-chart-category-9: oklch(0.9 0.1 160);
+    --surf-chart-category-10: oklch(0.9 0.1 108);
+    --surf-chart-category-11: oklch(0.86 0.09 52);
+    --surf-chart-category-12: oklch(0.86 0.09 345);
   }
   :root[data-theme='light'],
   [data-theme='light'] {
@@ -785,6 +792,12 @@
     --surf-chart-category-4: oklch(0.56 0.12 70);
     --surf-chart-category-5: oklch(0.54 0.17 25);
     --surf-chart-category-6: oklch(0.5 0.15 310);
+    --surf-chart-category-7: oklch(0.38 0.12 280);
+    --surf-chart-category-8: oklch(0.4 0.08 215);
+    --surf-chart-category-9: oklch(0.4 0.1 160);
+    --surf-chart-category-10: oklch(0.42 0.09 108);
+    --surf-chart-category-11: oklch(0.42 0.12 52);
+    --surf-chart-category-12: oklch(0.4 0.12 345);
   }
   @media (prefers-color-scheme: light) {
     :root:not([data-theme='dark']):not([data-theme='light']) {
@@ -794,6 +807,12 @@
       --surf-chart-category-4: oklch(0.56 0.12 70);
       --surf-chart-category-5: oklch(0.54 0.17 25);
       --surf-chart-category-6: oklch(0.5 0.15 310);
+      --surf-chart-category-7: oklch(0.38 0.12 280);
+      --surf-chart-category-8: oklch(0.4 0.08 215);
+      --surf-chart-category-9: oklch(0.4 0.1 160);
+      --surf-chart-category-10: oklch(0.42 0.09 108);
+      --surf-chart-category-11: oklch(0.42 0.12 52);
+      --surf-chart-category-12: oklch(0.4 0.12 345);
     }
   }
 

@@ -224,11 +224,13 @@ export function ColorFoundation() {
           `--surf-chart-series-${index}`,
           '--surf-canvas',
         ]),
-        ...[1, 2, 3, 4, 5, 6].map((index): Pair => [
-          t.chartCategory(index),
-          `--surf-chart-category-${index}`,
-          '--surf-canvas',
-        ]),
+        ...Array.from({ length: 12 }, (_, index) => index + 1).map(
+          (index): Pair => [
+            t.chartCategory(index),
+            `--surf-chart-category-${index}`,
+            '--surf-canvas',
+          ],
+        ),
       ],
     },
     {
@@ -466,7 +468,7 @@ export function ColorFoundation() {
                 {(
                   [
                     ['series', 3],
-                    ['categories', 6],
+                    ['categories', 12],
                   ] as const
                 ).map(([set, count]) => {
                   const prefix =

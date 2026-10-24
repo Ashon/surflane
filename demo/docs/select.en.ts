@@ -7,7 +7,7 @@ const controls = [
 ]
 export const doc: ComponentDoc = {
   usage:
-    'Pick one option from a fixed list. If the list is long enough to need search, use Combobox.',
+    'Pick one option from a fixed list, or several with multiple, such as a filter of projects. If the list is long enough to need search, use Combobox.',
   avoid:
     "Don't use Select to run actions. Use Menu instead. Check the selected result and the submitted value together.",
   keyboard:
@@ -37,6 +37,16 @@ export const doc: ComponentDoc = {
       'defaultValue / name / required / disabled',
       'selection and form props',
       '—',
+    ],
+    [
+      'multiple / labels',
+      'several values on one line, such as a filter: the trigger names one choice, counts several and reads labels.all when every option is chosen; the first option chooses all or none. value and defaultValue are string[]. For a long list to search, with chips, use Combobox multiple',
+      'false / All, None, n selected',
+    ],
+    [
+      'width',
+      "fill takes the container's width, as a form field does; content fits the longest option and keeps that width, for a header or toolbar",
+      'fill',
     ],
     ['ref', 'the trigger button, as triggerRef', '—'],
   ],

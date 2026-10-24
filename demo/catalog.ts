@@ -23,6 +23,7 @@ const ready = new Set([
   'markdown',
   'chart',
   'date-picker',
+  'time-range-picker',
   'tree',
   'file-upload',
   'toast',
@@ -46,6 +47,7 @@ const ready = new Set([
   'list',
   'stat',
   'sparkline',
+  'bar-list',
   'inline-message',
   'empty-state',
   'progress',
@@ -180,6 +182,13 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
     'Forms',
     'Accepts dates, times, and ranges in locale-specific formats.',
     3,
+  ],
+  [
+    'time-range-picker',
+    'Time range picker',
+    'Forms',
+    'Picks the span back from now a monitoring screen shows and how often it refreshes.',
+    2,
   ],
   [
     'file-upload',
@@ -386,6 +395,13 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
     2,
   ],
   [
+    'bar-list',
+    'Bar list',
+    'Data display',
+    'Ranks named values with bars in proportion to the largest.',
+    2,
+  ],
+  [
     'tree',
     'Tree view',
     'Data display',
@@ -463,6 +479,7 @@ const nonBase = new Set([
   'native-select',
   'textarea',
   'date-picker',
+  'time-range-picker',
   'file-upload',
   'sheet',
   'link',
@@ -476,6 +493,7 @@ const nonBase = new Set([
   'list',
   'stat',
   'sparkline',
+  'bar-list',
   'tree',
   'chart',
   'inline-message',
@@ -530,6 +548,9 @@ const specializedCriteria: Record<string, string[]> = {
     'Native link navigation, hover delay, Escape, and focus retention',
     'Essential information lives at the destination, with no popup-only actions',
   ],
+  'time-range-picker': [
+    'A named group of two selects and a named refresh button; the interval pauses while the page is hidden',
+  ],
   'date-picker': [
     'Korean/English date and time formats, ranges, min/max, time zones, and DST handling',
   ],
@@ -548,6 +569,9 @@ const specializedCriteria: Record<string, string[]> = {
   ],
   sparkline: [
     'An accessible name that states the trend, gaps for missing values, and no interaction',
+  ],
+  'bar-list': [
+    'An ordered list whose names and values are text, decorative bars, and a named scroll region when it is bounded',
   ],
   'otp-field': ['Code paste, autofill, deletion, errors, expiry, and resend'],
   'bottom-navigation': [
@@ -671,6 +695,12 @@ const patternDefinitions: [string, string, string, 1 | 2 | 3][] = [
     'Collapses and expands desktop navigation on mobile.',
     1,
   ],
+  [
+    'dashboard',
+    'Dashboard',
+    'Lays out data panels on a responsive grid with their titles, states and refreshes.',
+    2,
+  ],
 ]
 export const patterns: CatalogItem[] = patternDefinitions.map(
   ([id, name, summary, phase]) => ({
@@ -693,6 +723,7 @@ export const patterns: CatalogItem[] = patternDefinitions.map(
       'filter-bar',
       'resource-list',
       'form-workflow',
+      'dashboard',
     ].includes(id)
       ? 'available'
       : 'planned',
@@ -761,17 +792,23 @@ export const patterns: CatalogItem[] = patternDefinitions.map(
                               'Instant apply, empty results, long input, and responsive alignment',
                               'Keyboard focus, result announcements, and real use in the catalog',
                             ]
-                          : id === 'page-header'
+                          : id === 'dashboard'
                             ? [
-                                'Shared structure for breadcrumb, title, description, and actions',
-                                'Long titles, optional slots, and responsive placement',
-                                'Heading hierarchy, keyboard, and real use in the catalog',
+                                'Composes Card, Popover, Skeleton, Spinner and InlineMessage into one panel frame on a responsive grid',
+                                'Loading, refreshing with the previous value, error with retry, empty, long titles and spans',
+                                'Checks group names, busy state, description buttons, 320px and themes',
                               ]
-                            : [
-                                'Composes shared components and tokens, leaving domain logic in the product',
-                                'Empty, loading, error, permission, long content, and responsive states',
-                                'Checks keyboard flow, focus, and real product use',
-                              ],
+                            : id === 'page-header'
+                              ? [
+                                  'Shared structure for breadcrumb, title, description, and actions',
+                                  'Long titles, optional slots, and responsive placement',
+                                  'Heading hierarchy, keyboard, and real use in the catalog',
+                                ]
+                              : [
+                                  'Composes shared components and tokens, leaving domain logic in the product',
+                                  'Empty, loading, error, permission, long content, and responsive states',
+                                  'Checks keyboard flow, focus, and real product use',
+                                ],
   }),
 )
 export const foundations: CatalogItem[] = [

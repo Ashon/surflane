@@ -1,0 +1,19 @@
+/* Time range picker, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './select.css';
+@import './button.css';
+@import './icon.css';
+
+@layer surflane.components {
+  /* The span, the interval and the button sit on one line in a header or toolbar. */
+  .surf-time-range {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--surf-space-2);
+    max-inline-size: 100%;
+  }
+}

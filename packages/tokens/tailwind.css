@@ -25,11 +25,17 @@
   --color-canvas: var(--surf-canvas);
   --color-caution: var(--surf-caution);
   --color-chart-category-1: var(--surf-chart-category-1);
+  --color-chart-category-10: var(--surf-chart-category-10);
+  --color-chart-category-11: var(--surf-chart-category-11);
+  --color-chart-category-12: var(--surf-chart-category-12);
   --color-chart-category-2: var(--surf-chart-category-2);
   --color-chart-category-3: var(--surf-chart-category-3);
   --color-chart-category-4: var(--surf-chart-category-4);
   --color-chart-category-5: var(--surf-chart-category-5);
   --color-chart-category-6: var(--surf-chart-category-6);
+  --color-chart-category-7: var(--surf-chart-category-7);
+  --color-chart-category-8: var(--surf-chart-category-8);
+  --color-chart-category-9: var(--surf-chart-category-9);
   --color-chart-series-1: var(--surf-chart-series-1);
   --color-chart-series-2: var(--surf-chart-series-2);
   --color-chart-series-3: var(--surf-chart-series-3);

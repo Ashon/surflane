@@ -31,13 +31,52 @@ test('number helpers share locale, sign, precision and missing rules', () => {
   )
 })
 
+test('Stat shows a value past its threshold by text, icon and color, and groups values of one measure', async ({
+  page,
+}) => {
+  await page.goto('/components/stat')
+  await waitForCatalogReady(page)
+  const preview = page.locator('[data-preview-size]')
+  const tone = (token: string) =>
+    page.evaluate((name) => {
+      const probe = document.createElement('span')
+      probe.style.color = `var(${name})`
+      document.body.append(probe)
+      const color = getComputedStyle(probe).color
+      probe.remove()
+      return color
+    }, token)
+  const disk = preview.locator('dl.surf-stat:has(.surf-stat-status)').first()
+  const status = disk.locator('dd.surf-stat-status')
+  await expect(status).toHaveText('Below 30 GiB')
+  await expect(status.locator('svg')).toHaveAttribute('aria-hidden', 'true')
+  const danger = await tone('--surf-status-danger-fg')
+  await expect(status).toHaveCSS('color', danger)
+  await expect(disk.locator('dd.surf-stat-value')).toHaveCSS('color', danger)
+  const scan = preview.locator('dl.surf-stat:has(.surf-stat-status)').nth(1)
+  await expect(scan.locator('dd.surf-stat-value')).toHaveCSS(
+    'color',
+    await tone('--surf-status-caution-fg'),
+  )
+  // A group names its values once; each Stat names its own node.
+  const group = preview.getByRole('group', { name: 'GPU temperature' })
+  const nodes = group.locator('dl.surf-stat')
+  await expect(nodes).toHaveCount(2)
+  await expect(nodes.locator('dt')).toHaveText(['dgx-001', 'dgx-002'])
+  const [a, b] = await Promise.all([
+    nodes.nth(0).boundingBox(),
+    nodes.nth(1).boundingBox(),
+  ])
+  expect(a!.y).toBe(b!.y)
+  expect(b!.x).toBeGreaterThan(a!.x + a!.width)
+})
 test('Stat names its value and shows direction by sign, arrow and color', async ({
   page,
 }) => {
   await page.goto('/components/stat')
   await waitForCatalogReady(page)
   const preview = page.locator('[data-preview-size]')
-  const stats = preview.locator('dl.surf-stat')
+  const stats = preview.locator('dl.surf-stat:has(.surf-stat-change)')
   await expect(stats).toHaveCount(3)
   const first = stats.first()
   await expect(first.locator('> dt')).toHaveText('Deploy success')
@@ -162,7 +201,11 @@ for (const theme of ['light', 'dark'])
   test(`dashboard pieces pass automated accessibility in ${theme}`, async ({
     page,
   }) => {
-    for (const path of ['/components/stat', '/components/sparkline']) {
+    for (const path of [
+      '/components/stat',
+      '/components/sparkline',
+      '/components/bar-list',
+    ]) {
       await page.goto(path)
       await waitForCatalogReady(page)
       if (theme === 'dark')
@@ -174,3 +217,47 @@ for (const theme of ['light', 'dark'])
       expect(violations).toEqual([])
     }
   })
+test('BarList ranks values in shared columns and scrolls a bounded list by whole rows', async ({
+  page,
+}) => {
+  await page.goto('/components/bar-list')
+  await waitForCatalogReady(page)
+  const disk = page.getByRole('list', { name: 'Disk used by directory' })
+  const rows = disk.getByRole('listitem')
+  await expect(rows).toHaveCount(8)
+  // Largest first, each row read as name, detail and value.
+  await expect(rows.first()).toHaveText(/^models\s*\/srv\/models\s*412 GiB$/)
+  await expect(rows.nth(1)).toContainText('cache')
+  await expect(rows.last()).toContainText('6 GiB')
+  // Bars start together and are in proportion to the largest.
+  const bars = await rows.evaluateAll((items) =>
+    items.map((item) => {
+      const bar = item.querySelector('.surf-bar-list-bar')!
+      const fill = item.querySelector('.surf-bar-list-fill')!
+      return [
+        bar.getBoundingClientRect().left,
+        fill.getBoundingClientRect().width / bar.getBoundingClientRect().width,
+        bar.getAttribute('aria-hidden'),
+      ]
+    }),
+  )
+  expect(new Set(bars.map(([left]) => left)).size).toBe(1)
+  expect(bars[0][1]).toBe(1)
+  expect(bars[1][1]).toBeCloseTo(168 / 412, 2)
+  expect(bars.every(([, , hidden]) => hidden === 'true')).toBe(true)
+  // Five whole rows show; the region scrolls by keyboard.
+  const region = page.getByRole('region', { name: 'Disk used by directory' })
+  const [viewport, row] = await Promise.all([
+    region.boundingBox(),
+    rows.first().boundingBox(),
+  ])
+  expect(viewport!.height).toBeCloseTo(row!.height * 5, 0)
+  await region.focus()
+  await region.press('End')
+  await expect
+    .poll(() => region.evaluate((el) => el.scrollTop))
+    .toBeGreaterThan(0)
+  await expect(
+    page.getByRole('list', { name: 'Tokens this week by project' }),
+  ).toHaveText(/^Pacenote\s*18\.4M/)
+})

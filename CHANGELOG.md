@@ -2,6 +2,46 @@
 
 `@surflane/design-tokens`, `@surflane/css` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## Unreleased
+
+### Added
+
+- Select `width='content'` fits the trigger to its longest option, as a native select does, and keeps that width when the value changes. It sits beside other controls in a header or toolbar; the default `fill` still takes the container's width.
+- Select `multiple` (`SelectMultipleProps`, `SelectMultipleLabels`) chooses several values and sums them up on one line, for filters of projects, models or nodes. The trigger names one choice, counts several and reads `labels.all` when every option is chosen. Its first option chooses all or none, and a form receives only the chosen values. A long list to search, with chips, stays Combobox `multiple`.
+- `Dashboard` lays out a monitoring screen's data panels. `Dashboard.Root` fits as many columns as panels of `--surf-dashboard-panel-min-width` (20rem) and shows one on a phone. `Dashboard.Panel` is a card named by its title, with a description behind an info button, header `actions` and the state of its data: `loading` shows a placeholder, `error` a message with retry, `empty` a sentence, and `refreshing` keeps the content and shows a spinner by the title. The content takes the room a stretched row gives it, and titles line up across a row. `span` widens a panel where columns fit. Types: `DashboardRootProps`, `DashboardPanelProps` and `DashboardPanelLabels`. Entry point `@surflane/ui/dashboard`.
+- `TimeRangePicker` picks the span a monitoring screen shows back from now, how often it refreshes and when to refresh now: two content-width selects and a button in a named group. Range and interval are milliseconds; `timeRangeOptions` and `refreshIntervalOptions` hold the defaults to translate. The interval pauses while the page is hidden. Entry point `@surflane/ui/time-range-picker`.
+- `BarList` ranks named values of one unit with bars in proportion to the largest, such as disk by directory: name and detail, bar and value in columns every row shares. `maxRows` bounds it in a named scroll region by whole rows. Entry point `@surflane/ui/bar-list`.
+- BottomNavigation.Item `badgeTone` colors the badge by meaning with the status tones: `danger` (the default) for what needs action now, `caution` for what needs a look, `neutral` for news.
+- `Stat.Status` (`StatStatus`, `StatStatusProps`) gives a value its state against a threshold, such as "Below 30 GiB": the tone's icon and text. A `caution` or `danger` status colors the value too.
+- `Stat.Group` (`StatGroup`, `StatGroupProps`) puts values of one measure side by side under a shared `label`, such as GPU temperature per node.
+- Icon has an infrastructure set: `server`, `database`, `disk`, `chip`, `memory`, `network`, `bolt`, `token` and `thermometer`, and a `refresh` arrow.
+- Chart for monitoring:
+  - `xScale='time'` places rows by `data[].time` (ms or a Date), puts ticks on round local times (every 6 hours, each day, each month) and breaks a line where sampling stopped for more than twice the usual interval.
+  - `references` draws threshold lines (`{ y }`) and bands (`{ from, to }`) in a neutral, caution or danger tone. The legend names each with its value, and the value axis reaches it.
+  - `stacked` stacks bar and area series; the readout and the floating values add their total.
+  - `curve='step'` holds each value until the next, for values sampled when they change.
+  - `yScale='log'` spans orders of magnitude, such as prefill and decode throughput. Zero and negative values stay off the plot and in the table.
+  - `density='compact'` keeps the plot, legend and floating values for a dashboard card. The caption, keyboard help, readout and x-axis name stay for assistive technology.
+  - `legendPosition='bottom'` puts the legend under the plot, and `legendLimit` folds the series past it behind a "+N" popover that still toggles them.
+  - `ChartSeries.color` replaces the palette's color for one series, and `ChartSeriesMark` draws a series' swatch for a key of your own.
+  - Types: `ChartReference`, `ChartTone` and `ChartSeriesMarkProps`; labels `moreSeries(count)` and `total`.
+- The categorical chart palette has twelve colors, `--surf-chart-category-1` to `-12`: the six hues, then six more halfway between them at another lightness. Each reads 3:1 on the sheet and on a card in both themes.
+- `AppShell.MenuTrigger` (`AppShellMenuTrigger`, `AppShellMenuTriggerProps`) is the phone's menu button. It shows only at 760px and narrower, where the sidebar hides, at the header's end. Render it into your `Sheet.Trigger`; `label` names it. Before, the caller hid and placed the button with its own CSS.
+
+### Changed
+
+These change layout and type inside a size scope, so they ship in a minor.
+
+- Card, Sheet, Drawer and Dialog titles take the subsection role (16/24px) inside a Small size scope. Default and Large keep the section role (20/28px). Every other type role stays the same at every size.
+- A FilterBar filter keeps its 12rem width and no longer grows. Only `width='search'` takes the room left in the row. A lone filter no longer fills the row, and the last field of a wrapped row no longer stretches. At 760px and narrower every field still fills its row.
+
+### Fixed
+
+- Chart renders its data table when it is first opened. Thirteen charts with 240 rows had put 15,000 table elements on the page up front.
+- Chart's legend buttons follow the size scheme's control height. They were 36px at every size.
+- Chart's data table names the unit once, in each series header, and its cells hold numbers aligned at the end, as the Table guidelines ask. Every cell repeated the unit.
+- The heads of Dialog, AlertDialog, Sheet and Drawer follow the size's card padding above and below, as their sides and bodies already did: 16/12px at Small, 24/20px at Default and 32/28px at Large. Dialog's footer follows it too.
+
 ## 0.11.0
 
 ### Changed

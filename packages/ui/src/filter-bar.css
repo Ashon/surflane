@@ -17,15 +17,22 @@
     gap: var(--surf-space-4);
     min-inline-size: 0;
   }
+  /* A filter keeps its width; only the search field takes the room left in the row. */
   .surf-filter-bar-field {
     display: grid;
     gap: var(--surf-space-2);
-    flex: 1 1 12rem;
+    flex: 0 1 12rem;
     min-inline-size: 0;
     max-inline-size: 100%;
   }
   .surf-filter-bar-field[data-width='search'] {
     flex: 2 1 20rem;
+  }
+  /* On a phone each field fills its row. */
+  @media (max-width: 760px) {
+    .surf-filter-bar-field {
+      flex-grow: 1;
+    }
   }
   .surf-filter-bar-field > :is(.surf-control, .surf-select-trigger) {
     inline-size: 100%;

@@ -23,4 +23,8 @@
     .surf-dialog-header {
     padding-inline-end: var(--surf-ui-card-padding);
   }
+  :where([data-ui-size], [data-ui-size] *).surf-confirm-content
+    .surf-dialog-footer {
+    padding-top: var(--surf-space-2);
+  }
 }

@@ -2441,14 +2441,7 @@ body,
   min-block-size: 420px;
   block-size: 460px;
 }
-.app-shell-mobile-trigger.surf-button {
-  display: none;
-}
 @media (max-width: 760px) {
-  .app-shell-mobile-trigger.surf-button {
-    display: inline-flex;
-    margin-inline-start: auto;
-  }
   .app-shell-preview {
     block-size: auto;
   }

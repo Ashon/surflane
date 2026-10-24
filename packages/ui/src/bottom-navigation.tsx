@@ -2,6 +2,7 @@
 import * as React from 'react'
 import { useRender } from '@base-ui/react/use-render'
 import { cx } from './parts.js'
+import type { StatusTone } from './status.js'
 
 export type BottomNavigationRootProps =
   React.ComponentPropsWithoutRef<'nav'> & {
@@ -52,6 +53,9 @@ export type BottomNavigationItemProps = Omit<
   /** What the badge means, read after the label, such as "3 unread". A count reads
    * as its number without it; a dot needs it. */
   badgeLabel?: string
+  /** The badge's color, by what it means: danger for what needs action now,
+   * caution for what needs a look soon, neutral for news. */
+  badgeTone?: StatusTone
 }
 /** One destination: an icon above its label. Pass a router's link element as
  * `render` to keep client navigation. */
@@ -61,6 +65,7 @@ const Item = function BottomNavigationItem({
   current,
   badge,
   badgeLabel,
+  badgeTone = 'danger',
   render,
   className,
   ref,
@@ -89,6 +94,7 @@ const Item = function BottomNavigationItem({
             {shown && (
               <span
                 className='surf-bottom-nav-badge'
+                data-tone={badgeTone}
                 data-dot={count ? undefined : ''}
               >
                 {count}

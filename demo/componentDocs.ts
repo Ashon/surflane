@@ -19,6 +19,7 @@ import { doc as commandSearch } from './docs/command-search.en'
 import { doc as contextMenu } from './docs/context-menu.en'
 import { doc as dataTable } from './docs/data-table.en'
 import { doc as datePicker } from './docs/date-picker.en'
+import { doc as timeRangePicker } from './docs/time-range-picker.en'
 import { doc as dialog } from './docs/dialog.en'
 import { doc as documentation } from './docs/documentation.en'
 import { doc as drawer } from './docs/drawer.en'
@@ -28,6 +29,7 @@ import { doc as field } from './docs/field.en'
 import { doc as fieldset } from './docs/fieldset.en'
 import { doc as fileUpload } from './docs/file-upload.en'
 import { doc as filterBar } from './docs/filter-bar.en'
+import { doc as dashboard } from './docs/dashboard.en'
 import { doc as form } from './docs/form.en'
 import { doc as formWorkflow } from './docs/form-workflow.en'
 import { doc as inlineConfirmation } from './docs/inline-confirmation.en'
@@ -58,6 +60,7 @@ import { doc as sheet } from './docs/sheet.en'
 import { doc as skeleton } from './docs/skeleton.en'
 import { doc as slider } from './docs/slider.en'
 import { doc as sparkline } from './docs/sparkline.en'
+import { doc as barList } from './docs/bar-list.en'
 import { doc as spinner } from './docs/spinner.en'
 import { doc as stat } from './docs/stat.en'
 import { doc as switchDoc } from './docs/switch.en'
@@ -106,6 +109,7 @@ export const componentDocs: Record<string, ComponentDoc> = {
   'context-menu': contextMenu,
   'data-table': dataTable,
   'date-picker': datePicker,
+  'time-range-picker': timeRangePicker,
   dialog,
   documentation,
   drawer,
@@ -115,6 +119,7 @@ export const componentDocs: Record<string, ComponentDoc> = {
   fieldset,
   'file-upload': fileUpload,
   'filter-bar': filterBar,
+  dashboard,
   form,
   'form-workflow': formWorkflow,
   'inline-confirmation': inlineConfirmation,
@@ -145,6 +150,7 @@ export const componentDocs: Record<string, ComponentDoc> = {
   skeleton,
   slider,
   sparkline,
+  'bar-list': barList,
   spinner,
   stat,
   switch: switchDoc,

@@ -216,6 +216,16 @@
       border-radius: 0;
     }
   }
+  /* The menu trigger shows only where the sidebar hides, at the header's end. */
+  .surf-app-shell-menu-trigger.surf-button {
+    display: none;
+  }
+  @media (max-width: 760px) {
+    .surf-app-shell-menu-trigger.surf-button {
+      display: inline-flex;
+      margin-inline-start: auto;
+    }
+  }
   @media (max-width: 760px), (pointer: coarse) {
     .surf-app-shell-link {
       min-block-size: var(--surf-control-target-size);

@@ -27,6 +27,8 @@ export const doc: DocKo = {
     'Item.current': 'aria-current="page"로 현재 목적지를 표시',
     'Item.badge / badgeLabel':
       '개수(99+까지) 또는 점을 뜻하는 true / 라벨 뒤에 읽히는 배지의 뜻',
+    'Item.badgeTone':
+      '배지의 뜻에 맞춘 색: 지금 처리할 일은 danger, 살펴볼 일은 caution, 소식은 neutral. info, success, progress도 있습니다',
     'Item.render / href / native a props':
       'Link처럼 클라이언트 내비게이션용 라우터 링크 엘리먼트',
   },

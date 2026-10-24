@@ -4,6 +4,7 @@
 @import './base.css';
 @import './sizing.css';
 @import './button.css';
+@import './popover.css';
 @import './table.css';
 
 @layer surflane.components {
@@ -58,7 +59,7 @@
     display: inline-flex;
     align-items: center;
     gap: var(--surf-space-2);
-    min-height: 36px;
+    min-height: var(--surf-control-height);
     padding: var(--surf-space-1) var(--surf-space-2);
     border: 0;
     border-radius: var(--surf-radius-md);
@@ -70,8 +71,38 @@
     cursor: pointer;
     text-align: start;
   }
-  .surf-chart-legend-button svg {
+  .surf-chart-legend-button svg,
+  .surf-chart-legend-reference svg {
     flex: none;
+  }
+  /* A threshold or band: named with its value, not a toggle. */
+  .surf-chart-legend-reference {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--surf-space-2);
+    min-height: var(--surf-control-height);
+    padding: var(--surf-space-1) var(--surf-space-2);
+    color: var(--surf-ink-body);
+    font: var(--surf-weight-regular)
+      var(--surf-type-body-size)/var(--surf-type-body-leading)
+      var(--surf-font-body);
+  }
+  .surf-chart-legend-more {
+    font-variant-numeric: tabular-nums;
+  }
+  /* The series past legendLimit, one per row in a popover. */
+  .surf-chart-legend-list {
+    display: grid;
+    gap: var(--surf-space-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .surf-chart-legend-list .surf-chart-legend-button {
+    inline-size: 100%;
+  }
+  .surf-chart-key[data-position='bottom'] .surf-chart-legend {
+    margin-inline-start: 0;
   }
   .surf-chart-legend-button span {
     overflow-wrap: anywhere;
@@ -170,6 +201,10 @@
     inline-size: var(--surf-space-6);
     block-size: var(--surf-space-4);
   }
+  .surf-chart-tooltip-total {
+    padding-block-start: var(--surf-space-1);
+    border-block-start: 1px solid var(--surf-line);
+  }
   .surf-chart-tooltip-value {
     white-space: nowrap;
     margin-inline-start: auto;
@@ -235,8 +270,39 @@
   .surf-chart-table .surf-scroll-viewport {
     max-block-size: 320px;
   }
+  /* Compact, for charts in dashboard cards: the plot, its legend and the floating
+     values show; the caption, keyboard help, readout and x-axis name stay for
+     assistive technology. */
+  .surf-chart[data-density='compact'] {
+    gap: var(--surf-space-2);
+  }
+  .surf-chart[data-density='compact']
+    :is(
+      .surf-chart-caption,
+      .surf-chart-help,
+      .surf-chart-inspector,
+      .surf-chart-x-label
+    ) {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .surf-chart[data-density='compact']
+    :is(.surf-chart-legend-button, .surf-chart-legend-reference) {
+    min-height: var(--surf-space-6);
+    padding-block: 0;
+    font-size: var(--surf-type-compact-size);
+    line-height: var(--surf-type-compact-leading);
+  }
   @media (max-width: 760px), (pointer: coarse) {
-    .surf-chart-legend-button {
+    .surf-chart-legend-button,
+    .surf-chart[data-density='compact'] .surf-chart-legend-button {
       min-height: var(--surf-control-target-size);
     }
   }
@@ -255,6 +321,12 @@
       --surf-chart-category-4: CanvasText;
       --surf-chart-category-5: CanvasText;
       --surf-chart-category-6: CanvasText;
+      --surf-chart-category-7: CanvasText;
+      --surf-chart-category-8: CanvasText;
+      --surf-chart-category-9: CanvasText;
+      --surf-chart-category-10: CanvasText;
+      --surf-chart-category-11: CanvasText;
+      --surf-chart-category-12: CanvasText;
     }
     .surf-chart-plot .recharts-surface,
     .surf-chart-mark {

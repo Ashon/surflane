@@ -22,6 +22,7 @@ export const catalogKo: {
     '/patterns/app-shell': '앱 셸 / 사이드바',
     '/patterns/page-header': '페이지 헤더',
     '/patterns/filter-bar': '검색 / 필터 바',
+    '/patterns/dashboard': '대시보드',
     '/patterns/data-table': '데이터 테이블',
     '/patterns/resource-list': '리소스 목록',
     '/patterns/inline-confirmation': '인라인 확인',
@@ -76,6 +77,8 @@ export const catalogKo: {
     '/components/otp-field': '슬롯으로 나뉜 일회용 코드를 입력받습니다.',
     '/components/date-picker':
       '로케일별 형식으로 날짜, 시간, 범위를 입력받습니다.',
+    '/components/time-range-picker':
+      '모니터링 화면이 보여 줄 지금부터의 기간과 새로 고침 간격을 고릅니다.',
     '/components/file-upload': '파일 제한과 업로드 상태를 설명합니다.',
     '/components/popover': '트리거 옆에서 보조 작업을 제공합니다.',
     '/components/menu': '현재 컨텍스트의 작업을 모아 둡니다.',
@@ -110,6 +113,8 @@ export const catalogKo: {
     '/components/list': '반복 콘텐츠와 작업을 정렬합니다.',
     '/components/stat': '핵심 수치를 변화와 기준 설명과 함께 보여 줍니다.',
     '/components/sparkline': '카드나 표 셀 안에 작은 추이선을 그립니다.',
+    '/components/bar-list':
+      '이름 붙은 값을 가장 큰 값에 비례한 막대와 함께 순위대로 늘어놓습니다.',
     '/components/tree': '중첩 리소스를 키보드로 탐색합니다.',
     '/components/chart': '단위, 범례, 대체 테이블과 함께 추세를 보여 줍니다.',
     '/components/scroll-area': '레이아웃 안에 가로·세로 스크롤을 추가합니다.',
@@ -127,6 +132,8 @@ export const catalogKo: {
     '/patterns/page-header':
       '브레드크럼, 제목, 설명, 작업을 정렬하고 간격을 둡니다.',
     '/patterns/filter-bar': '검색, 필터, 적용 상태, 초기화를 연결합니다.',
+    '/patterns/dashboard':
+      '데이터 패널을 제목, 상태, 새로 고침과 함께 반응형 격자에 놓습니다.',
     '/patterns/data-table':
       '선택, 정렬, 필터, 열 설정, 페이지네이션을 연결합니다.',
     '/patterns/resource-list':

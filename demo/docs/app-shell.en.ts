@@ -24,7 +24,7 @@ export const doc: ComponentDoc = {
     "Don't give two shells on one page the shortcut. Set shortcut={false} on any shell that only illustrates, such as a mockup.",
   ],
   anatomy:
-    'AppShell.Root(layout=workspace) → mobile Header(Brand) + Sidebar(Brand, SidebarToggle on the edge, ScrollArea(Nav(Links)), Footer(Link as the account menu trigger)) + Content(ScrollArea → Page); mobile: bottom Sheet(Header(Title, Description), Body(Nav(Links)), Footer(account, Close menu))',
+    'AppShell.Root(layout=workspace) → mobile Header(Brand, MenuTrigger) + Sidebar(Brand, SidebarToggle on the edge, ScrollArea(Nav(Links)), Footer(Link as the account menu trigger)) + Content(ScrollArea → Page); mobile: bottom Sheet(Header(Title, Description), Body(Nav(Links)), Footer(account, Close menu))',
   keyboard: [
     'Tab and Shift+Tab reach native links and buttons. Enter follows a link.',
     'The mobile bottom Sheet opens on the current destination. Choosing a destination closes the Sheet and moves focus to the new content heading.',
@@ -41,12 +41,17 @@ export const doc: ComponentDoc = {
     '--surf-radius-full',
     '--surf-control-focus',
   ],
-  code: `import { AppShell, Menu, ScrollArea } from '@surflane/ui'
+  code: `import { AppShell, Menu, ScrollArea, Sheet } from '@surflane/ui'
 
 <AppShell.Root layout='workspace' persist='workspace-sidebar'>
   <AppShell.Header>
     <AppShell.Brand mark={logo} name='Acme Platform' />
-    {mobileNavigationTrigger}
+    <Sheet.Root side='bottom'>
+      <Sheet.Trigger
+        render={<AppShell.MenuTrigger label='Open navigation' />}
+      />
+      {mobileNavigationSheet}
+    </Sheet.Root>
   </AppShell.Header>
   <AppShell.Sidebar aria-label='Workspace'>
     <AppShell.Brand
@@ -85,8 +90,8 @@ export const doc: ComponentDoc = {
   </AppShell.Content>
 </AppShell.Root>
 
-// Add a bottom Sheet navigation trigger at <=760px (see Responsive navigation).
-// The desktop Sidebar is hidden.
+// MenuTrigger shows at <=760px, where the Sidebar is hidden. Its bottom Sheet
+// holds the same Nav (see Responsive navigation).
 // AppShell.Content is a div: render the application's single main landmark yourself.
 // Route, permission, session, cookie and theme ownership stay with the application.`,
   props: [
@@ -134,6 +139,11 @@ export const doc: ComponentDoc = {
       'Root style --surf-app-shell-sidebar-width',
       'expanded width; header: 216px / 64px; workspace: 224px / 72px',
       'layout-dependent',
+    ],
+    [
+      'MenuTrigger',
+      "label (the button's name; say what it opens). An icon button that shows only at ≤760px, where the Sidebar hides, at the header's end. Render it into Sheet.Trigger",
+      'Open navigation',
     ],
     [
       'Header / Sidebar / Content / Footer',

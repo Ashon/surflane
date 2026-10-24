@@ -159,6 +159,33 @@ const SidebarToggle = function AppShellSidebarToggle({
     </Tooltip>
   )
 }
+export type AppShellMenuTriggerProps = Omit<ButtonProps, 'children'> & {
+  /** The button's name. Say what it opens. */
+  label?: string
+  children?: React.ReactNode
+}
+/** Opens the caller's navigation, such as a Sheet, where the sidebar is hidden: at
+ * 760px and narrower it shows at the header's end, and above that it is hidden. */
+const MenuTrigger = function AppShellMenuTrigger({
+  label = 'Open navigation',
+  className,
+  children,
+  ref,
+  ...props
+}: AppShellMenuTriggerProps & { ref?: React.Ref<HTMLButtonElement> }) {
+  return (
+    <Button
+      variant='ghost'
+      size='icon'
+      {...props}
+      ref={ref}
+      aria-label={label}
+      className={skin('surf-app-shell-menu-trigger', className)}
+    >
+      {children ?? <Icon name='menu' decorative />}
+    </Button>
+  )
+}
 const Header = function AppShellHeader({
   className,
   ref,
@@ -389,6 +416,7 @@ export const AppShell = {
   Header,
   Sidebar,
   SidebarToggle,
+  MenuTrigger,
   Brand,
   Nav,
   Content,
@@ -404,6 +432,7 @@ export const {
   Header: AppShellHeader,
   Sidebar: AppShellSidebar,
   SidebarToggle: AppShellSidebarToggle,
+  MenuTrigger: AppShellMenuTrigger,
   Brand: AppShellBrand,
   Nav: AppShellNav,
   Content: AppShellContent,

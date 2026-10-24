@@ -67,7 +67,11 @@ export const doc: ComponentDoc = {
       'native form events; caller controls state and requests',
       'native behavior',
     ],
-    ['Field.width', 'search (2× flexible basis) | filter', 'filter'],
+    [
+      'Field.width',
+      "search takes the room left in the row | filter keeps 12rem and doesn't grow. On a phone every field fills its row.",
+      'filter',
+    ],
     ['Field.htmlFor', 'optional explicit label association', 'implicit label'],
     [
       'Summary',

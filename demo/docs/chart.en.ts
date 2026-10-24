@@ -1,13 +1,13 @@
 import type { ComponentDoc } from '../componentDocs'
 export const doc: ComponentDoc = {
   usage:
-    'Compare numeric trends in one unit as a line, bar, or area chart. Always provide a title, a factual summary, and axis names with units. Series default to brand and neutral fills and lines, told apart by dashes and markers; pass palette="categorical" when color must separate categories, such as buckets. For values far from zero, such as prices or latency, set includeZero={false}. Pass data as an immutable array that the caller owns.',
+    'Compare numeric trends in one unit as a line, bar, or area chart. Always provide a title, a factual summary, and axis names with units. Series default to brand and neutral fills and lines, told apart by dashes and markers; pass palette="categorical" when color must separate categories, such as buckets. For values far from zero, such as prices or latency, set includeZero={false}. For monitoring, xScale="time" places rows by data[].time, ticks on round times and breaks a line where sampling stops; references draw thresholds and target bands; stacked shows a total; curve="step" holds values sampled on change; yScale="log" spans orders of magnitude. In a dashboard card, density="compact" keeps the plot, legend and floating values. Pass data as an immutable array that the caller owns.',
   avoid: [
     "Don't mix units on one axis. Use separate charts instead.",
-    "Don't overlay many series on one screen. Use filters or separate charts instead.",
+    "Don't put more than seven series on one chart. Keep the largest, sum the rest as Other, or split the chart. legendLimit folds a long legend, but every line stays on the plot.",
     "Don't replace missing values with 0. Pass null instead: the chart treats null, undefined, NaN, and Infinity as missing and doesn't connect lines across them.",
-    "Don't expect a cropped y-axis. It always includes 0 and keeps negative values.",
-    "Don't expect smoothed curves. Lines are linear, so the chart doesn't invent extremes that weren't measured.",
+    'Don\'t expect a second value axis. Put a second unit on a second chart, and values orders of magnitude apart on yScale="log".',
+    "Don't expect smoothed curves. Lines are linear or steps, so the chart doesn't invent extremes that weren't measured.",
     "Don't expect the chart to show loading, error, or retry states. Build them in the product screen.",
     "Don't expect the description prop to be an automatically inferred analysis. It holds the caller's factual summary.",
   ],
@@ -15,7 +15,7 @@ export const doc: ComponentDoc = {
     'Tab reaches the legend buttons, the chart, and the data table toggle.',
     'With the chart focused, Left and Right move between data points.',
     "Enter or Space on a legend button shows or hides its series, and aria-pressed reports whether it's shown. Hidden series stay in the data table.",
-    'View data table is a native details element that Enter or Space expands. Long tables scroll on both axes and include headers, units, and full values.',
+    'View data table is a native details element that Enter or Space expands. Long tables scroll on both axes. Each series header names the unit once, and the cells hold full values aligned at the end.',
     'Escape clears the details, and an arrow key shows them again.',
     "Pointer, touch and the arrow keys show the point's values in a box beside it, which turns to whichever side has more room and stays inside the plot. The same values fill the details region below the plot, a polite live region that never covers the marks; the box itself stays out of the accessibility tree.",
     'Circle, square, and triangle markers, line patterns, and bar fill patterns distinguish series beyond color. They remain in high contrast mode.',
@@ -78,9 +78,48 @@ const data: ChartDatum[] = [
       'readonly {id, label, values: Record<seriesKey, number | null | undefined>}[]; unique non-empty id',
       'required',
     ],
-    ['series', 'readonly {key, label}[]; unique non-empty key', 'required'],
+    [
+      'series',
+      "readonly {key, label, color?}[]; unique non-empty key; color replaces the palette's for one series",
+      'required',
+    ],
     ['type', 'line | bar | area', 'line'],
-    ['height', 'finite pixel height, minimum 200', '280'],
+    [
+      'height',
+      'finite pixel height, minimum 200 (120 when compact)',
+      '280 / 180 compact',
+    ],
+    [
+      'xScale / data[].time',
+      'category spaces rows evenly by label; time places them by time (ms or Date), ticks on round times and breaks lines across a gap of more than twice the usual interval',
+      'category',
+    ],
+    [
+      'yScale',
+      'linear | log: log spans orders of magnitude; zero and negative values stay off the plot and in the table',
+      'linear',
+    ],
+    ['curve', 'linear | step: step holds each value until the next', 'linear'],
+    [
+      'stacked',
+      'stacks bar and area series; the readout adds their total',
+      'false',
+    ],
+    [
+      'references',
+      'readonly ({y, label, tone?} | {from, to, label, tone?})[]: threshold lines and bands in neutral, caution or danger; the legend names each with its value and the value axis reaches it',
+      '[]',
+    ],
+    [
+      'density',
+      'default | compact: compact keeps the plot, legend and floating values; caption, help and readout stay for assistive technology',
+      'default',
+    ],
+    [
+      'legendPosition / legendLimit',
+      'top | bottom / how many series the legend shows before folding the rest behind a "+N" popover',
+      'top / every series',
+    ],
     [
       'includeZero',
       'keeps 0 on the value axis; bars always start at zero',
@@ -88,7 +127,7 @@ const data: ChartDatum[] = [
     ],
     [
       'palette',
-      'neutral | categorical: ink with dashes and markers, or six hues for categories',
+      'neutral | categorical: ink with dashes and markers, or twelve hues for categories',
       'neutral',
     ],
     [
@@ -103,8 +142,13 @@ const data: ChartDatum[] = [
     ],
     [
       'labels',
-      'text the chart shows or announces: missing, empty, noSeries, showAll, keyboardHelp, values, viewTable, table, tableCaption, inspectHint, noRows, legend(title), series(label)',
+      'text the chart shows or announces: missing, empty, noSeries, showAll, keyboardHelp, values, viewTable, table, tableCaption, inspectHint, noRows, legend(title), series(label), moreSeries(count), total',
       'English',
+    ],
+    [
+      'ChartSeriesMark',
+      "{type, index, palette, color}: a series' swatch as the legend draws it, for a key of your own",
+      'line / neutral',
     ],
     [
       'ref / className / figure props',

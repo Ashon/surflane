@@ -20,6 +20,27 @@ test('Bottom navigation marks the current destination and reads badges after lab
   ).toBeVisible()
   await expect(nav.locator('.surf-bottom-nav-badge').first()).toHaveText('3')
   await expect(nav.locator('.surf-bottom-nav-badge[data-dot]')).toHaveCount(1)
+  // A tone colors a badge by meaning: the count is danger, the dot caution.
+  const fills = await nav
+    .locator('.surf-bottom-nav-badge')
+    .evaluateAll((badges) => {
+      const probe = document.createElement('span')
+      document.body.append(probe)
+      const resolve = (token: string) => {
+        probe.style.color = `var(${token})`
+        return getComputedStyle(probe).color
+      }
+      const result = badges.map(
+        (badge) => getComputedStyle(badge).backgroundColor,
+      )
+      const expected = [
+        resolve('--surf-status-danger-fg'),
+        resolve('--surf-status-caution-fg'),
+      ]
+      probe.remove()
+      return { result, expected }
+    })
+  expect(fills.result).toEqual(fills.expected)
 
   const schedule = nav.getByRole('link', { name: 'Schedule', exact: true })
   await schedule.focus()

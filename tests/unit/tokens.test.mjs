@@ -43,8 +43,17 @@ const pairs = [
     (tone) => [
       [`--surf-status-${tone}-fg`, `--surf-status-${tone}-bg`, 4.5],
       [`--surf-status-${tone}-border`, '--surf-canvas', 3],
+      // A BottomNavigation badge's count, in canvas color on the tone's fill.
+      ['--surf-canvas', `--surf-status-${tone}-fg`, 4.5],
+      // A Stat's status text, and its value past a threshold, on a card.
+      [`--surf-status-${tone}-fg`, '--surf-surface', 4.5],
     ],
   ),
+  // Every categorical chart color reads as a mark on the sheet and on a card.
+  ...Array.from({ length: 12 }, (_, index) => [
+    [`--surf-chart-category-${index + 1}`, '--surf-canvas', 3],
+    [`--surf-chart-category-${index + 1}`, '--surf-surface', 3],
+  ]).flat(),
 ]
 for (const theme of ['dark', 'light'])
   for (const [foreground, background, minimum] of pairs)

@@ -56,6 +56,7 @@
 @import './app-shell.css';
 @import './tree.css';
 @import './date-picker.css';
+@import './time-range-picker.css';
 @import './chart.css';
 @import './layout.css';
 @import './card.css';
@@ -63,6 +64,8 @@
 @import './list.css';
 @import './stat.css';
 @import './sparkline.css';
+@import './bar-list.css';
+@import './dashboard.css';
 @import './inline-message.css';
 @import './syntax-highlighter.css';
 @import './code.css';

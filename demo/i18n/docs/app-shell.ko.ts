@@ -47,6 +47,8 @@ export const doc: DocKo = {
       '링크의 아이콘 열(브랜드 마크와 계정이 여기에 맞춰짐), 브랜드 줄의 높이, 마크의 크기',
     'Root style --surf-app-shell-sidebar-width':
       '펼친 너비; header: 216px / 64px; workspace: 224px / 72px',
+    MenuTrigger:
+      'label(버튼 이름. 무엇을 여는지 쓰세요). 사이드바가 숨는 ≤760px에서만 머리글 끝에 보이는 아이콘 버튼입니다. Sheet.Trigger의 render로 넘기세요',
     'Header / Sidebar / Content / Footer':
       '네이티브 속성, className, refs를 가진 레이아웃 슬롯',
     Page: 'workspace Content 안의 페이지 표면: 사이드바 쪽을 뺀 모든 면에 셸과 간격을 두고, --app-shell-page-radius로 둥글게 합니다. ≤760px에서는 화면 가장자리까지 닿습니다.',

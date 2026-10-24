@@ -201,6 +201,48 @@ export function BasicExample({
               />
             </label>
           )}
+          {id === 'select' && (
+            // Content width: each fits its longest option and stays beside the other.
+            <Inline gap={2} role='group' aria-label={t.toolbarSelects}>
+              {/* Several values on one line: the first option chooses them all. */}
+              <Select
+                multiple
+                width='content'
+                name='projects'
+                options={['Pacenote', 'Surflane', 'Folio', 'Homelab'].map(
+                  (project) => ({
+                    value: project.toLowerCase(),
+                    label: project,
+                  }),
+                )}
+                defaultValue={['pacenote', 'surflane']}
+                labels={{
+                  all: t.allProjects,
+                  none: t.noProjects,
+                  count: t.projectCount,
+                }}
+                aria-label={t.projects}
+              />
+              <Select
+                width='content'
+                options={[
+                  { value: '1h', label: t.lastHour },
+                  { value: '24h', label: t.last24Hours },
+                  { value: '7d', label: t.last7Days },
+                ]}
+                defaultValue='24h'
+                aria-label={t.timeRange}
+              />
+              <Select
+                width='content'
+                options={[
+                  { value: 'off', label: t.refreshOff },
+                  { value: '30s', label: t.every30Seconds },
+                ]}
+                aria-label={t.refresh}
+              />
+            </Inline>
+          )}
           <div className='actions'>
             <Button type='submit'>{t.submitPreview}</Button>
             <Button type='reset' variant='outline'>

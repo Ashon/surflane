@@ -29,6 +29,8 @@ export {
   type SelectOption,
   type SelectGroup,
   type SelectProps,
+  type SelectMultipleProps,
+  type SelectMultipleLabels,
 } from './select.js'
 export {
   NativeSelect,
@@ -438,7 +440,11 @@ export {
   StatValue,
   StatChange,
   StatCaption,
+  StatStatus,
+  StatGroup,
   type StatChangeProps,
+  type StatStatusProps,
+  type StatGroupProps,
   type StatDirection,
 } from './stat.js'
 export {
@@ -446,6 +452,23 @@ export {
   type SparklineProps,
   type SparklineTrend,
 } from './sparkline.js'
+export { BarList, type BarListProps, type BarListItem } from './bar-list.js'
+export {
+  Dashboard,
+  DashboardRoot,
+  DashboardPanel,
+  type DashboardRootProps,
+  type DashboardPanelProps,
+  type DashboardPanelLabels,
+} from './dashboard.js'
+export {
+  TimeRangePicker,
+  timeRangeOptions,
+  refreshIntervalOptions,
+  type TimeRangePickerProps,
+  type TimeRangePickerLabels,
+  type TimeRangeOption,
+} from './time-range-picker.js'
 
 // Structure
 export { ScrollArea } from './scroll-area.js'
@@ -548,9 +571,11 @@ export {
   AppShellHeader,
   AppShellSidebar,
   AppShellSidebarToggle,
+  AppShellMenuTrigger,
   type AppShellRootProps,
   type AppShellSidebarToggleProps,
   type AppShellSidebarToggleLabels,
+  type AppShellMenuTriggerProps,
   AppShellBrand,
   type AppShellBrandProps,
   AppShellNav,

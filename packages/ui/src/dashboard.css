@@ -1,0 +1,75 @@
+/* Dashboard, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './card.css';
+@import './button.css';
+@import './icon.css';
+@import './popover.css';
+@import './skeleton.css';
+@import './spinner.css';
+@import './inline-message.css';
+
+@layer surflane.components {
+  /* As many columns as fit a panel's minimum width; one on a phone. */
+  .surf-dashboard {
+    --surf-dashboard-panel-min-width: 20rem;
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(min(100%, var(--surf-dashboard-panel-min-width)), 1fr)
+    );
+    gap: var(--surf-space-4);
+    min-inline-size: 0;
+  }
+  /* The header keeps its height; the content takes the rest of a stretched row. */
+  .surf-dashboard-panel {
+    grid-template-rows: auto minmax(0, 1fr);
+    align-content: start;
+    min-inline-size: 0;
+  }
+  .surf-dashboard-panel[data-span='2'] {
+    grid-column: span 2;
+  }
+  .surf-dashboard-panel[data-span='3'] {
+    grid-column: span 3;
+  }
+  .surf-dashboard-panel[data-span='full'] {
+    grid-column: 1 / -1;
+  }
+  /* As tall as an icon button, with or without one, so titles line up across a row. */
+  .surf-dashboard-panel-header {
+    display: flex;
+    align-items: center;
+    gap: var(--surf-space-2);
+    min-inline-size: 0;
+    min-block-size: var(--surf-control-height);
+  }
+  .surf-dashboard-panel-header .surf-card-title {
+    min-inline-size: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .surf-dashboard-panel-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--surf-space-1);
+    margin-inline-start: auto;
+  }
+  .surf-dashboard-panel-body {
+    min-inline-size: 0;
+    min-block-size: 0;
+  }
+  .surf-dashboard-panel-empty {
+    margin: 0;
+    color: var(--surf-ink-muted);
+  }
+  /* A phone shows one panel a row, whatever it spans. */
+  @media (max-width: 760px) {
+    .surf-dashboard-panel[data-span] {
+      grid-column: auto;
+    }
+  }
+}

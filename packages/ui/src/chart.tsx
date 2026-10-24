@@ -6,6 +6,7 @@ import {
   CartesianGrid,
   ComposedChart,
   Line,
+  ReferenceArea,
   ReferenceLine,
   ResponsiveContainer,
   Tooltip,
@@ -20,14 +21,31 @@ import {
 import { createPortal } from 'react-dom'
 import { Table } from './table.js'
 import { Button } from './button.js'
+import { Popover } from './popover.js'
 import { cx } from './parts.js'
 
 export type ChartDatum = {
   id: string
+  /** What the readout and the table call the row, such as its full date and time. */
   label: string
+  /** When the row was measured, in ms since the epoch or as a Date. Required for
+   * xScale="time", where it places the row on the axis. */
+  time?: number | Date
   values: Readonly<Record<string, number | null | undefined>>
 }
-export type ChartSeries = { key: string; label: string }
+export type ChartSeries = {
+  key: string
+  label: string
+  /** A color of your own, such as var(--surf-chart-category-3), in place of the
+   * palette's. Marks and dashes still tell the series apart. */
+  color?: string
+}
+export type ChartTone = 'neutral' | 'caution' | 'danger'
+/** A threshold line at y, or a band from one value to another, such as a target
+ * range. The legend names it with its value. */
+export type ChartReference =
+  | { y: number; label: string; tone?: ChartTone }
+  | { from: number; to: number; label: string; tone?: ChartTone }
 export type ChartProps = Omit<
   React.ComponentPropsWithoutRef<'figure'>,
   'children' | 'title'
@@ -40,13 +58,33 @@ export type ChartProps = Omit<
   xLabel: string
   yLabel: string
   type?: 'line' | 'bar' | 'area'
+  /** Plot height in px: 280 by default, 180 when compact. */
   height?: number
   /** Keeps 0 on the value axis. Turn it off for values far from zero, such as
    * prices, so the line uses the height; bars always start at zero. */
   includeZero?: boolean
-  /** neutral tells series apart by ink, dashes and markers. categorical adds six hues,
-   * for categories that color must separate, such as buckets or sectors. */
+  /** neutral tells series apart by ink, dashes and markers. categorical adds twelve
+   * hues, for categories that color must separate, such as buckets or sectors. */
   palette?: 'neutral' | 'categorical'
+  /** category spaces the rows evenly and names them by label. time places them by
+   * data[].time, puts ticks on round times and breaks a line where sampling stops. */
+  xScale?: 'category' | 'time'
+  /** log suits values across orders of magnitude, such as prefill and decode
+   * throughput. Zero and negative values stay off the plot and in the table. */
+  yScale?: 'linear' | 'log'
+  /** step holds each value until the next, for values sampled when they change. */
+  curve?: 'linear' | 'step'
+  /** Stacks bar and area series, so the top of the stack is their total. */
+  stacked?: boolean
+  /** Thresholds and target bands over the plot. The value axis reaches them. */
+  references?: readonly ChartReference[]
+  /** compact keeps the plot, legend and floating values for a dashboard card; the
+   * caption, keyboard help and readout stay for assistive technology. */
+  density?: 'default' | 'compact'
+  /** Above the plot, beside the value axis name, or below it. */
+  legendPosition?: 'top' | 'bottom'
+  /** Shows this many series in the legend; the rest fold behind a "+N" button. */
+  legendLimit?: number
   locale?: string
   /** Formats a value for the readout, the table and the value axis ticks. The unit
    * follows it in the readout and the table, and names the axis. */
@@ -75,6 +113,10 @@ export type ChartLabels = {
   legend: (title: string) => string
   /** A legend button that shows or hides a series. */
   series: (label: string) => string
+  /** The button that opens the series past legendLimit. */
+  moreSeries: (count: number) => string
+  /** The sum of stacked series in the readout. */
+  total: string
 }
 const chartLabels: ChartLabels = {
   missing: 'Not available',
@@ -92,6 +134,8 @@ const chartLabels: ChartLabels = {
   noRows: 'No rows.',
   legend: (title) => `${title} series`,
   series: (label) => `${label} series`,
+  moreSeries: (count) => `${count} more series`,
+  total: 'Total',
 }
 /** The round step at or above a raw step: 1, 2, 2.5 or 5 times a power of ten. */
 function roundStep(raw: number) {
@@ -108,6 +152,86 @@ function axisStep(low: number, high: number) {
   return step
 }
 const dashes = [undefined, '7 4', '2 4', '10 3 2 3', '12 5', '4 3']
+/** A series' color: the caller's, or the palette's for its place. */
+function seriesColor(
+  index: number,
+  palette: 'neutral' | 'categorical',
+  color?: string,
+) {
+  return (
+    color ??
+    (palette === 'categorical'
+      ? `var(--surf-chart-category-${(index % 12) + 1})`
+      : `var(--surf-chart-series-${(index % 3) + 1})`)
+  )
+}
+const toneColors = {
+  neutral: 'var(--surf-ink-muted)',
+  caution: 'var(--surf-status-caution-fg)',
+  danger: 'var(--surf-status-danger-fg)',
+} as const
+const MINUTE = 60_000,
+  HOUR = 60 * MINUTE,
+  DAY = 24 * HOUR
+type TimeUnit = 'minute' | 'hour' | 'day' | 'month' | 'year'
+const timeSteps: [TimeUnit, number, number][] = [
+  ['minute', 1, MINUTE],
+  ['minute', 5, 5 * MINUTE],
+  ['minute', 15, 15 * MINUTE],
+  ['minute', 30, 30 * MINUTE],
+  ['hour', 1, HOUR],
+  ['hour', 3, 3 * HOUR],
+  ['hour', 6, 6 * HOUR],
+  ['hour', 12, 12 * HOUR],
+  ['day', 1, DAY],
+  ['day', 2, 2 * DAY],
+  ['day', 7, 7 * DAY],
+  ['month', 1, 30 * DAY],
+  ['month', 3, 91 * DAY],
+  ['month', 6, 182 * DAY],
+  ['year', 1, 365 * DAY],
+]
+/** Ticks on round local times, such as every 6 hours or the first of each month, at
+ * most six across the span. */
+function timeTicks(min: number, max: number) {
+  const [unit, count] =
+    timeSteps.find(([, , ms]) => (max - min) / ms <= 6) ??
+    timeSteps[timeSteps.length - 1]
+  const date = new Date(min)
+  date.setSeconds(0, 0)
+  if (unit === 'minute')
+    date.setMinutes(Math.floor(date.getMinutes() / count) * count)
+  else date.setMinutes(0)
+  if (unit === 'hour')
+    date.setHours(Math.floor(date.getHours() / count) * count)
+  else if (unit !== 'minute') date.setHours(0)
+  if (unit === 'month')
+    date.setMonth(Math.floor(date.getMonth() / count) * count, 1)
+  if (unit === 'year') date.setMonth(0, 1)
+  const ticks: number[] = []
+  while (date.getTime() <= max && ticks.length < 100) {
+    if (date.getTime() >= min) ticks.push(date.getTime())
+    if (unit === 'minute') date.setMinutes(date.getMinutes() + count)
+    else if (unit === 'hour') date.setHours(date.getHours() + count)
+    else if (unit === 'day') date.setDate(date.getDate() + count)
+    else if (unit === 'month') date.setMonth(date.getMonth() + count)
+    else date.setFullYear(date.getFullYear() + count)
+  }
+  return { ticks, unit }
+}
+/** Powers of ten that span low to high, with 2 and 5 between them across one decade. */
+function logTicks(low: number, high: number) {
+  const bottom = Math.floor(Math.log10(low)),
+    top = Math.max(Math.ceil(Math.log10(high)), bottom + 1)
+  const ticks: number[] = []
+  for (let power = bottom; power <= top; power++)
+    for (const factor of top - bottom === 1 ? [1, 2, 5] : [1])
+      if (power < top || factor === 1)
+        ticks.push(Number((factor * 10 ** power).toPrecision(12)))
+  return ticks
+}
+const isNumber = (value: unknown): value is number =>
+  typeof value === 'number' && Number.isFinite(value)
 /** True once the font of the tick labels has loaded. Recharts measures a label to keep
  * it inside the chart and caches that width; measured in the fallback font, the last
  * label overflows by a few pixels once the real font arrives. */
@@ -225,6 +349,60 @@ function SeriesMark({
     </svg>
   )
 }
+function ReferenceMark({ reference }: { reference: ChartReference }) {
+  const color = toneColors[reference.tone ?? 'neutral']
+  return (
+    <svg
+      className='surf-chart-mark'
+      viewBox='0 0 32 20'
+      aria-hidden='true'
+      focusable='false'
+    >
+      {'y' in reference ? (
+        <path
+          d='M1 10h30'
+          stroke={color}
+          strokeWidth='2'
+          strokeDasharray='4 3'
+        />
+      ) : (
+        <rect
+          x='4'
+          y='4'
+          width='24'
+          height='12'
+          rx='2'
+          fill={color}
+          fillOpacity='0.2'
+        />
+      )}
+    </svg>
+  )
+}
+export type ChartSeriesMarkProps = {
+  type?: 'line' | 'bar' | 'area'
+  /** The series' place in the chart's series, which sets its dash, marker and color. */
+  index: number
+  palette?: 'neutral' | 'categorical'
+  color?: string
+}
+/** A series' swatch as Chart's legend draws it, for a legend or key of your own. */
+export function ChartSeriesMark({
+  type = 'line',
+  index,
+  palette = 'neutral',
+  color,
+}: ChartSeriesMarkProps) {
+  const id = React.useId().replace(/[^a-zA-Z0-9_-]/g, '_')
+  return (
+    <SeriesMark
+      type={type}
+      index={index}
+      color={seriesColor(index, palette, color)}
+      pattern={`${id}-mark`}
+    />
+  )
+}
 /** The active point's values beside it, for pointer and touch users. The readout
  * below the plot announces the same values, so this copy stays out of the
  * accessibility tree. It sits on the side of the point with more room and stays
@@ -236,7 +414,7 @@ function FloatingValues({
 }: {
   host: HTMLElement | null
   hidden: boolean
-  render: (label: string) => React.ReactNode
+  render: (label: string) => React.ReactNode | null
 }) {
   const active = useIsTooltipActive()
   const label = useActiveTooltipLabel()
@@ -250,7 +428,9 @@ function FloatingValues({
   React.useLayoutEffect(() => {
     if (shown && box.current) setWidth(box.current.offsetWidth)
   }, [shown, label, plot?.width])
-  if (!shown || !point || !plot) return null
+  const content = shown ? render(String(label)) : null
+  // A break in sampling has no values to show.
+  if (!shown || !point || !plot || content === null) return null
   // The gap between the point and the box, in px: the --surf-space-3 step.
   const gap = 12
   const start = point.x > plot.x + plot.width / 2
@@ -265,7 +445,7 @@ function FloatingValues({
       aria-hidden='true'
       style={{ left, top: plot.y, visibility: width ? undefined : 'hidden' }}
     >
-      {render(String(label))}
+      {content}
     </div>,
     host!,
   )
@@ -282,9 +462,17 @@ export const Chart = function Chart({
   xLabel,
   yLabel,
   type = 'line',
-  height = 280,
+  height,
   includeZero = true,
   palette = 'neutral',
+  xScale = 'category',
+  yScale = 'linear',
+  curve = 'linear',
+  stacked = false,
+  references = [],
+  density = 'default',
+  legendPosition = 'top',
+  legendLimit,
   locale = 'en-US',
   formatValue,
   labels,
@@ -298,9 +486,11 @@ export const Chart = function Chart({
   const text: ChartLabels = { ...chartLabels, ...labels }
   const id = React.useId().replace(/[^a-zA-Z0-9_-]/g, '_')
   const colorFor = (index: number) =>
-    palette === 'categorical'
-      ? `var(--surf-chart-category-${(index % 6) + 1})`
-      : `var(--surf-chart-series-${(index % 3) + 1})`
+    seriesColor(index, palette, series[index]?.color)
+  const timeScale = xScale === 'time'
+  const logScale = yScale === 'log'
+  const stacks = stacked && type !== 'line'
+  const compact = density === 'compact'
   const [internalHidden, setInternalHidden] =
     React.useState<readonly string[]>(defaultHiddenSeries)
   const hidden = new Set(hiddenSeries ?? internalHidden)
@@ -309,6 +499,8 @@ export const Chart = function Chart({
   const fontsReady = useFontReady(host, data.map((d) => d.label).join(''))
   const [floatHost, setFloatHost] = React.useState<HTMLDivElement | null>(null)
   const [dismissed, setDismissed] = React.useState(false)
+  // The table renders once it is first opened, so a page of charts stays light.
+  const [tableOpened, setTableOpened] = React.useState(false)
   const firstLegend = React.useRef<HTMLButtonElement>(null)
   const [restoreRequested, setRestoreRequested] = React.useState(false)
   React.useLayoutEffect(() => {
@@ -320,7 +512,7 @@ export const Chart = function Chart({
     () => new Intl.NumberFormat(locale, { maximumFractionDigits: 2 }),
     [locale],
   )
-  const compact = React.useMemo(
+  const compactNumber = React.useMemo(
     () =>
       new Intl.NumberFormat(locale, {
         notation: 'compact',
@@ -328,10 +520,17 @@ export const Chart = function Chart({
       }),
     [locale],
   )
-  const format = (value: number | null | undefined) =>
-    typeof value === 'number' && Number.isFinite(value)
-      ? `${formatValue ? formatValue(value) : number.format(value)} ${unit}`
-      : text.missing
+  const formatNumber = (value: number | null | undefined) =>
+    isNumber(value)
+      ? formatValue
+        ? formatValue(value)
+        : number.format(value)
+      : null
+  // The readout names the unit after each value; the table names it once, in the header.
+  const format = (value: number | null | undefined) => {
+    const formatted = formatNumber(value)
+    return formatted === null ? text.missing : `${formatted} ${unit}`
+  }
   const rows = React.useMemo(() => {
     const ids = new Set<string>(),
       keys = new Set<string>()
@@ -340,44 +539,139 @@ export const Chart = function Chart({
         throw new Error('Chart series keys must be non-empty and unique')
       keys.add(s.key)
     }
-    return data.map((row) => {
+    const result = data.map((row) => {
       if (!row.id || ids.has(row.id))
         throw new Error('Chart datum IDs must be non-empty and unique')
       ids.add(row.id)
+      const time = row.time === undefined ? undefined : Number(row.time)
+      if (timeScale && !isNumber(time))
+        throw new Error('Chart rows need a time when xScale is "time"')
       return {
         ...row,
+        time,
         values: Object.fromEntries(
           series.map((s) => [
             s.key,
-            typeof row.values[s.key] === 'number' &&
-            Number.isFinite(row.values[s.key])
-              ? row.values[s.key]
-              : null,
+            isNumber(row.values[s.key]) ? row.values[s.key] : null,
           ]),
-        ),
+        ) as Record<string, number | null>,
       }
     })
-  }, [data, series])
+    return timeScale ? result.sort((a, b) => a.time! - b.time!) : result
+  }, [data, series, timeScale])
+  type Row = (typeof rows)[number]
   const byId = new Map(rows.map((row) => [row.id, row]))
+  const byTime = new Map(rows.map((row) => [row.time, row]))
+  const rowFor = (label: unknown) =>
+    timeScale ? byTime.get(Number(label)) : byId.get(String(label))
+  // On a time axis, a wait of more than twice the usual interval is a break in
+  // sampling: an empty row there keeps the line from bridging it.
+  const interval = React.useMemo(() => {
+    if (!timeScale || rows.length < 3) return 0
+    const steps = rows
+      .slice(1)
+      .map((row, index) => row.time! - rows[index].time!)
+      .sort((a, b) => a - b)
+    return steps[Math.floor(steps.length / 2)]
+  }, [rows, timeScale])
+  const plotRows = React.useMemo(() => {
+    if (!interval) return rows
+    const empty = Object.fromEntries(series.map((s) => [s.key, null]))
+    return rows.flatMap((row, index) => {
+      const next = rows[index + 1]
+      return next && next.time! - row.time! > interval * 2
+        ? [
+            row,
+            {
+              ...row,
+              id: `${row.id}-gap`,
+              time: row.time! + interval,
+              values: empty,
+            },
+          ]
+        : [row]
+    })
+  }, [rows, series, interval])
+  const valueOf = (row: Row, key: string) => {
+    const value = row.values[key]
+    return value === null || (logScale && value <= 0) ? null : value
+  }
+  // The value axis spans the visible values (their sums when stacked) and the
+  // references, widened to round steps so its ticks read cleanly.
   const values = rows
-    .flatMap((row) => visible.map((s) => row.values[s.key]))
-    .filter((value): value is number => typeof value === 'number')
-  // Bars grow from zero, so they always keep it on the axis. Either way the axis
-  // spans the values, widened to round steps so its ticks read cleanly.
-  const keepZero = includeZero || type === 'bar'
-  const start = keepZero ? 0 : (values[0] ?? 0)
-  const low = values.reduce((a, b) => Math.min(a, b), start),
-    high = values.reduce((a, b) => Math.max(a, b), start)
-  const step = axisStep(low, high)
-  const min = step ? Math.floor(low / step) * step : low,
-    max = step ? Math.ceil(high / step) * step : high
-  const ticks = step
-    ? Array.from(
+    .flatMap((row) => visible.map((s) => valueOf(row, s.key)))
+    .filter(isNumber)
+  const sums = stacks
+    ? rows.flatMap((row) => {
+        const parts = visible.map((s) => valueOf(row, s.key)).filter(isNumber)
+        return [
+          parts.filter((v) => v > 0).reduce((a, b) => a + b, 0),
+          parts.filter((v) => v < 0).reduce((a, b) => a + b, 0),
+        ]
+      })
+    : values
+  const referenceValues = references
+    .flatMap((r) => ('y' in r ? [r.y] : [r.from, r.to]))
+    .filter((v) => isNumber(v) && (!logScale || v > 0))
+  const extent = [...sums, ...(values.length ? referenceValues : [])]
+  // Bars grow from zero, so they always keep it on a linear axis.
+  const keepZero = !logScale && (includeZero || type === 'bar')
+  const start = keepZero ? 0 : (extent[0] ?? 0)
+  const low = extent.reduce((a, b) => Math.min(a, b), start),
+    high = extent.reduce((a, b) => Math.max(a, b), start)
+  let min = low,
+    max = high,
+    ticks: number[] | undefined
+  if (logScale) {
+    ticks = logTicks(low > 0 ? low : 1, high > 0 ? high : 10)
+    min = ticks[0]
+    max = ticks[ticks.length - 1]
+  } else {
+    const step = axisStep(low, high)
+    if (step) {
+      min = Math.floor(low / step) * step
+      max = Math.ceil(high / step) * step
+      ticks = Array.from(
         { length: Math.round((max - min) / step) + 1 },
         // Rounded, so float steps never print as 0.30000000000000004.
         (_, index) => Number((min + index * step).toPrecision(12)),
       )
-    : undefined
+    }
+  }
+  const time = React.useMemo(() => {
+    if (!timeScale || !rows.length) return undefined
+    const first = rows[0].time!,
+      last = rows[rows.length - 1].time!
+    const { ticks: timeAxisTicks, unit: timeUnit } = timeTicks(first, last)
+    // Bars sit on their time, so half an interval on each side keeps the end ones whole.
+    const pad = type === 'bar' ? (interval || DAY) / 2 : 0
+    const subDay = timeUnit === 'minute' || timeUnit === 'hour'
+    const tickFormat = new Intl.DateTimeFormat(
+      locale,
+      subDay
+        ? { hour: 'numeric', minute: '2-digit' }
+        : timeUnit === 'day'
+          ? { month: 'short', day: 'numeric' }
+          : timeUnit === 'month'
+            ? { month: 'short', year: 'numeric' }
+            : { year: 'numeric' },
+    )
+    const dayFormat = new Intl.DateTimeFormat(locale, {
+      month: 'short',
+      day: 'numeric',
+    })
+    return {
+      domain: [first - pad, last + pad] as [number, number],
+      ticks: timeAxisTicks,
+      // Within a day the ticks name hours; one at midnight names the day instead.
+      format: (value: number) => {
+        const date = new Date(value)
+        return subDay && date.getHours() === 0 && date.getMinutes() === 0
+          ? dayFormat.format(date)
+          : tickFormat.format(date)
+      },
+    }
+  }, [rows, timeScale, type, interval, locale])
   const hasValues = values.length > 0
   const changeHidden = (next: string[]) => {
     if (hiddenSeries === undefined) setInternalHidden(next)
@@ -389,11 +683,81 @@ export const Chart = function Chart({
         .filter((s) => (s.key === key ? !hidden.has(key) : hidden.has(s.key)))
         .map((s) => s.key),
     )
-  const chartHeight = Number.isFinite(height) ? Math.max(200, height) : 280
+  const chartHeight =
+    height !== undefined && Number.isFinite(height)
+      ? Math.max(compact ? 120 : 200, height)
+      : compact
+        ? 180
+        : 280
+  const total = (row: Row) =>
+    visible
+      .map((s) => row.values[s.key])
+      .filter(isNumber)
+      .reduce((a, b) => a + b, 0)
+  const referenceText = (r: ChartReference) =>
+    'y' in r
+      ? `${r.label} ${format(r.y)}`
+      : `${r.label} ${formatNumber(r.from) ?? text.missing}–${format(r.to)}`
+  const legendButton = (s: ChartSeries, index: number) => (
+    <button
+      ref={index === 0 ? firstLegend : undefined}
+      type='button'
+      className='surf-chart-legend-button'
+      aria-label={text.series(s.label)}
+      aria-pressed={!hidden.has(s.key)}
+      onClick={() => toggle(s.key)}
+    >
+      <SeriesMark
+        type={type}
+        index={index}
+        color={colorFor(index)}
+        pattern={`${id}-legend-${index}`}
+      />
+      <span>{s.label}</span>
+    </button>
+  )
+  const shown =
+    legendLimit !== undefined && legendLimit < series.length
+      ? series.slice(0, Math.max(0, legendLimit))
+      : series
+  const folded = series.slice(shown.length)
+  const legend = (
+    <ul className='surf-chart-legend' aria-label={text.legend(title)}>
+      {shown.map((s, index) => (
+        <li key={s.key}>{legendButton(s, index)}</li>
+      ))}
+      {folded.length > 0 && (
+        <li>
+          <Popover.Root>
+            <Popover.Trigger
+              className='surf-chart-legend-button surf-chart-legend-more'
+              aria-label={text.moreSeries(folded.length)}
+            >
+              +{folded.length}
+            </Popover.Trigger>
+            <Popover.Content size='small'>
+              <ul className='surf-chart-legend-list'>
+                {folded.map((s, index) => (
+                  <li key={s.key}>{legendButton(s, shown.length + index)}</li>
+                ))}
+              </ul>
+            </Popover.Content>
+          </Popover.Root>
+        </li>
+      )}
+      {references.map((reference, index) => (
+        <li key={index} className='surf-chart-legend-reference'>
+          <ReferenceMark reference={reference} />
+          <span>{referenceText(reference)}</span>
+        </li>
+      ))}
+    </ul>
+  )
   return (
     <figure
       {...props}
       ref={ref}
+      data-density={density}
       className={cx('surf-chart', className)}
       aria-labelledby={`${id}-title`}
     >
@@ -406,28 +770,7 @@ export const Chart = function Chart({
           <p className='surf-chart-axis-label'>
             {yLabel} ({unit})
           </p>
-          <ul className='surf-chart-legend' aria-label={text.legend(title)}>
-            {series.map((s, index) => (
-              <li key={s.key}>
-                <button
-                  ref={index === 0 ? firstLegend : undefined}
-                  type='button'
-                  className='surf-chart-legend-button'
-                  aria-label={text.series(s.label)}
-                  aria-pressed={!hidden.has(s.key)}
-                  onClick={() => toggle(s.key)}
-                >
-                  <SeriesMark
-                    type={type}
-                    index={index}
-                    color={colorFor(index)}
-                    pattern={`${id}-legend-${index}`}
-                  />
-                  <span>{s.label}</span>
-                </button>
-              </li>
-            ))}
-          </ul>
+          {legendPosition === 'top' && legend}
         </div>
         {hasValues ? (
           <>
@@ -452,12 +795,13 @@ export const Chart = function Chart({
                 initialDimension={{ width: 320, height: chartHeight }}
               >
                 <ComposedChart
-                  data={rows}
+                  data={plotRows}
                   accessibilityLayer
                   role='application'
                   aria-label={title}
                   aria-describedby={`${id}-summary ${id}-keys`}
                   margin={{ top: 16, right: 20, bottom: 8, left: 0 }}
+                  baseValue={logScale ? min : undefined}
                 >
                   <defs>
                     {series.map((s, index) => (
@@ -470,42 +814,79 @@ export const Chart = function Chart({
                     ))}
                   </defs>
                   <CartesianGrid vertical={false} stroke='var(--surf-line)' />
-                  <XAxis
-                    dataKey='id'
-                    tickFormatter={(value) => {
-                      const label =
-                        byId.get(String(value))?.label ?? String(value)
-                      // minTickGap already drops ticks that would overlap; the cap
-                      // only keeps one very long label from crowding the axis.
-                      return label.length > 24
-                        ? label.slice(0, 23) + '…'
-                        : label
-                    }}
-                    tick={
-                      fontsReady && {
-                        fill: 'var(--surf-ink-muted)',
-                        fontSize: 12,
+                  {references.map((reference, index) =>
+                    'y' in reference ? null : (
+                      <ReferenceArea
+                        key={index}
+                        y1={reference.from}
+                        y2={reference.to}
+                        fill={toneColors[reference.tone ?? 'neutral']}
+                        fillOpacity={0.12}
+                        stroke='none'
+                      />
+                    ),
+                  )}
+                  {time ? (
+                    <XAxis
+                      dataKey='time'
+                      type='number'
+                      scale='time'
+                      domain={time.domain}
+                      ticks={time.ticks}
+                      tickFormatter={(value) => time.format(Number(value))}
+                      tick={
+                        fontsReady && {
+                          fill: 'var(--surf-ink-muted)',
+                          fontSize: 12,
+                        }
                       }
-                    }
-                    tickLine={false}
-                    axisLine={{ stroke: 'var(--surf-line)' }}
-                    minTickGap={24}
-                    interval='preserveStartEnd'
-                  />
+                      tickLine={false}
+                      axisLine={{ stroke: 'var(--surf-line)' }}
+                      minTickGap={24}
+                      interval='preserveStartEnd'
+                    />
+                  ) : (
+                    <XAxis
+                      dataKey='id'
+                      tickFormatter={(value) => {
+                        const label =
+                          byId.get(String(value))?.label ?? String(value)
+                        // minTickGap already drops ticks that would overlap; the cap
+                        // only keeps one very long label from crowding the axis.
+                        return label.length > 24
+                          ? label.slice(0, 23) + '…'
+                          : label
+                      }}
+                      tick={
+                        fontsReady && {
+                          fill: 'var(--surf-ink-muted)',
+                          fontSize: 12,
+                        }
+                      }
+                      tickLine={false}
+                      axisLine={{ stroke: 'var(--surf-line)' }}
+                      minTickGap={24}
+                      interval='preserveStartEnd'
+                    />
+                  )}
                   <YAxis
                     width={56}
+                    scale={logScale ? 'log' : 'auto'}
                     tickFormatter={(value) =>
                       formatValue
                         ? formatValue(Number(value))
-                        : compact.format(Number(value))
+                        : compactNumber.format(Number(value))
                     }
                     tick={{ fill: 'var(--surf-ink-muted)', fontSize: 12 }}
                     tickLine={false}
                     axisLine={false}
                     domain={[min, max === min ? max + 1 : max]}
                     ticks={ticks}
+                    allowDataOverflow={logScale}
                   />
-                  <ReferenceLine y={0} stroke='var(--surf-ink-muted)' />
+                  {!logScale && (
+                    <ReferenceLine y={0} stroke='var(--surf-ink-muted)' />
+                  )}
                   {host && (
                     <Tooltip
                       portal={host}
@@ -528,7 +909,7 @@ export const Chart = function Chart({
                       content={(tooltip) => {
                         const row =
                           tooltip.active && !dismissed
-                            ? byId.get(String(tooltip.label))
+                            ? rowFor(tooltip.label)
                             : undefined
                         return (
                           <div
@@ -544,6 +925,11 @@ export const Chart = function Chart({
                                       {s.label}: {format(row.values[s.key])}
                                     </li>
                                   ))}
+                                  {stacks && (
+                                    <li>
+                                      {text.total}: {format(total(row))}
+                                    </li>
+                                  )}
                                 </ul>
                               </>
                             ) : (
@@ -557,11 +943,24 @@ export const Chart = function Chart({
                   {series.map((s, index) => {
                     const common = {
                       name: s.label,
-                      dataKey: (row: ChartDatum) => row.values[s.key] ?? null,
+                      dataKey: (row: Row) => valueOf(row, s.key),
                       hide: hidden.has(s.key),
                       isAnimationActive: false,
                       stroke: colorFor(index),
+                      stackId: stacks ? 'total' : undefined,
                     }
+                    const dot =
+                      rows.length > 40
+                        ? false
+                        : (dot: Pick<DotProps, 'cx' | 'cy'>) => (
+                            <Marker
+                              cx={dot.cx}
+                              cy={dot.cy}
+                              color={colorFor(index)}
+                              index={index}
+                            />
+                          )
+                    const shape = curve === 'step' ? 'stepAfter' : 'linear'
                     return type === 'bar' ? (
                       <Bar
                         key={s.key}
@@ -573,53 +972,44 @@ export const Chart = function Chart({
                       <Area
                         key={s.key}
                         {...common}
-                        type='linear'
+                        type={shape}
                         strokeWidth={2}
                         strokeDasharray={dashes[index % dashes.length]}
                         fill={`url(#${id}-pattern-${index})`}
-                        fillOpacity={0.12}
+                        fillOpacity={stacks ? 0.32 : 0.12}
                         connectNulls={false}
-                        dot={
-                          rows.length > 40
-                            ? false
-                            : (dot) => (
-                                <Marker
-                                  {...dot}
-                                  color={colorFor(index)}
-                                  index={index}
-                                />
-                              )
-                        }
+                        dot={dot}
                         activeDot={false}
                       />
                     ) : (
                       <Line
                         key={s.key}
                         {...common}
-                        type='linear'
+                        type={shape}
                         strokeWidth={2}
                         strokeDasharray={dashes[index % dashes.length]}
                         connectNulls={false}
-                        dot={
-                          rows.length > 40
-                            ? false
-                            : (dot) => (
-                                <Marker
-                                  {...dot}
-                                  color={colorFor(index)}
-                                  index={index}
-                                />
-                              )
-                        }
+                        dot={dot}
                         activeDot={false}
                       />
                     )
                   })}
+                  {references.map((reference, index) =>
+                    'y' in reference ? (
+                      <ReferenceLine
+                        key={index}
+                        y={reference.y}
+                        stroke={toneColors[reference.tone ?? 'neutral']}
+                        strokeWidth={1.5}
+                        strokeDasharray='4 3'
+                      />
+                    ) : null,
+                  )}
                   <FloatingValues
                     host={floatHost}
                     hidden={dismissed}
                     render={(label) => {
-                      const row = byId.get(label)
+                      const row = rowFor(label)
                       if (!row) return null
                       return (
                         <>
@@ -640,6 +1030,14 @@ export const Chart = function Chart({
                                   </span>
                                 </li>
                               ),
+                            )}
+                            {stacks && (
+                              <li className='surf-chart-tooltip-total'>
+                                <span>{text.total}</span>
+                                <span className='surf-chart-tooltip-value'>
+                                  {format(total(row))}
+                                </span>
+                              </li>
                             )}
                           </ul>
                         </>
@@ -672,6 +1070,11 @@ export const Chart = function Chart({
             )}
           </div>
         )}
+        {legendPosition === 'bottom' && (
+          <div className='surf-chart-key' data-position='bottom'>
+            {legend}
+          </div>
+        )}
       </div>
       {hasValues && (
         <p className='surf-chart-help' id={`${id}-keys`}>
@@ -687,47 +1090,56 @@ export const Chart = function Chart({
         aria-label={text.values(title)}
         hidden={!hasValues}
       />
-      <details className='surf-chart-table'>
+      <details
+        className='surf-chart-table'
+        onToggle={(event) => {
+          if (event.currentTarget.open) setTableOpened(true)
+        }}
+      >
         <summary>{text.viewTable}</summary>
-        <Table.Container
-          label={text.table(title)}
-          orientation='both'
-          scrollChain='contain'
-        >
-          <Table.Root>
-            <Table.Caption>{text.tableCaption(unit)}</Table.Caption>
-            <Table.Head>
-              <Table.Row>
-                <Table.HeaderCell scope='col'>{xLabel}</Table.HeaderCell>
-                {series.map((s) => (
-                  <Table.HeaderCell key={s.key} scope='col'>
-                    {s.label} ({unit})
-                  </Table.HeaderCell>
-                ))}
-              </Table.Row>
-            </Table.Head>
-            <Table.Body>
-              {rows.length ? (
-                rows.map((row) => (
-                  <Table.Row key={row.id}>
-                    <Table.HeaderCell scope='row'>{row.label}</Table.HeaderCell>
-                    {series.map((s) => (
-                      <Table.Cell key={s.key}>
-                        {format(row.values[s.key])}
-                      </Table.Cell>
-                    ))}
-                  </Table.Row>
-                ))
-              ) : (
+        {tableOpened && (
+          <Table.Container
+            label={text.table(title)}
+            orientation='both'
+            scrollChain='contain'
+          >
+            <Table.Root>
+              <Table.Caption>{text.tableCaption(unit)}</Table.Caption>
+              <Table.Head>
                 <Table.Row>
-                  <Table.Cell colSpan={series.length + 1}>
-                    {text.noRows}
-                  </Table.Cell>
+                  <Table.HeaderCell scope='col'>{xLabel}</Table.HeaderCell>
+                  {series.map((s) => (
+                    <Table.HeaderCell key={s.key} scope='col' numeric>
+                      {s.label} ({unit})
+                    </Table.HeaderCell>
+                  ))}
                 </Table.Row>
-              )}
-            </Table.Body>
-          </Table.Root>
-        </Table.Container>
+              </Table.Head>
+              <Table.Body>
+                {rows.length ? (
+                  rows.map((row) => (
+                    <Table.Row key={row.id}>
+                      <Table.HeaderCell scope='row'>
+                        {row.label}
+                      </Table.HeaderCell>
+                      {series.map((s) => (
+                        <Table.Cell key={s.key} numeric>
+                          {formatNumber(row.values[s.key]) ?? text.missing}
+                        </Table.Cell>
+                      ))}
+                    </Table.Row>
+                  ))
+                ) : (
+                  <Table.Row>
+                    <Table.Cell colSpan={series.length + 1}>
+                      {text.noRows}
+                    </Table.Cell>
+                  </Table.Row>
+                )}
+              </Table.Body>
+            </Table.Root>
+          </Table.Container>
+        )}
       </details>
     </figure>
   )

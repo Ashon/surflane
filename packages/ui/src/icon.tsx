@@ -75,6 +75,7 @@ const shapes = {
   'arrow-back': <path d='M20 12H4m7-7-7 7 7 7' />,
   'arrow-up': <path d='M12 19V5m-6 6 6-6 6 6' />,
   'arrow-down': <path d='M12 5v14m-6-6 6 6 6-6' />,
+  refresh: <path d='M20 12a8 8 0 1 1-2.34-5.66M20 4v4h-4' />,
   sort: <path d='m8 9 4-4 4 4m-8 6 4 4 4-4' />,
   'external-link': (
     <>
@@ -104,6 +105,61 @@ const shapes = {
   settings: (
     <>
       <path d='M4 6h16M4 12h16M4 18h16M9 3v6m6 0v6m-6 0v6' />
+    </>
+  ),
+  // What a product runs on: machines, storage, links, power and model tokens.
+  server: (
+    <>
+      <rect x='3' y='4' width='18' height='7' rx='2' />
+      <rect x='3' y='13' width='18' height='7' rx='2' />
+      <path d='M7 7.5h3m-3 9h3' />
+    </>
+  ),
+  database: (
+    <>
+      <ellipse cx='12' cy='6' rx='8' ry='3' />
+      <path d='M4 6v12c0 1.66 3.58 3 8 3s8-1.34 8-3V6M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3' />
+    </>
+  ),
+  disk: (
+    <>
+      <path d='M3 14 5.6 5.4A2 2 0 0 1 7.5 4h9a2 2 0 0 1 1.9 1.4L21 14' />
+      <rect x='3' y='14' width='18' height='6' rx='2' />
+      <path d='M7 17h2' />
+    </>
+  ),
+  chip: (
+    <>
+      <rect x='6' y='6' width='12' height='12' rx='2' />
+      <rect x='9.5' y='9.5' width='5' height='5' rx='1' />
+      <path d='M9.5 2.5V6m5-3.5V6m-5 12v3.5m5-3.5v3.5M2.5 9.5H6m-3.5 5H6m12-5h3.5M18 14.5h3.5' />
+    </>
+  ),
+  memory: (
+    <>
+      <rect x='2' y='7' width='20' height='10' rx='2' />
+      <path d='M6 17v3m4-3v3m4-3v3m4-3v3M7 10.5v3m5-3v3m5-3v3' />
+    </>
+  ),
+  network: (
+    <>
+      <rect x='9' y='3' width='6' height='5' rx='1' />
+      <rect x='3' y='16' width='6' height='5' rx='1' />
+      <rect x='15' y='16' width='6' height='5' rx='1' />
+      <path d='M12 8v4M6 16v-4h12v4' />
+    </>
+  ),
+  bolt: <path d='M13 2.5 4.5 13.5H12l-1 8 8.5-11H12l1-8Z' />,
+  token: (
+    <>
+      <path d='m12 3 7.8 4.5v9L12 21l-7.8-4.5v-9L12 3Z' />
+      <circle cx='12' cy='12' r='3' />
+    </>
+  ),
+  thermometer: (
+    <>
+      <path d='M14 14.5V5a2 2 0 0 0-4 0v9.5a4 4 0 1 0 4 0Z' />
+      <path d='M12 9v7.5' />
     </>
   ),
 }

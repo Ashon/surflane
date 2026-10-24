@@ -90,6 +90,9 @@
     "./list.css": "./dist/css/list.css",
     "./stat.css": "./dist/css/stat.css",
     "./sparkline.css": "./dist/css/sparkline.css",
+    "./bar-list.css": "./dist/css/bar-list.css",
+    "./dashboard.css": "./dist/css/dashboard.css",
+    "./time-range-picker.css": "./dist/css/time-range-picker.css",
     "./tree.css": "./dist/css/tree.css",
     "./chart.css": "./dist/css/chart.css",
     "./scroll-area.css": "./dist/css/scroll-area.css",
@@ -315,6 +318,18 @@
     "./sparkline": {
       "types": "./dist/sparkline.d.ts",
       "import": "./dist/sparkline.js"
+    },
+    "./bar-list": {
+      "types": "./dist/bar-list.d.ts",
+      "import": "./dist/bar-list.js"
+    },
+    "./dashboard": {
+      "types": "./dist/dashboard.d.ts",
+      "import": "./dist/dashboard.js"
+    },
+    "./time-range-picker": {
+      "types": "./dist/time-range-picker.d.ts",
+      "import": "./dist/time-range-picker.js"
     },
     "./tree": {
       "types": "./dist/tree.d.ts",
