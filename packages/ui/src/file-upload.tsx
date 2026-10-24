@@ -160,6 +160,8 @@ export const FileUpload = function FileUpload({
 }: FileUploadProps & { ref?: React.Ref<HTMLDivElement> }) {
   const labels = {
     ...labelsDefault,
+    // A field that takes one file says so.
+    ...(!multiple && { choose: 'Choose file', drop: 'or drop a file here' }),
     ...customLabels,
     status: { ...labelsDefault.status, ...customLabels?.status },
   }
@@ -396,7 +398,7 @@ export const FileUpload = function FileUpload({
       ref={ref}
       name={name}
       disabled={disabled}
-      className={skin('surf-field surf-file-upload', className)}
+      className={skin('surf-file-upload', className)}
       data-dragging={dragging || undefined}
     >
       <Field.Label>{label}</Field.Label>
