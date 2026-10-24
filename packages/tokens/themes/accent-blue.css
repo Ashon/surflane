@@ -11,11 +11,13 @@
   [data-theme='light'] {
     --brand: oklch(0.82 0.09 255);
     --brand-tint: oklch(0.82 0.09 255 / 0.30196078);
+    --brand-ink: var(--ink);
   }
   @media (prefers-color-scheme: light) {
     :root:not([data-theme]) {
       --brand: oklch(0.82 0.09 255);
       --brand-tint: oklch(0.82 0.09 255 / 0.30196078);
+      --brand-ink: var(--ink);
     }
   }
 }

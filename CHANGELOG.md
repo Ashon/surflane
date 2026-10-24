@@ -73,6 +73,7 @@ These keep working, and are removed in a later minor:
 
 - Checkboxes, DatePicker's field segments and a Link's focus corners kept fixed corners under a radius preset or `createTheme`'s `radius`. They now follow `--radius-sm`. A checkbox's corner stops at 3/8 of its side, so a rounder theme never makes it look like a radio.
 - `preloadSyntaxHighlighting` tested line breaks with a pattern that could match `\r\n` two ways, which backtracks exponentially on a long input that fails. It now uses one that cannot.
+- Accent presets (`themes/accent-*.css`) turned light accent text and focus rings into the light accent, under 3:1 on white. Their dark block also matched a light `:root`. Light now keeps `--brand-ink` on the ink. `themeCss` also reverts, in light, any token a theme sets only for dark.
 
 ### Migration
 

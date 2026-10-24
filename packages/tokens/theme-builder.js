@@ -164,6 +164,8 @@ export function createTheme({ neutral, accent, radius } = {}) {
       )
     }
     theme.dark['--brand-ink'] = theme.dark['--brand']
+    // Light text on a light accent would fail, so light accent text stays on the ink.
+    theme.light['--brand-ink'] ??= 'var(--ink)'
   }
   if (radius !== undefined)
     for (const [token, size] of Object.entries(radii))
@@ -186,7 +188,11 @@ const block = (selectors, values, indent = '') =>
  * dark value reach a scoped data-theme="light" region.
  */
 export function themeCss(theme, comment) {
-  const light = theme.light
+  // The dark block also matches a light :root, and the themes layer wins over the
+  // tokens, so a token the theme sets only for dark goes back to the tokens' own light
+  // value there.
+  const light = { ...theme.light }
+  for (const token of Object.keys(theme.dark)) light[token] ??= 'revert-layer'
   const rules = [
     block([':root', '[data-theme]'], theme.shared, '  '),
     block(

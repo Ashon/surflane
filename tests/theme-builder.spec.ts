@@ -77,7 +77,51 @@ test('accent chroma is clamped to the gamut and success keeps its own color', ()
   expect(theme.dark['--brand']).toMatch(/^oklch\(0\.82 0\.0\d+ 255\)$/)
   expect(Object.keys(theme.dark)).not.toContain('--success')
   // Light text on a light accent would fail, so light links stay on the neutral ink.
-  expect(Object.keys(theme.light)).not.toContain('--brand-ink')
+  expect(theme.light['--brand-ink']).toBe('var(--ink)')
+})
+
+test('a preset never carries a dark value into light, chosen or from the system', async ({
+  page,
+}) => {
+  const tokens = readFileSync('packages/tokens/tokens.css', 'utf8')
+  const accent = readFileSync(
+    'packages/tokens/themes/accent-violet.css',
+    'utf8',
+  )
+  // A token the theme sets only for dark keeps the tokens' own light value.
+  const custom = themeCss({
+    dark: { '--canvas': 'oklch(0.5 0.2 30)' },
+    light: {},
+    shared: {},
+  })
+  const read = (theme?: string) =>
+    page.evaluate((theme) => {
+      if (theme) document.documentElement.dataset.theme = theme
+      else delete document.documentElement.dataset.theme
+      const style = getComputedStyle(document.documentElement)
+      const value = (name: string) => style.getPropertyValue(name).trim()
+      return {
+        brandInk: value('--brand-ink'),
+        ink: value('--ink'),
+        canvas: value('--canvas'),
+      }
+    }, theme)
+  await page.setContent(
+    `<style>${tokens}</style><style>${accent}</style><style>${custom}</style>`,
+  )
+  for (const [colorScheme, theme] of [
+    ['dark', 'light'],
+    ['light', undefined],
+  ] as const) {
+    await page.emulateMedia({ colorScheme })
+    const light = await read(theme)
+    expect(light.brandInk, `${colorScheme} ${theme}`).toBe(light.ink)
+    expect(light.canvas, `${colorScheme} ${theme}`).toBe('oklch(1 0 0)')
+  }
+  await page.emulateMedia({ colorScheme: 'dark' })
+  const dark = await read()
+  expect(dark.brandInk).toBe('oklch(0.82 0.105 300)')
+  expect(dark.canvas).toBe('oklch(0.5 0.2 30)')
 })
 
 test('theme CSS keeps dark values out of light regions and mirrors the system context', () => {
