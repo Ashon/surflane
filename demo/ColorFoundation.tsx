@@ -205,7 +205,7 @@ export function ColorFoundation() {
         [t.errorBoundary, '--surf-status-danger-fg', '--surf-canvas'],
         [t.progressFill, '--surf-brand-mark', '--surf-surface'],
         [t.progressFillSheet, '--surf-brand-mark', '--surf-canvas'],
-        [t.sliderFill, '--surf-brand', '--surf-slider-track'],
+        [t.sliderFill, '--surf-brand-mark', '--surf-slider-track'],
         ...(['success', 'danger', 'caution', 'info', 'neutral'] as const).map(
           (tone): Pair => [
             t.statusBorder(tone),

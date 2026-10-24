@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceHash": "077937daecb0e8fb5adc8c754816369089e2ba62a9aa30466015b348c1b0855a",
+  "sourceHash": "e2be1b5ec57e58c1e0cf93ca14fcb64f23786380448c044d0cecb0712b2ba0af",
   "sources": [
     "tokens.css",
     "foundation-tokens.css",
@@ -4326,29 +4326,29 @@
       "name": "--surf-slider-track",
       "category": "Color",
       "type": "value",
-      "description": "A slider's track, 3:1 against the brand indicator",
+      "description": "A slider's track, the surface plane under its brand-mark fill",
       "variants": [
         {
           "context": ":root",
-          "value": "oklch(from var(--surf-ink-muted) 0.52 c h)",
+          "value": "var(--surf-surface)",
           "file": "tokens.css",
           "line": 342
         },
         {
           "context": ":root[data-theme=\"light\"]",
-          "value": "var(--surf-ink-muted)",
+          "value": "var(--surf-surface)",
           "file": "tokens.css",
           "line": 347
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
-          "value": "var(--surf-ink-muted)",
+          "value": "var(--surf-surface)",
           "file": "tokens.css",
           "line": 495
         }
       ],
       "aliases": [
-        "--surf-ink-muted"
+        "--surf-surface"
       ]
     },
     {

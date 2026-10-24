@@ -57,8 +57,12 @@ test('brand as a mark reads at 3:1 on the light canvas', () => {
   assert.ok(contrast('--surf-brand-mark', '--surf-canvas', 'light') >= 3)
 })
 
-test('the dark slider track stands 3:1 from the brand fill', () => {
-  assert.ok(contrast('--surf-slider-track', '--surf-brand', 'dark') >= 3)
+test('a slider fill reads 3:1 on its track and on the sheet in both themes', () => {
+  // The pair Progress uses: the brand mark on the surface plane.
+  for (const theme of ['dark', 'light']) {
+    assert.ok(contrast('--surf-brand-mark', '--surf-slider-track', theme) >= 3)
+    assert.ok(contrast('--surf-brand-mark', '--surf-canvas', theme) >= 3)
+  }
 })
 
 test('a skeleton stays visible on the canvas in both themes', () => {

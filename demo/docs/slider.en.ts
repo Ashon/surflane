@@ -17,8 +17,8 @@ export const doc: ComponentDoc = {
     'Give each range thumb its own name and unit.',
   ],
   tokens: [
-    '--surf-brand',
-    '--surf-ink-muted',
+    '--surf-brand-mark',
+    '--surf-slider-track',
     '--surf-ink-body',
     '--surf-canvas',
     '--surf-interaction-focus',

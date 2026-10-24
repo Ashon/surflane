@@ -102,7 +102,8 @@ export const descriptions = {
     'The edge of a selected row: the focus color, faint, over --surf-selected',
   '--surf-brand-mark':
     'Brand as a mark on the sheet, such as a progress fill; darker in light themes for 3:1',
-  '--surf-slider-track': "A slider's track, 3:1 against the brand indicator",
+  '--surf-slider-track':
+    "A slider's track, the surface plane under its brand-mark fill",
   '--surf-type-display-size': 'Fluid 32–40px page title',
   '--surf-type-title-size': 'Fluid 28–32px heading',
   '--surf-type-workspace-title-size': 'Earlier name for the display size',

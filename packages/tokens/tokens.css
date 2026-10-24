@@ -338,13 +338,13 @@
     /* Brand as a mark on the sheet, such as a progress fill or a range end: the brand
        itself where it stands out, darker in light themes so it keeps 3:1. */
     --surf-brand-mark: var(--surf-brand);
-    /* A slider's track, 3:1 against the brand indicator on it. */
-    --surf-slider-track: oklch(from var(--surf-ink-muted) 0.52 c h);
+    /* A slider's track: the surface plane, so the brand-mark fill on it reads 3:1. */
+    --surf-slider-track: var(--surf-surface);
   }
   :root[data-theme='light'],
   [data-theme='light'] {
     --surf-brand-mark: oklch(from var(--surf-brand) min(l, 0.63) c h);
-    --surf-slider-track: var(--surf-ink-muted);
+    --surf-slider-track: var(--surf-surface);
     --surf-status-success-fg: oklch(
       from color-mix(in srgb, var(--surf-success) 25%, var(--surf-ink)) l c h /
         alpha
@@ -492,7 +492,7 @@
   @media (prefers-color-scheme: light) {
     :root:not([data-theme='dark']):not([data-theme='light']) {
       --surf-brand-mark: oklch(from var(--surf-brand) min(l, 0.63) c h);
-      --surf-slider-track: var(--surf-ink-muted);
+      --surf-slider-track: var(--surf-surface);
       color-scheme: light;
       --surf-chrome: oklch(0.9781762 0.0034179 247.8580546); /* Gray 10 */
       --surf-canvas: oklch(1 0 0); /* White */
