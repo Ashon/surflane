@@ -233,3 +233,26 @@ for (const width of [1440, 320])
           .evaluate((el) => el.scrollWidth <= el.clientWidth),
       ).toBe(true)
     })
+
+test('Prose that opens with a heading has no space above it', async ({
+  page,
+}) => {
+  await page.goto('/foundations/typography')
+  await waitForCatalogReady(page)
+  const margins = await page.evaluate(() => {
+    const prose = document.createElement('div')
+    prose.className = 'surf-prose'
+    prose.innerHTML = '<h2>Rollout</h2><p>Canary first.</p><h3>Rollback</h3>'
+    document.querySelector('main')!.append(prose)
+    const [first, , later] = prose.children
+    const result = {
+      first: getComputedStyle(first).marginTop,
+      later: getComputedStyle(later).marginTop,
+    }
+    prose.remove()
+    return result
+  })
+  expect(margins.first).toBe('0px')
+  // A heading after text keeps its space.
+  expect(parseFloat(margins.later)).toBeGreaterThan(0)
+})

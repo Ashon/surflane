@@ -119,6 +119,11 @@
     color: var(--surf-ink);
     margin-block: var(--surf-space-8) var(--surf-space-3);
   }
+  /* A heading's top margin separates it from the text above; the first child has none.
+     (0,2,0) beats the heading rule's (0,1,1). */
+  .surf-prose > :first-child {
+    margin-top: 0;
+  }
   .surf-prose h2 {
     font-size: var(--surf-type-page-size);
     line-height: var(--surf-type-page-leading);
