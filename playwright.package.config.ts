@@ -12,9 +12,9 @@ export default defineConfig({
     ['html', { open: 'never', outputFolder: 'playwright-report/package' }],
   ],
   snapshotPathTemplate: '{testDir}/__screenshots__/{arg}{ext}',
-  // One image, one renderer: any changed pixel is a change. threshold still absorbs
-  // color noise below a visible difference.
-  expect: { toHaveScreenshot: { maxDiffPixels: 0 } },
+  // One image, one renderer: any changed pixel is a change, however faint. The default
+  // threshold of 0.2 let a light gray turn into another light gray unnoticed.
+  expect: { toHaveScreenshot: { maxDiffPixels: 0, threshold: 0 } },
   use: {
     baseURL: 'http://127.0.0.1:8068',
     viewport: { width: 1280, height: 900 },
