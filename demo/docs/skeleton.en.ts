@@ -7,7 +7,12 @@ export const doc: ComponentDoc = {
   keyboard:
     'Skeleton is always aria-hidden=true and never takes focus. The parent announces the loading state once. With reduced motion, the pulse stops.',
   anatomy: 'decorative span; parent loading region owns announcements',
-  tokens: ['--surf-surface', '--surf-radius-sm', '--surf-radius-md'],
+  tokens: [
+    '--surf-skeleton-base',
+    '--surf-skeleton-highlight',
+    '--surf-radius-sm',
+    '--surf-radius-md',
+  ],
   code: `import { Skeleton } from '@surflane/ui'
 
 <section aria-label='Environment' aria-busy={loading}>

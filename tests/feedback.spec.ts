@@ -142,3 +142,31 @@ test('Unknown progress stops pulsing with reduced motion and remains visible in 
     'Waiting for worker',
   )
 })
+test('Skeleton shows on a light canvas through its own tokens', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/components/skeleton')
+  await waitForCatalogReady(page)
+  const shades = await page
+    .locator('.surf-skeleton')
+    .first()
+    .evaluate((skeleton) => {
+      const probe = (token: string) => {
+        const element = document.createElement('i')
+        element.style.backgroundColor = `var(${token})`
+        skeleton.parentElement!.append(element)
+        const color = getComputedStyle(element).backgroundColor
+        element.remove()
+        return color
+      }
+      return {
+        own: getComputedStyle(skeleton).backgroundColor,
+        base: probe('--surf-skeleton-base'),
+        surface: probe('--surf-surface'),
+      }
+    })
+  // --surf-surface is about 1.07:1 on a light canvas; the skeleton tokens stay visible.
+  expect(shades.own).toBe(shades.base)
+  expect(shades.own).not.toBe(shades.surface)
+})

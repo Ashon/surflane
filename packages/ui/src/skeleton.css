@@ -11,8 +11,15 @@
     width: 100%;
     height: 1em;
     border-radius: var(--surf-radius-sm);
-    background: var(--surf-surface);
-    animation: surf-progress-pulse 1.4s ease-in-out infinite;
+    /* Its own tokens: --surf-surface is about 1.07:1 on a light canvas, and a pulse
+       through opacity faded it further. The pulse moves between the two shades. */
+    background: var(--surf-skeleton-base);
+    animation: surf-skeleton-pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes surf-skeleton-pulse {
+    50% {
+      background-color: var(--surf-skeleton-highlight);
+    }
   }
   .surf-skeleton[data-shape='block'] {
     height: 96px;
