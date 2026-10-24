@@ -108,11 +108,11 @@
 
 ## Status
 
-- 2026-10-24: re-synced after the 0.10 rename. The atomic upload went to project d32c3c1a-1c5d-4f54-9f70-ee6c0a01e5eb:
-  - 81 components, 307 graded cells, all good.
-  - 520 files uploaded, no deletes.
-  - `_ds_sync.json` is now the anchor, so the next run diffs against it.
-- The bundle was built from source that is ahead of npm 0.10.0. It carries the Unreleased Skeleton and Fieldset fixes.
+- 2026-10-24: re-synced the 0.11.0 release (bundle `1d8cd564e552`) through the atomic upload to project d32c3c1a-1c5d-4f54-9f70-ee6c0a01e5eb:
+  - The driver reported all 81 components unchanged by source.
+  - 12 restyled components were spot-checked and kept their grades: Slider, OTPField, DatePicker, DateRangePicker, TimeField, Input, Textarea, NumberField, FileUpload, Prose, Combobox and Autocomplete.
+  - 518 files uploaded, no deletes, anchored by `_ds_sync.json`.
+- The 0.10 rename sync before it uploaded 520 files: 81 components and 307 graded cells, all good.
 
 ## Re-sync risks
 
