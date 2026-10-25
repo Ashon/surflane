@@ -4,7 +4,7 @@ const en = {
   principles: [
     [
       'Move only to explain a change.',
-      'Motion shows where something came from or went, so leave out bounces and loops.',
+      'Motion shows where something came from or went, so leave out bounces. Only a progress indicator loops, while its work runs.',
     ],
     [
       'Keep transitions short.',
@@ -53,6 +53,8 @@ const en = {
     '--surf-toast-stack-ease': 'Toast stack',
     '--surf-theme-transition-duration': 'Theme fade',
     '--surf-theme-transition-ease': 'Theme fade curve',
+    '--surf-motion-spin': 'Spinner turn',
+    '--surf-motion-pulse': 'Skeleton and indeterminate progress pulse',
   },
   tokensNote:
     'Reduced motion turns component transitions off but leaves these values as they are.',
@@ -122,7 +124,7 @@ export const text: Record<Locale, typeof en> = {
     principles: [
       [
         '변화를 설명할 때만 움직이세요.',
-        '모션은 무엇이 어디서 오고 어디로 갔는지 보여 주므로, 바운스나 반복 재생은 넣지 마세요.',
+        '모션은 무엇이 어디서 오고 어디로 갔는지 보여 주므로 바운스는 넣지 마세요. 반복 재생은 작업이 도는 동안의 진행 표시만 씁니다.',
       ],
       [
         '전환은 짧게 하세요.',
@@ -171,6 +173,8 @@ export const text: Record<Locale, typeof en> = {
       '--surf-toast-stack-ease': 'Toast 스택',
       '--surf-theme-transition-duration': '테마 페이드',
       '--surf-theme-transition-ease': '테마 페이드 곡선',
+      '--surf-motion-spin': 'Spinner 한 바퀴',
+      '--surf-motion-pulse': 'Skeleton과 미정 진행의 맥동',
     },
     tokensNote: '모션 줄이기는 컴포넌트 전환을 끄지만 이 값은 그대로 둡니다.',
     transitionsIntro:

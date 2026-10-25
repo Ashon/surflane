@@ -38,11 +38,13 @@ const en = {
   element: 'Element',
   rows: [
     ['Button / input height', '32px', '36px', '44px'],
-    ['Control text', '13 / 20px', '14 / 22px', '16 / 24px'],
+    ['Field and menu text', '13 / 20px', '14 / 22px', '16 / 24px'],
+    ['Button text', '13 / 18px', '14 / 20px', '16 / 22px'],
     ['Checkbox / radio', '16px', '20px', '24px'],
     ['Popover padding', '12px', '16px', '24px'],
     ['Card padding', '16px', '24px', '32px'],
     ['Card, sheet and dialog title', '16 / 24px', '20 / 28px', '20 / 28px'],
+    ['Slider thumb', '20px', '24px', '28px'],
     ['Table cell vertical padding', '8px', '12px', '16px'],
     ['Badge vertical padding', '2px', '4px', '6px'],
     ['Avatar', '24px', '36px', '48px'],
@@ -51,7 +53,7 @@ const en = {
   touchStart: 'On touch and narrow screens, controls never shrink below the ',
   touchLink: 'target size',
   touchEnd:
-    '. Size never changes chart data or line thickness. Type roles stay the same at every size, apart from the titles of cards, sheets and dialogs, which take the subsection role at Small.',
+    '. Size never changes chart data or line thickness. Only control text steps with the size: every type role stays the same, apart from the titles of cards, sheets, drawers and dialogs, which take the subsection role at Small. A default SizeProvider renders exactly as none.',
   composition:
     'SizeProvider sizes a form, table, or menu, including the portals it opens. A nested provider or a size prop overrides it. Wrap Table.Container from outside instead of putting a provider inside a table.',
   codeLabel: 'Component size composition',
@@ -96,11 +98,13 @@ export const text: Record<Locale, typeof en> = {
     element: '요소',
     rows: [
       ['버튼 / 입력 높이', '32px', '36px', '44px'],
-      ['컨트롤 글자', '13 / 20px', '14 / 22px', '16 / 24px'],
+      ['필드와 메뉴 글자', '13 / 20px', '14 / 22px', '16 / 24px'],
+      ['버튼 글자', '13 / 18px', '14 / 20px', '16 / 22px'],
       ['Checkbox / Radio', '16px', '20px', '24px'],
       ['Popover 패딩', '12px', '16px', '24px'],
       ['카드 패딩', '16px', '24px', '32px'],
       ['카드, 시트, 대화상자 제목', '16 / 24px', '20 / 28px', '20 / 28px'],
+      ['Slider 손잡이', '20px', '24px', '28px'],
       ['테이블 셀 세로 패딩', '8px', '12px', '16px'],
       ['Badge 세로 패딩', '2px', '4px', '6px'],
       ['Avatar', '24px', '36px', '48px'],
@@ -109,7 +113,7 @@ export const text: Record<Locale, typeof en> = {
     touchStart: '터치 기기와 좁은 화면에서 컨트롤은 ',
     touchLink: '타깃 크기',
     touchEnd:
-      ' 아래로 줄지 않습니다. 크기는 차트 데이터와 선 두께를 바꾸지 않습니다. 타입 역할도 모든 크기에서 같습니다. 단, 카드, 시트, 대화상자 제목은 Small에서 subsection 역할을 씁니다.',
+      ' 아래로 줄지 않습니다. 크기는 차트 데이터와 선 두께를 바꾸지 않습니다. 크기를 따라 바뀌는 글자는 컨트롤 글자뿐이고, 타입 역할은 모두 그대로입니다. 단, 카드, 시트, 드로어, 대화상자 제목은 Small에서 subsection 역할을 씁니다. 기본값 SizeProvider는 provider가 없을 때와 똑같이 그립니다.',
     composition:
       'SizeProvider는 폼, 테이블, 메뉴와 그 안에서 열리는 포털의 크기를 정합니다. 안쪽 provider나 size prop이 이를 덮어씁니다. provider는 테이블 안이 아니라 Table.Container 바깥에 두세요.',
     codeLabel: '컴포넌트 크기 구성',

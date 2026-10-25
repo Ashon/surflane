@@ -9,7 +9,7 @@ const en = {
     ],
     [
       'Take every gap from the scale.',
-      'Spacing tokens step in multiples of 4px, so edges line up across screens.',
+      'Spacing tokens step in multiples of 4px, so edges line up across screens. Only inside a control do sizes take 2px half steps.',
     ],
     [
       'Give each gap one owner.',
@@ -96,7 +96,7 @@ export const text: Record<Locale, typeof en> = {
       ],
       [
         '모든 간격은 스케일에서 고르세요.',
-        '간격 토큰은 4px 배수로 늘어나므로 화면이 달라도 가장자리가 맞습니다.',
+        '간격 토큰은 4px 배수로 늘어나므로 화면이 달라도 가장자리가 맞습니다. 컨트롤 안쪽에서만 2px 반 단계를 씁니다.',
       ],
       [
         '간격마다 주인을 하나만 두세요.',

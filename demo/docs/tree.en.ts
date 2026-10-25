@@ -30,7 +30,7 @@ export const doc: ComponentDoc = {
     '--surf-radius-full',
     '--surf-selected',
     '--surf-interaction-hover-bg',
-    '--surf-control-focus',
+    '--surf-interaction-focus',
   ],
   code: `// Needs headless-tree and react-virtual:
 // npm install @headless-tree/core @headless-tree/react @tanstack/react-virtual

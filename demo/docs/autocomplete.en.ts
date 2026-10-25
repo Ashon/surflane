@@ -12,7 +12,7 @@ export const doc: ComponentDoc = {
     '--surf-control-height',
     '--surf-control-radius',
     '--surf-menu-background',
-    '--surf-menu-hover-background',
+    '--surf-interaction-hover-bg',
     '--surf-layer-popup',
   ],
   code: `import { Autocomplete, Field } from '@surflane/ui'

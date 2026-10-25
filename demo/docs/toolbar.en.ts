@@ -9,7 +9,7 @@ export const doc: ComponentDoc = {
   keyboard:
     "The toolbar is a single Tab stop. Arrow keys along the orientation, Home, and End move focus. Editing keys inside inputs keep their behavior. Disabled Buttons stay focusable, since focusableWhenDisabled defaults to true, but they don't run. Links keep native navigation, and Root.disabled doesn't disable them.",
   tokens: [
-    '--surf-surface',
+    '--surf-recessed',
     '--surf-space-2',
     '--surf-control-height',
     '--surf-radius-md',

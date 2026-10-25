@@ -119,7 +119,7 @@ const en = {
   closestPair: 'Closest pair',
   pairText: (a: number, b: number) => `${a} and ${b}`,
   distanceNote:
-    "ΔE is the distance in OKLab, and 0.02 is just noticeable. Surflane's chart categories measure 0.09 on light and 0.11 on dark for typical vision, but about 0.03 for dichromats. So Chart also uses markers, line patterns and a legend.",
+    "ΔE is the distance in OKLab, and 0.02 is just noticeable. Surflane's twelve chart categories keep at least 0.087 on light and 0.092 on dark for typical vision, and 0.025 for dichromats: distinct, but close. So Chart also uses markers, line patterns and a legend.",
   checkerHeading: 'Contrast checker',
   checkerIntro:
     'Take a foreground and a background from the system roles, a ramp swatch or the sliders. The checker measures WCAG 2 contrast and finds the nearest lightness that passes, keeping the hue.',
@@ -265,7 +265,7 @@ export const text: Record<Locale, typeof en> = {
     closestPair: '가장 가까운 조합',
     pairText: (a: number, b: number) => `${a}와 ${b}`,
     distanceNote:
-      'ΔE는 OKLab에서의 거리이고, 0.02면 겨우 구분됩니다. Surflane의 차트 범주색은 일반 색각에서 라이트 0.09, 다크 0.11이지만 이색형 색각에서는 0.03 안팎입니다. 그래서 Chart는 마커, 선 패턴, 범례로도 계열을 구분합니다.',
+      'ΔE는 OKLab에서의 거리이고, 0.02면 겨우 구분됩니다. Surflane의 차트 범주색 12개는 일반 색각에서 라이트 0.087, 다크 0.092 이상이고, 이색형 색각에서도 0.025 이상입니다. 구분은 되지만 가까워서 Chart는 마커, 선 패턴, 범례로도 계열을 구분합니다.',
     checkerHeading: '대비 계산기',
     checkerIntro:
       '전경과 배경을 시스템 역할, 램프 견본, 슬라이더 중에서 가져오세요. 계산기는 WCAG 2 대비를 재고, 색상을 유지한 채 기준을 넘는 가장 가까운 밝기를 찾아 줍니다.',

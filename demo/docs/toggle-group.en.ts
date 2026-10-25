@@ -11,7 +11,7 @@ export const doc: ComponentDoc = {
     '--surf-selected',
     '--surf-control-border',
     '--surf-space-1',
-    '--surf-radius-full',
+    '--surf-radius-pill',
     '--surf-interaction-focus',
   ],
   code: `import { ToggleGroup, Toggle } from '@surflane/ui'

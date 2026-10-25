@@ -20,7 +20,7 @@ export const doc: ComponentDoc = {
     '--surf-selected',
     '--surf-control-border',
     '--surf-control-height',
-    '--surf-radius-full',
+    '--surf-radius-pill',
     '--surf-interaction-focus',
   ],
   code: `import { Pagination } from '@surflane/ui'

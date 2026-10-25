@@ -7,7 +7,11 @@ export const doc: DocKo = {
   keyboard:
     'Tab은 dialog 안에서 포커스를 유지합니다. Escape 또는 닫기 버튼이 dialog를 닫습니다. 중첩된 Select가 먼저 닫힌 다음, 부모 Dialog가 닫힙니다.',
   props: {
-    'Content.closeLabel': '접근 가능한 X 레이블; false는 X를 숨깁니다.',
+    'Content.closeLabel':
+      '닫기(X) 버튼의 이름입니다. 모든 대화상자에 닫기 버튼이 있습니다.',
+    'Content.closeDisabled': '저장 중일 때처럼 닫기 버튼을 비활성화합니다.',
+    'Content.focusBoundaryLabel':
+      '가장자리 포커스 가드의 이름입니다. 스크린 리더가 마지막 컨트롤을 지나면 만납니다.',
     'Content.initialFocus': 'ref / 포커스 콜백 (Base UI)',
     'Root.open / onOpenChange': '제어 dialog 상태',
   },

@@ -39,7 +39,7 @@ export const doc: ComponentDoc = {
     '--surf-canvas',
     '--surf-selected',
     '--surf-radius-full',
-    '--surf-control-focus',
+    '--surf-interaction-focus',
   ],
   code: `import { AppShell, Menu, ScrollArea, Sheet } from '@surflane/ui'
 

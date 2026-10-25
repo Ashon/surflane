@@ -6,7 +6,7 @@ export const doc: ComponentDoc = {
     'To compose toasts yourself, render one Provider and one Viewport for the app. For feedback beside a button, use a separate Provider with Viewport.layout=anchored and a Positioner.',
     'Calling add with an existing ID updates that toast.',
     'The stack overlaps and expands on hover or focus. Set Viewport.layout=list to keep it expanded.',
-    "Toasts are borderless, opaque surfaces with a shadow, and Root's tone colors the status icon.",
+    "Toasts are opaque surfaces with a 1px edge and a shadow, because no backdrop sets them apart from the page. Root's tone colors the status icon.",
   ],
   avoid:
     "Don't put critical errors, input validation, or task history only in a disappearing toast. Keep them in an inline message, field error, or result screen. Announce work as finished only after it runs. Use high priority only when something needs immediate attention.",

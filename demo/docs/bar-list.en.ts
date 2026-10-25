@@ -13,7 +13,7 @@ export const doc: ComponentDoc = {
     'div → ol(aria-label) → li: name + detail, bar (aria-hidden), value; with maxRows, ScrollArea(region) around the ol',
   tokens: [
     '--surf-brand-mark',
-    '--surf-surface',
+    '--surf-recessed',
     '--surf-ink',
     '--surf-ink-muted',
     '--surf-type-body-size',

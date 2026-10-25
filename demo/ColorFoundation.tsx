@@ -155,7 +155,6 @@ export function ColorFoundation() {
           '--surf-control-placeholder',
           '--surf-control-background',
         ],
-        [t.inputHoverText, '--surf-ink', '--surf-control-hover-background'],
         [t.focusedInputText, '--surf-ink', '--surf-control-focus-background'],
       ],
     },
@@ -180,11 +179,6 @@ export function ColorFoundation() {
           '--surf-control-background',
         ],
         [t.inputHoverBoundary, '--surf-control-hover-border', '--surf-canvas'],
-        [
-          t.inputHoverBoundaryInside,
-          '--surf-control-hover-border',
-          '--surf-control-hover-background',
-        ],
         [t.inputFocusOutside, '--surf-control-focus', '--surf-canvas'],
         [
           t.inputFocusInside,
@@ -205,7 +199,6 @@ export function ColorFoundation() {
         [t.errorBoundary, '--surf-status-danger-fg', '--surf-canvas'],
         [t.progressFill, '--surf-brand-mark', '--surf-surface'],
         [t.progressFillSheet, '--surf-brand-mark', '--surf-canvas'],
-        [t.sliderFill, '--surf-brand-mark', '--surf-slider-track'],
         ...(['success', 'danger', 'caution', 'info', 'neutral'] as const).map(
           (tone): Pair => [
             t.statusBorder(tone),

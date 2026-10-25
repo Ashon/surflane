@@ -3,7 +3,7 @@ const overlays = [
   '--surf-radius-sheet',
   '--surf-shadow-float',
   '--surf-chrome',
-  '--surf-dialog-enter-duration',
+  '--surf-duration-base',
 ]
 export const doc: ComponentDoc = {
   usage:

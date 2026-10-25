@@ -1,7 +1,7 @@
 import type { ComponentDoc } from '../componentDocs'
 const controls = [
   '--surf-control-height',
-  '--surf-control-radius',
+  '--surf-radius-pill',
   '--surf-interaction-focus',
   '--surf-control-background',
 ]

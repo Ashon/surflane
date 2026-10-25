@@ -37,7 +37,7 @@ const tokens = {
     '--surf-ink',
     '--surf-ink-muted',
     '--surf-brand-ink',
-    '--surf-icon-size-md',
+    '--surf-size-icon-default',
   ],
 }
 
@@ -165,18 +165,20 @@ const en = {
     'Use the roles by depth: `--surf-chrome` for the frame, `--surf-canvas` for the sheet, `--surf-surface` for a secondary area, and `--surf-selected` for the current item.',
     'Neighboring roles differ by at least 1.05:1, enough to read as regions without a line.',
     'Keep one surface level inside the sheet.',
+    'Inside that level, a track, a read-only value or a tab list takes `--surf-recessed`, which turns to the canvas on a surface, so it still shows.',
     'Inset a nested plane equally on all sides, with the radius max(0, outer radius − inset).',
     'Blur the screen to check: the regions should still read from tone and spacing alone.',
   ],
   elevationRules: [
-    'Floating UI takes `--surf-shadow-float` on an opaque `--surf-menu-background`, with its `--surf-layer-*` token. A shadow without its layer misreports what is on top.',
+    'Floating UI takes `--surf-shadow-float` with its `--surf-layer-*` token. A shadow without its layer misreports what is on top.',
     'The only resting shadow is `--surf-shadow-sheet`, a hairline between the sheet and the frame.',
-    'Floating UI keeps its 1px `--surf-menu-border`, because shadows fade in the dark theme and vanish in forced colors.',
+    'Menus, popovers, selects and toasts float on the tone of the page, so they keep an opaque `--surf-menu-background` and a 1px `--surf-menu-border`: shadows fade in the dark theme and vanish in forced colors.',
+    'Dialogs, sheets and drawers sit on a backdrop that already sets them apart, so they take no line. Forced colors draw their edge.',
   ],
   lineRules: [
     '`--surf-control-border` marks inputs, selects, checkboxes, and outline buttons. As the one line with meaning, it meets 3:1 against its plane (WCAG 1.4.11).',
     '`--surf-line` is decorative: section dividers, and the edge where fixed chrome meets same-tone scrolling content.',
-    "Don't box what tone or spacing already separates. Table rows part by spacing, and hover and selection fill them.",
+    "Don't box what tone or spacing already separates. Table rows part by spacing, and hover and selection fill them. Only a wide table with many columns takes the `lined` or `grid` variant.",
     "Don't mark status with a one-sided accent border. Use a label and an icon.",
   ],
   pointRules: [
@@ -306,18 +308,20 @@ export const text: Record<Locale, typeof en> = {
       '깊이에 따라 역할을 쓰세요. 틀은 `--surf-chrome`, 시트는 `--surf-canvas`, 보조 영역은 `--surf-surface`, 현재 항목은 `--surf-selected`입니다.',
       '이웃한 역할은 1.05:1 이상 차이 나서 선 없이도 영역으로 읽힙니다.',
       '시트 안의 보조 면은 한 단계만 두세요.',
+      '그 안에서 트랙, 읽기 전용 값, 탭 목록은 `--surf-recessed`를 씁니다. 보조 면 위에서는 캔버스로 바뀌어 계속 보입니다.',
       '안에 놓는 면은 네 변의 여백을 같게 두고, 반경을 max(0, 바깥 반경 − 여백)로 맞추세요.',
       '화면을 흐리게 보며 확인하세요. 영역은 톤과 간격만으로 읽혀야 합니다.',
     ],
     elevationRules: [
-      '떠 있는 UI는 불투명한 `--surf-menu-background`에 `--surf-shadow-float`와 `--surf-layer-*` 토큰을 함께 씁니다. 레이어 없는 그림자는 무엇이 위인지 잘못 알립니다.',
+      '떠 있는 UI는 `--surf-shadow-float`와 `--surf-layer-*` 토큰을 함께 씁니다. 레이어 없는 그림자는 무엇이 위인지 잘못 알립니다.',
       '머무는 그림자는 시트와 틀 사이의 가는 `--surf-shadow-sheet` 하나뿐입니다.',
-      '떠 있는 UI는 1px `--surf-menu-border`를 유지하세요. 그림자는 다크 테마에서 흐려지고 강제 색상 모드에서 사라집니다.',
+      '메뉴, 팝오버, 셀렉트, 토스트는 페이지와 같은 톤 위에 뜨므로 불투명한 `--surf-menu-background`와 1px `--surf-menu-border`를 유지합니다. 그림자는 다크 테마에서 흐려지고 강제 색상 모드에서 사라집니다.',
+      '대화상자, 시트, 드로어는 배경막이 이미 떼어 놓으므로 선을 두지 않습니다. 강제 색상 모드에서는 가장자리를 선으로 그립니다.',
     ],
     lineRules: [
       '`--surf-control-border`는 입력, 선택, 체크박스, 외곽선 버튼의 경계입니다. 의미를 싣는 유일한 선이라 면과 3:1 이상 대비됩니다(WCAG 1.4.11).',
       '`--surf-line`은 장식입니다. 섹션 구분선과, 고정 크롬이 같은 톤의 스크롤 콘텐츠와 만나는 가장자리에 씁니다.',
-      '톤이나 간격으로 나뉜 곳을 상자로 두르지 마세요. 표의 행은 간격으로 나누고, 호버와 선택은 면으로 채웁니다.',
+      '톤이나 간격으로 나뉜 곳을 상자로 두르지 마세요. 표의 행은 간격으로 나누고, 호버와 선택은 면으로 채웁니다. 열이 많은 넓은 표만 `lined`나 `grid` 변형을 씁니다.',
       '한쪽 강조 테두리로 상태를 표시하지 마세요. 라벨과 아이콘을 쓰세요.',
     ],
     pointRules: [

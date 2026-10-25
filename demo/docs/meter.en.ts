@@ -9,7 +9,7 @@ export const doc: ComponentDoc = {
   anatomy: 'Root → Label + Value + Track(Indicator)',
   tokens: [
     '--surf-ink-body',
-    '--surf-surface',
+    '--surf-recessed',
     '--surf-space-2',
     '--surf-duration-base',
   ],

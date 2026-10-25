@@ -82,12 +82,12 @@ const selection = useTableSelection({
     ],
     [
       'Root.variant',
-      'plain | lined | grid | striped; lined draws lines between rows and grid between rows and columns, inside the table only; striped tones every other row',
+      'plain | lined | grid | striped; lined draws lines between rows and grid between rows and columns, inside the table only; striped tones every other row. Keep plain unless a wide table with many columns loses the eye along a row',
       'plain',
     ],
     [
       'Root.stickyHeader',
-      'keeps the header in view inside a Container with a bounded height and orientation="both"; --table-surface sets its background',
+      'keeps the header in view inside a Container with a bounded height and orientation="both"; --surf-table-surface sets its background',
       'false',
     ],
     ['Caption / Head / Body / Foot', 'native table element props', '—'],

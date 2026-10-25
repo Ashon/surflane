@@ -18,7 +18,7 @@ export const doc: ComponentDoc = {
   ],
   tokens: [
     '--surf-brand-mark',
-    '--surf-slider-track',
+    '--surf-recessed',
     '--surf-ink-body',
     '--surf-canvas',
     '--surf-interaction-focus',

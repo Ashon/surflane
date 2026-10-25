@@ -14,7 +14,7 @@ export const doc: ComponentDoc = {
     '--surf-size-avatar-large',
     '--surf-radius-full',
     '--surf-line',
-    '--surf-surface',
+    '--surf-recessed',
   ],
   code: `import { Avatar } from '@surflane/ui'
 

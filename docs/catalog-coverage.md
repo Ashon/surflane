@@ -4,7 +4,7 @@ The canonical registry is demo/catalog.ts. The current scope contains <!-- catal
 
 ## Foundations
 
-Layout and spacing, typography, design tokens, color and contrast, iconography, interaction states, motion and theme, accessibility, content and localization, and layers describe common composition contracts. The color foundation measures 48 semantic foreground/background pairs in the active browser theme. Layout guides are overlays and must not move the UI they explain.
+Layout and spacing, typography, design tokens, color and contrast, iconography, interaction states, motion and theme, accessibility, content and localization, and layers describe common composition contracts. The color foundation measures 72 semantic foreground/background pairs in the active browser theme. Layout guides are overlays and must not move the UI they explain.
 
 ## Components
 

@@ -18,7 +18,7 @@ export const doc: ComponentDoc = {
     '--surf-control-radius',
     '--surf-control-border',
     '--surf-menu-background',
-    '--surf-menu-hover-background',
+    '--surf-interaction-hover-bg',
     '--surf-selected',
     '--surf-layer-popup',
   ],

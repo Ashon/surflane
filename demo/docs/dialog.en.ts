@@ -31,7 +31,21 @@ export const doc: ComponentDoc = {
   </Dialog.Content>
 </Dialog.Root>`,
   props: [
-    ['Content.closeLabel', 'accessible X label; false hides X', 'Close dialog'],
+    [
+      'Content.closeLabel',
+      'names the close (X) button, which every dialog shows',
+      'Close dialog',
+    ],
+    [
+      'Content.closeDisabled',
+      'disables the close button, such as while a save runs',
+      'false',
+    ],
+    [
+      'Content.focusBoundaryLabel',
+      'names the focus guards at the edges, which screen readers reach past the last control',
+      'Continue dialog navigation',
+    ],
     [
       'Content.initialFocus',
       'ref / focus callback (Base UI)',

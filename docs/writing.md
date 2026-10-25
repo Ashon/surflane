@@ -100,7 +100,7 @@ Korean copy follows the principles above. These rules cover what the English rul
   | 권한을 가지고 있지 않으면            | 권한이 없으면              |
   | 기능들                               | 기능                       |
 
-- **Names stay as the API spells them.** Write component, prop, part and token names in code: `Button`, `--color-accent`. Write the general idea in Korean: 버튼.
+- **Names stay as the API spells them.** Write component, prop, part and token names in code: `Button`, `--surf-brand`. Write the general idea in Korean: 버튼.
 - **Familiar Korean words.** Add the English term in parentheses only at its first mention, and only when readers know it better: 대비(contrast). Follow 외래어 표기법: 마케팅, not 마켓팅.
 - **Spacing.** A unit may attach to a numeral: 3단계, 10개. Write CSS values exactly as in code: `16px`. Space dependent nouns: 지원 시, 기재 여부.
 - **One term per concept.** Reuse the term the catalog already uses.

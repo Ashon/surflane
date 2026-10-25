@@ -8,7 +8,7 @@ export const doc: ComponentDoc = {
     'Tab to the Trigger. Enter or Space opens and closes the Panel. With keepMounted, the closed Panel keeps its input state.',
   anatomy: 'Collapsible.Root → Trigger + Panel(content body)',
   tokens: [
-    '--surf-surface',
+    '--surf-recessed',
     '--surf-space-4',
     '--surf-motion-reveal',
     '--surf-interaction-focus',

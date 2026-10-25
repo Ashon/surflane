@@ -10,7 +10,7 @@ export const doc: ComponentDoc = {
   tokens: [
     '--surf-selected',
     '--surf-control-border',
-    '--surf-radius-full',
+    '--surf-radius-pill',
     '--surf-interaction-focus',
   ],
   code: `import { Toggle } from '@surflane/ui'

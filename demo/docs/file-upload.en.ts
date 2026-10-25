@@ -22,7 +22,7 @@ export const doc: ComponentDoc = {
     '--surf-control-border',
     '--surf-control-focus',
     '--surf-interaction-focus',
-    '--surf-surface',
+    '--surf-recessed',
     '--surf-line',
     '--surf-radius-lg',
     '--surf-status-danger-fg',

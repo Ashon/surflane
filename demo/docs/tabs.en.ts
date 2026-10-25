@@ -8,8 +8,8 @@ export const doc: ComponentDoc = {
     "Tab moves focus to the active tab. Arrow keys, Home, and End move focus between tabs. In the default manual mode, Enter or Space activates the focused tab. With List.activateOnFocus=true, a tab activates when it receives focus. Disabled tabs receive focus but don't activate.",
   anatomy: 'Tabs.Root → List(Tab + Indicator) + value-matched Panels',
   tokens: [
-    '--surf-surface',
-    '--surf-canvas',
+    '--surf-recessed',
+    '--surf-plane',
     '--surf-control-height',
     '--surf-control-radius',
     '--surf-interaction-focus',

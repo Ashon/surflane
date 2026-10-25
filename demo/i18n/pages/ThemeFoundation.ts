@@ -20,7 +20,7 @@ const en = {
     ],
     [
       'Leave status colors alone.',
-      'An accent theme recolors actions, selection and links, while success, danger and caution keep their meaning.',
+      'An accent theme recolors primary actions, checked controls, progress and focus, while success, danger and caution keep their meaning.',
     ],
   ],
   sections: {
@@ -44,7 +44,7 @@ const en = {
   neutralChroma: 'Tint strength',
   accent: 'Accent',
   accentHint:
-    'Fills primary buttons, checkboxes, selection and links on dark themes. Success keeps its own color.',
+    'Fills primary buttons and checked controls, marks progress, and colors focus rings and hovered links. Success keeps its own color.',
   accentHue: 'Accent hue',
   accentChroma: 'Accent chroma',
   chromaClamped: (max: string) =>
@@ -109,7 +109,7 @@ const en = {
     heading: 'Headings on the chrome',
     recessed: 'Secondary text on a recessed surface',
     onAccent: 'Text on the accent',
-    link: 'Links and focus on the sheet',
+    link: 'Focus and hovered links on the sheet',
   },
   pass: 'Passes',
   fail: 'Below 4.5:1',
@@ -154,7 +154,7 @@ export const text: Record<Locale, typeof en> = {
       ],
       [
         '상태색은 그대로 두세요.',
-        '강조색 테마는 작업, 선택, 링크의 색을 바꾸지만, 성공, 위험, 주의는 제 의미를 지킵니다.',
+        '강조색 테마는 주요 작업, 체크된 컨트롤, 진행, 포커스의 색을 바꾸지만, 성공, 위험, 주의는 제 의미를 지킵니다.',
       ],
     ],
     sections: {
@@ -178,7 +178,7 @@ export const text: Record<Locale, typeof en> = {
     neutralChroma: '톤 강도',
     accent: '강조색',
     accentHint:
-      '기본 버튼, 체크박스, 선택, 다크 테마의 링크를 채웁니다. 성공 상태는 자기 색을 유지합니다.',
+      '기본 버튼과 체크된 컨트롤을 채우고, 진행을 표시하고, 포커스 링과 호버한 링크에 색을 입힙니다. 성공 상태는 자기 색을 유지합니다.',
     accentHue: '강조색 색상',
     accentChroma: '강조색 채도',
     chromaClamped: (max: string) =>
@@ -242,7 +242,7 @@ export const text: Record<Locale, typeof en> = {
       heading: '크롬 위 제목',
       recessed: '들어간 면 위 보조 텍스트',
       onAccent: '강조색 위 텍스트',
-      link: '시트 위 링크와 포커스',
+      link: '시트 위 포커스와 호버한 링크',
     },
     pass: '통과',
     fail: '4.5:1 미만',

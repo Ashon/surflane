@@ -50,7 +50,7 @@ const en = {
     [
       'Focus visible',
       'Keyboard position',
-      '--surf-control-focus',
+      '--surf-interaction-focus',
       'ring or halo',
     ],
     [
@@ -75,7 +75,7 @@ const en = {
     ['Error / success', 'The real result', '', 'a message that stays'],
   ],
   focusRing:
-    'Buttons and choices draw a `--surf-focus-ring-width` ring at `--surf-focus-ring-offset`, both 2px, in `--surf-control-focus`. They show it for keyboard focus only (`:focus-visible`).',
+    'Buttons and choices draw a `--surf-focus-ring-width` ring at `--surf-focus-ring-offset`, both 2px, in `--surf-interaction-focus`. They show it for keyboard focus only (`:focus-visible`).',
   focusHalo:
     'Text fields turn their border `--surf-control-focus` and add a 3px `--surf-control-focus-ring` halo on any focus. Where a container clips, the ring moves inside by `--surf-focus-ring-inset`.',
   activationIntro:
@@ -162,7 +162,12 @@ export const text: Record<Locale, typeof en> = {
         '--surf-interaction-active-bg',
         '잉크 14%, 손을 떼면 사라짐',
       ],
-      ['포커스 표시', '키보드 위치', '--surf-control-focus', '링 또는 헤일로'],
+      [
+        '포커스 표시',
+        '키보드 위치',
+        '--surf-interaction-focus',
+        '링 또는 헤일로',
+      ],
       ['선택됨', '유지되는 선택', '--surf-selected', '채움, ARIA 상태와 함께'],
       [
         '비활성',
@@ -180,7 +185,7 @@ export const text: Record<Locale, typeof en> = {
       ['오류 / 성공', '실제 결과', '', '남아 있는 메시지'],
     ],
     focusRing:
-      '버튼과 선택 컨트롤은 `--surf-control-focus` 색으로 `--surf-focus-ring-width` 링을 `--surf-focus-ring-offset`만큼 띄워 그립니다. 둘 다 2px이고, 키보드 포커스(`:focus-visible`)에서만 보입니다.',
+      '버튼과 선택 컨트롤은 `--surf-interaction-focus` 색으로 `--surf-focus-ring-width` 링을 `--surf-focus-ring-offset`만큼 띄워 그립니다. 둘 다 2px이고, 키보드 포커스(`:focus-visible`)에서만 보입니다.',
     focusHalo:
       '텍스트 필드는 포커스를 받으면 테두리를 `--surf-control-focus`로 바꾸고 3px `--surf-control-focus-ring` 헤일로를 더합니다. 컨테이너가 잘라 내는 곳에서는 링이 `--surf-focus-ring-inset`만큼 안쪽으로 들어갑니다.',
     activationIntro:

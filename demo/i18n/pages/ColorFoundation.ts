@@ -32,7 +32,6 @@ const en = {
   chromeText: 'Chrome text',
   inputText: 'Input text',
   inputPlaceholder: 'Input placeholder',
-  inputHoverText: 'Input hover text',
   focusedInputText: 'Focused input text',
   tooltip: 'Tooltip',
   choiceMark: 'Choice mark',
@@ -40,7 +39,6 @@ const en = {
   inputBoundary: 'Input boundary',
   inputBoundaryInside: 'Input boundary / inside',
   inputHoverBoundary: 'Input hover boundary',
-  inputHoverBoundaryInside: 'Input hover boundary / inside',
   inputFocusOutside: 'Input focus / outside',
   inputFocusInside: 'Input focus / inside',
   choiceBoundary: 'Choice boundary',
@@ -49,7 +47,6 @@ const en = {
   errorBoundary: 'Error boundary',
   progressFill: 'Progress fill on its track',
   progressFillSheet: 'Progress fill on the sheet',
-  sliderFill: 'Slider fill on its track',
   statusBorder: (tone: string) => `Status border, ${tone}`,
   chartSeries: (index: number) => `Chart series ${index}`,
   chartCategory: (index: number) => `Chart category ${index}`,
@@ -71,7 +68,7 @@ const en = {
     ],
     [
       'Never rely on color alone.',
-      'Pair every status with a label or an icon, so it reads with color vision deficiency and in forced colors (WCAG 1.4.1).',
+      'Name every status in words, beside its icon, so it reads with color vision deficiency and in forced colors (WCAG 1.4.1).',
     ],
     [
       'Save chroma for small areas.',
@@ -98,6 +95,11 @@ const en = {
         ['--surf-chrome', 'fill', "The app's outer frame and sidebar"],
         ['--surf-canvas', 'fill', 'The sheet where work happens, and dialogs'],
         ['--surf-surface', 'fill', 'A secondary area inside the sheet'],
+        [
+          '--surf-recessed',
+          'fill',
+          'Tracks, read-only values and tab lists: the surface on the sheet, the canvas in a card',
+        ],
         ['--surf-code-bg', 'fill', 'Code blocks and inline code'],
         ['--surf-selected', 'fill', 'The current or chosen item'],
         ['--surf-menu-background', 'fill', 'Menus, select lists and toasts'],
@@ -129,7 +131,11 @@ const en = {
           'Text and icons on --surf-brand',
           '--surf-brand',
         ],
-        ['--surf-brand-ink', 'text', 'Links, always underlined'],
+        [
+          '--surf-brand-ink',
+          'text',
+          'Focus rings, a hovered link and the current location',
+        ],
       ],
     },
     {
@@ -245,8 +251,8 @@ const en = {
     ['Status', 'Hues by convention, always labeled', 'Danger 27°, caution 94°'],
     [
       'Categories',
-      'One lightness band, hues spaced apart, checked for color vision deficiency',
-      'Light 0.50–0.56, dark 0.74–0.82',
+      'Six hues in one lightness band, six halfway between them in another, checked for color vision deficiency',
+      'Light 0.50–0.56 then 0.38–0.45, dark 0.74–0.82 then 0.84–0.92',
     ],
     [
       'Measurement',
@@ -275,7 +281,6 @@ export const text: Record<Locale, typeof en> = {
     chromeText: '크롬 텍스트',
     inputText: '입력 텍스트',
     inputPlaceholder: '입력 플레이스홀더',
-    inputHoverText: '입력 호버 텍스트',
     focusedInputText: '포커스된 입력 텍스트',
     tooltip: '툴팁',
     choiceMark: '선택 항목 표시',
@@ -283,7 +288,6 @@ export const text: Record<Locale, typeof en> = {
     inputBoundary: '입력 경계',
     inputBoundaryInside: '입력 경계 / 안쪽',
     inputHoverBoundary: '입력 호버 경계',
-    inputHoverBoundaryInside: '입력 호버 경계 / 안쪽',
     inputFocusOutside: '입력 포커스 / 바깥',
     inputFocusInside: '입력 포커스 / 안쪽',
     choiceBoundary: '선택 항목 경계',
@@ -292,7 +296,6 @@ export const text: Record<Locale, typeof en> = {
     errorBoundary: '오류 경계',
     progressFill: '트랙 위 진행률 채움',
     progressFillSheet: '시트 위 진행률 채움',
-    sliderFill: '트랙 위 슬라이더 채움',
     statusBorder: (tone: string) => `상태 테두리, ${tone}`,
     chartSeries: (index: number) => `차트 계열 ${index}`,
     chartCategory: (index: number) => `차트 범주 ${index}`,
@@ -314,7 +317,7 @@ export const text: Record<Locale, typeof en> = {
       ],
       [
         '색만으로 전달하지 마세요.',
-        '상태에는 라벨이나 아이콘을 함께 두어야 색각 이상과 강제 색상에서도 읽힙니다(WCAG 1.4.1).',
+        '상태는 아이콘 옆에 글자로 이름을 붙여야 색각 이상과 강제 색상에서도 읽힙니다(WCAG 1.4.1).',
       ],
       [
         '채도는 작은 면에 쓰세요.',
@@ -341,6 +344,11 @@ export const text: Record<Locale, typeof en> = {
           ['--surf-chrome', 'fill', '앱의 바깥 틀과 사이드바'],
           ['--surf-canvas', 'fill', '작업이 일어나는 시트와 대화상자'],
           ['--surf-surface', 'fill', '시트 안의 보조 영역'],
+          [
+            '--surf-recessed',
+            'fill',
+            '트랙, 읽기 전용 값, 탭 목록. 시트 위에서는 보조 면, 카드 안에서는 캔버스',
+          ],
           ['--surf-code-bg', 'fill', '코드 블록과 인라인 코드'],
           ['--surf-selected', 'fill', '현재 항목이나 선택한 항목'],
           ['--surf-menu-background', 'fill', '메뉴, 선택 목록, 토스트'],
@@ -372,7 +380,7 @@ export const text: Record<Locale, typeof en> = {
             '--surf-brand 위의 글자와 아이콘',
             '--surf-brand',
           ],
-          ['--surf-brand-ink', 'text', '링크, 언제나 밑줄과 함께'],
+          ['--surf-brand-ink', 'text', '포커스 링, 호버한 링크, 현재 위치'],
         ],
       },
       {
@@ -405,7 +413,7 @@ export const text: Record<Locale, typeof en> = {
     trendColumns: ['방향', '--surf-trend-*-fg', '--surf-trend-*-bg'],
     directions: { up: '상승', down: '하락', flat: '보합' },
     trendNote:
-      '빨강을 상승으로 읽는 시장에서는 --trend-up과 --trend-down을 바꿔 씁니다.',
+      '빨강을 상승으로 읽는 시장에서는 --surf-trend-up과 --surf-trend-down을 바꿔 씁니다.',
     chartTitle: '차트',
     chartColumns: ['묶음', '라이트', '다크', '토큰'],
     chartSets: {
@@ -481,8 +489,8 @@ export const text: Record<Locale, typeof en> = {
       ['상태', '관례를 따르는 색상, 언제나 라벨과 함께', '위험 27°, 주의 94°'],
       [
         '범주',
-        '한 밝기 대역, 떨어진 색상, 색각 이상 검사',
-        '라이트 0.50–0.56, 다크 0.74–0.82',
+        '한 밝기 대역에 6색, 다른 대역에 그 사이 6색, 색각 이상 검사',
+        '라이트 0.50–0.56과 0.38–0.45, 다크 0.74–0.82와 0.84–0.92',
       ],
       ['측정', 'OKLCH로 정의하고 보간, 대비는 sRGB로 측정', 'WCAG 2 상대 휘도'],
     ],

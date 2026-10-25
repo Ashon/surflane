@@ -17,7 +17,7 @@ export const doc: ComponentDoc = {
   tokens: [
     '--surf-menu-background',
     '--surf-menu-border',
-    '--surf-menu-hover-background',
+    '--surf-interaction-hover-bg',
     '--surf-selected',
     '--surf-interaction-focus',
     '--surf-radius-lg',

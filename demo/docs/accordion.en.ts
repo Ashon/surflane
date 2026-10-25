@@ -8,7 +8,7 @@ export const doc: ComponentDoc = {
     'Tab and Shift+Tab move through each Trigger and the inputs in open panels. Enter or Space expands a panel. Base UI 1.9 dropped arrow-key roving focus for Accordion.',
   anatomy: 'Root → Item → Header(Trigger + SVG) + Panel(content body)',
   tokens: [
-    '--surf-surface',
+    '--surf-recessed',
     '--surf-space-4',
     '--surf-control-height',
     '--surf-motion-reveal',
