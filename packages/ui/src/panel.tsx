@@ -23,6 +23,19 @@ export const Body = function Body({
     <div {...props} ref={ref} className={cx('surf-panel-body', className)} />
   )
 }
-export function Footer({ className, ...props }: React.ComponentProps<'div'>) {
-  return <div {...props} className={cx('surf-panel-footer', className)} />
+export function Footer({
+  stacked = false,
+  className,
+  ...props
+}: React.ComponentProps<'div'> & {
+  /** Stacks the actions, each the full width, as a phone's bottom sheet does. */
+  stacked?: boolean
+}) {
+  return (
+    <div
+      {...props}
+      data-stacked={stacked || undefined}
+      className={cx('surf-panel-footer', className)}
+    />
+  )
 }

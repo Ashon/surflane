@@ -2,7 +2,7 @@
 import * as React from 'react'
 import { Icon } from './icon.js'
 import { useDialogFocusBoundary } from './dialog-focus.js'
-import { skin } from './parts.js'
+import { skin, usePortalDirection } from './parts.js'
 import { useComponentSize, normalizeSize } from './sizing.js'
 import { Drawer as BaseDrawer } from '@base-ui/react/drawer'
 import {
@@ -56,6 +56,7 @@ const DrawerContent = function DrawerContent({
     focusBoundaryLabel?: string
   } & { ref?: React.Ref<HTMLDivElement> }) {
   const scheme = useComponentSize(size)
+  const dir = usePortalDirection()
   const portalRef = useDialogFocusBoundary(focusBoundaryLabel)
   const { side, modal } = React.useContext(DrawerSide)
   const KeyboardProvider =
@@ -73,6 +74,7 @@ const DrawerContent = function DrawerContent({
             data-flush={flush || undefined}
           >
             <BaseDrawer.Popup
+              dir={dir}
               {...props}
               ref={ref}
               className={skin('surf-panel surf-drawer', className)}

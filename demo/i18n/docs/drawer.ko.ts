@@ -7,6 +7,13 @@ export const doc: DocKo = {
   keyboard:
     '포커스는 패널 안에 유지됩니다. Escape 또는 닫기 버튼이 패널을 닫습니다. 스와이프로 닫은 후에는 포커스가 Trigger로 돌아갑니다.',
   props: {
+    'Content.flush': '패널을 가장자리에 붙이고 그쪽 모서리를 각지게 합니다',
+    '--surf-panel-width':
+      '사용자 지정 속성: 주변 밀도를 그대로 두고 너비를 정합니다',
+    '--surf-panel-height':
+      '사용자 지정 속성: 위나 아래 패널을 한 높이로 고정합니다',
+    '--surf-panel-inset': '사용자 지정 속성: 머리, 본문, 푸터의 좌우 안쪽 여백',
+    'Footer.stacked': '동작을 세로로 쌓고 각각 전체 너비로 둡니다',
     'Root.side': 'left | right | top | bottom; 스와이프 방향을 결정합니다',
     'Content.size': 'small | default | large: 너비 320 / 440 / 640px와 밀도',
     'Content.closeLabel': '접근성 있는 X 레이블',

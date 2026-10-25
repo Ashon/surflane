@@ -569,7 +569,8 @@ body,
   letter-spacing: var(--surf-type-caption-tracking);
   margin-block: var(--surf-space-5);
 }
-.catalog-item-list {
+/* The list layout is the catalog's own; the grid layout is a Grid with its gap. */
+.catalog-item-list[data-layout='list'] {
   display: grid;
   gap: var(--surf-space-2);
 }
@@ -943,15 +944,6 @@ body,
 .navigation-demo-links {
   display: grid;
   gap: var(--surf-space-2);
-}
-.navigation-demo-links .surf-navigation-link > :is(strong, span) {
-  display: block;
-}
-.navigation-demo-links .surf-navigation-link > span {
-  margin-top: var(--surf-space-1);
-  color: var(--surf-ink-muted);
-  font-size: var(--surf-type-compact-size);
-  letter-spacing: var(--surf-type-compact-tracking);
 }
 .navigation-demo-destinations {
   display: grid;
@@ -1411,9 +1403,6 @@ body,
 }
 
 /* Catalog indexes consume the shared equal-card grid. */
-.catalog-item-list.surf-grid {
-  gap: var(--surf-layout-gap, var(--surf-layout-gutter));
-}
 .catalog-item-list[data-layout='grid'] .catalog-item {
   min-block-size: 88px;
 }
@@ -2718,13 +2707,6 @@ body,
   }
 }
 
-.command-search-dialog.surf-dialog-content {
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
-  gap: 0;
-  max-block-size: calc(100dvh - 32px);
-  overflow: auto;
-}
 .command-search-label {
   display: grid;
   gap: var(--surf-space-2);
@@ -2736,11 +2718,6 @@ body,
 .command-search-results-viewport {
   block-size: 100%;
 }
-.command-search-dialog .surf-combobox-list {
-  max-block-size: none;
-  overflow: visible;
-  padding: 0;
-}
 .command-search-item {
   display: grid;
   gap: var(--surf-space-1);
@@ -2750,9 +2727,6 @@ body,
 .command-search-item > span,
 .command-search-item > small {
   color: var(--surf-ink-muted);
-}
-.command-search-dialog .surf-combobox-item {
-  white-space: normal;
 }
 .command-search-body {
   display: grid;
@@ -3339,27 +3313,17 @@ body,
 /* Mobile navigation sheet, shared by the catalog menu and the app shell example: a
  * flush bottom Sheet as wide as a large panel, at the default density, that keeps one
  * height while its list changes, with thumb-reach rows and stacked footer actions. */
-.surf-panel.navigation-sheet {
+.navigation-sheet {
   --surf-panel-width: var(--surf-size-panel-large);
-  height: min(80dvh, 760px);
+  --surf-panel-height: min(80dvh, 760px);
+  --surf-panel-inset: var(--surf-space-3);
 }
-.navigation-sheet .surf-panel-body {
-  padding: 0 var(--surf-space-3);
-  scroll-padding-block: var(--surf-space-4);
-}
+/* The body starts just under the head; the list keeps its own room above. */
 .navigation-sheet nav {
-  padding: var(--surf-space-4) var(--surf-space-1);
+  padding: var(--surf-space-3) var(--surf-space-1) 0;
 }
 .navigation-sheet nav a {
   min-height: var(--surf-control-target-size);
-}
-.navigation-sheet .surf-panel-footer {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--surf-space-2);
-}
-.navigation-sheet .surf-panel-footer > .surf-button {
-  width: 100%;
 }
 
 .catalog-mobile-navigation-body {
@@ -3379,9 +3343,11 @@ body,
   padding: 0;
   scroll-padding-block: 16px;
 }
+/* This list scrolls in its own viewport, so it keeps room at both ends. */
 .catalog-mobile-navigation nav {
   display: grid;
   gap: var(--surf-space-4);
+  padding-block: var(--surf-space-4);
 }
 .catalog-mobile-navigation .catalog-navigation-scroll::before,
 .catalog-mobile-navigation .catalog-navigation-scroll::after {
@@ -3443,7 +3409,6 @@ body,
 .landing-console .surf-app-shell {
   --surf-app-shell-page-radius: var(--surf-radius-md);
   block-size: 100%;
-  overflow: hidden;
 }
 /* The avatar sits on the navigation's icon column (a 24px mark centred on the 16px
  * icons) and its name starts on the navigation label line, as the brand's does. */
@@ -3727,7 +3692,6 @@ body,
 .theme-preview .surf-app-shell {
   --surf-app-shell-page-radius: var(--surf-radius-md);
   block-size: 100%;
-  overflow: hidden;
 }
 .theme-preview-logo rect {
   fill: var(--surf-brand);

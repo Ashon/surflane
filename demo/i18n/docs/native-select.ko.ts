@@ -7,6 +7,7 @@ export const doc: DocKo = {
   keyboard:
     '키는 공유 Select와 동일하게 동작합니다. 숨겨진 input이 폼과 함께 값을 제출합니다.',
   props: {
+    children: 'option / optgroup 요소',
     'value / onChange': '네이티브 스타일 변경 어댑터',
   },
 }

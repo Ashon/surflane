@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 import { waitForCatalogReady } from './catalog-ready'
-import { pageRoutes } from '../demo/catalog'
+import { components, pageRoutes } from '../demo/catalog'
 import { localePath } from '../demo/router'
 
 test('the language switch moves to the Korean URL, keeps the choice in a cookie and survives a reload', async ({
@@ -160,4 +160,27 @@ test('Korean example pages pass their own labels to components', async ({
     )
     expect(english, route).toEqual([])
   }
+})
+
+// An API table's description cells read in Korean on a Korean page: a description
+// may hold code and value lists, but no run of English words.
+test('Korean API tables describe every prop in Korean', async ({ page }) => {
+  test.setTimeout(240_000)
+  const untranslated: string[] = []
+  for (const item of components.filter((item) => item.stage !== 'planned')) {
+    await page.goto(`/ko/components/${item.id}`)
+    await waitForCatalogReady(page)
+    const cells = await page
+      .locator('#api tbody tr td:nth-child(2)')
+      .allInnerTexts()
+    for (const cell of cells) {
+      const prose = cell.replace(/`[^`]*`|[\w.-]*[A-Z][\w.-]*|--[\w-]+/g, '')
+      if (
+        /\b[a-z]{3,}\s+[a-z]{3,}\s+[a-z]{3,}\b/.test(prose) &&
+        !/[가-힣]/.test(cell)
+      )
+        untranslated.push(`${item.id}: ${cell}`)
+    }
+  }
+  expect(untranslated).toEqual([])
 })

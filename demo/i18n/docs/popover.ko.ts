@@ -7,7 +7,12 @@ export const doc: DocKo = {
   keyboard:
     'Trigger가 popover를 열고 포커스를 안으로 이동시킵니다. Escape는 popover를 닫고 포커스를 Trigger로 되돌립니다. 바깥을 클릭하면 popover가 닫히고, 포커스는 클릭한 곳에 남습니다.',
   props: {
-    'Content.side / align / sideOffset': 'Base UI positioner props',
+    'Content.size':
+      'small | default | large: 최대 너비 240 / 320 / 480px와 밀도',
+    '--surf-popover-width':
+      '사용자 지정 속성: 주변 밀도를 그대로 두고 너비를 정합니다',
+    'Title / Description': '스타일이 적용된 제목과 설명',
+    'Content.side / align / sideOffset': 'Base UI 위치 지정 props',
     'Root.open / onOpenChange': '제어 popup 상태',
   },
 }

@@ -11,6 +11,8 @@ export const doc: DocKo = {
   keyboard:
     '소스는 기본 텍스트 선택과 복사를 유지합니다. ScrollArea에서 가로로 스크롤됩니다. wrap을 설정하면 소스를 바꾸지 않고 시각적으로 줄을 끊습니다. 색은 두 테마 모두에서 최소 4.5:1을 충족하고 강제 색 모드에서는 시스템 텍스트 색을 사용합니다.',
   props: {
+    language:
+      'tsx / jsx / typescript / javascript / css / html / json / bash / yaml / python / sql / markdown / text. ts/js/sh/yml 별칭도 받습니다',
     code: '원본 소스 문자열',
     inline: '코드만 렌더링; 주변 pre/scroll 레이아웃은 호출하는 쪽 소유',
     'label / wrap': '스크롤 영역 이름 / 시각적 줄 바꿈',

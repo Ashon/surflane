@@ -7,6 +7,8 @@ export const doc: DocKo = {
   keyboard:
     'Trigger에 포커스하면 Tooltip이 표시됩니다. Escape로 닫습니다. Tooltip은 절대 포커스를 받지 않습니다.',
   props: {
+    'side / align / sideOffset': '트리거 주변의 위치',
+    children: 'ReactElement 하나',
     label:
       'ReactNode. 짧은 말, 아이콘, 강조. 상호작용하는 요소는 넣지 않습니다',
     shortcut: "같은 동작의 단축키. '⌘B'처럼 레이블 뒤에 따로 표시합니다",

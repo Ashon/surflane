@@ -349,6 +349,8 @@ export {
   NavigationMenuRoot,
   NavigationMenuTrigger,
   NavigationMenuViewport,
+  NavigationMenuLinkTitle,
+  NavigationMenuLinkDescription,
 } from './navigation-menu.js'
 export { Menubar } from './menubar.js'
 export { Link, type LinkProps } from './link.js'

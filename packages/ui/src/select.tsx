@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Icon } from './icon.js'
 import { useComponentSize, type ComponentSize } from './sizing.js'
 import { Select as BaseSelect } from '@base-ui/react/select'
-import { cx } from './parts.js'
+import { cx, usePortalDirection } from './parts.js'
 
 export type SelectOption = {
   value: string
@@ -121,6 +121,7 @@ export const Select = function Select(
     labels?: unknown
   }
   const scheme = useComponentSize(size)
+  const dir = usePortalDirection()
   const options = flatten(items)
   // One stable callback, so the trigger ref is not detached on every render.
   const setTrigger = React.useCallback(
@@ -287,6 +288,7 @@ export const Select = function Select(
           ))}
         <BaseSelect.Portal>
           <BaseSelect.Positioner
+            dir={dir}
             className='surf-positioner'
             sideOffset={6}
             alignItemWithTrigger={false}

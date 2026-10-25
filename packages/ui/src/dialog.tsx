@@ -1,7 +1,7 @@
 'use client'
 import * as React from 'react'
 import { Icon } from './icon.js'
-import { part, skin, cx } from './parts.js'
+import { part, skin, cx, usePortalDirection } from './parts.js'
 import { useDialogFocusBoundary } from './dialog-focus.js'
 import { useComponentSize, type ComponentSize } from './sizing.js'
 import { Dialog as BaseDialog } from '@base-ui/react/dialog'
@@ -44,10 +44,12 @@ const DialogContent = function DialogContent({
 } & { ref?: React.Ref<HTMLDivElement> }) {
   const scheme = useComponentSize(size)
   const portalRef = useDialogFocusBoundary(focusBoundaryLabel)
+  const dir = usePortalDirection()
   return (
     <BaseDialog.Portal ref={portalRef}>
       <BaseDialog.Backdrop className='surf-dialog-backdrop' />
       <BaseDialog.Popup
+        dir={dir}
         data-ui-size={scheme}
         data-size={size}
         {...props}

@@ -69,8 +69,12 @@ export function NavigationMenuExample() {
                         closeOnClick
                         onClick={() => setCurrent(link.id)}
                       >
-                        <strong>{link.title}</strong>
-                        <span>{link.description}</span>
+                        <NavigationMenu.LinkTitle>
+                          {link.title}
+                        </NavigationMenu.LinkTitle>
+                        <NavigationMenu.LinkDescription>
+                          {link.description}
+                        </NavigationMenu.LinkDescription>
                       </NavigationMenu.Link>
                     ))}
                   </div>
@@ -83,15 +87,23 @@ export function NavigationMenuExample() {
                 <NavigationMenu.Content>
                   <div className='navigation-demo-links'>
                     <NavigationMenu.Link href='#navigation-guide' closeOnClick>
-                      <strong>{t.deploymentGuide}</strong>
-                      <span>{t.deploymentGuideDescription}</span>
+                      <NavigationMenu.LinkTitle>
+                        {t.deploymentGuide}
+                      </NavigationMenu.LinkTitle>
+                      <NavigationMenu.LinkDescription>
+                        {t.deploymentGuideDescription}
+                      </NavigationMenu.LinkDescription>
                     </NavigationMenu.Link>
                     <NavigationMenu.Link
                       href={routeHref('/foundations/layout')}
                       closeOnClick
                     >
-                      <strong>{t.layoutFoundations}</strong>
-                      <span>{t.layoutFoundationsDescription}</span>
+                      <NavigationMenu.LinkTitle>
+                        {t.layoutFoundations}
+                      </NavigationMenu.LinkTitle>
+                      <NavigationMenu.LinkDescription>
+                        {t.layoutFoundationsDescription}
+                      </NavigationMenu.LinkDescription>
                     </NavigationMenu.Link>
                   </div>
                 </NavigationMenu.Content>

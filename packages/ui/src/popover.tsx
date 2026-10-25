@@ -1,6 +1,12 @@
 'use client'
 import * as React from 'react'
-import { OwnPortal, part, scopedPortal, skin } from './parts.js'
+import {
+  OwnPortal,
+  part,
+  scopedPortal,
+  skin,
+  usePortalDirection,
+} from './parts.js'
 import { useComponentSize, type ComponentSize } from './sizing.js'
 import { Popover as BasePopover } from '@base-ui/react/popover'
 function PopoverContent({
@@ -21,9 +27,11 @@ function PopoverContent({
     size?: ComponentSize
   }) {
   const scheme = useComponentSize(size)
+  const dir = usePortalDirection()
   return (
     <OwnPortal portal={BasePopover.Portal}>
       <BasePopover.Positioner
+        dir={dir}
         side={side}
         align={align}
         sideOffset={sideOffset}

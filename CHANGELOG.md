@@ -18,6 +18,8 @@
 - Select `onValueChange` passes Base UI's `eventDetails`, as RadioGroup and Combobox do; `eventDetails.cancel()` keeps the current value. A form reset reports details that can't be canceled.
 - `Sheet.Content` and `Drawer.Content` take `focusBoundaryLabel`, which names their focus guards for VoiceOver as Dialog's are named.
 - `Card.Root` takes `size`, as its parts do.
+- `NavigationMenu.LinkTitle` and `NavigationMenu.LinkDescription` (flat names `NavigationMenuLinkTitle`, `NavigationMenuLinkDescription`): a destination's name and a quieter line under it, inside a Link.
+- Sheet and Drawer take two more custom properties beside `--surf-panel-width`: `--surf-panel-height` holds a top or bottom panel at one height, so it doesn't jump as a list inside changes, and `--surf-panel-inset` sets the side padding of the head, body and footer. `Sheet.Footer` and `Drawer.Footer` take `stacked`, which puts the actions one under the other at full width, as a phone's bottom sheet does.
 - `InlineMessage.Icon` takes its Root's tone unless it sets one, as `Toast.Icon` does.
 - Icon has view controls: `pin`, `list` and `grid`.
 - `Table.Truncate measure` sets how wide it gets before the ellipsis, such as `44ch` for long image references; 32ch without it.
@@ -43,6 +45,8 @@ These change what components look like, so they ship in a minor.
 - An icon in `EmptyState.Icon` is 32px, the one larger glyph that marks what the empty area is about.
 - Outline buttons, toggles, icon buttons such as the dialog and sheet close buttons, and the AppShell edge toggle draw their edge with `--surf-control-border`, 3:1 against the sheet as fields are. Before they used the decorative `--surf-line`, about 1.2:1 on white.
 - Dialog sits on planes, as Sheet and Drawer do: no line under the head or above the footer, and the footer is a surface plane. AlertDialog keeps its actions on the dialog's own plane.
+- An inline Combobox list (`Combobox.Root inline`) leaves scrolling to the container it sits in, such as a ScrollArea; only a list in its popup scrolls itself, up to 280px.
+- A Sheet or Drawer body keeps 16px of scroll padding at its top and bottom, so a control scrolled into view stays clear of the clipped edge.
 - Every popup enters the same way: menus, selects, popovers, comboboxes, preview cards and navigation menus fade in and rise `--surf-motion-lift` (4px) in `--surf-duration-fast`, and close at once. Select, Menu and Popover had no entrance; the others rose 4, 6 or 12px over 120 to 200ms.
 - AppShell links, Tree items and toggles, Accordion and Collapsible triggers, Chart legend buttons, Pagination links and the `@surflane/css` segments, icon buttons and theme actions take the same hover and pressed layer as everything else, over any fill they have.
 - In forced colors a selected, current or pressed control fills with `Highlight` and writes its label in `HighlightText`: Toggle, ToggleGroup and Toolbar items, segments, the current AppShell, NavigationMenu, BottomNavigation and Pagination item, and a selected Tree item. Pressed toggles lose the inner outline they drew there, and the current AppShell link its outline. A highlighted Combobox option keeps its outline; a selected one shows its check, and a chosen value's chip keeps an edge.
@@ -86,6 +90,7 @@ Deprecated in earlier minors and announced for removal:
 - The first control in a Sheet or Drawer body shows its whole focus ring.
 - Sheet and Drawer `side='left'` and `'right'` dock to that edge on right-to-left pages too.
 - DatePicker's trigger, month buttons and days, OTP fields at Small and the AppShell edge toggle reach 44px on touch.
+- Popups follow `DirectionProvider` inside a right-to-left region: Menu, ContextMenu, Select, Combobox, Autocomplete, Popover, PreviewCard, Tooltip, NavigationMenu, Toast, Dialog, AlertDialog, Sheet and Drawer set `dir='rtl'` on what they portal. Their text ran left to right, and an aligned popup took its start and end from the page instead.
 - A keyboard-focused range start or end in the calendar rings in `--surf-on-brand`, 4.4:1 on its fill in light and 9.9:1 in dark. In dark the ring matched the fill. Other selected days keep the shared focus color.
 - Dashboard.Panel moves focus to its title when Retry clears the error and takes its own button away; focus fell to the page.
 - ScrollArea's scrollbar stops fading under reduced motion, as every other transition does.

@@ -37,7 +37,9 @@
     letter-spacing: var(--surf-type-body-tracking);
     outline: none;
   }
-  .surf-combobox-list {
+  /* In its popup the list scrolls itself. An inline list leaves scrolling to the
+     container it is placed in, such as a ScrollArea. */
+  .surf-combobox-popup .surf-combobox-list {
     max-height: min(280px, var(--available-height));
     overflow: auto;
   }

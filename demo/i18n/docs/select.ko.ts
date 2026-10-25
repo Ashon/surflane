@@ -7,6 +7,7 @@ export const doc: DocKo = {
   keyboard:
     'Enter, Space 또는 화살표 키로 listbox를 엽니다. 화살표 키와 타이핑으로 항목 사이를 이동합니다. Escape는 listbox만 닫고 포커스를 돌려줍니다.',
   props: {
+    ref: '트리거 버튼, triggerRef와 같습니다',
     'value / onValueChange': '제어 값 + 콜백',
     'defaultValue / name / required / disabled': '선택 및 폼 props',
     'multiple / labels':

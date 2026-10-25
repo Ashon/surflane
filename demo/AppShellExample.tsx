@@ -255,7 +255,7 @@ export function AppShellExample({
                     <Sheet.Description>{t.sheetDescription}</Sheet.Description>
                   </Sheet.Header>
                   <Sheet.Body>{links(true)}</Sheet.Body>
-                  <Sheet.Footer>
+                  <Sheet.Footer stacked>
                     {accountMenu}
                     <Button
                       variant='secondary'

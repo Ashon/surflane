@@ -59,7 +59,7 @@ export const doc: ComponentDoc = {
     [
       '--surf-dialog-width',
       'custom property: a width that keeps the surrounding density',
-      'the size width',
+      'Content.size',
     ],
     ['Root.open / onOpenChange', 'controlled dialog state', '—'],
   ],

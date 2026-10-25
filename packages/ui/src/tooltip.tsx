@@ -1,6 +1,7 @@
 'use client'
 import * as React from 'react'
 import { useComponentSize, type ComponentSize } from './sizing.js'
+import { usePortalDirection } from './parts.js'
 import { Tooltip as BaseTooltip } from '@base-ui/react/tooltip'
 export function TooltipProvider({
   delayDuration = 150,
@@ -45,6 +46,7 @@ export function Tooltip({
   children,
 }: TooltipProps) {
   const scheme = useComponentSize()
+  const dir = usePortalDirection()
   // Disabling keeps the trigger mounted, so turning the tooltip on or off never
   // moves focus.
   return (
@@ -52,6 +54,7 @@ export function Tooltip({
       <BaseTooltip.Trigger render={children} />
       <BaseTooltip.Portal>
         <BaseTooltip.Positioner
+          dir={dir}
           side={side}
           align={align}
           sideOffset={sideOffset}

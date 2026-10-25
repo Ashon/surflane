@@ -7,6 +7,7 @@ export const doc: DocKo = {
   keyboard:
     '정적 Avatar는 Tab 순서에 없습니다. button 안에서는 button이 포커스와 동작을 제공합니다.',
   props: {
+    'Image.onLoadingStatusChange': 'idle | loading | loaded | error 콜백',
     'Fallback.delay': 'fallback 전 밀리초',
     Status:
       '장식 코너 마커; aria-hidden 설정하고 Root 또는 인접 텍스트에서 가용성 설명',

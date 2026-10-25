@@ -15,6 +15,8 @@ import {
   Sheet,
   Drawer,
   ScrollArea,
+  Toggle,
+  DirectionProvider,
 } from '@surflane/ui'
 import { PanelsDemo } from './PanelsDemo'
 import { useLocale } from './i18n'
@@ -49,6 +51,7 @@ export function BasicExample({
   const [message, setMessage] = useState(t.noPreviewActionTaken)
   const [selected, setSelected] = useState('staging')
   const [open, setOpen] = useState(false)
+  const [rtl, setRtl] = useState(false)
   const cancel = useRef<HTMLButtonElement>(null)
   let example: React.ReactNode
   switch (id) {
@@ -459,6 +462,18 @@ export function BasicExample({
     default:
       return null
   }
+  // Popups place themselves by reading direction: these previews can switch it.
+  if (id === 'select' || id === 'menu')
+    example = (
+      <>
+        <Toggle pressed={rtl} onPressedChange={setRtl}>
+          {t.rightToLeft}
+        </Toggle>
+        <DirectionProvider direction={rtl ? 'rtl' : 'ltr'}>
+          <div dir={rtl ? 'rtl' : 'ltr'}>{example}</div>
+        </DirectionProvider>
+      </>
+    )
   return (
     <div className='component-example'>
       <div className='example-controls'>{example}</div>

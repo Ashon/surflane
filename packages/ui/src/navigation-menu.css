@@ -65,6 +65,21 @@
       var(--surf-interaction-hover-bg)
     );
   }
+  /* A link that names a destination and says what is there: the title at the link's
+     size in medium weight, the description under it in the compact role, quieter. */
+  .surf-navigation-link-title {
+    display: block;
+    color: var(--surf-ink);
+    font-weight: var(--surf-weight-medium);
+  }
+  .surf-navigation-link-description {
+    display: block;
+    margin-block-start: var(--surf-space-1);
+    color: var(--surf-ink-muted);
+    font-size: var(--surf-type-compact-size);
+    line-height: var(--surf-type-compact-leading);
+    letter-spacing: var(--surf-type-compact-tracking);
+  }
   .surf-navigation-link[aria-current='page'] {
     background-color: var(--surf-selected);
     color: var(--surf-ink);

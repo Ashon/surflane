@@ -39,7 +39,7 @@ export const doc: ComponentDoc = {
     [
       '--surf-popover-width',
       'custom property: a width that keeps the surrounding density',
-      'the size width',
+      'Content.size',
     ],
     ['Title / Description', 'styled heading and description', '—'],
     ['Root.open / onOpenChange', 'controlled popup state', '—'],

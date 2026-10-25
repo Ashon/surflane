@@ -54,10 +54,10 @@ export default function MobileCatalogNavigation({
               messages.areas[area as keyof typeof messages.areas],
             )}
           </Sheet.Title>
-          <Sheet.Description>Choose a page in this section.</Sheet.Description>
+          <Sheet.Description>{messages.choosePage}</Sheet.Description>
         </Sheet.Header>
         <div className='catalog-mobile-navigation-body'>{children}</div>
-        <Sheet.Footer>
+        <Sheet.Footer stacked>
           <Button variant='secondary' onClick={() => onOpenChange(false)}>
             {messages.closeMenu}
           </Button>

@@ -94,6 +94,7 @@ export const ko: Messages = {
   projectLinks: '프로젝트 링크',
   security: '보안',
   closeCatalogNavigation: '카탈로그 내비게이션 닫기',
+  choosePage: '이 섹션에서 페이지를 고르세요.',
   closeMenu: '메뉴 닫기',
   pagination: {
     previous: '이전 페이지',

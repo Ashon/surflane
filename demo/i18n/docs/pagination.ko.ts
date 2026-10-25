@@ -15,6 +15,7 @@ export const doc: DocKo = {
     '결과 알림 방식, 로딩 표시, 페이지 변경 후 포커스 위치는 호출하는 쪽이 결정합니다.',
   ],
   props: {
+    siblings: '0 | 1 | 2, 현재 페이지 양옆에 보일 페이지 수',
     'page / pageCount': '1부터 시작하는 제어 페이지 / 전체 페이지 수',
     'onPageChange | getPageHref': '상호 배타적인 상태 콜백 또는 URL 빌더',
     disabled: '현재 페이지를 바꾸지 않고 모든 컨트롤 비활성화',

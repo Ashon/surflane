@@ -44,8 +44,19 @@ export const doc: ComponentDoc = {
     [
       '--surf-panel-width',
       'custom property: a width that keeps the surrounding density',
-      'the size width',
+      'Content.size',
     ],
+    [
+      '--surf-panel-height',
+      'custom property: holds a top or bottom panel at one height',
+      'auto',
+    ],
+    [
+      '--surf-panel-inset',
+      'custom property: the side padding of the head, body and footer',
+      '--surf-space-6',
+    ],
+    ['Footer.stacked', 'stacks the actions, each the full width', 'false'],
     ['Content.closeLabel', 'accessible X label', 'Close panel'],
     [
       'Content.focusBoundaryLabel',

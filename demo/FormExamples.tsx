@@ -14,6 +14,7 @@ import {
   Switch,
   ChoiceLabel,
   Toggle,
+  DirectionProvider,
 } from '@surflane/ui'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/FormExamples'
@@ -22,6 +23,7 @@ export function FormExample({ id }: { id: string }) {
   const t = text[useLocale().locale]
   const [result, setResult] = useState(t.noPreviewActionTaken)
   const [disabled, setDisabled] = useState(false)
+  const [rtl, setRtl] = useState(false)
   const [serverErrors, setServerErrors] = useState<Record<string, string>>({})
   const submit = (values: Record<string, unknown>) =>
     setResult(JSON.stringify(values))
@@ -249,42 +251,48 @@ export function FormExample({ id }: { id: string }) {
     case 'radio-group':
       example = (
         <Form onSubmit={submitNative}>
-          <Fieldset.Root>
-            <Fieldset.Legend>{t.logSource}</Fieldset.Legend>
-            <RadioGroup
-              name='source'
-              defaultValue='live'
-              aria-label={t.logSource}
-            >
-              <ChoiceLabel
-                control={
-                  <Radio.Root value='live'>
-                    <Radio.Indicator />
-                  </Radio.Root>
-                }
+          <Toggle pressed={rtl} onPressedChange={setRtl}>
+            {t.rightToLeft}
+          </Toggle>
+          {/* Right to left takes both the provider, for the arrow keys, and dir. */}
+          <DirectionProvider direction={rtl ? 'rtl' : 'ltr'}>
+            <Fieldset.Root dir={rtl ? 'rtl' : 'ltr'}>
+              <Fieldset.Legend>{t.logSource}</Fieldset.Legend>
+              <RadioGroup
+                name='source'
+                defaultValue='live'
+                aria-label={t.logSource}
               >
-                {t.actualDemo}
-              </ChoiceLabel>
-              <ChoiceLabel
-                control={
-                  <Radio.Root value='simulation'>
-                    <Radio.Indicator />
-                  </Radio.Root>
-                }
-              >
-                {t.simulation}
-              </ChoiceLabel>
-              <ChoiceLabel
-                control={
-                  <Radio.Root value='unavailable' disabled>
-                    <Radio.Indicator />
-                  </Radio.Root>
-                }
-              >
-                {t.unavailableSource}
-              </ChoiceLabel>
-            </RadioGroup>
-          </Fieldset.Root>
+                <ChoiceLabel
+                  control={
+                    <Radio.Root value='live'>
+                      <Radio.Indicator />
+                    </Radio.Root>
+                  }
+                >
+                  {t.actualDemo}
+                </ChoiceLabel>
+                <ChoiceLabel
+                  control={
+                    <Radio.Root value='simulation'>
+                      <Radio.Indicator />
+                    </Radio.Root>
+                  }
+                >
+                  {t.simulation}
+                </ChoiceLabel>
+                <ChoiceLabel
+                  control={
+                    <Radio.Root value='unavailable' disabled>
+                      <Radio.Indicator />
+                    </Radio.Root>
+                  }
+                >
+                  {t.unavailableSource}
+                </ChoiceLabel>
+              </RadioGroup>
+            </Fieldset.Root>
+          </DirectionProvider>
           {buttons}
         </Form>
       )

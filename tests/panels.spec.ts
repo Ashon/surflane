@@ -222,3 +222,34 @@ test('mobile touch swipe dismisses the drawer', async ({ browser }) => {
     await context.close()
   }
 })
+
+test('a panel holds the height and inset its custom properties set, and a stacked footer gives each action the full width', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/patterns/app-shell')
+  await waitForCatalogReady(page)
+  await page.getByRole('button', { name: 'Open workspace navigation' }).click()
+  const panel = page.getByRole('dialog', { name: 'Workspace navigation' })
+  await expect(panel).toBeVisible()
+  // --surf-panel-height: min(80dvh, 760px)
+  expect(Math.round((await panel.boundingBox())!.height)).toBe(
+    Math.round(Math.min(844 * 0.8, 760)),
+  )
+  // --surf-panel-inset: 12px, on the head, body and footer alike.
+  for (const part of [
+    '.surf-panel-header',
+    '.surf-panel-body',
+    '.surf-panel-footer',
+  ])
+    await expect(panel.locator(part)).toHaveCSS('padding-left', '12px')
+  const footer = panel.locator('.surf-panel-footer')
+  await expect(footer).toHaveAttribute('data-stacked')
+  const inner = await footer.evaluate(
+    (el) => el.clientWidth - 2 * parseFloat(getComputedStyle(el).paddingLeft),
+  )
+  for (const action of await footer.locator('> *').all())
+    expect(Math.round((await action.boundingBox())!.width)).toBe(
+      Math.round(inner),
+    )
+})

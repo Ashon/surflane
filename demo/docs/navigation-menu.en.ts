@@ -84,6 +84,11 @@ export const doc: ComponentDoc = {
       'required for popup composition',
     ],
     [
+      'LinkTitle / LinkDescription',
+      "a destination's name and a quieter line under it, inside a Link",
+      '—',
+    ],
+    [
       'render / ref / className',
       'Base UI composition, DOM element ref, and state callback',
       '—',

@@ -2,7 +2,7 @@
 import * as React from 'react'
 import { Icon } from './icon.js'
 import { useDialogFocusBoundary } from './dialog-focus.js'
-import { skin } from './parts.js'
+import { skin, usePortalDirection } from './parts.js'
 import { useComponentSize, normalizeSize } from './sizing.js'
 import { Dialog as BaseDialog } from '@base-ui/react/dialog'
 import {
@@ -44,6 +44,7 @@ const SheetContent = function SheetContent({
     focusBoundaryLabel?: string
   } & { ref?: React.Ref<HTMLDivElement> }) {
   const scheme = useComponentSize(size)
+  const dir = usePortalDirection()
   const portalRef = useDialogFocusBoundary(focusBoundaryLabel)
   const { side, modal } = React.useContext(SheetSide)
   return (
@@ -58,6 +59,7 @@ const SheetContent = function SheetContent({
           data-flush={flush || undefined}
         >
           <BaseDialog.Popup
+            dir={dir}
             {...props}
             ref={ref}
             className={skin('surf-panel', className)}

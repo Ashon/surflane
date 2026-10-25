@@ -5,6 +5,7 @@ import {
   type ComponentSize,
 } from './sizing.js'
 import * as React from 'react'
+import { useDirection } from '@base-ui/react/direction-provider'
 import { cx } from './class-names.js'
 export { cx } from './class-names.js'
 /** Preserve Base UI's state-dependent className contract when adding a skin. */
@@ -16,9 +17,15 @@ export function skin<State>(
     return (state: State) => cx(base, custom(state))
   return cx(base, custom)
 }
+/** A portal renders outside the element that set dir, so a popup carries the
+ * DirectionProvider's direction itself: its text runs and its alignment mirror.
+ * Undefined unless the provider says right to left, so a page's own dir stays. */
+export function usePortalDirection() {
+  return useDirection() === 'rtl' ? ('rtl' as const) : undefined
+}
 /** A styled Base UI part or element. A portal part renders outside the tree that sets
- * data-ui-size, so it always carries the size scheme; other parts carry it only when
- * size is set. */
+ * data-ui-size and dir, so it always carries the size scheme and the provider's
+ * direction; other parts carry the size only when size is set. */
 export function part<
   Element extends HTMLElement,
   Props extends { className?: unknown },
@@ -37,12 +44,14 @@ export function part<
       size?: ComponentSize
     }
     const scheme = useComponentSize(size)
+    const direction = usePortalDirection()
     const classes =
       typeof className === 'function'
         ? (state: unknown) => cx(base, className(state))
         : cx(base, className as string | undefined)
     const element = (
       <Component
+        dir={portal ? direction : undefined}
         {...rest}
         ref={ref}
         className={classes}

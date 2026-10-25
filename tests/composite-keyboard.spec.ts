@@ -125,3 +125,24 @@ test('Tabs: right to left the list mirrors, the arrows follow it and the indicat
   await page.keyboard.press('ArrowRight')
   await expect(tab('Overview')).toBeFocused()
 })
+
+test('RadioGroup: right to left the control sits after its label and the arrows mirror', async ({
+  page,
+}) => {
+  await page.goto('/components/radio-group')
+  await waitForCatalogReady(page)
+  await page.getByRole('button', { name: 'Right to left' }).click()
+  const radio = (name: string) => page.getByRole('radio', { name, exact: true })
+  const [control, label] = await Promise.all([
+    radio('Actual DEMO').boundingBox(),
+    page.getByText('Actual DEMO', { exact: true }).boundingBox(),
+  ])
+  expect(control!.x).toBeGreaterThan(label!.x)
+  await radio('Actual DEMO').focus()
+  await page.keyboard.press('ArrowLeft')
+  await expect(radio('Simulation')).toBeFocused()
+  await expect(radio('Simulation')).toBeChecked()
+  await page.keyboard.press('ArrowRight')
+  await expect(radio('Actual DEMO')).toBeFocused()
+  await expect(radio('Actual DEMO')).toBeChecked()
+})

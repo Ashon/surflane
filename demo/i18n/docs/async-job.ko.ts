@@ -15,6 +15,7 @@ export const doc: DocKo = {
     '상태는 role=status에서 텍스트로 알려집니다.',
   ],
   props: {
+    'Next run result': '성공 / 부분 실패 / 차단 실패',
     'Run identity': '시작/재시도마다 새 ID; 환경과 결과 스냅샷',
     'Update ownership':
       'AbortController + identity + version fence; 동기 중복 가드',

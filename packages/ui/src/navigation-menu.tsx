@@ -3,6 +3,7 @@ import * as React from 'react'
 import { Icon } from './icon.js'
 import { NavigationMenu as BaseNavigationMenu } from '@base-ui/react/navigation-menu'
 import { part, skin } from './parts.js'
+import { elementPart } from './element-part.js'
 function Root<Value>(props: BaseNavigationMenu.Root.Props<Value>) {
   const { className, orientation = 'horizontal', ...rest } = props
   return (
@@ -57,6 +58,16 @@ export const NavigationMenu = {
     HTMLAnchorElement,
     React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.Link>
   >(BaseNavigationMenu.Link, 'surf-navigation-link'),
+  /** A destination's name, on its own line inside a Link. */
+  LinkTitle: /* @__PURE__ */ elementPart<
+    HTMLSpanElement,
+    React.ComponentPropsWithoutRef<'span'>
+  >('span', 'surf-navigation-link-title'),
+  /** A line under the title that says what is there. */
+  LinkDescription: /* @__PURE__ */ elementPart<
+    HTMLSpanElement,
+    React.ComponentPropsWithoutRef<'span'>
+  >('span', 'surf-navigation-link-description'),
   Content: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.Content>
@@ -107,6 +118,8 @@ export const {
   Icon: NavigationMenuIcon,
   Item: NavigationMenuItem,
   Link: NavigationMenuLink,
+  LinkDescription: NavigationMenuLinkDescription,
+  LinkTitle: NavigationMenuLinkTitle,
   List: NavigationMenuList,
   Popup: NavigationMenuPopup,
   Portal: NavigationMenuPortal,

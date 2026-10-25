@@ -7,6 +7,7 @@ export const doc: DocKo = {
   keyboard:
     '라벨을 클릭하면 입력에 포커스가 갑니다. 폼 제출 시 첫 번째 유효하지 않은 입력으로 포커스가 이동합니다. aria-describedby가 설명과 오류를 입력에 연결합니다.',
   props: {
+    'Error.match': 'ValidityState 키 | boolean',
     'Root.name / disabled / invalid': 'Base UI 필드 상태',
   },
 }

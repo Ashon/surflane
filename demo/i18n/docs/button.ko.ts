@@ -6,4 +6,8 @@ export const doc: DocKo = {
     '페이지 내비게이션에 Button을 사용하지 마세요. 버튼 모양이면서 링크로 남는 LinkButton을 사용하세요. destructive 동작을 색만으로 표시하지 마세요. 라벨 텍스트에 동작을 설명하세요.',
   keyboard:
     'Tab은 포커스를 이동합니다. Enter 또는 Space는 버튼을 활성화합니다. 동작이 도는 동안에는 버튼을 비활성화하거나 옆에 진행을 보이고, 결과는 라이브 영역 하나에서 알리세요.',
+  props: {
+    LinkButton:
+      '링크에 Button의 variant와 size를 입힙니다. render로 라우터 링크를 넘깁니다',
+  },
 }

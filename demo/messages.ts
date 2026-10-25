@@ -101,6 +101,7 @@ export const en = {
   projectLinks: 'Project links',
   security: 'Security',
   closeCatalogNavigation: 'Close catalog navigation',
+  choosePage: 'Choose a page in this section.',
   closeMenu: 'Close menu',
   // Pagination's own defaults are English; the catalog passes these per language.
   pagination: {

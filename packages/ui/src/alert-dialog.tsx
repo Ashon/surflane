@@ -1,6 +1,6 @@
 'use client'
 import * as React from 'react'
-import { part, skin } from './parts.js'
+import { part, skin, usePortalDirection } from './parts.js'
 import { useDialogFocusBoundary } from './dialog-focus.js'
 import { useComponentSize, type ComponentSize } from './sizing.js'
 import { AlertDialog as BaseAlertDialog } from '@base-ui/react/alert-dialog'
@@ -19,10 +19,12 @@ const AlertDialogContent = function AlertDialogContent({
 } & { ref?: React.Ref<HTMLDivElement> }) {
   const scheme = useComponentSize(size)
   const portalRef = useDialogFocusBoundary(focusBoundaryLabel)
+  const dir = usePortalDirection()
   return (
     <BaseAlertDialog.Portal ref={portalRef}>
       <BaseAlertDialog.Backdrop className='surf-dialog-backdrop' />
       <BaseAlertDialog.Popup
+        dir={dir}
         data-ui-size={scheme}
         data-size={size}
         {...props}

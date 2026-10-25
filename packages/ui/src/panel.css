@@ -108,6 +108,11 @@
     --surf-panel-enter-y: calc(100% + 12px);
     max-height: min(85dvh, 100%);
   }
+  /* A top or bottom panel fits its content unless --surf-panel-height holds it at one
+     height, so it doesn't jump as a list inside changes. */
+  .surf-panel:is([data-side='top'], [data-side='bottom']) {
+    height: var(--surf-panel-height, auto);
+  }
   /* A flush panel squares the corners on the edge it is attached to. */
   .surf-panel[data-flush][data-side='bottom'] {
     border-bottom-left-radius: 0;
@@ -150,7 +155,7 @@
     flex: none;
     padding-block: var(--surf-space-6)
       calc(var(--surf-space-5) - var(--surf-panel-ring-room));
-    padding-inline: var(--surf-space-6)
+    padding-inline: var(--surf-panel-inset, var(--surf-space-6))
       calc(var(--surf-control-height) + var(--surf-space-4) * 2);
   }
   .surf-panel-title {
@@ -172,7 +177,9 @@
     flex: 1 1 auto;
     min-height: 0;
     overflow: auto;
-    padding: var(--surf-space-6);
+    padding: var(--surf-space-6) var(--surf-panel-inset, var(--surf-space-6));
+    /* A control scrolled into view keeps room from the clipped edge. */
+    scroll-padding-block: var(--surf-space-4);
     overscroll-behavior: contain;
     scrollbar-width: thin;
     scrollbar-color: var(--surf-scrollbar-thumb) var(--surf-scrollbar-track);
@@ -197,11 +204,20 @@
     justify-content: flex-end;
     flex-wrap: wrap;
     gap: var(--surf-space-2);
-    padding: var(--surf-space-4) var(--surf-space-6)
+    padding: var(--surf-space-4) var(--surf-panel-inset, var(--surf-space-6))
       max(var(--surf-space-5), env(safe-area-inset-bottom));
     background: var(--surf-surface);
     --surf-plane: var(--surf-surface);
     --surf-recessed: var(--surf-canvas);
+  }
+  /* Stacked: each action takes the full width, one under the other, within reach
+     of a thumb on a phone. */
+  .surf-panel-footer[data-stacked] {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .surf-panel-footer[data-stacked] > * {
+    inline-size: 100%;
   }
   .surf-panel-close {
     position: absolute;
@@ -240,7 +256,7 @@
     .surf-panel-body,
     .surf-panel-footer
   ) {
-    padding-inline: var(--surf-ui-card-padding);
+    padding-inline: var(--surf-panel-inset, var(--surf-ui-card-padding));
   }
   /* The title keeps clear of the close button: its 16px inset, its width and a 16px gap.
    * Above and below, the head follows the size's card padding: 24/20px by default. */

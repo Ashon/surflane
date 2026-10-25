@@ -13,6 +13,8 @@ export const doc: DocKo = {
     '세로 레이아웃에서는 orientation=vertical을 설정하세요. 의미와 레이아웃이 모두 바뀝니다.',
   ],
   props: {
+    'LinkTitle / LinkDescription':
+      'Link 안에서 목적지 이름과 그 아래의 조용한 설명 한 줄',
     'Root.value / defaultValue / onValueChange':
       '일반 항목 값 | null; event.cancel()',
     'Root.orientation': 'horizontal | vertical; 레이아웃과 키보드 방향',

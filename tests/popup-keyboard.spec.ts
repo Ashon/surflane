@@ -144,3 +144,40 @@ for (const [route, find] of triggers)
     await expect(trigger).toHaveAttribute('aria-expanded', 'false')
     await expect(trigger).toBeFocused()
   })
+
+// A popup renders in a portal, outside the element that sets dir, so it takes
+// the DirectionProvider's direction itself.
+for (const [route, open, popup] of [
+  [
+    '/components/menu',
+    (p: Page) => p.getByRole('button', { name: 'Open actions' }).click(),
+    '.surf-menu [role="menuitem"]',
+  ],
+  [
+    '/components/select',
+    (p: Page) =>
+      p.getByRole('combobox', { name: 'Environment', exact: true }).click(),
+    '.surf-select-popup [role="option"]',
+  ],
+] as const)
+  test(`${route}: right to left the popup reads right to left`, async ({
+    page,
+  }) => {
+    await page.goto(route)
+    await waitForCatalogReady(page)
+    await page.getByRole('button', { name: 'Right to left' }).click()
+    await open(page)
+    const item = page.locator(popup).first()
+    await expect(item).toBeVisible()
+    await expect(item).toHaveCSS('direction', 'rtl')
+    // Its text starts at the right.
+    const [box, text] = await item.evaluate((el) => {
+      const range = document.createRange()
+      range.selectNodeContents(el)
+      return [
+        el.getBoundingClientRect().toJSON(),
+        range.getBoundingClientRect().toJSON(),
+      ]
+    })
+    expect(box.right - text.right).toBeLessThan(text.left - box.left)
+  })
