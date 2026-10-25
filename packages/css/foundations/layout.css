@@ -79,6 +79,13 @@
     --surf-recessed: var(--surf-surface);
     border-radius: var(--surf-radius-sheet);
   }
+  /* Forced colors flatten every plane to Canvas, so a surface draws its edge. */
+  @media (forced-colors: active) {
+    .surf-surface {
+      outline: 1px solid CanvasText;
+      outline-offset: -1px;
+    }
+  }
   @media (max-width: 1100px) and (min-width: 761px) {
     .surf-grid:not([data-columns='1']) {
       --surf-layout-grid-columns: 2;

@@ -280,3 +280,23 @@ test('checked choices fill with Highlight and the slider fills its range in forc
     await system('CanvasText'),
   )
 })
+
+// Planes flatten to Canvas in forced colors, so containers draw an edge instead.
+for (const [route, selector] of [
+  ['/patterns/dashboard', '.surf-dashboard-panel'],
+  ['/components/card', '.surf-card'],
+  ['/components/toolbar', '.surf-toolbar'],
+  ['/components/menubar', '.surf-menubar'],
+] as const)
+  test(`${route}: ${selector} draws its edge in forced colors`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ forcedColors: 'active' })
+    await page.goto(route)
+    await waitForCatalogReady(page)
+    const plane = page.locator(`main ${selector}`).first()
+    await expect(plane).toHaveCSS('outline-style', 'solid')
+    await expect(plane).toHaveCSS('outline-width', '1px')
+    await page.emulateMedia({ forcedColors: 'none' })
+    await expect(plane).toHaveCSS('outline-style', 'none')
+  })

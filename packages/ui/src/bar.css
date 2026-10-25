@@ -21,4 +21,12 @@
     width: fit-content;
     max-width: 100%;
   }
+  /* A toolbar or menubar is a recessed plane; forced colors draw its edge. */
+  @media (forced-colors: active) {
+    .surf-toolbar,
+    .surf-menubar {
+      outline: 1px solid CanvasText;
+      outline-offset: -1px;
+    }
+  }
 }

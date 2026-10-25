@@ -174,6 +174,17 @@ for (const theme of ['light', 'dark']) {
       ['/components/toggle', '.surf-toggle[data-pressed]', true],
       ['/components/toggle-group', '.surf-toggle[data-pressed]', true],
       ['/components/tree', '.surf-tree-item[aria-selected="true"]', true],
+      ['/components/tabs', '.surf-tabs-tab[data-active]', true],
+      [
+        '/components/bottom-navigation',
+        '.surf-bottom-nav-item[aria-current="page"] .surf-bottom-nav-icon',
+        true,
+      ],
+      [
+        '/components/table',
+        '.surf-table-row[data-selected] > td:last-child',
+        true,
+      ],
       [
         '/components/pagination',
         '.surf-pagination-control[aria-current="page"]',
@@ -205,9 +216,14 @@ for (const theme of ['light', 'dark']) {
         (theme) => (document.documentElement.dataset.theme = theme),
         theme,
       )
-      // The tree starts with nothing selected.
+      // The tree and the table start with nothing selected.
       if (route === '/components/tree' && selected)
         await page.locator('main .surf-tree-item').first().click()
+      if (route === '/components/table')
+        await page
+          .getByRole('checkbox', { name: 'Select DEMO main' })
+          .first()
+          .click()
       const control = page
         .locator(`main ${selector}:not(:disabled, [data-disabled])`)
         .first()

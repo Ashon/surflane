@@ -46,6 +46,7 @@ These change what components look like, so they ship in a minor.
 - Every popup enters the same way: menus, selects, popovers, comboboxes, preview cards and navigation menus fade in and rise `--surf-motion-lift` (4px) in `--surf-duration-fast`, and close at once. Select, Menu and Popover had no entrance; the others rose 4, 6 or 12px over 120 to 200ms.
 - AppShell links, Tree items and toggles, Accordion and Collapsible triggers, Chart legend buttons, Pagination links and the `@surflane/css` segments, icon buttons and theme actions take the same hover and pressed layer as everything else, over any fill they have.
 - In forced colors a selected, current or pressed control fills with `Highlight` and writes its label in `HighlightText`: Toggle, ToggleGroup and Toolbar items, segments, the current AppShell, NavigationMenu, BottomNavigation and Pagination item, and a selected Tree item. Pressed toggles lose the inner outline they drew there, and the current AppShell link its outline. A highlighted Combobox option keeps its outline; a selected one shows its check, and a chosen value's chip keeps an edge.
+- In forced colors a Card, a Dashboard.Panel, a Surface, a Toolbar and a Menubar draw a 1px `CanvasText` edge. Their planes flatten to Canvas there, so panels ran together.
 - The date segment being typed into is marked like a selected row, a selected fill with its 3:1 `--surf-selected-edge`, instead of a 1px focus-colored outline.
 
 ### Deprecated

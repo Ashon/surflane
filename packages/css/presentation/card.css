@@ -21,6 +21,13 @@
     --surf-plane: var(--surf-canvas);
     --surf-recessed: var(--surf-surface);
   }
+  /* Forced colors flatten every plane to Canvas, so a card draws its edge. */
+  @media (forced-colors: active) {
+    .surf-card {
+      outline: 1px solid CanvasText;
+      outline-offset: -1px;
+    }
+  }
   .surf-card-header {
     display: grid;
     gap: var(--surf-space-2);

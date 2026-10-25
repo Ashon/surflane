@@ -214,3 +214,43 @@ test('the guidelines read in Korean with Korean pagination labels', async ({
   ).toBeVisible()
   await context.close()
 })
+
+for (const works of [true, false])
+  test(`copying a truncated identifier ${works ? 'copies the full value and says so' : 'that fails says what to do instead'}`, async ({
+    page,
+  }) => {
+    await page.addInitScript((works) => {
+      Object.defineProperty(navigator, 'clipboard', {
+        configurable: true,
+        value: {
+          writeText: async (text: string) => {
+            if (!works) throw new Error('denied')
+            ;(window as any).copied = text
+          },
+        },
+      })
+    }, works)
+    await open(page)
+    const long = section(page, 'Long values')
+    const full = await long
+      .locator('.surf-table-truncate')
+      .first()
+      .textContent()
+    const button = long.getByRole('button', {
+      name: 'Copy image reference for checkout-api',
+      exact: true,
+    })
+    await button.focus()
+    await page.keyboard.press('Enter')
+    const status = long.getByRole('status')
+    if (works) {
+      await expect(status).toHaveText(
+        'Copied the image reference for checkout-api.',
+      )
+      expect(await page.evaluate(() => (window as any).copied)).toBe(full)
+    } else
+      await expect(status).toHaveText(
+        'Copying is unavailable here. Select the reference instead.',
+      )
+    await expect(button).toBeFocused()
+  })

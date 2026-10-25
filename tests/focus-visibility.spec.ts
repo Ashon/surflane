@@ -97,6 +97,12 @@ async function byKeyboard(page: Page, target: Locator) {
   await target.focus()
   await page.keyboard.press('Shift+Tab')
   await page.keyboard.press('Tab')
+  if (!(await target.evaluate((el) => el === document.activeElement))) {
+    // Safari's Tab skips links unless Option is held.
+    await target.focus()
+    await page.keyboard.press('Alt+Shift+Tab')
+    await page.keyboard.press('Alt+Tab')
+  }
   await expect(target).toBeFocused()
 }
 

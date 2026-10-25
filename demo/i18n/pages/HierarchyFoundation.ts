@@ -168,6 +168,7 @@ const en = {
     'Inside that level, a track, a read-only value or a tab list takes `--surf-recessed`, which turns to the canvas on a surface, so it still shows.',
     'Inset a nested plane equally on all sides, with the radius max(0, outer radius − inset).',
     'Blur the screen to check: the regions should still read from tone and spacing alone.',
+    'Forced colors flatten every plane to Canvas, so cards, surfaces, toolbars and menubars draw a 1px `CanvasText` edge there.',
   ],
   elevationRules: [
     'Floating UI takes `--surf-shadow-float` with its `--surf-layer-*` token. A shadow without its layer misreports what is on top.',
@@ -311,6 +312,7 @@ export const text: Record<Locale, typeof en> = {
       '그 안에서 트랙, 읽기 전용 값, 탭 목록은 `--surf-recessed`를 씁니다. 보조 면 위에서는 캔버스로 바뀌어 계속 보입니다.',
       '안에 놓는 면은 네 변의 여백을 같게 두고, 반경을 max(0, 바깥 반경 − 여백)로 맞추세요.',
       '화면을 흐리게 보며 확인하세요. 영역은 톤과 간격만으로 읽혀야 합니다.',
+      '강제 색상 모드는 모든 면을 Canvas로 평평하게 만듭니다. 그래서 카드, 보조 면, 툴바, 메뉴 막대는 그곳에서 1px `CanvasText` 테두리를 그립니다.',
     ],
     elevationRules: [
       '떠 있는 UI는 `--surf-shadow-float`와 `--surf-layer-*` 토큰을 함께 씁니다. 레이어 없는 그림자는 무엇이 위인지 잘못 알립니다.',

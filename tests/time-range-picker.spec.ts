@@ -58,3 +58,33 @@ test('the time range picker reads in Korean', async ({ page }) => {
     group.getByRole('button', { name: '지금 새로 고침' }),
   ).toBeVisible()
 })
+test('refreshes pause while the page is hidden and one runs when it shows again', async ({
+  page,
+}) => {
+  await page.clock.install()
+  await page.goto('/components/time-range-picker')
+  await waitForCatalogReady(page)
+  const group = page.getByRole('group', { name: 'Dashboard time' })
+  const status = page.getByRole('status', { name: 'Time range result' })
+  await group.getByRole('combobox', { name: 'Refresh interval' }).click()
+  await page
+    .getByRole('option', { name: 'Every 10 seconds', exact: true })
+    .click()
+  await page.clock.runFor(10_000)
+  await expect(status).toContainText('Refreshed 1 times')
+  const visibility = (hidden: boolean) =>
+    page.evaluate((hidden) => {
+      Object.defineProperty(document, 'hidden', {
+        configurable: true,
+        get: () => hidden,
+      })
+      document.dispatchEvent(new Event('visibilitychange'))
+    }, hidden)
+  await visibility(true)
+  await page.clock.runFor(60_000)
+  await expect(status).toContainText('Refreshed 1 times')
+  await visibility(false)
+  await expect(status).toContainText('Refreshed 2 times')
+  await page.clock.runFor(1_000)
+  await expect(status).toContainText('Refreshed 2 times')
+})

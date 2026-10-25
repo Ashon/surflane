@@ -219,3 +219,49 @@ test('Dashboard: Retry by keyboard leaves focus on its panel title, not the page
     panel.getByRole('heading', { name: 'GPU temperature', exact: true }),
   ).toHaveCSS('outline-style', 'solid')
 })
+
+test('DatePicker: arrows move between segments, Shift+Page keys move by year, and a range is picked by keyboard', async ({
+  page,
+}) => {
+  await page.goto('/components/date-picker')
+  await waitForCatalogReady(page)
+  const segment = (name: string) =>
+    page.getByRole('spinbutton', { name, exact: true })
+  await segment('month, Run date').focus()
+  await page.keyboard.press('ArrowRight')
+  await expect(segment('day, Run date')).toBeFocused()
+  await page.keyboard.press('ArrowLeft')
+  await expect(segment('month, Run date')).toBeFocused()
+  // Zoned execution has no bounds, so Shift+Page keys move a whole year.
+  const field = page.locator('.surf-date-picker').filter({
+    has: page.locator('.surf-field-label', { hasText: /^Zoned execution$/ }),
+  })
+  const trigger = field.locator('.surf-date-trigger')
+  await expect(trigger).toHaveAccessibleName(/calendar/i)
+  await trigger.focus()
+  await page.keyboard.press('Enter')
+  const grid = page.getByRole('dialog').getByRole('grid')
+  const [month, year] = (await grid.getAttribute('aria-label'))!.split(' ')
+  await page.keyboard.press('Shift+PageDown')
+  await expect(grid).toHaveAccessibleName(`${month} ${Number(year) + 1}`)
+  await page.keyboard.press('Shift+PageUp')
+  await expect(grid).toHaveAccessibleName(`${month} ${year}`)
+  await page.keyboard.press('Escape')
+  await expect(trigger).toBeFocused()
+  // A range: Enter on the start, arrows to the end, Enter again.
+  const range = page
+    .locator('.surf-date-picker')
+    .filter({
+      has: page.locator('.surf-field-label', { hasText: /^Release window$/ }),
+    })
+    .locator('.surf-date-trigger')
+  await range.focus()
+  await page.keyboard.press('Enter')
+  await expect(page.getByRole('dialog')).toBeVisible()
+  await page.keyboard.press('Enter')
+  for (let i = 0; i < 3; i++) await page.keyboard.press('ArrowRight')
+  await page.keyboard.press('Enter')
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+  await expect(range).toBeFocused()
+  await expect(page.locator('[data-date-value]')).toContainText('range: ')
+})
