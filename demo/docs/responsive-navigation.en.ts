@@ -10,7 +10,7 @@ export const doc: ComponentDoc = {
   ],
   avoid: [
     "Don't drop important destinations on narrow screens. Render them in the Sheet.",
-    "Don't put external links, account controls, or theme controls in the modal menu by default. Keep it to the current area's destinations.",
+    "Don't mix external links, account controls, or theme controls in with the destinations. When the phone header has no room for the account menu, put it in the menu's footer, apart from the list.",
     "Don't hide desktop links with CSS while focus stays on a link that has disappeared. Move focus to the mobile menu button.",
     "Don't add app-menu arrow-key rules to destinations. Keep them as native a elements.",
     "Don't treat the example's read-only checkbox as a permission check. It's a local display condition, and real permission checks happen on the server and in the product router.",

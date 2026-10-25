@@ -10,6 +10,8 @@ import {
   Stack,
   Table,
   Text,
+  Toggle,
+  Breadcrumbs,
 } from '@surflane/ui'
 import { GridBlueprint } from './BlueprintCanvas'
 import { ComponentSizeGuide } from './ComponentSizeGuide'
@@ -71,32 +73,28 @@ export function LayoutPreview() {
           data-grid-guides={guides || undefined}
         >
           <GridBlueprint hostRef={layoutRef} visible={guides} />
-          <Stack gap={compact ? 4 : 6} data-testid='layout-stack'>
+          <Stack gap={compact ? 3 : 6} data-testid='layout-stack'>
             <PageHeader
               level={3}
               size={compact ? 'page' : 'title'}
               breadcrumb={
-                <nav aria-label={t.layoutBreadcrumb}>
-                  <Inline gap={2}>
-                    <a href='#layout-preview'>{t.platformServices}</a>
-                    <svg
-                      width='14'
-                      height='14'
-                      viewBox='0 0 24 24'
-                      fill='none'
-                      stroke='currentColor'
-                      strokeWidth='1.5'
-                      aria-hidden='true'
-                    >
-                      <path d='m9 6 6 6-6 6' />
-                    </svg>
-                    <Text as='span' variant='caption'>
-                      {profile === 'reading'
-                        ? t.crumbDocumentation
-                        : t.crumbDeployments}
-                    </Text>
-                  </Inline>
-                </nav>
+                <Breadcrumbs.Root aria-label={t.layoutBreadcrumb}>
+                  <Breadcrumbs.List>
+                    <Breadcrumbs.Item>
+                      <Breadcrumbs.Link href='#layout-preview'>
+                        {t.platformServices}
+                      </Breadcrumbs.Link>
+                    </Breadcrumbs.Item>
+                    <Breadcrumbs.Item>
+                      <Breadcrumbs.Separator />
+                      <Breadcrumbs.Current>
+                        {profile === 'reading'
+                          ? t.crumbDocumentation
+                          : t.crumbDeployments}
+                      </Breadcrumbs.Current>
+                    </Breadcrumbs.Item>
+                  </Breadcrumbs.List>
+                </Breadcrumbs.Root>
               }
               title={
                 profile === 'reading'
@@ -109,19 +107,15 @@ export function LayoutPreview() {
                   : t.pageDescWorkspace
               }
               actions={
-                <Button
-                  variant='outline'
-                  aria-pressed={guides}
-                  onClick={() => setGuides(!guides)}
-                >
+                <Toggle pressed={guides} onPressedChange={setGuides}>
                   {t.gridGuides}
-                </Button>
+                </Toggle>
               }
             />
             {profile !== 'reading' ? (
               <Grid
                 columns={profile === 'wide' ? 4 : 3}
-                gap={compact ? 4 : 6}
+                gap={compact ? 3 : 6}
                 data-testid='layout-grid'
               >
                 {[

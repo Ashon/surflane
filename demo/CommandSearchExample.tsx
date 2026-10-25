@@ -140,7 +140,7 @@ export function CommandSearchExample({
               />
             }
           >
-            Search documentation
+            {t.searchDocumentation}
           </Dialog.Trigger>
           <Dialog.Content
             className='command-search-dialog'

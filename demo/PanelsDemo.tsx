@@ -118,7 +118,7 @@ export function PanelsDemo({
                       <label>
                         {t.targetEnvironment}
                         <Select
-                          aria-label={t.drawerEnvironment}
+                          aria-label={t.targetEnvironment}
                           defaultValue='staging'
                           options={[
                             { value: 'staging', label: t.staging },

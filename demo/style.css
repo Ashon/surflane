@@ -84,6 +84,18 @@
     font-size: var(--surf-type-caption-size);
     letter-spacing: var(--surf-type-caption-tracking);
   }
+  /* Plain document links. In the base layer, under every Surflane layer, so a
+     component's own link (AppShell.Link, BottomNavigation, Breadcrumbs) keeps its
+     color and focus ring as it ships. */
+  .catalog-shell a:focus-visible {
+    outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+    outline-offset: var(--surf-focus-ring-offset);
+  }
+  .component-meta a,
+  .catalog-page-body a {
+    color: var(--surf-ink);
+    text-underline-offset: 3px;
+  }
 }
 /* Touch feedback is each item's own pressed surface, in its own shape. */
 html {
@@ -108,21 +120,6 @@ html {
 .eyebrow {
   font-size: var(--surf-type-caption-size);
   letter-spacing: var(--surf-type-caption-tracking);
-}
-.swatches {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-.swatches > div {
-  min-width: 120px;
-}
-.swatches i {
-  display: block;
-  height: 64px;
-  border: 1px solid var(--surf-line);
-  border-radius: var(--surf-radius-md);
-  margin-bottom: 8px;
 }
 .note {
   margin-top: 24px;
@@ -174,10 +171,6 @@ body,
   }
   header {
     align-items: flex-start;
-  }
-  .swatches > div {
-    min-width: 80px;
-    flex: 1;
   }
 }
 .panel-examples {
@@ -236,29 +229,6 @@ body,
     grid-template-columns: 1fr;
   }
 }
-.catalog-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 40px;
-}
-.catalog-nav a {
-  display: inline-flex;
-  align-items: center;
-  min-height: var(--surf-control-height);
-  padding: 6px 16px;
-  border-radius: var(--surf-radius-full);
-  background: var(--surf-surface);
-  color: var(--surf-ink);
-  text-decoration: none;
-}
-.catalog-nav a:hover {
-  background: var(--surf-selected);
-}
-.catalog-nav a:focus-visible {
-  outline: 2px solid var(--surf-interaction-focus);
-  outline-offset: 2px;
-}
 /* Labelled fields and choices share the control line: align them on the bottom edge. */
 .foundation-controls {
   display: grid;
@@ -277,10 +247,6 @@ body,
 .layout-preview-shell a {
   color: var(--surf-ink-body);
   text-underline-offset: 0.2em;
-}
-.layout-preview-shell .surf-page-header nav {
-  font-size: var(--surf-type-caption-size);
-  letter-spacing: var(--surf-type-caption-tracking);
 }
 .foundation-stat {
   padding-block: var(--surf-space-4);
@@ -520,19 +486,6 @@ body,
 .catalog-page-header {
   margin-bottom: var(--surf-space-8);
 }
-.catalog-page-header nav {
-  display: flex;
-  align-items: center;
-  gap: var(--surf-space-2);
-  color: var(--surf-ink-muted);
-  font-size: var(--surf-type-caption-size);
-  letter-spacing: var(--surf-type-caption-tracking);
-  margin-bottom: 0;
-}
-.catalog-page-header nav a {
-  color: var(--surf-ink-body);
-  text-decoration: none;
-}
 .catalog-page-header h1 {
   font-size: var(--surf-type-title-size);
   line-height: var(--surf-type-title-leading);
@@ -556,10 +509,6 @@ body,
 }
 .catalog-skip:focus {
   top: 12px;
-}
-.catalog-shell a:focus-visible {
-  outline: 2px solid var(--surf-interaction-focus);
-  outline-offset: 3px;
 }
 .catalog-feature-links {
   margin-top: var(--surf-space-6);
@@ -692,11 +641,6 @@ body,
   font-size: var(--surf-type-caption-size);
   letter-spacing: var(--surf-type-caption-tracking);
   margin-bottom: var(--surf-space-6);
-}
-.component-meta a,
-.catalog-page-body a {
-  color: var(--surf-ink);
-  text-underline-offset: 3px;
 }
 .page-toc {
   display: flex;
@@ -1269,10 +1213,10 @@ body,
   block-size: 160px;
   margin-block: var(--surf-space-4);
   padding: var(--surf-space-4);
+  border: 1px solid var(--surf-line);
   border-radius: var(--surf-radius-lg);
   background: var(--surf-canvas);
   color: var(--surf-ink-muted);
-  box-shadow: var(--surf-shadow-sheet);
 }
 .palette-category {
   display: flex;
@@ -1582,8 +1526,8 @@ body,
 }
 .catalog-document-scroll:focus-visible,
 .catalog-navigation-viewport:focus-visible {
-  outline: 2px solid var(--surf-control-focus);
-  outline-offset: -2px;
+  outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+  outline-offset: var(--surf-focus-ring-inset);
 }
 .catalog-document-root > .surf-scrollbar[data-orientation='vertical'] {
   inset-inline-end: 1px;
@@ -2159,7 +2103,7 @@ body,
 .catalog-primary a {
   display: flex;
   align-items: center;
-  min-block-size: 40px;
+  min-block-size: var(--surf-space-10);
   padding: 8px 16px;
   border-radius: var(--surf-radius-md);
   color: var(--surf-ink-body);
@@ -2182,8 +2126,8 @@ body,
 }
 .catalog-primary a:focus-visible,
 .catalog-toprail .catalog-theme-toggle:focus-visible {
-  outline: 2px solid var(--surf-control-focus);
-  outline-offset: -2px;
+  outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+  outline-offset: var(--surf-focus-ring-inset);
 }
 .catalog-app .catalog-document-root {
   block-size: 100%;
@@ -2274,6 +2218,17 @@ body,
     max-block-size: none;
   }
 }
+@media (pointer: coarse) {
+  .catalog-toprail .catalog-theme-toggle,
+  .catalog-toprail .catalog-locale-toggle {
+    inline-size: var(--surf-control-target-size);
+    block-size: var(--surf-control-target-size);
+    min-block-size: var(--surf-control-target-size);
+  }
+  .catalog-primary a {
+    min-block-size: var(--surf-control-target-size);
+  }
+}
 @media (max-width: 600px) {
   .catalog-brand-name {
     font-size: var(--surf-type-subsection-size);
@@ -2285,16 +2240,16 @@ body,
 
   .catalog-primary a {
     padding-inline: 12px;
-    min-block-size: 44px;
+    min-block-size: var(--surf-control-target-size);
   }
 }
 
 .catalog-toprail .catalog-theme-toggle,
 .catalog-toprail .catalog-locale-toggle {
   justify-self: end;
-  inline-size: 40px;
-  block-size: 40px;
-  min-block-size: 40px;
+  inline-size: var(--surf-space-10);
+  block-size: var(--surf-space-10);
+  min-block-size: var(--surf-space-10);
   border-radius: var(--surf-radius-full);
   color: var(--surf-ink-body);
   transition: background-color var(--surf-duration-fast) var(--surf-ease-out);
@@ -2348,7 +2303,7 @@ body,
   position: absolute;
   inset: 0 0 auto;
   block-size: var(--catalog-rail-height);
-  z-index: 20;
+  z-index: var(--surf-layer-chrome);
   isolation: isolate;
   --catalog-rail-fade: 0px;
 }
@@ -2431,12 +2386,6 @@ body,
   }
 }
 
-.app-shell-profile {
-  display: grid;
-  gap: var(--surf-space-2);
-  max-inline-size: 18rem;
-  margin-block-end: var(--surf-space-4);
-}
 .app-shell-preview {
   min-block-size: 420px;
   block-size: 460px;
@@ -2552,8 +2501,8 @@ body,
 }
 .catalog-item:focus-visible,
 .catalog-feature-links a:focus-visible {
-  outline: 2px solid var(--surf-control-focus);
-  outline-offset: 2px;
+  outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+  outline-offset: var(--surf-focus-ring-offset);
 }
 @media (prefers-reduced-motion: reduce) {
   .catalog-item,
@@ -2638,8 +2587,8 @@ body,
   font-weight: var(--surf-weight-medium);
 }
 .documentation-toc nav a:focus-visible {
-  outline: 2px solid var(--surf-control-focus);
-  outline-offset: -2px;
+  outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+  outline-offset: var(--surf-focus-ring-inset);
 }
 .documentation-article .surf-prose > section + section {
   margin-block-start: var(--surf-space-8);
@@ -2918,10 +2867,6 @@ body,
   font-size: var(--surf-type-caption-size);
   letter-spacing: var(--surf-type-caption-tracking);
 }
-.component-size-options .surf-button[aria-pressed='true'] {
-  background: var(--surf-selected);
-  color: var(--surf-ink);
-}
 .component-size-controls p {
   margin: 0;
   color: var(--surf-ink-muted);
@@ -2981,7 +2926,7 @@ body,
   --preview-guide-gap: var(--surf-layout-gutter);
 }
 .layout-preview-shell[data-density='compact'] .layout-guide-container {
-  --preview-guide-gap: var(--surf-space-4);
+  --preview-guide-gap: var(--surf-space-3);
 }
 .layout-guide-container.foundation-span-grid {
   --preview-guide-columns: var(--surf-layout-grid-columns);
@@ -3129,7 +3074,7 @@ body,
   padding: var(--surf-space-4);
 }
 .markdown-source-pane .rich-source-editor:focus {
-  outline-offset: -2px;
+  outline-offset: var(--surf-focus-ring-inset);
 }
 .markdown-preview-scroll {
   block-size: 480px;
@@ -3227,9 +3172,6 @@ body,
   color: var(--surf-ink-muted);
   font-size: var(--surf-type-caption-size);
   margin-block-start: var(--surf-space-1);
-}
-.markdown-demo-toolbar .surf-button[aria-pressed='true'] {
-  background: var(--surf-selected);
 }
 
 /* Pointer-local construction lines live outside layout and never intercept input. */
@@ -3374,7 +3316,7 @@ body,
 @media (max-width: 960px) {
   .catalog-app .catalog-shell .catalog-item:focus-visible,
   .catalog-app .catalog-shell .catalog-feature-links a:focus-visible {
-    outline-offset: -2px;
+    outline-offset: var(--surf-focus-ring-inset);
   }
 }
 

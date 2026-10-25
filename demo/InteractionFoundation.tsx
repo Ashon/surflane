@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import {
   Button,
   Checkbox,
-  CodeBlock,
   Field,
   Inline,
   InlineMessage,
@@ -12,6 +11,7 @@ import {
   Toggle,
   ChoiceLabel,
 } from '@surflane/ui'
+import { CatalogCodeBlock as CodeBlock } from './CatalogCodeBlock'
 import { FoundationPage, FoundationSection } from './FoundationPage'
 import { codeText } from './codeText'
 import { Link } from './router'

@@ -86,7 +86,7 @@ function AnchoredDemo() {
                     <Toast.Title />
                     <Toast.Description />
                   </Toast.Text>
-                  <Toast.Close />
+                  <Toast.Close aria-label={t.dismiss} />
                 </Toast.Content>
               </Toast.Root>
             </Toast.Positioner>

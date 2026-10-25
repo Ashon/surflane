@@ -108,8 +108,8 @@ export function AdvancedFormExample({ id }: { id: string }) {
             >
               <Combobox.InputGroup>
                 <Combobox.Input placeholder={t.searchEnvironments} />
-                <Combobox.Clear />
-                <Combobox.Trigger />
+                <Combobox.Clear aria-label={t.clearSelection} />
+                <Combobox.Trigger aria-label={t.showOptions} />
               </Combobox.InputGroup>
               <Combobox.Content>
                 <Combobox.Empty>{t.noMatchingEnvironments}</Combobox.Empty>

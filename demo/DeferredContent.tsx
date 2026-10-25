@@ -7,6 +7,8 @@ import React, {
 } from 'react'
 import { Button } from '@surflane/ui'
 import { Link, catalogScrollPosition } from './router'
+import { useMessages } from './i18n'
+import type { Messages } from './messages'
 type Scope = 'page' | 'preview'
 /** Set while the app takes over a prerendered page, whose content is already shown. */
 export const hydration = { pending: false }
@@ -73,7 +75,7 @@ function Ready({ scope }: { scope: Scope }) {
   )
 }
 class LoadBoundary extends React.Component<
-  { scope: Scope; children: React.ReactNode },
+  { scope: Scope; text: Messages['loading']; children: React.ReactNode },
   { failed: boolean }
 > {
   state = { failed: false }
@@ -89,16 +91,16 @@ class LoadBoundary extends React.Component<
           data-catalog-error={this.props.scope}
         >
           {this.props.scope === 'page' ? (
-            <h2>This page could not be loaded</h2>
+            <h2>{this.props.text.pageFailed}</h2>
           ) : (
-            <h3>This example could not be loaded</h3>
+            <h3>{this.props.text.previewFailed}</h3>
           )}
-          <p>Reload the page or go to another page.</p>
+          <p>{this.props.text.failedHint}</p>
           <div className='actions'>
             <Button variant='outline' onClick={() => window.location.reload()}>
-              Reload page
+              {this.props.text.reload}
             </Button>
-            <Link href='/components'>Browse components</Link>
+            <Link href='/components'>{this.props.text.browse}</Link>
           </div>
         </div>
       )
@@ -112,20 +114,19 @@ export function DeferredContent({
   children: React.ReactNode
   scope: Scope
 }) {
+  const text = useMessages().loading
   return (
-    <LoadBoundary scope={scope}>
+    <LoadBoundary scope={scope} text={text}>
       <Suspense
         fallback={
           <div
             className='catalog-loading'
             data-catalog-loading={scope}
             role='status'
-            aria-label={
-              scope === 'page' ? 'Loading content' : 'Loading preview'
-            }
+            aria-label={scope === 'page' ? text.page : text.preview}
           >
             <span className='example-announcement'>
-              {scope === 'page' ? 'Loading content' : 'Loading preview'}
+              {scope === 'page' ? text.page : text.preview}
             </span>
           </div>
         }

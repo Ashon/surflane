@@ -14,10 +14,11 @@ import {
   Menu,
   Tabs,
   Table,
-  CodeBlock,
   Stack,
   Inline,
+  Icon,
 } from '@surflane/ui'
+import { CatalogCodeBlock as CodeBlock } from './CatalogCodeBlock'
 import { componentSizes } from './ComponentSizePreview'
 import { Link } from './router'
 import { useLocale } from './i18n'
@@ -52,16 +53,7 @@ function Specimen({ size }: { size: (typeof componentSizes)[number] }) {
             <Button>{t.runPreview}</Button>
             <Button variant='outline'>{t.details}</Button>
             <Button size='icon' aria-label={t.addItem(labels[size])}>
-              <svg
-                viewBox='0 0 24 24'
-                width='16'
-                height='16'
-                aria-hidden='true'
-                fill='none'
-                stroke='currentColor'
-              >
-                <path d='M12 5v14M5 12h14' />
-              </svg>
+              <Icon name='plus' />
             </Button>
           </Inline>
           <Field.Root>

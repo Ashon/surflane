@@ -1,6 +1,8 @@
 import type { Locale } from '../../i18n'
 
 const en = {
+  clearInput: 'Clear input',
+  showSuggestions: 'Show suggestions',
   disableSuggestions: 'Disable suggestions',
   readOnly: 'Read only',
   pipelineSearch: 'Pipeline search',
@@ -45,6 +47,8 @@ const en = {
 export const text: Record<Locale, typeof en> = {
   en,
   ko: {
+    clearInput: '입력 지우기',
+    showSuggestions: '제안 보기',
     disableSuggestions: '제안 비활성화',
     readOnly: '읽기 전용',
     pipelineSearch: '파이프라인 검색',

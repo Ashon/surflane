@@ -162,6 +162,17 @@ const shapes = {
       <path d='M12 9v7.5' />
     </>
   ),
+  // View controls: keep an item in place, and show a list or a grid.
+  pin: <path d='M9 3h6l-1 6 4 4H6l4-4-1-6ZM12 13v8' />,
+  list: <path d='M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01' />,
+  grid: (
+    <>
+      <rect x='4' y='4' width='6' height='6' rx='1' />
+      <rect x='14' y='4' width='6' height='6' rx='1' />
+      <rect x='4' y='14' width='6' height='6' rx='1' />
+      <rect x='14' y='14' width='6' height='6' rx='1' />
+    </>
+  ),
 }
 export type IconName = keyof typeof shapes
 export const iconNames: readonly IconName[] = Object.keys(shapes) as IconName[]

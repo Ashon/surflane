@@ -1,6 +1,8 @@
 import type { Locale } from '../../i18n'
 
 const en = {
+  clearSelection: 'Clear selection',
+  showOptions: 'Show options',
   disableControls: 'Disable controls',
   readOnly: 'Read only',
   noFormSubmitted: 'No form submitted.',
@@ -53,6 +55,8 @@ const en = {
 export const text: Record<Locale, typeof en> = {
   en,
   ko: {
+    clearSelection: '선택 지우기',
+    showOptions: '옵션 보기',
     disableControls: '컨트롤 비활성화',
     readOnly: '읽기 전용',
     noFormSubmitted: '제출된 폼이 없습니다.',

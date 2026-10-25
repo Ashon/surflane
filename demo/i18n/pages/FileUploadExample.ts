@@ -1,6 +1,10 @@
 import type { Locale } from '../../i18n'
+import type { FileUploadLabels } from '@surflane/ui/file-upload'
 
 const en = {
+  chooseOne: 'Choose file',
+  dropOne: 'or drop a file here',
+  labels: undefined as Partial<FileUploadLabels> | undefined,
   disableFileControls: 'Disable file controls',
   failUploadPreview: 'Fail upload preview',
   lateResultAfterCancel: 'Late result after cancel',
@@ -21,6 +25,33 @@ const en = {
 export const text: Record<Locale, typeof en> = {
   en,
   ko: {
+    chooseOne: '파일 선택',
+    dropOne: '또는 여기에 파일을 하나 놓으세요',
+    labels: {
+      choose: '파일 선택',
+      drop: '또는 여기에 파일을 놓으세요',
+      upload: '올리기',
+      retry: '다시 시도',
+      cancel: '취소',
+      remove: '빼기',
+      status: {
+        ready: '준비됨',
+        uploading: '올리는 중',
+        success: '올림',
+        error: '실패',
+        canceled: '취소됨',
+      },
+      rejection: ({ file, reason }) =>
+        `${file.name}: ${reason === 'type' ? '받지 않는 파일 형식입니다' : reason === 'size' ? '파일이 너무 큽니다' : reason === 'count' ? '파일 개수 한도에 닿았습니다' : '이미 고른 파일입니다'}.`,
+      changed: (count) => `파일 ${count}개를 골랐습니다.`,
+      complete: (file) => `${file.name}: 올렸습니다.`,
+      canceled: (file) => `${file.name}: 올리기를 취소했습니다.`,
+      failed: (file) => `${file.name}: 올리지 못했습니다.`,
+      reset: '파일을 비웠습니다.',
+      progress: (file) => `${file.name} 올리기 진행`,
+      uploadError: '올리지 못했습니다. 다시 시도하세요.',
+      fileAction: (action, file) => `${file.name} ${action}`,
+    },
     disableFileControls: '파일 제어 비활성화',
     failUploadPreview: '업로드 미리보기 실패 처리',
     lateResultAfterCancel: '취소 후 지연 결과',

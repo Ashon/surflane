@@ -21,6 +21,11 @@
     color: var(--surf-ink-muted);
     margin-bottom: var(--surf-space-3);
   }
+  /* The one larger glyph: it marks what the empty area is about. */
+  .surf-empty-icon > svg {
+    inline-size: var(--surf-space-8);
+    block-size: var(--surf-space-8);
+  }
   .surf-empty-title {
     font: var(--surf-weight-medium)
       var(--surf-type-section-size)/var(--surf-type-section-leading)

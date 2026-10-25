@@ -81,7 +81,7 @@ test('layout adapts its grid and maintains typography at 320px and enlarged text
       .getByRole('combobox', { name: 'Layout density', exact: true })
       .click()
     await page
-      .getByRole('option', { name: 'Compact / 16px', exact: true })
+      .getByRole('option', { name: 'Compact / 12px', exact: true })
       .click()
     expect(
       await page
@@ -92,7 +92,7 @@ test('layout adapts its grid and maintains typography at 320px and enlarged text
       await page
         .getByTestId('layout-stack')
         .evaluate((el) => getComputedStyle(el).gap),
-    ).toBe('16px')
+    ).toBe('12px')
     await page
       .getByRole('combobox', { name: 'Layout profile', exact: true })
       .click()

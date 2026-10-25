@@ -1,6 +1,7 @@
 import type { Locale } from '../../i18n'
 
 const en = {
+  loadingTree: 'Loading resources',
   previewDataset: 'Preview dataset',
   datasetResources: 'Resources',
   datasetLarge: 'Large tree / 10,100 nodes',
@@ -36,6 +37,7 @@ const en = {
 export const text: Record<Locale, typeof en> = {
   en,
   ko: {
+    loadingTree: '리소스를 불러오는 중',
     previewDataset: '미리보기 데이터셋',
     datasetResources: '리소스',
     datasetLarge: '큰 트리 / 10,100개 노드',

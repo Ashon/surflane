@@ -5,6 +5,8 @@ import {
   type ComponentSize,
   type TableDensity,
   type TableVariant,
+  Toggle,
+  ToggleGroup,
 } from '@surflane/ui'
 import { ComponentExample } from './ComponentExamples'
 import { exampleOwnsFrame } from './exampleGroups'
@@ -76,65 +78,62 @@ export function ComponentSizePreview({
         <div className='component-size-controls'>
           {named(
             t.sizeName,
-            <div
-              role='group'
+            <ToggleGroup
               aria-label={t.groupLabel}
               className='component-size-options'
+              value={[size]}
+              onValueChange={(next) => next[0] && setSize(next[0])}
             >
               {componentSizes.map((value) => (
-                <Button
+                <Toggle
                   key={value}
-                  variant='ghost'
-                  aria-pressed={size === value}
+                  value={value}
                   aria-label={t.previewSize(labels[value])}
-                  onClick={() => setSize(value)}
                 >
                   {labels[value]}
-                </Button>
+                </Toggle>
               ))}
-            </div>,
+            </ToggleGroup>,
           )}
           {withDensity &&
             named(
               t.densityName,
-              <div
-                role='group'
+              <ToggleGroup
                 aria-label={t.densityGroupLabel}
                 className='component-size-options'
+                value={[density]}
+                onValueChange={(next) => next[0] && setDensity(next[0])}
               >
                 {densities.map((value) => (
-                  <Button
+                  <Toggle
                     key={value}
-                    variant='ghost'
-                    aria-pressed={density === value}
+                    value={value}
                     aria-label={t.previewDensity(densityLabels[value])}
-                    onClick={() => setDensity(value)}
                   >
                     {densityLabels[value]}
-                  </Button>
+                  </Toggle>
                 ))}
-              </div>,
+              </ToggleGroup>,
             )}
           {withStyle &&
             named(
               t.styleName,
-              <div
-                role='group'
+              <ToggleGroup
                 aria-label={t.styleGroupLabel}
                 className='component-size-options'
+                value={[variant]}
+                onValueChange={(next) => next[0] && setVariant(next[0])}
               >
                 {variants.map((value) => (
-                  <Button
+                  <Toggle
                     key={value}
-                    variant='ghost'
-                    aria-pressed={variant === value}
+                    value={value}
                     aria-label={t.previewStyle(variantLabels[value])}
-                    onClick={() => setVariant(value)}
                   >
                     {variantLabels[value]}
-                  </Button>
+                  </Toggle>
                 ))}
-              </div>,
+              </ToggleGroup>,
             )}
           <p>
             {withDensity

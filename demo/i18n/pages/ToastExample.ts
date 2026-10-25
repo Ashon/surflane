@@ -1,6 +1,7 @@
 import type { Locale } from '../../i18n'
 
 const en = {
+  dismiss: 'Dismiss notification',
   presentationLabel: 'Notification presentation',
   presentationGlobalStack: 'Global stack',
   presentationExpandedList: 'Expanded list',
@@ -52,6 +53,7 @@ const en = {
 export const text: Record<Locale, typeof en> = {
   en,
   ko: {
+    dismiss: '알림 닫기',
     presentationLabel: '알림 표시 방식',
     presentationGlobalStack: '전역 스택',
     presentationExpandedList: '확장 목록',

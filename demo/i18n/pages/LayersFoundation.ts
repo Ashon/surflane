@@ -1,6 +1,7 @@
 import type { Locale } from '../../i18n'
 
 const en = {
+  closeDialog: 'Close dialog',
   principles: [
     [
       'Use a named layer, never a raw z-index.',
@@ -95,6 +96,7 @@ const en = {
 export const text: Record<Locale, typeof en> = {
   en,
   ko: {
+    closeDialog: '대화상자 닫기',
     principles: [
       [
         'z-index 숫자 대신 이름 붙은 레이어를 쓰세요.',

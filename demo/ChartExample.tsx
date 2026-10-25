@@ -189,10 +189,12 @@ const presets: Record<string, Preset> = {
   projects: { type: 'line', palette: 'categorical', legendLimit: 4 },
 }
 export function ChartExample() {
-  const t = text[useLocale().locale]
+  const { locale: pageLocale } = useLocale()
+  const t = text[pageLocale]
   const [type, setType] = useState<'line' | 'bar' | 'area'>('line')
   const [scenario, setScenario] = useState('trend')
-  const [locale, setLocale] = useState('en-US')
+  // Numbers start in the page's language; the select tries the other.
+  const [locale, setLocale] = useState(pageLocale === 'ko' ? 'ko-KR' : 'en-US')
   const [locked, setLocked] = useState(false)
   const [hidden, setHidden] = useState<string[]>([])
   const [palette, setPalette] = useState<'neutral' | 'categorical'>('neutral')
@@ -234,18 +236,21 @@ export function ChartExample() {
       description: t.descriptions.gpu,
       series: gpuSeries,
       xScale: 'time',
-      references: gpuReferences,
-      xLabel: 'Time',
-      yLabel: 'GPU temperature',
+      references: gpuReferences.map((reference, index) => ({
+        ...reference,
+        label: t.references[index],
+      })),
+      xLabel: t.time,
+      yLabel: t.gpuTemperature,
     },
     tokens: {
       data: tokens,
-      unit: 'M tokens',
+      unit: t.units.mTokens,
       description: t.descriptions.tokens,
       series: tokenSeries,
       xScale: 'time',
-      xLabel: 'Day',
-      yLabel: 'Tokens',
+      xLabel: t.day,
+      yLabel: t.tokens,
     },
     throughput: {
       data: throughput,
@@ -253,8 +258,8 @@ export function ChartExample() {
       description: t.descriptions.throughput,
       series: throughputSeries,
       xScale: 'time',
-      xLabel: 'Time',
-      yLabel: 'Throughput',
+      xLabel: t.time,
+      yLabel: t.throughput,
     },
     disk: {
       data: disk,
@@ -262,17 +267,17 @@ export function ChartExample() {
       description: t.descriptions.disk,
       series: diskSeries,
       xScale: 'time',
-      xLabel: 'Time',
-      yLabel: 'Disk used',
+      xLabel: t.time,
+      yLabel: t.diskUsed,
     },
     projects: {
       data: projects,
-      unit: 'k tokens',
+      unit: t.units.kTokens,
       description: t.descriptions.projects,
       series: projectSeries,
       xScale: 'time',
-      xLabel: 'Day',
-      yLabel: 'Tokens',
+      xLabel: t.day,
+      yLabel: t.tokens,
     },
     latency: {
       data: latency,
@@ -290,33 +295,36 @@ export function ChartExample() {
     },
     buckets: {
       data: buckets,
-      unit: 'runs',
+      unit: t.units.runs,
       description: t.descriptions.buckets,
-      series: bucketSeries,
+      series: bucketSeries.map((bucket, index) => ({
+        ...bucket,
+        label: t.buckets[index],
+      })),
     },
     trend: {
       data: trend,
-      unit: 'runs',
+      unit: t.units.runs,
       description: t.descriptions.trend,
     },
     mixed: {
       data: mixed,
-      unit: 'resources',
+      unit: t.units.resources,
       description: t.descriptions.mixed,
     },
     dense: {
       data: dense,
-      unit: 'runs',
+      unit: t.units.runs,
       description: t.descriptions.dense,
     },
     missing: {
       data: missing,
-      unit: 'runs',
+      unit: t.units.runs,
       description: t.descriptions.missing,
     },
     empty: {
       data: [],
-      unit: 'runs',
+      unit: t.units.runs,
       description: t.descriptions.empty,
     },
   }
@@ -325,83 +333,83 @@ export function ChartExample() {
     <div className='example-stack'>
       <div className='foundation-controls'>
         <label>
-          Chart type
+          {t.chartType}
           <NativeSelect
             value={type}
             onChange={(event) => setType(event.target.value as typeof type)}
           >
-            <option value='line'>Line</option>
-            <option value='bar'>Bar</option>
-            <option value='area'>Area</option>
+            <option value='line'>{t.lineType}</option>
+            <option value='bar'>{t.barType}</option>
+            <option value='area'>{t.areaType}</option>
           </NativeSelect>
         </label>
         <label>
-          Chart data
+          {t.chartData}
           <NativeSelect
             value={scenario}
             onChange={(event) => choose(event.target.value)}
           >
-            <option value='trend'>Trend with a missing value</option>
-            <option value='mixed'>Negative and zero values</option>
-            <option value='dense'>120 long resource labels</option>
-            <option value='missing'>All values unavailable</option>
-            <option value='empty'>No rows</option>
-            <option value='latency'>Latency far from zero</option>
-            <option value='buckets'>Five duration buckets</option>
-            <option value='memory'>Memory in bytes</option>
-            <option value='gpu'>GPU temperature over a day</option>
-            <option value='tokens'>Tokens by kind, stacked</option>
-            <option value='throughput'>Prefill and decode, log scale</option>
-            <option value='disk'>Disk used, hourly steps</option>
-            <option value='projects'>Twelve projects</option>
+            <option value='trend'>{t.trendOption}</option>
+            <option value='mixed'>{t.mixedOption}</option>
+            <option value='dense'>{t.denseOption}</option>
+            <option value='missing'>{t.missingOption}</option>
+            <option value='empty'>{t.emptyOption}</option>
+            <option value='latency'>{t.options.latency}</option>
+            <option value='buckets'>{t.options.buckets}</option>
+            <option value='memory'>{t.options.memory}</option>
+            <option value='gpu'>{t.options.gpu}</option>
+            <option value='tokens'>{t.options.tokens}</option>
+            <option value='throughput'>{t.options.throughput}</option>
+            <option value='disk'>{t.options.disk}</option>
+            <option value='projects'>{t.options.projects}</option>
           </NativeSelect>
         </label>
         <label>
-          Value scale
+          {t.valueScale}
           <NativeSelect
             value={yScale}
             onChange={(event) => setYScale(event.target.value as typeof yScale)}
           >
-            <option value='linear'>Linear</option>
-            <option value='log'>Log</option>
+            <option value='linear'>{t.linear}</option>
+            <option value='log'>{t.log}</option>
           </NativeSelect>
         </label>
         <label>
-          Curve
+          {t.curve}
           <NativeSelect
             value={curve}
             onChange={(event) => setCurve(event.target.value as typeof curve)}
           >
-            <option value='linear'>Linear</option>
-            <option value='step'>Step</option>
+            <option value='linear'>{t.linear}</option>
+            <option value='step'>{t.step}</option>
           </NativeSelect>
         </label>
         <label>
-          Density
+          {t.density}
           <NativeSelect
             value={density}
             onChange={(event) =>
               setDensity(event.target.value as typeof density)
             }
           >
-            <option value='default'>Default</option>
-            <option value='compact'>Compact</option>
+            <option value='default'>{t.densityDefault}</option>
+            <option value='compact'>{t.densityCompact}</option>
           </NativeSelect>
         </label>
         <label>
-          Legend
+          {t.legend}
           <NativeSelect
             value={legendPosition}
             onChange={(event) =>
               setLegendPosition(event.target.value as typeof legendPosition)
             }
           >
-            <option value='top'>Top</option>
-            <option value='bottom'>Bottom</option>
+            <option value='top'>{t.top}</option>
+            <option value='bottom'>{t.bottom}</option>
           </NativeSelect>
         </label>
         <label>
-          Legend limit
+          {t.legendLimit}
           <NativeSelect
             value={legendLimit ?? 'all'}
             onChange={(event) =>
@@ -414,32 +422,32 @@ export function ChartExample() {
               )
             }
           >
-            <option value='all'>Every series</option>
-            <option value='auto'>One line</option>
-            <option value='4'>Four</option>
-            <option value='2'>Two</option>
+            <option value='all'>{t.everySeries}</option>
+            <option value='auto'>{t.oneLine}</option>
+            <option value='4'>{t.four}</option>
+            <option value='2'>{t.two}</option>
           </NativeSelect>
         </label>
         <label>
-          Palette
+          {t.palette}
           <NativeSelect
             value={palette}
             onChange={(event) =>
               setPalette(event.target.value as typeof palette)
             }
           >
-            <option value='neutral'>Neutral</option>
-            <option value='categorical'>Categorical</option>
+            <option value='neutral'>{t.neutral}</option>
+            <option value='categorical'>{t.categorical}</option>
           </NativeSelect>
         </label>
         <label>
-          Number locale
+          {t.numberLocale}
           <NativeSelect
             value={locale}
             onChange={(event) => setLocale(event.target.value)}
           >
-            <option value='en-US'>English</option>
-            <option value='ko-KR'>Korean</option>
+            <option value='en-US'>{t.english}</option>
+            <option value='ko-KR'>{t.korean}</option>
           </NativeSelect>
         </label>
         <ChoiceLabel
@@ -449,7 +457,7 @@ export function ChartExample() {
             </Checkbox.Root>
           }
         >
-          Lock series selection
+          {t.lockSeriesSelection}
         </ChoiceLabel>
         <ChoiceLabel
           control={
@@ -461,7 +469,7 @@ export function ChartExample() {
             </Checkbox.Root>
           }
         >
-          Keep zero on the value axis
+          {t.keepZero}
         </ChoiceLabel>
         <ChoiceLabel
           control={
@@ -470,27 +478,27 @@ export function ChartExample() {
             </Checkbox.Root>
           }
         >
-          Stack bar and area series
+          {t.stackSeries}
         </ChoiceLabel>
       </div>
       <Chart
-        title='Pipeline activity'
+        title={t.chartTitle}
         description={sample.description}
         xLabel={
           sample.xLabel ??
           (['trend', 'latency', 'buckets', 'memory'].includes(scenario)
-            ? 'Reporting day'
-            : 'Resource')
+            ? t.reportingDay
+            : t.resource)
         }
         yLabel={
           sample.yLabel ??
           (scenario === 'mixed'
-            ? 'Resource change'
+            ? t.resourceChange
             : scenario === 'latency'
-              ? 'P95 latency'
+              ? t.p95Latency
               : scenario === 'memory'
-                ? 'Memory in use'
-                : 'Pipeline run count')
+                ? t.memoryInUse
+                : t.pipelineRunCount)
         }
         xScale={sample.xScale}
         references={sample.references}
@@ -507,24 +515,20 @@ export function ChartExample() {
         palette={palette}
         includeZero={includeZero}
         locale={locale}
+        labels={t.chartLabels}
         formatValue={sample.formatValue}
         hiddenSeries={locked ? hidden : undefined}
         onHiddenSeriesChange={(next) => {
-          if (locked)
-            setNotice(
-              'Series selection unchanged. The example rejected this change.',
-            )
+          if (locked) setNotice(t.rejectedChange)
           else {
             setHidden(next)
             setNotice(
-              next.length
-                ? `${next.length} hidden series. The data table still shows every series.`
-                : 'All series are visible.',
+              next.length ? t.hiddenSeries(next.length) : t.allSeriesVisible,
             )
           }
         }}
       />
-      <p role='status' aria-label='Chart selection result'>
+      <p role='status' aria-label={t.selectionResultLabel}>
         {notice}
       </p>
     </div>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Button, CodeBlock, Icon, iconNames, Select, Table } from '@surflane/ui'
+import { Button, Icon, iconNames, Select, Table } from '@surflane/ui'
+import { CatalogCodeBlock as CodeBlock } from './CatalogCodeBlock'
 import { FoundationPage, FoundationSection } from './FoundationPage'
 import { Link } from './router'
 import { useLocale } from './i18n'

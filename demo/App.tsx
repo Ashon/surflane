@@ -16,6 +16,7 @@ import {
   ScrollArea,
   PageHeader,
   Link as TextLink,
+  Icon,
 } from '@surflane/ui'
 import { SyntaxHighlighting } from '@surflane/ui/syntax-highlighting'
 import { transitionTheme } from '@surflane/design-tokens/theme-transition'
@@ -551,28 +552,10 @@ function App() {
                 messages.themes[theme as keyof typeof messages.themes],
               )}
             >
-              <svg
-                width='18'
-                height='18'
-                viewBox='0 0 24 24'
-                fill='none'
-                stroke='currentColor'
-                strokeWidth='1.5'
-                aria-hidden='true'
-              >
-                {/* All three are drawn; CSS shows the one for <html data-theme-mode>. */}
-                <g data-theme-icon='light'>
-                  <circle cx='12' cy='12' r='4' />
-                  <path d='M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5' />
-                </g>
-                <g data-theme-icon='dark'>
-                  <path d='M20 13.2A8.5 8.5 0 0 1 10.8 4 8.5 8.5 0 1 0 20 13.2Z' />
-                </g>
-                <g data-theme-icon='system'>
-                  <rect x='3' y='4' width='18' height='13' rx='2' />
-                  <path d='M8 21h8m-4-4v4' />
-                </g>
-              </svg>
+              {/* All three render; CSS shows the one for <html data-theme-mode>. */}
+              <Icon name='sun' data-theme-icon='light' />
+              <Icon name='moon' data-theme-icon='dark' />
+              <Icon name='monitor' data-theme-icon='system' />
             </Button>
             <Button
               variant='ghost'
@@ -604,17 +587,7 @@ function App() {
               aria-controls='catalog-navigation-links'
               onClick={() => setNavigationOpen(!navigationOpen)}
             >
-              <svg
-                width='18'
-                height='18'
-                viewBox='0 0 24 24'
-                fill='none'
-                stroke='currentColor'
-                strokeWidth='1.5'
-                aria-hidden='true'
-              >
-                <path d='M4 6h16M4 12h16M4 18h16' />
-              </svg>
+              <Icon name='menu' />
             </Button>
           </div>
         </header>
@@ -655,7 +628,7 @@ function App() {
                   headingProps={{ id: 'page-title', tabIndex: -1 }}
                   breadcrumb={
                     route !== '/' && route !== '/coverage' ? (
-                      <Breadcrumbs.Root>
+                      <Breadcrumbs.Root aria-label={messages.breadcrumb}>
                         <Breadcrumbs.List>
                           <Breadcrumbs.Item>
                             <TextLink render={<Link href='/' />}>

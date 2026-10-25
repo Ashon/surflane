@@ -79,6 +79,7 @@ export function FileUploadExample() {
         }}
       >
         <FileUpload
+          labels={t.labels}
           label={t.buildArtifacts}
           description={t.buildArtifactsDescription}
           name='artifacts'
@@ -112,6 +113,13 @@ export function FileUploadExample() {
         </div>
       </Form>
       <FileUpload
+        labels={
+          t.labels && {
+            ...t.labels,
+            choose: t.chooseOne,
+            drop: t.dropOne,
+          }
+        }
         label={t.controlledAttachment}
         description={t.controlledAttachmentDescription}
         name='attachment'

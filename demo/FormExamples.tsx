@@ -13,6 +13,7 @@ import {
   RadioGroup,
   Switch,
   ChoiceLabel,
+  Toggle,
 } from '@surflane/ui'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/FormExamples'
@@ -67,13 +68,10 @@ export function FormExample({ id }: { id: string }) {
     case 'fieldset':
       example = (
         <div className='example-stack'>
-          <Button
-            variant='outline'
-            aria-pressed={disabled}
-            onClick={() => setDisabled(!disabled)}
-          >
-            {disabled ? t.enableGroup : t.disableGroup}
-          </Button>
+          {/* A toggle keeps one name; its pressed state says whether it is on. */}
+          <Toggle pressed={disabled} onPressedChange={setDisabled}>
+            {t.disableGroup}
+          </Toggle>
           <Form onFormSubmit={submit}>
             <Fieldset.Root disabled={disabled}>
               <Fieldset.Legend>{t.deploymentTarget}</Fieldset.Legend>

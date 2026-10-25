@@ -3,7 +3,6 @@ import {
   AppShell,
   Button,
   Checkbox,
-  CodeBlock,
   Icon,
   InlineMessage,
   Input,
@@ -16,6 +15,7 @@ import {
   ToggleGroup,
   Link as TextLink,
 } from '@surflane/ui'
+import { CatalogCodeBlock as CodeBlock } from './CatalogCodeBlock'
 import {
   accentPresets,
   contrastRatio,

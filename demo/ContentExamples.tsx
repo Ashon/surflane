@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import {
   Card,
-  CodeBlock,
   Pagination,
   Button,
   List,
   StatusBadge,
   Input,
 } from '@surflane/ui'
+import { CatalogCodeBlock as CodeBlock } from './CatalogCodeBlock'
 import { useLocale, useMessages } from './i18n'
 import { text } from './i18n/pages/ContentExamples'
 export { contentExampleIds } from './exampleGroups'

@@ -2,7 +2,6 @@ import React from 'react'
 import '@fontsource-variable/noto-sans-jp'
 import {
   Button,
-  CodeBlock,
   Field,
   Heading,
   Input,
@@ -11,6 +10,7 @@ import {
   Table,
   Text,
 } from '@surflane/ui'
+import { CatalogCodeBlock as CodeBlock } from './CatalogCodeBlock'
 import { FoundationPage, FoundationSection } from './FoundationPage'
 import { Link } from './router'
 import { useLocale } from './i18n'

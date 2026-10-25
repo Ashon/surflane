@@ -77,7 +77,7 @@ export const doc: ComponentDoc = {
           render={<Menu.Trigger />}
           label='Kim Hana'
           icon={avatar}
-          aria-label='Account menu'
+          aria-label='Kim Hana, account menu'
         />
         <Menu.Portal>{accountItems}</Menu.Portal>
       </Menu.Root>

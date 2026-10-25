@@ -2,6 +2,23 @@ import type { Messages } from '../messages'
 
 export const ko: Messages = {
   skipToContent: '본문으로 건너뛰기',
+  breadcrumb: '탐색 경로',
+  exampleCode: '예제 코드',
+  copyExample: '예제 복사',
+  loading: {
+    page: '내용을 불러오는 중',
+    preview: '미리보기를 불러오는 중',
+    pageFailed: '이 페이지를 불러오지 못했습니다',
+    previewFailed: '이 예제를 불러오지 못했습니다',
+    failedHint: '페이지를 새로 고치거나 다른 페이지로 가세요.',
+    reload: '페이지 새로 고침',
+    browse: '컴포넌트 둘러보기',
+  },
+  codeBlock: {
+    copy: '코드 복사',
+    copied: '복사함',
+    copyError: '복사할 수 없음',
+  },
   brandHome: 'Surflane 홈',
   primarySections: '주요 섹션',
   primaryNavigation: '주요 내비게이션',

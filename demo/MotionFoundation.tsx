@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import {
   Button,
-  CodeBlock,
   Dialog,
   Input,
   Sheet,
   Table,
   Link as TextLink,
 } from '@surflane/ui'
+import { CatalogCodeBlock as CodeBlock } from './CatalogCodeBlock'
 import { FoundationPage, FoundationSection } from './FoundationPage'
 import { codeText } from './codeText'
 import { Link } from './router'

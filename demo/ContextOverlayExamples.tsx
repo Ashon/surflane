@@ -134,10 +134,11 @@ export function ContextOverlayExample({ id }: { id: string }) {
         }}
       >
         <p>
-          {t.readThe}{' '}
+          {/* Each language carries its own spaces: Korean attaches the particle. */}
+          {t.readThe}
           <PreviewCard.Trigger href='#preview-destination'>
             {t.deploymentPolicyGuide}
-          </PreviewCard.Trigger>{' '}
+          </PreviewCard.Trigger>
           {t.beforeConfiguringDeploymentChecks}
         </p>
         <PreviewCard.Portal>

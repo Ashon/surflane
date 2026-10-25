@@ -7,7 +7,6 @@ import React, {
 } from 'react'
 import {
   Button,
-  CodeBlock,
   Icon,
   Select,
   StatusBadge,
@@ -16,6 +15,7 @@ import {
   ToggleGroup,
   type SelectGroup,
 } from '@surflane/ui'
+import { CatalogCodeBlock as CodeBlock } from './CatalogCodeBlock'
 import { useLocale } from './i18n'
 import { HueWheel } from './HueWheel'
 import { SliderField } from './SliderField'

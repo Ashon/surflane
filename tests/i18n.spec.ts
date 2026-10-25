@@ -100,3 +100,64 @@ test('every catalog page renders in Korean without errors', async ({
   expect(errors).toEqual([])
   await context.close()
 })
+// The package's English defaults must not reach a Korean page: every example passes
+// its own labels. API tables name parts in English, so header cells are left out.
+const packageEnglish = new Set([
+  'Breadcrumb',
+  'Clear input',
+  'Clear selection',
+  'Close dialog',
+  'Close panel',
+  'Copy code',
+  'Copy example',
+  'Dismiss notification',
+  'Example code',
+  'Loading',
+  'Loading content',
+  'Loading preview',
+  'Refresh now',
+  'Search documentation',
+  'Show options',
+  'Show suggestions',
+  'Time range',
+  'View data table',
+  'Choose file',
+  'Choose files',
+])
+test('Korean example pages pass their own labels to components', async ({
+  page,
+}) => {
+  test.setTimeout(120_000)
+  for (const route of [
+    '/ko/components/code',
+    '/ko/components/autocomplete',
+    '/ko/components/combobox',
+    '/ko/components/chart',
+    '/ko/components/file-upload',
+    '/ko/components/toast',
+    '/ko/foundations/color',
+    '/ko/foundations/layers',
+    '/ko/patterns/dashboard',
+    '/ko/patterns/command-search',
+  ]) {
+    await page.goto(route)
+    await waitForCatalogReady(page)
+    const english = await page.evaluate(
+      (names) =>
+        Array.from(
+          document.querySelectorAll(
+            '[aria-label], button, label, [role="status"], option',
+          ),
+        )
+          .flatMap((element) => [
+            element.getAttribute('aria-label'),
+            element.matches('button, label, [role="status"], option')
+              ? element.textContent?.trim()
+              : null,
+          ])
+          .filter((text): text is string => !!text && names.includes(text)),
+      [...packageEnglish],
+    )
+    expect(english, route).toEqual([])
+  }
+})

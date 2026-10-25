@@ -42,7 +42,7 @@ const en = {
   strokeWidthUsage: '1.7 viewBox units, scaled with the icon',
   strokeCaps: 'Round caps and joins',
   libraryIntro: (n: number) =>
-    `Icon has ${n} shapes: interface actions and states, and an infrastructure set for products that run machines (server, database, disk, chip, memory, network, bolt, token, thermometer). To add one, put it in the shared source with a name and a use, and test it.`,
+    `Icon has ${n} shapes: interface actions and states, and an infrastructure set for products that run machines (server, database, disk, chip, memory, network, bolt, token, thermometer), and view controls (pin, list, grid). To add one, put it in the shared source with a name and a use, and test it.`,
   galleryLabel: 'Shared icon vocabulary',
   namesIntro:
     "An icon beside text is decorative, so Icon hides it by default. Give an icon-only button an aria-label. A Tooltip doesn't replace it. A meaningful standalone icon sets decorative={false} and a label.",
@@ -110,7 +110,7 @@ export const text: Record<Locale, typeof en> = {
     strokeWidthUsage: '1.7 viewBox 단위, 아이콘 크기에 비례',
     strokeCaps: '둥근 끝과 이음',
     libraryIntro: (n: number) =>
-      `Icon에는 모양이 ${n}개 있습니다. 인터페이스 동작과 상태, 그리고 장비를 운영하는 제품을 위한 인프라 묶음(server, database, disk, chip, memory, network, bolt, token, thermometer)입니다. 추가하려면 이름과 용도를 붙여 공유 소스에 넣고 테스트하세요.`,
+      `Icon에는 모양이 ${n}개 있습니다. 인터페이스 동작과 상태, 그리고 장비를 운영하는 제품을 위한 인프라 묶음(server, database, disk, chip, memory, network, bolt, token, thermometer), 보기 컨트롤(pin, list, grid)입니다. 추가하려면 이름과 용도를 붙여 공유 소스에 넣고 테스트하세요.`,
     galleryLabel: '공유 아이콘 어휘',
     namesIntro:
       '텍스트 옆 아이콘은 장식이므로 Icon이 기본으로 숨깁니다. 아이콘만 있는 버튼에는 aria-label을 주세요. Tooltip은 이를 대신하지 않습니다. 의미 있는 단독 아이콘에는 decorative={false}와 label을 설정하세요.',

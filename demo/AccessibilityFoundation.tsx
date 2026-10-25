@@ -1,15 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { flushSync } from 'react-dom'
-import {
-  Button,
-  CodeBlock,
-  Dialog,
-  Field,
-  Form,
-  Input,
-  Inline,
-  Table,
-} from '@surflane/ui'
+import { Button, Dialog, Field, Form, Input, Inline, Table } from '@surflane/ui'
+import { CatalogCodeBlock as CodeBlock } from './CatalogCodeBlock'
 import { FoundationPage, FoundationSection } from './FoundationPage'
 import { Link } from './router'
 import { useLocale } from './i18n'

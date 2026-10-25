@@ -1,7 +1,8 @@
 import { SpacingScaleMark } from './BlueprintCanvas'
 import React, { useRef, useState } from 'react'
 import { SpacingMeasurements } from './SpacingMeasurements'
-import { Button, CodeBlock, Inline, Input, Stack, Table } from '@surflane/ui'
+import { Button, Inline, Input, Stack, Table, Toggle } from '@surflane/ui'
+import { CatalogCodeBlock as CodeBlock } from './CatalogCodeBlock'
 import { Link } from './router'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/SpacingGuide'
@@ -60,13 +61,9 @@ export function SpacingGuide() {
       </Table.Container>
       <p>{t.measureIntro}</p>
       <div className='actions spacing-measurement-controls'>
-        <Button
-          variant='outline'
-          aria-pressed={measurements}
-          onClick={() => setMeasurements((value) => !value)}
-        >
+        <Toggle pressed={measurements} onPressedChange={setMeasurements}>
           {t.spacingDimensions}
-        </Button>
+        </Toggle>
       </div>
       <Stack
         gap={4}

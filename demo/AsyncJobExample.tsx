@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import {
   Button,
-  CodeBlock,
   Field,
   InlineMessage,
   List,
@@ -9,7 +8,9 @@ import {
   Progress,
   StatusBadge,
   type StatusTone,
+  Toggle,
 } from '@surflane/ui'
+import { CatalogCodeBlock as CodeBlock } from './CatalogCodeBlock'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/AsyncJobExample'
 
@@ -314,14 +315,15 @@ export function AsyncJobExample() {
                   </List.Description>
                 </List.Content>
                 <List.Actions>
-                  <Button
-                    variant='ghost'
+                  <Toggle
                     disabled={!step.evidence}
-                    aria-pressed={inspected === index}
-                    onClick={() => setInspected(index)}
+                    pressed={inspected === index}
+                    onPressedChange={(pressed) =>
+                      pressed && setInspected(index)
+                    }
                   >
                     {t.inspectStep(step.name)}
-                  </Button>
+                  </Toggle>
                 </List.Actions>
               </List.Item>
             ))}

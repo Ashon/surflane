@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import {
   Checkbox,
-  CodeBlock,
   DirectionProvider,
   Field,
   Grid,
@@ -10,6 +9,7 @@ import {
   Table,
   ChoiceLabel,
 } from '@surflane/ui'
+import { CatalogCodeBlock as CodeBlock } from './CatalogCodeBlock'
 import { FoundationPage, FoundationSection } from './FoundationPage'
 import { Link } from './router'
 import { useLocale } from './i18n'

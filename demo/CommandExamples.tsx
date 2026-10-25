@@ -7,35 +7,14 @@ import {
   Menu,
   Button,
   DirectionProvider,
+  Icon,
 } from '@surflane/ui'
 import { Flag } from './Flag'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/CommandExamples'
 export { commandExampleIds } from './exampleGroups'
 function Glyph({ kind }: { kind: 'pin' | 'refresh' | 'list' | 'grid' }) {
-  return (
-    <svg
-      width='16'
-      height='16'
-      viewBox='0 0 24 24'
-      fill='none'
-      stroke='currentColor'
-      strokeWidth='1.6'
-      aria-hidden='true'
-    >
-      <path
-        d={
-          kind === 'pin'
-            ? 'm8 3 8 0-1 6 4 4H5l4-4-1-6ZM12 13v8'
-            : kind === 'refresh'
-              ? 'M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5'
-              : kind === 'list'
-                ? 'M7 6h14M7 12h14M7 18h14M2 6h1M2 12h1M2 18h1'
-                : 'M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z'
-        }
-      />
-    </svg>
-  )
+  return <Icon name={kind} />
 }
 export function CommandExample({ id }: { id: string }) {
   const t = text[useLocale().locale]

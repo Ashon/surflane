@@ -3,6 +3,23 @@
 
 export const en = {
   skipToContent: 'Skip to content',
+  breadcrumb: 'Breadcrumb',
+  exampleCode: 'Example code',
+  copyExample: 'Copy example',
+  loading: {
+    page: 'Loading content',
+    preview: 'Loading preview',
+    pageFailed: 'This page could not be loaded',
+    previewFailed: 'This example could not be loaded',
+    failedHint: 'Reload the page or go to another page.',
+    reload: 'Reload page',
+    browse: 'Browse components',
+  },
+  codeBlock: {
+    copy: 'Copy code',
+    copied: 'Copied',
+    copyError: 'Copy unavailable',
+  },
   brandHome: 'Surflane home',
   primarySections: 'Primary sections',
   primaryNavigation: 'Primary navigation',

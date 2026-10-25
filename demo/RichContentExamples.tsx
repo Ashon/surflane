@@ -6,6 +6,7 @@ import {
   ScrollArea,
   SyntaxHighlighter,
   Textarea,
+  Toggle,
 } from '@surflane/ui'
 import { Markdown } from '@surflane/ui/markdown'
 import { useLocale } from './i18n'
@@ -77,14 +78,13 @@ export function RichContentExample({ id }: { id: string }) {
               ['source', t.source],
               ['preview', t.preview],
             ].map(([value, label]) => (
-              <Button
+              <Toggle
                 key={value}
-                variant='ghost'
-                aria-pressed={view === value}
-                onClick={() => setView(value)}
+                pressed={view === value}
+                onPressedChange={(pressed) => pressed && setView(value)}
               >
                 {label}
-              </Button>
+              </Toggle>
             ))}
           </div>
           <span className='markdown-demo-hint'>
@@ -147,20 +147,12 @@ export function RichContentExample({ id }: { id: string }) {
           >
             {t.restoreMarkdownExample}
           </Button>
-          <Button
-            variant='outline'
-            aria-pressed={wrap}
-            onClick={() => setWrap((value) => !value)}
-          >
+          <Toggle pressed={wrap} onPressedChange={setWrap}>
             {t.wrapCodeLines}
-          </Button>
-          <Button
-            variant='outline'
-            aria-pressed={duplicate}
-            onClick={() => setDuplicate((value) => !value)}
-          >
+          </Toggle>
+          <Toggle pressed={duplicate} onPressedChange={setDuplicate}>
             {t.compareTwoInstances}
-          </Button>
+          </Toggle>
         </div>
       </div>
     )
@@ -212,13 +204,9 @@ export function RichContentExample({ id }: { id: string }) {
         />
       </Field.Root>
       <div className='actions'>
-        <Button
-          variant='outline'
-          aria-pressed={wrap}
-          onClick={() => setWrap((value) => !value)}
-        >
+        <Toggle pressed={wrap} onPressedChange={setWrap}>
           {t.wrapSourceLines}
-        </Button>
+        </Toggle>
         <Button variant='outline' onClick={() => setCode(examples[language])}>
           {t.restoreSource}
         </Button>

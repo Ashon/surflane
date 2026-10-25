@@ -3,7 +3,6 @@ import {
   AppShell,
   Avatar,
   Button,
-  CodeBlock,
   Heading,
   Icon,
   PageHeader,
@@ -15,6 +14,7 @@ import {
   type StatusTone,
   LinkButton,
 } from '@surflane/ui'
+import { CatalogCodeBlock as CodeBlock } from './CatalogCodeBlock'
 import { Link, withBase } from './router'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/LandingHero'

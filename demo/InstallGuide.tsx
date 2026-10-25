@@ -2,7 +2,6 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import {
   Button,
   ChoiceLabel,
-  CodeBlock,
   Collapsible,
   Switch,
   Table,
@@ -10,6 +9,7 @@ import {
   Toggle,
   ToggleGroup,
 } from '@surflane/ui'
+import { CatalogCodeBlock as CodeBlock } from './CatalogCodeBlock'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/InstallGuide'
 import {

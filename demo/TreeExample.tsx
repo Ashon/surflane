@@ -184,7 +184,7 @@ export function TreeExample() {
       <p>{t.loadedNodes(labels.size)}</p>
       {dataset === 'loading' ? (
         <InlineMessage.Root tone='progress' role='status'>
-          <Spinner size='small' />
+          <Spinner size='small' label={t.loadingTree} />
           <InlineMessage.Content>
             <InlineMessage.Title>{t.loadingTitle}</InlineMessage.Title>
             <InlineMessage.Description>

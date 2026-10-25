@@ -87,10 +87,15 @@ test('Fieldset disabled state cascades to nested input and Select', async ({
       exact: true,
     }),
     select = page.getByRole('combobox', { name: 'Environment', exact: true })
-  await page.getByRole('button', { name: 'Disable group', exact: true }).click()
+  const toggle = page.getByRole('button', {
+    name: 'Disable group',
+    exact: true,
+  })
+  await toggle.click()
+  await expect(toggle).toHaveAttribute('aria-pressed', 'true')
   await expect(input).toBeDisabled()
   await expect(select).toBeDisabled()
-  await page.getByRole('button', { name: 'Enable group', exact: true }).click()
+  await toggle.click()
   await expect(input).toBeEnabled()
   await expect(select).toBeEnabled()
   await select.click()

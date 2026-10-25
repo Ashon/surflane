@@ -7,6 +7,7 @@ import {
   Radio,
   Switch,
   ChoiceLabel,
+  Toggle,
 } from '@surflane/ui'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/FormContractExample'
@@ -67,14 +68,9 @@ export function FormContractExample() {
           >
             {t.restoreInitialModel}
           </Button>
-          <Button
-            type='button'
-            variant='outline'
-            aria-pressed={reject}
-            onClick={() => setReject(!reject)}
-          >
+          <Toggle pressed={reject} onPressedChange={setReject}>
             {t.rejectChanges}
-          </Button>
+          </Toggle>
         </div>
       </form>
       <ChoiceLabel

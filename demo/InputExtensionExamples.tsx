@@ -106,8 +106,8 @@ export function InputExtensionExample({ id }: { id: string }) {
             >
               <Autocomplete.InputGroup>
                 <Autocomplete.Input placeholder={t.searchPipelines} />
-                <Autocomplete.Clear />
-                <Autocomplete.Trigger />
+                <Autocomplete.Clear aria-label={t.clearInput} />
+                <Autocomplete.Trigger aria-label={t.showSuggestions} />
               </Autocomplete.InputGroup>
               <Autocomplete.Content>
                 <Autocomplete.Empty>{t.noSuggestions}</Autocomplete.Empty>

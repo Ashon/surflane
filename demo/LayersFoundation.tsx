@@ -84,7 +84,7 @@ function OverlayLab() {
       <Dialog.Trigger render={<Button variant='outline' />}>
         {t.openLayeredDialog}
       </Dialog.Trigger>
-      <Dialog.Content>
+      <Dialog.Content closeLabel={t.closeDialog}>
         <Dialog.Header>
           <Dialog.Title>{t.layeredWorkspacePreview}</Dialog.Title>
           <Dialog.Description>
@@ -137,7 +137,7 @@ function OverlayLab() {
               <Dialog.Trigger render={<Button variant='outline' />}>
                 {t.openNestedDialog}
               </Dialog.Trigger>
-              <Dialog.Content>
+              <Dialog.Content closeLabel={t.closeDialog}>
                 <Dialog.Header>
                   <Dialog.Title>{t.nestedInspectionTitle}</Dialog.Title>
                   <Dialog.Description>

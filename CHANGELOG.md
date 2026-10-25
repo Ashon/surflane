@@ -19,6 +19,7 @@
 - `Sheet.Content` and `Drawer.Content` take `focusBoundaryLabel`, which names their focus guards for VoiceOver as Dialog's are named.
 - `Card.Root` takes `size`, as its parts do.
 - `InlineMessage.Icon` takes its Root's tone unless it sets one, as `Toast.Icon` does.
+- Icon has view controls: `pin`, `list` and `grid`.
 - `--surf-plane` and `--surf-recessed`: the plane a component sits on, and the area recessed one step from it. On the sheet they are the canvas and the surface. Card, Surface, the AppShell frame, the Sheet footer, an open Accordion item and the FileUpload drop zone set them for what they hold.
 - `--surf-table-surface` names the sticky table header's background. Without it the header takes the plane it sits on.
 - `--surf-motion-spin` and `--surf-motion-pulse` time Spinner, and Skeleton with indeterminate Progress.
@@ -37,6 +38,7 @@ These change what components look like, so they ship in a minor.
 - In light themes `--surf-brand-mark` caps lightness at 0.6 and chroma at 0.12. A range end reads 3:1 beside the in-range days, and every custom accent keeps 3:1 on a track.
 - Chart categories 7 to 12 moved apart. Any two now differ by at least ΔE 0.087 on light and 0.092 on dark, and by 0.025 for dichromats.
 - Badge padding is 6, 8 and 12px across, down from 7 and 9px at Small and Default.
+- An icon in `EmptyState.Icon` is 32px, the one larger glyph that marks what the empty area is about.
 - Outline buttons, toggles, icon buttons such as the dialog and sheet close buttons, and the AppShell edge toggle draw their edge with `--surf-control-border`, 3:1 against the sheet as fields are. Before they used the decorative `--surf-line`, about 1.2:1 on white.
 - Dialog sits on planes, as Sheet and Drawer do: no line under the head or above the footer, and the footer is a surface plane. AlertDialog keeps its actions on the dialog's own plane.
 - Every popup enters the same way: menus, selects, popovers, comboboxes, preview cards and navigation menus fade in and rise `--surf-motion-lift` (4px) in `--surf-duration-fast`, and close at once. Select, Menu and Popover had no entrance; the others rose 4, 6 or 12px over 120 to 200ms.

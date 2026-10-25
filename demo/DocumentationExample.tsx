@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import {
   Button,
   Checkbox,
-  CodeBlock,
   Collapsible,
   InlineMessage,
   NativeSelect,
@@ -11,6 +10,7 @@ import {
   ChoiceLabel,
   Link as TextLink,
 } from '@surflane/ui'
+import { CatalogCodeBlock as CodeBlock } from './CatalogCodeBlock'
 import { Link } from './router'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/DocumentationExample'

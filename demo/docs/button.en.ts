@@ -14,12 +14,13 @@ export const doc: ComponentDoc = {
     'Tab moves focus. Enter or Space activates the button. While its action runs, disable the button or show progress beside it, and announce the result from one live region.',
   anatomy: 'Button → optional SVG icon + text that describes the action',
   tokens: ['--surf-brand', '--surf-danger', ...controls],
-  code: `import { Button, LinkButton } from '@surflane/ui'
+  code: `import { Button, LinkButton, Text } from '@surflane/ui'
 import NextLink from 'next/link'
 
 <Button onClick={runPreview}>Run preview</Button>
 <Button variant='outline'>Inspect details</Button>
-<Button disabled>Unavailable</Button>
+<Button disabled aria-describedby='deploy-reason'>Deploy</Button>
+<Text id='deploy-reason' variant='caption'>Production is frozen until Monday.</Text>
 
 // Navigation that looks like a button stays a link.
 <LinkButton variant='outline' render={<NextLink href='/runs' />}>

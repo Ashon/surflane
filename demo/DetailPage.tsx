@@ -58,12 +58,13 @@ function CodeBlock({
   code: string
   language?: string
 }) {
+  const messages = useMessages()
   return (
     <SharedCodeBlock
       language={language}
       code={code}
-      label='Example code'
-      labels={{ copy: 'Copy example' }}
+      label={messages.exampleCode}
+      labels={{ ...messages.codeBlock, copy: messages.copyExample }}
     />
   )
 }

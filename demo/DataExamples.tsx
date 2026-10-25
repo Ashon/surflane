@@ -17,6 +17,7 @@ import {
   formatCurrency,
   formatNumber,
   formatPercent,
+  Icon,
 } from '@surflane/ui'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/DataExamples'
@@ -43,20 +44,7 @@ const environments = [
   },
 ]
 function SearchMark() {
-  return (
-    <svg
-      aria-hidden='true'
-      width='32'
-      height='32'
-      viewBox='0 0 24 24'
-      fill='none'
-      stroke='currentColor'
-      strokeWidth='1.5'
-    >
-      <circle cx='10' cy='10' r='7' />
-      <path d='m15 15 6 6' />
-    </svg>
-  )
+  return <Icon name='search' />
 }
 function EmptyPreview() {
   const t = text[useLocale().locale]

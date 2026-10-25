@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { lazy } from './lazy'
-import { CodeBlock, StatusBadge, Table } from '@surflane/ui'
+import { StatusBadge, Table } from '@surflane/ui'
+import { CatalogCodeBlock as CodeBlock } from './CatalogCodeBlock'
 import { Link } from './router'
 import { contrastRatio } from './contrast'
 import { DeferredContent, useLive } from './DeferredContent'

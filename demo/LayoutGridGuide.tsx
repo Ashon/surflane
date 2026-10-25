@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
 import { GridBlueprint } from './BlueprintCanvas'
-import { CodeBlock, Grid, GridItem, Table, Text } from '@surflane/ui'
+import { Grid, GridItem, Table, Text } from '@surflane/ui'
+import { CatalogCodeBlock as CodeBlock } from './CatalogCodeBlock'
 import { Link } from './router'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/LayoutGridGuide'

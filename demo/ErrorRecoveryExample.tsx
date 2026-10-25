@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import {
   Button,
-  CodeBlock,
   Collapsible,
   EmptyState,
   Field,
@@ -11,6 +10,7 @@ import {
   StatusBadge,
   LinkButton,
 } from '@surflane/ui'
+import { CatalogCodeBlock as CodeBlock } from './CatalogCodeBlock'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/ErrorRecoveryExample'
 import { Link } from './router'
