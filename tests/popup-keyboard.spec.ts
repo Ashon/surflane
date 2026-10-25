@@ -45,7 +45,7 @@ test('Menu: arrows, Home, End and typeahead move; Enter and Space run; a disable
   await expect(page.getByText('Inspect selected.')).toBeVisible()
 })
 
-test('Select: arrows and Space open it, typeahead highlights, a disabled option is findable but not chosen, Escape keeps the value', async ({
+test('Select: Space, arrows and Enter open it, typeahead highlights, a disabled option is findable but not chosen, Escape keeps the value', async ({
   page,
 }) => {
   await page.goto('/components/select')
@@ -57,12 +57,18 @@ test('Select: arrows and Space open it, typeahead highlights, a disabled option 
   await expect(trigger).toHaveAttribute('aria-expanded', 'false')
   await expect(trigger).toHaveText(/Staging/)
   await trigger.focus()
-  await page.keyboard.press('ArrowDown')
   const list = page.getByRole('listbox')
-  await expect(list).toBeVisible()
-  await expect(trigger).toHaveAttribute('aria-expanded', 'true')
   const option = (name: string) =>
     list.getByRole('option', { name, exact: true })
+  // Space opens it. It goes first: right after typing, Space joins the typed
+  // search instead, as it does in a native select.
+  await page.keyboard.press('Space')
+  await expect(option('Staging')).toBeFocused()
+  await page.keyboard.press('Escape')
+  await expect(list).toHaveCount(0)
+  await page.keyboard.press('ArrowDown')
+  await expect(list).toBeVisible()
+  await expect(trigger).toHaveAttribute('aria-expanded', 'true')
   await expect(option('Staging')).toBeFocused()
   await page.keyboard.type('p')
   await expect(option('Production')).toBeFocused()
@@ -78,7 +84,9 @@ test('Select: arrows and Space open it, typeahead highlights, a disabled option 
   await expect(trigger).toHaveAttribute('aria-expanded', 'false')
   await expect(trigger).toBeFocused()
   await expect(trigger).toHaveText(/Staging/)
-  await page.keyboard.press('Space')
+  // Enter opens it too.
+  await expect(list).toHaveCount(0)
+  await page.keyboard.press('Enter')
   await expect(option('Staging')).toBeFocused()
   await page.keyboard.press('ArrowDown')
   await expect(option('Production')).toBeFocused()
