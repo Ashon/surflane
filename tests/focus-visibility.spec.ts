@@ -1,4 +1,5 @@
 import { test, expect, type Locator, type Page } from '@playwright/test'
+import { components, patterns } from '../demo/catalog'
 import { waitForCatalogReady } from './catalog-ready'
 
 // Buttons and choices draw the shared 2px ring for keyboard focus only; a select
@@ -213,4 +214,74 @@ for (const [route, width, find] of clipped)
       : target
     expect(await reach(drawn)).toBeGreaterThanOrEqual(2)
     expect(await unclipped(drawn)).toBe(true)
+  })
+
+// Every keyboard stop in every live preview shows a ring or a halo, on the
+// element or on the part that draws it for it (a field group, a thumb, a
+// scroller's root), up to three levels out.
+const pages = [
+  ...components
+    .filter((item) => item.stage !== 'planned')
+    .map((item) => `/components/${item.id}`),
+  ...patterns.map((item) => `/patterns/${item.id}`),
+]
+for (const route of pages)
+  test(`${route}: every keyboard stop in the preview shows focus`, async ({
+    page,
+  }) => {
+    await page.goto(route)
+    await waitForCatalogReady(page)
+    const preview = page.locator('#preview').first()
+    test.skip(!(await preview.count()), 'no live preview')
+    // Start from the last stop before the preview and Tab through it.
+    await preview.evaluate((root) => {
+      const before = [
+        ...document.querySelectorAll<HTMLElement>(
+          'a[href], button, input, select, textarea, summary, [tabindex]',
+        ),
+      ].filter(
+        (el) =>
+          el.tabIndex >= 0 &&
+          !el.matches(':disabled') &&
+          el.getClientRects().length > 0 &&
+          !root.contains(el) &&
+          root.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_PRECEDING,
+      )
+      before.at(-1)?.focus()
+    })
+    const unmarked: string[] = []
+    for (let stop = 0; stop < 40; stop++) {
+      await page.keyboard.press('Tab')
+      const found = await preview.evaluate((root) => {
+        const el = document.activeElement
+        if (!el || !root.contains(el)) return null
+        const reach = (node: Element) => {
+          const style = getComputedStyle(node)
+          let value =
+            style.outlineStyle === 'solid' ? parseFloat(style.outlineWidth) : 0
+          for (const shadow of style.boxShadow.split(/,(?![^(]*\))/))
+            if (shadow !== 'none' && !shadow.includes('inset')) {
+              const [, , blur = 0, spread = 0] = (
+                shadow.match(/-?[\d.]+px/g) ?? []
+              ).map(parseFloat)
+              value = Math.max(value, blur + spread)
+            }
+          return value
+        }
+        let best = reach(el)
+        for (
+          let node = el.parentElement, depth = 0;
+          node && depth < 3;
+          node = node.parentElement, depth++
+        )
+          best = Math.max(best, reach(node))
+        return {
+          best,
+          name: `${el.tagName.toLowerCase()} ${el.getAttribute('aria-label') ?? el.textContent?.trim().slice(0, 30)}`,
+        }
+      })
+      if (!found) break
+      if (found.best < 2) unmarked.push(found.name)
+    }
+    expect(unmarked, route).toEqual([])
   })

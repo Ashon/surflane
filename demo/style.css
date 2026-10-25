@@ -760,7 +760,13 @@ body,
 /* On touch and narrow screens the page's own links take a
    --surf-control-target-size press, as Surflane's controls do. */
 @media (max-width: 760px), (pointer: coarse) {
-  :is(.page-toc, .component-meta, .component-pagination, .token-reference-links)
+  :is(
+      .page-toc,
+      .component-meta,
+      .component-pagination,
+      .token-reference-links,
+      .documentation-toc nav
+    )
     a {
     display: inline-flex;
     align-items: center;
