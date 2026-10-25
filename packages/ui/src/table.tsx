@@ -149,12 +149,17 @@ const TableSortHeader = function TableSortHeader({
 }
 /** One-line text that ends in an ellipsis. String content also becomes the title. */
 const TableTruncate = function TableTruncate({
+  measure,
   className,
   title,
+  style,
   children,
   ref,
   ...props
 }: React.ComponentPropsWithoutRef<'span'> & {
+  /** The widest it gets before the ellipsis, such as '44ch' for long image
+   * references; 32ch without it. */
+  measure?: string
   ref?: React.Ref<HTMLSpanElement>
 }) {
   return (
@@ -162,6 +167,14 @@ const TableTruncate = function TableTruncate({
       {...props}
       ref={ref}
       title={title ?? (typeof children === 'string' ? children : undefined)}
+      style={
+        measure
+          ? ({
+              ...style,
+              '--surf-table-truncate-measure': measure,
+            } as React.CSSProperties)
+          : style
+      }
       className={cx('surf-table-truncate', className)}
     >
       {children}

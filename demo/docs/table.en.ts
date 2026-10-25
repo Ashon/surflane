@@ -109,7 +109,7 @@ const selection = useTableSelection({
     ],
     [
       'Truncate',
-      'one line with an ellipsis, 32ch by default; string content becomes the title',
+      'one line with an ellipsis, 32ch unless measure sets it; string content becomes the title',
       '—',
     ],
     [

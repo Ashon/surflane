@@ -345,7 +345,7 @@ function LongValuesPreview() {
                 <Table.HeaderCell scope='row'>{service.name}</Table.HeaderCell>
                 <Table.Cell>
                   <span className='table-guideline-identifier'>
-                    <Table.Truncate title={service.image}>
+                    <Table.Truncate title={service.image} measure='44ch'>
                       <code>{service.image}</code>
                     </Table.Truncate>
                     <Button

@@ -26,7 +26,7 @@ export const doc: DocKo = {
     'SortHeader.sort / onSort':
       '정렬 중인 열에는 ascending | descending, 나머지 열에는 생략. 누르면 onSort가 실행됩니다',
     Truncate:
-      '말줄임표로 끝나는 한 줄, 기본 32ch. 문자열 내용은 title이 됩니다',
+      '말줄임표로 끝나는 한 줄. measure가 없으면 32ch입니다. 문자열 내용은 title이 됩니다',
     'Message.colSpan':
       '로딩, 빈 상태, 오류, 권한 메시지를 위한 전체 너비 본문 행. hover 강조가 없습니다',
     'Row.selected': '시각적일 뿐; 이름 있는 checkbox가 선택 의미를 담당',

@@ -20,6 +20,7 @@
 - `Card.Root` takes `size`, as its parts do.
 - `InlineMessage.Icon` takes its Root's tone unless it sets one, as `Toast.Icon` does.
 - Icon has view controls: `pin`, `list` and `grid`.
+- `Table.Truncate measure` sets how wide it gets before the ellipsis, such as `44ch` for long image references; 32ch without it.
 - `--surf-plane` and `--surf-recessed`: the plane a component sits on, and the area recessed one step from it. On the sheet they are the canvas and the surface. Card, Surface, the AppShell frame, the Sheet footer, an open Accordion item and the FileUpload drop zone set them for what they hold.
 - `--surf-table-surface` names the sticky table header's background. Without it the header takes the plane it sits on.
 - `--surf-motion-spin` and `--surf-motion-pulse` time Spinner, and Skeleton with indeterminate Progress.

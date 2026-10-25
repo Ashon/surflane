@@ -219,7 +219,7 @@
   }
   .surf-table-truncate {
     display: inline-block;
-    max-inline-size: 32ch;
+    max-inline-size: var(--surf-table-truncate-measure, 32ch);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

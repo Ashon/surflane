@@ -75,7 +75,7 @@ console.log(
 // Other lengths and durations move to tokens over time. The count may only fall: lower
 // it when values move to tokens, never raise it. 0, 1px hairlines and @media
 // conditions stay literal.
-const literalCeiling = 105
+const literalCeiling = 103
 const literalLengths = typeSheets
   .map((file) => readFileSync(file, 'utf8').replace(/\/\*[\s\S]*?\*\//g, ''))
   .flatMap((css) => css.split('\n'))
