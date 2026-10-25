@@ -4,6 +4,8 @@ import { useToneTransition } from './tone-transition.js'
 import { part, cx } from './parts.js'
 import { type StatusTone, StatusIcon } from './status.js'
 
+/** The Root's tone, so its Icon matches without repeating it, as Toast's does. */
+const MessageTone = /* @__PURE__ */ React.createContext<StatusTone>('neutral')
 const MessageRoot = function MessageRoot({
   tone = 'neutral',
   className,
@@ -14,16 +16,18 @@ const MessageRoot = function MessageRoot({
 }) {
   const elementRef = useToneTransition<HTMLDivElement>(tone, ref)
   return (
-    <div
-      {...props}
-      ref={elementRef}
-      data-tone={tone}
-      className={cx('surf-message', className)}
-    />
+    <MessageTone.Provider value={tone}>
+      <div
+        {...props}
+        ref={elementRef}
+        data-tone={tone}
+        className={cx('surf-message', className)}
+      />
+    </MessageTone.Provider>
   )
 }
 const MessageIcon = function MessageIcon({
-  tone = 'neutral',
+  tone: ownTone,
   children,
   className,
   ref,
@@ -31,6 +35,8 @@ const MessageIcon = function MessageIcon({
 }: React.ComponentPropsWithoutRef<'span'> & { tone?: StatusTone } & {
   ref?: React.Ref<HTMLSpanElement>
 }) {
+  const inherited = React.useContext(MessageTone)
+  const tone = ownTone ?? inherited
   return (
     <span
       {...props}

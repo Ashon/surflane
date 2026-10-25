@@ -173,7 +173,7 @@ const Panel = function DashboardPanel({
         ) : state === 'stale' ? (
           <>
             <InlineMessage.Root tone='caution'>
-              <InlineMessage.Icon tone='caution' />
+              <InlineMessage.Icon />
               <InlineMessage.Content>
                 <InlineMessage.Description>
                   {message ?? text.stale}
@@ -191,7 +191,7 @@ const Panel = function DashboardPanel({
           </>
         ) : state === 'error' ? (
           <InlineMessage.Root tone='danger'>
-            <InlineMessage.Icon tone='danger' />
+            <InlineMessage.Icon />
             <InlineMessage.Content>
               <InlineMessage.Description>
                 {message ?? text.error}

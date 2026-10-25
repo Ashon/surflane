@@ -47,5 +47,10 @@ export const doc: ComponentDoc = {
       'the size width',
     ],
     ['Content.closeLabel', 'accessible X label', 'Close panel'],
+    [
+      'Content.focusBoundaryLabel',
+      'names the focus guards at the edges, which screen readers reach past the last control',
+      'Continue panel navigation',
+    ],
   ],
 }

@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { cx } from './class-names.js'
+import { missingValue } from './format.js'
 import { ScrollArea } from './scroll-area.js'
 
 export type BarListItem = {
@@ -49,8 +50,13 @@ export const BarList = function BarList({
   const top =
     max ?? rows.reduce((largest, item) => Math.max(largest, item.value), 0)
   const number = new Intl.NumberFormat(locale)
+  // A value that is missing reads as the dash every other number helper writes.
   const write = (value: number) =>
-    formatValue ? formatValue(value) : number.format(value)
+    !Number.isFinite(value)
+      ? missingValue
+      : formatValue
+        ? formatValue(value)
+        : number.format(value)
   const scrolls = maxRows !== undefined && rows.length > maxRows
   const list = (
     <ol className='surf-bar-list-items' aria-label={label}>

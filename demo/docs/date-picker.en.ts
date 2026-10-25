@@ -57,10 +57,10 @@ import {
     label='Run date'
     name='runDate'
     value={date}
-    onChange={setDate}
+    onValueChange={setDate}
     minValue={parseDate('2026-10-01')}
     maxValue={parseDate('2026-12-31')}
-    isRequired
+    required
     description='October–December 2026'
   />
   <DateRangePicker
@@ -68,7 +68,7 @@ import {
     startName='from'
     endName='to'
     value={range}
-    onChange={setRange}
+    onValueChange={setRange}
   />
   <TimeField
     label='Start time'
@@ -97,7 +97,7 @@ try {
       'named exports',
     ],
     [
-      'value / defaultValue / onChange',
+      'value / defaultValue / onValueChange',
       'CalendarDate, CalendarDateTime, ZonedDateTime; TimeField also accepts Time; range uses {start,end}',
       'controlled or uncontrolled',
     ],
@@ -117,14 +117,19 @@ try {
       'optional',
     ],
     [
-      'isRequired / isInvalid / validate / validationBehavior',
+      'required / invalid / validate / validationBehavior',
       'required, caller/server error flag, custom validation; native submit validation or aria mode',
       'native',
     ],
     [
-      'isDisabled / isReadOnly',
+      'disabled / readOnly',
       'disabled prevents interaction; read-only keeps the accessible value',
       'false',
+    ],
+    [
+      'size',
+      "small | default | large: the field and its calendar; react-aria's isDisabled, isReadOnly, isRequired, isInvalid, isOpen and onChange still work and are deprecated",
+      'surrounding size',
     ],
     [
       'description / errorMessage',
@@ -137,7 +142,7 @@ try {
       'value / locale / false',
     ],
     [
-      'calendarLabel / isOpen / onOpenChange',
+      'calendarLabel / open / onOpenChange',
       'calendar dialog name defaults to field label; controlled overlay supported',
       'label / uncontrolled',
     ],

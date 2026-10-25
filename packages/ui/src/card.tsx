@@ -2,23 +2,32 @@ import * as React from 'react'
 import { Surface } from './layout.js'
 import { cx } from './class-names.js'
 import { elementPart } from './element-part.js'
+import { normalizeSize, type ComponentSize } from './size.js'
+import { SizeScope } from './sizing.js'
 
 const CardRoot = function CardRoot({
   className,
   padding,
+  size,
   ref,
   ...props
 }: React.ComponentPropsWithoutRef<typeof Surface> & {
+  /** The card's padding, title and the controls inside, as a SizeProvider would set. */
+  size?: ComponentSize
   ref?: React.Ref<HTMLDivElement>
 }) {
-  return (
+  const scheme = normalizeSize(size)
+  const card = (
     <Surface
       {...props}
       padding={padding}
       ref={ref}
+      data-ui-size={scheme}
       className={cx('surf-card', className)}
     />
   )
+  // Only an explicit size opens a client boundary, so popups inside keep it.
+  return scheme ? <SizeScope size={scheme}>{card}</SizeScope> : card
 }
 const CardTitle = function CardTitle({
   level = 3,

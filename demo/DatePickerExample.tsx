@@ -123,12 +123,12 @@ export function DatePickerExample() {
               label={t.runDate}
               name='runDate'
               value={date}
-              onChange={setDate}
+              onValueChange={setDate}
               minValue={minimum}
               maxValue={maximum}
-              isRequired
-              isDisabled={disabled}
-              isReadOnly={readOnly}
+              required
+              disabled={disabled}
+              readOnly={readOnly}
               isDateUnavailable={
                 weekends
                   ? (value) => [0, 6].includes(getDayOfWeek(value, 'en-US'))
@@ -142,12 +142,12 @@ export function DatePickerExample() {
               startName='rangeStart'
               endName='rangeEnd'
               value={range}
-              onChange={setRange}
+              onValueChange={setRange}
               minValue={minimum}
               maxValue={maximum}
-              isRequired
-              isDisabled={disabled}
-              isReadOnly={readOnly}
+              required
+              disabled={disabled}
+              readOnly={readOnly}
               isDateUnavailable={
                 weekends
                   ? (value) => [0, 6].includes(getDayOfWeek(value, 'en-US'))
@@ -163,9 +163,9 @@ export function DatePickerExample() {
               minValue={new Time(9)}
               maxValue={new Time(18)}
               hourCycle={24}
-              isRequired
-              isDisabled={disabled}
-              isReadOnly={readOnly}
+              required
+              disabled={disabled}
+              readOnly={readOnly}
               description={t.startTimeDescription}
               errorMessage={t.startTimeError}
             />
@@ -173,11 +173,11 @@ export function DatePickerExample() {
               label={t.zonedExecution}
               name='execution'
               value={zoned}
-              onChange={setZoned}
+              onValueChange={setZoned}
               granularity='minute'
               hourCycle={24}
-              isDisabled={disabled}
-              isReadOnly={readOnly}
+              disabled={disabled}
+              readOnly={readOnly}
               description={t.zonedExecutionDescription}
             />
             <div className='actions'>

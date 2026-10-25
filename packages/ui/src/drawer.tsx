@@ -1,6 +1,7 @@
 'use client'
 import * as React from 'react'
 import { Icon } from './icon.js'
+import { useDialogFocusBoundary } from './dialog-focus.js'
 import { skin } from './parts.js'
 import { useComponentSize, normalizeSize } from './sizing.js'
 import { Drawer as BaseDrawer } from '@base-ui/react/drawer'
@@ -43,19 +44,25 @@ const DrawerContent = function DrawerContent({
   size,
   flush,
   closeLabel = 'Close panel',
+  focusBoundaryLabel = 'Continue panel navigation',
   className,
   children,
   ref,
   ...props
 }: React.ComponentPropsWithoutRef<typeof BaseDrawer.Popup> &
-  PanelOptions & { ref?: React.Ref<HTMLDivElement> }) {
+  PanelOptions & {
+    /** Names the focus guards at the panel's edges, which VoiceOver reaches past
+     * the last control, as Dialog's do. */
+    focusBoundaryLabel?: string
+  } & { ref?: React.Ref<HTMLDivElement> }) {
   const scheme = useComponentSize(size)
+  const portalRef = useDialogFocusBoundary(focusBoundaryLabel)
   const { side, modal } = React.useContext(DrawerSide)
   const KeyboardProvider =
     side === 'bottom' ? BaseDrawer.VirtualKeyboardProvider : React.Fragment
   return (
     <KeyboardProvider>
-      <BaseDrawer.Portal>
+      <BaseDrawer.Portal ref={portalRef}>
         <div className='surf-panel-layer' data-ui-size={scheme}>
           {modal === true && (
             <BaseDrawer.Backdrop className='surf-panel-backdrop' />

@@ -31,6 +31,7 @@ export const doc: DocKo = {
       '다음 정규화된 ID 배열; 선택은 포커스와 분리',
     'virtualized / height / rowHeight':
       '포커스된 행을 유지하는 윈도우 행; 고정 픽셀 크기',
+    size: 'small | default | large: 행 높이, 글자, 아이콘. 없으면 둘러싼 SizeProvider를 따릅니다',
     'dir / className': 'RTL 키/들여쓰기 방향; scroll-root 클래스',
     labels:
       '트리가 보여 주거나 이름 붙이는 텍스트: expand(label), collapse(label), scrollArea(label), empty. emptyLabel은 deprecated입니다',

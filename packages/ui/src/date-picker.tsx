@@ -1,7 +1,11 @@
 'use client'
 import * as React from 'react'
 import { Icon } from './icon.js'
-import { useComponentSize } from './sizing.js'
+import {
+  ComponentSizeContext,
+  useComponentSize,
+  type ComponentSizeAlias,
+} from './sizing.js'
 import {
   DatePicker as AriaDatePicker,
   DateInput,
@@ -47,23 +51,125 @@ type FieldContent = {
   ref?: React.Ref<HTMLDivElement>
 }
 type CalendarContent = { calendarLabel?: string }
+/** The names every other Surflane field takes. react-aria's spellings keep working. */
+type FieldStates<Change> = {
+  /** The field's and its calendar's size; without it, the surrounding SizeProvider's. */
+  size?: ComponentSizeAlias
+  disabled?: boolean
+  readOnly?: boolean
+  required?: boolean
+  /** Marks the value invalid, as aria-invalid does on other fields. */
+  invalid?: boolean
+  onValueChange?: Change
+  /** @deprecated Use `disabled`. Removed in a later minor. */
+  isDisabled?: boolean
+  /** @deprecated Use `readOnly`. Removed in a later minor. */
+  isReadOnly?: boolean
+  /** @deprecated Use `required`. Removed in a later minor. */
+  isRequired?: boolean
+  /** @deprecated Use `invalid`. Removed in a later minor. */
+  isInvalid?: boolean
+  /** @deprecated Use `onValueChange`. Removed in a later minor. */
+  onChange?: Change
+}
+type PopupStates = {
+  /** Whether the calendar is open, controlled. */
+  open?: boolean
+  /** @deprecated Use `open`. Removed in a later minor. */
+  isOpen?: boolean
+}
+type AriaNames =
+  | 'children'
+  | 'isDisabled'
+  | 'isReadOnly'
+  | 'isRequired'
+  | 'isInvalid'
+  | 'isOpen'
+  | 'onChange'
 export type DatePickerProps<T extends DateValue> = Omit<
   AriaDatePickerProps<T>,
-  'children'
+  AriaNames
 > &
   FieldContent &
-  CalendarContent
+  CalendarContent &
+  FieldStates<AriaDatePickerProps<T>['onChange']> &
+  PopupStates
 export type DateRangePickerProps<T extends DateValue> = Omit<
   AriaDateRangePickerProps<T>,
-  'children'
+  AriaNames
 > &
   FieldContent &
-  CalendarContent
+  CalendarContent &
+  FieldStates<AriaDateRangePickerProps<T>['onChange']> &
+  PopupStates
 export type TimeFieldProps<T extends TimeValue> = Omit<
   AriaTimeFieldProps<T>,
-  'children'
+  AriaNames
 > &
-  FieldContent
+  FieldContent &
+  FieldStates<AriaTimeFieldProps<T>['onChange']>
+/** Surflane's field names to react-aria's, the new spelling first. */
+function ariaStates<Change>({
+  size: _size,
+  disabled,
+  readOnly,
+  required,
+  invalid,
+  onValueChange,
+  isDisabled,
+  isReadOnly,
+  isRequired,
+  isInvalid,
+  onChange,
+  open,
+  isOpen,
+}: FieldStates<Change> & PopupStates) {
+  const opened = open ?? isOpen
+  return {
+    isDisabled: disabled ?? isDisabled,
+    isReadOnly: readOnly ?? isReadOnly,
+    isRequired: required ?? isRequired,
+    isInvalid: invalid ?? isInvalid,
+    onChange: onValueChange ?? onChange,
+    ...(opened === undefined ? {} : { isOpen: opened }),
+  }
+}
+const stateNames = [
+  'size',
+  'disabled',
+  'readOnly',
+  'required',
+  'invalid',
+  'onValueChange',
+  'isDisabled',
+  'isReadOnly',
+  'isRequired',
+  'isInvalid',
+  'onChange',
+  'open',
+  'isOpen',
+] as const
+/** The props a react-aria field passes on, without the names ariaStates maps. */
+function rest<Props extends object>(props: Props) {
+  const copy = { ...props } as Record<string, unknown>
+  for (const name of stateNames) delete copy[name]
+  return copy as Omit<Props, (typeof stateNames)[number]>
+}
+/** An explicit size scopes the field and the calendar it opens. */
+function SizedField({
+  size,
+  children,
+}: {
+  size?: ComponentSizeAlias
+  children: (scheme: ReturnType<typeof useComponentSize>) => React.ReactNode
+}) {
+  const scheme = useComponentSize(size)
+  return (
+    <ComponentSizeContext.Provider value={scheme}>
+      {children(size ? scheme : undefined)}
+    </ComponentSizeContext.Provider>
+  )
+}
 
 function Segments({ slot }: { slot?: 'start' | 'end' }) {
   return (
@@ -183,15 +289,24 @@ export function DatePicker<T extends DateValue>({
   ...props
 }: DatePickerProps<T>) {
   return (
-    <AriaDatePicker {...props} className={skin('surf-date-picker', className)}>
-      <Label className='surf-field-label'>{label}</Label>
-      <Group className='surf-date-group'>
-        <Segments />
-        <CalendarButton />
-      </Group>
-      <FieldHelp description={description} errorMessage={errorMessage} />
-      <CalendarPopup label={calendarLabel ?? label} />
-    </AriaDatePicker>
+    <SizedField size={props.size}>
+      {(scheme) => (
+        <AriaDatePicker
+          {...rest(props)}
+          {...ariaStates(props)}
+          data-ui-size={scheme}
+          className={skin('surf-date-picker', className)}
+        >
+          <Label className='surf-field-label'>{label}</Label>
+          <Group className='surf-date-group'>
+            <Segments />
+            <CalendarButton />
+          </Group>
+          <FieldHelp description={description} errorMessage={errorMessage} />
+          <CalendarPopup label={calendarLabel ?? label} />
+        </AriaDatePicker>
+      )}
+    </SizedField>
   )
 }
 export function DateRangePicker<T extends DateValue>({
@@ -203,24 +318,30 @@ export function DateRangePicker<T extends DateValue>({
   ...props
 }: DateRangePickerProps<T>) {
   return (
-    <AriaDateRangePicker
-      {...props}
-      className={skin('surf-date-picker surf-date-range-picker', className)}
-    >
-      <Label className='surf-field-label'>{label}</Label>
-      <Group className='surf-date-group'>
-        <div className='surf-date-range-inputs'>
-          <Segments slot='start' />
-          <span aria-hidden='true' className='surf-date-range-separator'>
-            –
-          </span>
-          <Segments slot='end' />
-        </div>
-        <CalendarButton />
-      </Group>
-      <FieldHelp description={description} errorMessage={errorMessage} />
-      <CalendarPopup label={calendarLabel ?? label} range />
-    </AriaDateRangePicker>
+    <SizedField size={props.size}>
+      {(scheme) => (
+        <AriaDateRangePicker
+          {...rest(props)}
+          {...ariaStates(props)}
+          data-ui-size={scheme}
+          className={skin('surf-date-picker surf-date-range-picker', className)}
+        >
+          <Label className='surf-field-label'>{label}</Label>
+          <Group className='surf-date-group'>
+            <div className='surf-date-range-inputs'>
+              <Segments slot='start' />
+              <span aria-hidden='true' className='surf-date-range-separator'>
+                –
+              </span>
+              <Segments slot='end' />
+            </div>
+            <CalendarButton />
+          </Group>
+          <FieldHelp description={description} errorMessage={errorMessage} />
+          <CalendarPopup label={calendarLabel ?? label} range />
+        </AriaDateRangePicker>
+      )}
+    </SizedField>
   )
 }
 export function TimeField<T extends TimeValue>({
@@ -231,12 +352,21 @@ export function TimeField<T extends TimeValue>({
   ...props
 }: TimeFieldProps<T>) {
   return (
-    <AriaTimeField {...props} className={skin('surf-time-field', className)}>
-      <Label className='surf-field-label'>{label}</Label>
-      <div className='surf-date-group'>
-        <Segments />
-      </div>
-      <FieldHelp description={description} errorMessage={errorMessage} />
-    </AriaTimeField>
+    <SizedField size={props.size}>
+      {(scheme) => (
+        <AriaTimeField
+          {...rest(props)}
+          {...ariaStates(props)}
+          data-ui-size={scheme}
+          className={skin('surf-time-field', className)}
+        >
+          <Label className='surf-field-label'>{label}</Label>
+          <div className='surf-date-group'>
+            <Segments />
+          </div>
+          <FieldHelp description={description} errorMessage={errorMessage} />
+        </AriaTimeField>
+      )}
+    </SizedField>
   )
 }

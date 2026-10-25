@@ -8,7 +8,8 @@ export const doc: DocKo = {
     '액션만 Tab 순서에 들어갑니다. Root는 포커스나 클릭 동작이 없는 일반 div입니다. Title.level을 주변 제목 위계에 맞추세요. 카드에 그룹 이름이 필요하면 aria-labelledby로 연결하세요.',
   props: {
     'Root.padding': '공유 Space 토큰 단계',
-    'Header / Body / Footer': '네이티브 div 속성',
-    Description: '네이티브 p 속성',
+    'Root.size':
+      'small | default | large: SizeProvider처럼 패딩, 제목, 안의 컨트롤 크기를 정합니다',
+    'Header / Body / Footer / Description': '네이티브 div 또는 p 속성과 size',
   },
 }

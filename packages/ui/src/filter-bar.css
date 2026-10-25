@@ -34,7 +34,8 @@
       flex-grow: 1;
     }
   }
-  .surf-filter-bar-field > :is(.surf-control, .surf-select-trigger) {
+  /* Select renders its trigger inside a .surf-select wrapper. */
+  .surf-filter-bar-field > :is(.surf-control, .surf-select) {
     inline-size: 100%;
     min-inline-size: 0;
   }

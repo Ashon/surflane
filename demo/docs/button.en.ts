@@ -11,7 +11,7 @@ export const doc: ComponentDoc = {
   avoid:
     "Don't use Button for page navigation. Use LinkButton, which looks like a button and stays a link. Don't mark destructive actions with color alone. Say what the action does in the label text.",
   keyboard:
-    'Tab moves focus. Enter or Space activates the button. While an action is in progress, the button blocks duplicate runs and announces the result.',
+    'Tab moves focus. Enter or Space activates the button. While its action runs, disable the button or show progress beside it, and announce the result from one live region.',
   anatomy: 'Button → optional SVG icon + text that describes the action',
   tokens: ['--surf-brand', '--surf-danger', ...controls],
   code: `import { Button, LinkButton } from '@surflane/ui'

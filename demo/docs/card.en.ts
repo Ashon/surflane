@@ -31,8 +31,16 @@ export const doc: ComponentDoc = {
   props: [
     ['Root.surface', 'subtle | canvas; tone is the earlier name', 'subtle'],
     ['Root.padding', 'shared Space token step', '6 (24px)'],
+    [
+      'Root.size',
+      'small | default | large: padding, title and the controls inside, as SizeProvider sets them',
+      'surrounding size',
+    ],
     ['Title.level', '2 | 3 | 4 | 5 | 6', '3'],
-    ['Header / Body / Footer', 'native div props', '—'],
-    ['Description', 'native p props', '—'],
+    [
+      'Header / Body / Footer / Description',
+      'native div or p props, and size',
+      '—',
+    ],
   ],
 }

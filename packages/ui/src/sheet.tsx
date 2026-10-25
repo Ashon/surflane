@@ -1,6 +1,7 @@
 'use client'
 import * as React from 'react'
 import { Icon } from './icon.js'
+import { useDialogFocusBoundary } from './dialog-focus.js'
 import { skin } from './parts.js'
 import { useComponentSize, normalizeSize } from './sizing.js'
 import { Dialog as BaseDialog } from '@base-ui/react/dialog'
@@ -31,16 +32,22 @@ const SheetContent = function SheetContent({
   size,
   flush,
   closeLabel = 'Close panel',
+  focusBoundaryLabel = 'Continue panel navigation',
   className,
   children,
   ref,
   ...props
 }: React.ComponentPropsWithoutRef<typeof BaseDialog.Popup> &
-  PanelOptions & { ref?: React.Ref<HTMLDivElement> }) {
+  PanelOptions & {
+    /** Names the focus guards at the panel's edges, which VoiceOver reaches past
+     * the last control, as Dialog's do. */
+    focusBoundaryLabel?: string
+  } & { ref?: React.Ref<HTMLDivElement> }) {
   const scheme = useComponentSize(size)
+  const portalRef = useDialogFocusBoundary(focusBoundaryLabel)
   const { side, modal } = React.useContext(SheetSide)
   return (
-    <BaseDialog.Portal>
+    <BaseDialog.Portal ref={portalRef}>
       <div className='surf-panel-layer' data-ui-size={scheme}>
         {modal === true && (
           <BaseDialog.Backdrop className='surf-panel-backdrop' />

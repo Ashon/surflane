@@ -45,6 +45,16 @@ export const doc: ComponentDoc = {
       'custom property: a width that keeps the surrounding density',
       'the size width',
     ],
+    [
+      'Content.size',
+      'small | default | large: 320 / 440 / 640px wide, and density',
+      'large',
+    ],
     ['Content.closeLabel', 'accessible X label', 'Close panel'],
+    [
+      'Content.focusBoundaryLabel',
+      'names the focus guards at the edges, which screen readers reach past the last control',
+      'Continue panel navigation',
+    ],
   ],
 }

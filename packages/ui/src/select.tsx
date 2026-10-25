@@ -43,7 +43,24 @@ export type SelectProps = SelectCommonProps & {
   multiple?: false
   value?: string
   defaultValue?: string
-  onValueChange?: (value: string) => void
+  /** Runs with the new value and Base UI's event details; call
+   * eventDetails.cancel() to keep the current value, as other fields allow. */
+  onValueChange?: (
+    value: string,
+    eventDetails: BaseSelect.Root.ChangeEventDetails,
+  ) => void
+}
+/** What a form reset reports: it has already happened, so it can't be canceled. */
+function resetDetails(event: Event) {
+  return {
+    reason: 'none',
+    event,
+    trigger: undefined,
+    cancel() {},
+    allowPropagation() {},
+    isCanceled: false,
+    isPropagationAllowed: false,
+  } as unknown as BaseSelect.Root.ChangeEventDetails
 }
 /** What a multiple Select's trigger says, and its first option. */
 export type SelectMultipleLabels = {
@@ -60,7 +77,10 @@ export type SelectMultipleProps = SelectCommonProps & {
   multiple: true
   value?: readonly string[]
   defaultValue?: readonly string[]
-  onValueChange?: (value: string[]) => void
+  onValueChange?: (
+    value: string[],
+    eventDetails: BaseSelect.Root.ChangeEventDetails,
+  ) => void
   labels?: Partial<SelectMultipleLabels>
 }
 const multipleLabels: SelectMultipleLabels = {
@@ -118,8 +138,14 @@ export const Select = function Select(
     : (one!.defaultValue ?? options[0]?.value ?? '')
   const [localValue, setLocalValue] = React.useState(initialValue)
   const nativeInput = React.useRef<HTMLInputElement>(null)
-  const resetCallback = React.useRef<(value: never) => void>(undefined)
-  resetCallback.current = allProps.onValueChange as (value: never) => void
+  const resetCallback =
+    React.useRef<
+      (value: never, eventDetails: BaseSelect.Root.ChangeEventDetails) => void
+    >(undefined)
+  resetCallback.current = allProps.onValueChange as unknown as (
+    value: never,
+    eventDetails: BaseSelect.Root.ChangeEventDetails,
+  ) => void
   const resetKey = many ? initialValue.toString() : (initialValue as string)
   React.useEffect(() => {
     const owner = nativeInput.current?.form
@@ -134,6 +160,7 @@ export const Select = function Select(
           (Array.isArray(initialValue)
             ? [...initialValue]
             : initialValue) as never,
+          resetDetails(event),
         )
       }, 0)
       pending.add(timer)
@@ -196,7 +223,7 @@ export const Select = function Select(
         items={options}
         multiple={multiple}
         value={selected}
-        onValueChange={(next) => {
+        onValueChange={(next, eventDetails) => {
           if (many) {
             const list = (next as string[]) ?? []
             const toggledAll = list.includes(ALL) !== everything
@@ -206,11 +233,11 @@ export const Select = function Select(
                 : choosable.map((option) => option.value)
               : // Unchecking one option of "all" leaves the others.
                 list.filter((item) => item !== ALL)
-            setLocalValue(values)
-            many.onValueChange?.(values)
+            many.onValueChange?.(values, eventDetails)
+            if (!eventDetails.isCanceled) setLocalValue(values)
           } else {
-            setLocalValue((next as string) ?? '')
-            one!.onValueChange?.((next as string) ?? '')
+            one!.onValueChange?.((next as string) ?? '', eventDetails)
+            if (!eventDetails.isCanceled) setLocalValue((next as string) ?? '')
           }
         }}
         inputRef={setInput}

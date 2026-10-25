@@ -24,7 +24,7 @@ export const doc: DocKo = {
   props: {
     'DatePicker / DateRangePicker / TimeField':
       '일반 날짜/시간 값; label 문자열 필수',
-    'value / defaultValue / onChange':
+    'value / defaultValue / onValueChange':
       'CalendarDate, CalendarDateTime, ZonedDateTime; TimeField는 Time도 허용; 범위는 {start,end} 사용',
     'DateLocaleProvider.locale':
       '로케일 + 선택적 캘린더 확장; 필드 값은 원래 캘린더를 유지',
@@ -32,15 +32,16 @@ export const doc: DocKo = {
       '타입이 지정된 값 경계; 날짜/날짜-범위의 unavailable 콜백; 기본적으로 범위는 사용 불가 날짜를 건너지 못함',
     'name / startName / endName':
       '네이티브 ISO 폼 값; 범위는 별도의 start/end 이름 사용',
-    'isRequired / isInvalid / validate / validationBehavior':
+    'required / invalid / validate / validationBehavior':
       'required, 호출자/서버 오류 플래그, 사용자 지정 검증; 네이티브 제출 검증 또는 aria 모드',
-    'isDisabled / isReadOnly':
+    'disabled / readOnly':
       'disabled는 인터랙션을 막고; read-only는 접근 가능한 값을 유지',
+    size: 'small | default | large: 필드와 캘린더의 크기. react-aria의 isDisabled, isReadOnly, isRequired, isInvalid, isOpen, onChange도 동작하지만 폐기 예정입니다',
     'description / errorMessage':
       '연결된 도움말과 검증 오류; error는 ValidationResult를 렌더할 수 있음',
     'granularity / hourCycle / hideTimeZone':
       '일/시/분/초; 12 또는 24; zoned 값은 영역을 표시 유지',
-    'calendarLabel / isOpen / onOpenChange':
+    'calendarLabel / open / onOpenChange':
       '캘린더 다이얼로그 이름은 필드 label로 기본 설정; 제어된 오버레이 지원',
     'ref / className': '루트 div ref; 문자열 또는 업스트림 상태 렌더 함수',
   },

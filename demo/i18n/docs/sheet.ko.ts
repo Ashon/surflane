@@ -8,5 +8,7 @@ export const doc: DocKo = {
     '포커스 트래핑, Escape, 포커스 복원은 Dialog에서처럼 동작합니다. 패널 안의 Select가 먼저 닫힙니다.',
   props: {
     'Content.closeLabel': '접근성 있는 X 레이블',
+    'Content.focusBoundaryLabel':
+      '가장자리 포커스 가드의 이름입니다. 스크린 리더가 마지막 컨트롤을 지나면 만납니다.',
   },
 }

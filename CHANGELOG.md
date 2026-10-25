@@ -14,6 +14,11 @@
   - A panel title cut short shows in full on hover.
 - `Stat.Group labelHidden` names a group without showing its label, where a panel title above already says it.
 - Chart `legendLimit='auto'` keeps the legend on one line, folding what doesn't fit behind "+N", and the time axis picks its step from the chart's width and its labels, so ticks stay evenly spaced on a narrow chart.
+- DatePicker, DateRangePicker and TimeField take the names every other field takes: `disabled`, `readOnly`, `required`, `invalid`, `open` on the pickers and `onValueChange`, and `size`, which sizes the field and its calendar.
+- Select `onValueChange` passes Base UI's `eventDetails`, as RadioGroup and Combobox do; `eventDetails.cancel()` keeps the current value. A form reset reports details that can't be canceled.
+- `Sheet.Content` and `Drawer.Content` take `focusBoundaryLabel`, which names their focus guards for VoiceOver as Dialog's are named.
+- `Card.Root` takes `size`, as its parts do.
+- `InlineMessage.Icon` takes its Root's tone unless it sets one, as `Toast.Icon` does.
 - `--surf-plane` and `--surf-recessed`: the plane a component sits on, and the area recessed one step from it. On the sheet they are the canvas and the surface. Card, Surface, the AppShell frame, the Sheet footer, an open Accordion item and the FileUpload drop zone set them for what they hold.
 - `--surf-table-surface` names the sticky table header's background. Without it the header takes the plane it sits on.
 - `--surf-motion-spin` and `--surf-motion-pulse` time Spinner, and Skeleton with indeterminate Progress.
@@ -40,6 +45,7 @@ These change what components look like, so they ship in a minor.
 
 These keep working, and are removed in a later minor:
 
+- DatePicker, DateRangePicker and TimeField `isDisabled`, `isReadOnly`, `isRequired`, `isInvalid`, `isOpen` and `onChange`: write `disabled`, `readOnly`, `required`, `invalid`, `open` and `onValueChange`.
 - `--surf-menu-hover-background`, `--surf-control-hover-background` and `--surf-hover`: hover is `--surf-interaction-hover-bg`.
 - `--surf-slider-track` and `--surf-control-disabled-background`: components read `--surf-recessed`.
 - `--surf-ease-in` and `--surf-motion-exit`: no component uses them.
@@ -48,6 +54,7 @@ These keep working, and are removed in a later minor:
 
 ### Fixed
 
+- BarList writes a missing value as "—", as the number helpers do; it printed NaN.
 - Combobox shows the keyboard position on a selected option.
 - Hovering or pressing the selected tab keeps its selected fill.
 - A disabled Slider fades its control only. Its label and value stay readable.

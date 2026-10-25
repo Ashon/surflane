@@ -60,7 +60,7 @@ const nodes: TreeNode[] = [
 
 // Keep IDs unique and data immutable. Validate selected IDs in the product.
 // Selection does not imply navigation or authorization.
-// Fixed rowHeight defaults to 44px; custom heights must fit their content.`,
+// rowHeight follows the size, 36, 44 or 52px; custom heights must fit their content.`,
   props: [
     [
       'nodes / label',
@@ -86,7 +86,12 @@ const nodes: TreeNode[] = [
     [
       'virtualized / height / rowHeight',
       'windowed rows that keep the focused row; fixed pixel sizes',
-      'true / 320 / 44',
+      'true / 320 / 36, 44 or 52 by size',
+    ],
+    [
+      'size',
+      'small | default | large: row height, text and icons; without it, the surrounding SizeProvider',
+      'surrounding size',
     ],
     [
       'dir / className',
