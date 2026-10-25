@@ -83,6 +83,17 @@ test("a selected row's edge reads 3:1 against its fill and the sheet", () => {
   }
 })
 
+test('a focus ring drawn inside a filled day reads 3:1 on that fill', () => {
+  // Calendar days ring inside themselves: the shared color on a selected day,
+  // the color written on brand on a range end.
+  for (const theme of ['dark', 'light']) {
+    assert.ok(
+      contrast('--surf-interaction-focus', '--surf-selected', theme) >= 3,
+    )
+    assert.ok(contrast('--surf-on-brand', '--surf-brand-mark', theme) >= 3)
+  }
+})
+
 test('a skeleton stays visible on the canvas in both themes', () => {
   // --surf-surface was 1.07:1 on white; the skeleton tokens keep a visible shape.
   for (const theme of ['dark', 'light'])

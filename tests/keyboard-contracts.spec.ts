@@ -265,3 +265,40 @@ test('DatePicker: arrows move between segments, Shift+Page keys move by year, an
   await expect(range).toBeFocused()
   await expect(page.locator('[data-date-value]')).toContainText('range: ')
 })
+
+test('a focused range end rings in the color written on its fill, in both themes', async ({
+  page,
+}) => {
+  await page.goto('/components/date-picker')
+  await waitForCatalogReady(page)
+  for (const theme of ['light', 'dark']) {
+    await page.evaluate(
+      (theme) => (document.documentElement.dataset.theme = theme),
+      theme,
+    )
+    const range = page
+      .locator('.surf-date-picker')
+      .filter({
+        has: page.locator('.surf-field-label', { hasText: /^Release window$/ }),
+      })
+      .locator('.surf-date-trigger')
+    // Opening focuses the range's first day.
+    await range.focus()
+    await page.keyboard.press('Enter')
+    const start = page.locator(
+      '.surf-calendar-day[data-selection-start][data-focus-visible]',
+    )
+    await expect(start).toHaveCount(1)
+    const [ring, written] = await start.evaluate((el) => {
+      const probe = document.createElement('span')
+      probe.style.color = 'var(--surf-on-brand)'
+      el.append(probe)
+      const value = getComputedStyle(probe).color
+      probe.remove()
+      return [getComputedStyle(el).outlineColor, value]
+    })
+    expect(ring, theme).toBe(written)
+    await page.keyboard.press('Escape')
+    await expect(range).toBeFocused()
+  }
+})

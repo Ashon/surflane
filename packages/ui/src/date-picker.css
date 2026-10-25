@@ -301,8 +301,13 @@
     min-width: 0;
     text-align: center;
   }
-  .surf-calendar-day[data-focus-visible][data-selected] {
-    outline-color: var(--surf-ink);
+  /* The ring sits inside the day. On a range end's brand fill the focus color
+     can match the fill, so it takes the color written on that fill. */
+  .surf-calendar-day:is(
+      [data-selection-start],
+      [data-selection-end]
+    )[data-focus-visible] {
+    outline-color: var(--surf-on-brand);
   }
 }
 @layer surflane.sizes {
