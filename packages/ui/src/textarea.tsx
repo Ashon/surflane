@@ -1,6 +1,6 @@
 'use client'
 import * as React from 'react'
-import { useComponentSize, type ComponentSizeAlias } from './sizing.js'
+import { useComponentSize, type ComponentSize } from './sizing.js'
 import { Field as BaseField } from '@base-ui/react/field'
 import { cx } from './parts.js'
 
@@ -15,7 +15,7 @@ export const Textarea = function Textarea({
   ref,
   ...props
 }: React.ComponentPropsWithoutRef<'textarea'> & {
-  size?: ComponentSizeAlias
+  size?: ComponentSize
 } & { ref?: React.Ref<HTMLTextAreaElement> }) {
   const scheme = useComponentSize(size)
   return (

@@ -23,11 +23,6 @@
     width: var(--surf-size-icon-large);
     height: var(--surf-size-icon-large);
   }
-  /* Deprecated: the 24px size, off the scale. Removed in a later minor. */
-  .surf-icon[data-size='lg'] {
-    width: var(--surf-icon-size-lg);
-    height: var(--surf-icon-size-lg);
-  }
   .surf-icon[data-directional='true']:dir(rtl) {
     transform: scaleX(-1);
   }

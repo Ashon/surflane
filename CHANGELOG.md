@@ -51,6 +51,21 @@ These keep working, and are removed in a later minor:
 - `--surf-ease-in` and `--surf-motion-exit`: no component uses them.
 - `--surf-brand-tint`: selected text takes `--surf-selection-background`.
 - `--table-surface`: write `--surf-table-surface`.
+- `--surf-type-workspace-title-size`, `-leading`, `--surf-type-document-title-size`, `-leading` and `--surf-type-document-section-size`, the earlier page title roles: write the display and title roles.
+- The type name `ComponentSizeAlias`, now `ComponentSize` under its former name: write `ComponentSize`.
+
+### Removed
+
+Deprecated in earlier minors and announced for removal:
+
+- The short size spellings `sm`, `md` and `lg` on every component (0.10).
+- Button `xs`, `icon-xs`, `icon-sm` and `icon-lg`, and `variant='default'` (0.10).
+- Icon `size` `sm`, `md` and `lg` (0.10).
+- Tree `emptyLabel`, CodeBlock `copyLabel`, `copiedLabel` and `copyErrorLabel`, and Tooltip `enabled` (0.10).
+- `positionerProps` on `Combobox.Content`, `ContextMenu.Content` and `PreviewCard.Content` (0.5).
+- Surface and Card `tone`, and the `data-tone='canvas'` selector (0.5).
+- `--app-shell-radius` (0.7).
+- `--surf-icon-size-sm`, `-md` and `-lg`, and `--surf-avatar-size-sm`, `-md` and `-lg` (0.10).
 
 ### Fixed
 
@@ -71,6 +86,13 @@ These keep working, and are removed in a later minor:
 
 ### Migration
 
+- Sizes: write `small`, `default` and `large` for `sm`, `md` and `lg`. Button `icon-sm` and `icon-xs` become `icon-small`, `icon-lg` becomes `icon-large`, and `xs` has no replacement: use `small`. On Icon, `sm` becomes `default` (or leave the size out), `md` becomes `large`, and `lg` (24px) has no replacement.
+- Button `variant='default'` becomes `primary`, or leave the variant out.
+- Tree `emptyLabel` becomes `labels.empty`; CodeBlock `copyLabel`, `copiedLabel` and `copyErrorLabel` become `labels.copy`, `labels.copied` and `labels.copyError`; Tooltip `enabled={false}` becomes `disabled`.
+- `positionerProps={{ side, align, sideOffset, collisionPadding }}` becomes the same props on the Content part.
+- Surface and Card `tone` becomes `surface`.
+- `--app-shell-radius` becomes `--surf-app-shell-page-radius`, set to the page's own radius.
+- `--surf-icon-size-sm` and `-md` become `--surf-size-icon-default` and `-large`; `--surf-avatar-size-*` become `--surf-size-avatar-small`, `-default` and `-large`.
 - A bare `<h2>` or `<p>` inside `Dialog.Header` is no longer styled as the title or description. Render `Dialog.Title` and `Dialog.Description`, as the examples do.
 
 ## 0.12.0

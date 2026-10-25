@@ -2,33 +2,14 @@
 import * as React from 'react'
 import { Button as BaseButton } from '@base-ui/react/button'
 import { useRender } from '@base-ui/react/use-render'
-import { useComponentSize, type ComponentSizeAlias } from './sizing.js'
-import { sizeName, skin, cx } from './parts.js'
-/** Visual priority. `default` is deprecated: it is `primary` under its former name, and
- * is removed in a later minor. Without a variant a button is `primary`. */
+import { useComponentSize, type ComponentSize } from './sizing.js'
+import { skin, cx } from './parts.js'
+/** Visual priority. Without a variant a button is `primary`. */
 export type ButtonVariant =
-  | 'primary'
-  | 'default'
-  | 'secondary'
-  | 'outline'
-  | 'ghost'
-  | 'destructive'
-  | 'link'
-/**
- * small, default and large set the size scheme; icon, icon-small and icon-large are
- * square icon buttons. Deprecated, removed in a later minor: sm, md and lg (write the
- * full names), icon-sm, icon-xs and icon-lg (icon-small, icon-large) and xs, which is
- * off the scale and keeps 24px on touch screens.
- */
-export type ButtonSize =
-  | ComponentSizeAlias
-  | 'icon'
-  | 'icon-small'
-  | 'icon-large'
-  | 'xs'
-  | 'icon-xs'
-  | 'icon-sm'
-  | 'icon-lg'
+  'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'link'
+/** small, default and large set the size scheme; icon, icon-small and icon-large are
+ * square icon buttons on the same scale. */
+export type ButtonSize = ComponentSize | 'icon' | 'icon-small' | 'icon-large'
 export type ButtonProps = Omit<
   React.ComponentProps<typeof BaseButton>,
   'ref'
@@ -37,16 +18,16 @@ export type ButtonProps = Omit<
   size?: ButtonSize
   ref?: React.Ref<HTMLButtonElement>
 }
-/** The size scheme a button size implies: icon sizes follow the scale, xs and icon
- * keep the surrounding scheme. */
+/** The size scheme a button size implies: icon sizes follow the scale, and icon keeps
+ * the surrounding scheme. */
 function schemeOf(size?: ButtonSize) {
-  return size === 'icon-small' || size === 'icon-sm' || size === 'icon-xs'
+  return size === 'icon-small'
     ? 'small'
-    : size === 'icon-large' || size === 'icon-lg'
+    : size === 'icon-large'
       ? 'large'
-      : size === 'xs' || size === 'icon'
+      : size === 'icon'
         ? undefined
-        : (size as ComponentSizeAlias | undefined)
+        : size
 }
 export const Button = function Button({
   className,
@@ -62,7 +43,7 @@ export const Button = function Button({
       {...props}
       className={skin('surf-button', className)}
       data-variant={variant}
-      data-size={sizeName(size)}
+      data-size={size}
       data-ui-size={scheme}
     />
   )
@@ -91,7 +72,7 @@ export const LinkButton = function LinkButton({
       ...props,
       className: cx('surf-button', className),
       'data-variant': variant,
-      'data-size': sizeName(size),
+      'data-size': size,
       'data-ui-size': scheme,
     },
   })

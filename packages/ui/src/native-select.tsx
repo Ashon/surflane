@@ -1,6 +1,6 @@
 'use client'
 import * as React from 'react'
-import { type ComponentSizeAlias } from './sizing.js'
+import { type ComponentSize } from './sizing.js'
 import { Select, type SelectGroup, type SelectOption } from './select.js'
 
 function optionList(children: React.ReactNode): (SelectOption | SelectGroup)[] {
@@ -46,7 +46,7 @@ export const NativeSelect = function NativeSelect({
   ref,
   ...props
 }: Omit<React.ComponentPropsWithoutRef<'select'>, 'size' | 'multiple'> & {
-  size?: ComponentSizeAlias
+  size?: ComponentSize
 } & { ref?: React.Ref<HTMLButtonElement> }) {
   const input = React.useRef<HTMLInputElement>(null)
   const options = optionList(children)

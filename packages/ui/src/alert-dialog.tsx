@@ -1,8 +1,8 @@
 'use client'
 import * as React from 'react'
-import { part, sizeName, skin } from './parts.js'
+import { part, skin } from './parts.js'
 import { useDialogFocusBoundary } from './dialog-focus.js'
-import { useComponentSize, type ComponentSizeAlias } from './sizing.js'
+import { useComponentSize, type ComponentSize } from './sizing.js'
 import { AlertDialog as BaseAlertDialog } from '@base-ui/react/alert-dialog'
 import { DialogFooter, DialogHeader } from './dialog.js'
 
@@ -14,7 +14,7 @@ const AlertDialogContent = function AlertDialogContent({
   ...props
 }: React.ComponentPropsWithoutRef<typeof BaseAlertDialog.Popup> & {
   /** Width and density; an alert dialog is small unless set. */
-  size?: ComponentSizeAlias
+  size?: ComponentSize
   focusBoundaryLabel?: string
 } & { ref?: React.Ref<HTMLDivElement> }) {
   const scheme = useComponentSize(size)
@@ -24,7 +24,7 @@ const AlertDialogContent = function AlertDialogContent({
       <BaseAlertDialog.Backdrop className='surf-dialog-backdrop' />
       <BaseAlertDialog.Popup
         data-ui-size={scheme}
-        data-size={sizeName(size)}
+        data-size={size}
         {...props}
         ref={ref}
         className={skin(

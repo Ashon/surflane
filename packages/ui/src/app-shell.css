@@ -21,13 +21,9 @@
      that frames it and clips it. Only the page surface inside it is rounded. */
   .surf-app-shell {
     --surf-app-shell-inset: var(--surf-space-3);
-    /* --app-shell-radius, if a caller still sets it, keeps deriving the page radius. */
     --surf-app-shell-page-radius: max(
       0px,
-      calc(
-        var(--app-shell-radius, var(--surf-radius-sheet)) -
-          var(--surf-app-shell-inset)
-      )
+      calc(var(--surf-radius-sheet) - var(--surf-app-shell-inset))
     );
     --surf-app-shell-sidebar-width: 216px;
     /* The collapsed sidebar's width. Set it on the shell for a narrower rail. */

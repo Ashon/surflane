@@ -464,7 +464,7 @@ export function Commands() {
       <ContextMenu.Root>
         <ContextMenu.Trigger>Berth map</ContextMenu.Trigger>
         <ContextMenu.Portal>
-          <ContextMenu.Content positionerProps={{ collisionPadding: 12 }}>
+          <ContextMenu.Content collisionPadding={12}>
             <ContextMenu.Item>Open berth</ContextMenu.Item>
           </ContextMenu.Content>
         </ContextMenu.Portal>
@@ -593,7 +593,7 @@ export function Overlays() {
           Mooring guide
         </PreviewCard.Trigger>
         <PreviewCard.Portal>
-          <PreviewCard.Content positionerProps={{ sideOffset: 8 }}>
+          <PreviewCard.Content sideOffset={8}>
             <strong>Mooring guide</strong>
           </PreviewCard.Content>
         </PreviewCard.Portal>

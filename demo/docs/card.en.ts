@@ -29,7 +29,7 @@ export const doc: ComponentDoc = {
   </Card.Footer>
 </Card.Root>`,
   props: [
-    ['Root.surface', 'subtle | canvas; tone is the earlier name', 'subtle'],
+    ['Root.surface', 'subtle | canvas', 'subtle'],
     ['Root.padding', 'shared Space token step', '6 (24px)'],
     [
       'Root.size',

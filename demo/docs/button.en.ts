@@ -7,7 +7,7 @@ const controls = [
 ]
 export const doc: ComponentDoc = {
   usage:
-    "Set a button's emphasis apart from its meaning. primary marks the one key action per area, on the brand surface. secondary (a borderless neutral surface) and outline (the only bordered variant) mark supporting actions, and ghost marks low emphasis. destructive signals danger at any priority. Without a variant a button is primary. default, its former name, is deprecated.",
+    "Set a button's emphasis apart from its meaning. primary marks the one key action per area, on the brand surface. secondary (a borderless neutral surface) and outline (the only bordered variant) mark supporting actions, and ghost marks low emphasis. destructive signals danger at any priority. Without a variant a button is primary.",
   avoid:
     "Don't use Button for page navigation. Use LinkButton, which looks like a button and stays a link. Don't mark destructive actions with color alone. Say what the action does in the label text.",
   keyboard:
@@ -28,12 +28,12 @@ import NextLink from 'next/link'
   props: [
     [
       'variant',
-      'primary | secondary | outline | ghost | destructive | link; deprecated: default (primary)',
+      'primary | secondary | outline | ghost | destructive | link',
       'primary',
     ],
     [
       'size',
-      'small | default | large | icon | icon-small | icon-large; deprecated: xs / sm / md / lg / icon-sm / icon-xs / icon-lg',
+      'small | default | large | icon | icon-small | icon-large',
       'default',
     ],
     ['disabled', 'boolean', 'false'],

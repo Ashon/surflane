@@ -17,7 +17,7 @@ export const ComponentSizeContext = /* @__PURE__ */ React.createContext<
   ComponentSize | undefined
 >(undefined)
 /** Explicit sizes override the surrounding scheme; portals retain React context. */
-export function useComponentSize(size?: ComponentSizeAlias) {
+export function useComponentSize(size?: ComponentSize) {
   const inherited = React.useContext(ComponentSizeContext)
   return normalizeSize(size) ?? inherited
 }

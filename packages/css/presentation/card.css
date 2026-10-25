@@ -16,7 +16,7 @@
     --surf-plane: var(--surf-surface);
     --surf-recessed: var(--surf-canvas);
   }
-  .surf-card:is([data-surface='canvas'], [data-tone='canvas']) {
+  .surf-card[data-surface='canvas'] {
     background: var(--surf-canvas);
     --surf-plane: var(--surf-canvas);
     --surf-recessed: var(--surf-surface);

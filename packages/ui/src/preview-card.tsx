@@ -48,22 +48,17 @@ const PreviewContent = function PreviewContent({
   align,
   sideOffset,
   collisionPadding,
-  positionerProps,
   ref,
   ...props
 }: React.ComponentPropsWithoutRef<typeof BasePreviewCard.Popup> &
   Placement<typeof BasePreviewCard.Positioner> & {
-    /** @deprecated Pass side, align, sideOffset and collisionPadding directly. */
-    positionerProps?: React.ComponentPropsWithoutRef<
-      typeof BasePreviewCard.Positioner
-    >
-  } & { ref?: React.Ref<HTMLDivElement> }) {
+    ref?: React.Ref<HTMLDivElement>
+  }) {
   return (
     <OwnPortal portal={BasePreviewCard.Portal}>
       <PreviewPositioner
         sideOffset={8}
         collisionPadding={12}
-        {...positionerProps}
         {...defined({ side, align, sideOffset, collisionPadding })}
       >
         <PreviewPopup {...props} ref={ref} />

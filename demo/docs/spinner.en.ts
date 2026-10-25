@@ -17,6 +17,6 @@ export const doc: ComponentDoc = {
   props: [
     ['label', 'string', 'Loading'],
     ['decorative', 'boolean', 'false'],
-    ['size', 'small | default | large; sm / md / lg are deprecated', 'default'],
+    ['size', 'small | default | large', 'default'],
   ],
 }

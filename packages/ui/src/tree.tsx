@@ -46,8 +46,6 @@ export type TreeProps = {
   size?: ComponentSize
   virtualized?: boolean
   labels?: Partial<TreeLabels>
-  /** @deprecated Use `labels.empty`. Removed in a later minor. */
-  emptyLabel?: string
   dir?: 'ltr' | 'rtl'
   className?: string
 }
@@ -68,7 +66,6 @@ export function Tree({
   size,
   virtualized = true,
   labels,
-  emptyLabel,
   dir,
   className,
 }: TreeProps) {
@@ -477,7 +474,7 @@ export function Tree({
         </div>
       ) : (
         <div role='status' className='surf-tree-empty'>
-          {labels?.empty ?? emptyLabel ?? 'No items.'}
+          {labels?.empty ?? 'No items.'}
         </div>
       )}
     </ScrollArea>

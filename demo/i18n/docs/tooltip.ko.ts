@@ -10,7 +10,6 @@ export const doc: DocKo = {
     label:
       'ReactNode. 짧은 말, 아이콘, 강조. 상호작용하는 요소는 넣지 않습니다',
     shortcut: "같은 동작의 단축키. '⌘B'처럼 레이블 뒤에 따로 표시합니다",
-    disabled:
-      '툴팁이 열리지 않게 합니다. 트리거는 그대로입니다. enabled는 deprecated입니다',
+    disabled: '툴팁이 열리지 않게 합니다. 트리거는 그대로입니다',
   },
 }

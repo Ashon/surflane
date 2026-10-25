@@ -26,7 +26,7 @@
     text-decoration: none;
     cursor: pointer;
   }
-  .surf-button:is([data-variant='default'], [data-variant='primary']) {
+  .surf-button[data-variant='primary'] {
     /* On the brand fill the layer is its ink: light ink barely moves bright cyan. */
     --surf-interaction-hover-bg: oklch(from var(--surf-on-brand) l c h / 0.08);
     --surf-interaction-active-bg: oklch(from var(--surf-on-brand) l c h / 0.14);
@@ -102,14 +102,6 @@
   }
 }
 @layer surflane.sizes {
-  .surf-button[data-size='xs'] {
-    height: 24px;
-    min-height: 24px;
-    padding-inline: var(--surf-space-2);
-    font-size: var(--surf-type-caption-size);
-    letter-spacing: var(--surf-type-caption-tracking);
-    gap: var(--surf-space-1);
-  }
   .surf-button[data-size^='icon'] {
     width: var(--surf-control-height);
     padding: 0;

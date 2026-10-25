@@ -232,8 +232,7 @@
 }
 @layer surflane.sizes {
   /* Extra-small and icon buttons keep their own inset. */
-  .surf-table-header
-    > .surf-button:where(:not([data-size='xs'], [data-size^='icon'])) {
+  .surf-table-header > .surf-button:where(:not([data-size^='icon'])) {
     padding-inline: var(--surf-space-3);
   }
   .surf-table:is(

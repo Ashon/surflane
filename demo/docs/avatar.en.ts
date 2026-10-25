@@ -23,11 +23,7 @@ export const doc: ComponentDoc = {
   <Avatar.Fallback aria-hidden='true'>CG</Avatar.Fallback>
 </Avatar.Root>`,
   props: [
-    [
-      'Root.size',
-      'small (24px) | default (36px) | large (48px); sm / md / lg are deprecated',
-      'default',
-    ],
+    ['Root.size', 'small (24px) | default (36px) | large (48px)', 'default'],
     [
       'Image.onLoadingStatusChange',
       'idle | loading | loaded | error callback',

@@ -35,7 +35,7 @@ export const doc: ComponentDoc = {
     ],
     [
       'disabled',
-      'keeps the tooltip from opening; the trigger stays as it is. enabled is deprecated',
+      'keeps the tooltip from opening; the trigger stays as it is',
       'false',
     ],
     [

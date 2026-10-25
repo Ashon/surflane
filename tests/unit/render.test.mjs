@@ -12,16 +12,14 @@ test('a Button without a variant is primary', () => {
   assert.match(html(h(Button, null, 'Save')), /data-variant="primary"/)
 })
 
-test("the deprecated variant='default' and short sizes still render", () => {
-  const markup = html(h(Button, { variant: 'default', size: 'sm' }, 'Save'))
-  assert.match(markup, /data-variant="default"/)
+test('a Button writes its full size name, and the removed spellings have no rules', () => {
+  const markup = html(h(Button, { size: 'small' }, 'Save'))
   assert.match(markup, /data-size="small"/)
-  // button.css styles default exactly as primary.
   const css = readFileSync(
     new URL('../../packages/ui/src/button.css', import.meta.url),
     'utf8',
   )
-  assert.match(css, /\[data-variant='default'\], \[data-variant='primary'\]/)
+  assert.doesNotMatch(css, /data-variant='default'|data-size='xs'/)
 })
 
 test('Table writes its variant, selection and numeric alignment', () => {

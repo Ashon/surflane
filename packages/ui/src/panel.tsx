@@ -1,11 +1,11 @@
 'use client'
 import * as React from 'react'
 import { cx } from './parts.js'
-import { type ComponentSizeAlias } from './sizing.js'
+import { type ComponentSize } from './sizing.js'
 
 export type PanelSide = 'left' | 'right' | 'top' | 'bottom'
 export type PanelOptions = {
-  size?: ComponentSizeAlias
+  size?: ComponentSize
   closeLabel?: string
   /** Attaches the panel to its edge: no gap, and square corners on that edge, as a
    * mobile bottom sheet sits. */

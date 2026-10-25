@@ -100,7 +100,7 @@ const nodes: TreeNode[] = [
     ],
     [
       'labels',
-      'text the tree shows or names: expand(label), collapse(label), scrollArea(label), empty; emptyLabel is deprecated',
+      'text the tree shows or names: expand(label), collapse(label), scrollArea(label), empty',
       'English',
     ],
   ],

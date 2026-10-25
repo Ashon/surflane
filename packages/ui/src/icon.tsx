@@ -193,14 +193,9 @@ export type IconProps = Omit<
 > &
   Semantics & {
     name: IconName
-    /**
-     * 14, 16 or 20px; 16px when omitted. Deprecated, removed in a later minor: sm
-     * (16px, now default), md (20px, now large) and lg (24px, off the scale).
-     */
-    size?: ComponentSize | 'sm' | 'md' | 'lg'
+    /** 14, 16 or 20px; 16px when omitted. */
+    size?: ComponentSize
   }
-// The short spellings map by pixel size: sm was 16px, which is now the default.
-const iconSizes = { sm: 'default', md: 'large', lg: 'lg' } as const
 /** Static SVG only. Actions, focus, accessible button names and hit targets belong to the parent control. */
 export const Icon = function Icon({
   name,
@@ -216,9 +211,7 @@ export const Icon = function Icon({
       {...props}
       ref={ref}
       className={cx('surf-icon', className)}
-      data-size={
-        size === 'sm' || size === 'md' || size === 'lg' ? iconSizes[size] : size
-      }
+      data-size={size}
       data-directional={directional.has(name) ? 'true' : undefined}
       viewBox='0 0 24 24'
       fill='none'

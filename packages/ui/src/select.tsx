@@ -1,9 +1,9 @@
 'use client'
 import * as React from 'react'
 import { Icon } from './icon.js'
-import { useComponentSize, type ComponentSizeAlias } from './sizing.js'
+import { useComponentSize, type ComponentSize } from './sizing.js'
 import { Select as BaseSelect } from '@base-ui/react/select'
-import { sizeName, cx } from './parts.js'
+import { cx } from './parts.js'
 
 export type SelectOption = {
   value: string
@@ -29,7 +29,7 @@ type SelectCommonProps = {
   className?: string
   inputRef?: React.Ref<HTMLInputElement>
   triggerRef?: React.Ref<HTMLButtonElement>
-  size?: ComponentSizeAlias
+  size?: ComponentSize
   /** fill takes its container's width, as a form field does. content fits the
    * longest option, as a native select does, so it sits beside other controls in
    * a header or toolbar and keeps its width when the value changes. */
@@ -214,7 +214,7 @@ export const Select = function Select(
   return (
     <span
       className={cx('surf-select', className)}
-      data-size={sizeName(size)}
+      data-size={size}
       data-ui-size={scheme}
       data-width={width}
       data-disabled={disabled || undefined}

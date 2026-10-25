@@ -19,20 +19,15 @@ const ContextContent = function ContextContent({
   align,
   sideOffset,
   collisionPadding,
-  positionerProps,
   ref,
   ...props
 }: React.ComponentPropsWithoutRef<typeof BaseContextMenu.Popup> &
   Placement<typeof BaseContextMenu.Positioner> & {
-    /** @deprecated Pass side, align, sideOffset and collisionPadding directly. */
-    positionerProps?: React.ComponentPropsWithoutRef<
-      typeof BaseContextMenu.Positioner
-    >
-  } & { ref?: React.Ref<HTMLDivElement> }) {
+    ref?: React.Ref<HTMLDivElement>
+  }) {
   return (
     <OwnPortal portal={BaseContextMenu.Portal}>
       <ContextPositioner
-        {...positionerProps}
         {...defined({ side, align, sideOffset, collisionPadding })}
       >
         <Menu.Popup {...props} ref={ref} />

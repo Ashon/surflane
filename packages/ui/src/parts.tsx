@@ -6,7 +6,7 @@ import {
 } from './sizing.js'
 import * as React from 'react'
 import { cx } from './class-names.js'
-export { cx, sizeName } from './class-names.js'
+export { cx } from './class-names.js'
 /** Preserve Base UI's state-dependent className contract when adding a skin. */
 export function skin<State>(
   base: string,

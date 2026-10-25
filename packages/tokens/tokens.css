@@ -702,11 +702,6 @@
   :root,
   [data-theme='dark'],
   [data-theme='light'] {
-    /* Deprecated: use --surf-size-avatar-small, -default and -large. Removed in a later
-       minor. */
-    --surf-avatar-size-sm: var(--surf-size-avatar-small);
-    --surf-avatar-size-md: var(--surf-size-avatar-default);
-    --surf-avatar-size-lg: var(--surf-size-avatar-large);
     --surf-status-badge-gap: var(--surf-space-1);
   }
 

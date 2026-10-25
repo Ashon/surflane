@@ -1,7 +1,7 @@
 'use client'
 import * as React from 'react'
-import { OwnPortal, part, scopedPortal, sizeName, skin } from './parts.js'
-import { useComponentSize, type ComponentSizeAlias } from './sizing.js'
+import { OwnPortal, part, scopedPortal, skin } from './parts.js'
+import { useComponentSize, type ComponentSize } from './sizing.js'
 import { Popover as BasePopover } from '@base-ui/react/popover'
 function PopoverContent({
   size,
@@ -18,7 +18,7 @@ function PopoverContent({
   > & {
     /** Width and density: small 240px, default 320px, large 480px. Unset, the
      * popover keeps the default width and takes the surrounding density. */
-    size?: ComponentSizeAlias
+    size?: ComponentSize
   }) {
   const scheme = useComponentSize(size)
   return (
@@ -32,7 +32,7 @@ function PopoverContent({
       >
         <BasePopover.Popup
           data-ui-size={scheme}
-          data-size={sizeName(size)}
+          data-size={size}
           {...props}
           className={skin('surf-popover', className)}
         />

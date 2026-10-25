@@ -66,7 +66,8 @@
     /* Manrope comes first in the body stack, so Korean word spaces take its 0.20em space;
      * this widens them to Pretendard's 0.25em. Set 0 when a Hangul face comes first. */
     --surf-type-hangul-word-spacing: 0.05em;
-    /* Earlier page title roles, now the display role. */
+    /* Deprecated: earlier page title roles. Write the display and title roles; these
+       are removed in a later minor. */
     --surf-type-workspace-title-size: var(--surf-type-display-size);
     --surf-type-workspace-title-leading: var(--surf-type-display-leading);
     --surf-type-document-title-size: var(--surf-type-display-size);
@@ -98,11 +99,6 @@
   :root,
   [data-theme='dark'],
   [data-theme='light'] {
-    /* Deprecated: use --surf-size-icon-default and --surf-size-icon-large. --surf-icon-size-lg is
-       off the scale. All three are removed in a later minor. */
-    --surf-icon-size-sm: var(--surf-size-icon-default);
-    --surf-icon-size-md: var(--surf-size-icon-large);
-    --surf-icon-size-lg: 24px;
     --surf-icon-stroke-width: 1.7;
   }
 

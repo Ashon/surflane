@@ -46,7 +46,7 @@ export const doc: ComponentDoc = {
     ],
     [
       'labels',
-      '{ copy, copied, copyError }: the localized action and short in-button results; copyLabel, copiedLabel and copyErrorLabel are deprecated',
+      '{ copy, copied, copyError }: the localized action and short in-button results',
       'Copy code / Copied / Copy unavailable',
     ],
   ],

@@ -2,22 +2,22 @@
 import * as React from 'react'
 import { Icon } from './icon.js'
 import { Avatar as BaseAvatar } from '@base-ui/react/avatar'
-import { useComponentSize, type ComponentSizeAlias } from './sizing.js'
-import { sizeName, skin, part } from './parts.js'
+import { useComponentSize, type ComponentSize } from './sizing.js'
+import { skin, part } from './parts.js'
 const AvatarRoot = function AvatarRoot({
   size,
   className,
   ref,
   ...props
 }: React.ComponentPropsWithoutRef<typeof BaseAvatar.Root> & {
-  size?: ComponentSizeAlias
+  size?: ComponentSize
 } & { ref?: React.Ref<React.ComponentRef<typeof BaseAvatar.Root>> }) {
   const scheme = useComponentSize(size)
   return (
     <BaseAvatar.Root
       {...props}
       ref={ref}
-      data-size={sizeName(size)}
+      data-size={size}
       data-ui-size={scheme}
       className={skin('surf-avatar', className)}
     />

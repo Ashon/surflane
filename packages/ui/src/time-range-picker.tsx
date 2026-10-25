@@ -4,7 +4,7 @@ import { Button } from './button.js'
 import { Icon } from './icon.js'
 import { Select } from './select.js'
 import { cx } from './class-names.js'
-import type { ComponentSizeAlias } from './size.js'
+import type { ComponentSize } from './size.js'
 
 const MINUTE = 60_000,
   HOUR = 60 * MINUTE,
@@ -59,7 +59,7 @@ export type TimeRangePickerProps = Omit<
    * Leave it out for no refresh button. */
   onRefresh?: () => void
   labels?: Partial<TimeRangePickerLabels>
-  size?: ComponentSizeAlias
+  size?: ComponentSize
 }
 /** The span a monitoring screen shows, back from now, with how often it refreshes and
  * a button to refresh now. For a fixed span between two dates, put a DateRangePicker
@@ -137,9 +137,9 @@ export const TimeRangePicker = function TimeRangePicker({
         <Button
           variant='outline'
           size={
-            size === 'small' || size === 'sm'
+            size === 'small'
               ? 'icon-small'
-              : size === 'large' || size === 'lg'
+              : size === 'large'
                 ? 'icon-large'
                 : 'icon'
           }

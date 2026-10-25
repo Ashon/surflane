@@ -1,8 +1,8 @@
 'use client'
 import * as React from 'react'
-import { useComponentSize, type ComponentSizeAlias } from './sizing.js'
+import { useComponentSize, type ComponentSize } from './sizing.js'
 import { Toggle as BaseToggle } from '@base-ui/react/toggle'
-import { sizeName, skin } from './parts.js'
+import { skin } from './parts.js'
 
 export function Toggle<Value extends string>({
   className,
@@ -10,7 +10,7 @@ export function Toggle<Value extends string>({
   ref,
   ...props
 }: BaseToggle.Props<Value> & {
-  size?: ComponentSizeAlias | 'icon'
+  size?: ComponentSize | 'icon'
   ref?: React.Ref<HTMLButtonElement>
 }) {
   const scheme = useComponentSize(size === 'icon' ? undefined : size)
@@ -19,7 +19,7 @@ export function Toggle<Value extends string>({
       {...props}
       ref={ref}
       className={skin('surf-button surf-toggle', className)}
-      data-size={sizeName(size)}
+      data-size={size}
       data-ui-size={scheme}
     />
   )

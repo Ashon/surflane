@@ -1,9 +1,9 @@
 'use client'
 import * as React from 'react'
 import { Icon } from './icon.js'
-import { part, sizeName, skin, cx } from './parts.js'
+import { part, skin, cx } from './parts.js'
 import { useDialogFocusBoundary } from './dialog-focus.js'
-import { useComponentSize, type ComponentSizeAlias } from './sizing.js'
+import { useComponentSize, type ComponentSize } from './sizing.js'
 import { Dialog as BaseDialog } from '@base-ui/react/dialog'
 
 /** Visible icon close action; inherits Dialog focus and dismissal behavior. */
@@ -37,7 +37,7 @@ const DialogContent = function DialogContent({
   ...props
 }: React.ComponentPropsWithoutRef<typeof BaseDialog.Popup> & {
   /** Width and density: small 420px, default 640px, large 840px. */
-  size?: ComponentSizeAlias
+  size?: ComponentSize
   closeLabel?: string
   closeDisabled?: boolean
   focusBoundaryLabel?: string
@@ -49,7 +49,7 @@ const DialogContent = function DialogContent({
       <BaseDialog.Backdrop className='surf-dialog-backdrop' />
       <BaseDialog.Popup
         data-ui-size={scheme}
-        data-size={sizeName(size)}
+        data-size={size}
         {...props}
         ref={ref}
         className={skin('surf-dialog-popup surf-dialog-content', className)}

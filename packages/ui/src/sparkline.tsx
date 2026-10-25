@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { cx, sizeName } from './class-names.js'
-import type { ComponentSizeAlias } from './size.js'
+import { cx } from './class-names.js'
+import type { ComponentSize } from './size.js'
 
 export type SparklineTrend = 'auto' | 'up' | 'down' | 'flat' | 'neutral'
 export type SparklineProps = Omit<
@@ -13,7 +13,7 @@ export type SparklineProps = Omit<
    * line is an image; this is its name. */
   label: string
   /** 24, 32 or 48px tall. Set --surf-sparkline-height for another height. */
-  size?: ComponentSizeAlias
+  size?: ComponentSize
   /** A reference line: a value, the first value, or none. */
   baseline?: number | 'first' | 'none'
   /** Marks the last value with a dot. */
@@ -88,7 +88,7 @@ export const Sparkline = function Sparkline({
       role='img'
       aria-label={label}
       className={cx('surf-sparkline', className)}
-      data-size={sizeName(size)}
+      data-size={size}
       data-tone={tone}
       viewBox='0 0 100 100'
       preserveAspectRatio='none'

@@ -16,12 +16,6 @@ export type CodeBlockProps = Omit<
   wrap?: boolean
   /** The copy button's text: the action, then the result. */
   labels?: Partial<CodeBlockLabels>
-  /** @deprecated Use `labels.copy`. Removed in a later minor. */
-  copyLabel?: string
-  /** @deprecated Use `labels.copied`. Removed in a later minor. */
-  copiedLabel?: string
-  /** @deprecated Use `labels.copyError`. Removed in a later minor. */
-  copyErrorLabel?: string
   onCopy?: (code: string) => void | Promise<void>
 }
 export type CodeBlockLabels = {
@@ -38,18 +32,14 @@ export const CodeBlock = function CodeBlock({
   language,
   wrap = false,
   labels,
-  copyLabel: legacyCopyLabel,
-  copiedLabel: legacyCopiedLabel,
-  copyErrorLabel: legacyCopyErrorLabel,
   onCopy,
   className,
   ref,
   ...props
 }: CodeBlockProps & { ref?: React.Ref<HTMLDivElement> }) {
-  const copyLabel = labels?.copy ?? legacyCopyLabel ?? 'Copy code'
-  const copiedLabel = labels?.copied ?? legacyCopiedLabel ?? 'Copied'
-  const copyErrorLabel =
-    labels?.copyError ?? legacyCopyErrorLabel ?? 'Copy unavailable'
+  const copyLabel = labels?.copy ?? 'Copy code'
+  const copiedLabel = labels?.copied ?? 'Copied'
+  const copyErrorLabel = labels?.copyError ?? 'Copy unavailable'
   const [state, setState] = React.useState<
     'idle' | 'busy' | 'copied' | 'failed'
   >('idle')

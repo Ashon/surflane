@@ -4,7 +4,7 @@ import { Icon } from './icon.js'
 import {
   ComponentSizeContext,
   useComponentSize,
-  type ComponentSizeAlias,
+  type ComponentSize,
 } from './sizing.js'
 import {
   DatePicker as AriaDatePicker,
@@ -54,7 +54,7 @@ type CalendarContent = { calendarLabel?: string }
 /** The names every other Surflane field takes. react-aria's spellings keep working. */
 type FieldStates<Change> = {
   /** The field's and its calendar's size; without it, the surrounding SizeProvider's. */
-  size?: ComponentSizeAlias
+  size?: ComponentSize
   disabled?: boolean
   readOnly?: boolean
   required?: boolean
@@ -160,7 +160,7 @@ function SizedField({
   size,
   children,
 }: {
-  size?: ComponentSizeAlias
+  size?: ComponentSize
   children: (scheme: ReturnType<typeof useComponentSize>) => React.ReactNode
 }) {
   const scheme = useComponentSize(size)

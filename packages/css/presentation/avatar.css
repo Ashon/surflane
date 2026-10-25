@@ -23,11 +23,11 @@
       var(--surf-font-body);
     letter-spacing: var(--surf-type-caption-tracking);
   }
-  .surf-avatar:is([data-size='sm'], [data-size='small']) {
+  .surf-avatar[data-size='small'] {
     --surf-avatar-size: var(--surf-size-avatar-small);
     font-size: var(--surf-type-caption-size);
   }
-  .surf-avatar:is([data-size='lg'], [data-size='large']) {
+  .surf-avatar[data-size='large'] {
     --surf-avatar-size: var(--surf-size-avatar-large);
     font-size: var(--surf-size-font-large);
   }

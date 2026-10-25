@@ -31,7 +31,7 @@ export const doc: DocKo = {
   ],
   props: {
     'Root style --surf-app-shell-page-radius / --surf-app-shell-inset':
-      '페이지 면의 반경과 셸의 간격. 셸 자체는 직각입니다. --app-shell-radius도 아직 max(0, radius - inset)로 페이지 반경을 정하지만 폐기 예정입니다',
+      '페이지 면의 반경과 셸의 간격. 셸 자체는 직각입니다',
     'Root.layout':
       'header(전역 레일) / workspace(사이드바 브랜드, 모바일 전용 header)',
     'Root.collapsed / defaultCollapsed / onCollapsedChange':

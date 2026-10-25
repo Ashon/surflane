@@ -93,12 +93,6 @@ export const descriptions = {
     'Stronger border for choice controls on hover',
   '--surf-control-choice-selected-border':
     'State border that matches the selected surface',
-  '--surf-icon-size-sm': 'Deprecated: use --surf-size-icon-default',
-  '--surf-icon-size-md': 'Deprecated: use --surf-size-icon-large',
-  '--surf-icon-size-lg': 'Deprecated: 24px, off the size scale',
-  '--surf-avatar-size-sm': 'Deprecated: use --surf-size-avatar-small',
-  '--surf-avatar-size-md': 'Deprecated: use --surf-size-avatar-default',
-  '--surf-avatar-size-lg': 'Deprecated: use --surf-size-avatar-large',
   '--surf-icon-stroke-width': 'Shared stroke width within a 24×24 viewBox',
   '--surf-radius-pill':
     'Buttons, badges, chips, switches and segments: half the tallest control, so pills; scales with the radius',

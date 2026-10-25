@@ -35,7 +35,6 @@ import {
 } from '@surflane/ui/dialog'
 const variants: ButtonVariant[] = [
   'primary',
-  'default',
   'secondary',
   'outline',
   'ghost',
@@ -50,19 +49,13 @@ const sizes: ButtonSize[] = [
   'icon-small',
   'icon-large',
 ]
-// Deprecated spellings keep working until they are removed in a later minor.
-const deprecatedSizes: ButtonSize[] = [
-  'sm',
-  'md',
-  'lg',
-  'xs',
-  'icon-xs',
-  'icon-sm',
-  'icon-lg',
-]
+// The short spellings were removed in 0.13.
+// @ts-expect-error sm is no longer a size
+;<Button size='sm' />
+// @ts-expect-error variant='default' is now primary
+;<Button variant='default' />
 variants.forEach((variant) => <DirectButton variant={variant} />)
 sizes.forEach((size) => <Button size={size} />)
-deprecatedSizes.forEach((size) => <Button size={size} />)
 // Text a component shows or names can be replaced, typed per component.
 const labels:
   | [

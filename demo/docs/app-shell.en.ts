@@ -97,7 +97,7 @@ export const doc: ComponentDoc = {
   props: [
     [
       'Root style --surf-app-shell-page-radius / --surf-app-shell-inset',
-      "the page surface's radius and the shell's inset; the shell itself is square. --app-shell-radius still derives the page radius as max(0, radius - inset), deprecated",
+      "the page surface's radius and the shell's inset; the shell itself is square",
       '8px / 12px; preview 10px',
     ],
     [

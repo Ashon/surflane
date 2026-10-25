@@ -129,7 +129,6 @@ export const GridItem = function GridItem({
 export type SurfaceKind = 'canvas' | 'subtle'
 export const Surface = function Surface({
   surface,
-  tone,
   padding,
   className,
   style,
@@ -138,8 +137,6 @@ export const Surface = function Surface({
 }: React.ComponentProps<'div'> & {
   /** The background: subtle sits on the sheet, canvas matches it. */
   surface?: SurfaceKind
-  /** @deprecated Use surface; tone names a status color elsewhere. */
-  tone?: SurfaceKind
   padding?: Space
 } & { ref?: React.Ref<HTMLDivElement> }) {
   return (
@@ -147,7 +144,7 @@ export const Surface = function Surface({
       {...props}
       ref={ref}
       className={cx('surf-surface', className)}
-      data-surface={surface ?? tone ?? 'subtle'}
+      data-surface={surface ?? 'subtle'}
       style={
         {
           ...(padding === undefined

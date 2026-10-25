@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { normalizeSize, type ComponentSizeAlias } from './size.js'
-import { sizeName, cx } from './class-names.js'
+import { normalizeSize, type ComponentSize } from './size.js'
+import { cx } from './class-names.js'
 
 export type SpinnerProps = Omit<
   React.ComponentPropsWithoutRef<'span'>,
@@ -8,7 +8,7 @@ export type SpinnerProps = Omit<
 > & {
   label?: string
   decorative?: boolean
-  size?: ComponentSizeAlias
+  size?: ComponentSize
 }
 /** Use decorative within a loading region that already owns the announcement. */
 export const Spinner = function Spinner({
@@ -26,7 +26,7 @@ export const Spinner = function Spinner({
       {...props}
       ref={ref}
       className={cx('surf-spinner', className)}
-      data-size={sizeName(size)}
+      data-size={size}
       data-ui-size={scheme}
       role={decorative ? undefined : 'status'}
       aria-hidden={decorative || undefined}

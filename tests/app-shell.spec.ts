@@ -433,9 +433,9 @@ test('a shell that fills the window keeps a square edge, rounds only its page an
   })
   await expect(sheet).toHaveCSS('border-top-left-radius', '8px')
   await expect(sheet).toHaveCSS('margin-top', '12px')
-  // A caller that still sets the deprecated radius keeps its page radius.
+  // The page radius is set through its own property.
   await shell.evaluate((el) =>
-    el.style.setProperty('--app-shell-radius', '24px'),
+    el.style.setProperty('--surf-app-shell-page-radius', '12px'),
   )
   await expect(sheet).toHaveCSS('border-top-left-radius', '12px')
   await page.setViewportSize({ width: 390, height: 844 })

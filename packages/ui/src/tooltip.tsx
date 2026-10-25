@@ -1,6 +1,6 @@
 'use client'
 import * as React from 'react'
-import { useComponentSize, type ComponentSizeAlias } from './sizing.js'
+import { useComponentSize, type ComponentSize } from './sizing.js'
 import { Tooltip as BaseTooltip } from '@base-ui/react/tooltip'
 export function TooltipProvider({
   delayDuration = 150,
@@ -30,8 +30,6 @@ export type TooltipProps = {
   shortcut?: string
   /** Keeps the tooltip from opening while the trigger stays as it is. */
   disabled?: boolean
-  /** @deprecated Use `disabled`. Removed in a later minor. */
-  enabled?: boolean
   children: React.ReactElement
 } & Pick<
   React.ComponentPropsWithoutRef<typeof BaseTooltip.Positioner>,
@@ -41,7 +39,6 @@ export function Tooltip({
   label,
   shortcut,
   disabled = false,
-  enabled = true,
   side = 'right',
   align,
   sideOffset = 10,
@@ -51,7 +48,7 @@ export function Tooltip({
   // Disabling keeps the trigger mounted, so turning the tooltip on or off never
   // moves focus.
   return (
-    <BaseTooltip.Root disabled={disabled || !enabled}>
+    <BaseTooltip.Root disabled={disabled}>
       <BaseTooltip.Trigger render={children} />
       <BaseTooltip.Portal>
         <BaseTooltip.Positioner

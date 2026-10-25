@@ -38,24 +38,17 @@ const ComboContent = function ComboContent({
   align,
   sideOffset,
   collisionPadding,
-  positionerProps,
   ref,
   ...props
 }: React.ComponentPropsWithoutRef<typeof BaseCombobox.Popup> &
   Pick<
     React.ComponentPropsWithoutRef<typeof BaseCombobox.Positioner>,
     'side' | 'align' | 'sideOffset' | 'collisionPadding'
-  > & {
-    /** @deprecated Pass side, align, sideOffset and collisionPadding directly. */
-    positionerProps?: React.ComponentPropsWithoutRef<
-      typeof BaseCombobox.Positioner
-    >
-  } & { ref?: React.Ref<HTMLDivElement> }) {
+  > & { ref?: React.Ref<HTMLDivElement> }) {
   return (
     <OwnPortal portal={BaseCombobox.Portal}>
       <ComboPositioner
         sideOffset={6}
-        {...positionerProps}
         {...defined({ side, align, sideOffset, collisionPadding })}
       >
         <ComboPopup {...props} ref={ref} />
