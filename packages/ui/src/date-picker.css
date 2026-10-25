@@ -101,10 +101,12 @@
   .surf-date-segment[data-placeholder] {
     color: var(--surf-control-placeholder);
   }
+  /* The group carries the focus halo; the segment being typed into is marked
+     like a selected table row, a selected fill told apart by its 3:1 edge. */
   .surf-date-segment[data-focused] {
-    background: var(--surf-selected);
+    background-color: var(--surf-selected);
     color: var(--surf-ink);
-    outline: 1px solid var(--surf-control-focus);
+    box-shadow: inset 0 0 0 1px var(--surf-selected-edge);
   }
   .surf-date-range-inputs {
     display: flex;
@@ -286,9 +288,11 @@
       color: HighlightText;
       forced-color-adjust: none;
     }
-    .surf-calendar-day[data-focus-visible],
-    .surf-date-segment[data-focused] {
+    .surf-calendar-day[data-focus-visible] {
       outline-color: Highlight;
+    }
+    .surf-date-segment[data-focused] {
+      outline: 1px solid Highlight;
     }
   }
   .surf-calendar-grid :is(th, td) {

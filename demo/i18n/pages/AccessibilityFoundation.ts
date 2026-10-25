@@ -68,7 +68,7 @@ const en = {
     "Tab order follows DOM order, so write the DOM in reading order. Don't add positive tabIndex values or clickable divs. Use a button or a link instead.",
   keyboardTargetStart: 'On touch and narrow screens, controls are ',
   keyboardTargetEnd:
-    " (44px) tall. A compact density, for dense monitoring screens, keeps them at their size instead, never under WCAG 2.2 AA's 24px. Never remove or cover the focus ring.",
+    " (44px) tall. A control that keeps a smaller look, such as a table row's checkbox or a tree's disclosure button, reaches that size around it. A compact density, for dense monitoring screens, keeps them at their size instead, never under WCAG 2.2 AA's 24px. Never remove or cover the focus ring.",
   keyboardDialog:
     "Dialogs keep focus inside, close on Escape, and return focus to their trigger. Don't build a focus trap of your own. When an action removes its trigger, move focus to the next meaningful element.",
   openFocusPreview: 'Open focus preview',
@@ -181,7 +181,7 @@ export const text: Record<Locale, typeof en> = {
       'Tab 순서는 DOM 순서를 따르므로 DOM을 읽는 순서대로 쓰세요. 양수 tabIndex나 클릭 가능한 div를 더하지 마세요. 대신 버튼이나 링크를 쓰세요.',
     keyboardTargetStart: '터치와 좁은 화면에서 컨트롤 높이는 ',
     keyboardTargetEnd:
-      '(44px)입니다. 촘촘한 모니터링 화면을 위한 compact 밀도에서는 크기를 그대로 두되, WCAG 2.2 AA의 24px 아래로는 줄이지 않습니다. 포커스 링은 없애거나 가리지 마세요.',
+      '(44px)입니다. 표 행의 체크박스나 트리의 펼침 버튼처럼 더 작게 보이는 컨트롤은 보이는 크기를 두고, 누르는 영역만 그 크기까지 넓힙니다. 촘촘한 모니터링 화면을 위한 compact 밀도에서는 크기를 그대로 두되, WCAG 2.2 AA의 24px 아래로는 줄이지 않습니다. 포커스 링은 없애거나 가리지 마세요.',
     keyboardDialog:
       '대화상자는 포커스를 안에 가두고, Escape로 닫히고, 닫히면 트리거로 포커스를 돌려줍니다. 포커스 트랩을 직접 만들지 마세요. 작업이 트리거를 없애면 다음 의미 있는 요소로 포커스를 옮기세요.',
     openFocusPreview: '포커스 미리보기 열기',

@@ -362,7 +362,19 @@ test('Toolbar vertical focus order follows its visible layout and pressed toggle
   expect(await pin.evaluate((e) => getComputedStyle(e).outlineWidth)).toBe(
     '2px',
   )
+  // Pressed fills with Highlight, its label in HighlightText, clear of the backplate.
   expect(
-    await pin.evaluate((e) => getComputedStyle(e, '::after').borderTopWidth),
-  ).toBe('1px')
+    await pin.evaluate((e) => {
+      const style = getComputedStyle(e),
+        probe = document.createElement('span')
+      probe.style.cssText = 'background:Highlight;color:HighlightText'
+      document.body.append(probe)
+      const system = getComputedStyle(probe)
+      return (
+        style.backgroundColor === system.backgroundColor &&
+        style.color === system.color &&
+        style.forcedColorAdjust === 'none'
+      )
+    }),
+  ).toBe(true)
 })

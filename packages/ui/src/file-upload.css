@@ -44,7 +44,7 @@
     --surf-recessed: var(--surf-file-recessed);
   }
   .surf-file-upload[data-dragging] .surf-file-dropzone {
-    background: var(--surf-selected);
+    background-color: var(--surf-selected);
   }
   .surf-file-picker {
     display: flex;

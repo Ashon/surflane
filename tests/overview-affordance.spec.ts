@@ -12,8 +12,12 @@ test('sidebar hover differs from current selection and neither navigation nor ca
   })
   const active = nav.getByRole('link', { name: 'Overview', exact: true }),
     layout = nav.getByRole('link', { name: 'Foundations', exact: true })
+  // Hover paints the state layer as a background image over the fill.
   const background = (el: any) =>
-    el.evaluate((node: HTMLElement) => getComputedStyle(node).backgroundColor)
+    el.evaluate((node: HTMLElement) => {
+      const style = getComputedStyle(node)
+      return `${style.backgroundColor} ${style.backgroundImage}`
+    })
   const selected = await background(active),
     idle = await background(layout),
     before = (await layout.boundingBox())!

@@ -68,12 +68,16 @@ const en = {
     [
       'Read only',
       'Readable, not editable',
-      '--surf-surface',
-      'the value on a plane, no border; focusable',
+      '--surf-recessed',
+      'the value on a recessed plane, no border; focusable',
     ],
     ['Pending', 'Started, no result yet', '', 'spinner and aria-busy'],
     ['Error / success', 'The real result', '', 'a message that stays'],
   ],
+  statesLayering:
+    'Hover and pressed paint as a layer over whatever fill the control already has, so they read the same on a plain button, a pressed toggle and a selected row. A selected fill sets only the color under that layer.',
+  statesForced:
+    'In forced colors the system palette replaces every token. Hover and pressed layers drop away and focus keeps its ring. A selected, current or pressed control fills with `Highlight` and writes its label in `HighlightText`. A highlighted option in a popup list, and a selected row that holds its own links, draw a `CanvasText` outline instead; a popup shows what is chosen with its check mark.',
   focusRing:
     'Buttons and choices draw a `--surf-focus-ring-width` ring at `--surf-focus-ring-offset`, both 2px, in `--surf-interaction-focus`. They show it for keyboard focus only (`:focus-visible`).',
   focusHalo:
@@ -178,12 +182,16 @@ export const text: Record<Locale, typeof en> = {
       [
         '읽기 전용',
         '읽을 수 있고 편집할 수 없음',
-        '--surf-surface',
-        '테두리 없이 면 위의 값, 포커스 가능',
+        '--surf-recessed',
+        '테두리 없이 들어간 면 위의 값, 포커스 가능',
       ],
       ['대기 중', '시작했고 결과가 아직 없음', '', '스피너와 aria-busy'],
       ['오류 / 성공', '실제 결과', '', '남아 있는 메시지'],
     ],
+    statesLayering:
+      '호버와 누름은 컨트롤에 이미 있는 채움 위에 한 겹으로 그립니다. 그래서 일반 버튼, 눌린 토글, 선택된 행에서 똑같이 보입니다. 선택 채움은 그 겹 아래의 색만 정합니다.',
+    statesForced:
+      '강제 색상 모드에서는 시스템 팔레트가 모든 토큰을 대신합니다. 호버와 누름 겹은 사라지고 포커스는 링을 유지합니다. 선택되었거나 현재 위치이거나 눌린 컨트롤은 `Highlight`로 채우고 레이블을 `HighlightText`로 씁니다. 팝업 목록에서 강조된 항목과 자기 링크를 담은 선택 행은 대신 `CanvasText` 윤곽선을 그리고, 팝업은 고른 항목을 체크 표시로 보여 줍니다.',
     focusRing:
       '버튼과 선택 컨트롤은 `--surf-interaction-focus` 색으로 `--surf-focus-ring-width` 링을 `--surf-focus-ring-offset`만큼 띄워 그립니다. 둘 다 2px이고, 키보드 포커스(`:focus-visible`)에서만 보입니다.',
     focusHalo:

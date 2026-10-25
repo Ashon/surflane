@@ -45,7 +45,7 @@ for (const theme of ['light', 'dark']) {
         name: 'Disabled notes',
         exact: true,
       })
-      if (await disabled.count()) {
+      if (route === 'textarea') {
         const before = await disabled.evaluate(
           (el) => getComputedStyle(el).borderTopColor,
         )
@@ -161,6 +161,81 @@ for (const theme of ['light', 'dark']) {
           (el) => getComputedStyle(el).webkitTapHighlightColor,
         ),
       ).toBe('rgba(0, 0, 0, 0)')
+    }
+  })
+}
+for (const theme of ['light', 'dark']) {
+  test(`hover layers over selected and current fills, and pressing steps further on the rest in ${theme}`, async ({
+    page,
+  }) => {
+    // [route, selector, whether it rests on a selected or current fill]
+    for (const [route, selector, selected] of [
+      ['/components/toolbar', '.surf-toggle[aria-pressed="true"]', true],
+      ['/components/toggle', '.surf-toggle[data-pressed]', true],
+      ['/components/toggle-group', '.surf-toggle[data-pressed]', true],
+      ['/components/tree', '.surf-tree-item[aria-selected="true"]', true],
+      [
+        '/components/pagination',
+        '.surf-pagination-control[aria-current="page"]',
+        true,
+      ],
+      [
+        '/patterns/app-shell',
+        '.surf-app-shell-link[aria-current="page"]',
+        true,
+      ],
+      [
+        '/patterns/app-shell',
+        '.surf-app-shell-link:not([aria-current])',
+        false,
+      ],
+      [
+        '/components/pagination',
+        '.surf-pagination-control[href]:not([aria-current])',
+        false,
+      ],
+      ['/components/tree', '.surf-tree-toggle', false],
+      ['/components/accordion', '.surf-disclosure-trigger', false],
+      ['/components/collapsible', '.surf-disclosure-trigger', false],
+      ['/components/chart', '.surf-chart-legend-button', false],
+    ] as const) {
+      await page.goto(route)
+      await waitForCatalogReady(page)
+      await page.evaluate(
+        (theme) => (document.documentElement.dataset.theme = theme),
+        theme,
+      )
+      // The tree starts with nothing selected.
+      if (route === '/components/tree' && selected)
+        await page.locator('main .surf-tree-item').first().click()
+      const control = page
+        .locator(`main ${selector}:not(:disabled, [data-disabled])`)
+        .first()
+      await control.scrollIntoViewIfNeeded()
+      const box = (await control.boundingBox())!
+      const x = Math.round(box.x + 5),
+        y = Math.round(box.y + box.height / 2)
+      const fill = () =>
+        control.evaluate((el) => getComputedStyle(el).backgroundColor)
+      await page.mouse.move(0, 0)
+      const rest = await pixel(page, x, y),
+        restFill = await fill()
+      await control.hover()
+      const hover = await pixel(page, x, y)
+      expect(
+        contrast(rest, hover),
+        `${theme}: ${route} ${selector}`,
+      ).toBeGreaterThanOrEqual(1.1)
+      // The layer paints over the fill; the fill itself never changes on hover.
+      expect(await fill(), `${theme}: ${route} ${selector} fill`).toBe(restFill)
+      if (selected) continue
+      await page.mouse.down()
+      const pressed = await pixel(page, x, y)
+      await page.mouse.up()
+      expect(
+        contrast(rest, pressed),
+        `${theme}: pressed ${route} ${selector}`,
+      ).toBeGreaterThan(contrast(rest, hover) + 0.1)
     }
   })
 }

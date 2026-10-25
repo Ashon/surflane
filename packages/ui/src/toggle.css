@@ -13,13 +13,20 @@
     border-color: var(--surf-control-border);
   }
   .surf-toggle[data-pressed] {
-    background: var(--surf-selected);
+    background-color: var(--surf-selected);
     border-color: var(--surf-control-border);
     color: var(--surf-ink);
   }
   .surf-toggle[data-disabled] {
     opacity: var(--surf-control-disabled-opacity);
     cursor: not-allowed;
+  }
+  @media (forced-colors: active) {
+    .surf-toggle[data-pressed] {
+      background-color: Highlight;
+      color: HighlightText;
+      forced-color-adjust: none;
+    }
   }
 }
 @layer surflane.sizes {

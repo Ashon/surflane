@@ -9,9 +9,16 @@
 
 @layer surflane.components {
   .surf-toolbar-button[aria-pressed='true'] {
-    background: var(--surf-selected);
+    background-color: var(--surf-selected);
     border-color: var(--surf-control-border);
     color: var(--surf-ink);
+  }
+  @media (forced-colors: active) {
+    .surf-toolbar-button[aria-pressed='true'] {
+      background-color: Highlight;
+      color: HighlightText;
+      forced-color-adjust: none;
+    }
   }
   .surf-toolbar-button[data-disabled],
   .surf-toolbar-input[data-disabled] {

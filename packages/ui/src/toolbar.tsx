@@ -3,12 +3,40 @@ import * as React from 'react'
 import { Toolbar as BaseToolbar } from '@base-ui/react/toolbar'
 import { part } from './parts.js'
 
+const RootPart = /* @__PURE__ */ part<
+  HTMLDivElement,
+  React.ComponentPropsWithoutRef<typeof BaseToolbar.Root>
+>(BaseToolbar.Root, 'surf-toolbar')
+/** Home and End reach the first and last item, as they do in ToggleGroup, Tabs and
+ * Menubar; Base UI's toolbar leaves them out. Inside an input they move the caret. */
+function Root({ onKeyDown, ...props }: React.ComponentProps<typeof RootPart>) {
+  return (
+    <RootPart
+      {...props}
+      onKeyDown={(event: React.KeyboardEvent<HTMLDivElement>) => {
+        onKeyDown?.(event as Parameters<NonNullable<typeof onKeyDown>>[0])
+        const toolbar = event.currentTarget
+        if (
+          event.defaultPrevented ||
+          (event.key !== 'Home' && event.key !== 'End') ||
+          (event.target as Element).matches('input, textarea')
+        )
+          return
+        const items = [
+          ...toolbar.querySelectorAll<HTMLElement>('[tabindex]'),
+        ].filter((item) => item.closest('[role="toolbar"]') === toolbar)
+        const item = event.key === 'Home' ? items[0] : items.at(-1)
+        if (!item) return
+        event.preventDefault()
+        item.focus()
+      }}
+    />
+  )
+}
+
 export const Toolbar = {
   ...BaseToolbar,
-  Root: /* @__PURE__ */ part<
-    HTMLDivElement,
-    React.ComponentPropsWithoutRef<typeof BaseToolbar.Root>
-  >(BaseToolbar.Root, 'surf-toolbar'),
+  Root,
   Group: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseToolbar.Group>

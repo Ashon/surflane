@@ -52,15 +52,21 @@
   }
   .surf-segment:hover,
   .surf-icon-button:hover {
-    background: var(--surf-interaction-hover-bg);
+    background-image: linear-gradient(
+      var(--surf-interaction-hover-bg),
+      var(--surf-interaction-hover-bg)
+    );
     color: var(--surf-ink);
   }
   .surf-segment:active,
   .surf-icon-button:active {
-    background: var(--surf-interaction-active-bg);
+    background-image: linear-gradient(
+      var(--surf-interaction-active-bg),
+      var(--surf-interaction-active-bg)
+    );
   }
   .surf-segment[aria-current='page'] {
-    background: var(--surf-selected);
+    background-color: var(--surf-selected);
     color: var(--surf-ink);
   }
   .surf-segment:focus-visible,
@@ -93,10 +99,16 @@
     cursor: pointer;
   }
   .surf-theme-action:hover {
-    background: var(--surf-interaction-hover-bg);
+    background-image: linear-gradient(
+      var(--surf-interaction-hover-bg),
+      var(--surf-interaction-hover-bg)
+    );
   }
   .surf-theme-action:active {
-    background: var(--surf-interaction-active-bg);
+    background-image: linear-gradient(
+      var(--surf-interaction-active-bg),
+      var(--surf-interaction-active-bg)
+    );
   }
   .surf-theme-action:focus-visible {
     outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
@@ -110,11 +122,19 @@
     letter-spacing: var(--surf-type-caption-tracking);
   }
   .surf-control-group label:has(input:checked) .surf-segment {
-    background: var(--surf-selected);
+    background-color: var(--surf-selected);
     color: var(--surf-ink);
   }
   .surf-control-group input:focus-visible + .surf-segment {
     outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
     outline-offset: var(--surf-focus-ring-offset);
+  }
+  @media (forced-colors: active) {
+    .surf-segment[aria-current='page'],
+    .surf-control-group label:has(input:checked) .surf-segment {
+      background-color: Highlight;
+      color: HighlightText;
+      forced-color-adjust: none;
+    }
   }
 }

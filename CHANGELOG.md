@@ -21,6 +21,7 @@
 - `InlineMessage.Icon` takes its Root's tone unless it sets one, as `Toast.Icon` does.
 - Icon has view controls: `pin`, `list` and `grid`.
 - `Table.Truncate measure` sets how wide it gets before the ellipsis, such as `44ch` for long image references; 32ch without it.
+- Toolbar takes Home and End to its first and last item, as its keyboard notes said and as ToggleGroup, Tabs and Menubar do. Inside an input they still move the caret.
 - `--surf-plane` and `--surf-recessed`: the plane a component sits on, and the area recessed one step from it. On the sheet they are the canvas and the surface. Card, Surface, the AppShell frame, the Sheet footer, an open Accordion item and the FileUpload drop zone set them for what they hold.
 - `--surf-table-surface` names the sticky table header's background. Without it the header takes the plane it sits on.
 - `--surf-motion-spin` and `--surf-motion-pulse` time Spinner, and Skeleton with indeterminate Progress.
@@ -43,6 +44,9 @@ These change what components look like, so they ship in a minor.
 - Outline buttons, toggles, icon buttons such as the dialog and sheet close buttons, and the AppShell edge toggle draw their edge with `--surf-control-border`, 3:1 against the sheet as fields are. Before they used the decorative `--surf-line`, about 1.2:1 on white.
 - Dialog sits on planes, as Sheet and Drawer do: no line under the head or above the footer, and the footer is a surface plane. AlertDialog keeps its actions on the dialog's own plane.
 - Every popup enters the same way: menus, selects, popovers, comboboxes, preview cards and navigation menus fade in and rise `--surf-motion-lift` (4px) in `--surf-duration-fast`, and close at once. Select, Menu and Popover had no entrance; the others rose 4, 6 or 12px over 120 to 200ms.
+- AppShell links, Tree items and toggles, Accordion and Collapsible triggers, Chart legend buttons, Pagination links and the `@surflane/css` segments, icon buttons and theme actions take the same hover and pressed layer as everything else, over any fill they have.
+- In forced colors a selected, current or pressed control fills with `Highlight` and writes its label in `HighlightText`: Toggle, ToggleGroup and Toolbar items, segments, the current AppShell, NavigationMenu, BottomNavigation and Pagination item, and a selected Tree item. Pressed toggles lose the inner outline they drew there, and the current AppShell link its outline. A highlighted Combobox option keeps its outline; a selected one shows its check, and a chosen value's chip keeps an edge.
+- The date segment being typed into is marked like a selected row, a selected fill with its 3:1 `--surf-selected-edge`, instead of a 1px focus-colored outline.
 
 ### Deprecated
 
@@ -81,11 +85,15 @@ Deprecated in earlier minors and announced for removal:
 - The first control in a Sheet or Drawer body shows its whole focus ring.
 - Sheet and Drawer `side='left'` and `'right'` dock to that edge on right-to-left pages too.
 - DatePicker's trigger, month buttons and days, OTP fields at Small and the AppShell edge toggle reach 44px on touch.
+- On touch and narrow screens a checkbox, radio or switch without a ChoiceLabel, such as a Table or List row's selection checkbox, and a Tree item's disclosure button keep their size but take a `--surf-control-target-size` press around them. They took 20 and 32px.
 - `--surf-dialog-exit-duration` takes effect.
 - Tailwind `dark:` follows the system setting when the page sets no `data-theme`, as the tokens do.
 - The shadcn bridge maps `--chart-1` to `--chart-5` to the categorical palette, `--destructive` to a red that holds white text at 4.5:1, `--accent` to the hover layer and `--ring` to the focus color.
 - The Tailwind theme types `--surf-selected-edge` and `--surf-slider-track` as colors, and no longer offers `--surf-control-focus-ring-size` as one.
 - NavigationMenu's chevron turns in `--surf-duration-fast`, as other chevrons do.
+- Hovering a selected Tree item, the current AppShell link or Pagination page, or the checked `@surflane/css` segment shows the hover layer over the selected fill; before, one hid the other.
+- In forced colors a selected Tree item shows its label; the system's backplate painted it white on white.
+- The current and checked `@surflane/css` segments show in forced colors; they showed nothing.
 
 ### Migration
 

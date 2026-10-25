@@ -38,6 +38,7 @@ test('Success notifications retain focus, names, descriptions and update in plac
 test('Explicit short duration expires and persistent duration remains until dismissal', async ({
   page,
 }) => {
+  await page.clock.install()
   await page.goto('/components/toast')
   await waitForCatalogReady(page)
   await duration(page, '1.5 seconds — timing preview')
@@ -46,7 +47,8 @@ test('Explicit short duration expires and persistent duration remains until dism
   await expect(visible(page)).toHaveCount(0, { timeout: 4000 })
   await duration(page, 'Until dismissed')
   await page.getByRole('button', { name: 'Show success', exact: true }).click()
-  await page.waitForTimeout(1800)
+  // Past Base UI's default timeout too, so a fallback to it would show.
+  await page.clock.runFor(60_000)
   await expect(visible(page)).toHaveCount(1)
   await page.getByRole('button', { name: 'Dismiss all', exact: true }).click()
   await expect(visible(page)).toHaveCount(0)
@@ -54,12 +56,13 @@ test('Explicit short duration expires and persistent duration remains until dism
 test('Hover pauses auto-dismiss and leaving resumes the remaining time', async ({
   page,
 }) => {
+  await page.clock.install()
   await page.goto('/components/toast')
   await waitForCatalogReady(page)
   await duration(page, '1.5 seconds — timing preview')
   await page.getByRole('button', { name: 'Show success', exact: true }).click()
   await visible(page).hover()
-  await page.waitForTimeout(1900)
+  await page.clock.runFor(10_000)
   await expect(visible(page)).toHaveCount(1)
   await page.mouse.move(1, 1)
   await expect(visible(page)).toHaveCount(0, { timeout: 4000 })
@@ -67,6 +70,7 @@ test('Hover pauses auto-dismiss and leaving resumes the remaining time', async (
 test('F6 focuses the viewport, pauses timers and restores the invoking control with Shift+Tab', async ({
   page,
 }) => {
+  await page.clock.install()
   await page.goto('/components/toast')
   await waitForCatalogReady(page)
   await duration(page, '1.5 seconds — timing preview')
@@ -78,7 +82,7 @@ test('F6 focuses the viewport, pauses timers and restores the invoking control w
   await page.keyboard.press('F6')
   const region = page.getByRole('region', { name: 'Preview notifications' })
   await expect(region).toBeFocused()
-  await page.waitForTimeout(1900)
+  await page.clock.runFor(10_000)
   await expect(visible(page)).toHaveCount(1)
   await page.keyboard.press('Shift+Tab')
   await expect(button).toBeFocused()
@@ -274,12 +278,13 @@ test('Touch swipe dismisses notifications in the configured direction', async ({
   await context.close()
 })
 test('Window blur pauses dismissal and focus resumes it', async ({ page }) => {
+  await page.clock.install()
   await page.goto('/components/toast')
   await waitForCatalogReady(page)
   await duration(page, '1.5 seconds — timing preview')
   await page.getByRole('button', { name: 'Show success', exact: true }).click()
   await page.evaluate(() => window.dispatchEvent(new Event('blur')))
-  await page.waitForTimeout(1900)
+  await page.clock.runFor(10_000)
   await expect(visible(page)).toHaveCount(1)
   await page.evaluate(() => window.dispatchEvent(new Event('focus')))
   await expect(visible(page)).toHaveCount(0, { timeout: 4000 })

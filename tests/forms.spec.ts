@@ -246,8 +246,12 @@ test('form primitives have no overflow or automated a11y violations across theme
         await page.setViewportSize({ width, height: 1000 })
         await page.goto('/components/' + id)
         await waitForCatalogReady(page)
-        if (dark)
-          await page.getByRole('button', { name: 'Toggle theme' }).click()
+        // Set the theme directly: the toggle rotates a cookie that outlives the page.
+        await page.evaluate(
+          (dark) =>
+            (document.documentElement.dataset.theme = dark ? 'dark' : 'light'),
+          dark,
+        )
         expect(
           await page.evaluate(() => document.body.scrollWidth <= innerWidth),
           `${id} ${width} dark=${dark}`,

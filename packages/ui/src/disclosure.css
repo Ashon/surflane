@@ -46,10 +46,16 @@
     overflow-wrap: anywhere;
   }
   .surf-disclosure-trigger:hover:not(:disabled) {
-    background: var(--surf-interaction-hover-bg);
+    background-image: linear-gradient(
+      var(--surf-interaction-hover-bg),
+      var(--surf-interaction-hover-bg)
+    );
   }
   .surf-disclosure-trigger:active:not(:disabled) {
-    background: var(--surf-interaction-active-bg);
+    background-image: linear-gradient(
+      var(--surf-interaction-active-bg),
+      var(--surf-interaction-active-bg)
+    );
   }
   .surf-disclosure-trigger:focus-visible {
     outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);

@@ -21,19 +21,4 @@
     width: fit-content;
     max-width: 100%;
   }
-  .surf-toggle,
-  .surf-toolbar-button {
-    position: relative;
-  }
-  @media (forced-colors: active) {
-    .surf-toggle[data-pressed]::after,
-    .surf-toolbar-button[aria-pressed='true']::after {
-      content: '';
-      position: absolute;
-      inset: 3px;
-      border: 1px solid CanvasText;
-      border-radius: inherit;
-      pointer-events: none;
-    }
-  }
 }

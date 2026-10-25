@@ -68,7 +68,7 @@
     }
   }
   .surf-button[data-variant='secondary'] {
-    background: var(--surf-selected);
+    background-color: var(--surf-selected);
     color: var(--surf-ink);
   }
   .surf-button[data-variant='destructive'] {

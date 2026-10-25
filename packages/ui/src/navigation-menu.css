@@ -126,7 +126,9 @@
       border-color: CanvasText;
     }
     .surf-navigation-link[aria-current='page'] {
-      border-color: Highlight;
+      background-color: Highlight;
+      color: HighlightText;
+      forced-color-adjust: none;
     }
   }
   /* Keep the floating box measurable even when the popup anchors from its bottom edge. */

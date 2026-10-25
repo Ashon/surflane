@@ -111,6 +111,24 @@
     ) {
     border-color: var(--surf-status-danger-fg);
   }
+  /* On touch and narrow screens a ChoiceLabel makes the whole row the target. A
+     choice without one, such as a table row's checkbox, keeps its size and reaches
+     --surf-control-target-size around it instead. */
+  @media (max-width: 760px), (pointer: coarse) {
+    :is(.surf-checkbox, .surf-radio, .surf-switch):not(.surf-choice-label *) {
+      position: relative;
+    }
+    :is(.surf-checkbox, .surf-radio, .surf-switch):not(
+        .surf-choice-label *
+      )::after {
+      content: '';
+      position: absolute;
+      inset: 50% auto auto 50%;
+      inline-size: max(100%, var(--surf-control-target-size));
+      block-size: max(100%, var(--surf-control-target-size));
+      translate: -50% -50%;
+    }
+  }
   @media (forced-colors: active) {
     .surf-checkbox,
     .surf-radio,

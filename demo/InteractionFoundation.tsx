@@ -107,6 +107,8 @@ export function InteractionFoundation() {
             </Table.Body>
           </Table.Root>
         </Table.Container>
+        <p>{t.statesLayering}</p>
+        <p>{codeText(t.statesForced)}</p>
       </FoundationSection>
       <FoundationSection id='focus'>
         <p>{codeText(t.focusRing)}</p>

@@ -29,10 +29,13 @@
     transition: background-color var(--surf-duration-fast) var(--surf-ease-out);
   }
   .surf-tree-item:hover {
-    background: var(--surf-interaction-hover-bg);
+    background-image: linear-gradient(
+      var(--surf-interaction-hover-bg),
+      var(--surf-interaction-hover-bg)
+    );
   }
   .surf-tree-item[aria-selected='true'] {
-    background: var(--surf-selected);
+    background-color: var(--surf-selected);
   }
   .surf-tree-item:focus-visible {
     outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
@@ -56,10 +59,16 @@
     color: inherit;
   }
   .surf-tree-toggle:hover:not(:disabled) {
-    background: var(--surf-interaction-hover-bg);
+    background-image: linear-gradient(
+      var(--surf-interaction-hover-bg),
+      var(--surf-interaction-hover-bg)
+    );
   }
   .surf-tree-toggle:active:not(:disabled) {
-    background: var(--surf-interaction-active-bg);
+    background-image: linear-gradient(
+      var(--surf-interaction-active-bg),
+      var(--surf-interaction-active-bg)
+    );
   }
   .surf-tree-toggle svg[data-expanded] {
     rotate: 90deg;
@@ -77,6 +86,21 @@
     padding: var(--surf-space-4);
     color: var(--surf-ink-muted);
   }
+  /* On touch the disclosure keeps its size and reaches the row's
+     --surf-control-target-size around it. */
+  @media (max-width: 760px), (pointer: coarse) {
+    .surf-tree-toggle {
+      position: relative;
+    }
+    .surf-tree-toggle::after {
+      content: '';
+      position: absolute;
+      inset: 50% auto auto 50%;
+      inline-size: var(--surf-control-target-size);
+      block-size: var(--surf-control-target-size);
+      translate: -50% -50%;
+    }
+  }
   @media (prefers-reduced-motion: reduce) {
     .surf-tree-item {
       transition: none;
@@ -86,6 +110,7 @@
     .surf-tree-item[aria-selected='true'] {
       background: Highlight;
       color: HighlightText;
+      forced-color-adjust: none;
     }
     .surf-tree-item[aria-disabled='true'] {
       color: GrayText;

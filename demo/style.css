@@ -467,17 +467,23 @@ body,
   min-width: 0;
   overflow-wrap: anywhere;
 }
-.catalog-nav-group a:is(:hover, :focus-visible):not([aria-current='page']) {
-  background: color-mix(in srgb, var(--surf-selected) 45%, var(--surf-chrome));
+.catalog-nav-group a:hover {
+  background-image: linear-gradient(
+    var(--surf-interaction-hover-bg),
+    var(--surf-interaction-hover-bg)
+  );
   color: var(--surf-ink);
 }
 .catalog-nav-group a[aria-current='page'] {
-  background: var(--surf-selected);
+  background-color: var(--surf-selected);
   color: var(--surf-ink);
   font-weight: var(--surf-weight-medium);
 }
 .catalog-nav-group a:active:not([aria-current='page']) {
-  background: var(--surf-selected);
+  background-image: linear-gradient(
+    var(--surf-interaction-active-bg),
+    var(--surf-interaction-active-bg)
+  );
 }
 
 .catalog-sidebar .catalog-navigation-toggle {
@@ -533,12 +539,6 @@ body,
   align-self: center;
   justify-self: end;
   color: var(--surf-ink-muted);
-}
-.catalog-feature-links a:is(:hover, :focus-visible) {
-  background: color-mix(in srgb, var(--surf-selected) 45%, var(--surf-surface));
-}
-.catalog-feature-links a:active {
-  background: var(--surf-selected);
 }
 .catalog-feature-links span {
   color: var(--surf-ink-muted);
@@ -1703,7 +1703,7 @@ body,
   inline-size: 60%;
   block-size: var(--surf-space-4);
   border-radius: var(--surf-radius-sm);
-  background: var(--surf-selected);
+  background-color: var(--surf-selected);
 }
 .hierarchy-figure-elevation > span:first-child {
   position: absolute;
@@ -1876,7 +1876,7 @@ body,
   min-height: 62px;
   padding: 12px;
   border-radius: 8px;
-  background: var(--surf-selected);
+  background-color: var(--surf-selected);
   color: var(--surf-ink);
   font-size: var(--surf-type-caption-size);
   letter-spacing: var(--surf-type-caption-tracking);
@@ -2111,18 +2111,22 @@ body,
   white-space: nowrap;
   transition: background-color var(--surf-duration-fast) var(--surf-ease-out);
 }
-.catalog-primary a:hover,
-.catalog-toprail .catalog-theme-toggle:hover:not(:disabled),
-.catalog-toprail .catalog-locale-toggle:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--surf-selected) 45%, transparent);
+.catalog-primary a:hover {
+  background-image: linear-gradient(
+    var(--surf-interaction-hover-bg),
+    var(--surf-interaction-hover-bg)
+  );
 }
 .catalog-primary a[aria-current] {
-  background: color-mix(in srgb, var(--surf-selected) 78%, transparent);
+  background-color: var(--surf-selected);
   color: var(--surf-ink);
   font-weight: var(--surf-weight-medium);
 }
 .catalog-primary a:active:not([aria-current]) {
-  background: var(--surf-selected);
+  background-image: linear-gradient(
+    var(--surf-interaction-active-bg),
+    var(--surf-interaction-active-bg)
+  );
 }
 .catalog-primary a:focus-visible,
 .catalog-toprail .catalog-theme-toggle:focus-visible {
@@ -2262,9 +2266,6 @@ body,
   font-weight: var(--surf-weight-medium);
   line-height: 1;
 }
-.catalog-toprail .catalog-theme-toggle:hover:not(:disabled) {
-  filter: none;
-}
 /* The boot script sets the mode before paint, so a prerendered page shows its icon
    before the app hydrates. */
 .catalog-theme-toggle [data-theme-icon] {
@@ -2360,20 +2361,6 @@ body,
   pointer-events: auto;
 }
 
-@media (prefers-reduced-transparency: reduce) {
-  .catalog-primary a:hover,
-  .catalog-toprail .catalog-theme-toggle:hover:not(:disabled),
-  .catalog-toprail .catalog-locale-toggle:hover:not(:disabled) {
-    background: color-mix(
-      in srgb,
-      var(--surf-selected) 45%,
-      var(--surf-chrome)
-    );
-  }
-  .catalog-primary a[aria-current] {
-    background: var(--surf-selected);
-  }
-}
 @media (forced-colors: active) {
   .catalog-primary a:hover,
   .catalog-toprail .catalog-theme-toggle:hover:not(:disabled),
@@ -2491,13 +2478,19 @@ body,
   background: transparent;
   transition: background-color var(--surf-duration-fast) var(--surf-ease-out);
 }
-.catalog-item:is(:hover, :focus-visible),
-.catalog-feature-links a:is(:hover, :focus-visible) {
-  background: color-mix(in srgb, var(--surf-selected) 45%, var(--surf-surface));
+.catalog-item:hover,
+.catalog-feature-links a:hover {
+  background-image: linear-gradient(
+    var(--surf-interaction-hover-bg),
+    var(--surf-interaction-hover-bg)
+  );
 }
 .catalog-item:active,
 .catalog-feature-links a:active {
-  background: var(--surf-selected);
+  background-image: linear-gradient(
+    var(--surf-interaction-active-bg),
+    var(--surf-interaction-active-bg)
+  );
 }
 .catalog-item:focus-visible,
 .catalog-feature-links a:focus-visible {
@@ -2575,14 +2568,20 @@ body,
   border-radius: var(--surf-radius-md);
   overflow-wrap: anywhere;
 }
-.documentation-toc nav a:is(:hover, :focus-visible) {
-  background: var(--surf-interaction-hover-bg);
+.documentation-toc nav a:hover {
+  background-image: linear-gradient(
+    var(--surf-interaction-hover-bg),
+    var(--surf-interaction-hover-bg)
+  );
 }
 .documentation-toc nav a:active:not([aria-current]) {
-  background: var(--surf-interaction-active-bg);
+  background-image: linear-gradient(
+    var(--surf-interaction-active-bg),
+    var(--surf-interaction-active-bg)
+  );
 }
 .documentation-toc nav a[aria-current] {
-  background: var(--surf-selected);
+  background-color: var(--surf-selected);
   color: var(--surf-ink);
   font-weight: var(--surf-weight-medium);
 }
@@ -3256,7 +3255,7 @@ body,
     border-radius: var(--surf-radius-full);
   }
   .catalog-navigation-toggle[aria-expanded='true'] {
-    background: var(--surf-selected);
+    background-color: var(--surf-selected);
   }
   .catalog-primary-scroll {
     grid-column: 1 / -1;

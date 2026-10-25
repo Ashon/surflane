@@ -95,6 +95,87 @@ assert(
 console.log(
   `@surflane: ${literalLengths.length} literal lengths remain (ceiling ${literalCeiling})`,
 )
+// Hover and pressed are one state layer painted as a background image over whatever
+// fill the control has, and selected or current fills set the colour alone. A
+// shorthand would replace the fill under the layer, or wipe the layer off a selection.
+const stateFills = [...typeSheets, 'demo/style.css'].flatMap((file) =>
+  readFileSync(file, 'utf8')
+    .split('\n')
+    .map((line, index) => [line.trim(), `${file}:${index + 1}`])
+    .filter(([line]) =>
+      /^(background(-color)?:\s*var\(--surf-interaction-(hover|active)-bg\)|background:\s*var\(--surf-selected\))/.test(
+        line,
+      ),
+    )
+    .map(([line, at]) => `${at} ${line}`),
+)
+assert.deepEqual(
+  stateFills,
+  [],
+  `State fills that replace the background instead of layering:\n${stateFills.join('\n')}`,
+)
+console.log(
+  '@surflane: hover and pressed layer over every fill, selections set the colour',
+)
+// Forced colors replace every token, so a selection drawn with --surf-selected alone
+// vanishes there. Each selected, current or pressed fill restates its state inside a
+// forced-colors block of the same sheet, and a Highlight fill opts out of forced
+// adjustment, or the system's Canvas backplate hides its HighlightText label.
+const forcedBlocks = (css) => {
+  const blocks = []
+  for (const match of css.matchAll(/@media \(forced-colors: active\) \{/g)) {
+    let depth = 1,
+      end = match.index + match[0].length
+    while (depth) depth += { '{': 1, '}': -1 }[css[end++]] ?? 0
+    blocks.push(css.slice(match.index, end))
+  }
+  return blocks.join('\n')
+}
+// Fills that mark something other than a selection the reader must find.
+const unforcedFills = new Set([
+  ".surf-button[data-variant='secondary']", // a variant, not a state
+  '.surf-menu-trigger[data-popup-open]', // the open menu shows it
+  '.surf-navigation-trigger[data-popup-open]', // the open popup shows it
+  '.surf-combobox-item[data-selected]', // its check shows it
+])
+const unforced = [],
+  backplated = []
+for (const file of typeSheets) {
+  const css = readFileSync(file, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '')
+  const forced = forcedBlocks(css)
+  for (const [, selectors] of css.matchAll(
+    /([^{}]+)\{[^{}]*background-color: var\(--surf-selected\);/g,
+  ))
+    for (const selector of selectors.split(',').map((s) => s.trim())) {
+      // The last state in the selector, or the selector itself for a fill that is
+      // the part's own surface.
+      const state =
+        selector.match(/(\[[^\]]+\]|:checked)(?!.*(\[|:checked))/)?.[1] ??
+        selector
+      if (!unforcedFills.has(selector) && !forced.includes(state))
+        unforced.push(`${file} ${selector}`)
+    }
+  for (const [rule] of forced.matchAll(/[^{}]+\{[^{}]*\}/g))
+    if (
+      /background(-color)?: Highlight;/.test(rule) &&
+      rule.includes('color: HighlightText') &&
+      !rule.includes('forced-color-adjust: none')
+    )
+      backplated.push(`${file} ${rule.split('{')[0].trim()}`)
+}
+assert.deepEqual(
+  unforced,
+  [],
+  `Selections with no forced-colors state:\n${unforced.join('\n')}`,
+)
+assert.deepEqual(
+  backplated,
+  [],
+  `Highlight fills left to forced adjustment:\n${backplated.join('\n')}`,
+)
+console.log(
+  '@surflane: every selection keeps a forced-colors state, Highlight fills opt out of the backplate',
+)
 // Every class a component stylesheet selects is one a component renders, so a renamed
 // part cannot leave rules behind.
 const cssOnlyClasses = new Set()

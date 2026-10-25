@@ -15,7 +15,7 @@
     min-width: 176px;
   }
   .surf-menu-trigger[data-popup-open] {
-    background: var(--surf-selected);
+    background-color: var(--surf-selected);
     border-color: var(--surf-control-border);
   }
   .surf-menu-item {

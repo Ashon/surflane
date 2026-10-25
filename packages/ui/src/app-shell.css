@@ -93,13 +93,19 @@
     transition: background-color var(--surf-duration-fast) var(--surf-ease-out);
   }
   .surf-app-shell-link:hover {
-    background: var(--surf-interaction-hover-bg);
+    background-image: linear-gradient(
+      var(--surf-interaction-hover-bg),
+      var(--surf-interaction-hover-bg)
+    );
   }
   .surf-app-shell-link:active:not([aria-current='page']) {
-    background: var(--surf-interaction-active-bg);
+    background-image: linear-gradient(
+      var(--surf-interaction-active-bg),
+      var(--surf-interaction-active-bg)
+    );
   }
   .surf-app-shell-link[aria-current='page'] {
-    background: var(--surf-selected);
+    background-color: var(--surf-selected);
     color: var(--surf-ink);
     font-weight: var(--surf-weight-medium);
   }
@@ -238,7 +244,9 @@
   }
   @media (forced-colors: active) {
     .surf-app-shell-link[aria-current='page'] {
-      outline: 1px solid Highlight;
+      background-color: Highlight;
+      color: HighlightText;
+      forced-color-adjust: none;
     }
   }
   /* Workspace variant: product sidebar owns the brand; the content scrollport is caller-provided. */

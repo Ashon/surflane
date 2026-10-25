@@ -115,9 +115,12 @@ test('Accordion uses ordinary Tab order, preserves mounted input and respects si
   await page
     .getByRole('checkbox', { name: 'Allow multiple sections', exact: true })
     .click()
-  expect(
-    await page.locator('.surf-accordion-trigger[aria-expanded="true"]').count(),
-  ).toBeLessThanOrEqual(1)
+  // Back to one section at a time: the first one opened stays open.
+  await expect(identity).toHaveAttribute('aria-expanded', 'true')
+  await expect(regions).toHaveAttribute('aria-expanded', 'false')
+  await regions.click()
+  await expect(regions).toHaveAttribute('aria-expanded', 'true')
+  await expect(identity).toHaveAttribute('aria-expanded', 'false')
 })
 test('Collapsible links trigger/panel, retains draft and handles disabled state without pretending to be a modal', async ({
   page,
