@@ -152,3 +152,131 @@ async function pixel(page: Page, x: number, y: number) {
     return [...context.getImageData(0, 0, 1, 1).data.slice(0, 3)]
   }, png.toString('base64'))
 }
+
+// Shadows vanish in forced colors, so every floating surface keeps a drawn edge
+// or, for the tooltip, an inverted fill.
+const popups: [string, string, (page: Page) => Promise<unknown>][] = [
+  [
+    '/components/menu',
+    '.surf-menu',
+    (p) => p.getByRole('button', { name: 'Open actions' }).click(),
+  ],
+  [
+    '/components/select',
+    '.surf-select-popup',
+    (p) =>
+      p.getByRole('combobox', { name: 'Environment', exact: true }).click(),
+  ],
+  [
+    '/components/combobox',
+    '.surf-combobox-popup',
+    async (p) => {
+      await p.getByRole('combobox', { name: 'Target environment' }).focus()
+      await p.keyboard.press('ArrowDown')
+    },
+  ],
+  [
+    '/components/popover',
+    '.surf-popover',
+    (p) => p.getByRole('button', { name: 'Inspect account' }).click(),
+  ],
+  [
+    '/components/dialog',
+    '.surf-dialog-popup',
+    (p) => p.getByRole('button', { name: 'Open deployment plan' }).click(),
+  ],
+  [
+    '/components/toast',
+    '.surf-toast',
+    (p) => p.getByRole('button', { name: 'Show success', exact: true }).click(),
+  ],
+]
+for (const [route, selector, open] of popups)
+  test(`${route}: the popup keeps an edge in forced colors`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ forcedColors: 'active' })
+    await page.goto(route)
+    await waitForCatalogReady(page)
+    await open(page)
+    const popup = page.locator(selector).first()
+    await expect(popup).toBeVisible()
+    await expect(popup).toHaveCSS('border-top-style', 'solid')
+    expect(
+      parseFloat(
+        await popup.evaluate((el) => getComputedStyle(el).borderTopWidth),
+      ),
+    ).toBeGreaterThanOrEqual(1)
+  })
+
+test('the tooltip inverts in forced colors', async ({ page }) => {
+  await page.emulateMedia({ forcedColors: 'active' })
+  await page.goto('/components/tooltip')
+  await waitForCatalogReady(page)
+  await page.getByRole('button', { name: 'Inspect logs' }).focus()
+  const tooltip = page.locator('.surf-tooltip')
+  await expect(tooltip).toBeVisible()
+  const highlight = await probe(page, 'CanvasText')
+  expect(await inside(page, tooltip)).toEqual(highlight)
+})
+
+test('a highlighted menu item draws an outline in forced colors', async ({
+  page,
+}) => {
+  await page.emulateMedia({ forcedColors: 'active' })
+  await page.goto('/components/menu')
+  await waitForCatalogReady(page)
+  await page.getByRole('button', { name: 'Open actions' }).focus()
+  await page.keyboard.press('Enter')
+  const item = page.getByRole('menuitem', { name: 'Inspect' })
+  await expect(item).toBeFocused()
+  await expect(item).toHaveCSS('outline-style', 'solid')
+  await expect(
+    page.getByRole('menuitem', { name: 'Export preview' }),
+  ).toHaveCSS('outline-style', 'none')
+})
+
+test('checked choices fill with Highlight and the slider fills its range in forced colors', async ({
+  page,
+}) => {
+  await page.emulateMedia({ forcedColors: 'active' })
+  await page.goto('/components/checkbox')
+  await waitForCatalogReady(page)
+  const highlight = await probe(page, 'Highlight')
+  const checked = page.locator('main .surf-checkbox[data-checked]').first(),
+    unchecked = page
+      .locator('main .surf-checkbox:not([data-checked], [data-indeterminate])')
+      .first()
+  // Above the check mark, inside the box.
+  const top = async (box: ReturnType<Page['locator']>) => {
+    await box.scrollIntoViewIfNeeded()
+    const rect = (await box.boundingBox())!
+    return pixel(
+      page,
+      Math.round(rect.x + rect.width / 2),
+      Math.round(rect.y + 3),
+    )
+  }
+  expect(await top(checked)).toEqual(highlight)
+  expect(await top(unchecked)).not.toEqual(highlight)
+  await page.goto('/components/slider')
+  await waitForCatalogReady(page)
+  // The range takes Highlight over a CanvasText track.
+  const system = (color: string) =>
+    page.evaluate((color) => {
+      const span = document.createElement('span')
+      span.style.backgroundColor = color
+      document.body.append(span)
+      const value = getComputedStyle(span).backgroundColor
+      span.remove()
+      return value
+    }, color)
+  await expect(page.locator('main .surf-slider-indicator').first()).toHaveCSS(
+    'background-color',
+    await system('Highlight'),
+  )
+  await expect(page.locator('main .surf-slider-track').first()).toHaveCSS(
+    'background-color',
+    await system('CanvasText'),
+  )
+})

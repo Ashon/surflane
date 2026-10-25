@@ -8,7 +8,7 @@ export const doc: ComponentDoc = {
     "Don't repeat the panel title in a compact chart. The chart keeps its title for assistive technology only.",
   ],
   keyboard:
-    'Each panel is a group named by its title, busy while it loads or refreshes. The info button opens the description in a popover; Escape closes it. Retry and the header actions are ordinary buttons.',
+    'Each panel is a group named by its title, busy while it loads or refreshes. The info button opens the description in a popover; Escape closes it. Retry and the header actions are ordinary buttons. When Retry clears the error and takes its button away, focus moves to the panel title.',
   anatomy:
     'Root(grid) → Panel: Card(role=group, aria-labelledby, aria-busy) → header(Title, info Popover?, Spinner?, actions?) + body(Skeleton | InlineMessage + Retry | empty text | children)',
   tokens: [

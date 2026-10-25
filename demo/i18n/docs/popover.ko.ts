@@ -5,7 +5,7 @@ export const doc: DocKo = {
   avoid:
     '필수 응답이나 데이터 손실 확인에는 Popover를 사용하지 마세요. 대신 AlertDialog를 사용하세요. Tooltip에 입력을 넣지 마세요. 대신 Popover를 사용하세요.',
   keyboard:
-    'Trigger가 popover를 열고 포커스를 안으로 이동시킵니다. Escape 또는 외부 클릭이 popover를 닫고 포커스를 Trigger로 되돌립니다.',
+    'Trigger가 popover를 열고 포커스를 안으로 이동시킵니다. Escape는 popover를 닫고 포커스를 Trigger로 되돌립니다. 바깥을 클릭하면 popover가 닫히고, 포커스는 클릭한 곳에 남습니다.',
   props: {
     'Content.side / align / sideOffset': 'Base UI positioner props',
     'Root.open / onOpenChange': '제어 popup 상태',

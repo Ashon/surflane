@@ -5,7 +5,7 @@ export const doc: ComponentDoc = {
   avoid:
     "Don't use Popover for required responses or data-loss confirmation. Use AlertDialog instead. Don't put inputs in a Tooltip. Use a Popover instead.",
   keyboard:
-    'The Trigger opens the popover and moves focus inside. Escape or an outside click closes it and returns focus to the Trigger.',
+    'The Trigger opens the popover and moves focus inside. Escape closes it and returns focus to the Trigger. An outside click closes it and leaves focus where the click put it.',
   anatomy:
     'Root → Trigger + Content(Portal + Positioner + Popup) → Title / Description / Close',
   tokens: [

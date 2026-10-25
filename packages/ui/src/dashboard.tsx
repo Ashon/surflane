@@ -116,6 +116,22 @@ const Panel = function DashboardPanel({
   const text = { ...panelLabels, ...labels }
   const id = React.useId()
   const busy = state === 'loading' || refreshing
+  const titleRef = React.useRef<HTMLHeadingElement>(null)
+  const retried = React.useRef(false)
+  // Retry takes its own button away when the panel leaves the error, so focus
+  // moves to the panel's title instead of falling to the page.
+  React.useEffect(() => {
+    if (!retried.current) return
+    retried.current = false
+    const active = document.activeElement
+    if (!active || active === document.body) titleRef.current?.focus()
+  }, [state])
+  const retry =
+    onRetry &&
+    (() => {
+      retried.current = true
+      onRetry()
+    })
   return (
     <Card.Root
       role='group'
@@ -129,7 +145,13 @@ const Panel = function DashboardPanel({
     >
       <div className='surf-dashboard-panel-header'>
         {/* A narrow panel cuts its title short; the full one shows on hover. */}
-        <Card.Title level={level} id={`${id}-title`} title={title}>
+        <Card.Title
+          level={level}
+          id={`${id}-title`}
+          title={title}
+          ref={titleRef}
+          tabIndex={-1}
+        >
           {title}
         </Card.Title>
         {description && (
@@ -180,7 +202,7 @@ const Panel = function DashboardPanel({
                 </InlineMessage.Description>
                 {onRetry && (
                   <InlineMessage.Actions>
-                    <Button variant='outline' size='small' onClick={onRetry}>
+                    <Button variant='outline' size='small' onClick={retry}>
                       {text.retry}
                     </Button>
                   </InlineMessage.Actions>
@@ -198,7 +220,7 @@ const Panel = function DashboardPanel({
               </InlineMessage.Description>
               {onRetry && (
                 <InlineMessage.Actions>
-                  <Button variant='outline' size='small' onClick={onRetry}>
+                  <Button variant='outline' size='small' onClick={retry}>
                     {text.retry}
                   </Button>
                 </InlineMessage.Actions>

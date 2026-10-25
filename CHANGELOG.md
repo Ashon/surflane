@@ -85,6 +85,8 @@ Deprecated in earlier minors and announced for removal:
 - The first control in a Sheet or Drawer body shows its whole focus ring.
 - Sheet and Drawer `side='left'` and `'right'` dock to that edge on right-to-left pages too.
 - DatePicker's trigger, month buttons and days, OTP fields at Small and the AppShell edge toggle reach 44px on touch.
+- Dashboard.Panel moves focus to its title when Retry clears the error and takes its own button away; focus fell to the page.
+- ScrollArea's scrollbar stops fading under reduced motion, as every other transition does.
 - On touch and narrow screens a checkbox, radio or switch without a ChoiceLabel, such as a Table or List row's selection checkbox, and a Tree item's disclosure button keep their size but take a `--surf-control-target-size` press around them. They took 20 and 32px.
 - `--surf-dialog-exit-duration` takes effect.
 - Tailwind `dark:` follows the system setting when the page sets no `data-theme`, as the tokens do.

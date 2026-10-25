@@ -577,3 +577,12 @@ test("a Fieldset's legend sits closer to its own fields than to the group above"
   expect(gaps.belowLegend).toBeCloseTo(gaps.fieldsetGap, 0)
   expect(gaps.belowLegend).toBeLessThan(gaps.formGap)
 })
+test('an Input error describes the field without joining its name', async ({
+  page,
+}) => {
+  await page.goto('/components/input')
+  await waitForCatalogReady(page)
+  const field = page.getByRole('textbox', { name: 'Project ID', exact: true })
+  await expect(field).toHaveAttribute('aria-invalid', 'true')
+  await expect(field).toHaveAccessibleDescription('Check the project ID.')
+})

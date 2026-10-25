@@ -214,6 +214,10 @@ test('mobile touch swipe dismisses the drawer', async ({ browser }) => {
       touchPoints: [],
     })
     await expect(drawer).toBeHidden()
+    // A swipe closes it like Escape: focus goes back to what opened it.
+    await expect(
+      page.getByRole('button', { name: 'Open bottom drawer', exact: true }),
+    ).toBeFocused()
   } finally {
     await context.close()
   }

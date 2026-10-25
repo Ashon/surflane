@@ -47,7 +47,8 @@
     gap: 24px;
     margin-bottom: 40px;
   }
-  label {
+  label,
+  .example-field {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -755,6 +756,16 @@ body,
 }
 .component-pagination a {
   max-width: 48%;
+}
+/* On touch and narrow screens the page's own links take a
+   --surf-control-target-size press, as Surflane's controls do. */
+@media (max-width: 760px), (pointer: coarse) {
+  :is(.page-toc, .component-meta, .component-pagination, .token-reference-links)
+    a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--surf-control-target-size);
+  }
 }
 .coverage-summary {
   display: flex;

@@ -351,3 +351,30 @@ for (const theme of ['light', 'dark'])
       '44px',
     )
   })
+test('the status region announces the selection, then the completion, once each', async ({
+  page,
+}) => {
+  await page.goto('/components/file-upload')
+  await waitForCatalogReady(page)
+  const status = primary(page).locator('.surf-feedback-sr[role="status"]')
+  // Record every text the live region takes.
+  await status.evaluate((region) => {
+    const said: string[] = ((window as any).said = [])
+    new MutationObserver(() => {
+      const text = region.textContent ?? ''
+      if (text && text !== said.at(-1)) said.push(text)
+    }).observe(region, { childList: true, characterData: true, subtree: true })
+  })
+  await picker(page).setInputFiles(file())
+  await expect(status).toHaveText('1 file selected.')
+  await page
+    .getByRole('button', { name: 'Upload evidence.json', exact: true })
+    .click()
+  await expect(status).toHaveText('evidence.json: upload complete.', {
+    timeout: 8000,
+  })
+  expect(await page.evaluate(() => (window as any).said)).toEqual([
+    '1 file selected.',
+    'evidence.json: upload complete.',
+  ])
+})

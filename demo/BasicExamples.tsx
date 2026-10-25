@@ -136,17 +136,21 @@ export function BasicExample({
             {t.readOnly}
             <Input readOnly value='demo-e2e-01' />
           </label>
-          <label>
-            {t.projectID}
-            <Input
-              placeholder='project-id'
-              aria-invalid='true'
-              aria-describedby='input-error'
-            />
+          {/* The error sits outside the label, so it describes the field
+              without becoming part of its name. */}
+          <div className='example-field'>
+            <label>
+              {t.projectID}
+              <Input
+                placeholder='project-id'
+                aria-invalid='true'
+                aria-describedby='input-error'
+              />
+            </label>
             <span id='input-error' className='field-error'>
               {t.checkProjectID}
             </span>
-          </label>
+          </div>
           <label>
             {t.disabled}
             <Input disabled placeholder={t.unavailable} />

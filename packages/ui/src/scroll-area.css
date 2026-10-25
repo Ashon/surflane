@@ -109,6 +109,11 @@
       pointer-events: none;
     }
   }
+  @media (prefers-reduced-motion: reduce) {
+    .surf-scrollbar {
+      transition: none;
+    }
+  }
   @media (forced-colors: active) {
     .surf-scrollbar {
       opacity: 1;

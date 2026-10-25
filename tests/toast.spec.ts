@@ -255,26 +255,41 @@ test('Touch swipe dismisses notifications in the configured direction', async ({
   const page = await context.newPage()
   await page.goto('http://127.0.0.1:8066/components/toast')
   await waitForCatalogReady(page)
-  await page
-    .getByRole('button', { name: 'Archive preview item', exact: true })
-    .tap()
-  const rect = (await visible(page).boundingBox())!
   const cdp = await context.newCDPSession(page)
-  await cdp.send('Input.dispatchTouchEvent', {
-    type: 'touchStart',
-    touchPoints: [{ x: rect.x + 80, y: rect.y + 22 }],
-  })
-  for (let distance = 30; distance <= 180; distance += 30) {
+  // Swipes the visible notification sideways by `direction` times 180px.
+  const swipe = async (direction: 1 | -1) => {
+    const rect = (await visible(page).boundingBox())!
+    const x = rect.x + rect.width / 2,
+      y = rect.y + 22
     await cdp.send('Input.dispatchTouchEvent', {
-      type: 'touchMove',
-      touchPoints: [{ x: rect.x + 80 + distance, y: rect.y + 22 }],
+      type: 'touchStart',
+      touchPoints: [{ x, y }],
+    })
+    for (let distance = 30; distance <= 180; distance += 30)
+      await cdp.send('Input.dispatchTouchEvent', {
+        type: 'touchMove',
+        touchPoints: [{ x: x + direction * distance, y }],
+      })
+    await cdp.send('Input.dispatchTouchEvent', {
+      type: 'touchEnd',
+      touchPoints: [],
     })
   }
-  await cdp.send('Input.dispatchTouchEvent', {
-    type: 'touchEnd',
-    touchPoints: [],
+  const archive = page.getByRole('button', {
+    name: 'Archive preview item',
+    exact: true,
   })
+  await archive.tap()
+  await swipe(1)
   await expect(visible(page)).toHaveCount(0)
+  // Right to left the swipe mirrors: left dismisses, right does not.
+  await page.getByRole('checkbox', { name: 'RTL notifications' }).check()
+  await archive.tap()
+  await swipe(-1)
+  await expect(visible(page)).toHaveCount(0)
+  await archive.tap()
+  await swipe(1)
+  await expect(visible(page)).toHaveCount(1)
   await context.close()
 })
 test('Window blur pauses dismissal and focus resumes it', async ({ page }) => {
