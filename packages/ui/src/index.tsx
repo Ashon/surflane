@@ -420,7 +420,14 @@ export {
   type TableSelectionOptions,
   type TableSelectionCheckbox,
 } from './table.js'
-export { CodeBlock, type CodeBlockProps, type CodeBlockLabels } from './code.js'
+export {
+  CodeBlock,
+  CopyButton,
+  type CodeBlockProps,
+  type CodeBlockLabels,
+  type CopyButtonProps,
+  type CopyButtonLabels,
+} from './code.js'
 export {
   SyntaxHighlighter,
   syntaxLanguages,

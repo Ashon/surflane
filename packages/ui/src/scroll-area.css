@@ -42,6 +42,18 @@
       #000 var(--surf-space-6)
     );
   }
+  /* Start and end are logical: right to left, the end that hides content is the
+     left edge, and the start the right. */
+  .surf-scroll-root:dir(rtl)[data-overflow-x-end] > .surf-scroll-viewport {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 var(--surf-space-6)
+    );
+  }
+  .surf-scroll-root:dir(rtl)[data-overflow-x-start] > .surf-scroll-viewport {
+    mask-image: linear-gradient(to left, transparent, #000 var(--surf-space-6));
+  }
   .surf-scroll-root[data-overflow-x-start][data-overflow-x-end]
     > .surf-scroll-viewport {
     mask-image: linear-gradient(
@@ -84,13 +96,15 @@
     left: 0;
     right: 0;
   }
+  /* The vertical bar sits at the inline end: the right, or the left right to left,
+     where a page's own scrollbar sits. */
   .surf-scrollbar[data-orientation='vertical'] {
     flex-direction: column;
     width: calc(var(--surf-scrollbar-indicator-size) + 4px);
     position: absolute;
     top: 0;
     bottom: 0;
-    right: 0;
+    inset-inline-end: 0;
   }
   .surf-scroll-thumb {
     flex: none;

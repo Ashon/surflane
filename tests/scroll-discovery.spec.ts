@@ -155,3 +155,27 @@ test.describe('touch scrollbar', () => {
     expect(box.height).toBeGreaterThan(20)
   })
 })
+
+test('right to left, the vertical bar sits at the left and the fade marks the end that hides content', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/components/scroll-area')
+  await waitForCatalogReady(page)
+  const root = page.locator('main .surf-scroll-root').first()
+  const viewport = root.locator('> .surf-scroll-viewport')
+  const bar = root.locator('> .surf-scrollbar[data-orientation="vertical"]')
+  const mask = () => viewport.evaluate((el) => getComputedStyle(el).maskImage)
+  // Left to right, content hides past the right edge, which fades.
+  await expect(root).toHaveAttribute('data-overflow-x-end')
+  expect(await mask()).toContain('to left')
+  await page.getByRole('button', { name: 'Right to left' }).click()
+  await expect(root).toHaveCSS('direction', 'rtl')
+  await expect(root).toHaveAttribute('data-overflow-x-end')
+  expect(await mask()).toContain('to right')
+  const [box, track] = await Promise.all([
+    root.boundingBox(),
+    bar.boundingBox(),
+  ])
+  expect(Math.round(track!.x)).toBe(Math.round(box!.x))
+})

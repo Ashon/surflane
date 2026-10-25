@@ -18,6 +18,7 @@
 - Select `onValueChange` passes Base UI's `eventDetails`, as RadioGroup and Combobox do; `eventDetails.cancel()` keeps the current value. A form reset reports details that can't be canceled.
 - `Sheet.Content` and `Drawer.Content` take `focusBoundaryLabel`, which names their focus guards for VoiceOver as Dialog's are named.
 - `Card.Root` takes `size`, as its parts do.
+- `CopyButton` (from `@surflane/ui` and `@surflane/ui/code`) copies text and says what happened in its own label, the result in place of the action for 2 seconds as a polite live region. It takes `value` (text, or a function that returns it), `labels`, `onCopy` and `onResult`, and Button's `size` and `variant`. CodeBlock's copy button is a CopyButton.
 - `PageHeader lead` sets the description as the page's lead, in the reading role at the reading measure, for a document that opens with it.
 - Textarea `variant='embedded'` fills the pane it sits in, such as an editor beside a preview: no edge or corners of its own, focus as a 2px ring inside it, and an invalid value as an edge inside it.
 - Text `variant='compact'`: the 13/20px compact role, under the name the type scale uses.
@@ -98,6 +99,8 @@ Deprecated in earlier minors and announced for removal:
 - DatePicker's trigger, month buttons and days, OTP fields at Small and the AppShell edge toggle reach 44px on touch.
 - Popups follow `DirectionProvider` inside a right-to-left region: Menu, ContextMenu, Select, Combobox, Autocomplete, Popover, PreviewCard, Tooltip, NavigationMenu, Toast, Dialog, AlertDialog, Sheet and Drawer set `dir='rtl'` on what they portal. Their text ran left to right, and an aligned popup took its start and end from the page instead.
 - A keyboard-focused range start or end in the calendar rings in `--surf-on-brand`, 4.4:1 on its fill in light and 9.9:1 in dark. In dark the ring matched the fill. Other selected days keep the shared focus color.
+- Right to left, a ScrollArea puts its vertical bar on the left, where the page's own bar sits, and fades the edge that actually hides content; the bar sat on the right and the fade on the opposite edge. Chart's legend moves to the inline end of its key; it stayed beside the title.
+- A copy button is as wide as its longest label, so a longer result such as Copy unavailable no longer widens it and moves the toolbar.
 - Dashboard.Panel moves focus to its title when Retry clears the error and takes its own button away; focus fell to the page.
 - ScrollArea's scrollbar stops fading under reduced motion, as every other transition does.
 - On touch and narrow screens a checkbox, radio or switch without a ChoiceLabel, such as a Table or List row's selection checkbox, and a Tree item's disclosure button keep their size but take a `--surf-control-target-size` press around them. They took 20 and 32px.

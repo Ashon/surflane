@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import catalog from '@surflane/design-tokens/catalog.json'
-import { Input, Select, Button, Text } from '@surflane/ui'
+import { Input, Select, Button, Text, CopyButton } from '@surflane/ui'
 import { codeText } from './codeText'
 import { FoundationPage, FoundationSection } from './FoundationPage'
 import { useLocale } from './i18n'
@@ -81,15 +81,7 @@ function Browser({ initialQuery }: { initialQuery: string }) {
   const t = text[useLocale().locale]
   const [query, setQuery] = useState(initialQuery),
     [category, setCategory] = useState('all'),
-    [limit, setLimit] = useState(24),
-    // The copy result shows in the token's own button, then returns to the action.
-    [copied, setCopied] = useState<{ name: string; ok: boolean } | null>(null),
-    [used, setUsed] = useState(false)
-  useEffect(() => {
-    if (!copied) return
-    const timer = setTimeout(() => setCopied(null), 2000)
-    return () => clearTimeout(timer)
-  }, [copied])
+    [limit, setLimit] = useState(24)
   useEffect(() => {
     setQuery(initialQuery)
     setCategory('all')
@@ -107,7 +99,6 @@ function Browser({ initialQuery }: { initialQuery: string }) {
   const changeQuery = (value: string) => {
     setQuery(value)
     setLimit(24)
-    setCopied(null)
   }
   return (
     <>
@@ -129,7 +120,6 @@ function Browser({ initialQuery }: { initialQuery: string }) {
             onValueChange={(value) => {
               setCategory(value)
               setLimit(24)
-              setCopied(null)
             }}
             options={[
               { value: 'all', label: t.allCategories },
@@ -211,43 +201,17 @@ function Browser({ initialQuery }: { initialQuery: string }) {
                 )}
               </details>
             </div>
-            <Button
-              variant='outline'
-              size='small'
+            {/* The result shows in the token's own button, then the action returns. */}
+            <CopyButton
               className='token-copy'
-              data-copy-used={used || undefined}
+              value={`var(${token.name})`}
               aria-label={t.copyLabel(token.name)}
-              data-copy-state={
-                copied?.name === token.name
-                  ? copied.ok
-                    ? 'copied'
-                    : 'failed'
-                  : undefined
-              }
-              onClick={async () => {
-                let ok = true
-                try {
-                  await navigator.clipboard.writeText(`var(${token.name})`)
-                } catch {
-                  ok = false
-                }
-                setUsed(true)
-                setCopied({ name: token.name, ok })
+              labels={{
+                copy: t.copy,
+                copied: t.copied,
+                copyError: t.unavailable,
               }}
-            >
-              <span aria-live='polite'>
-                <span
-                  key={copied?.name === token.name ? String(copied.ok) : 'idle'}
-                  className='surf-code-copy-label'
-                >
-                  {copied?.name !== token.name
-                    ? t.copy
-                    : copied.ok
-                      ? t.copied
-                      : t.unavailable}
-                </span>
-              </span>
-            </Button>
+            />
           </article>
         ))}
       </div>

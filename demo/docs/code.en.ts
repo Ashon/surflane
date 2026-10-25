@@ -8,7 +8,7 @@ export const doc: ComponentDoc = {
     "Don't treat a rejected clipboard write as success. Let a custom onCopy throw or reject on failure, so the button shows Copy unavailable.",
   ],
   anatomy:
-    'Root → toolbar(label + language + copy action, which also shows the result) + labeled ScrollArea(pre/code)',
+    'Root → toolbar(label + language + CopyButton, which also shows the result) + labeled ScrollArea(pre/code). CopyButton also stands alone beside any value.',
   keyboard: [
     'Tab reaches the copy button and the scroll area.',
     'Enter or Space copies. The result replaces the button label in place, so nothing else moves: Copied on success, Copy unavailable on failure.',
@@ -48,6 +48,21 @@ export const doc: ComponentDoc = {
       'labels',
       '{ copy, copied, copyError }: the localized action and short in-button results',
       'Copy code / Copied / Copy unavailable',
+    ],
+    [
+      'CopyButton.value',
+      'the text to copy, or a function that returns it, or a promise of it, when pressed',
+      'required',
+    ],
+    [
+      'CopyButton.labels / onCopy',
+      'as on CodeBlock; the action defaults to Copy',
+      'Copy / Copied / Copy unavailable',
+    ],
+    [
+      'CopyButton.onResult',
+      "hears 'copied' or 'failed' after each press, such as to select the source after a failure",
+      '—',
     ],
   ],
 }

@@ -107,10 +107,8 @@ export function InteractionLab({ toggleTheme }: { toggleTheme: () => void }) {
             </Menu.Trigger>
             <Menu.Portal>
               <Menu.Content>
-                <Menu.Item className='surf-select-item'>{t.inspect}</Menu.Item>
-                <Menu.Item className='surf-select-item'>
-                  {t.exportAction}
-                </Menu.Item>
+                <Menu.Item>{t.inspect}</Menu.Item>
+                <Menu.Item>{t.exportAction}</Menu.Item>
               </Menu.Content>
             </Menu.Portal>
           </Menu.Root>

@@ -176,6 +176,35 @@ assert.deepEqual(
 console.log(
   '@surflane: every selection keeps a forced-colors state, Highlight fills opt out of the backplate',
 )
+// Sides follow the reading direction: logical properties, so a right-to-left page
+// mirrors. These few are physical on purpose.
+const physicalSides = new Set([
+  'packages/ui/src/dialog.css left: 50%;', // centered, either way
+  'packages/ui/src/panel.css margin-left: auto;', // side='right' docks right
+  'packages/ui/src/panel.css margin-right: auto;', // side='left' docks left
+  'packages/ui/src/scroll-area.css left: 0;', // a horizontal bar spans the width
+  'packages/ui/src/scroll-area.css right: 0;',
+  'packages/ui/src/tabs.css left: var(--active-tab-left);', // Base UI measures it
+])
+const physical = typeSheets.flatMap((file) =>
+  readFileSync(file, 'utf8')
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .split('\n')
+    .map((line) => line.trim())
+    .filter((line) =>
+      /^((margin|padding|border)-(left|right)\b|(left|right):|text-align:\s*(left|right)|float:|margin:\s*\S+\s+\S+\s+\S+\s+auto;)/.test(
+        line,
+      ),
+    )
+    .map((line) => `${file} ${line}`)
+    .filter((entry) => !physicalSides.has(entry)),
+)
+assert.deepEqual(
+  physical,
+  [],
+  `Physical sides that won't mirror right to left:\n${physical.join('\n')}`,
+)
+console.log('@surflane: sides are logical, apart from 6 deliberate ones')
 // Every class a component stylesheet selects is one a component renders, so a renamed
 // part cannot leave rules behind.
 const cssOnlyClasses = new Set()
@@ -204,6 +233,7 @@ console.log(
 // misspelled or missing class fails here instead of changing what the reader sees.
 // Hooks name a part for apps and tests to select; the classes beside them style it.
 const hookClasses = new Set([
+  'surf-code-copy',
   'surf-combobox-section',
   'surf-date-range-picker',
   'surf-meter',

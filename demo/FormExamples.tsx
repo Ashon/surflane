@@ -6,6 +6,7 @@ import {
   Field,
   Fieldset,
   Form,
+  Stack,
   Textarea,
   Checkbox,
   CheckboxGroup,
@@ -159,7 +160,7 @@ export function FormExample({ id }: { id: string }) {
     case 'checkbox':
       example = (
         <Form onSubmit={submitNative}>
-          <div className='surf-choice-group'>
+          <Stack gap={2}>
             <ChoiceLabel
               control={
                 <Checkbox.Root
@@ -203,7 +204,7 @@ export function FormExample({ id }: { id: string }) {
             >
               {t.unavailableOption}
             </ChoiceLabel>
-          </div>
+          </Stack>
           {buttons}
         </Form>
       )
@@ -300,7 +301,7 @@ export function FormExample({ id }: { id: string }) {
     case 'switch':
       example = (
         <Form onSubmit={submitNative}>
-          <div className='surf-choice-group'>
+          <Stack gap={2}>
             <ChoiceLabel
               control={
                 <Switch.Root
@@ -333,7 +334,7 @@ export function FormExample({ id }: { id: string }) {
             >
               {t.unavailableSetting}
             </ChoiceLabel>
-          </div>
+          </Stack>
           <p className='catalog-preview-note'>
             {t.settingsChangeOnlyInPreview}
           </p>

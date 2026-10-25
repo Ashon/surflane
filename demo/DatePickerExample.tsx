@@ -100,8 +100,10 @@ export function DatePickerExample() {
       </div>
       <DateLocaleProvider locale={locale}>
         <div lang={locale} dir={locale.startsWith('ar') ? 'rtl' : 'ltr'}>
+          {/* A native form: the date fields take part in the browser's own
+              validation, which Form, built for Field, turns off. */}
           <form
-            className='surf-form'
+            className='date-native-form'
             aria-label={t.dateTimePreview}
             onSubmit={(event) => {
               event.preventDefault()
@@ -231,7 +233,7 @@ export function DatePickerExample() {
             </p>
           </form>
           <section
-            className='surf-stack date-time-resolution'
+            className='date-time-resolution'
             aria-labelledby='local-time-heading'
           >
             <h3 id='local-time-heading'>{t.resolveLocalTimeHeading}</h3>

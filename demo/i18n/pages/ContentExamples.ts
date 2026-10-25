@@ -34,6 +34,7 @@ const en = {
   runnerTask: 'Runner task',
   unavailableClipboardExample: 'Unavailable clipboard example',
   tryUnavailableClipboard: 'Try unavailable clipboard',
+  copyInstallCommand: 'Copy command',
   deniedInLocalExample: 'Denied in local example',
 }
 export const text: Record<Locale, typeof en> = {
@@ -73,6 +74,7 @@ export const text: Record<Locale, typeof en> = {
     runnerTask: '러너 작업',
     unavailableClipboardExample: '클립보드 사용 불가 예시',
     tryUnavailableClipboard: '사용 불가 클립보드 시도',
+    copyInstallCommand: '명령 복사',
     deniedInLocalExample: '로컬 예시에서 거부됨',
   },
 }

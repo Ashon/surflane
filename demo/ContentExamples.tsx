@@ -6,6 +6,7 @@ import {
   List,
   StatusBadge,
   Input,
+  CopyButton,
 } from '@surflane/ui'
 import { CatalogCodeBlock as CodeBlock } from './CatalogCodeBlock'
 import { useLocale, useMessages } from './i18n'
@@ -102,6 +103,7 @@ function PaginationExample() {
 }
 export function ContentExample({ id }: { id: string }) {
   const t = text[useLocale().locale]
+  const messages = useMessages()
   const [wrap, setWrap] = useState(false),
     [revision, setRevision] = useState(1),
     [notice, setNotice] = useState('')
@@ -161,6 +163,14 @@ export function ContentExample({ id }: { id: string }) {
         }}
         labels={{ copy: t.tryUnavailableClipboard }}
       />
+      {/* CopyButton on its own: the same action and result beside any value. */}
+      <div className='actions'>
+        <code>npm install @surflane/ui</code>
+        <CopyButton
+          value='npm install @surflane/ui'
+          labels={{ ...messages.codeBlock, copy: t.copyInstallCommand }}
+        />
+      </div>
     </div>
   )
 }

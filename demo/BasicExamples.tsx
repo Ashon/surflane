@@ -462,8 +462,9 @@ export function BasicExample({
     default:
       return null
   }
-  // Popups place themselves by reading direction: these previews can switch it.
-  if (id === 'select' || id === 'menu')
+  // Popups and scrollers place themselves by reading direction: these previews can
+  // switch it.
+  if (id === 'select' || id === 'menu' || id === 'scroll-area')
     example = (
       <>
         <Toggle pressed={rtl} onPressedChange={setRtl}>

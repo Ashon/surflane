@@ -21,5 +21,11 @@ export const doc: DocKo = {
     wrap: '긴 소스 줄을 시각적으로 줄바꿈',
     onCopy: '선택적 클립보드 작성자 (text) => void | Promise<void>',
     labels: '{ copy, copied, copyError }: 현지화된 액션과 버튼 안의 짧은 결과',
+    'CopyButton.value':
+      '복사할 텍스트, 또는 누를 때 그것을 돌려주는 함수나 그 promise',
+    'CopyButton.labels / onCopy':
+      'CodeBlock과 같습니다. 액션의 기본값은 Copy입니다',
+    'CopyButton.onResult':
+      "누를 때마다 'copied' 또는 'failed'를 받습니다. 실패한 뒤 원문을 선택할 때 씁니다",
   },
 }

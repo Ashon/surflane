@@ -42,12 +42,14 @@
     align-items: center;
     gap: 0 var(--surf-space-4);
   }
+  /* The legend takes the inline end of the key: the right, or the left right to left. */
   .surf-chart-legend {
     display: flex;
     flex-wrap: wrap;
     gap: var(--surf-space-1) var(--surf-space-2);
     padding: 0;
-    margin: 0 0 0 auto;
+    margin: 0;
+    margin-inline-start: auto;
     list-style: none;
   }
   .surf-chart-mark {

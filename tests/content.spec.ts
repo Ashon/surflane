@@ -302,3 +302,42 @@ test('Pagination bounds and a very large page count produce a finite window with
     page.getByRole('link', { name: 'Previous page', disabled: true }),
   ).toHaveCount(1)
 })
+
+for (const works of [true, false])
+  test(`CopyButton on its own ${works ? 'copies its value' : 'reports a refused clipboard'}, keeps its width and returns to the action`, async ({
+    page,
+  }) => {
+    await page.clock.install()
+    await page.addInitScript((works) => {
+      Object.defineProperty(navigator, 'clipboard', {
+        configurable: true,
+        value: {
+          writeText: async (text: string) => {
+            if (!works) throw new Error('denied')
+            ;(window as any).copied = text
+          },
+        },
+      })
+    }, works)
+    await page.goto('/components/code')
+    await waitForCatalogReady(page)
+    // Its name is its label, which becomes the result, so find it by place.
+    const button = page.locator('main .actions .surf-copy-button')
+    await expect(button).toHaveAccessibleName('Copy command')
+    const width = (await button.boundingBox())!.width
+    await button.focus()
+    await page.keyboard.press('Enter')
+    await expect(button).toHaveText(works ? 'Copied' : 'Copy unavailable')
+    await expect(button).toHaveAttribute(
+      'data-copy-state',
+      works ? 'copied' : 'failed',
+    )
+    if (works)
+      expect(await page.evaluate(() => (window as any).copied)).toBe(
+        'npm install @surflane/ui',
+      )
+    expect((await button.boundingBox())!.width).toBe(width)
+    await expect(button).toBeFocused()
+    await page.clock.runFor(2_000)
+    await expect(button).toHaveText('Copy command')
+  })

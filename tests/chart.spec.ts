@@ -472,3 +472,25 @@ test('compact keeps the plot and legend and leaves the caption and readout to as
   await figure.getByText('View data table', { exact: true }).click()
   await expect(figure.getByRole('table')).toHaveCount(1)
 })
+test('right to left, the legend moves to the inline end of the key', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.goto('/components/chart')
+  await waitForCatalogReady(page)
+  const chart = page.locator('main .surf-chart').first()
+  const edges = () =>
+    chart.evaluate((el) => {
+      const key = el.querySelector('.surf-chart-key')!.getBoundingClientRect()
+      const legend = el
+        .querySelector('.surf-chart-legend')!
+        .getBoundingClientRect()
+      return {
+        right: Math.round(key.right - legend.right),
+        left: Math.round(legend.left - key.left),
+      }
+    })
+  expect((await edges()).right).toBe(0)
+  await chart.evaluate((el) => el.setAttribute('dir', 'rtl'))
+  expect((await edges()).left).toBe(0)
+})
