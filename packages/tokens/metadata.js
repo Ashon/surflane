@@ -21,7 +21,7 @@ export function category(prefixed) {
   if (/^--(duration|ease|motion|dialog-|toast-|theme-transition)/.test(name))
     return 'Motion'
   if (/^--layer-/.test(name)) return 'Layers'
-  if (/^--(size-|control|menu|interaction|scrollbar)/.test(name))
+  if (/^--(size-|control|menu|interaction|scrollbar|focus-ring)/.test(name))
     return 'Controls'
   if (
     /^--(layout|sheet-inset|collection|page-header|grid-cell|grid-major-cell|grid-base|grid-halo|veil)/.test(
@@ -35,16 +35,20 @@ export function type(prefixed) {
   const name = bare(prefixed)
   if (/^--(font|weight|tracking|type)/.test(name)) return 'typography'
   if (
-    /^(--chrome|--canvas|--surface|--code-bg|--hover|--selected|--line|--ink.*|--syntax-.+|--brand.*|--on-brand|--success|--caution|--danger|--info|--trend-(up|down)|--grid-minor|--grid-major|--guide|--skeleton.*)$/.test(
+    /^(--chrome|--canvas|--surface|--plane|--recessed|--code-bg|--hover|--selected|--selected-edge|--slider-track|--line|--ink.*|--syntax-.+|--brand.*|--on-brand|--success|--caution|--danger|--info|--trend-(up|down)|--grid-minor|--grid-major|--guide|--skeleton.*)$/.test(
       name,
     ) ||
-    /--(status-.+-(fg|bg|border)|badge-.+-bg|menu-.+|tooltip-.+|chart-series-\d+|chart-category-\d+|trend-(up|down)-(fg|bg)|trend-flat-fg|selection-(background|foreground)|interaction-.+|control-(border|background|hover-.+|focus.*|placeholder|disabled-background|choice-(border|hover-border|selected-.+))|scrollbar-(track|thumb.*))$/.test(
+    /--(status-.+-(fg|bg|border)|badge-.+-bg|menu-.+|tooltip-.+|chart-series-\d+|chart-category-\d+|trend-(up|down)-(fg|bg)|trend-flat-fg|selection-(background|foreground)|interaction-.+|control-(border|background|hover-.+|focus(-ring|-background)?|placeholder|disabled-background|choice-(border|hover-border|selected-.+))|scrollbar-(track|thumb.*))$/.test(
       name,
     )
   )
     return 'color'
   if (/^--shadow/.test(name)) return 'shadow'
-  if (/duration|^--duration|^--motion-(feedback|reveal|enter|exit)$/.test(name))
+  if (
+    /duration|^--duration|^--motion-(feedback|reveal|enter|exit|spin|pulse)$/.test(
+      name,
+    )
+  )
     return 'duration'
   return 'value'
 }
@@ -102,8 +106,12 @@ export const descriptions = {
     'The edge of a selected row: the focus color, faint, over --surf-selected',
   '--surf-brand-mark':
     'Brand as a mark on the sheet, such as a progress fill; darker in light themes for 3:1',
+  '--surf-plane':
+    'The plane a component sits on: the canvas on the sheet, the surface inside a Card or Surface',
+  '--surf-recessed':
+    'One step recessed from --surf-plane: tracks, read-only values, tab lists and toolbars',
   '--surf-slider-track':
-    "A slider's track, the surface plane under its brand-mark fill",
+    'Deprecated: a slider track is --surf-recessed, which follows its plane',
   '--surf-type-display-size': 'Fluid 32–40px page title',
   '--surf-type-title-size': 'Fluid 28–32px heading',
   '--surf-type-workspace-title-size': 'Earlier name for the display size',

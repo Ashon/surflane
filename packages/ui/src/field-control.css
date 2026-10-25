@@ -47,7 +47,10 @@
       [aria-disabled='true'],
       :focus-visible
     ) {
-    background: var(--surf-control-hover-background);
+    background-image: linear-gradient(
+      var(--surf-interaction-hover-bg),
+      var(--surf-interaction-hover-bg)
+    );
     border-color: var(--surf-control-hover-border);
   }
   .surf-input:focus,
@@ -61,14 +64,14 @@
   .surf-select-trigger:disabled {
     opacity: var(--surf-control-disabled-opacity);
     cursor: not-allowed;
-    background: var(--surf-control-disabled-background);
+    background: var(--surf-recessed);
   }
-  /* Read-only shows a value, not a box to type in: the value sits on the surface
-     plane without the field's border. Its text stays at full ink, apart from a
-     disabled field, and focus still rings it, so the value stays copyable. */
+  /* Read-only shows a value, not a box to type in: the value sits on the recessed
+     step of its plane without the field's border. Its text stays at full ink, apart
+     from a disabled field, and focus still rings it, so the value stays copyable. */
   .surf-input[readonly]:not(:focus, [aria-invalid='true']) {
     border-color: transparent;
-    background: var(--surf-surface);
+    background: var(--surf-recessed);
   }
   /* An invalid field keeps its edge while hovered; hover still tints the fill. */
   .surf-input[aria-invalid='true'],

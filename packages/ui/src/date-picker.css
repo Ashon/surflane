@@ -36,7 +36,10 @@
   }
   :is(.surf-date-picker, .surf-time-field):not([data-disabled], [data-readonly])
     .surf-date-group:hover:not([data-focus-within], :focus-within) {
-    background: var(--surf-control-hover-background);
+    background-image: linear-gradient(
+      var(--surf-interaction-hover-bg),
+      var(--surf-interaction-hover-bg)
+    );
     border-color: var(--surf-control-hover-border);
   }
   .surf-date-group[data-focus-within],
@@ -60,14 +63,14 @@
   :is(.surf-date-picker, .surf-time-field)[data-disabled] .surf-date-group {
     opacity: var(--surf-control-disabled-opacity);
     cursor: not-allowed;
-    background: var(--surf-control-disabled-background);
+    background: var(--surf-recessed);
   }
-  /* Read-only shows a value, not a box to type in: it sits on the surface plane
+  /* Read-only shows a value, not a box to type in: it sits on the recessed step
      without the field's border, as text fields do. */
   :is(.surf-date-picker, .surf-time-field)[data-readonly]:not([data-invalid])
     .surf-date-group:not([data-focus-within], :focus-within) {
     border-color: transparent;
-    background: var(--surf-surface);
+    background: var(--surf-recessed);
   }
   .surf-date-input {
     display: flex;
@@ -78,6 +81,11 @@
     font: var(--surf-weight-regular)
       var(--surf-type-body-size)/var(--surf-type-body-leading)
       var(--surf-font-body);
+    /* iOS zooms the page into a focused segment whose text is under 16px. */
+    font-size: max(
+      var(--surf-control-text-min-size),
+      var(--surf-type-body-size)
+    );
     white-space: nowrap;
   }
   .surf-date-segment {
@@ -133,13 +141,19 @@
   :is(.surf-date-trigger, .surf-calendar-nav)[data-hovered]:not(
       [data-disabled]
     ) {
-    background: var(--surf-selected);
+    background-image: linear-gradient(
+      var(--surf-interaction-hover-bg),
+      var(--surf-interaction-hover-bg)
+    );
   }
   :is(.surf-date-trigger, .surf-calendar-nav)[data-focus-visible] {
     outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
     outline-offset: var(--surf-focus-ring-offset);
   }
-  :is(.surf-date-trigger, .surf-calendar-nav)[data-disabled] {
+  /* A disabled field has faded its trigger with the group already. */
+  :is(.surf-date-trigger, .surf-calendar-nav)[data-disabled]:not(
+      [data-disabled] *
+    ) {
     opacity: var(--surf-control-disabled-opacity);
     cursor: not-allowed;
   }
@@ -150,9 +164,9 @@
     overflow: auto;
     overscroll-behavior: contain;
     padding: var(--surf-space-2);
-    border: 1px solid var(--surf-line);
+    border: 1px solid var(--surf-menu-border);
     border-radius: var(--surf-radius-lg);
-    background: var(--surf-canvas);
+    background: var(--surf-menu-background);
     color: var(--surf-ink);
     box-shadow: var(--surf-shadow-float);
     z-index: var(--surf-layer-popup);
@@ -209,19 +223,19 @@
     outline: none;
     font-variant-numeric: tabular-nums;
   }
-  .surf-calendar-day[data-hovered]:not(
-      [data-disabled],
-      [data-unavailable],
-      [data-selected]
-    ) {
-    background: var(--surf-hover);
+  /* Hover is a layer, over a selected day's fill too. */
+  .surf-calendar-day[data-hovered]:not([data-disabled], [data-unavailable]) {
+    background-image: linear-gradient(
+      var(--surf-interaction-hover-bg),
+      var(--surf-interaction-hover-bg)
+    );
   }
   .surf-calendar-day[data-selected] {
-    background: var(--surf-selected);
+    background-color: var(--surf-selected);
     color: var(--surf-ink);
   }
   .surf-calendar-day:is([data-selection-start], [data-selection-end]) {
-    background: var(--surf-brand-mark);
+    background-color: var(--surf-brand-mark);
     color: var(--surf-on-brand);
   }
   .surf-calendar-day[data-focus-visible] {
@@ -243,12 +257,12 @@
   @media (max-width: 760px), (pointer: coarse) {
     .surf-date-trigger,
     .surf-calendar-nav {
-      width: 40px;
-      height: 40px;
-      min-width: 40px;
+      width: var(--surf-control-target-size);
+      height: var(--surf-control-target-size);
+      min-width: var(--surf-control-target-size);
     }
     .surf-calendar-day {
-      min-height: 40px;
+      min-height: var(--surf-control-target-size);
     }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -292,7 +306,7 @@
     .surf-date-input,
     .surf-date-segment
   ) {
-    font-size: var(--surf-ui-font);
+    font-size: max(var(--surf-control-text-min-size), var(--surf-ui-font));
     line-height: var(--surf-ui-leading);
   }
   :where([data-ui-size], [data-ui-size] *):is(.surf-date-trigger) > svg {

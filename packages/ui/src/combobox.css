@@ -69,11 +69,16 @@
     outline: none;
     overflow-wrap: anywhere;
   }
+  /* The highlight is a layer over the selected fill, so the keyboard position
+     shows on a chosen option too. */
   .surf-combobox-item[data-highlighted] {
-    background: var(--surf-menu-hover-background);
+    background-image: linear-gradient(
+      var(--surf-interaction-hover-bg),
+      var(--surf-interaction-hover-bg)
+    );
   }
   .surf-combobox-item[data-selected] {
-    background: var(--surf-selected);
+    background-color: var(--surf-selected);
   }
   .surf-combobox-item[data-disabled] {
     opacity: var(--surf-control-disabled-opacity);

@@ -145,7 +145,8 @@ test('toast expansion keeps grid and animates continuous card positions', async 
   const viewport = page.locator('.surf-toast-viewport')
   const cards = viewport.locator('.surf-toast:not([data-limited])')
   await expect(cards).toHaveCount(3)
-  await expect(cards.first()).toHaveCSS('border-top-width', '0px')
+  // No backdrop sets a toast apart from the page, so it keeps the floating edge.
+  await expect(cards.first()).toHaveCSS('border-top-width', '1px')
   expect(
     await cards.first().evaluate((el) => getComputedStyle(el).boxShadow),
   ).not.toBe('none')

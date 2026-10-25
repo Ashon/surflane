@@ -19,11 +19,16 @@
     border-radius: var(--surf-radius-md);
     min-width: 0;
   }
-  .surf-list-item:is(:hover, :focus-within) {
-    background: var(--surf-interaction-hover-bg);
+  /* Hover is a layer over the item's own fill, a selected one too. Keyboard focus
+     shows on the control that holds it, not as a hover. */
+  .surf-list-item:hover {
+    background-image: linear-gradient(
+      var(--surf-interaction-hover-bg),
+      var(--surf-interaction-hover-bg)
+    );
   }
   .surf-list-item[data-selected] {
-    background: var(--surf-selected);
+    background-color: var(--surf-selected);
   }
   .surf-list-content {
     flex: 1;

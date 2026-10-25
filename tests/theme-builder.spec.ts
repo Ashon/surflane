@@ -194,7 +194,11 @@ test('the shadcn bridge only reads Surflane tokens that exist', () => {
   bridge.walkDecls(/^--/, (decl) => {
     count++
     expect(names.has(decl.prop), `${decl.prop} redefines a token`).toBe(false)
-    const target = /^var\((--[\w-]+)\)$/.exec(decl.value)?.[1]
+    // An alias, or a relative color of one token: either way it only reads tokens.
+    const target = (/^var\((--[\w-]+)\)$/.exec(decl.value) ??
+      /^oklch\(from var\((--[\w-]+)\) [^()]*(?:\([^()]*\)[^()]*)*\)$/.exec(
+        decl.value,
+      ))?.[1]
     expect(target && names.has(target), `${decl.prop}: ${decl.value}`).toBe(
       true,
     )

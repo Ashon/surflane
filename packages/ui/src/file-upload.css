@@ -33,8 +33,15 @@
     padding-inline: var(--surf-file-inset);
     border: 1px solid transparent;
     border-radius: var(--surf-radius-lg);
-    background: var(--surf-surface);
+    background: var(--surf-recessed);
     transition: background-color var(--surf-duration-fast) var(--surf-ease-out);
+    /* The file list sits on the drop zone: its progress tracks take the other step. */
+    --surf-file-plane: var(--surf-recessed);
+    --surf-file-recessed: var(--surf-plane);
+  }
+  .surf-file-dropzone > * {
+    --surf-plane: var(--surf-file-plane);
+    --surf-recessed: var(--surf-file-recessed);
   }
   .surf-file-upload[data-dragging] .surf-file-dropzone {
     background: var(--surf-selected);
@@ -50,9 +57,6 @@
     flex-direction: row;
     width: fit-content;
     cursor: pointer;
-    font-size: var(--surf-type-body-size);
-    letter-spacing: var(--surf-type-body-tracking);
-    line-height: var(--surf-type-body-leading);
   }
   .surf-file-trigger[data-disabled] {
     opacity: var(--surf-control-disabled-opacity);

@@ -10,7 +10,7 @@
     align-items: center;
     gap: var(--surf-status-badge-gap);
     max-width: 100%;
-    padding: 4px 9px;
+    padding: var(--surf-space-1) var(--surf-space-2);
     border: 0;
     border-radius: var(--surf-radius-pill);
     background: var(--surf-badge-neutral-bg);

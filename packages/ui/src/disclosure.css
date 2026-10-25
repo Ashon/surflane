@@ -10,9 +10,17 @@
     border-radius: var(--surf-radius-md);
     min-width: 0;
   }
+  /* The open item is recessed one step from its plane, and what it holds sits on
+     that step: the pair passes to its children swapped. */
   .surf-accordion-item[data-open],
   .surf-collapsible[data-open] {
-    background: var(--surf-surface);
+    background: var(--surf-recessed);
+    --surf-disclosure-plane: var(--surf-recessed);
+    --surf-disclosure-recessed: var(--surf-plane);
+  }
+  :is(.surf-accordion-item, .surf-collapsible)[data-open] > * {
+    --surf-plane: var(--surf-disclosure-plane);
+    --surf-recessed: var(--surf-disclosure-recessed);
   }
   .surf-disclosure-trigger {
     display: flex;

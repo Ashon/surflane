@@ -44,12 +44,17 @@
     > .surf-table-body
     > .surf-table-row:nth-child(even)
     > * {
-    background: var(--surf-surface);
+    background-color: var(--surf-recessed);
   }
-  .surf-table-body > .surf-table-row:is(:hover, :focus-within) > * {
-    background: var(--surf-interaction-hover-bg);
+  /* Hover is a layer over the row's own fill, a stripe or a selection. Keyboard focus
+   * shows on the control that holds it, not as a hover. */
+  .surf-table-body > .surf-table-row:hover > * {
+    background-image: linear-gradient(
+      var(--surf-interaction-hover-bg),
+      var(--surf-interaction-hover-bg)
+    );
   }
-  /* A selected row takes the selected tone and a faint edge in the focus color, so it
+  /* A selected row takes the selected tone and an edge in the focus color, so it
    * reads as held. Each cell draws its share of the edge; inset shadows follow a
    * rounded row's corners. */
   .surf-table-body > .surf-table-row[data-selected] > * {
@@ -57,7 +62,7 @@
     --surf-table-edge-end: 0px;
     --surf-table-edge-top: 1px;
     --surf-table-edge-bottom: 1px;
-    background: var(--surf-selected);
+    background-color: var(--surf-selected);
     box-shadow:
       inset 0 var(--surf-table-edge-top) var(--surf-selected-edge),
       inset 0 calc(-1 * var(--surf-table-edge-bottom)) var(--surf-selected-edge),
@@ -188,7 +193,8 @@
     --surf-table-bleed: var(--surf-space-3);
   }
   /* A sticky header needs a Container with a bounded block size that scrolls
-   * vertically. --table-surface matches the surface behind the table. */
+   * vertically. --surf-table-surface matches the surface behind the table; --table-surface
+   * is its earlier, deprecated name. */
   .surf-table[data-sticky-header]
     > .surf-table-head
     > .surf-table-row
@@ -196,7 +202,10 @@
     position: sticky;
     inset-block-start: 0;
     z-index: 1;
-    background: var(--table-surface, var(--surf-canvas));
+    background: var(
+      --surf-table-surface,
+      var(--table-surface, var(--surf-plane))
+    );
     box-shadow: inset 0 -1px var(--surf-line);
   }
   .surf-table-truncate {
@@ -208,8 +217,8 @@
     vertical-align: bottom;
   }
   /* Loading, empty, error and permission messages span every column. */
-  .surf-table-body > .surf-table-message-row:is(:hover, :focus-within) > * {
-    background: none;
+  .surf-table-body > .surf-table-message-row:hover > * {
+    background-image: none;
   }
 }
 @layer surflane.sizes {

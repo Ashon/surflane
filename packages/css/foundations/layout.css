@@ -70,10 +70,14 @@
     border-radius: var(--surf-radius-lg);
     background: var(--surf-surface);
     color: var(--surf-ink);
+    --surf-plane: var(--surf-surface);
+    --surf-recessed: var(--surf-canvas);
   }
   /* data-tone is the earlier name of data-surface. */
   .surf-surface:is([data-surface='canvas'], [data-tone='canvas']) {
     background: var(--surf-canvas);
+    --surf-plane: var(--surf-canvas);
+    --surf-recessed: var(--surf-surface);
     border-radius: var(--surf-radius-sheet);
   }
   @media (max-width: 1100px) and (min-width: 761px) {

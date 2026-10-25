@@ -169,8 +169,18 @@ writeFileSync(
 /* Tailwind CSS v4 theme for the Surflane tokens. Import it after 'tailwindcss'
  * and the Surflane stylesheets; see docs/frameworks.md. */
 
-/* dark: follows the nearest Surflane theme attribute, including a light region inside dark. */
-@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *):not(:where([data-theme='dark'] [data-theme='light'], [data-theme='dark'] [data-theme='light'] *)));
+/* dark: follows the nearest Surflane theme attribute, including a light region inside dark.
+ * Without one on the root, it follows the system setting, as the tokens do. */
+@custom-variant dark {
+  &:where([data-theme='dark'], [data-theme='dark'] *):not(:where([data-theme='dark'] [data-theme='light'], [data-theme='dark'] [data-theme='light'] *)) {
+    @slot;
+  }
+  @media not (prefers-color-scheme: light) {
+    &:where(:root:not([data-theme='dark'], [data-theme='light']), :root:not([data-theme='dark'], [data-theme='light']) *):not(:where([data-theme='light'], [data-theme='light'] *)) {
+      @slot;
+    }
+  }
+}
 
 /* Preflight's document fonts. */
 @theme inline {

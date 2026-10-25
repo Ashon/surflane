@@ -9,7 +9,7 @@
   .surf-menubar {
     padding: var(--surf-space-1);
     border-radius: var(--surf-radius-md);
-    background: var(--surf-surface);
+    background: var(--surf-recessed);
     width: fit-content;
     max-width: 100%;
   }

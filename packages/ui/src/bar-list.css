@@ -66,12 +66,12 @@
     font-size: var(--surf-type-caption-size);
     line-height: var(--surf-type-caption-leading);
   }
-  /* The pair Progress and Slider use: the brand mark on the surface plane. */
+  /* The pair Progress and Slider use: the brand mark on the recessed step. */
   .surf-bar-list-bar {
     display: block;
     block-size: var(--surf-space-2);
     border-radius: var(--surf-radius-full);
-    background: var(--surf-surface);
+    background: var(--surf-recessed);
     overflow: hidden;
   }
   .surf-bar-list-fill {

@@ -199,6 +199,28 @@ try {
       'rgba(0, 0, 0, 0)',
       `dark: must not apply to #${id}`,
     )
+  // Without a theme attribute the tokens follow the system, and so does dark:.
+  for (const colorScheme of ['dark', 'light']) {
+    const system = await browser.newPage({ colorScheme })
+    await system.setContent(`<!doctype html>
+<html><head><style>${css}</style></head>
+<body><span id="system" class="dark:bg-surface">System</span>
+  <div data-theme="light"><span id="island" class="dark:bg-surface">Light</span></div>
+</body></html>`)
+    const background = (id) =>
+      system.$eval(`#${id}`, (el) => getComputedStyle(el).backgroundColor)
+    assert.equal(
+      (await background('system')) !== 'rgba(0, 0, 0, 0)',
+      colorScheme === 'dark',
+      `dark: follows a ${colorScheme} system setting`,
+    )
+    assert.equal(
+      await background('island'),
+      'rgba(0, 0, 0, 0)',
+      'dark: skips a light region',
+    )
+    await system.close()
+  }
 } finally {
   await browser.close()
 }

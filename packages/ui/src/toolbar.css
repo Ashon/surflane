@@ -21,7 +21,7 @@
   .surf-toolbar {
     padding: var(--surf-space-1);
     border-radius: var(--surf-radius-md);
-    background: var(--surf-surface);
+    background: var(--surf-recessed);
     gap: var(--surf-space-2);
   }
   .surf-toolbar-group {
@@ -43,7 +43,7 @@
     max-width: 100%;
     border: 0;
     border-radius: max(0px, calc(var(--surf-radius-md) - var(--surf-space-1)));
-    background: var(--surf-canvas);
+    background: var(--surf-plane);
   }
   .surf-toolbar-separator {
     flex: none;

@@ -40,9 +40,11 @@
   .surf-dialog-backdrop[data-starting-style] {
     opacity: 0;
   }
+  /* Closing fades only, in --surf-dialog-exit-duration (0ms: at once). Dropping the
+     rise from the transition cancels one still running, so nothing waits on it. */
   .surf-dialog-popup[data-ending-style],
   .surf-dialog-backdrop[data-ending-style] {
-    transition: none;
+    transition-property: opacity;
     transition-duration: var(--surf-dialog-exit-duration);
     opacity: 0;
   }
@@ -72,7 +74,9 @@
     overflow: hidden;
     scrollbar-gutter: auto;
     padding: 0;
-    border: 1px solid var(--surf-line);
+    /* A modal is a plane on the backdrop: the backdrop and the shadow set it apart,
+       and forced colors draw its edge. */
+    border: 0;
     border-radius: var(--surf-radius-sheet);
     background: var(--surf-canvas);
     color: var(--surf-ink);
@@ -150,6 +154,12 @@
   }
   .surf-dialog-content[data-size='large'] {
     --surf-dialog-width: var(--surf-size-dialog-large);
+  }
+  /* Forced colors drop the backdrop tint and the shadow, so the edge is a line. */
+  @media (forced-colors: active) {
+    .surf-dialog-popup {
+      border: 1px solid CanvasText;
+    }
   }
 }
 @layer surflane.sizes {

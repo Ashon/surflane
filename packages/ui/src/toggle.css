@@ -26,6 +26,6 @@
   :where([data-ui-size], [data-ui-size] *):is(.surf-toggle) {
     min-block-size: var(--surf-ui-row);
     font-size: var(--surf-ui-font);
-    line-height: var(--surf-ui-leading);
+    line-height: var(--surf-ui-label-leading);
   }
 }

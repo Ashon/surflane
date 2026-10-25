@@ -26,7 +26,7 @@
     height: var(--surf-space-2);
     overflow: hidden;
     border-radius: var(--surf-radius-full);
-    background: var(--surf-surface);
+    background: var(--surf-recessed);
   }
   .surf-gauge-indicator {
     background: var(--surf-ink-body);
@@ -36,7 +36,7 @@
   .surf-gauge-indicator[data-indeterminate] {
     width: 40%;
     height: inherit;
-    animation: surf-progress-pulse 1.4s ease-in-out infinite;
+    animation: surf-progress-pulse var(--surf-motion-pulse) ease-in-out infinite;
   }
   @media (prefers-reduced-motion: reduce) {
     .surf-gauge-indicator,

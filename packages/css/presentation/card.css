@@ -12,9 +12,14 @@
     border-radius: var(--surf-radius-lg);
     background: var(--surf-surface);
     color: var(--surf-ink-body);
+    /* On the card, the canvas is the recessed step: tracks and read-only values show. */
+    --surf-plane: var(--surf-surface);
+    --surf-recessed: var(--surf-canvas);
   }
   .surf-card:is([data-surface='canvas'], [data-tone='canvas']) {
     background: var(--surf-canvas);
+    --surf-plane: var(--surf-canvas);
+    --surf-recessed: var(--surf-surface);
   }
   .surf-card-header {
     display: grid;

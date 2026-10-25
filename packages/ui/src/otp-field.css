@@ -67,9 +67,19 @@
   }
 }
 @layer surflane.sizes {
+  /* The box follows the size; the digits keep the section role, as type roles do. */
   :where([data-ui-size], [data-ui-size] *).surf-otp-input {
     flex-basis: var(--surf-ui-otp);
     width: var(--surf-ui-otp);
     height: var(--surf-ui-otp);
+    font-size: var(--surf-type-section-size);
+    line-height: var(--surf-type-section-leading);
+  }
+  @media (max-width: 760px), (pointer: coarse) {
+    :where([data-ui-size], [data-ui-size] *).surf-otp-input {
+      flex-basis: max(var(--surf-ui-otp), var(--surf-control-target-size));
+      width: max(var(--surf-ui-otp), var(--surf-control-target-size));
+      height: max(var(--surf-ui-otp), var(--surf-control-target-size));
+    }
   }
 }

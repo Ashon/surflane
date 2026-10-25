@@ -39,6 +39,8 @@
     min-inline-size: 0;
     padding: var(--surf-app-shell-inset);
     background: var(--surf-chrome);
+    --surf-plane: var(--surf-chrome);
+    --surf-recessed: var(--surf-canvas);
   }
   .surf-app-shell[data-sidebar='collapsed'] {
     --surf-app-shell-sidebar-width: var(--surf-app-shell-rail-width);
@@ -66,6 +68,8 @@
     background: var(--surf-canvas);
     border-radius: var(--surf-app-shell-page-radius);
     overflow-wrap: anywhere;
+    --surf-plane: var(--surf-canvas);
+    --surf-recessed: var(--surf-surface);
   }
   .surf-app-shell-footer {
     margin-block-start: auto;
@@ -296,6 +300,17 @@
     border-color: transparent;
     background: transparent;
   }
+  /* On touch the toggle keeps the target size, expanded or collapsed. */
+  @media (pointer: coarse) {
+    .surf-app-shell[data-layout='workspace']
+      > .surf-app-shell-sidebar
+      > .surf-app-shell-toggle,
+    .surf-app-shell[data-layout='workspace'][data-sidebar='collapsed']
+      > .surf-app-shell-sidebar
+      > .surf-app-shell-toggle {
+      --surf-app-shell-toggle-size: var(--surf-control-target-size);
+    }
+  }
   /* A ScrollArea in the sidebar takes the room between the brand and the footer, and
    * one in the content fills it, so the menu and the page scroll on their own. */
   .surf-app-shell[data-layout='workspace']
@@ -355,6 +370,8 @@
     padding: var(--surf-space-6);
     background: var(--surf-canvas);
     border-radius: var(--surf-app-shell-page-radius);
+    --surf-plane: var(--surf-canvas);
+    --surf-recessed: var(--surf-surface);
   }
   /* On a phone the page meets the screen's edges, below the mobile header. */
   @media (max-width: 760px) {

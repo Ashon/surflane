@@ -119,7 +119,7 @@
     min-height: var(--surf-control-height);
     padding-inline: var(--surf-ui-button-padding);
     font-size: var(--surf-ui-font);
-    line-height: var(--surf-ui-leading);
+    line-height: var(--surf-ui-label-leading);
   }
   :where([data-ui-size], [data-ui-size] *).surf-button[data-size^='icon'] {
     inline-size: var(--surf-control-height);

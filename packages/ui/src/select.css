@@ -80,7 +80,10 @@
     overflow-wrap: anywhere;
   }
   .surf-select-item[data-highlighted] {
-    background: var(--surf-menu-hover-background);
+    background-image: linear-gradient(
+      var(--surf-interaction-hover-bg),
+      var(--surf-interaction-hover-bg)
+    );
   }
   .surf-select-item[data-selected] {
     font-weight: var(--surf-weight-medium);

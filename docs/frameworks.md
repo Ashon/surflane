@@ -50,7 +50,7 @@ Add `surf-typography` to `<body>` to apply document typography, including portal
 
 ## 3. Set the theme before paint
 
-Tokens default to the dark theme. `data-theme="light"` on `<html>` selects the light theme. Resolve the theme before the first paint to avoid a flash:
+Without `data-theme`, the tokens follow the system setting, and dark when there is none. `data-theme="light"` or `"dark"` on `<html>` fixes the choice. Resolve the theme before the first paint to avoid a flash:
 
 - Server-rendered frameworks: read the preference (for example a cookie) on the server and render `<html data-theme="…">`. React Router reads it in the root `loader`.
 - Next.js: reading `cookies()` in the root layout renders every page on demand, and fails the build under Cache Components. Render a default theme instead, apply the cookie from an inline `<script>` in `<head>`, and add `suppressHydrationWarning` to `<html>`.
@@ -202,14 +202,16 @@ const css = themeCss(
 @import '@surflane/design-tokens/tailwind.css';
 ```
 
-In your shadcn CSS, keep the `@theme inline` block and delete the `:root` and `.dark` color blocks and the `@custom-variant dark` line. Unlayered variables there would override the bridge. Switch light and dark with `data-theme`; `tailwind.css` makes `dark:` follow it. The bridge only reads Surflane tokens and never redefines one.
+In your shadcn CSS, keep the `@theme inline` block and delete the `:root` and `.dark` color blocks and the `@custom-variant dark` line. Unlayered variables there would override the bridge. Switch light and dark with `data-theme`, or leave it off to follow the system; `tailwind.css` makes `dark:` follow either. The bridge only reads Surflane tokens and never redefines one.
+
+shadcn derives `--radius-sm` to `--radius-xl` from `--radius` (10px here), while `tailwind.css` maps the same names to the Surflane scale. Import `tailwind.css` after your shadcn `@theme` block, as above, so `rounded-lg` means the Surflane 16px corner everywhere.
 
 ## React Server Components
 
-Every `@surflane/ui` module is a client module (`"use client"`). Server Components can import and render Surflane components and pass serializable props, including React elements such as `render={<Button />}`.
+Stateless modules render on the server: Breadcrumbs, Card, Table, List, Stat, Sparkline, BarList, Spinner, Skeleton, EmptyState, the layout and typography parts, Icon, PageHeader and FilterBar. Every other module is a client module (`"use client"`). Server Components can import and render both, and pass serializable props, including React elements such as `render={<Button />}`.
 
 - Use flat part names in Server Components: `DialogRoot`, `DialogTrigger`, `TabsList`, `FieldLabel`. A Server Component cannot dot into a client export, so `<Dialog.Root>` renders as an invalid element there. The namespace form works in Client Components, and both forms refer to the same component.
-- Event handlers, render functions and `className` callbacks are functions. Pass them from a Client Component.
+- Event handlers, render functions, `className` callbacks and label functions, such as Select's `labels.count` or Chart's `labels.values`, are functions. Pass them to a client module from a Client Component.
 - Non-component values such as `iconNames` and `syntaxLanguages` arrive in Server Components as client references. Read them in Client Components.
 
 ## Framework notes

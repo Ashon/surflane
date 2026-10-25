@@ -18,7 +18,7 @@
   .surf-spinner > svg {
     width: 100%;
     height: 100%;
-    animation: surf-feedback-spin 1s linear infinite;
+    animation: surf-feedback-spin var(--surf-motion-spin) linear infinite;
   }
   @keyframes surf-feedback-spin {
     to {

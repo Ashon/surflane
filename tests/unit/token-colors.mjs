@@ -1,6 +1,6 @@
 // Resolves a token's color the way the browser does, from the generated token catalog:
-// var() aliases, color-mix(in srgb, …) and oklch(from … l c h) with an optional min(l, n).
-// The color foundation measures the same pairs in a browser; this runs without one.
+// var() aliases, color-mix(in srgb | oklch, …) and oklch(from … l c h) with an optional
+// min(l, n) or min(c, n). The color foundation measures the same pairs in a browser; this runs without one.
 import { readFileSync } from 'node:fs'
 import { converter, parse, wcagContrast } from 'culori'
 
@@ -81,7 +81,8 @@ export function resolve(expression, theme) {
   }
   if (value.startsWith('color-mix(')) {
     const [space, first, second] = topLevelArgs(value.slice(10, -1))
-    if (space !== 'in srgb') throw new Error(`Unsupported mix: ${value}`)
+    if (space !== 'in srgb' && space !== 'in oklch')
+      throw new Error(`Unsupported mix: ${value}`)
     const weighted = (part) => {
       const match = /^(.*?)\s+([\d.]+)%$/.exec(part)
       return match ? [match[1], Number(match[2]) / 100] : [part, null]
@@ -90,6 +91,20 @@ export function resolve(expression, theme) {
       [b, pb] = weighted(second)
     const wa = pa ?? 1 - (pb ?? 0.5),
       wb = 1 - wa
+    if (space === 'in oklch') {
+      // Hue takes the shorter arc; a gray takes the other color's hue, as CSS does.
+      const ca = toOklch(resolve(a, theme)),
+        cb = toOklch(resolve(b, theme))
+      const ha = ca.c > 0.0001 ? ca.h : cb.h,
+        hb = cb.c > 0.0001 ? cb.h : ca.h
+      const turn = ((((hb - ha) % 360) + 540) % 360) - 180
+      return {
+        mode: 'oklch',
+        l: ca.l * wa + cb.l * wb,
+        c: ca.c * wa + cb.c * wb,
+        h: (ha + turn * wb + 360) % 360,
+      }
+    }
     const ca = toRgb(resolve(a, theme)),
       cb = toRgb(resolve(b, theme))
     return toOklch({

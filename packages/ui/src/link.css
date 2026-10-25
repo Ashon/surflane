@@ -4,9 +4,3 @@
 @import './base.css';
 @import './sizing.css';
 @import '@surflane/css/presentation/link.css';
-
-@layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *):is(.surf-link) {
-    font-size: var(--surf-ui-font);
-  }
-}

@@ -14,7 +14,7 @@
     /* Its own tokens: --surf-surface is about 1.07:1 on a light canvas, and a pulse
        through opacity faded it further. The pulse moves between the two shades. */
     background: var(--surf-skeleton-base);
-    animation: surf-skeleton-pulse 1.4s ease-in-out infinite;
+    animation: surf-skeleton-pulse var(--surf-motion-pulse) ease-in-out infinite;
   }
   @keyframes surf-skeleton-pulse {
     50% {

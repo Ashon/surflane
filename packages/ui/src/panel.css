@@ -39,11 +39,13 @@
   .surf-panel-viewport[data-flush] {
     padding: 0;
   }
-  .surf-panel-viewport[data-side='right'] {
-    justify-content: flex-end;
+  /* side names a physical edge, as the slide and the squared corners do: an auto
+     margin pushes the panel to it whatever the writing direction. */
+  .surf-panel-viewport[data-side='right'] > .surf-panel {
+    margin-left: auto;
   }
-  .surf-panel-viewport[data-side='left'] {
-    justify-content: flex-start;
+  .surf-panel-viewport[data-side='left'] > .surf-panel {
+    margin-right: auto;
   }
   .surf-panel-viewport[data-side='top'] {
     align-items: flex-start;
@@ -65,6 +67,7 @@
     max-height: 100%;
     overflow: hidden;
     pointer-events: auto;
+    /* A plane on the backdrop, as a dialog is: forced colors draw its edge. */
     background: var(--surf-canvas);
     color: var(--surf-ink);
     border-radius: var(--surf-radius-sheet);
@@ -136,9 +139,17 @@
     min-height: 0;
     flex: 1;
   }
+  /* The body scrolls, so it clips: the room a focus ring takes moves from the head's
+     bottom to the body's top, and the first control's ring shows whole. */
+  .surf-panel {
+    --surf-panel-ring-room: calc(
+      var(--surf-focus-ring-width) + var(--surf-focus-ring-offset)
+    );
+  }
   .surf-panel-header {
     flex: none;
-    padding-block: var(--surf-space-6) var(--surf-space-5);
+    padding-block: var(--surf-space-6)
+      calc(var(--surf-space-5) - var(--surf-panel-ring-room));
     padding-inline: var(--surf-space-6)
       calc(var(--surf-control-height) + var(--surf-space-4) * 2);
   }
@@ -161,7 +172,7 @@
     flex: 1 1 auto;
     min-height: 0;
     overflow: auto;
-    padding: 0 var(--surf-space-6) var(--surf-space-6);
+    padding: var(--surf-panel-ring-room) var(--surf-space-6) var(--surf-space-6);
     overscroll-behavior: contain;
     scrollbar-width: thin;
     scrollbar-color: var(--surf-scrollbar-thumb) var(--surf-scrollbar-track);
@@ -186,6 +197,8 @@
     padding: var(--surf-space-4) var(--surf-space-6)
       max(var(--surf-space-5), env(safe-area-inset-bottom));
     background: var(--surf-surface);
+    --surf-plane: var(--surf-surface);
+    --surf-recessed: var(--surf-canvas);
   }
   .surf-panel-close {
     position: absolute;
@@ -211,6 +224,12 @@
   .surf-panel-viewport[data-side='bottom'] {
     bottom: var(--drawer-keyboard-inset, 0px);
   }
+  /* Forced colors drop the backdrop tint and the shadow, so the edge is a line. */
+  @media (forced-colors: active) {
+    .surf-panel {
+      border: 1px solid CanvasText;
+    }
+  }
 }
 @layer surflane.sizes {
   :where([data-ui-size], [data-ui-size] *):is(
@@ -224,7 +243,10 @@
    * Above and below, the head follows the size's card padding: 24/20px by default. */
   :where([data-ui-size], [data-ui-size] *).surf-panel-header {
     padding-block: var(--surf-ui-card-padding)
-      calc(var(--surf-ui-card-padding) - var(--surf-space-1));
+      calc(
+        var(--surf-ui-card-padding) - var(--surf-space-1) -
+          var(--surf-panel-ring-room)
+      );
     padding-inline-end: calc(
       var(--surf-control-height) + var(--surf-space-4) * 2
     );

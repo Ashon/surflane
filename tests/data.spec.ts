@@ -64,7 +64,8 @@ test('Table hover is inset, continuous and borderless; narrow view scrolls insid
         left: s.paddingLeft,
         right: s.paddingRight,
         border: s.borderBottomWidth,
-        bg: s.backgroundColor,
+        // Hover is a state layer, painted as an image over the cell's own fill.
+        bg: s.backgroundImage,
       }
     }),
   )
@@ -74,7 +75,7 @@ test('Table hover is inset, continuous and borderless; narrow view scrolls insid
     ),
   ).toBeTruthy()
   expect(new Set(cells.map((c) => c.bg)).size).toBe(1)
-  expect(cells[0].bg).not.toBe('rgba(0, 0, 0, 0)')
+  expect(cells[0].bg).toContain('linear-gradient')
   await page.setViewportSize({ width: 320, height: 900 })
   const region = page.getByRole('region', { name: 'Environment comparison' })
   await region.focus()

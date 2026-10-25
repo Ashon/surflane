@@ -66,11 +66,20 @@ test('brand as a mark reads at 3:1 on the light canvas', () => {
   assert.ok(contrast('--surf-brand-mark', '--surf-canvas', 'light') >= 3)
 })
 
-test('a slider fill reads 3:1 on its track and on the sheet in both themes', () => {
-  // The pair Progress uses: the brand mark on the surface plane.
+test('a brand mark reads 3:1 on either recessed track, and beside a selected fill', () => {
+  // A track is --surf-recessed: the surface on the sheet, the canvas in a card. A
+  // range end sits beside in-range days on --surf-selected.
   for (const theme of ['dark', 'light']) {
-    assert.ok(contrast('--surf-brand-mark', '--surf-slider-track', theme) >= 3)
+    assert.ok(contrast('--surf-brand-mark', '--surf-surface', theme) >= 3)
     assert.ok(contrast('--surf-brand-mark', '--surf-canvas', theme) >= 3)
+    assert.ok(contrast('--surf-brand-mark', '--surf-selected', theme) >= 3)
+  }
+})
+
+test("a selected row's edge reads 3:1 against its fill and the sheet", () => {
+  for (const theme of ['dark', 'light']) {
+    assert.ok(contrast('--surf-selected-edge', '--surf-selected', theme) >= 3)
+    assert.ok(contrast('--surf-selected-edge', '--surf-canvas', theme) >= 3)
   }
 })
 

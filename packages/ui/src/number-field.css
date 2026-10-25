@@ -31,6 +31,13 @@
     text-align: center;
     font-variant-numeric: tabular-nums;
   }
+  /* iOS zooms the page into a focused field whose text is under 16px. */
+  .surf-number-input {
+    font-size: max(
+      var(--surf-control-text-min-size),
+      var(--surf-type-body-size)
+    );
+  }
   .surf-number-scrub {
     cursor: ew-resize;
     touch-action: none;
@@ -55,7 +62,7 @@
 }
 @layer surflane.sizes {
   :where([data-ui-size], [data-ui-size] *):is(.surf-number-input) {
-    font-size: var(--surf-ui-font);
+    font-size: max(var(--surf-control-text-min-size), var(--surf-ui-font));
     line-height: var(--surf-ui-leading);
   }
 }

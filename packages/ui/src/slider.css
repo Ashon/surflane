@@ -42,10 +42,10 @@
     width: 100%;
     height: var(--surf-size-slider-track-default);
     border-radius: var(--surf-radius-full);
-    background: var(--surf-slider-track);
+    background: var(--surf-recessed);
   }
-  /* The pair Progress uses: a brand-mark fill on the surface track, 3:1 against both
-     the track and the sheet in either theme. */
+  /* The pair Progress uses: a brand-mark fill on the recessed track, 3:1 against the
+     track and the plane in either theme. */
   .surf-slider-indicator {
     background: var(--surf-brand-mark);
     border-radius: inherit;
@@ -63,7 +63,8 @@
     outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
     outline-offset: var(--surf-focus-ring-offset);
   }
-  .surf-slider[data-disabled] {
+  /* Disabled fades the control only: the label and value stay readable. */
+  .surf-slider-control[data-disabled] {
     opacity: var(--surf-control-disabled-opacity);
   }
   .surf-slider-control[data-disabled],
@@ -82,13 +83,14 @@
     touch-action: pan-x;
   }
   .surf-slider-track[data-orientation='vertical'] {
-    width: 6px;
+    width: var(--surf-size-slider-track-default);
     height: 100%;
   }
+  /* A phone takes the large thumb at every size. */
   @media (max-width: 760px) {
     .surf-slider-thumb {
-      width: 28px;
-      height: 28px;
+      width: var(--surf-size-slider-thumb-large);
+      height: var(--surf-size-slider-thumb-large);
     }
   }
   @media (forced-colors: active) {
@@ -109,6 +111,12 @@
     width: var(--surf-ui-slider-thumb);
     height: var(--surf-ui-slider-thumb);
   }
+  @media (max-width: 760px) {
+    :where([data-ui-size], [data-ui-size] *).surf-slider-thumb {
+      width: var(--surf-size-slider-thumb-large);
+      height: var(--surf-size-slider-thumb-large);
+    }
+  }
   @media (max-width: 760px), (pointer: coarse) {
     :where([data-ui-size], [data-ui-size] *).surf-slider-control {
       min-block-size: var(--surf-control-target-size);
@@ -117,7 +125,7 @@
   :where([data-ui-size], [data-ui-size] *).surf-slider-track:not(
       [data-orientation='vertical']
     ) {
-    height: var(--surf-ui-gauge);
+    height: var(--surf-ui-slider-track);
   }
   :where(
       [data-ui-size],

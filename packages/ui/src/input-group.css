@@ -20,19 +20,25 @@
       border-color var(--surf-duration-fast) var(--surf-ease-out),
       box-shadow var(--surf-duration-fast) var(--surf-ease-out);
   }
-  .surf-combobox-group:hover,
-  .surf-number-group:hover {
+  /* Hover as text fields have it: not while disabled or focused. */
+  :is(.surf-combobox-group, .surf-number-group):hover:not(
+      [data-disabled],
+      :focus-within
+    ) {
     border-color: var(--surf-control-hover-border);
-    background: var(--surf-control-hover-background);
+    background-image: linear-gradient(
+      var(--surf-interaction-hover-bg),
+      var(--surf-interaction-hover-bg)
+    );
   }
-  /* Read-only shows a value on the surface plane, without the field's border, as
+  /* Read-only shows a value on the recessed step, without the field's border, as
      text fields do. */
   :is(.surf-combobox-group, .surf-number-group)[data-readonly]:not(
       :focus-within,
       [data-invalid]
     ) {
     border-color: transparent;
-    background: var(--surf-surface);
+    background: var(--surf-recessed);
   }
   .surf-combobox-group:focus-within,
   .surf-number-group:focus-within {
@@ -67,10 +73,19 @@
     opacity: var(--surf-control-disabled-opacity);
     cursor: not-allowed;
   }
-  .surf-combobox-action[data-disabled],
-  .surf-number-step[data-disabled],
-  .surf-combobox-chip-remove[data-disabled] {
+  /* A button fades on its own only: in a disabled field the group faded it already. */
+  :is(
+      .surf-combobox-action,
+      .surf-number-step,
+      .surf-combobox-chip-remove
+    )[data-disabled]:not([data-disabled] *) {
     opacity: var(--surf-control-disabled-opacity);
+  }
+  :is(
+    .surf-combobox-action,
+    .surf-number-step,
+    .surf-combobox-chip-remove
+  )[data-disabled] {
     cursor: not-allowed;
   }
   /* A read-only field keeps its value readable and copyable, but its steppers do

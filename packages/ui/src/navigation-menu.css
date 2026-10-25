@@ -25,22 +25,20 @@
     align-items: stretch;
   }
   .surf-navigation-trigger {
-    padding-inline: var(--surf-space-3);
     font-weight: var(--surf-weight-medium);
     background: transparent;
     color: var(--surf-ink-body);
   }
-  .surf-navigation-trigger:hover,
+  /* The trigger is a ghost Button, whose hover layer it keeps; open is held, as an
+     open menu trigger is. */
   .surf-navigation-trigger[data-popup-open] {
-    background: var(--surf-menu-hover-background);
-  }
-  .surf-navigation-trigger[data-popup-open] {
+    background-color: var(--surf-selected);
     color: var(--surf-ink);
   }
   .surf-navigation-icon {
     display: inline-flex;
     flex: none;
-    transition: rotate var(--surf-motion-enter) var(--surf-motion-ease);
+    transition: rotate var(--surf-duration-fast) var(--surf-ease-out);
   }
   .surf-navigation-icon[data-popup-open] {
     rotate: 180deg;
@@ -62,10 +60,13 @@
   }
   .surf-navigation-link:hover,
   .surf-navigation-link[data-highlighted] {
-    background: var(--surf-menu-hover-background);
+    background-image: linear-gradient(
+      var(--surf-interaction-hover-bg),
+      var(--surf-interaction-hover-bg)
+    );
   }
   .surf-navigation-link[aria-current='page'] {
-    background: var(--surf-selected);
+    background-color: var(--surf-selected);
     color: var(--surf-ink);
     font-weight: var(--surf-weight-medium);
   }
@@ -163,5 +164,9 @@
     min-block-size: var(--surf-ui-row);
     font-size: var(--surf-ui-font);
     line-height: var(--surf-ui-leading);
+  }
+  /* The trigger is a button: it keeps the label leading. */
+  :where([data-ui-size], [data-ui-size] *).surf-navigation-trigger {
+    line-height: var(--surf-ui-label-leading);
   }
 }

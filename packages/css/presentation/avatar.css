@@ -17,7 +17,7 @@
     overflow: visible;
     border: 1px solid var(--surf-line);
     border-radius: var(--surf-radius-full);
-    background: var(--surf-surface);
+    background: var(--surf-recessed);
     color: var(--surf-ink-body);
     font: var(--surf-weight-medium) var(--surf-type-caption-size)/1
       var(--surf-font-body);

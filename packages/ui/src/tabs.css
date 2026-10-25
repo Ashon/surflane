@@ -16,7 +16,7 @@
     min-width: 0;
     max-width: 100%;
     padding: var(--surf-space-1);
-    background: var(--surf-surface);
+    background: var(--surf-recessed);
     border-radius: var(--surf-radius-md);
     overflow: auto;
     scrollbar-width: thin;
@@ -40,15 +40,23 @@
     white-space: nowrap;
     outline: none;
   }
+  /* State layers paint over the tab's own fill, so hovering or pressing the
+     selected tab keeps it selected. */
   .surf-tabs-tab:hover:not(:disabled):not([data-disabled]) {
     color: var(--surf-ink);
-    background: var(--surf-interaction-hover-bg);
+    background-image: linear-gradient(
+      var(--surf-interaction-hover-bg),
+      var(--surf-interaction-hover-bg)
+    );
   }
   .surf-tabs-tab:active:not(:disabled):not([data-disabled]) {
-    background: var(--surf-interaction-active-bg);
+    background-image: linear-gradient(
+      var(--surf-interaction-active-bg),
+      var(--surf-interaction-active-bg)
+    );
   }
   .surf-tabs-tab[data-active] {
-    background: var(--surf-canvas);
+    background-color: var(--surf-plane);
     color: var(--surf-ink);
     font-weight: var(--surf-weight-medium);
   }
@@ -79,12 +87,12 @@
     height: var(--active-tab-height);
     box-sizing: border-box;
     border: 0;
-    background: var(--surf-canvas);
+    background: var(--surf-plane);
     border-radius: var(--surf-control-radius);
     pointer-events: none;
   }
   .surf-tabs-list:has(.surf-tabs-indicator) .surf-tabs-tab[data-active] {
-    background: transparent;
+    background-color: transparent;
     border-color: transparent;
   }
   .surf-tabs[data-orientation='vertical'] {

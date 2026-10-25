@@ -37,7 +37,9 @@
     box-sizing: border-box;
     width: 100%;
     padding: var(--surf-space-4);
-    border: 0;
+    /* No backdrop sets a toast apart from the same-tone page, and its shadow fades
+       in the dark theme: it keeps the floating edge. */
+    border: 1px solid var(--surf-menu-border);
     border-radius: var(--surf-radius-lg);
     background: var(--surf-menu-background);
     color: var(--surf-ink);

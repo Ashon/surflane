@@ -2,8 +2,18 @@
 /* Tailwind CSS v4 theme for the Surflane tokens. Import it after 'tailwindcss'
  * and the Surflane stylesheets; see docs/frameworks.md. */
 
-/* dark: follows the nearest Surflane theme attribute, including a light region inside dark. */
-@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *):not(:where([data-theme='dark'] [data-theme='light'], [data-theme='dark'] [data-theme='light'] *)));
+/* dark: follows the nearest Surflane theme attribute, including a light region inside dark.
+ * Without one on the root, it follows the system setting, as the tokens do. */
+@custom-variant dark {
+  &:where([data-theme='dark'], [data-theme='dark'] *):not(:where([data-theme='dark'] [data-theme='light'], [data-theme='dark'] [data-theme='light'] *)) {
+    @slot;
+  }
+  @media not (prefers-color-scheme: light) {
+    &:where(:root:not([data-theme='dark'], [data-theme='light']), :root:not([data-theme='dark'], [data-theme='light']) *):not(:where([data-theme='light'], [data-theme='light'] *)) {
+      @slot;
+    }
+  }
+}
 
 /* Preflight's document fonts. */
 @theme inline {
@@ -53,7 +63,6 @@
   --color-control-focus: var(--surf-control-focus);
   --color-control-focus-background: var(--surf-control-focus-background);
   --color-control-focus-ring: var(--surf-control-focus-ring);
-  --color-control-focus-ring-size: var(--surf-control-focus-ring-size);
   --color-control-hover-background: var(--surf-control-hover-background);
   --color-control-hover-border: var(--surf-control-hover-border);
   --color-control-placeholder: var(--surf-control-placeholder);
@@ -75,14 +84,18 @@
   --color-menu-hover-background: var(--surf-menu-hover-background);
   --color-menu-selected-background: var(--surf-menu-selected-background);
   --color-on-brand: var(--surf-on-brand);
+  --color-plane: var(--surf-plane);
+  --color-recessed: var(--surf-recessed);
   --color-scrollbar-thumb: var(--surf-scrollbar-thumb);
   --color-scrollbar-thumb-hover: var(--surf-scrollbar-thumb-hover);
   --color-scrollbar-track: var(--surf-scrollbar-track);
   --color-selected: var(--surf-selected);
+  --color-selected-edge: var(--surf-selected-edge);
   --color-selection-background: var(--surf-selection-background);
   --color-selection-foreground: var(--surf-selection-foreground);
   --color-skeleton-base: var(--surf-skeleton-base);
   --color-skeleton-highlight: var(--surf-skeleton-highlight);
+  --color-slider-track: var(--surf-slider-track);
   --color-status-caution-bg: var(--surf-status-caution-bg);
   --color-status-caution-border: var(--surf-status-caution-border);
   --color-status-caution-fg: var(--surf-status-caution-fg);

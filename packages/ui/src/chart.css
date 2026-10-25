@@ -216,7 +216,7 @@
     box-sizing: border-box;
     min-height: 100px;
     padding: var(--surf-space-3) var(--surf-space-4);
-    background: var(--surf-surface);
+    background: var(--surf-recessed);
     color: var(--surf-ink-body);
     border-radius: var(--surf-radius-md);
     font: var(--surf-weight-regular)
@@ -245,7 +245,7 @@
     gap: var(--surf-space-3);
     min-height: 160px;
     padding: var(--surf-space-4);
-    background: var(--surf-surface);
+    background: var(--surf-recessed);
     color: var(--surf-ink-muted);
     border-radius: var(--surf-radius-md);
   }

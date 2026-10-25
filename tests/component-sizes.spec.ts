@@ -368,6 +368,7 @@ test('sheet titles keep clear of the close button at every size', async ({
         const header = panel.querySelector('.surf-panel-header')!
         const close = panel.querySelector('.surf-panel-close')!
         const style = getComputedStyle(header)
+        const body = getComputedStyle(panel.querySelector('.surf-panel-body')!)
         const heading = getComputedStyle(
           panel.querySelector('.surf-panel-title')!,
         )
@@ -377,7 +378,11 @@ test('sheet titles keep clear of the close button at every size', async ({
         return {
           contentEnd: end,
           closeStart: close.getBoundingClientRect().left,
-          block: [style.paddingTop, style.paddingBottom],
+          // The body takes a focus ring's room from the head: the gap is the sum.
+          block: [
+            style.paddingTop,
+            `${parseFloat(style.paddingBottom) + parseFloat(body.paddingTop)}px`,
+          ],
           title: `${heading.fontSize}/${heading.lineHeight}`,
         }
       },

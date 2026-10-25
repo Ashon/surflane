@@ -125,6 +125,10 @@
     --surf-size-leading-small: 20px;
     --surf-size-leading-default: 22px;
     --surf-size-leading-large: 24px;
+    /* Single-line control text (the label role at default): two pixels under the body leading. */
+    --surf-size-label-leading-small: 18px;
+    --surf-size-label-leading-default: 20px;
+    --surf-size-label-leading-large: 22px;
     --surf-size-choice-small: 16px;
     --surf-size-choice-default: 20px;
     --surf-size-choice-large: 24px;
@@ -179,8 +183,8 @@
     --surf-size-badge-padding-y-small: 2px;
     --surf-size-badge-padding-y-default: 4px;
     --surf-size-badge-padding-y-large: 6px;
-    --surf-size-badge-padding-x-small: 7px;
-    --surf-size-badge-padding-x-default: 9px;
+    --surf-size-badge-padding-x-small: 6px;
+    --surf-size-badge-padding-x-default: 8px;
     --surf-size-badge-padding-x-large: 12px;
     --surf-size-badge-font-small: 12px;
     --surf-size-badge-font-default: 12px;
@@ -188,9 +192,9 @@
     --surf-size-gauge-small: 6px;
     --surf-size-gauge-default: 8px;
     --surf-size-gauge-large: 10px;
-    --surf-size-slider-thumb-small: 16px;
-    --surf-size-slider-thumb-default: 20px;
-    --surf-size-slider-thumb-large: 24px;
+    --surf-size-slider-thumb-small: 20px;
+    --surf-size-slider-thumb-default: 24px;
+    --surf-size-slider-thumb-large: 28px;
     --surf-size-otp-small: 36px;
     --surf-size-otp-default: 44px;
     --surf-size-otp-large: 52px;

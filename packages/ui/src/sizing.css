@@ -22,6 +22,7 @@
     --surf-ui-button-padding: var(--surf-size-button-padding-small);
     --surf-ui-font: var(--surf-size-font-small);
     --surf-ui-leading: var(--surf-size-leading-small);
+    --surf-ui-label-leading: var(--surf-size-label-leading-small);
     --surf-ui-choice: var(--surf-size-choice-small);
     --surf-ui-switch-width: var(--surf-size-switch-width-small);
     --surf-ui-switch-height: var(--surf-size-switch-height-small);
@@ -65,6 +66,7 @@
     --surf-ui-button-padding: var(--surf-size-button-padding-default);
     --surf-ui-font: var(--surf-size-font-default);
     --surf-ui-leading: var(--surf-size-leading-default);
+    --surf-ui-label-leading: var(--surf-size-label-leading-default);
     --surf-ui-choice: var(--surf-size-choice-default);
     --surf-ui-switch-width: var(--surf-size-switch-width-default);
     --surf-ui-switch-height: var(--surf-size-switch-height-default);
@@ -108,6 +110,7 @@
     --surf-ui-button-padding: var(--surf-size-button-padding-large);
     --surf-ui-font: var(--surf-size-font-large);
     --surf-ui-leading: var(--surf-size-leading-large);
+    --surf-ui-label-leading: var(--surf-size-label-leading-large);
     --surf-ui-choice: var(--surf-size-choice-large);
     --surf-ui-switch-width: var(--surf-size-switch-width-large);
     --surf-ui-switch-height: var(--surf-size-switch-height-large);

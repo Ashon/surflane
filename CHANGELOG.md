@@ -2,6 +2,54 @@
 
 `@surflane/design-tokens`, `@surflane/css` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## Unreleased
+
+### Added
+
+- `--surf-plane` and `--surf-recessed`: the plane a component sits on, and the area recessed one step from it. On the sheet they are the canvas and the surface. Card, Surface, the AppShell frame, the Sheet footer, an open Accordion item and the FileUpload drop zone set them for what they hold.
+- `--surf-table-surface` names the sticky table header's background. Without it the header takes the plane it sits on.
+- `--surf-motion-spin` and `--surf-motion-pulse` time Spinner, and Skeleton with indeterminate Progress.
+- `--surf-size-label-leading-small`, `-default` and `-large` (18, 20 and 22px): button text inside a size scope.
+
+### Changed
+
+These change what components look like, so they ship in a minor.
+
+- Recessed areas follow their plane. Slider, Progress, Meter and BarList tracks, read-only and disabled fields, tab lists, Toolbar, Menubar, Avatar, Chart's empty state and inspector, an open Accordion item and the FileUpload drop zone take `--surf-recessed`. On the sheet nothing changes. Inside a Card, a Dashboard.Panel or the AppShell sidebar they turn to the canvas, where before they matched it at 1.00:1. Progress bars in a FileUpload list show now.
+- Hover is one state layer, `--surf-interaction-hover-bg`, on menu, select, combobox and navigation items, fields, choices, calendar days, and list and table rows. In the dark theme menu items lighten on hover, as buttons do. The layer paints over a selected fill, so both show. Rows no longer take the hover fill while a control in them has keyboard focus.
+- Dialogs lose their outer border: the backdrop and the shadow set them apart. Toasts gain a 1px `--surf-menu-border`, because nothing else sets them apart from the page. Dialog, Sheet and Drawer draw their edge in forced colors.
+- A default SizeProvider renders exactly as no provider. Buttons and toggles keep 14/20px text, OTP digits keep the section role, Breadcrumbs and Link keep their text size, and the Slider keeps a 24px thumb on a 6px track. The Slider thumb steps 20, 24 and 28px by size. The NavigationMenu trigger takes the button padding.
+- `--surf-selected-edge` mixes 65% of the focus color, up from 35%, so a selected row's edge reads 3:1 against its fill and the sheet.
+- In light themes `--surf-brand-mark` caps lightness at 0.6 and chroma at 0.12. A range end reads 3:1 beside the in-range days, and every custom accent keeps 3:1 on a track.
+- Chart categories 7 to 12 moved apart. Any two now differ by at least ΔE 0.087 on light and 0.092 on dark, and by 0.025 for dichromats.
+- Badge padding is 6, 8 and 12px across, down from 7 and 9px at Small and Default.
+
+### Deprecated
+
+These keep working, and are removed in a later minor:
+
+- `--surf-menu-hover-background`, `--surf-control-hover-background` and `--surf-hover`: hover is `--surf-interaction-hover-bg`.
+- `--surf-slider-track` and `--surf-control-disabled-background`: components read `--surf-recessed`.
+- `--surf-ease-in`, `--surf-motion-exit` and `--surf-motion-lift`: no component uses them.
+- `--surf-brand-tint`: selected text takes `--surf-selection-background`.
+- `--table-surface`: write `--surf-table-surface`.
+
+### Fixed
+
+- Combobox shows the keyboard position on a selected option.
+- Hovering or pressing the selected tab keeps its selected fill.
+- A disabled Slider fades its control only. Its label and value stay readable.
+- Disabled NumberField, Combobox and DatePicker fade once, not twice.
+- NumberField and date segments keep 16px text on touch screens, so iOS doesn't zoom.
+- The first control in a Sheet or Drawer body shows its whole focus ring.
+- Sheet and Drawer `side='left'` and `'right'` dock to that edge on right-to-left pages too.
+- DatePicker's trigger, month buttons and days, OTP fields at Small and the AppShell edge toggle reach 44px on touch.
+- `--surf-dialog-exit-duration` takes effect.
+- Tailwind `dark:` follows the system setting when the page sets no `data-theme`, as the tokens do.
+- The shadcn bridge maps `--chart-1` to `--chart-5` to the categorical palette, `--destructive` to a red that holds white text at 4.5:1, `--accent` to the hover layer and `--ring` to the focus color.
+- The Tailwind theme types `--surf-selected-edge` and `--surf-slider-track` as colors, and no longer offers `--surf-control-focus-ring-size` as one.
+- NavigationMenu's chevron turns in `--surf-duration-fast`, as other chevrons do.
+
 ## 0.12.0
 
 ### Added

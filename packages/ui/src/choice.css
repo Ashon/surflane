@@ -41,7 +41,10 @@
   .surf-radio:hover:not([data-disabled], [data-readonly]),
   .surf-switch:hover:not([data-disabled], [data-readonly]) {
     border-color: var(--surf-control-choice-hover-border);
-    background: var(--surf-control-hover-background);
+    background-image: linear-gradient(
+      var(--surf-interaction-hover-bg),
+      var(--surf-interaction-hover-bg)
+    );
   }
   .surf-checkbox:is([data-checked], [data-indeterminate]),
   .surf-radio[data-checked],
@@ -56,7 +59,10 @@
       [data-disabled],
       [data-readonly]
     ) {
-    background: var(--surf-control-hover-background);
+    background-image: linear-gradient(
+      var(--surf-interaction-hover-bg),
+      var(--surf-interaction-hover-bg)
+    );
     border-color: var(--surf-control-choice-hover-border);
   }
   :is(.surf-checkbox, .surf-radio, .surf-switch):is(
