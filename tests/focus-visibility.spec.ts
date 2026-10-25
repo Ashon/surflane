@@ -107,19 +107,22 @@ async function byKeyboard(page: Page, target: Locator) {
   await expect(target).toBeFocused()
 }
 
-// How far the focus indicator reaches past the element: a solid outline's width,
-// or a halo's spread. 0 when neither shows.
+// How strong the focus indicator is: a solid outline's width, a halo's spread, or
+// the width of a ring drawn inside the element. 0 when none shows.
 function reach(locator: Locator) {
   return locator.evaluate((el) => {
     const style = getComputedStyle(el)
     let value =
       style.outlineStyle === 'solid' ? parseFloat(style.outlineWidth) : 0
     for (const shadow of style.boxShadow.split(/,(?![^(]*\))/))
-      if (shadow !== 'none' && !shadow.includes('inset')) {
+      if (shadow !== 'none') {
         const [, , blur = 0, spread = 0] = (
           shadow.match(/-?[\d.]+px/g) ?? []
         ).map(parseFloat)
-        value = Math.max(value, blur + spread)
+        value = Math.max(
+          value,
+          shadow.includes('inset') ? spread : blur + spread,
+        )
       }
     return value
   })
@@ -260,11 +263,14 @@ for (const route of pages)
           let value =
             style.outlineStyle === 'solid' ? parseFloat(style.outlineWidth) : 0
           for (const shadow of style.boxShadow.split(/,(?![^(]*\))/))
-            if (shadow !== 'none' && !shadow.includes('inset')) {
+            if (shadow !== 'none') {
               const [, , blur = 0, spread = 0] = (
                 shadow.match(/-?[\d.]+px/g) ?? []
               ).map(parseFloat)
-              value = Math.max(value, blur + spread)
+              value = Math.max(
+                value,
+                shadow.includes('inset') ? spread : blur + spread,
+              )
             }
           return value
         }

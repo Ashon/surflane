@@ -1983,7 +1983,6 @@ body,
 
 /* Manual copy reads in the reading role at the reading measure. Notes, anatomy, link
  * rows, definition lists and components keep their own roles. */
-.catalog-page-header .surf-page-header-description,
 .catalog-page-body
   > section
   > :is(
@@ -3040,9 +3039,6 @@ body,
 .markdown-workbench[data-view='split'] .markdown-preview-pane {
   border-inline-start: 1px solid var(--surf-line);
 }
-.markdown-source-pane > .surf-field {
-  gap: 0;
-}
 .markdown-pane-heading {
   display: flex;
   align-items: baseline;
@@ -3051,20 +3047,11 @@ body,
   padding: var(--surf-space-3) var(--surf-space-4);
   border-block-end: 1px solid var(--surf-line);
   background: var(--surf-surface);
-  font-size: var(--surf-type-table-size);
+  font-size: var(--surf-type-compact-size);
 }
 .markdown-source-pane .rich-source-editor {
-  display: block;
-  inline-size: 100%;
   block-size: 480px;
   min-block-size: 0;
-  resize: none;
-  border: 0;
-  border-radius: 0;
-  padding: var(--surf-space-4);
-}
-.markdown-source-pane .rich-source-editor:focus {
-  outline-offset: var(--surf-focus-ring-inset);
 }
 .markdown-preview-scroll {
   block-size: 480px;

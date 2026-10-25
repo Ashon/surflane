@@ -299,3 +299,18 @@ for (const width of [1440, 320])
         }),
       )
     })
+
+test('the Markdown editor is an embedded Textarea: no edge of its own, a ring inside it on focus', async ({
+  page,
+}) => {
+  await page.goto('/components/markdown')
+  await waitForCatalogReady(page)
+  const editor = page.getByRole('textbox', { name: 'Markdown source' })
+  await expect(editor).toHaveAttribute('data-variant', 'embedded')
+  await expect(editor).toHaveCSS('border-top-width', '0px')
+  await expect(editor).toHaveCSS('resize', 'none')
+  await editor.focus()
+  const ring = await editor.evaluate((el) => getComputedStyle(el).boxShadow)
+  expect(ring).toContain('inset')
+  expect(ring).toMatch(/0px 0px 0px 2px/)
+})

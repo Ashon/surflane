@@ -12,6 +12,7 @@ export function PageHeader({
   actions,
   level = 1,
   size = 'title',
+  lead = false,
   className,
   ...props
 }: Omit<React.ComponentProps<'div'>, 'title'> & {
@@ -27,6 +28,9 @@ export function PageHeader({
   actions?: React.ReactNode
   level?: 1 | 2 | 3 | 4 | 5 | 6
   size?: 'title' | 'page' | 'workspace' | 'document'
+  /** Sets the description as the page's lead: the reading role at the reading
+   * measure, for a document that opens with it. */
+  lead?: boolean
 }) {
   return (
     <Root {...props} className={cx('surf-page-header', className)}>
@@ -41,7 +45,12 @@ export function PageHeader({
           {description != null &&
             description !== false &&
             description !== '' && (
-              <Text color='secondary' className='surf-page-header-description'>
+              <Text
+                color='secondary'
+                variant={lead ? 'reading' : 'body'}
+                data-lead={lead || undefined}
+                className='surf-page-header-description'
+              >
                 {description}
               </Text>
             )}

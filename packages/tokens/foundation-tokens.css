@@ -61,6 +61,8 @@
     --surf-type-metric-tracking: -0.01em;
     --surf-type-code-size: var(--surf-type-compact-size);
     --surf-type-code-leading: var(--surf-type-compact-leading);
+    /* Deprecated: the compact role's earlier name. Tables set body text; write
+       --surf-type-compact-size and -leading. */
     --surf-type-table-size: var(--surf-type-compact-size);
     --surf-type-table-leading: var(--surf-type-compact-leading);
     /* Manrope comes first in the body stack, so Korean word spaces take its 0.20em space;

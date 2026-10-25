@@ -625,6 +625,7 @@ function App() {
                   className='catalog-page-header'
                   title={title}
                   description={description}
+                  lead
                   headingProps={{ id: 'page-title', tabIndex: -1 }}
                   breadcrumb={
                     route !== '/' && route !== '/coverage' ? (

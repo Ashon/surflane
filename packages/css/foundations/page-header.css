@@ -26,6 +26,9 @@
   .surf-page-header-description {
     max-width: var(--surf-layout-description-measure);
   }
+  .surf-page-header-description[data-lead] {
+    max-width: var(--surf-layout-reading-measure);
+  }
   .surf-page-header-actions {
     min-inline-size: 0;
     max-inline-size: 100%;

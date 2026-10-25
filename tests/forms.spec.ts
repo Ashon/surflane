@@ -4,7 +4,12 @@ import AxeBuilder from '@axe-core/playwright'
 import { formExampleIds } from '../demo/FormExamples'
 import React from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
-import { ChoiceLabel, Checkbox, Switch } from '../packages/ui/dist/index.js'
+import {
+  ChoiceLabel,
+  Checkbox,
+  Switch,
+  Text,
+} from '../packages/ui/dist/index.js'
 test.use({ reducedMotion: 'reduce' })
 const status = (page: Page) =>
   page.locator('.component-example').getByRole('status')
@@ -585,4 +590,10 @@ test('an Input error describes the field without joining its name', async ({
   const field = page.getByRole('textbox', { name: 'Project ID', exact: true })
   await expect(field).toHaveAttribute('aria-invalid', 'true')
   await expect(field).toHaveAccessibleDescription('Check the project ID.')
+})
+test("Text's earlier `table` variant renders the compact role", () => {
+  const html = renderToStaticMarkup(
+    React.createElement(Text, { variant: 'table' }, 'value'),
+  )
+  expect(html).toContain('data-variant="compact"')
 })

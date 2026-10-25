@@ -122,3 +122,32 @@ test('document tables hang 16px past both page text lines, so row hover is symme
     }
   }
 })
+test('a page header with lead sets its description in the reading role at the reading measure', async ({
+  page,
+}) => {
+  await page.goto('/foundations/typography')
+  await waitForCatalogReady(page)
+  const description = page.locator(
+    '.catalog-page-header .surf-page-header-description',
+  )
+  await expect(description).toHaveAttribute('data-lead', 'true')
+  // The reading role's size, and its measure in the description's own font.
+  const [expected, actual] = await description.evaluate((el) => {
+    const probe = document.createElement('span')
+    probe.style.cssText =
+      'display: block; font-size: var(--surf-type-reading-size); width: var(--surf-layout-reading-measure)'
+    el.append(probe)
+    const want = getComputedStyle(probe)
+    const result = [
+      [want.fontSize, parseFloat(want.width)],
+      [
+        getComputedStyle(el).fontSize,
+        parseFloat(getComputedStyle(el).maxWidth),
+      ],
+    ] as const
+    probe.remove()
+    return result
+  })
+  expect(actual[0]).toBe(expected[0])
+  expect(Math.abs(actual[1] - expected[1])).toBeLessThan(0.5)
+})

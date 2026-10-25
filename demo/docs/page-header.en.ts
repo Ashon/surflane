@@ -41,6 +41,11 @@ export const doc: ComponentDoc = {
     ['level', '1–6; semantic heading rank', '1'],
     ['size', 'title | page | workspace | document; visual role', 'title'],
     [
+      'lead',
+      'sets the description in the reading role at the reading measure, for a document that opens with it',
+      'false',
+    ],
+    [
       'headingProps',
       'heading HTML attributes, including id and tabIndex',
       'undefined',

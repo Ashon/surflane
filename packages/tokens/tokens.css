@@ -83,7 +83,9 @@
     --surf-trend-up: oklch(0.74 0.15 155); /* Green 50 */
     --surf-trend-down: var(--surf-danger);
 
-    /* Blueprint grid - the grid on the landing page and the guide to the left of text. On the sheet (Gray 80), minor
+    /* Deprecated: no component or page draws the blueprint grid any more; the blueprint
+     * grid, guide and veil tokens are removed in a later minor.
+     * Blueprint grid - the grid on the landing page and the guide to the left of text. On the sheet (Gray 80), minor
      * cells sink one step darker while major cells and guides rise one step lighter. Guides are drawn stronger than the
      * faint base grid (grid-base-opacity) to lead the eye to the text. The lighter Gray 50 stands out on a dark
      * background. */
@@ -201,7 +203,8 @@
     --surf-layout-sidebar: 17rem;
     --surf-layout-splash: 75rem;
 
-    /* Blueprint grid: minor cells are 24px and a major cell spans 4 minor cells. The base grid is 35% of the halo grid's
+    /* Deprecated with the blueprint colors above.
+     * Blueprint grid: minor cells are 24px and a major cell spans 4 minor cells. The base grid is 35% of the halo grid's
      * strength, and the halo spreads two cells beyond an element as it fades. */
     --surf-grid-cell: 24px;
     --surf-grid-major-cell: 96px;
@@ -437,6 +440,7 @@
     --surf-menu-border: var(--surf-line);
     /* Deprecated: a highlighted item takes the --surf-interaction-hover-bg layer. */
     --surf-menu-hover-background: var(--surf-surface);
+    /* Deprecated: a selected item takes --surf-selected. */
     --surf-menu-selected-background: var(--surf-selected);
     --surf-control-focus-ring: oklch(
       from color-mix(in srgb, var(--surf-control-focus) 20%, var(--surf-canvas))

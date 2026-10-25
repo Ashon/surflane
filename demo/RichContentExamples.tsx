@@ -93,21 +93,18 @@ export function RichContentExample({ id }: { id: string }) {
         </div>
         <div className='markdown-workbench' data-view={view}>
           <div className='markdown-source-pane' hidden={view === 'preview'}>
-            <Field.Root>
-              <div className='markdown-pane-heading'>
-                <Field.Label htmlFor='markdown-source'>
-                  {t.markdownSource}
-                </Field.Label>
-                <span>{t.markdown}</span>
-              </div>
-              <Textarea
-                id='markdown-source'
-                className='rich-source-editor'
-                value={source}
-                spellCheck={false}
-                onChange={(event) => setSource(event.target.value)}
-              />
-            </Field.Root>
+            <div className='markdown-pane-heading'>
+              <label htmlFor='markdown-source'>{t.markdownSource}</label>
+              <span>{t.markdown}</span>
+            </div>
+            <Textarea
+              id='markdown-source'
+              variant='embedded'
+              className='rich-source-editor'
+              value={source}
+              spellCheck={false}
+              onChange={(event) => setSource(event.target.value)}
+            />
           </div>
           <div className='markdown-preview-pane' hidden={view === 'source'}>
             <div className='markdown-pane-heading'>

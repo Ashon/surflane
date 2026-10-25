@@ -18,6 +18,9 @@
 - Select `onValueChange` passes Base UI's `eventDetails`, as RadioGroup and Combobox do; `eventDetails.cancel()` keeps the current value. A form reset reports details that can't be canceled.
 - `Sheet.Content` and `Drawer.Content` take `focusBoundaryLabel`, which names their focus guards for VoiceOver as Dialog's are named.
 - `Card.Root` takes `size`, as its parts do.
+- `PageHeader lead` sets the description as the page's lead, in the reading role at the reading measure, for a document that opens with it.
+- Textarea `variant='embedded'` fills the pane it sits in, such as an editor beside a preview: no edge or corners of its own, focus as a 2px ring inside it, and an invalid value as an edge inside it.
+- Text `variant='compact'`: the 13/20px compact role, under the name the type scale uses.
 - `NavigationMenu.LinkTitle` and `NavigationMenu.LinkDescription` (flat names `NavigationMenuLinkTitle`, `NavigationMenuLinkDescription`): a destination's name and a quieter line under it, inside a Link.
 - Sheet and Drawer take two more custom properties beside `--surf-panel-width`: `--surf-panel-height` holds a top or bottom panel at one height, so it doesn't jump as a list inside changes, and `--surf-panel-inset` sets the side padding of the head, body and footer. `Sheet.Footer` and `Drawer.Footer` take `stacked`, which puts the actions one under the other at full width, as a phone's bottom sheet does.
 - `InlineMessage.Icon` takes its Root's tone unless it sets one, as `Toast.Icon` does.
@@ -65,6 +68,9 @@ These keep working, and are removed in a later minor:
 - `--table-surface`: write `--surf-table-surface`.
 - `--surf-type-workspace-title-size`, `-leading`, `--surf-type-document-title-size`, `-leading` and `--surf-type-document-section-size`, the earlier page title roles: write the display and title roles.
 - The type name `ComponentSizeAlias`, now `ComponentSize` under its former name: write `ComponentSize`.
+- Text `variant='table'` and `--surf-type-table-size` and `-leading`: the compact role's earlier name. Tables set body text; write `compact` and `--surf-type-compact-*`.
+- `--surf-menu-selected-background`: a selected item takes `--surf-selected`.
+- The blueprint grid tokens `--surf-grid-minor`, `--surf-grid-major`, `--surf-guide`, `--surf-grid-cell`, `--surf-grid-major-cell`, `--surf-grid-base-opacity`, `--surf-grid-halo`, `--surf-veil-spread` and `--surf-veil-blur`: nothing draws that grid any more.
 
 ### Removed
 

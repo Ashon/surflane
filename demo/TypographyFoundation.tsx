@@ -67,7 +67,7 @@ export function TypeScale() {
     [t.roleReading, '16 / 28px', 'reading'],
     [t.roleBody, '14 / 22px', 'body'],
     [t.roleLabel, '14 / 20px', 'label'],
-    [t.roleCompact, '13 / 20px', 'table'],
+    [t.roleCompact, '13 / 20px', 'compact'],
     [t.roleCaption, '12 / 18px, +0.01em', 'caption'],
     [t.roleCode, '13 / 20px', 'mono'],
     [t.roleMetric, '24 / 28px, −0.01em', 'metric'],

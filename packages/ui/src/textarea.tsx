@@ -9,6 +9,7 @@ import { cx } from './parts.js'
 export const Textarea = function Textarea({
   className,
   size,
+  variant = 'default',
   rows,
   cols,
   wrap,
@@ -16,6 +17,9 @@ export const Textarea = function Textarea({
   ...props
 }: React.ComponentPropsWithoutRef<'textarea'> & {
   size?: ComponentSize
+  /** `embedded` fills the pane it sits in, such as an editor beside a preview: no
+   * edge or corners of its own, and focus as a ring inside it. */
+  variant?: 'default' | 'embedded'
 } & { ref?: React.Ref<HTMLTextAreaElement> }) {
   const scheme = useComponentSize(size)
   return (
@@ -23,6 +27,7 @@ export const Textarea = function Textarea({
       {...(props as React.ComponentPropsWithoutRef<typeof BaseField.Control>)}
       ref={ref as unknown as React.Ref<HTMLInputElement>}
       data-ui-size={scheme}
+      data-variant={variant === 'embedded' ? variant : undefined}
       render={<textarea rows={rows} cols={cols} wrap={wrap} />}
       className={cx('surf-input surf-textarea', className)}
     />

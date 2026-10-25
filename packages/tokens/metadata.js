@@ -114,7 +114,23 @@ export const descriptions = {
   '--surf-type-page-size': '24px heading for standard pages',
   '--surf-type-label-leading': '20px at 14px: single-line controls',
   '--surf-type-compact-size':
-    '13px dense secondary text: tables, notifications',
+    '13px dense secondary text: details beside data, notifications',
+  '--surf-type-table-size':
+    'Deprecated: the compact role under its earlier name; write --surf-type-compact-size',
+  '--surf-type-table-leading':
+    'Deprecated: the compact role under its earlier name; write --surf-type-compact-leading',
+  '--surf-menu-selected-background':
+    'Deprecated: a selected item takes --surf-selected',
+  '--surf-grid-minor': 'Deprecated: the blueprint grid is no longer drawn',
+  '--surf-grid-major': 'Deprecated: the blueprint grid is no longer drawn',
+  '--surf-guide': 'Deprecated: the blueprint grid is no longer drawn',
+  '--surf-grid-cell': 'Deprecated: the blueprint grid is no longer drawn',
+  '--surf-grid-major-cell': 'Deprecated: the blueprint grid is no longer drawn',
+  '--surf-grid-base-opacity':
+    'Deprecated: the blueprint grid is no longer drawn',
+  '--surf-grid-halo': 'Deprecated: the blueprint grid is no longer drawn',
+  '--surf-veil-spread': 'Deprecated: the blueprint grid is no longer drawn',
+  '--surf-veil-blur': 'Deprecated: the blueprint grid is no longer drawn',
   '--surf-type-caption-tracking': 'Opens 12px text slightly',
   '--surf-type-display-tracking':
     'Tightens large titles; Manrope has no optical size axis',

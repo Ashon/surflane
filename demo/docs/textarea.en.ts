@@ -30,6 +30,11 @@ export const doc: ComponentDoc = {
       'native textarea props',
       'native defaults',
     ],
+    [
+      'variant',
+      'default | embedded: embedded fills its pane with no edge of its own and rings inside on focus',
+      'default',
+    ],
     ['ref', 'HTMLTextAreaElement', '—'],
   ],
 }

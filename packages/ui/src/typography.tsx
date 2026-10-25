@@ -35,8 +35,16 @@ export function Text({
   ...props
 }: React.HTMLAttributes<HTMLElement> & {
   as?: 'p' | 'span' | 'div'
+  /** `table` is the earlier name for `compact`, deprecated: it renders the same. */
   variant?:
-    'body' | 'reading' | 'table' | 'caption' | 'label' | 'mono' | 'metric'
+    | 'body'
+    | 'reading'
+    | 'compact'
+    | 'table'
+    | 'caption'
+    | 'label'
+    | 'mono'
+    | 'metric'
   color?: 'primary' | 'secondary' | 'muted'
   weight?: 'regular' | 'medium'
 }) {
@@ -44,7 +52,7 @@ export function Text({
     <Tag
       {...props}
       className={cx('surf-text', className)}
-      data-variant={variant}
+      data-variant={variant === 'table' ? 'compact' : variant}
       data-color={color}
       data-weight={weight}
     />

@@ -61,7 +61,7 @@
     line-height: var(--surf-type-caption-leading);
     letter-spacing: var(--surf-type-caption-tracking);
   }
-  .surf-text[data-variant='table'] {
+  .surf-text[data-variant='compact'] {
     font-size: var(--surf-type-compact-size);
     line-height: var(--surf-type-compact-leading);
     letter-spacing: var(--surf-type-compact-tracking);

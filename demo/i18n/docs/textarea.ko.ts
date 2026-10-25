@@ -9,5 +9,7 @@ export const doc: DocKo = {
   props: {
     'rows / maxLength / required / disabled / readOnly':
       '네이티브 textarea props',
+    variant:
+      'default | embedded: embedded는 테두리 없이 담긴 면을 채우고, 포커스는 안쪽 링으로 보입니다',
   },
 }
