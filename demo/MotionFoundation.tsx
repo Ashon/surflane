@@ -29,6 +29,9 @@ const tokenNames = [
   '--surf-toast-stack-ease',
   '--surf-theme-transition-duration',
   '--surf-theme-transition-ease',
+  '--surf-motion-lift',
+  '--surf-motion-spin',
+  '--surf-motion-pulse',
 ] as const
 function useMotionEnvironment() {
   const [environment, setEnvironment] = useState({
@@ -145,6 +148,12 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
                   environment.values['--surf-dialog-enter-duration'],
                   environment.values['--surf-dialog-exit-duration'],
                   t.behaviorDialog,
+                ],
+                [
+                  'Menu / Select / Popover',
+                  environment.values['--surf-duration-fast'],
+                  '0ms',
+                  t.behaviorPopup,
                 ],
                 [
                   'Sheet / Drawer',

@@ -53,6 +53,28 @@
   }
 }
 @layer surflane.sizes {
+  /* Compact density: fields sit 8px apart, and a phone puts two filters in a row;
+     the search field keeps a row of its own. */
+  :where([data-ui-density='compact'], [data-ui-density='compact'] *):is(
+    .surf-filter-bar,
+    .surf-filter-bar-controls
+  ) {
+    gap: var(--surf-ui-density-inset);
+  }
+  @media (max-width: 760px) {
+    :where(
+        [data-ui-density='compact'],
+        [data-ui-density='compact'] *
+      ).surf-filter-bar-field:not([data-width='search']) {
+      flex: 1 1 calc(50% - var(--surf-ui-density-inset) / 2);
+    }
+    :where(
+        [data-ui-density='compact'],
+        [data-ui-density='compact'] *
+      ).surf-filter-bar-field[data-width='search'] {
+      flex-basis: 100%;
+    }
+  }
   .surf-filter-bar-actions > .surf-button {
     max-inline-size: 100%;
     min-height: var(--surf-control-height);

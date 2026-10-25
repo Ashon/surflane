@@ -36,17 +36,6 @@
       var(--surf-font-body);
     letter-spacing: var(--surf-type-body-tracking);
     outline: none;
-    transition:
-      opacity var(--surf-duration-fast) var(--surf-ease-out),
-      transform var(--surf-duration-fast) var(--surf-ease-out);
-  }
-  .surf-combobox-popup[data-starting-style] {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  .surf-combobox-popup[data-ending-style] {
-    opacity: 0;
-    transition: none;
   }
   .surf-combobox-list {
     max-height: min(280px, var(--available-height));

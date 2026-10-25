@@ -26,4 +26,54 @@
     letter-spacing: var(--surf-type-body-tracking);
     outline: none;
   }
+  /* One entrance for every popup: it fades in and rises --surf-motion-lift in
+     --surf-duration-fast, and closes at once, so closing never makes the reader
+     wait. Dialogs, sheets and toasts move on their own tokens. */
+  :is(
+    .surf-select-popup,
+    .surf-popover,
+    .surf-menu,
+    .surf-combobox-popup,
+    .surf-preview-card,
+    .surf-navigation-popup
+  ) {
+    translate: 0 0;
+    transition:
+      opacity var(--surf-duration-fast) var(--surf-ease-out),
+      translate var(--surf-duration-fast) var(--surf-ease-out);
+  }
+  :is(
+    .surf-select-popup,
+    .surf-popover,
+    .surf-menu,
+    .surf-combobox-popup,
+    .surf-preview-card,
+    .surf-navigation-popup
+  )[data-starting-style] {
+    opacity: 0;
+    translate: 0 var(--surf-motion-lift);
+  }
+  :is(
+    .surf-select-popup,
+    .surf-popover,
+    .surf-menu,
+    .surf-combobox-popup,
+    .surf-preview-card,
+    .surf-navigation-popup
+  ):is([data-ending-style], [data-instant]) {
+    transition: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :is(
+      .surf-select-popup,
+      .surf-popover,
+      .surf-menu,
+      .surf-combobox-popup,
+      .surf-preview-card,
+      .surf-navigation-popup
+    ) {
+      transition: none;
+      translate: none;
+    }
+  }
 }

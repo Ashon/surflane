@@ -9,15 +9,17 @@
   .surf-confirm-content {
     --surf-dialog-width: var(--surf-size-dialog-small);
   }
+  /* A confirmation is one short message: its actions sit on the same plane. */
   .surf-confirm-content .surf-dialog-footer {
-    border-top: 0;
     padding-top: var(--surf-space-2);
+    background: none;
+    --surf-plane: var(--surf-canvas);
+    --surf-recessed: var(--surf-surface);
   }
 }
 @layer surflane.sizes {
   .surf-confirm-content .surf-dialog-header {
     padding-inline-end: var(--surf-space-6);
-    border-bottom: 0;
   }
   :where([data-ui-size], [data-ui-size] *).surf-confirm-content
     .surf-dialog-header {

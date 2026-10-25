@@ -55,7 +55,7 @@ const en = {
   touchEnd:
     '. Size never changes chart data or line thickness. Only control text steps with the size: every type role stays the same, apart from the titles of cards, sheets, drawers and dialogs, which take the subsection role at Small. A default SizeProvider renders exactly as none.',
   composition:
-    'SizeProvider sizes a form, table, or menu, including the portals it opens. A nested provider or a size prop overrides it. Wrap Table.Container from outside instead of putting a provider inside a table.',
+    "SizeProvider sizes a form, table, or menu, including the portals it opens. A nested provider or a size prop overrides it. Wrap Table.Container from outside instead of putting a provider inside a table. Its density='compact' tightens the blocks inside for a dense screen: 12px between them, 8px within, label-role card titles, compact tables and charts, and controls that keep their size on touch.",
   codeLabel: 'Component size composition',
 }
 export const text: Record<Locale, typeof en> = {
@@ -115,7 +115,7 @@ export const text: Record<Locale, typeof en> = {
     touchEnd:
       ' 아래로 줄지 않습니다. 크기는 차트 데이터와 선 두께를 바꾸지 않습니다. 크기를 따라 바뀌는 글자는 컨트롤 글자뿐이고, 타입 역할은 모두 그대로입니다. 단, 카드, 시트, 드로어, 대화상자 제목은 Small에서 subsection 역할을 씁니다. 기본값 SizeProvider는 provider가 없을 때와 똑같이 그립니다.',
     composition:
-      'SizeProvider는 폼, 테이블, 메뉴와 그 안에서 열리는 포털의 크기를 정합니다. 안쪽 provider나 size prop이 이를 덮어씁니다. provider는 테이블 안이 아니라 Table.Container 바깥에 두세요.',
+      "SizeProvider는 폼, 테이블, 메뉴와 그 안에서 열리는 포털의 크기를 정합니다. 안쪽 provider나 size prop이 이를 덮어씁니다. provider는 테이블 안이 아니라 Table.Container 바깥에 두세요. density='compact'는 촘촘한 화면을 위해 안쪽 블록을 좁힙니다. 블록 사이 12px, 블록 안 8px, 카드 제목은 label 역할, 표와 차트는 compact가 되고, 터치에서도 컨트롤은 크기를 유지합니다.",
     codeLabel: '컴포넌트 크기 구성',
   },
 }

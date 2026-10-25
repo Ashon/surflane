@@ -25,7 +25,8 @@ test('dashboard panels are named groups that show loading, refreshing, error and
       ),
     )
   expect(new Set(tops).size).toBe(1)
-  await expect(gpu.locator('.surf-card-title')).toHaveCSS('font-size', '16px')
+  // A compact dashboard titles its panels with the label role.
+  await expect(gpu.locator('.surf-card-title')).toHaveCSS('font-size', '14px')
   // The description opens from the info button.
   await gpu.getByRole('button', { name: 'About GPU temperature' }).click()
   await expect(page.locator('.surf-popover')).toContainText(
@@ -59,6 +60,28 @@ test('dashboard panels are named groups that show loading, refreshing, error and
     (await new AxeBuilder({ page }).include('[data-preview-size]').analyze())
       .violations,
   ).toEqual([])
+})
+test('a compact density tightens the dashboard and keeps controls at their size on a phone', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1100 })
+  await page.goto('/patterns/dashboard')
+  await waitForCatalogReady(page)
+  const panel = page.getByRole('group', { name: 'Free disk', exact: true })
+  await expect(page.locator('.surf-dashboard')).toHaveCSS('row-gap', '12px')
+  await expect(panel).toHaveCSS('padding-top', '12px')
+  await expect(panel).toHaveCSS('row-gap', '8px')
+  // Titles take the label role, 14/20px.
+  await expect(panel.locator('.surf-card-title')).toHaveCSS('font-size', '14px')
+  // Charts follow the density without a prop of their own.
+  await expect(page.locator('.surf-chart').first()).toHaveAttribute(
+    'data-density',
+    'compact',
+  )
+  // On a phone the small controls stay 32px instead of growing to 44px.
+  await page.setViewportSize({ width: 390, height: 900 })
+  const refresh = page.getByRole('button', { name: 'Refresh now' })
+  expect((await refresh.boundingBox())!.height).toBe(32)
 })
 test('dashboard panels share columns, span where they fit and stack on a phone', async ({
   page,

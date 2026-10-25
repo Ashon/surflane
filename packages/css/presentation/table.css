@@ -125,7 +125,11 @@
   }
   /* Compact density: 4px row padding and 2px between rows, for scanning many
    * records with a pointer. It overrides the component size's cell padding. */
-  .surf-table[data-density='compact'] {
+  /* A table in a compact density scope is compact unless it says density='default'. */
+  .surf-table:is(
+    [data-density='compact'],
+    :where([data-ui-density='compact'] :not([data-density]))
+  ) {
     border-spacing: 0 2px;
   }
   /* Lined, grid and striped rows meet edge to edge, square, so lines and stripes
@@ -189,7 +193,12 @@
   :where([data-ui-size], [data-ui-size] *).surf-scroll-root.surf-table-bleed {
     --surf-table-bleed: var(--surf-ui-table-padding-x);
   }
-  .surf-scroll-root.surf-table-bleed:has(.surf-table[data-density='compact']) {
+  .surf-scroll-root.surf-table-bleed:has(
+      .surf-table:is(
+        [data-density='compact'],
+        :where([data-ui-density='compact'] :not([data-density]))
+      )
+    ) {
     --surf-table-bleed: var(--surf-space-3);
   }
   /* A sticky header needs a Container with a bounded block size that scrolls
@@ -227,10 +236,18 @@
     > .surf-button:where(:not([data-size='xs'], [data-size^='icon'])) {
     padding-inline: var(--surf-space-3);
   }
-  .surf-table[data-density='compact'] .surf-table-cell {
+  .surf-table:is(
+      [data-density='compact'],
+      :where([data-ui-density='compact'] :not([data-density]))
+    )
+    .surf-table-cell {
     padding: var(--surf-space-1) var(--surf-space-3);
   }
-  .surf-table[data-density='compact'] .surf-table-sort {
+  .surf-table:is(
+      [data-density='compact'],
+      :where([data-ui-density='compact'] :not([data-density]))
+    )
+    .surf-table-sort {
     height: auto;
     min-height: 28px;
   }

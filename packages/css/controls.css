@@ -10,7 +10,7 @@
     justify-content: center;
     gap: 2px;
     height: var(--surf-control-height);
-    border: 1px solid var(--surf-line);
+    border: 1px solid var(--surf-control-border);
     border-radius: var(--surf-radius-pill);
     background: transparent;
     color: var(--surf-ink-muted);

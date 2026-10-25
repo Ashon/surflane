@@ -6,10 +6,12 @@
 
 ### Added
 
+- `SizeProvider density='compact'` (`ComponentDensity`) packs a dense screen, such as a monitoring dashboard, on a second axis beside size. Blocks sit `--surf-ui-density-gap` (12px) apart and keep `--surf-ui-density-inset` (8px) inside: Dashboard gaps, card padding and the gap inside a card, AppShell page and content padding, the PageHeader gap and FilterBar gaps. Card and Dashboard.Panel titles take the label role. Tables and charts inside turn compact unless they set `density='default'`, and a compact Chart's data table is compact too. On touch and narrow screens controls keep their size instead of growing to 44px, never under `--surf-control-target-size-min` (24px, WCAG 2.2 AA), and a phone puts two filters in a FilterBar row. `size` and `density` can each be left out to keep the surrounding one.
 - `--surf-plane` and `--surf-recessed`: the plane a component sits on, and the area recessed one step from it. On the sheet they are the canvas and the surface. Card, Surface, the AppShell frame, the Sheet footer, an open Accordion item and the FileUpload drop zone set them for what they hold.
 - `--surf-table-surface` names the sticky table header's background. Without it the header takes the plane it sits on.
 - `--surf-motion-spin` and `--surf-motion-pulse` time Spinner, and Skeleton with indeterminate Progress.
 - `--surf-size-label-leading-small`, `-default` and `-large` (18, 20 and 22px): button text inside a size scope.
+- `Dialog.Title` and `Dialog.Description`, with `AlertDialog.Title` and `AlertDialog.Description`, carry the classes `surf-dialog-title` and `surf-dialog-description` (flat names `DialogTitle`, `DialogDescription`, `AlertDialogTitle`, `AlertDialogDescription`). A title rendered as another heading level keeps its style.
 
 ### Changed
 
@@ -23,6 +25,9 @@ These change what components look like, so they ship in a minor.
 - In light themes `--surf-brand-mark` caps lightness at 0.6 and chroma at 0.12. A range end reads 3:1 beside the in-range days, and every custom accent keeps 3:1 on a track.
 - Chart categories 7 to 12 moved apart. Any two now differ by at least ΔE 0.087 on light and 0.092 on dark, and by 0.025 for dichromats.
 - Badge padding is 6, 8 and 12px across, down from 7 and 9px at Small and Default.
+- Outline buttons, toggles, icon buttons such as the dialog and sheet close buttons, and the AppShell edge toggle draw their edge with `--surf-control-border`, 3:1 against the sheet as fields are. Before they used the decorative `--surf-line`, about 1.2:1 on white.
+- Dialog sits on planes, as Sheet and Drawer do: no line under the head or above the footer, and the footer is a surface plane. AlertDialog keeps its actions on the dialog's own plane.
+- Every popup enters the same way: menus, selects, popovers, comboboxes, preview cards and navigation menus fade in and rise `--surf-motion-lift` (4px) in `--surf-duration-fast`, and close at once. Select, Menu and Popover had no entrance; the others rose 4, 6 or 12px over 120 to 200ms.
 
 ### Deprecated
 
@@ -30,7 +35,7 @@ These keep working, and are removed in a later minor:
 
 - `--surf-menu-hover-background`, `--surf-control-hover-background` and `--surf-hover`: hover is `--surf-interaction-hover-bg`.
 - `--surf-slider-track` and `--surf-control-disabled-background`: components read `--surf-recessed`.
-- `--surf-ease-in`, `--surf-motion-exit` and `--surf-motion-lift`: no component uses them.
+- `--surf-ease-in` and `--surf-motion-exit`: no component uses them.
 - `--surf-brand-tint`: selected text takes `--surf-selection-background`.
 - `--table-surface`: write `--surf-table-surface`.
 
@@ -49,6 +54,10 @@ These keep working, and are removed in a later minor:
 - The shadcn bridge maps `--chart-1` to `--chart-5` to the categorical palette, `--destructive` to a red that holds white text at 4.5:1, `--accent` to the hover layer and `--ring` to the focus color.
 - The Tailwind theme types `--surf-selected-edge` and `--surf-slider-track` as colors, and no longer offers `--surf-control-focus-ring-size` as one.
 - NavigationMenu's chevron turns in `--surf-duration-fast`, as other chevrons do.
+
+### Migration
+
+- A bare `<h2>` or `<p>` inside `Dialog.Header` is no longer styled as the title or description. Render `Dialog.Title` and `Dialog.Description`, as the examples do.
 
 ## 0.12.0
 

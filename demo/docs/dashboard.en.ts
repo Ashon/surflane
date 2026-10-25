@@ -1,7 +1,7 @@
 import type { ComponentDoc } from '../componentDocs'
 export const doc: ComponentDoc = {
   usage:
-    "Put a monitoring screen's data panels on one grid. Dashboard.Root fits as many columns as panels of 20rem; a phone shows one. Each Dashboard.Panel is a card with its title, an optional description behind an info button, actions at the end of its header, and the state of its data: a placeholder until the first data arrives, a message with retry when it fails, a sentence when the range is empty. While it refreshes, the content stays and a spinner shows by the title. Wrap a dense dashboard in SizeProvider size='small' and give its charts density='compact'.",
+    "Put a monitoring screen's data panels on one grid. Dashboard.Root fits as many columns as panels of 20rem; a phone shows one. Each Dashboard.Panel is a card with its title, an optional description behind an info button, actions at the end of its header, and the state of its data: a placeholder until the first data arrives, a message with retry when it fails, a sentence when the range is empty. While it refreshes, the content stays and a spinner shows by the title. Wrap a dense dashboard in SizeProvider size='small' density='compact': panels sit and pad 12px, titles take the label role, and the charts and tables inside turn compact.",
   avoid: [
     "Don't clear a panel while it refreshes. Keep the last values and set refreshing.",
     "Don't put a page's other sections in panels. A dashboard is the one place where every block is a card.",
@@ -13,6 +13,7 @@ export const doc: ComponentDoc = {
     'Root(grid) → Panel: Card(role=group, aria-labelledby, aria-busy) → header(Title, info Popover?, Spinner?, actions?) + body(Skeleton | InlineMessage + Retry | empty text | children)',
   tokens: [
     '--surf-space-4',
+    '--surf-space-3',
     '--surf-surface',
     '--surf-radius-lg',
     '--surf-size-card-padding-default',
@@ -21,7 +22,7 @@ export const doc: ComponentDoc = {
   code: `import { Dashboard } from '@surflane/ui/dashboard'
 import { SizeProvider, Stat } from '@surflane/ui'
 
-<SizeProvider size='small'>
+<SizeProvider size='small' density='compact'>
   <Dashboard.Root aria-label='Cluster overview'>
     <Dashboard.Panel
       title='GPU temperature'

@@ -19,9 +19,9 @@
     flex: 1 1 auto;
   }
   .surf-otp-input {
-    flex: 0 1 var(--surf-control-target-size);
-    width: var(--surf-control-target-size);
-    height: var(--surf-control-target-size);
+    flex: 0 1 var(--surf-size-otp-default);
+    width: var(--surf-size-otp-default);
+    height: var(--surf-size-otp-default);
     min-width: 0;
     padding: 0;
     text-align: center;

@@ -176,7 +176,7 @@ const en = {
     'Dialogs, sheets and drawers sit on a backdrop that already sets them apart, so they take no line. Forced colors draw their edge.',
   ],
   lineRules: [
-    '`--surf-control-border` marks inputs, selects, checkboxes, and outline buttons. As the one line with meaning, it meets 3:1 against its plane (WCAG 1.4.11).',
+    '`--surf-control-border` marks inputs, selects, checkboxes, outline buttons, toggles and icon buttons. As the one line with meaning, it meets 3:1 against its plane (WCAG 1.4.11).',
     '`--surf-line` is decorative: section dividers, and the edge where fixed chrome meets same-tone scrolling content.',
     "Don't box what tone or spacing already separates. Table rows part by spacing, and hover and selection fill them. Only a wide table with many columns takes the `lined` or `grid` variant.",
     "Don't mark status with a one-sided accent border. Use a label and an icon.",
@@ -319,7 +319,7 @@ export const text: Record<Locale, typeof en> = {
       '대화상자, 시트, 드로어는 배경막이 이미 떼어 놓으므로 선을 두지 않습니다. 강제 색상 모드에서는 가장자리를 선으로 그립니다.',
     ],
     lineRules: [
-      '`--surf-control-border`는 입력, 선택, 체크박스, 외곽선 버튼의 경계입니다. 의미를 싣는 유일한 선이라 면과 3:1 이상 대비됩니다(WCAG 1.4.11).',
+      '`--surf-control-border`는 입력, 선택, 체크박스, 외곽선 버튼, 토글, 아이콘 버튼의 경계입니다. 의미를 싣는 유일한 선이라 면과 3:1 이상 대비됩니다(WCAG 1.4.11).',
       '`--surf-line`은 장식입니다. 섹션 구분선과, 고정 크롬이 같은 톤의 스크롤 콘텐츠와 만나는 가장자리에 씁니다.',
       '톤이나 간격으로 나뉜 곳을 상자로 두르지 마세요. 표의 행은 간격으로 나누고, 호버와 선택은 면으로 채웁니다. 열이 많은 넓은 표만 `lined`나 `grid` 변형을 씁니다.',
       '한쪽 강조 테두리로 상태를 표시하지 마세요. 라벨과 아이콘을 쓰세요.',

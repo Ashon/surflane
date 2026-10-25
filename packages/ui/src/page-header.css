@@ -5,3 +5,13 @@
 @import './sizing.css';
 @import './typography.css';
 @import '@surflane/css/foundations/page-header.css';
+
+@layer surflane.sizes {
+  /* Compact density: the copy and the actions sit 8px apart. */
+  :where(
+    [data-ui-density='compact'],
+    [data-ui-density='compact'] *
+  ).surf-page-header-content {
+    gap: var(--surf-ui-density-inset);
+  }
+}

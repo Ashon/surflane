@@ -91,19 +91,6 @@
       var(--surf-font-body);
     letter-spacing: var(--surf-type-body-tracking);
     outline: none;
-    opacity: 1;
-    translate: 0 0;
-    transition:
-      opacity var(--surf-dialog-enter-duration) var(--surf-motion-ease),
-      translate var(--surf-dialog-enter-duration)
-        var(--surf-motion-spatial-ease);
-  }
-  .surf-navigation-popup[data-starting-style] {
-    opacity: 0;
-    translate: 0 12px;
-  }
-  .surf-navigation-popup[data-ending-style] {
-    transition-duration: 0s;
   }
   .surf-navigation-viewport {
     position: relative;
@@ -128,12 +115,8 @@
     }
   }
   @media (prefers-reduced-motion: reduce) {
-    .surf-navigation-popup,
     .surf-navigation-icon {
       transition: none;
-    }
-    .surf-navigation-popup[data-starting-style] {
-      translate: 0 0;
     }
   }
   @media (forced-colors: active) {

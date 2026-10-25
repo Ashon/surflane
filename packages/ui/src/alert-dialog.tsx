@@ -1,6 +1,6 @@
 'use client'
 import * as React from 'react'
-import { sizeName, skin } from './parts.js'
+import { part, sizeName, skin } from './parts.js'
 import { useDialogFocusBoundary } from './dialog-focus.js'
 import { useComponentSize, type ComponentSizeAlias } from './sizing.js'
 import { AlertDialog as BaseAlertDialog } from '@base-ui/react/alert-dialog'
@@ -35,23 +35,31 @@ const AlertDialogContent = function AlertDialogContent({
     </BaseAlertDialog.Portal>
   )
 }
+const AlertDialogTitle = /* @__PURE__ */ part<
+  HTMLHeadingElement,
+  React.ComponentPropsWithoutRef<typeof BaseAlertDialog.Title>
+>(BaseAlertDialog.Title, 'surf-dialog-title')
+const AlertDialogDescription = /* @__PURE__ */ part<
+  HTMLParagraphElement,
+  React.ComponentPropsWithoutRef<typeof BaseAlertDialog.Description>
+>(BaseAlertDialog.Description, 'surf-dialog-description')
 export const AlertDialog = {
   ...BaseAlertDialog,
   Content: AlertDialogContent,
   Header: DialogHeader,
   Footer: DialogFooter,
+  Title: AlertDialogTitle,
+  Description: AlertDialogDescription,
 }
 // Flat names for React Server Components, which cannot dot into client exports.
-export { AlertDialogContent }
+export { AlertDialogContent, AlertDialogTitle, AlertDialogDescription }
 export const {
   Backdrop: AlertDialogBackdrop,
   Close: AlertDialogClose,
-  Description: AlertDialogDescription,
   Handle: AlertDialogHandle,
   Popup: AlertDialogPopup,
   Portal: AlertDialogPortal,
   Root: AlertDialogRoot,
-  Title: AlertDialogTitle,
   Trigger: AlertDialogTrigger,
   Viewport: AlertDialogViewport,
   Header: AlertDialogHeader,

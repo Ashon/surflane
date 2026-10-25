@@ -142,15 +142,24 @@
     --surf-control-switch-thumb: var(--surf-ui-switch-thumb);
   }
   /* Coarse pointers retain comfortable targets even with a compact visual scheme. */
+  /* Compact density: blocks sit 12px apart and 8px inside, and touch keeps a
+     control at its size, no smaller than the 24px WCAG 2.2 AA target. */
+  [data-ui-density='compact'] {
+    --surf-ui-density-gap: var(--surf-space-3);
+    --surf-ui-density-inset: var(--surf-space-2);
+    --surf-control-target-size: var(--surf-control-target-size-min);
+  }
   @media (max-width: 760px), (pointer: coarse) {
-    [data-ui-size] {
+    [data-ui-size],
+    [data-ui-density='compact'] {
+      /* A density scope outside any size scope takes the default height. */
       --surf-control-height: max(
         var(--surf-control-target-size),
-        var(--surf-ui-control-height)
+        var(--surf-ui-control-height, var(--surf-size-control-height-default))
       );
       --surf-ui-row: max(
         var(--surf-control-target-size),
-        var(--surf-ui-control-height)
+        var(--surf-ui-control-height, var(--surf-size-control-height-default))
       );
     }
   }

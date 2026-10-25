@@ -43,18 +43,19 @@ export function DashboardExample() {
           </Toggle>
         ))}
       </ToggleGroup>
-      <TimeRangePicker
-        label={t.dashboardTime}
-        range={range}
-        onRangeChange={setRange}
-        onRefresh={() => {
-          // The panels keep their values while new ones are on the way.
-          setDemo('refreshing')
-          setTimeout(() => setDemo('ready'), 1500)
-        }}
-      />
-      {/* A dense dashboard: small controls and titles, compact charts. */}
-      <SizeProvider size='small'>
+      {/* A dense dashboard: small controls, compact density for the panels, their
+          titles, charts and tables, and controls that keep their size on touch. */}
+      <SizeProvider size='small' density='compact'>
+        <TimeRangePicker
+          label={t.dashboardTime}
+          range={range}
+          onRangeChange={setRange}
+          onRefresh={() => {
+            // The panels keep their values while new ones are on the way.
+            setDemo('refreshing')
+            setTimeout(() => setDemo('ready'), 1500)
+          }}
+        />
         <Dashboard.Root aria-label={t.overview}>
           <Dashboard.Panel
             title={t.gpu}
@@ -78,7 +79,6 @@ export function DashboardExample() {
               yLabel={t.gpu}
               xScale='time'
               references={[{ y: 85, label: 'Limit', tone: 'danger' }]}
-              density='compact'
               height={160}
               locale={locale === 'ko' ? 'ko-KR' : 'en-US'}
             />

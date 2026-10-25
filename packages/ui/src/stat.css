@@ -117,3 +117,12 @@
     color: var(--surf-ink-body);
   }
 }
+@layer surflane.sizes {
+  /* Compact density: values of a group sit 8px apart in a row and 12px across. */
+  :where(
+    [data-ui-density='compact'],
+    [data-ui-density='compact'] *
+  ).surf-stat-group-items {
+    gap: var(--surf-ui-density-inset) var(--surf-ui-density-gap);
+  }
+}

@@ -27,33 +27,12 @@
     letter-spacing: var(--surf-type-body-tracking);
     overflow-wrap: anywhere;
     outline: none;
-    transform: translateY(0);
-    opacity: 1;
-    transition:
-      opacity var(--surf-dialog-enter-duration) var(--surf-ease-out),
-      transform var(--surf-dialog-enter-duration) var(--surf-ease-out);
   }
   .surf-preview-card > :first-child {
     margin-top: 0;
   }
   .surf-preview-card > :last-child {
     margin-bottom: 0;
-  }
-  .surf-preview-card[data-starting-style] {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  .surf-preview-card[data-ending-style] {
-    transition-duration: 0s;
-  }
-  .surf-preview-card[data-instant] {
-    transition-duration: 0s;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .surf-preview-card {
-      transition: none;
-      transform: none;
-    }
   }
   @media (forced-colors: active) {
     .surf-preview-card {

@@ -10,7 +10,7 @@
   /* Command state uses the whole rounded surface, with no one-sided accent. */
   .surf-toggle {
     background: transparent;
-    border-color: var(--surf-line);
+    border-color: var(--surf-control-border);
   }
   .surf-toggle[data-pressed] {
     background: var(--surf-selected);

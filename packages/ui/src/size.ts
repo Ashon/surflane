@@ -1,5 +1,7 @@
 // Size names, with no React: server and client components both read them.
 export type ComponentSize = 'small' | 'default' | 'large'
+/** How tightly a screen packs its blocks: compact tightens gaps, insets and touch growth. */
+export type ComponentDensity = 'default' | 'compact'
 /**
  * @deprecated The short spellings sm, md and lg render as small, default and large.
  * Write the full names; the aliases are removed in a later minor.

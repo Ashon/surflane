@@ -16,4 +16,18 @@
     line-height: var(--surf-ui-title-leading);
     letter-spacing: var(--surf-ui-title-tracking);
   }
+  /* Compact density, after any size: a card pads 12px, keeps 8px between its parts
+     and titles itself with the label role, as a dense panel needs. */
+  :where([data-ui-density='compact'], [data-ui-density='compact'] *).surf-card {
+    padding: var(--surf-surface-padding, var(--surf-ui-density-gap));
+    gap: var(--surf-ui-density-inset);
+  }
+  :where(
+    [data-ui-density='compact'],
+    [data-ui-density='compact'] *
+  ).surf-card-title {
+    font-size: var(--surf-type-label-size);
+    line-height: var(--surf-type-label-leading);
+    letter-spacing: var(--surf-type-label-tracking);
+  }
 }

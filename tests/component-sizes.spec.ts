@@ -459,7 +459,8 @@ test('select, popover and dialog portal contents retain size and keyboard behavi
         return `${style.paddingTop} ${style.paddingBottom}`
       }),
     ),
-  ).toEqual(['16px 12px', '12px 12px'])
+    // The head's 12px below splits into 8px and the body's 4px of focus-ring room.
+  ).toEqual(['16px 8px', '12px 12px'])
   await page.keyboard.press('Escape')
   await expect(
     page.getByRole('button', { name: 'Open deployment plan', exact: true }),

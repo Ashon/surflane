@@ -263,6 +263,8 @@
     --surf-control-focus-ring-size: 3px;
     /* The smallest pointer target on narrow screens and touch (WCAG 2.5.5). */
     --surf-control-target-size: 44px;
+    /* The smallest target a compact density keeps on touch: WCAG 2.2 AA (2.5.8). */
+    --surf-control-target-size-min: 24px;
     /* The smallest text in a text field. Narrow screens and touch raise it to 16px,
      * below which iOS zooms the page into a focused field. */
     --surf-control-text-min-size: 0px;
@@ -466,7 +468,7 @@
     --surf-motion-exit: 100ms;
     --surf-motion-ease: var(--surf-ease-out);
     --surf-motion-spatial-ease: cubic-bezier(0.16, 1, 0.3, 1);
-    /* Deprecated: each popup names its own rise, such as --surf-dialog-enter-offset. */
+    /* How far every popup rises as it fades in: menus, selects, popovers. */
     --surf-motion-lift: 4px;
     /* Progress indicators loop while work runs: one spinner turn, one pulse. */
     --surf-motion-spin: 1s;

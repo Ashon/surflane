@@ -1,7 +1,7 @@
 'use client'
 import * as React from 'react'
 import { Icon } from './icon.js'
-import { sizeName, skin, cx } from './parts.js'
+import { part, sizeName, skin, cx } from './parts.js'
 import { useDialogFocusBoundary } from './dialog-focus.js'
 import { useComponentSize, type ComponentSizeAlias } from './sizing.js'
 import { Dialog as BaseDialog } from '@base-ui/react/dialog'
@@ -75,6 +75,14 @@ const DialogBody = function DialogBody({
 function DialogFooter({ className, ...props }: React.ComponentProps<'div'>) {
   return <div {...props} className={cx('surf-dialog-footer', className)} />
 }
+const DialogTitle = /* @__PURE__ */ part<
+  HTMLHeadingElement,
+  React.ComponentPropsWithoutRef<typeof BaseDialog.Title>
+>(BaseDialog.Title, 'surf-dialog-title')
+const DialogDescription = /* @__PURE__ */ part<
+  HTMLParagraphElement,
+  React.ComponentPropsWithoutRef<typeof BaseDialog.Description>
+>(BaseDialog.Description, 'surf-dialog-description')
 export const Dialog = {
   ...BaseDialog,
   Content: DialogContent,
@@ -82,6 +90,8 @@ export const Dialog = {
   Body: DialogBody,
   Footer: DialogFooter,
   CloseButton: DialogCloseButton,
+  Title: DialogTitle,
+  Description: DialogDescription,
 }
 // Flat names for React Server Components, which cannot dot into client exports.
 export {
@@ -90,16 +100,16 @@ export {
   DialogBody,
   DialogFooter,
   DialogCloseButton,
+  DialogTitle,
+  DialogDescription,
 }
 export const {
   Backdrop: DialogBackdrop,
   Close: DialogClose,
-  Description: DialogDescription,
   Handle: DialogHandle,
   Popup: DialogPopup,
   Portal: DialogPortal,
   Root: DialogRoot,
-  Title: DialogTitle,
   Trigger: DialogTrigger,
   Viewport: DialogViewport,
 } = Dialog

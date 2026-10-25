@@ -23,6 +23,7 @@ import { Table } from './table.js'
 import { Button } from './button.js'
 import { Popover } from './popover.js'
 import { cx } from './parts.js'
+import { useComponentDensity } from './sizing.js'
 
 export type ChartDatum = {
   id: string
@@ -79,7 +80,8 @@ export type ChartProps = Omit<
   /** Thresholds and target bands over the plot. The value axis reaches them. */
   references?: readonly ChartReference[]
   /** compact keeps the plot, legend and floating values for a dashboard card; the
-   * caption, keyboard help and readout stay for assistive technology. */
+   * caption, keyboard help and readout stay for assistive technology. Without it the
+   * chart follows a SizeProvider density. Its data table takes the same density. */
   density?: 'default' | 'compact'
   /** Above the plot, beside the value axis name, or below it. */
   legendPosition?: 'top' | 'bottom'
@@ -470,7 +472,7 @@ export const Chart = function Chart({
   curve = 'linear',
   stacked = false,
   references = [],
-  density = 'default',
+  density: ownDensity,
   legendPosition = 'top',
   legendLimit,
   locale = 'en-US',
@@ -490,6 +492,7 @@ export const Chart = function Chart({
   const timeScale = xScale === 'time'
   const logScale = yScale === 'log'
   const stacks = stacked && type !== 'line'
+  const density = useComponentDensity(ownDensity)
   const compact = density === 'compact'
   const [internalHidden, setInternalHidden] =
     React.useState<readonly string[]>(defaultHiddenSeries)
@@ -1103,7 +1106,7 @@ export const Chart = function Chart({
             orientation='both'
             scrollChain='contain'
           >
-            <Table.Root>
+            <Table.Root density={density}>
               <Table.Caption>{text.tableCaption(unit)}</Table.Caption>
               <Table.Head>
                 <Table.Row>

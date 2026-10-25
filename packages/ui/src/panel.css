@@ -172,10 +172,13 @@
     flex: 1 1 auto;
     min-height: 0;
     overflow: auto;
-    padding: var(--surf-panel-ring-room) var(--surf-space-6) var(--surf-space-6);
+    padding: var(--surf-space-6);
     overscroll-behavior: contain;
     scrollbar-width: thin;
     scrollbar-color: var(--surf-scrollbar-thumb) var(--surf-scrollbar-track);
+  }
+  .surf-panel-header + .surf-panel-body {
+    padding-top: var(--surf-panel-ring-room);
   }
   .surf-panel-body::-webkit-scrollbar {
     width: var(--surf-scrollbar-size);

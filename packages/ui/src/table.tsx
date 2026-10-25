@@ -37,7 +37,8 @@ const TableRoot = function TableRoot({
   ref,
   ...props
 }: React.ComponentPropsWithoutRef<typeof RootPart> & {
-  /** compact tightens rows for scanning many records with a pointer. */
+  /** compact tightens rows for scanning many records with a pointer. Without it the
+   * table follows a SizeProvider density; default keeps it roomy inside a compact one. */
   density?: TableDensity
   /**
    * plain separates rows by space; lined draws lines between rows, grid between
@@ -51,7 +52,7 @@ const TableRoot = function TableRoot({
     <RootPart
       {...props}
       ref={ref}
-      data-density={density === 'compact' ? 'compact' : undefined}
+      data-density={density}
       data-variant={variant && variant !== 'plain' ? variant : undefined}
       data-sticky-header={stickyHeader || undefined}
     />

@@ -73,3 +73,12 @@
     }
   }
 }
+@layer surflane.sizes {
+  /* Compact density: panels sit 12px apart. The card inside tightens itself. */
+  :where(
+    [data-ui-density='compact'],
+    [data-ui-density='compact'] *
+  ).surf-dashboard {
+    gap: var(--surf-ui-density-gap);
+  }
+}

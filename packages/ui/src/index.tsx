@@ -558,6 +558,7 @@ export {
 export { Icon, iconNames, type IconName, type IconProps } from './icon.js'
 export {
   SizeProvider,
+  type ComponentDensity,
   type ComponentSize,
   type ComponentSizeAlias,
 } from './sizing.js'

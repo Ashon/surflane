@@ -286,7 +286,7 @@
     position: absolute;
     inset-block-start: var(--surf-space-5);
     inset-inline-end: calc(var(--surf-app-shell-toggle-size) / -2);
-    border: 1px solid var(--surf-line);
+    border: 1px solid var(--surf-control-border);
     background: var(--surf-canvas);
     z-index: 1;
   }
@@ -300,15 +300,23 @@
     border-color: transparent;
     background: transparent;
   }
-  /* On touch the toggle keeps the target size, expanded or collapsed. */
+  /* On touch the toggle grows to the target size, expanded or collapsed. */
   @media (pointer: coarse) {
     .surf-app-shell[data-layout='workspace']
       > .surf-app-shell-sidebar
-      > .surf-app-shell-toggle,
+      > .surf-app-shell-toggle {
+      --surf-app-shell-toggle-size: max(
+        var(--surf-space-8),
+        var(--surf-control-target-size)
+      );
+    }
     .surf-app-shell[data-layout='workspace'][data-sidebar='collapsed']
       > .surf-app-shell-sidebar
       > .surf-app-shell-toggle {
-      --surf-app-shell-toggle-size: var(--surf-control-target-size);
+      --surf-app-shell-toggle-size: max(
+        var(--surf-space-10),
+        var(--surf-control-target-size)
+      );
     }
   }
   /* A ScrollArea in the sidebar takes the room between the brand and the footer, and
@@ -423,6 +431,14 @@
   }
 }
 @layer surflane.sizes {
+  /* Compact density: the page and the content keep the 12px the blocks inside keep,
+     on a phone too. */
+  :where([data-ui-density='compact'], [data-ui-density='compact'] *):is(
+    .surf-app-shell-page,
+    .surf-app-shell-content
+  ) {
+    padding: var(--surf-ui-density-gap);
+  }
   /* A row rendered as a Button, such as Menu.Trigger, keeps the row's shape and the
    * sidebar's text over the button's size scheme. */
   .surf-app-shell-link.surf-button {
