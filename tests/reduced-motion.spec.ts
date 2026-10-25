@@ -36,3 +36,61 @@ for (const route of routes)
     })
     expect(moving, route).toEqual([])
   })
+
+// Popups only exist once open, so each opens before it is measured.
+const popups: [
+  string,
+  string,
+  (page: import('@playwright/test').Page) => Promise<unknown>,
+][] = [
+  [
+    '/components/menu',
+    '.surf-menu',
+    (p) => p.getByRole('button', { name: 'Open actions' }).click(),
+  ],
+  [
+    '/components/select',
+    '.surf-select-popup',
+    (p) =>
+      p.getByRole('combobox', { name: 'Environment', exact: true }).click(),
+  ],
+  [
+    '/components/popover',
+    '.surf-popover',
+    (p) => p.getByRole('button', { name: 'Inspect account' }).click(),
+  ],
+  [
+    '/components/navigation-menu',
+    '.surf-navigation-popup',
+    (p) => p.getByRole('button', { name: 'Products' }).first().click(),
+  ],
+  [
+    '/components/dialog',
+    '.surf-dialog-popup',
+    (p) => p.getByRole('button', { name: 'Open deployment plan' }).click(),
+  ],
+  [
+    '/components/tooltip',
+    '.surf-tooltip',
+    (p) => p.getByRole('button', { name: 'Inspect logs' }).focus(),
+  ],
+]
+for (const [route, selector, open] of popups)
+  test(`${route}: the open popup does not move under reduced motion`, async ({
+    page,
+  }) => {
+    await page.goto(route)
+    await waitForCatalogReady(page)
+    await open(page)
+    const popup = page.locator(selector).first()
+    await expect(popup).toBeVisible()
+    const durations = await popup.evaluate((el) => {
+      const style = getComputedStyle(el)
+      return [style.transitionDuration, style.animationName]
+    })
+    expect(
+      durations[0].split(',').every((d) => parseFloat(d) === 0),
+      `${route} ${durations[0]}`,
+    ).toBe(true)
+    expect(durations[1]).toBe('none')
+  })

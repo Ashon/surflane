@@ -231,6 +231,10 @@ test('Shared Menu skins support checkbox/radio states and submenu commands witho
   const sub = page.getByRole('menuitem', { name: 'More tools', exact: true })
   await sub.focus()
   await sub.press('ArrowRight')
+  // ArrowRight opens the submenu and moves into it.
+  await expect(
+    page.getByRole('menu').last().getByRole('menuitem').first(),
+  ).toBeFocused()
   await page
     .getByRole('menuitem', { name: 'Validate package', exact: true })
     .click()

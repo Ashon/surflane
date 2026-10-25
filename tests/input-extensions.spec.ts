@@ -346,6 +346,10 @@ for (const id of inputExtensionExampleIds)
         await input.focus()
         await input.press('ArrowDown')
         await expect(page.locator('.surf-combobox-popup')).toBeVisible()
+        await expect(page.locator('.surf-combobox-popup')).toHaveCSS(
+          'transition-duration',
+          '0s',
+        )
         expect(
           (
             await new AxeBuilder({ page })

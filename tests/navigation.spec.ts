@@ -138,6 +138,14 @@ test('Collapsible links trigger/panel, retains draft and handles disabled state 
     name: 'Build note',
     exact: true,
   })
+  // The trigger names the panel it opens.
+  const panel = await trigger.getAttribute('aria-controls')
+  expect(panel).toBeTruthy()
+  await expect(
+    page
+      .locator(`[id="${panel}"]`)
+      .getByRole('textbox', { name: 'Build note', exact: true }),
+  ).toBeVisible()
   await note.fill('retained evidence')
   await page.keyboard.press('Escape')
   await expect(trigger).toHaveAttribute('aria-expanded', 'true')

@@ -92,3 +92,36 @@ test('Toolbar: arrows follow the reading direction, and Home and End reach the e
   await page.keyboard.press('ArrowRight')
   await expect(items.first()).toBeFocused()
 })
+
+test('Tabs: right to left the list mirrors, the arrows follow it and the indicator stays under the selected tab', async ({
+  page,
+}) => {
+  await page.goto('/components/tabs')
+  await waitForCatalogReady(page)
+  await page.getByRole('checkbox', { name: 'Right to left' }).check()
+  const tab = (name: string) => page.getByRole('tab', { name, exact: true })
+  const [overview, logs] = await Promise.all([
+    tab('Overview').boundingBox(),
+    tab('Logs').boundingBox(),
+  ])
+  expect(logs!.x).toBeLessThan(overview!.x)
+  await tab('Overview').focus()
+  await page.keyboard.press('ArrowLeft')
+  await expect(tab('Logs')).toBeFocused()
+  await page.keyboard.press('Enter')
+  await expect(tab('Logs')).toHaveAttribute('aria-selected', 'true')
+  const indicator = page.locator('main .surf-tabs-indicator')
+  await expect
+    .poll(async () => {
+      const [a, b] = await Promise.all([
+        indicator.boundingBox(),
+        tab('Logs').boundingBox(),
+      ])
+      return (
+        Math.round(a!.x - b!.x) === 0 && Math.round(a!.width - b!.width) === 0
+      )
+    })
+    .toBe(true)
+  await page.keyboard.press('ArrowRight')
+  await expect(tab('Overview')).toBeFocused()
+})

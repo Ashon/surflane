@@ -40,8 +40,12 @@ test('document scrollbar reveals on scrolling and edge proximity, supports drag,
   await expect(root).not.toHaveAttribute('data-scroll-dragging')
   expect((await page.getByRole('main').boundingBox())!.width).toBe(width)
   await viewport.focus()
+  const top = await viewport.evaluate((el) => el.scrollTop)
   await page.keyboard.press('PageDown')
   await expect(bar).toHaveCSS('opacity', '1')
+  await expect
+    .poll(() => viewport.evaluate((el) => el.scrollTop))
+    .toBeGreaterThan(top)
 })
 
 for (const theme of ['light', 'dark'])

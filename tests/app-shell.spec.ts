@@ -666,3 +666,26 @@ test('Brand, Nav and a Link rendered as a button line up on the icon column, and
     /^40px /,
   )
 })
+test('right to left, the sidebar moves to the right and its edge toggle follows its inner edge', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.goto('/patterns/app-shell')
+  await waitForCatalogReady(page)
+  const shell = page.locator('.app-shell-preview')
+  await shell.evaluate((el) => el.setAttribute('dir', 'rtl'))
+  const sidebar = (await shell
+    .locator('.surf-app-shell-sidebar')
+    .boundingBox())!
+  const content = (await shell
+    .locator('.surf-app-shell-content, .surf-app-shell-page')
+    .first()
+    .boundingBox())!
+  expect(sidebar.x).toBeGreaterThan(content.x)
+  const edge = (await shell
+    .getByRole('button', { name: 'Collapse workspace sidebar', exact: true })
+    .boundingBox())!
+  // The toggle straddles the sidebar's inner edge, which now faces left.
+  expect(edge.x).toBeLessThan(sidebar.x)
+  expect(edge.x + edge.width).toBeGreaterThan(sidebar.x)
+})

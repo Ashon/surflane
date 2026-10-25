@@ -16,6 +16,7 @@ test('Context menu and visible menu share actions and checkbox state', async ({
   await expect(menu).toBeVisible()
   await menu.getByRole('menuitemcheckbox', { name: 'Pin logs' }).click()
   await page.keyboard.press('Escape')
+  await expect(menu).toBeHidden()
   const trigger = page.getByRole('button', {
     name: 'Log actions',
     exact: true,

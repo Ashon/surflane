@@ -15,6 +15,7 @@ import {
   Select,
   Button,
   ChoiceLabel,
+  DirectionProvider,
 } from '@surflane/ui'
 import { withBase } from './router'
 import { useLocale } from './i18n'
@@ -46,6 +47,7 @@ function TabsExample() {
   const [selected, setSelected] = useState<string | number | null>('overview'),
     [automatic, setAutomatic] = useState(false),
     [hold, setHold] = useState(false),
+    [rtl, setRtl] = useState(false),
     [orientation, setOrientation] = useState<'horizontal' | 'vertical'>(
       'horizontal',
     )
@@ -71,46 +73,54 @@ function TabsExample() {
           <Toggle checked={hold} onChange={setHold}>
             {t.preventTabChanges}
           </Toggle>
+          <Toggle checked={rtl} onChange={setRtl}>
+            {t.rightToLeft}
+          </Toggle>
         </div>
       </div>
-      <Tabs.Root
-        value={selected}
-        orientation={orientation}
-        onValueChange={(value, event) => {
-          if (hold && event.reason === 'none') {
-            event.cancel()
-            return
-          }
-          setSelected(value)
-        }}
-      >
-        <Tabs.List
-          aria-label={t.deploymentSections}
-          activateOnFocus={automatic}
-        >
-          <Tabs.Tab value='overview'>{t.overview}</Tabs.Tab>
-          <Tabs.Tab value='logs'>{t.logs}</Tabs.Tab>
-          <Tabs.Tab value='unavailable' disabled>
-            {t.unavailable}
-          </Tabs.Tab>
-          <Tabs.Tab value='history'>{t.history}</Tabs.Tab>
-          <Tabs.Indicator />
-        </Tabs.List>
-        <Tabs.Panel value='overview' keepMounted>
-          <p>{t.reviewEnvironmentAndDeploymentScope}</p>
-          <label>
-            {t.previewNote}
-            <Input placeholder={t.noteRetainedAcrossTabs} />
-          </label>
-        </Tabs.Panel>
-        <Tabs.Panel value='logs' keepMounted>
-          <p>{t.reviewBuildLogsForSelectedPipelineRun}</p>
-          <StatusBadge tone='success'>{t.passed}</StatusBadge>
-        </Tabs.Panel>
-        <Tabs.Panel value='history' keepMounted>
-          <p>{t.reviewRecentRunsAndChangeHistory}</p>
-        </Tabs.Panel>
-      </Tabs.Root>
+      {/* Right to left takes both the provider, for the arrow keys, and dir. */}
+      <DirectionProvider direction={rtl ? 'rtl' : 'ltr'}>
+        <div dir={rtl ? 'rtl' : 'ltr'}>
+          <Tabs.Root
+            value={selected}
+            orientation={orientation}
+            onValueChange={(value, event) => {
+              if (hold && event.reason === 'none') {
+                event.cancel()
+                return
+              }
+              setSelected(value)
+            }}
+          >
+            <Tabs.List
+              aria-label={t.deploymentSections}
+              activateOnFocus={automatic}
+            >
+              <Tabs.Tab value='overview'>{t.overview}</Tabs.Tab>
+              <Tabs.Tab value='logs'>{t.logs}</Tabs.Tab>
+              <Tabs.Tab value='unavailable' disabled>
+                {t.unavailable}
+              </Tabs.Tab>
+              <Tabs.Tab value='history'>{t.history}</Tabs.Tab>
+              <Tabs.Indicator />
+            </Tabs.List>
+            <Tabs.Panel value='overview' keepMounted>
+              <p>{t.reviewEnvironmentAndDeploymentScope}</p>
+              <label>
+                {t.previewNote}
+                <Input placeholder={t.noteRetainedAcrossTabs} />
+              </label>
+            </Tabs.Panel>
+            <Tabs.Panel value='logs' keepMounted>
+              <p>{t.reviewBuildLogsForSelectedPipelineRun}</p>
+              <StatusBadge tone='success'>{t.passed}</StatusBadge>
+            </Tabs.Panel>
+            <Tabs.Panel value='history' keepMounted>
+              <p>{t.reviewRecentRunsAndChangeHistory}</p>
+            </Tabs.Panel>
+          </Tabs.Root>
+        </div>
+      </DirectionProvider>
     </div>
   )
 }
