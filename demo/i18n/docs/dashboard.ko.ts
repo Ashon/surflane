@@ -10,18 +10,27 @@ export const doc: DocKo = {
   keyboard:
     '패널마다 제목이 이름인 묶음이고, 불러오거나 새로 고치는 동안 busy입니다. 정보 버튼은 설명을 팝오버로 열고 Escape가 닫습니다. 다시 시도와 머리글 동작은 보통 버튼입니다.',
   props: {
+    'Root.label':
+      '대시보드를 "클러스터 개요"처럼 페이지의 영역으로 이름 붙입니다',
+    'Root.columns':
+      '넓은 화면에서 보일 최대 열 수. 그만큼으로 짠 줄이 비율을 지킵니다',
     'Root style --surf-dashboard-panel-min-width':
       '격자가 열을 하나 줄이기 전까지 패널의 가장 좁은 폭',
-    'Panel.title / level': '제목과 제목 레벨',
+    'Panel.title / level':
+      '제목과 제목 레벨. 잘린 제목은 마우스를 올리면 전체가 보입니다',
     'Panel.description':
       '패널이 보여 주는 것과 재는 방법. 정보 버튼 뒤에 둡니다',
-    'Panel.state': 'ready | loading | error | empty',
+    'Panel.state':
+      'ready | loading | error | empty | stale. stale은 새로 고침에 실패했다는 주의와 다시 시도 아래에 마지막 내용을 둡니다',
+    'Panel.placeholderHeight':
+      '로딩 자리표시자의 높이. 내용만큼 잡아 두면 아래 패널이 밀리지 않습니다',
     'Panel.refreshing':
       '내용을 두고 제목 옆에 스피너를 띄우며 패널을 busy로 표시합니다',
     'Panel.onRetry / message':
       '오류 메시지의 다시 시도 버튼 / 오류나 빈 상태 문장',
     'Panel.actions': '머리글 끝의 컨트롤',
     'Panel.span': '1 | 2 | 3 | full: 들어가는 곳에서 차지할 열. 폰에서는 하나',
-    'Panel.labels': 'about(title), loading, refreshing, error, retry, empty',
+    'Panel.labels':
+      'about(title), loading, refreshing, error, stale, retry, empty',
   },
 }

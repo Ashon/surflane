@@ -38,17 +38,40 @@ import { SizeProvider, Stat } from '@surflane/ui'
 </SizeProvider>`,
   props: [
     [
+      'Root.label',
+      'names the dashboard as a region of the page, such as "Cluster overview"',
+      '—',
+    ],
+    [
+      'Root.columns',
+      'the most columns a wide screen shows, so a row planned for that many keeps its proportions',
+      'as many as fit',
+    ],
+    [
       'Root style --surf-dashboard-panel-min-width',
       'the narrowest a panel gets before the grid drops a column',
       '20rem',
     ],
-    ['Panel.title / level', 'the heading and its level', 'required / 3'],
+    [
+      'Panel.title / level',
+      'the heading and its level; a title cut short shows in full on hover',
+      'required / 3',
+    ],
     [
       'Panel.description',
       'what the panel shows and how it is measured, behind an info button',
       '—',
     ],
-    ['Panel.state', 'ready | loading | error | empty', 'ready'],
+    [
+      'Panel.state',
+      'ready | loading | error | empty | stale: stale keeps the last content under a caution that the refresh failed, with retry',
+      'ready',
+    ],
+    [
+      'Panel.placeholderHeight',
+      "the loading placeholder's height, as tall as the content will be, so the panels below don't move",
+      '96px',
+    ],
     [
       'Panel.refreshing',
       'keeps the content, shows a spinner by the title and marks the panel busy',
@@ -56,7 +79,7 @@ import { SizeProvider, Stat } from '@surflane/ui'
     ],
     [
       'Panel.onRetry / message',
-      'a retry button in the error message / the error or empty text',
+      'a retry button in the error or stale message / the error, stale or empty text',
       '— / labels',
     ],
     ['Panel.actions', 'controls at the end of the header', '—'],
@@ -67,7 +90,7 @@ import { SizeProvider, Stat } from '@surflane/ui'
     ],
     [
       'Panel.labels',
-      'about(title), loading, refreshing, error, retry, empty',
+      'about(title), loading, refreshing, error, stale, retry, empty',
       'English',
     ],
   ],

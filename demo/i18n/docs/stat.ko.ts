@@ -18,6 +18,8 @@ export const doc: DocKo = {
       "임계값에 대한 값의 상태. '30 GiB 미만'처럼 이유를 글로 함께 씁니다. caution과 danger는 값에도 색을 칠합니다",
     'Group.label':
       '묶음 안의 모든 값이 재는 것. 값들 위에 보이고 묶음의 이름이 됩니다. 각 Stat.Label은 노드처럼 값 하나를 가리킵니다',
+    'Group.labelHidden':
+      '위의 패널 제목이 이미 말해 줄 때 라벨을 보이지 않고 묶음 이름으로만 씁니다. "노드별 남은 디스크"처럼 따로 이름을 주세요',
     'Root / Label / Value / Caption': '네이티브 dl, dt, dd 속성',
   },
 }

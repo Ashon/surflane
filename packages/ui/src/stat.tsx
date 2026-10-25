@@ -81,11 +81,16 @@ export type StatGroupProps = React.ComponentPropsWithoutRef<'div'> & {
   /** What every value in the group measures, such as "GPU temperature". It shows
    * above them and names the group. */
   label: string
+  /** Names the group without showing the label, where a heading above already says
+   * it, such as the title of the Dashboard.Panel that holds the group. Give it a
+   * name of its own, such as "Free disk by node", so the two groups read apart. */
+  labelHidden?: boolean
 }
 /** Several values of one measure side by side, such as one per node: a shared label
  * over Stat.Roots whose own labels name each. */
 const GroupPart = function StatGroup({
   label,
+  labelHidden = false,
   className,
   children,
   ref,
@@ -99,9 +104,11 @@ const GroupPart = function StatGroup({
       ref={ref}
       className={cx('surf-stat-group', className)}
     >
-      <span className='surf-stat-group-label' aria-hidden='true'>
-        {label}
-      </span>
+      {!labelHidden && (
+        <span className='surf-stat-group-label' aria-hidden='true'>
+          {label}
+        </span>
+      )}
       <div className='surf-stat-group-items'>{children}</div>
     </div>
   )

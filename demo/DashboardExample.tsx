@@ -2,9 +2,13 @@ import { useState } from 'react'
 import { BarList, SizeProvider, Stat, ToggleGroup, Toggle } from '@surflane/ui'
 import { Dashboard } from '@surflane/ui/dashboard'
 import { Chart, type ChartDatum } from '@surflane/ui/chart'
-import { TimeRangePicker } from '@surflane/ui/time-range-picker'
+import {
+  TimeRangePicker,
+  timeRangeOptions,
+} from '@surflane/ui/time-range-picker'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/DashboardExample'
+import { text as timeText } from './i18n/pages/TimeRangeExample'
 
 const at = (hour: number, minute = 0) =>
   new Date(2026, 9, 17, hour, minute).getTime()
@@ -23,13 +27,25 @@ const projects = [
   ['Tideline', 6.2],
   ['Anchor', 3.1],
 ] as const
-type Demo = 'ready' | 'loading' | 'refreshing' | 'error'
+type Demo = 'ready' | 'loading' | 'refreshing' | 'stale' | 'error'
 export function DashboardExample() {
   const { locale } = useLocale()
   const t = text[locale]
   const [demo, setDemo] = useState<Demo>('ready')
   const [range, setRange] = useState(24 * 3_600_000)
-  const state = demo === 'loading' || demo === 'error' ? demo : 'ready'
+  const time = timeText[locale]
+  const ranges = timeRangeOptions.map((option, index) => ({
+    ...option,
+    label: time.ranges[index],
+  }))
+  const state =
+    demo === 'loading' || demo === 'error' || demo === 'stale' ? demo : 'ready'
+  const panel = {
+    state,
+    refreshing: demo === 'refreshing',
+    onRetry: () => setDemo('ready'),
+    labels: t.panel,
+  } as const
   return (
     <div className='example-stack'>
       <ToggleGroup
@@ -50,20 +66,20 @@ export function DashboardExample() {
           label={t.dashboardTime}
           range={range}
           onRangeChange={setRange}
+          ranges={ranges}
+          labels={time.labels}
           onRefresh={() => {
             // The panels keep their values while new ones are on the way.
             setDemo('refreshing')
             setTimeout(() => setDemo('ready'), 1500)
           }}
         />
-        <Dashboard.Root aria-label={t.overview}>
+        <Dashboard.Root label={t.overview} columns={3}>
           <Dashboard.Panel
             title={t.gpu}
             description={t.gpuDescription}
             span={2}
-            state={state}
-            refreshing={demo === 'refreshing'}
-            onRetry={() => setDemo('ready')}
+            {...panel}
             message={demo === 'error' ? t.offline : undefined}
           >
             <Chart
@@ -75,32 +91,32 @@ export function DashboardExample() {
                 { key: 'dgx-002', label: 'dgx-002' },
               ]}
               unit='°C'
-              xLabel='Time'
+              xLabel={t.time}
               yLabel={t.gpu}
               xScale='time'
-              references={[{ y: 85, label: 'Limit', tone: 'danger' }]}
+              references={[{ y: 85, label: t.limit, tone: 'danger' }]}
               height={160}
               locale={locale === 'ko' ? 'ko-KR' : 'en-US'}
             />
           </Dashboard.Panel>
-          <Dashboard.Panel
-            title={t.disk}
-            state={state}
-            refreshing={demo === 'refreshing'}
-            onRetry={() => setDemo('ready')}
-          >
-            <Stat.Root>
-              <Stat.Label>dgx-001 /srv</Stat.Label>
-              <Stat.Value>24 GiB</Stat.Value>
-              <Stat.Status tone='danger'>{t.belowLimit}</Stat.Status>
-            </Stat.Root>
+          <Dashboard.Panel title={t.disk} {...panel}>
+            {/* The panel title already names the measure. */}
+            <Stat.Group label={t.diskByNode} labelHidden>
+              <Stat.Root>
+                <Stat.Label>dgx-001 /srv</Stat.Label>
+                <Stat.Value>24 GiB</Stat.Value>
+                <Stat.Status tone='danger'>{t.belowLimit}</Stat.Status>
+              </Stat.Root>
+              <Stat.Root>
+                <Stat.Label>dgx-002 /srv</Stat.Label>
+                <Stat.Value>212 GiB</Stat.Value>
+              </Stat.Root>
+            </Stat.Group>
           </Dashboard.Panel>
           <Dashboard.Panel
             title={t.tokens}
             description={t.tokensDescription}
-            state={state}
-            refreshing={demo === 'refreshing'}
-            onRetry={() => setDemo('ready')}
+            {...panel}
           >
             <BarList
               label={t.tokens}
@@ -114,15 +130,12 @@ export function DashboardExample() {
           </Dashboard.Panel>
           <Dashboard.Panel
             title={t.jobs}
-            state={demo === 'loading' ? 'loading' : 'empty'}
-            message={t.noFailures}
-          />
-          <Dashboard.Panel
-            title={t.latency}
-            state={state}
-            refreshing={demo === 'refreshing'}
+            state={demo === 'loading' || demo === 'error' ? demo : 'empty'}
             onRetry={() => setDemo('ready')}
-          >
+            message={demo === 'error' ? t.offline : t.noFailures}
+            labels={t.panel}
+          />
+          <Dashboard.Panel title={t.latency} {...panel}>
             <Stat.Root>
               <Stat.Label>p95</Stat.Label>
               <Stat.Value>182 ms</Stat.Value>

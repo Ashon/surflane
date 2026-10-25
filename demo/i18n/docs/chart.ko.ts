@@ -41,7 +41,7 @@ export const doc: DocKo = {
     density:
       'default | compact: compact는 플롯, 범례, 떠 있는 값만 보이고 캡션, 도움말, 값 영역은 보조 기술에만 남깁니다',
     'legendPosition / legendLimit':
-      'top | bottom / 범례에 보일 시리즈 수. 나머지는 "+N" 팝오버로 접습니다',
+      'top | bottom / 범례에 보일 시리즈 수. 나머지는 "+N" 팝오버로 접습니다. auto는 한 줄에 들어가는 만큼 보입니다',
     includeZero: '값 축에 0을 둡니다. 막대는 항상 0에서 시작합니다',
     palette:
       'neutral | categorical: 잉크와 대시, 마커로 구분하거나, 범주에 열두 색상을 씁니다',

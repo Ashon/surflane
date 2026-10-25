@@ -85,8 +85,9 @@ export type ChartProps = Omit<
   density?: 'default' | 'compact'
   /** Above the plot, beside the value axis name, or below it. */
   legendPosition?: 'top' | 'bottom'
-  /** Shows this many series in the legend; the rest fold behind a "+N" button. */
-  legendLimit?: number
+  /** Shows this many series in the legend; the rest fold behind a "+N" button. auto
+   * keeps the legend on one line: as many as fit the chart's width, the rest folded. */
+  legendLimit?: number | 'auto'
   locale?: string
   /** Formats a value for the readout, the table and the value axis ticks. The unit
    * follows it in the readout and the table, and names the axis. */
@@ -193,12 +194,17 @@ const timeSteps: [TimeUnit, number, number][] = [
   ['month', 6, 182 * DAY],
   ['year', 1, 365 * DAY],
 ]
-/** Ticks on round local times, such as every 6 hours or the first of each month, at
- * most six across the span. */
-function timeTicks(min: number, max: number) {
+/** Ticks on round local times, such as every 6 hours or the first of each month: at
+ * most six across the span, and no more than fit, so their steps stay even. */
+function timeTicks(
+  min: number,
+  max: number,
+  fits: (unit: TimeUnit, ms: number) => boolean = () => true,
+) {
   const [unit, count] =
-    timeSteps.find(([, , ms]) => (max - min) / ms <= 6) ??
-    timeSteps[timeSteps.length - 1]
+    timeSteps.find(
+      ([stepUnit, , ms]) => (max - min) / ms <= 6 && fits(stepUnit, ms),
+    ) ?? timeSteps[timeSteps.length - 1]
   const date = new Date(min)
   date.setSeconds(0, 0)
   if (unit === 'minute')
@@ -234,6 +240,35 @@ function logTicks(low: number, high: number) {
 }
 const isNumber = (value: unknown): value is number =>
   typeof value === 'number' && Number.isFinite(value)
+/** An element's content width, kept current as it resizes; 0 before it is measured. */
+function useWidth<Element extends HTMLElement>() {
+  const [element, setElement] = React.useState<Element | null>(null)
+  const [width, setWidth] = React.useState(0)
+  React.useLayoutEffect(() => {
+    if (!element) return
+    setWidth(element.clientWidth)
+    if (typeof ResizeObserver === 'undefined') return
+    const observer = new ResizeObserver(([entry]) =>
+      setWidth(entry.contentRect.width),
+    )
+    observer.observe(element)
+    return () => observer.disconnect()
+  }, [element])
+  return [setElement, width, element] as const
+}
+let measureCanvas: HTMLCanvasElement | undefined
+/** How wide a tick label draws, in the font it draws in. */
+function textWidth(text: string, font: string) {
+  measureCanvas ??= document.createElement('canvas')
+  const context = measureCanvas.getContext('2d')
+  if (!context) return text.length * 7.5
+  context.font = font
+  return context.measureText(text).width
+}
+/** The gap Recharts keeps between tick labels. */
+const TICK_GAP = 24
+/** The value axis and the plot's right margin: what the plot gives up of the frame. */
+const PLOT_INSET = 56 + 20
 /** True once the font of the tick labels has loaded. Recharts measures a label to keep
  * it inside the chart and caches that width; measured in the fallback font, the last
  * label overflows by a few pixels once the real font arrives. */
@@ -501,6 +536,27 @@ export const Chart = function Chart({
   const [host, setHost] = React.useState<HTMLDivElement | null>(null)
   const fontsReady = useFontReady(host, data.map((d) => d.label).join(''))
   const [floatHost, setFloatHost] = React.useState<HTMLDivElement | null>(null)
+  const [setFrame, frameWidth, frame] = useWidth<HTMLDivElement>()
+  // legendLimit='auto': lay every series out, count those on the first line, then
+  // fold the rest, keeping room for the "+N" button. A new width lays them out again.
+  const legendList = React.useRef<HTMLUListElement>(null)
+  const [legendFit, setLegendFit] = React.useState<number>()
+  React.useLayoutEffect(() => {
+    if (legendLimit === 'auto') setLegendFit(undefined)
+  }, [legendLimit, frameWidth, series.length])
+  React.useLayoutEffect(() => {
+    if (legendLimit !== 'auto' || legendFit !== undefined) return
+    const items = Array.from(
+      legendList.current?.querySelectorAll<HTMLElement>(
+        ':scope > [data-series]',
+      ) ?? [],
+    )
+    if (!items.length) return
+    const line = items.filter(
+      (item) => item.offsetTop === items[0].offsetTop,
+    ).length
+    setLegendFit(line >= items.length ? items.length : Math.max(1, line - 1))
+  })
   const [dismissed, setDismissed] = React.useState(false)
   // The table renders once it is first opened, so a page of charts stays light.
   const [tableOpened, setTableOpened] = React.useState(false)
@@ -645,20 +701,42 @@ export const Chart = function Chart({
     if (!timeScale || !rows.length) return undefined
     const first = rows[0].time!,
       last = rows[rows.length - 1].time!
-    const { ticks: timeAxisTicks, unit: timeUnit } = timeTicks(first, last)
+    const formatFor = (unit: TimeUnit) =>
+      new Intl.DateTimeFormat(
+        locale,
+        unit === 'minute' || unit === 'hour'
+          ? { hour: 'numeric', minute: '2-digit' }
+          : unit === 'day'
+            ? { month: 'short', day: 'numeric' }
+            : unit === 'month'
+              ? { month: 'short', year: 'numeric' }
+              : { year: 'numeric' },
+      )
+    // Pick the step from the plot's width and the width its labels draw at, so a
+    // narrow chart steps every 2 or 3 hours instead of dropping uneven ticks.
+    const plotWidth = frameWidth - PLOT_INSET
+    const font =
+      frame && fontsReady
+        ? `12px ${getComputedStyle(frame).fontFamily}`
+        : undefined
+    const fits = (unit: TimeUnit, ms: number) => {
+      if (plotWidth <= 0 || !font) return true
+      const label = Math.max(
+        textWidth(formatFor(unit).format(new Date(first)), font),
+        textWidth(formatFor(unit).format(new Date(2026, 9, 24, 22, 30)), font),
+      )
+      const count = Math.floor((last - first) / ms) + 1
+      return count * (label + TICK_GAP) - TICK_GAP <= plotWidth
+    }
+    const { ticks: timeAxisTicks, unit: timeUnit } = timeTicks(
+      first,
+      last,
+      fits,
+    )
     // Bars sit on their time, so half an interval on each side keeps the end ones whole.
     const pad = type === 'bar' ? (interval || DAY) / 2 : 0
     const subDay = timeUnit === 'minute' || timeUnit === 'hour'
-    const tickFormat = new Intl.DateTimeFormat(
-      locale,
-      subDay
-        ? { hour: 'numeric', minute: '2-digit' }
-        : timeUnit === 'day'
-          ? { month: 'short', day: 'numeric' }
-          : timeUnit === 'month'
-            ? { month: 'short', year: 'numeric' }
-            : { year: 'numeric' },
-    )
+    const tickFormat = formatFor(timeUnit)
     const dayFormat = new Intl.DateTimeFormat(locale, {
       month: 'short',
       day: 'numeric',
@@ -674,7 +752,7 @@ export const Chart = function Chart({
           : tickFormat.format(date)
       },
     }
-  }, [rows, timeScale, type, interval, locale])
+  }, [rows, timeScale, type, interval, locale, frameWidth, frame, fontsReady])
   const hasValues = values.length > 0
   const changeHidden = (next: string[]) => {
     if (hiddenSeries === undefined) setInternalHidden(next)
@@ -719,15 +797,22 @@ export const Chart = function Chart({
       <span>{s.label}</span>
     </button>
   )
+  const limit = legendLimit === 'auto' ? legendFit : legendLimit
   const shown =
-    legendLimit !== undefined && legendLimit < series.length
-      ? series.slice(0, Math.max(0, legendLimit))
+    limit !== undefined && limit < series.length
+      ? series.slice(0, Math.max(0, limit))
       : series
   const folded = series.slice(shown.length)
   const legend = (
-    <ul className='surf-chart-legend' aria-label={text.legend(title)}>
+    <ul
+      ref={legendList}
+      className='surf-chart-legend'
+      aria-label={text.legend(title)}
+    >
       {shown.map((s, index) => (
-        <li key={s.key}>{legendButton(s, index)}</li>
+        <li key={s.key} data-series=''>
+          {legendButton(s, index)}
+        </li>
       ))}
       {folded.length > 0 && (
         <li>
@@ -768,7 +853,7 @@ export const Chart = function Chart({
         <strong id={`${id}-title`}>{title}</strong>
         <p id={`${id}-summary`}>{description}</p>
       </figcaption>
-      <div className='surf-chart-frame'>
+      <div className='surf-chart-frame' ref={setFrame}>
         <div className='surf-chart-key'>
           <p className='surf-chart-axis-label'>
             {yLabel} ({unit})

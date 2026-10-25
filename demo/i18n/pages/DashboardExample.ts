@@ -7,6 +7,7 @@ const en = {
   gpuDescription:
     'The hottest GPU on each node, measured every 10 minutes. 85 °C is the limit.',
   disk: 'Free disk',
+  diskByNode: 'Free disk by node',
   tokens: 'Tokens by project',
   tokensDescription: 'Prompt and completion tokens this week.',
   jobs: 'Failed jobs',
@@ -14,12 +15,25 @@ const en = {
   belowLimit: 'Below 30 GiB',
   noFailures: 'No failed jobs in this range.',
   offline: 'The metrics service did not answer.',
+  time: 'Time',
+  limit: 'Limit',
   stateLabel: 'Panel states',
   states: {
     ready: 'Ready',
     loading: 'Loading',
     refreshing: 'Refreshing',
+    stale: 'Refresh failed',
     error: 'Error',
+  },
+  // The package's English, written out so the Korean page has its own.
+  panel: {
+    about: (title: string) => `About ${title}`,
+    loading: 'Loading',
+    refreshing: 'Refreshing',
+    error: 'This panel could not load.',
+    stale: 'These are the last values: the panel could not refresh.',
+    retry: 'Retry',
+    empty: 'No data in this range.',
   },
 }
 export const text: Record<Locale, typeof en> = {
@@ -31,6 +45,7 @@ export const text: Record<Locale, typeof en> = {
     gpuDescription:
       '노드마다 가장 뜨거운 GPU를 10분마다 잰 값입니다. 85 °C가 한계입니다.',
     disk: '남은 디스크',
+    diskByNode: '노드별 남은 디스크',
     tokens: '프로젝트별 토큰',
     tokensDescription: '이번 주 프롬프트와 응답 토큰입니다.',
     jobs: '실패한 작업',
@@ -38,12 +53,24 @@ export const text: Record<Locale, typeof en> = {
     belowLimit: '30 GiB 미만',
     noFailures: '이 기간에 실패한 작업이 없습니다.',
     offline: '지표 서비스가 응답하지 않았습니다.',
+    time: '시간',
+    limit: '한계',
     stateLabel: '패널 상태',
     states: {
       ready: '준비됨',
       loading: '불러오는 중',
       refreshing: '새로 고치는 중',
+      stale: '새로 고침 실패',
       error: '오류',
+    },
+    panel: {
+      about: (title: string) => `${title} 설명`,
+      loading: '불러오는 중',
+      refreshing: '새로 고치는 중',
+      error: '이 패널을 불러오지 못했습니다.',
+      stale: '마지막으로 받은 값입니다. 패널을 새로 고치지 못했습니다.',
+      retry: '다시 시도',
+      empty: '이 기간에 데이터가 없습니다.',
     },
   },
 }

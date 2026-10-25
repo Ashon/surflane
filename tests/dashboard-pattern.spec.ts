@@ -61,6 +61,42 @@ test('dashboard panels are named groups that show loading, refreshing, error and
       .violations,
   ).toEqual([])
 })
+test('a dashboard names its region, caps its columns, titles in full and keeps stale values', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 2560, height: 1200 })
+  await page.goto('/patterns/dashboard')
+  await waitForCatalogReady(page)
+  const region = page.getByRole('region', { name: 'Cluster overview' })
+  await expect(region).toBeVisible()
+  // columns={3}: at 2000px, where six 20rem panels would fit, it still lays out three.
+  expect(
+    await region.evaluate((el) => {
+      el.style.inlineSize = '2000px'
+      const count = getComputedStyle(el).gridTemplateColumns.split(' ').length
+      el.style.inlineSize = ''
+      return count
+    }),
+  ).toBe(3)
+  const disk = page.getByRole('group', { name: 'Free disk', exact: true })
+  // A cut title shows in full on hover.
+  await expect(disk.locator('.surf-card-title')).toHaveAttribute(
+    'title',
+    'Free disk',
+  )
+  // The group keeps a name of its own; the title already shows the measure.
+  await expect(
+    disk.getByRole('group', { name: 'Free disk by node', exact: true }),
+  ).toBeVisible()
+  await expect(disk.locator('.surf-stat-group-label')).toHaveCount(0)
+  // A failed refresh keeps the last values under a caution with retry.
+  await page
+    .getByRole('button', { name: 'Refresh failed', exact: true })
+    .click()
+  await expect(disk).toContainText('These are the last values')
+  await expect(disk).toContainText('24 GiB')
+  await expect(disk.getByRole('button', { name: 'Retry' })).toBeVisible()
+})
 test('a compact density tightens the dashboard and keeps controls at their size on a phone', async ({
   page,
 }) => {

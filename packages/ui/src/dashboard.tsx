@@ -9,16 +9,40 @@ import { Skeleton } from './skeleton.js'
 import { Spinner } from './spinner.js'
 import { cx } from './class-names.js'
 
-export type DashboardRootProps = React.ComponentPropsWithoutRef<'div'>
+export type DashboardRootProps = React.ComponentPropsWithoutRef<'div'> & {
+  /** Names the dashboard as a region of the page, such as "Cluster overview". */
+  label?: string
+  /** The most columns a wide screen shows, so a row planned for that many keeps its
+   * proportions and a span keeps its meaning. Narrower screens still fit fewer. */
+  columns?: number
+}
 /** The panels of a dashboard on a responsive grid: as many columns as fit panels of
- * --surf-dashboard-panel-min-width (20rem), one column on a phone. */
+ * --surf-dashboard-panel-min-width (20rem), up to columns, one column on a phone. */
 const Root = function DashboardRoot({
+  label,
+  columns,
   className,
+  style,
   ref,
   ...props
 }: DashboardRootProps & { ref?: React.Ref<HTMLDivElement> }) {
   return (
-    <div {...props} ref={ref} className={cx('surf-dashboard', className)} />
+    <div
+      role={label ? 'region' : undefined}
+      aria-label={label}
+      {...props}
+      ref={ref}
+      data-columns={columns}
+      style={
+        columns
+          ? ({
+              ...style,
+              '--surf-dashboard-columns': columns,
+            } as React.CSSProperties)
+          : style
+      }
+      className={cx('surf-dashboard', className)}
+    />
   )
 }
 export type DashboardPanelLabels = {
@@ -27,6 +51,8 @@ export type DashboardPanelLabels = {
   loading: string
   refreshing: string
   error: string
+  /** Above the last values when a refresh failed. */
+  stale: string
   retry: string
   empty: string
 }
@@ -35,6 +61,7 @@ const panelLabels: DashboardPanelLabels = {
   loading: 'Loading',
   refreshing: 'Refreshing',
   error: 'This panel could not load.',
+  stale: 'These are the last values: the panel could not refresh.',
   retry: 'Retry',
   empty: 'No data in this range.',
 }
@@ -48,8 +75,12 @@ export type DashboardPanelProps = Omit<
   /** The heading level of the title. */
   level?: 2 | 3 | 4 | 5 | 6
   /** loading shows a placeholder until the first data arrives; error and empty
-   * replace the content with a message. */
-  state?: 'ready' | 'loading' | 'error' | 'empty'
+   * replace the content with a message; stale keeps the last content under a caution
+   * that a refresh failed, with retry. */
+  state?: 'ready' | 'loading' | 'error' | 'empty' | 'stale'
+  /** The loading placeholder's height, as tall as the content will be, so the
+   * panels below don't move when the data arrives. 96px without it. */
+  placeholderHeight?: number | string
   /** New data is on its way: the content stays, a spinner shows by the title and the
    * panel is busy for assistive technology. */
   refreshing?: boolean
@@ -75,6 +106,7 @@ const Panel = function DashboardPanel({
   message,
   actions,
   span,
+  placeholderHeight,
   labels,
   className,
   children,
@@ -96,7 +128,8 @@ const Panel = function DashboardPanel({
       className={cx('surf-dashboard-panel', className)}
     >
       <div className='surf-dashboard-panel-header'>
-        <Card.Title level={level} id={`${id}-title`}>
+        {/* A narrow panel cuts its title short; the full one shows on hover. */}
+        <Card.Title level={level} id={`${id}-title`} title={title}>
           {title}
         </Card.Title>
         {description && (
@@ -127,8 +160,34 @@ const Panel = function DashboardPanel({
       <div className='surf-dashboard-panel-body'>
         {state === 'loading' ? (
           <>
-            <Skeleton shape='block' />
+            <Skeleton
+              shape='block'
+              style={
+                placeholderHeight === undefined
+                  ? undefined
+                  : { blockSize: placeholderHeight }
+              }
+            />
             <span className='surf-feedback-sr'>{text.loading}</span>
+          </>
+        ) : state === 'stale' ? (
+          <>
+            <InlineMessage.Root tone='caution'>
+              <InlineMessage.Icon tone='caution' />
+              <InlineMessage.Content>
+                <InlineMessage.Description>
+                  {message ?? text.stale}
+                </InlineMessage.Description>
+                {onRetry && (
+                  <InlineMessage.Actions>
+                    <Button variant='outline' size='small' onClick={onRetry}>
+                      {text.retry}
+                    </Button>
+                  </InlineMessage.Actions>
+                )}
+              </InlineMessage.Content>
+            </InlineMessage.Root>
+            {children}
           </>
         ) : state === 'error' ? (
           <InlineMessage.Root tone='danger'>

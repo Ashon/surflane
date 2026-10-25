@@ -179,7 +179,7 @@ const projects: ChartDatum[] = Array.from({ length: 7 }, (_, day) => ({
 }))
 type Preset = Partial<
   Pick<ChartProps, 'type' | 'yScale' | 'curve' | 'stacked' | 'palette'>
-> & { legendLimit?: number }
+> & { legendLimit?: number | 'auto' }
 // What each sample is best read with; picking a sample applies it.
 const presets: Record<string, Preset> = {
   gpu: { type: 'line' },
@@ -202,7 +202,7 @@ export function ChartExample() {
   const [stacked, setStacked] = useState(false)
   const [density, setDensity] = useState<'default' | 'compact'>('default')
   const [legendPosition, setLegendPosition] = useState<'top' | 'bottom'>('top')
-  const [legendLimit, setLegendLimit] = useState<number | undefined>()
+  const [legendLimit, setLegendLimit] = useState<number | 'auto'>()
   const choose = (next: string) => {
     const preset = presets[next] ?? {}
     setScenario(next)
@@ -408,11 +408,14 @@ export function ChartExample() {
               setLegendLimit(
                 event.target.value === 'all'
                   ? undefined
-                  : Number(event.target.value),
+                  : event.target.value === 'auto'
+                    ? 'auto'
+                    : Number(event.target.value),
               )
             }
           >
             <option value='all'>Every series</option>
+            <option value='auto'>One line</option>
             <option value='4'>Four</option>
             <option value='2'>Two</option>
           </NativeSelect>

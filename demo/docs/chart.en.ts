@@ -117,7 +117,7 @@ const data: ChartDatum[] = [
     ],
     [
       'legendPosition / legendLimit',
-      'top | bottom / how many series the legend shows before folding the rest behind a "+N" popover',
+      'top | bottom / how many series the legend shows before folding the rest behind a "+N" popover; auto shows as many as fit one line',
       'top / every series',
     ],
     [

@@ -51,6 +51,11 @@ export const doc: ComponentDoc = {
       'what every value in the group measures, shown above them and naming the group; each Stat.Label names one, such as a node',
       'required',
     ],
+    [
+      'Group.labelHidden',
+      'names the group without showing the label, where a panel title above already says it; give it a name of its own, such as "Free disk by node"',
+      'false',
+    ],
     ['Root / Label / Value / Caption', 'native dl, dt and dd props', '—'],
   ],
 }

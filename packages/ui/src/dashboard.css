@@ -15,13 +15,34 @@
   /* As many columns as fit a panel's minimum width; one on a phone. */
   .surf-dashboard {
     --surf-dashboard-panel-min-width: 20rem;
+    --surf-dashboard-gap: var(--surf-space-4);
     display: grid;
     grid-template-columns: repeat(
       auto-fill,
       minmax(min(100%, var(--surf-dashboard-panel-min-width)), 1fr)
     );
-    gap: var(--surf-space-4);
+    gap: var(--surf-dashboard-gap);
     min-inline-size: 0;
+  }
+  /* columns caps the count: a column is never narrower than its share of that many. */
+  .surf-dashboard[data-columns] {
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(
+        min(
+          100%,
+          max(
+            var(--surf-dashboard-panel-min-width),
+            (
+                100% - (var(--surf-dashboard-columns) - 1) *
+                  var(--surf-dashboard-gap)
+              ) /
+              var(--surf-dashboard-columns)
+          )
+        ),
+        1fr
+      )
+    );
   }
   /* The header keeps its height; the content takes the rest of a stretched row. */
   .surf-dashboard-panel {
@@ -62,6 +83,12 @@
     min-inline-size: 0;
     min-block-size: 0;
   }
+  /* A stale panel keeps its last content under the caution. */
+  .surf-dashboard-panel[data-state='stale'] > .surf-dashboard-panel-body {
+    display: grid;
+    align-content: start;
+    gap: var(--surf-space-3);
+  }
   .surf-dashboard-panel-empty {
     margin: 0;
     color: var(--surf-ink-muted);
@@ -79,6 +106,13 @@
     [data-ui-density='compact'],
     [data-ui-density='compact'] *
   ).surf-dashboard {
-    gap: var(--surf-ui-density-gap);
+    --surf-dashboard-gap: var(--surf-ui-density-gap);
+  }
+  :where(
+      [data-ui-density='compact'],
+      [data-ui-density='compact'] *
+    ).surf-dashboard-panel[data-state='stale']
+    > .surf-dashboard-panel-body {
+    gap: var(--surf-ui-density-inset);
   }
 }

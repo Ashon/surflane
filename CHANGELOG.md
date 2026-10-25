@@ -7,6 +7,13 @@
 ### Added
 
 - `SizeProvider density='compact'` (`ComponentDensity`) packs a dense screen, such as a monitoring dashboard, on a second axis beside size. Blocks sit `--surf-ui-density-gap` (12px) apart and keep `--surf-ui-density-inset` (8px) inside: Dashboard gaps, card padding and the gap inside a card, AppShell page and content padding, the PageHeader gap and FilterBar gaps. Card and Dashboard.Panel titles take the label role. Tables and charts inside turn compact unless they set `density='default'`, and a compact Chart's data table is compact too. On touch and narrow screens controls keep their size instead of growing to 44px, never under `--surf-control-target-size-min` (24px, WCAG 2.2 AA), and a phone puts two filters in a FilterBar row. `size` and `density` can each be left out to keep the surrounding one.
+- Dashboard:
+  - `Root.label` names the dashboard as a region, and `Root.columns` caps the columns a wide screen shows, so a row planned for that many keeps its proportions.
+  - `Panel.state='stale'` keeps the last content under a caution that the refresh failed, with retry; `labels.stale` words it.
+  - `Panel.placeholderHeight` sizes the loading placeholder, so the panels below don't move when the data arrives.
+  - A panel title cut short shows in full on hover.
+- `Stat.Group labelHidden` names a group without showing its label, where a panel title above already says it.
+- Chart `legendLimit='auto'` keeps the legend on one line, folding what doesn't fit behind "+N", and the time axis picks its step from the chart's width and its labels, so ticks stay evenly spaced on a narrow chart.
 - `--surf-plane` and `--surf-recessed`: the plane a component sits on, and the area recessed one step from it. On the sheet they are the canvas and the surface. Card, Surface, the AppShell frame, the Sheet footer, an open Accordion item and the FileUpload drop zone set them for what they hold.
 - `--surf-table-surface` names the sticky table header's background. Without it the header takes the plane it sits on.
 - `--surf-motion-spin` and `--surf-motion-pulse` time Spinner, and Skeleton with indeterminate Progress.

@@ -398,6 +398,57 @@ test('a legend limit folds the remaining series into a popover that still toggle
   await expect(project).toHaveAttribute('aria-pressed', 'false')
   await expect(page.locator('.surf-chart-plot .recharts-line')).toHaveCount(11)
 })
+test("legendLimit='auto' keeps the legend on one line at any width", async ({
+  page,
+}) => {
+  await open(page)
+  await choose(page, 'Chart data', 'Twelve projects')
+  await choose(page, 'Legend limit', 'One line')
+  const legend = page.getByRole('list', { name: 'Pipeline activity series' })
+  const lines = () =>
+    legend.evaluate(
+      (list) =>
+        new Set(
+          Array.from(list.children)
+            .filter(
+              (item) => !item.classList.contains('surf-chart-legend-reference'),
+            )
+            .map((item) => (item as HTMLElement).offsetTop),
+        ).size,
+    )
+  const shown = () => legend.locator('[data-series]').count()
+  await expect(
+    legend.getByRole('button', { name: /more series$/ }),
+  ).toBeVisible()
+  expect(await lines()).toBe(1)
+  const wide = await shown()
+  await page.setViewportSize({ width: 600, height: 900 })
+  await expect.poll(lines).toBe(1)
+  expect(await shown()).toBeLessThan(wide)
+})
+test('time ticks keep even steps at any width', async ({ page }) => {
+  await page.goto('/patterns/dashboard')
+  await waitForCatalogReady(page)
+  const chart = page.locator('.surf-chart').first()
+  const steps = () =>
+    chart.locator('.recharts-xAxis-tick-labels text').evaluateAll((labels) => {
+      const xs = labels.map(
+        (label) =>
+          label.getBoundingClientRect().x +
+          label.getBoundingClientRect().width / 2,
+      )
+      return xs.slice(1).map((x, index) => Math.round(x - xs[index]))
+    })
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 1000 })
+    await expect
+      .poll(async () => {
+        const gaps = await steps()
+        return gaps.length > 0 && Math.max(...gaps) - Math.min(...gaps) <= 2
+      })
+      .toBe(true)
+  }
+})
 test('compact keeps the plot and legend and leaves the caption and readout to assistive technology', async ({
   page,
 }) => {
