@@ -39,7 +39,7 @@ export const doc: ComponentDoc = {
   <a href='#guide-setup'>Setup</a>
 </nav>
 <article lang='en' aria-label='Getting started'>
-  <PageHeader level={3} size='document' title='Getting started' />
+  <PageHeader level={3} variant='display' title='Getting started' />
   <Prose>
     <section aria-labelledby='guide-setup'>
       <h4 id='guide-setup' tabIndex={-1}>

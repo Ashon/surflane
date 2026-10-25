@@ -29,7 +29,7 @@ export function SurflaneDemo({ framework }: { framework: string }) {
     <Container width='reading'>
       <Stack gap={6}>
         <Stack gap={2}>
-          <Heading level={1} size='page'>
+          <Heading level={1} variant='page'>
             Surflane on {framework}
           </Heading>
           <Text color='secondary'>

@@ -7,6 +7,8 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import {
   ChoiceLabel,
   Checkbox,
+  Heading,
+  PageHeader,
   Switch,
   Text,
 } from '../packages/ui/dist/index.js'
@@ -596,4 +598,16 @@ test("Text's earlier `table` variant renders the compact role", () => {
     React.createElement(Text, { variant: 'table' }, 'value'),
   )
   expect(html).toContain('data-variant="compact"')
+})
+test('Heading and PageHeader take the role as variant; size stays as its earlier name', () => {
+  const render = (element: React.ReactElement) => renderToStaticMarkup(element)
+  expect(
+    render(React.createElement(Heading, { variant: 'title' }, 'T')),
+  ).toContain('data-size="title"')
+  expect(
+    render(React.createElement(Heading, { size: 'document' }, 'T')),
+  ).toContain('data-size="document"')
+  expect(
+    render(React.createElement(PageHeader, { title: 'T', variant: 'page' })),
+  ).toContain('data-size="page"')
 })

@@ -46,7 +46,7 @@ export const doc: DocKo = {
     palette:
       'neutral | categorical: 잉크와 대시, 마커로 구분하거나, 범주에 열두 색상을 씁니다',
     'locale / formatValue':
-      'Intl 숫자 locale / 선택적 유한 값 포맷터(단위 추가)',
+      'Intl 숫자·날짜 locale. 숫자 도우미처럼 받습니다. 서버가 차트를 그리면 넘겨서 브라우저와 글자가 같게 하세요 / 선택적 유한 값 포맷터(단위 추가)',
     'hiddenSeries / defaultHiddenSeries / onHiddenSeriesChange':
       '제어 또는 비제어 숨김 키; 콜백이 다음 키를 요청',
     labels:

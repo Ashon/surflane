@@ -23,12 +23,7 @@ export function PageHeaderExample() {
       : profile === 'inventory'
         ? t.titleInventory
         : t.titleWorkspace
-  const size =
-    profile === 'docs'
-      ? 'document'
-      : profile === 'inventory'
-        ? 'page'
-        : 'workspace'
+  const variant = profile === 'inventory' ? 'page' : 'display'
   return (
     <>
       <div className='page-header-settings actions'>
@@ -67,7 +62,7 @@ export function PageHeaderExample() {
       >
         <PageHeader
           level={3}
-          size={size}
+          variant={variant}
           title={title}
           breadcrumb={
             details ? (

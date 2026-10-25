@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { cx } from './class-names.js'
-import { Heading, Text } from './typography.js'
+import { Heading, Text, type HeadingVariant } from './typography.js'
 
 export function PageHeader({
   as: Root = 'div',
@@ -11,7 +11,8 @@ export function PageHeader({
   breadcrumb,
   actions,
   level = 1,
-  size = 'title',
+  variant,
+  size,
   lead = false,
   className,
   ...props
@@ -27,7 +28,11 @@ export function PageHeader({
   breadcrumb?: React.ReactNode
   actions?: React.ReactNode
   level?: 1 | 2 | 3 | 4 | 5 | 6
-  size?: 'title' | 'page' | 'workspace' | 'document'
+  /** The title's type role, as Heading's variant is. */
+  variant?: HeadingVariant
+  /** @deprecated The earlier name for `variant`. `workspace` and `document` are
+   * earlier names for `display`. */
+  size?: HeadingVariant | 'workspace' | 'document'
   /** Sets the description as the page's lead: the reading role at the reading
    * measure, for a document that opens with it. */
   lead?: boolean
@@ -39,7 +44,11 @@ export function PageHeader({
       )}
       <div className='surf-page-header-content'>
         <div className='surf-page-header-copy'>
-          <Heading {...headingProps} level={level} size={size}>
+          <Heading
+            {...headingProps}
+            level={level}
+            size={variant ?? size ?? 'title'}
+          >
             {title}
           </Heading>
           {description != null &&

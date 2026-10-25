@@ -190,7 +190,7 @@ export function DocumentationExample() {
             title={copyText.title}
             description={copyText.description}
             level={3}
-            size='document'
+            variant='display'
           />
           <p className='documentation-meta'>
             <time dateTime='2026-10-17'>{copyText.updated}</time>

@@ -9,7 +9,8 @@ export const doc: DocKo = {
   props: {
     'title / description / breadcrumb / actions': 'ReactNode; 보조 슬롯은 선택',
     level: '1–6; 의미론적 heading 순위',
-    size: 'title | page | workspace | document; 시각적 역할',
+    variant:
+      'display | title | page | section | subsection: 제목의 글자 역할. Heading의 variant와 같습니다',
     lead: '설명을 reading 역할과 읽기 폭으로 둡니다. 설명으로 시작하는 문서에 씁니다',
     headingProps: 'id와 tabIndex를 포함한 heading HTML 속성',
     actionsLabel: '선택적 접근성 그룹 이름',

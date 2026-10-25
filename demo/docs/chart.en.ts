@@ -132,8 +132,8 @@ const data: ChartDatum[] = [
     ],
     [
       'locale / formatValue',
-      'Intl number locale / optional finite-value formatter (unit appended)',
-      'en-US / maximum 2 fractional digits',
+      "Intl number and date locale, as the number helpers take; pass it when the server renders the chart, so its text matches the browser's / optional finite-value formatter (unit appended)",
+      "the runtime's / maximum 2 fractional digits",
     ],
     [
       'hiddenSeries / defaultHiddenSeries / onHiddenSeriesChange',

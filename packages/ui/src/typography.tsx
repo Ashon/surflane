@@ -1,28 +1,30 @@
 import * as React from 'react'
 import { cx } from './class-names.js'
 
+export type HeadingVariant =
+  'display' | 'title' | 'page' | 'section' | 'subsection'
 export function Heading({
   level = 2,
-  size = 'section',
+  variant,
+  size,
   className,
   ...props
 }: React.HTMLAttributes<HTMLHeadingElement> & {
   level?: 1 | 2 | 3 | 4 | 5 | 6
-  size?:
-    | 'display'
-    | 'title'
-    | 'page'
-    | 'section'
-    | 'subsection'
-    | 'workspace'
-    | 'document'
+  /** The type role, as Text's variant is: display, title, page, section or
+   * subsection. */
+  variant?: HeadingVariant
+  /** @deprecated The earlier name for `variant`. `workspace` and `document` are
+   * earlier names for `display`. */
+  size?: HeadingVariant | 'workspace' | 'document'
 }) {
   const Tag = `h${level}` as 'h1'
+  // The role stays in data-size, which @surflane/css's heading classes read.
   return (
     <Tag
       {...props}
       className={cx('surf-heading', className)}
-      data-size={size}
+      data-size={variant ?? size ?? 'section'}
     />
   )
 }

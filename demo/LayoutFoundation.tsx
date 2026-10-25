@@ -76,7 +76,7 @@ export function LayoutPreview() {
           <Stack gap={compact ? 3 : 6} data-testid='layout-stack'>
             <PageHeader
               level={3}
-              size={compact ? 'page' : 'title'}
+              variant={compact ? 'page' : 'title'}
               breadcrumb={
                 <Breadcrumbs.Root aria-label={t.layoutBreadcrumb}>
                   <Breadcrumbs.List>

@@ -41,7 +41,7 @@ export function LandingHero() {
         <Text variant='label' color='secondary' className='landing-eyebrow'>
           {t.eyebrow}
         </Text>
-        <Heading level={1} size='display' id='page-title' tabIndex={-1}>
+        <Heading level={1} variant='display' id='page-title' tabIndex={-1}>
           {t.title}
         </Heading>
         <Text variant='reading' color='secondary'>
@@ -131,7 +131,7 @@ export function LandingHero() {
                 data-blueprint-guide
               >
                 <PageHeader
-                  size='page'
+                  variant='page'
                   level={2}
                   title={t.pageTitle}
                   description={t.pageDescription}

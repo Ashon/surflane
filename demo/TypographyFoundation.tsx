@@ -26,7 +26,7 @@ export function TypeSpecimens() {
           <Text variant='caption' color='muted'>
             {t.displaySpecimenCaption}
           </Text>
-          <Heading level={3} size='display'>
+          <Heading level={3} variant='display'>
             Platform engineering
             <br />
             <span lang='ko'>플랫폼 개발의 공통 언어</span>
@@ -83,7 +83,7 @@ export function TypeScale() {
       {headings.map(([name, size, role]) => (
         <div className='type-scale-row' key={role}>
           {meta(name, size)}
-          <Heading level={3} size={role} lang='ko'>
+          <Heading level={3} variant={role} lang='ko'>
             플랫폼 서비스 / Platform services
           </Heading>
         </div>
@@ -160,7 +160,7 @@ export function TypographyFoundation() {
         <TypeScale />
         <p>{t.weightsIntro}</p>
         <div className='brand-type-examples'>
-          <Heading level={3} size='subsection' id='brand-subhead'>
+          <Heading level={3} variant='subsection' id='brand-subhead'>
             {t.subhead}
           </Heading>
           <Text id='brand-body'>
@@ -192,7 +192,7 @@ import '@surflane/css/typography.css'
 // Load the actual font files once in the application entry.
 <body className='surf-typography'>{application}</body>
 
-<Heading level={3} size='subsection'>
+<Heading level={3} variant='subsection'>
   Card subhead
 </Heading>
 <Text variant='caption'>400 / Manrope / +0.01em</Text>

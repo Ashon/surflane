@@ -353,7 +353,7 @@ function pageFiles(setup: Setup): GuideFile[] {
       ...[
         "    <Container width='reading'>",
         '      <Stack gap={4}>',
-        "        <Heading level={1} size='page'>",
+        "        <Heading level={1} variant='page'>",
         '          Hello, Surflane',
         '        </Heading>',
         "        <Text color='secondary'>Tokens, components and themes are ready.</Text>",

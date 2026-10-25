@@ -32,13 +32,10 @@ test('page header keeps semantic rank, optional slots and native action focus', 
         exact: true,
       })
       .click()
+    // Documents and applications open with the display role; inventories with page.
     await expect(preview.locator('h3')).toHaveAttribute(
       'data-size',
-      profile === 'inventory'
-        ? 'page'
-        : profile === 'docs'
-          ? 'document'
-          : 'workspace',
+      profile === 'inventory' ? 'page' : 'display',
     )
   }
   const action = preview.getByRole('button', { name: 'Run preview' })

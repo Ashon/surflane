@@ -21,6 +21,7 @@
 - `CopyButton` (from `@surflane/ui` and `@surflane/ui/code`) copies text and says what happened in its own label, the result in place of the action for 2 seconds as a polite live region. It takes `value` (text, or a function that returns it), `labels`, `onCopy` and `onResult`, and Button's `size` and `variant`. CodeBlock's copy button is a CopyButton.
 - `PageHeader lead` sets the description as the page's lead, in the reading role at the reading measure, for a document that opens with it.
 - Textarea `variant='embedded'` fills the pane it sits in, such as an editor beside a preview: no edge or corners of its own, focus as a 2px ring inside it, and an invalid value as an edge inside it.
+- Heading and PageHeader take `variant` for the title's type role (display, title, page, section, subsection), as Text does; `size` keeps the scale meaning on every other component.
 - Text `variant='compact'`: the 13/20px compact role, under the name the type scale uses.
 - `NavigationMenu.LinkTitle` and `NavigationMenu.LinkDescription` (flat names `NavigationMenuLinkTitle`, `NavigationMenuLinkDescription`): a destination's name and a quieter line under it, inside a Link.
 - Sheet and Drawer take two more custom properties beside `--surf-panel-width`: `--surf-panel-height` holds a top or bottom panel at one height, so it doesn't jump as a list inside changes, and `--surf-panel-inset` sets the side padding of the head, body and footer. `Sheet.Footer` and `Drawer.Footer` take `stacked`, which puts the actions one under the other at full width, as a phone's bottom sheet does.
@@ -49,6 +50,7 @@ These change what components look like, so they ship in a minor.
 - An icon in `EmptyState.Icon` is 32px, the one larger glyph that marks what the empty area is about.
 - Outline buttons, toggles, icon buttons such as the dialog and sheet close buttons, and the AppShell edge toggle draw their edge with `--surf-control-border`, 3:1 against the sheet as fields are. Before they used the decorative `--surf-line`, about 1.2:1 on white.
 - Dialog sits on planes, as Sheet and Drawer do: no line under the head or above the footer, and the footer is a surface plane. AlertDialog keeps its actions on the dialog's own plane.
+- Chart formats numbers and dates in the runtime's locale when `locale` is left out, as the number helpers, BarList and Stat do; it used `en-US`. Pass `locale` when the server renders a chart, so its text matches the browser's.
 - An inline Combobox list (`Combobox.Root inline`) leaves scrolling to the container it sits in, such as a ScrollArea; only a list in its popup scrolls itself, up to 280px.
 - A Sheet or Drawer body keeps 16px of scroll padding at its top and bottom, so a control scrolled into view stays clear of the clipped edge.
 - Every popup enters the same way: menus, selects, popovers, comboboxes, preview cards and navigation menus fade in and rise `--surf-motion-lift` (4px) in `--surf-duration-fast`, and close at once. Select, Menu and Popover had no entrance; the others rose 4, 6 or 12px over 120 to 200ms.
@@ -71,6 +73,7 @@ These keep working, and are removed in a later minor:
 - The type name `ComponentSizeAlias`, now `ComponentSize` under its former name: write `ComponentSize`.
 - Text `variant='table'` and `--surf-type-table-size` and `-leading`: the compact role's earlier name. Tables set body text; write `compact` and `--surf-type-compact-*`.
 - `--surf-menu-selected-background`: a selected item takes `--surf-selected`.
+- Heading and PageHeader `size`: write `variant`. The values `workspace` and `document`, earlier names for `display`, go with it.
 - The blueprint grid tokens `--surf-grid-minor`, `--surf-grid-major`, `--surf-guide`, `--surf-grid-cell`, `--surf-grid-major-cell`, `--surf-grid-base-opacity`, `--surf-grid-halo`, `--surf-veil-spread` and `--surf-veil-blur`: nothing draws that grid any more.
 
 ### Removed

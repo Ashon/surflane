@@ -162,7 +162,7 @@ function Preview({
               {/* The page keeps its surface; only its content scrolls, under a fade. */}
               <div className='theme-preview-scroll'>
                 <PageHeader
-                  size='page'
+                  variant='page'
                   level={3}
                   title={t.pageTitle}
                   description={t.pageDescription}

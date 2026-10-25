@@ -24,7 +24,7 @@ export const doc: ComponentDoc = {
   as='header'
   title='Registered resources'
   level={1}
-  size='page'
+  variant='page'
   headingProps={{ id: 'page-title', tabIndex: -1 }}
   description='Discover and inspect registered resources.'
   breadcrumb={breadcrumb}
@@ -39,7 +39,11 @@ export const doc: ComponentDoc = {
     ],
     ['as', 'div | header', 'div'],
     ['level', '1–6; semantic heading rank', '1'],
-    ['size', 'title | page | workspace | document; visual role', 'title'],
+    [
+      'variant',
+      "display | title | page | section | subsection: the title's type role, as Heading's variant",
+      'title',
+    ],
     [
       'lead',
       'sets the description in the reading role at the reading measure, for a document that opens with it',

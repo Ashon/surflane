@@ -510,7 +510,7 @@ export const Chart = function Chart({
   density: ownDensity,
   legendPosition = 'top',
   legendLimit,
-  locale = 'en-US',
+  locale,
   formatValue,
   labels,
   hiddenSeries,
