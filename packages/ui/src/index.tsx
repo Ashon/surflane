@@ -551,6 +551,17 @@ export {
   InlineMessageDescription,
   InlineMessageActions,
 } from './inline-message.js'
+export {
+  Banner,
+  BannerRoot,
+  BannerIcon,
+  BannerContent,
+  BannerTitle,
+  BannerDescription,
+  BannerActions,
+  type BannerRootProps,
+  type BannerTone,
+} from './banner.js'
 export { Spinner, type SpinnerProps } from './spinner.js'
 export { Skeleton, type SkeletonProps } from './skeleton.js'
 export {

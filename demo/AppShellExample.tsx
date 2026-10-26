@@ -1,5 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import {
+  Banner,
   AppShell,
   Button,
   Checkbox,
@@ -28,6 +29,7 @@ export function AppShellExample({
     [t.settings, 'settings'],
   ]
   const responsive = id === 'responsive-navigation'
+  const [notice, setNotice] = useState(false)
   const [longContent, setLongContent] = useState(false),
     [longNavigation, setLongNavigation] = useState(false)
   const contentViewport = useRef<HTMLDivElement>(null)
@@ -161,6 +163,15 @@ export function AppShellExample({
         >
           {t.longWorkspaceContent}
         </ChoiceLabel>
+        <ChoiceLabel
+          control={
+            <Checkbox.Root checked={notice} onCheckedChange={setNotice}>
+              <Checkbox.Indicator />
+            </Checkbox.Root>
+          }
+        >
+          {t.systemNotice}
+        </ChoiceLabel>
         {responsive && (
           <>
             <ChoiceLabel
@@ -205,6 +216,20 @@ export function AppShellExample({
             persist='surflane-preview-sidebar'
             className='app-shell-preview'
           >
+            {/* A notice for the whole product spans the shell above everything. */}
+            {notice && (
+              <Banner.Root
+                tone='caution'
+                onDismiss={() => setNotice(false)}
+                dismissLabel={t.noticeDismiss}
+              >
+                <Banner.Icon />
+                <Banner.Content>
+                  <Banner.Title>{t.noticeTitle}</Banner.Title>
+                  <Banner.Description>{t.noticeDescription}</Banner.Description>
+                </Banner.Content>
+              </Banner.Root>
+            )}
             <AppShell.Header>
               <AppShell.Brand
                 mark={<Icon name='monitor' decorative />}

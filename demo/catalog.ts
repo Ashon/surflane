@@ -50,6 +50,7 @@ const ready = new Set([
   'sparkline',
   'bar-list',
   'inline-message',
+  'banner',
   'empty-state',
   'progress',
   'meter',
@@ -467,6 +468,13 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
     1,
   ],
   [
+    'banner',
+    'Banner',
+    'Feedback',
+    'Tells everyone about a state of the whole product, across the app shell.',
+    2,
+  ],
+  [
     'inline-message',
     'Inline message',
     'Feedback',
@@ -515,6 +523,7 @@ const nonBase = new Set([
   'tree',
   'chart',
   'inline-message',
+  'banner',
   'spinner',
   'skeleton',
   'empty-state',
@@ -590,6 +599,9 @@ const specializedCriteria: Record<string, string[]> = {
   ],
   'bar-list': [
     'An ordered list whose names and values are text, decorative bars, and a named scroll region when it is bounded',
+  ],
+  banner: [
+    'Spans the app shell above everything else, names its state in words, announces changes politely, and moves focus on when dismissed',
   ],
   'description-list': [
     'A native dl whose terms name their values, long values that wrap or keep the whole value when cut, and a copy action that names its term',

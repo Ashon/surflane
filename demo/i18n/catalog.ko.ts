@@ -106,6 +106,8 @@ export const catalogKo: {
     '/components/badge': '상태를 색, 아이콘, 텍스트로 함께 보여 줍니다.',
     '/components/description-list':
       '리소스의 속성을 용어와 값으로 보여 줍니다.',
+    '/components/banner':
+      '앱 셸 전체에 걸쳐 제품 전체의 상태를 모두에게 알립니다.',
     '/components/kbd': '키나 단축키를 이 플랫폼이 쓰는 대로 적습니다.',
     '/components/card': '관련 정보만 한 표면에 그룹화합니다.',
     '/components/table': '정렬된 행과 열로 정보를 비교합니다.',

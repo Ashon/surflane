@@ -1,0 +1,105 @@
+/* Presentation classes: Banner. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+
+@layer surflane.components {
+  /* A notice for the whole product: a full-width plane in its tone, square, with the
+     icon, the title and description in one line where they fit, then the actions
+     and the dismiss button at the end. Parts keep their own spacing, so a missing
+     part leaves no gap. */
+  .surf-banner {
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    grid-template-areas: 'icon content actions dismiss';
+    align-items: center;
+    min-inline-size: 0;
+    padding-block: var(--surf-space-2);
+    padding-inline: var(--surf-banner-inset, var(--surf-space-4));
+    background: var(--surf-status-info-bg);
+    color: var(--surf-status-info-fg);
+    font: var(--surf-weight-regular) var(--surf-type-body-size) /
+      var(--surf-type-body-leading) var(--surf-font-body);
+    letter-spacing: var(--surf-type-body-tracking);
+  }
+  .surf-banner[data-tone='caution'] {
+    background: var(--surf-status-caution-bg);
+    color: var(--surf-status-caution-fg);
+  }
+  .surf-banner[data-tone='danger'] {
+    background: var(--surf-status-danger-bg);
+    color: var(--surf-status-danger-fg);
+  }
+  .surf-banner-icon {
+    grid-area: icon;
+    display: inline-flex;
+    margin-inline-end: var(--surf-space-3);
+  }
+  .surf-banner-content {
+    grid-area: content;
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
+  }
+  .surf-banner-title {
+    margin-inline-end: var(--surf-space-2);
+    font-weight: var(--surf-weight-medium);
+  }
+  .surf-banner-actions {
+    grid-area: actions;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--surf-space-2);
+    margin-inline-start: var(--surf-space-4);
+  }
+  .surf-banner > .surf-banner-dismiss {
+    grid-area: dismiss;
+    margin-inline-start: var(--surf-space-2);
+    color: inherit;
+  }
+  /* On a phone the description goes under the title and the actions under the
+     text, so the text keeps the width. */
+  @media (max-width: 760px) {
+    .surf-banner {
+      align-items: start;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      grid-template-areas:
+        'icon content dismiss'
+        '. actions .';
+    }
+    /* The icon sits on the title's line, and the dismiss button at the top. */
+    .surf-banner-icon {
+      align-items: center;
+      block-size: 1lh;
+    }
+    .surf-banner-description {
+      display: block;
+    }
+    .surf-banner-actions {
+      margin-block-start: var(--surf-space-2);
+      margin-inline-start: 0;
+    }
+  }
+  /* Forced colours drop the tone's plane, so a line keeps the notice apart. */
+  @media (forced-colors: active) {
+    .surf-banner {
+      border-block-end: 1px solid CanvasText;
+    }
+  }
+  :is(.surf-banner)[data-status-transition] {
+    background-color: color-mix(
+      in oklch,
+      var(--surf-status-from-0),
+      var(--surf-status-to-0) calc(var(--surf-status-progress) * 100%)
+    );
+    color: color-mix(
+      in oklch,
+      var(--surf-status-from-1),
+      var(--surf-status-to-1) calc(var(--surf-status-progress) * 100%)
+    );
+  }
+  @media (prefers-reduced-motion: reduce), (forced-colors: active) {
+    :is(.surf-banner)[data-status-transition] {
+      --surf-status-progress: 1 !important;
+    }
+  }
+}

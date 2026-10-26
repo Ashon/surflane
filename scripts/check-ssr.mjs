@@ -76,6 +76,8 @@ const markers = {
     'surf-scroll-root',
   ],
   feedback: [
+    'surf-banner',
+    'surf-banner-dismiss',
     'surf-progress',
     'surf-meter',
     'surf-spinner',

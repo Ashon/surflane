@@ -6,6 +6,7 @@ import { doc as autocomplete } from './docs/autocomplete.en'
 import { doc as avatar } from './docs/avatar.en'
 import { doc as badge } from './docs/badge.en'
 import { doc as kbd } from './docs/kbd.en'
+import { doc as banner } from './docs/banner.en'
 import { doc as descriptionList } from './docs/description-list.en'
 import { doc as bottomNavigation } from './docs/bottom-navigation.en'
 import { doc as breadcrumbs } from './docs/breadcrumbs.en'
@@ -98,6 +99,7 @@ export const componentDocs: Record<string, ComponentDoc> = {
   avatar,
   badge,
   kbd,
+  banner,
   'description-list': descriptionList,
   'bottom-navigation': bottomNavigation,
   breadcrumbs,

@@ -1,6 +1,6 @@
 # Catalog coverage
 
-The canonical registry is demo/catalog.ts. The current scope contains <!-- catalog-counts -->12 foundations, 65 components and 13 patterns<!-- /catalog-counts -->. Availability means that an implementation, example and documentation exist; it does not imply certification or adoption by any external application.
+The canonical registry is demo/catalog.ts. The current scope contains <!-- catalog-counts -->12 foundations, 66 components and 13 patterns<!-- /catalog-counts -->. Availability means that an implementation, example and documentation exist; it does not imply certification or adoption by any external application.
 
 ## Foundations
 

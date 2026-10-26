@@ -5,6 +5,7 @@ import {
   Autocomplete,
   Avatar,
   Badge,
+  Banner,
   DescriptionList,
   Kbd,
   BottomNavigation,
@@ -656,6 +657,20 @@ export function Disclosure() {
 export function Feedback() {
   return (
     <section data-ssr='feedback'>
+      <Banner.Root tone='caution' onDismiss={() => {}}>
+        <Banner.Icon />
+        <Banner.Content>
+          <Banner.Title>Tide warning</Banner.Title>
+          <Banner.Description>
+            The outer berths close at 18:00 for the spring tide.
+          </Banner.Description>
+        </Banner.Content>
+        <Banner.Actions>
+          <Button variant='outline' size='small'>
+            Tide tables
+          </Button>
+        </Banner.Actions>
+      </Banner.Root>
       <Progress.Root value={30} aria-valuetext='30 of 100 containers unloaded'>
         <Progress.Label>Unloading</Progress.Label>
         <Progress.Value>

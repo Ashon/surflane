@@ -1,0 +1,55 @@
+/* Banner, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './icon.css';
+@import './button.css';
+@import '@surflane/css/presentation/banner.css';
+
+@layer surflane.components {
+  /* First in an AppShell, a banner spans the shell edge to edge above the header,
+     or above the sidebar and the content, and lines its icon up with the shell's
+     inset. The shell gives it a row of its own. */
+  .surf-app-shell > .surf-banner {
+    grid-column: 1 / -1;
+    margin: calc(-1 * var(--surf-app-shell-inset))
+      calc(-1 * var(--surf-app-shell-inset)) 0;
+    --surf-banner-inset: var(--surf-app-shell-inset);
+  }
+  .surf-app-shell:has(> .surf-banner) {
+    grid-template-rows: auto auto minmax(0, 1fr);
+  }
+  .surf-app-shell[data-layout='workspace'] > .surf-banner {
+    margin: 0;
+  }
+  .surf-app-shell[data-layout='workspace']:has(> .surf-banner) {
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+  .surf-app-shell[data-layout='workspace']:has(> .surf-banner)
+    > :is(.surf-app-shell-sidebar, .surf-app-shell-content) {
+    grid-row: 2;
+  }
+  /* On a phone the shell is a column: the banner, the header, then the content. */
+  @media (max-width: 760px) {
+    .surf-app-shell > .surf-banner {
+      margin: 0;
+    }
+    .surf-app-shell[data-layout='workspace']:has(> .surf-banner) {
+      grid-template-rows: auto auto minmax(0, 1fr);
+    }
+    .surf-app-shell[data-layout='workspace']:has(> .surf-banner)
+      > .surf-app-shell-content {
+      grid-row: 3;
+    }
+  }
+}
+@layer surflane.sizes {
+  /* Compact density, after any size: 4px above and below. */
+  :where(
+    [data-ui-density='compact'],
+    [data-ui-density='compact'] *
+  ).surf-banner {
+    padding-block: var(--surf-space-1);
+  }
+}

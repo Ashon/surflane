@@ -29,6 +29,7 @@ export const dataExampleIds = [
   'sparkline',
   'bar-list',
   'inline-message',
+  'banner',
   'empty-state',
 ]
 export const contentExampleIds = ['card', 'code', 'pagination']

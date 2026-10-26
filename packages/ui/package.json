@@ -103,6 +103,7 @@
     "./meter.css": "./dist/css/meter.css",
     "./toast.css": "./dist/css/toast.css",
     "./inline-message.css": "./dist/css/inline-message.css",
+    "./banner.css": "./dist/css/banner.css",
     "./spinner.css": "./dist/css/spinner.css",
     "./skeleton.css": "./dist/css/skeleton.css",
     "./empty-state.css": "./dist/css/empty-state.css",
@@ -372,6 +373,10 @@
     "./inline-message": {
       "types": "./dist/inline-message.d.ts",
       "import": "./dist/inline-message.js"
+    },
+    "./banner": {
+      "types": "./dist/banner.d.ts",
+      "import": "./dist/banner.js"
     },
     "./spinner": {
       "types": "./dist/spinner.d.ts",

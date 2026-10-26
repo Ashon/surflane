@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs'
 import { createElement as h } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import {
+  Banner,
   Button,
   DescriptionList,
   FileUpload,
@@ -166,5 +167,27 @@ test('DescriptionList renders a native dl, names an empty value and ties its cop
   assert.match(
     markup,
     /<dd class="surf-description-list-value" data-empty="true">Not set yet<\/dd>/,
+  )
+})
+
+test('Banner is a polite live region whose dismiss button has a name', () => {
+  const markup = html(
+    h(
+      Banner.Root,
+      { tone: 'danger', onDismiss: () => {}, dismissLabel: 'Dismiss outage' },
+      h(Banner.Icon),
+      h(Banner.Content, null, h(Banner.Title, null, 'Build service outage')),
+    ),
+  )
+  assert.match(
+    markup,
+    /^<div role="status" data-tone="danger" class="surf-banner">/,
+  )
+  assert.match(markup, /<span aria-hidden="true" class="surf-banner-icon"><svg/)
+  assert.match(markup, /<strong class="surf-banner-title">Build service outage/)
+  assert.match(markup, /aria-label="Dismiss outage"/)
+  assert.doesNotMatch(
+    html(h(Banner.Root, null, 'Notice')),
+    /surf-banner-dismiss/,
   )
 })

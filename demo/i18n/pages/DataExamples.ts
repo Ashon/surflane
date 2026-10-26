@@ -97,6 +97,24 @@ const en = {
   dlImage: 'Image',
   dlCreated: 'Created',
   dlDescription: 'Description',
+  bannerState: 'State',
+  bannerNotices: {
+    info: {
+      title: 'New region available',
+      description: 'Environments can now deploy to eu-central-1.',
+    },
+    caution: {
+      title: 'Scheduled maintenance',
+      description: 'Deployments pause on Saturday, 02:00–04:00 UTC.',
+    },
+    danger: {
+      title: 'Build service outage',
+      description: 'Builds are queued and start when the service recovers.',
+    },
+  },
+  bannerViewStatus: 'View status',
+  bannerDismiss: 'Dismiss',
+  bannerShowAgain: 'Show the notice again',
 }
 export const text: Record<Locale, typeof en> = {
   en,
@@ -201,5 +219,23 @@ export const text: Record<Locale, typeof en> = {
     dlImage: '이미지',
     dlCreated: '생성 시각',
     dlDescription: '설명',
+    bannerState: '상태',
+    bannerNotices: {
+      info: {
+        title: '새 리전 추가',
+        description: '이제 환경을 eu-central-1에 배포할 수 있습니다.',
+      },
+      caution: {
+        title: '예정된 점검',
+        description: '토요일 02:00–04:00 UTC 동안 배포가 멈춥니다.',
+      },
+      danger: {
+        title: '빌드 서비스 장애',
+        description: '빌드는 대기열에 들어가며 서비스가 복구되면 시작됩니다.',
+      },
+    },
+    bannerViewStatus: '상태 보기',
+    bannerDismiss: '닫기',
+    bannerShowAgain: '알림 다시 보기',
   },
 }

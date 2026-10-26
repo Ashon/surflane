@@ -14,6 +14,8 @@ import {
   Stat,
   Sparkline,
   BarList,
+  Banner,
+  type BannerTone,
   DescriptionList,
   Inline,
   Select,
@@ -151,6 +153,49 @@ function EmptyPreview() {
       <p role='status' className='example-announcement'>
         {notice}
       </p>
+    </div>
+  )
+}
+function BannerPreview() {
+  const t = text[useLocale().locale]
+  const [tone, setTone] = useState<BannerTone>('caution')
+  const [shown, setShown] = useState(true)
+  const notice = t.bannerNotices[tone]
+  return (
+    <div className='example-stack'>
+      <label>
+        {t.bannerState}
+        <Select
+          width='content'
+          value={tone}
+          onValueChange={(value) => setTone(value as BannerTone)}
+          options={(['info', 'caution', 'danger'] as const).map((value) => ({
+            value,
+            label: t.bannerNotices[value].title,
+          }))}
+        />
+      </label>
+      {shown ? (
+        <Banner.Root
+          tone={tone}
+          onDismiss={() => setShown(false)}
+          dismissLabel={t.bannerDismiss}
+        >
+          <Banner.Icon />
+          <Banner.Content>
+            <Banner.Title>{notice.title}</Banner.Title>
+            <Banner.Description>{notice.description}</Banner.Description>
+          </Banner.Content>
+          <Banner.Actions>
+            <Button variant='outline' size='small'>
+              {t.bannerViewStatus}
+            </Button>
+          </Banner.Actions>
+        </Banner.Root>
+      ) : null}
+      <Button variant='outline' onClick={() => setShown(true)}>
+        {t.bannerShowAgain}
+      </Button>
     </div>
   )
 }
@@ -567,6 +612,7 @@ export function DataExample({ id }: { id: string }) {
   if (id === 'bar-list') return <BarListPreview />
   if (id === 'empty-state') return <EmptyPreview />
   if (id === 'inline-message') return <MessagePreview />
+  if (id === 'banner') return <BannerPreview />
   const rows = environments
     .filter((r) => r.name.toLowerCase().includes(query.toLowerCase()))
     .sort((a, b) => (ascending ? 1 : -1) * a.name.localeCompare(b.name))
