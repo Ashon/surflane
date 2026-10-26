@@ -1,5 +1,6 @@
 'use client'
 import * as React from 'react'
+import { useLabels } from './label-context.js'
 import { Icon } from './icon.js'
 import { useComponentSize, type ComponentSize } from './sizing.js'
 import { Select as BaseSelect } from '@base-ui/react/select'
@@ -182,7 +183,8 @@ export const Select = function Select(
   }
   // Several values: the "all" option leads the list, and the trigger sums them up.
   const choosable = options.filter((option) => !option.disabled)
-  const text = { ...multipleLabels, ...(many?.labels ?? {}) }
+  const providedLabels = useLabels<SelectMultipleLabels>('select')
+  const text = { ...multipleLabels, ...providedLabels, ...(many?.labels ?? {}) }
   const chosen: readonly string[] = many
     ? (many.value ?? (localValue as readonly string[]))
     : []

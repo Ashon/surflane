@@ -6,6 +6,7 @@ import { Button, type ButtonProps } from './button.js'
 import { Icon } from './icon.js'
 import { Tooltip } from './tooltip.js'
 import { commandKey } from './platform.js'
+import { useLabels } from './label-context.js'
 
 type Shell = {
   collapsed: boolean
@@ -162,9 +163,10 @@ const SidebarToggle = function AppShellSidebarToggle({
 }: AppShellSidebarToggleProps & { ref?: React.Ref<HTMLButtonElement> }) {
   const shell = React.useContext(ShellContext)
   if (!shell) throw new Error('AppShell.SidebarToggle belongs in AppShell.Root')
+  const text = useLabels<{ collapse: string; expand: string }>('appShell')
   const label = shell.collapsed
-    ? (labels?.expand ?? 'Expand sidebar')
-    : (labels?.collapse ?? 'Collapse sidebar')
+    ? (labels?.expand ?? text.expand ?? 'Expand sidebar')
+    : (labels?.collapse ?? text.collapse ?? 'Collapse sidebar')
   return (
     <Tooltip
       label={label}
@@ -197,19 +199,20 @@ export type AppShellMenuTriggerProps = Omit<ButtonProps, 'children'> & {
 /** Opens the caller's navigation, such as a Sheet, where the sidebar is hidden: at
  * 760px and narrower it shows at the header's end, and above that it is hidden. */
 const MenuTrigger = function AppShellMenuTrigger({
-  label = 'Open navigation',
+  label,
   className,
   children,
   ref,
   ...props
 }: AppShellMenuTriggerProps & { ref?: React.Ref<HTMLButtonElement> }) {
+  const text = useLabels<{ menu: string }>('appShell')
   return (
     <Button
       variant='ghost'
       size='icon'
       {...props}
       ref={ref}
-      aria-label={label}
+      aria-label={label ?? text.menu ?? 'Open navigation'}
       className={skin('surf-app-shell-menu-trigger', className)}
     >
       {children ?? <Icon name='menu' decorative />}

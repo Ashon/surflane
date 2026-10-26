@@ -123,10 +123,33 @@ const packageEnglish = new Set([
   'View data table',
   'Choose file',
   'Choose files',
+  // Every default LabelsProvider carries, which the Korean pages read from it.
+  'Collapse sidebar',
+  'Expand sidebar',
+  'Open navigation',
+  'Dismiss',
+  'Notifications',
+  'Copy',
+  'Copied',
+  'Copy unavailable',
+  'Markdown content',
+  'Highlighted source',
+  'Pagination',
+  'Previous page',
+  'Next page',
+  'More pages',
+  'Refresh interval',
+  'Retry',
+  'Not set',
+  'No items.',
+  'Continue dialog navigation',
+  'Continue panel navigation',
+  'Up arrow',
+  'Down arrow',
+  'Upload',
+  'Remove',
 ])
-test('Korean example pages pass their own labels to components', async ({
-  page,
-}) => {
+test('Korean pages write component labels in Korean', async ({ page }) => {
   test.setTimeout(120_000)
   for (const route of [
     '/ko/components/code',
@@ -139,6 +162,15 @@ test('Korean example pages pass their own labels to components', async ({
     '/ko/foundations/layers',
     '/ko/patterns/dashboard',
     '/ko/patterns/command-search',
+    '/ko/components/pagination',
+    '/ko/components/markdown',
+    '/ko/components/description-list',
+    '/ko/components/banner',
+    '/ko/components/kbd',
+    '/ko/components/time-range-picker',
+    '/ko/components/tree',
+    '/ko/patterns/app-shell',
+    '/ko/patterns/data-table',
   ]) {
     await page.goto(route)
     await waitForCatalogReady(page)

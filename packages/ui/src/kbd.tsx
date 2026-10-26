@@ -2,6 +2,7 @@
 import * as React from 'react'
 import { cx } from './parts.js'
 import { useApplePlatform } from './platform.js'
+import { useLabels } from './label-context.js'
 
 /** Keys Kbd writes for the platform. Any other key shows as written, and a single
  * letter as its key cap prints it, in capitals. */
@@ -109,7 +110,12 @@ export const Kbd = function Kbd({
 }: KbdProps & { ref?: React.Ref<HTMLElement> }) {
   const detected = useApplePlatform()
   const apple = platform ? platform === 'apple' : detected
-  const caps = kbdCaps(keys, apple, { ...defaultLabels, ...labels })
+  const provided = useLabels<KbdLabels>('kbd')
+  const caps = kbdCaps(keys, apple, {
+    ...defaultLabels,
+    ...provided,
+    ...labels,
+  })
   return (
     <kbd {...props} ref={ref} className={cx('surf-kbd', className)}>
       {caps.map(({ glyph, name }, index) => (

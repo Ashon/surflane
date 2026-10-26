@@ -1,5 +1,4 @@
 import type { Locale } from '../../i18n'
-import type { ChartLabels } from '@surflane/ui/chart'
 
 const en = {
   chartType: 'Chart type',
@@ -101,7 +100,6 @@ const en = {
   references: ['Warning', 'Limit'],
   buckets: ['Under 1 min', '1–5 min', '5–15 min', '15–60 min', 'Over 60 min'],
   /** The chart's own text: the package's English on this page. */
-  chartLabels: undefined as Partial<ChartLabels> | undefined,
 }
 export const text: Record<Locale, typeof en> = {
   en,
@@ -204,25 +202,5 @@ export const text: Record<Locale, typeof en> = {
     },
     references: ['주의', '한계'],
     buckets: ['1분 미만', '1–5분', '5–15분', '15–60분', '60분 초과'],
-    chartLabels: {
-      missing: '없음',
-      empty: '표시할 숫자 측정값이 없습니다.',
-      noSeries: '선택한 시리즈가 없습니다.',
-      showAll: '모든 시리즈 보기',
-      keyboardHelp:
-        '차트에 포커스를 두고 왼쪽/오른쪽 화살표로 지점을 살펴보세요. Escape는 자세히 보기를 지웁니다. 데이터 표에는 모든 시리즈가 있습니다.',
-      values: (title: string) => `${title} 값`,
-      viewTable: '데이터 표로 보기',
-      table: (title: string) => `${title} 데이터 표`,
-      tableCaption: (unit: string) =>
-        `숨긴 시리즈를 포함한 모든 측정값입니다. 단위: ${unit}.`,
-      inspectHint:
-        '마우스를 올리거나 터치하거나 차트 화살표 키로 측정값을 살펴보세요.',
-      noRows: '행이 없습니다.',
-      legend: (title: string) => `${title} 시리즈`,
-      series: (label: string) => `${label} 시리즈`,
-      moreSeries: (count: number) => `시리즈 ${count}개 더 보기`,
-      total: '합계',
-    },
   },
 }

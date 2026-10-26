@@ -2,6 +2,7 @@
 import * as React from 'react'
 import { Icon } from './icon.js'
 import { useDialogFocusBoundary } from './dialog-focus.js'
+import { useLabels } from './label-context.js'
 import { skin, usePortalDirection } from './parts.js'
 import { useComponentSize, normalizeSize } from './sizing.js'
 import { Drawer as BaseDrawer } from '@base-ui/react/drawer'
@@ -43,8 +44,8 @@ function DrawerRoot({
 const DrawerContent = function DrawerContent({
   size,
   flush,
-  closeLabel = 'Close panel',
-  focusBoundaryLabel = 'Continue panel navigation',
+  closeLabel,
+  focusBoundaryLabel,
   className,
   children,
   ref,
@@ -57,7 +58,10 @@ const DrawerContent = function DrawerContent({
   } & { ref?: React.Ref<HTMLDivElement> }) {
   const scheme = useComponentSize(size)
   const dir = usePortalDirection()
-  const portalRef = useDialogFocusBoundary(focusBoundaryLabel)
+  const text = useLabels<{ close: string; focusBoundary: string }>('panel')
+  const portalRef = useDialogFocusBoundary(
+    focusBoundaryLabel ?? text.focusBoundary ?? 'Continue panel navigation',
+  )
   const { side, modal } = React.useContext(DrawerSide)
   const KeyboardProvider =
     side === 'bottom' ? BaseDrawer.VirtualKeyboardProvider : React.Fragment
@@ -85,7 +89,7 @@ const DrawerContent = function DrawerContent({
               <div className='surf-drawer-handle' aria-hidden='true' />
               <BaseDrawer.Close
                 className='surf-panel-close surf-icon-button'
-                aria-label={closeLabel}
+                aria-label={closeLabel ?? text.close ?? 'Close panel'}
               >
                 <Icon name='close' />
               </BaseDrawer.Close>

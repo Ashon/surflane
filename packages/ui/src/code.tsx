@@ -1,6 +1,7 @@
 'use client'
 import * as React from 'react'
 import { cx } from './parts.js'
+import { useLabels } from './label-context.js'
 import { SyntaxHighlighter } from './syntax-highlighter.js'
 import { ScrollArea } from './scroll-area.js'
 import { CopyButton, type CopyButtonLabels } from './copy-button.js'
@@ -25,7 +26,7 @@ export type CodeBlockProps = Omit<
 export type CodeBlockLabels = CopyButtonLabels
 export const CodeBlock = function CodeBlock({
   code,
-  label = 'Code',
+  label: ownLabel,
   language,
   wrap = false,
   labels,
@@ -35,6 +36,8 @@ export const CodeBlock = function CodeBlock({
   ...props
 }: CodeBlockProps & { ref?: React.Ref<HTMLDivElement> }) {
   const source = React.useRef<HTMLPreElement>(null)
+  const text = useLabels<CodeBlockLabels & { label: string }>('codeBlock')
+  const label = ownLabel ?? text.label ?? 'Code'
   return (
     <div
       {...props}
@@ -51,7 +54,11 @@ export const CodeBlock = function CodeBlock({
           className='surf-code-copy'
           value={code}
           onCopy={onCopy}
-          labels={{ ...labels, copy: labels?.copy ?? 'Copy code' }}
+          labels={{
+            copy: labels?.copy ?? text.copy ?? 'Copy code',
+            copied: labels?.copied ?? text.copied,
+            copyError: labels?.copyError ?? text.copyError,
+          }}
           // A failed copy selects the source, so the keyboard copy shortcut works next.
           onResult={(result) => {
             if (result === 'failed' && source.current)

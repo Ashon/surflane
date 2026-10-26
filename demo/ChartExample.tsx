@@ -515,7 +515,6 @@ export function ChartExample() {
         palette={palette}
         includeZero={includeZero}
         locale={locale}
-        labels={t.chartLabels}
         formatValue={sample.formatValue}
         hiddenSeries={locked ? hidden : undefined}
         onHiddenSeriesChange={(next) => {

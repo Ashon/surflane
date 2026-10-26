@@ -62,16 +62,16 @@ The foundation pages explain why each rule exists: [Visual hierarchy](https://su
 
 ## API vocabulary
 
-| Prop                                  | Means                                                               |
-| ------------------------------------- | ------------------------------------------------------------------- |
-| `size`                                | A scale: small, default, large                                      |
-| `variant`                             | A visual style or a type role                                       |
-| `tone`                                | A status meaning: neutral, info, success, danger, caution, progress |
-| `density`                             | default or compact, following the surrounding density               |
-| `labels`                              | Every text a component writes, as strings or functions              |
-| `closeLabel`, `dismissLabel`          | One name a component writes                                         |
-| `labelHidden`                         | A label hidden from sight that stays the accessible name            |
-| `open`, `defaultOpen`, `onOpenChange` | Controlled and uncontrolled state, as in Base UI                    |
+| Prop                                  | Means                                                                                                                 |
+| ------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `size`                                | A scale: small, default, large                                                                                        |
+| `variant`                             | A visual style or a type role                                                                                         |
+| `tone`                                | A status meaning: neutral, info, success, danger, caution, progress                                                   |
+| `density`                             | default or compact, following the surrounding density                                                                 |
+| `labels`                              | Every text a component writes, as strings or functions; a client component also reads its group from `LabelsProvider` |
+| `closeLabel`, `dismissLabel`          | One name a component writes                                                                                           |
+| `labelHidden`                         | A label hidden from sight that stays the accessible name                                                              |
+| `open`, `defaultOpen`, `onOpenChange` | Controlled and uncontrolled state, as in Base UI                                                                      |
 
 `check:package` rejects misspelled Button variants and sizes. The rest is held in review against this table.
 

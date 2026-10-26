@@ -25,16 +25,6 @@ const en = {
     stale: 'Refresh failed',
     error: 'Error',
   },
-  // The package's English, written out so the Korean page has its own.
-  panel: {
-    about: (title: string) => `About ${title}`,
-    loading: 'Loading',
-    refreshing: 'Refreshing',
-    error: 'This panel could not load.',
-    stale: 'These are the last values: the panel could not refresh.',
-    retry: 'Retry',
-    empty: 'No data in this range.',
-  },
 }
 export const text: Record<Locale, typeof en> = {
   en,
@@ -62,15 +52,6 @@ export const text: Record<Locale, typeof en> = {
       refreshing: '새로 고치는 중',
       stale: '새로 고침 실패',
       error: '오류',
-    },
-    panel: {
-      about: (title: string) => `${title} 설명`,
-      loading: '불러오는 중',
-      refreshing: '새로 고치는 중',
-      error: '이 패널을 불러오지 못했습니다.',
-      stale: '마지막으로 받은 값입니다. 패널을 새로 고치지 못했습니다.',
-      retry: '다시 시도',
-      empty: '이 기간에 데이터가 없습니다.',
     },
   },
 }

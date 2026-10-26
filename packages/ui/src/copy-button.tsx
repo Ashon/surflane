@@ -4,6 +4,7 @@ import { Icon } from './icon.js'
 import { skin } from './parts.js'
 import { Button } from './button.js'
 import { Tooltip } from './tooltip.js'
+import { useLabels } from './label-context.js'
 
 export type CopyButtonLabels = {
   copy: string
@@ -51,9 +52,11 @@ export const CopyButton = function CopyButton({
   ref,
   ...props
 }: CopyButtonProps & { ref?: React.Ref<HTMLButtonElement> }) {
-  const copyLabel = labels?.copy ?? 'Copy'
-  const copiedLabel = labels?.copied ?? 'Copied'
-  const copyErrorLabel = labels?.copyError ?? 'Copy unavailable'
+  const text = useLabels<CopyButtonLabels>('copyButton')
+  const copyLabel = labels?.copy ?? text.copy ?? 'Copy'
+  const copiedLabel = labels?.copied ?? text.copied ?? 'Copied'
+  const copyErrorLabel =
+    labels?.copyError ?? text.copyError ?? 'Copy unavailable'
   const [state, setState] = React.useState<
     'idle' | 'busy' | 'copied' | 'failed'
   >('idle')

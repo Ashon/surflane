@@ -1,5 +1,6 @@
 'use client'
 import * as React from 'react'
+import { useLabels } from './label-context.js'
 import { Icon } from './icon.js'
 import { Button } from './button.js'
 import { cx } from './parts.js'
@@ -30,14 +31,17 @@ export const Pagination = function Pagination({
   pageCount,
   siblings = 1,
   disabled = false,
-  labels,
+  labels: ownLabels,
   getPageHref,
   onPageChange,
   className,
-  'aria-label': ariaLabel = 'Pagination',
+  'aria-label': ownAriaLabel,
   ref,
   ...props
 }: PaginationProps & { ref?: React.Ref<HTMLElement> }) {
+  const provided = useLabels<PaginationLabels & { label: string }>('pagination')
+  const labels: Partial<PaginationLabels> = { ...provided, ...ownLabels }
+  const ariaLabel = ownAriaLabel ?? provided.label ?? 'Pagination'
   const count = Number.isFinite(pageCount)
     ? Math.min(Number.MAX_SAFE_INTEGER, Math.max(0, Math.floor(pageCount)))
     : 0

@@ -292,6 +292,14 @@
       "types": "./dist/kbd.d.ts",
       "import": "./dist/kbd.js"
     },
+    "./labels": {
+      "types": "./dist/labels.d.ts",
+      "import": "./dist/labels.js"
+    },
+    "./labels-ko": {
+      "types": "./dist/labels-ko.d.ts",
+      "import": "./dist/labels-ko.js"
+    },
     "./segmented-control": {
       "types": "./dist/segmented-control.d.ts",
       "import": "./dist/segmented-control.js"

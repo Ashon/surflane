@@ -3,6 +3,7 @@ import * as React from 'react'
 import { cx } from './parts.js'
 import { useComponentSize, type ComponentSize } from './sizing.js'
 import { CopyButton } from './copy-button.js'
+import { useLabels } from './label-context.js'
 
 export type DescriptionListLabels = {
   /** What a value with nothing in it reads. */
@@ -18,7 +19,7 @@ const defaultLabels: DescriptionListLabels = {
   copied: 'Copied',
   copyError: 'Copy unavailable',
 }
-const LabelsContext = /* @__PURE__ */ React.createContext(defaultLabels)
+const ListLabels = /* @__PURE__ */ React.createContext(defaultLabels)
 const TermContext = /* @__PURE__ */ React.createContext<{
   id: string
   setId: (id: string) => void
@@ -48,12 +49,13 @@ const Root = function DescriptionListRoot({
   ...props
 }: DescriptionListRootProps & { ref?: React.Ref<HTMLDListElement> }) {
   const scheme = useComponentSize(size)
+  const provided = useLabels<DescriptionListLabels>('descriptionList')
   const merged = React.useMemo(
-    () => ({ ...defaultLabels, ...labels }),
-    [labels?.empty, labels?.copy, labels?.copied, labels?.copyError],
+    () => ({ ...defaultLabels, ...provided, ...labels }),
+    [provided, labels?.empty, labels?.copy, labels?.copied, labels?.copyError],
   )
   return (
-    <LabelsContext.Provider value={merged}>
+    <ListLabels.Provider value={merged}>
       <dl
         {...props}
         ref={ref}
@@ -63,7 +65,7 @@ const Root = function DescriptionListRoot({
         data-density={density}
         data-ui-size={scheme}
       />
-    </LabelsContext.Provider>
+    </ListLabels.Provider>
   )
 }
 /** One term and its value. */
@@ -124,7 +126,7 @@ const Value = function DescriptionListValue({
   ref,
   ...props
 }: DescriptionListValueProps & { ref?: React.Ref<HTMLElement> }) {
-  const labels = React.useContext(LabelsContext)
+  const labels = React.useContext(ListLabels)
   const term = React.useContext(TermContext)
   const text = React.useRef<HTMLSpanElement>(null)
   const empty =

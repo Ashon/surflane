@@ -2,6 +2,7 @@
 import * as React from 'react'
 import { part, skin, usePortalDirection } from './parts.js'
 import { useDialogFocusBoundary } from './dialog-focus.js'
+import { useLabels } from './label-context.js'
 import { useComponentSize, type ComponentSize } from './sizing.js'
 import { AlertDialog as BaseAlertDialog } from '@base-ui/react/alert-dialog'
 import { DialogFooter, DialogHeader } from './dialog.js'
@@ -9,7 +10,7 @@ import { DialogFooter, DialogHeader } from './dialog.js'
 const AlertDialogContent = function AlertDialogContent({
   size,
   className,
-  focusBoundaryLabel = 'Continue dialog navigation',
+  focusBoundaryLabel,
   ref,
   ...props
 }: React.ComponentPropsWithoutRef<typeof BaseAlertDialog.Popup> & {
@@ -18,7 +19,10 @@ const AlertDialogContent = function AlertDialogContent({
   focusBoundaryLabel?: string
 } & { ref?: React.Ref<HTMLDivElement> }) {
   const scheme = useComponentSize(size)
-  const portalRef = useDialogFocusBoundary(focusBoundaryLabel)
+  const text = useLabels<{ focusBoundary: string }>('dialog')
+  const portalRef = useDialogFocusBoundary(
+    focusBoundaryLabel ?? text.focusBoundary ?? 'Continue dialog navigation',
+  )
   const dir = usePortalDirection()
   return (
     <BaseAlertDialog.Portal ref={portalRef}>

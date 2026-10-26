@@ -3,23 +3,25 @@ import * as React from 'react'
 import { Icon } from './icon.js'
 import { part, skin, cx, usePortalDirection } from './parts.js'
 import { useDialogFocusBoundary } from './dialog-focus.js'
+import { useLabels } from './label-context.js'
 import { useComponentSize, type ComponentSize } from './sizing.js'
 import { Dialog as BaseDialog } from '@base-ui/react/dialog'
 
 /** Visible icon close action; inherits Dialog focus and dismissal behavior. */
 const DialogCloseButton = function DialogCloseButton({
   className,
-  'aria-label': label = 'Close dialog',
+  'aria-label': label,
   ref,
   ...props
 }: Omit<React.ComponentPropsWithoutRef<typeof BaseDialog.Close>, 'children'> & {
   ref?: React.Ref<HTMLButtonElement>
 }) {
+  const text = useLabels<{ close: string }>('dialog')
   return (
     <BaseDialog.Close
       {...props}
       ref={ref}
-      aria-label={label}
+      aria-label={label ?? text.close ?? 'Close dialog'}
       className={skin('surf-icon-button surf-dialog-close', className)}
     >
       <Icon name='close' />
@@ -30,9 +32,9 @@ const DialogContent = function DialogContent({
   size,
   className,
   children,
-  closeLabel = 'Close dialog',
+  closeLabel,
   closeDisabled,
-  focusBoundaryLabel = 'Continue dialog navigation',
+  focusBoundaryLabel,
   ref,
   ...props
 }: React.ComponentPropsWithoutRef<typeof BaseDialog.Popup> & {
@@ -43,7 +45,10 @@ const DialogContent = function DialogContent({
   focusBoundaryLabel?: string
 } & { ref?: React.Ref<HTMLDivElement> }) {
   const scheme = useComponentSize(size)
-  const portalRef = useDialogFocusBoundary(focusBoundaryLabel)
+  const text = useLabels<{ close: string; focusBoundary: string }>('dialog')
+  const portalRef = useDialogFocusBoundary(
+    focusBoundaryLabel ?? text.focusBoundary ?? 'Continue dialog navigation',
+  )
   const dir = usePortalDirection()
   return (
     <BaseDialog.Portal ref={portalRef}>
@@ -56,7 +61,10 @@ const DialogContent = function DialogContent({
         ref={ref}
         className={skin('surf-dialog-popup surf-dialog-content', className)}
       >
-        <DialogCloseButton aria-label={closeLabel} disabled={closeDisabled} />
+        <DialogCloseButton
+          aria-label={closeLabel ?? text.close ?? 'Close dialog'}
+          disabled={closeDisabled}
+        />
         {children}
       </BaseDialog.Popup>
     </BaseDialog.Portal>

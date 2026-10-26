@@ -44,7 +44,6 @@ export function DashboardExample() {
     state,
     refreshing: demo === 'refreshing',
     onRetry: () => setDemo('ready'),
-    labels: t.panel,
   } as const
   return (
     <div className='example-stack'>
@@ -67,7 +66,6 @@ export function DashboardExample() {
           range={range}
           onRangeChange={setRange}
           ranges={ranges}
-          labels={time.labels}
           onRefresh={() => {
             // The panels keep their values while new ones are on the way.
             setDemo('refreshing')
@@ -133,7 +131,6 @@ export function DashboardExample() {
             state={demo === 'loading' || demo === 'error' ? demo : 'empty'}
             onRetry={() => setDemo('ready')}
             message={demo === 'error' ? t.offline : t.noFailures}
-            labels={t.panel}
           />
           <Dashboard.Panel title={t.latency} {...panel}>
             <Stat.Root>

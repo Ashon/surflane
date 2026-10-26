@@ -6,6 +6,7 @@ import { Button } from './button.js'
 import { Progress } from './progress.js'
 import { StatusBadge } from './badge.js'
 import { skin } from './parts.js'
+import { useLabels } from './label-context.js'
 import { useResetValue, useRootRef } from './form-state.js'
 export type UploadState =
   'ready' | 'uploading' | 'success' | 'error' | 'canceled'
@@ -158,12 +159,18 @@ export const FileUpload = function FileUpload({
   ref: forwardedRef,
   ...props
 }: FileUploadProps & { ref?: React.Ref<HTMLDivElement> }) {
+  const provided = useLabels<FileUploadLabels>('fileUpload')
   const labels = {
     ...labelsDefault,
     // A field that takes one file says so.
     ...(!multiple && { choose: 'Choose file', drop: 'or drop a file here' }),
+    ...provided,
     ...customLabels,
-    status: { ...labelsDefault.status, ...customLabels?.status },
+    status: {
+      ...labelsDefault.status,
+      ...provided.status,
+      ...customLabels?.status,
+    },
   }
   const [root, ref] = useRootRef(forwardedRef),
     input = React.useRef<HTMLInputElement>(null)

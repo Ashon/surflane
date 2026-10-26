@@ -2,6 +2,7 @@
 import * as React from 'react'
 import { Icon } from './icon.js'
 import { useComponentSize } from './sizing.js'
+import { useLabels } from './label-context.js'
 import {
   Toast as BaseToast,
   type ToastManager,
@@ -410,11 +411,12 @@ export function Toaster({
   toast: helper = toast,
   limit = 3,
   timeout = 5000,
-  label = 'Notifications',
-  closeLabel = 'Dismiss notification',
+  label,
+  closeLabel,
   swipeDirection,
   ...props
 }: ToasterProps) {
+  const text = useLabels<{ region: string; close: string }>('toast')
   return (
     <BaseToast.Provider
       toastManager={helper.manager}
@@ -422,8 +424,14 @@ export function Toaster({
       timeout={timeout}
     >
       <BaseToast.Portal>
-        <Viewport aria-label={label} {...props}>
-          <ToastList swipeDirection={swipeDirection} closeLabel={closeLabel} />
+        <Viewport
+          aria-label={label ?? text.region ?? 'Notifications'}
+          {...props}
+        >
+          <ToastList
+            swipeDirection={swipeDirection}
+            closeLabel={closeLabel ?? text.close ?? 'Dismiss notification'}
+          />
         </Viewport>
       </BaseToast.Portal>
     </BaseToast.Provider>

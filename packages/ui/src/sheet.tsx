@@ -2,6 +2,7 @@
 import * as React from 'react'
 import { Icon } from './icon.js'
 import { useDialogFocusBoundary } from './dialog-focus.js'
+import { useLabels } from './label-context.js'
 import { skin, usePortalDirection } from './parts.js'
 import { useComponentSize, normalizeSize } from './sizing.js'
 import { Dialog as BaseDialog } from '@base-ui/react/dialog'
@@ -31,8 +32,8 @@ function SheetRoot({
 const SheetContent = function SheetContent({
   size,
   flush,
-  closeLabel = 'Close panel',
-  focusBoundaryLabel = 'Continue panel navigation',
+  closeLabel,
+  focusBoundaryLabel,
   className,
   children,
   ref,
@@ -45,7 +46,10 @@ const SheetContent = function SheetContent({
   } & { ref?: React.Ref<HTMLDivElement> }) {
   const scheme = useComponentSize(size)
   const dir = usePortalDirection()
-  const portalRef = useDialogFocusBoundary(focusBoundaryLabel)
+  const text = useLabels<{ close: string; focusBoundary: string }>('panel')
+  const portalRef = useDialogFocusBoundary(
+    focusBoundaryLabel ?? text.focusBoundary ?? 'Continue panel navigation',
+  )
   const { side, modal } = React.useContext(SheetSide)
   return (
     <BaseDialog.Portal ref={portalRef}>
@@ -69,7 +73,7 @@ const SheetContent = function SheetContent({
           >
             <BaseDialog.Close
               className='surf-panel-close surf-icon-button'
-              aria-label={closeLabel}
+              aria-label={closeLabel ?? text.close ?? 'Close panel'}
             >
               <Icon name='close' />
             </BaseDialog.Close>

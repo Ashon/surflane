@@ -11,6 +11,9 @@ import {
   FileUpload,
   Icon,
   Kbd,
+  KoreanLabels,
+  LabelsProvider,
+  Pagination,
   ScrollArea,
   SegmentedControl,
   Skeleton,
@@ -249,4 +252,35 @@ test('SegmentedControl renders a named group of pressed-state buttons from a str
   assert.match(markup, /data-width="fill"/)
   assert.match(markup, /aria-pressed="false"[^>]*>1D</)
   assert.match(markup, /aria-pressed="true"[^>]*>1M</)
+})
+
+test('KoreanLabels writes components in Korean; a provider and a prop each win over it', () => {
+  const pager = (props = {}) =>
+    h(Pagination, { page: 2, pageCount: 5, onPageChange: () => {}, ...props })
+  const english = html(pager())
+  assert.match(english, /aria-label="Pagination"/)
+  assert.match(english, />Previous page</)
+  const korean = html(h(KoreanLabels, null, pager()))
+  assert.match(korean, /aria-label="페이지 탐색"/)
+  assert.match(korean, />이전 페이지</)
+  assert.match(korean, /5페이지 중 2페이지/)
+  // A provider inside changes some labels and keeps the rest.
+  const nested = html(
+    h(
+      KoreanLabels,
+      null,
+      h(
+        LabelsProvider,
+        { labels: { pagination: { previous: '앞으로' } } },
+        pager(),
+      ),
+    ),
+  )
+  assert.match(nested, />앞으로</)
+  assert.match(nested, />다음 페이지</)
+  // A component's own labels still win.
+  assert.match(
+    html(h(KoreanLabels, null, pager({ labels: { previous: 'Back' } }))),
+    />Back</,
+  )
 })

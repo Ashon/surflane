@@ -7,6 +7,7 @@ import { Table } from './table.js'
 import type { Components } from 'react-markdown'
 import type { Root, Element, RootContent } from 'hast'
 import { cx } from './parts.js'
+import { useLabels } from './label-context.js'
 export type MarkdownProps = Omit<
   React.ComponentPropsWithoutRef<'div'>,
   'children'
@@ -33,9 +34,9 @@ const markdownLabels = {
 }
 // Code blocks and tables read the labels here, so passing new labels never remounts
 // the parts react-markdown renders.
-const LabelsContext = /* @__PURE__ */ React.createContext<
-  Partial<MarkdownLabels>
->({})
+const PartLabels = /* @__PURE__ */ React.createContext<Partial<MarkdownLabels>>(
+  {},
+)
 function MarkdownCodeBlock({
   label,
   line,
@@ -49,7 +50,7 @@ function MarkdownCodeBlock({
     table: _table,
     task: _task,
     ...copy
-  } = React.useContext(LabelsContext)
+  } = React.useContext(PartLabels)
   return (
     <CodeBlock
       {...props}
@@ -67,7 +68,7 @@ function MarkdownTable({
   line: number
   children: React.ReactNode
 }) {
-  const { table } = React.useContext(LabelsContext)
+  const { table } = React.useContext(PartLabels)
   return (
     <Table.Container
       label={(table ?? markdownLabels.table)(label, line)}
@@ -93,7 +94,7 @@ function visit(node: Root | RootContent, callback: (element: Element) => void) {
  * Fetching, permissions, frontmatter, MDX and script execution are caller concerns. */
 export const Markdown = function Markdown({
   source,
-  label = 'Markdown content',
+  label: ownLabel,
   headingLevel = 2,
   codeWrap = false,
   labels,
@@ -101,7 +102,13 @@ export const Markdown = function Markdown({
   ref,
   ...props
 }: MarkdownProps & { ref?: React.Ref<HTMLDivElement> }) {
-  const taskLabel = labels?.task ?? markdownLabels.task
+  const provided = useLabels<MarkdownLabels & { label: string }>('markdown')
+  const label = ownLabel ?? provided.label ?? 'Markdown content'
+  const partLabels = React.useMemo(() => {
+    const { label: _label, ...parts } = provided
+    return { ...parts, ...labels }
+  }, [provided, labels])
+  const taskLabel = partLabels.task ?? markdownLabels.task
   const prefix = `md-${React.useId().replace(/[^a-zA-Z0-9_-]/g, '')}`
   const headings = React.useMemo(
     () => () => (tree: Root) => {
@@ -258,7 +265,7 @@ export const Markdown = function Markdown({
       className={cx('surf-prose surf-markdown', className)}
       aria-label={label}
     >
-      <LabelsContext.Provider value={labels ?? {}}>
+      <PartLabels.Provider value={partLabels}>
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
           rehypePlugins={[headings]}
@@ -268,7 +275,7 @@ export const Markdown = function Markdown({
         >
           {source}
         </ReactMarkdown>
-      </LabelsContext.Provider>
+      </PartLabels.Provider>
     </div>
   )
 }

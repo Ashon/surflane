@@ -342,6 +342,25 @@ const countLabel = formatNumber(count, {
           </a>
         </p>
       </FoundationSection>
+      <FoundationSection id='labels'>
+        <p>{t.labelsIntro}</p>
+        <CodeBlock
+          label={t.labelsCodeLabel}
+          language='tsx'
+          code={`import { KoreanLabels } from '@surflane/ui/labels-ko'
+import { LabelsProvider } from '@surflane/ui/labels'
+
+// Every component inside writes in Korean.
+<KoreanLabels>{children}</KoreanLabels>
+
+// Change some labels for one part of the app; the rest carry on.
+<LabelsProvider labels={{ dialog: { close: '창 닫기' } }}>
+  {children}
+</LabelsProvider>`}
+        />
+        <p>{t.labelsOrder}</p>
+        <p>{t.labelsServer}</p>
+      </FoundationSection>
     </FoundationPage>
   )
 }

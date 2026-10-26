@@ -8,6 +8,7 @@ import { Popover } from './popover.js'
 import { Skeleton } from './skeleton.js'
 import { Spinner } from './spinner.js'
 import { cx } from './class-names.js'
+import { useLabels } from './label-context.js'
 
 export type DashboardRootProps = React.ComponentPropsWithoutRef<'div'> & {
   /** Names the dashboard as a region of the page, such as "Cluster overview". */
@@ -113,7 +114,8 @@ const Panel = function DashboardPanel({
   ref,
   ...props
 }: DashboardPanelProps & { ref?: React.Ref<HTMLDivElement> }) {
-  const text = { ...panelLabels, ...labels }
+  const provided = useLabels<DashboardPanelLabels>('dashboardPanel')
+  const text = { ...panelLabels, ...provided, ...labels }
   const id = React.useId()
   const busy = state === 'loading' || refreshing
   const titleRef = React.useRef<HTMLHeadingElement>(null)

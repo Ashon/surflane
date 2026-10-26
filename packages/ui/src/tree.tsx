@@ -15,6 +15,7 @@ import {
 } from '@tanstack/react-virtual'
 import { ScrollArea } from './scroll-area.js'
 import { cx } from './parts.js'
+import { useLabels } from './label-context.js'
 
 export type TreeNode = {
   id: string
@@ -65,11 +66,13 @@ export function Tree({
   rowHeight: explicitRowHeight,
   size,
   virtualized = true,
-  labels,
+  labels: ownLabels,
   dir,
   className,
 }: TreeProps) {
   const scheme = useComponentSize(size)
+  const provided = useLabels<TreeLabels>('tree')
+  const labels: Partial<TreeLabels> = { ...provided, ...ownLabels }
   const touchFloor = React.useSyncExternalStore(
     (listener) => {
       const query = matchMedia('(max-width: 760px), (pointer: coarse)')

@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect } from 'react'
+import { LabelsProvider } from '@surflane/ui/labels'
 import { en, type Messages } from './messages'
 import { switchLocale, urlLocale, useUrlLocale, type Locale } from './router'
 
@@ -46,7 +47,12 @@ export function LocaleProvider({ children }: { children: React.ReactNode }) {
   }
   return (
     <LocaleContext.Provider value={{ locale, setLocale }}>
-      {children}
+      {/* Components write their own names and messages in the page's language. */}
+      <LabelsProvider
+        labels={locale === 'ko' ? korean?.componentLabels : undefined}
+      >
+        {children}
+      </LabelsProvider>
     </LocaleContext.Provider>
   )
 }

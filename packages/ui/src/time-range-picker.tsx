@@ -1,5 +1,6 @@
 'use client'
 import * as React from 'react'
+import { useLabels } from './label-context.js'
 import { Button } from './button.js'
 import { Icon } from './icon.js'
 import { Select } from './select.js'
@@ -79,7 +80,8 @@ export const TimeRangePicker = function TimeRangePicker({
   ref,
   ...props
 }: TimeRangePickerProps & { ref?: React.Ref<HTMLDivElement> }) {
-  const text = { ...pickerLabels, ...labels }
+  const provided = useLabels<TimeRangePickerLabels>('timeRangePicker')
+  const text = { ...pickerLabels, ...provided, ...labels }
   const refresh = React.useRef(onRefresh)
   refresh.current = onRefresh
   // The interval pauses while the page is hidden, and refreshes once it shows again.

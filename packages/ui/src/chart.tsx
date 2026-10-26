@@ -24,6 +24,7 @@ import { Button } from './button.js'
 import { Popover } from './popover.js'
 import { cx } from './parts.js'
 import { useComponentDensity } from './sizing.js'
+import { useLabels } from './label-context.js'
 
 export type ChartDatum = {
   id: string
@@ -520,7 +521,8 @@ export const Chart = function Chart({
   ref,
   ...props
 }: ChartProps & { ref?: React.Ref<HTMLElement> }) {
-  const text: ChartLabels = { ...chartLabels, ...labels }
+  const provided = useLabels<ChartLabels>('chart')
+  const text: ChartLabels = { ...chartLabels, ...provided, ...labels }
   const id = React.useId().replace(/[^a-zA-Z0-9_-]/g, '_')
   const colorFor = (index: number) =>
     seriesColor(index, palette, series[index]?.color)

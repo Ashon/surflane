@@ -32,7 +32,6 @@ export function TimeRangeExample() {
         onRefreshIntervalChange={setIntervalValue}
         refreshIntervals={intervals}
         onRefresh={() => setCount((n) => n + 1)}
-        labels={t.labels}
       />
       <p role='status' aria-label={t.statusLabel}>
         {t.status(

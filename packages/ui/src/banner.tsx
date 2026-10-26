@@ -5,6 +5,7 @@ import { part, cx } from './parts.js'
 import { StatusIcon } from './status.js'
 import { Button } from './button.js'
 import { Icon } from './icon.js'
+import { useLabels } from './label-context.js'
 
 /** What a notice across the whole product is about: news, a degraded or planned
  * state, or an outage. */
@@ -39,13 +40,14 @@ export type BannerRootProps = React.ComponentPropsWithoutRef<'div'> & {
 const Root = function BannerRoot({
   tone = 'info',
   onDismiss,
-  dismissLabel = 'Dismiss',
+  dismissLabel,
   className,
   children,
   ref,
   ...props
 }: BannerRootProps & { ref?: React.Ref<HTMLDivElement> }) {
   const elementRef = useToneTransition<HTMLDivElement>(tone, ref)
+  const text = useLabels<{ dismiss: string }>('banner')
   const next = React.useRef<HTMLElement | null>(null)
   // Removed while focus was on its dismiss button: focus moves on, not to the page.
   React.useEffect(
@@ -72,7 +74,7 @@ const Root = function BannerRoot({
             variant='ghost'
             size='icon-small'
             className='surf-banner-dismiss'
-            aria-label={dismissLabel}
+            aria-label={dismissLabel ?? text.dismiss ?? 'Dismiss'}
             onClick={(event) => {
               const banner = event.currentTarget.closest('.surf-banner')
               next.current = banner ? following(banner) : null

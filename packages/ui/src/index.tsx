@@ -422,6 +422,13 @@ export {
   type SegmentedControlItemProps,
 } from './segmented-control.js'
 export {
+  LabelsProvider,
+  type LabelOverrides,
+  type LabelsProviderProps,
+  type SurflaneLabels,
+} from './labels.js'
+export { KoreanLabels, koLabels } from './labels-ko.js'
+export {
   Kbd,
   type KbdKey,
   type KbdLabels,

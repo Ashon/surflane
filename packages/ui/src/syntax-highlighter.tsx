@@ -4,6 +4,7 @@ import { ScrollArea } from './scroll-area.js'
 import { SyntaxEngineContext, requestTokens } from './syntax-context.js'
 import type { SyntaxToken } from './syntax-engine.js'
 import { cx } from './parts.js'
+import { useLabels } from './label-context.js'
 export const syntaxLanguages = [
   'tsx',
   'jsx',
@@ -58,13 +59,15 @@ export const SyntaxHighlighter = function SyntaxHighlighter({
   code,
   language = 'text',
   inline = false,
-  label = 'Highlighted source',
+  label: ownLabel,
   wrap = false,
   className,
   ref,
   ...props
 }: SyntaxHighlighterProps & { ref?: React.Ref<HTMLElement> }) {
   const source = React.useContext(SyntaxEngineContext)
+  const provided = useLabels<{ label: string }>('syntaxHighlighter')
+  const label = ownLabel ?? provided.label ?? 'Highlighted source'
   const name = language.trim().toLowerCase()
   const lang = aliases[name] ?? name
   const highlightable =

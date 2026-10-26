@@ -23,6 +23,7 @@ const en = {
     writing: 'Interface text',
     formatting: 'Numbers, dates, and time zones',
     direction: 'Language and direction',
+    labels: 'Component labels',
   },
   writingTableLabel: 'Interface writing examples',
   writingTableCaption: 'The same complete sentences in English and Korean',
@@ -80,6 +81,13 @@ const en = {
   ecma402: 'ECMA-402 — Intl formatting',
   w3cLanguage: 'W3C — Language declarations',
   w3cDirection: 'W3C — Text direction',
+  labelsIntro:
+    "Components write some text of their own: the names of close and copy buttons, the announcements of an upload, a chart's data table. Translate it once for the app with LabelsProvider, instead of on every instance. KoreanLabels from @surflane/ui/labels-ko writes all of it in Korean.",
+  labelsCodeLabel: 'Translating component labels',
+  labelsOrder:
+    "A component's own props win over the provider's labels, and those over the component's English defaults. A provider inside another changes the groups it names and keeps the rest.",
+  labelsServer:
+    'KoreanLabels takes no functions, so a Server Component can render it. Breadcrumbs and Spinner render on the server and take their names as props.',
 }
 export const text: Record<Locale, typeof en> = {
   en,
@@ -106,6 +114,7 @@ export const text: Record<Locale, typeof en> = {
       writing: '인터페이스 문구',
       formatting: '숫자, 날짜, 시간대',
       direction: '언어와 방향',
+      labels: '컴포넌트 레이블',
     },
     writingTableLabel: '인터페이스 문구 예시',
     writingTableCaption: '영어와 한국어로 쓴 같은 완전한 문장',
@@ -156,5 +165,12 @@ export const text: Record<Locale, typeof en> = {
     ecma402: 'ECMA-402 — Intl 형식',
     w3cLanguage: 'W3C — 언어 선언',
     w3cDirection: 'W3C — 텍스트 방향',
+    labelsIntro:
+      '컴포넌트는 닫기·복사 버튼의 이름, 업로드 알림, 차트의 데이터 표처럼 직접 쓰는 글이 있습니다. 인스턴스마다 넘기지 말고 LabelsProvider로 앱에서 한 번 번역하세요. @surflane/ui/labels-ko의 KoreanLabels는 이 글을 모두 한국어로 씁니다.',
+    labelsCodeLabel: '컴포넌트 레이블 번역',
+    labelsOrder:
+      '컴포넌트에 직접 준 속성이 provider의 레이블보다, provider의 레이블이 컴포넌트의 영어 기본값보다 우선합니다. provider 안의 provider는 이름을 준 묶음만 바꾸고 나머지는 그대로 둡니다.',
+    labelsServer:
+      'KoreanLabels는 함수를 받지 않아서 Server Component에서 렌더링할 수 있습니다. Breadcrumbs와 Spinner는 서버에서 렌더링되므로 이름을 속성으로 받습니다.',
   },
 }
