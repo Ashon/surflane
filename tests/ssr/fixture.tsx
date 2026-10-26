@@ -68,6 +68,7 @@ import {
   Surface,
   Switch,
   SyntaxHighlighter,
+  SegmentedControl,
   Table,
   Timeline,
   Tabs,
@@ -218,6 +219,10 @@ export function Foundations() {
 export function Controls() {
   return (
     <section data-ssr='controls'>
+      <SegmentedControl.Root aria-label='Tide window' defaultValue='flood'>
+        <SegmentedControl.Item value='flood'>Flood</SegmentedControl.Item>
+        <SegmentedControl.Item value='ebb'>Ebb</SegmentedControl.Item>
+      </SegmentedControl.Root>
       <TooltipProvider>
         <Tooltip label='Recalculate arrival times' shortcut='⌘R'>
           <Button variant='outline'>Refresh ETA</Button>

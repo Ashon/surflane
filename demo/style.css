@@ -3815,3 +3815,6 @@ body,
   align-content: start;
   gap: var(--surf-space-3);
 }
+.segmented-preview-fill {
+  max-inline-size: 20rem;
+}

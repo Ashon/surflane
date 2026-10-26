@@ -12,6 +12,7 @@ import {
   Icon,
   Kbd,
   ScrollArea,
+  SegmentedControl,
   Skeleton,
   Stat,
   Table,
@@ -232,4 +233,20 @@ test('ScrollArea writes which edges fade, and Table a sticky first column', () =
     html(h(Table.Root, { stickyColumn: true })),
     /<table data-sticky-column="true" class="surf-table"/,
   )
+})
+
+test('SegmentedControl renders a named group of pressed-state buttons from a string value', () => {
+  const markup = html(
+    h(
+      SegmentedControl.Root,
+      { 'aria-label': 'Period', defaultValue: '1m', width: 'fill' },
+      h(SegmentedControl.Item, { value: '1d' }, '1D'),
+      h(SegmentedControl.Item, { value: '1m' }, '1M'),
+    ),
+  )
+  assert.match(markup, /role="group"[^>]*aria-label="Period"/)
+  assert.match(markup, /class="surf-control-group surf-segmented"/)
+  assert.match(markup, /data-width="fill"/)
+  assert.match(markup, /aria-pressed="false"[^>]*>1D</)
+  assert.match(markup, /aria-pressed="true"[^>]*>1M</)
 })

@@ -12,6 +12,7 @@ import {
 import type { ComponentDoc, DocText } from './componentDocs'
 import { ComponentSizePreview } from './ComponentSizePreview'
 import { StageLabel } from './StageLabel'
+import { criteriaOf } from './catalogCriteria'
 import { Link, onPreload, urlLocale } from './router'
 import { useLocale, useMessages } from './i18n'
 import { useCatalogText } from './catalogText'
@@ -249,7 +250,7 @@ export function DetailPage({
           <p>{messages.detail.wave(item.phase, text.group(item.group))}</p>
           <h3>{messages.detail.checklist}</h3>
           <ul>
-            {item.criteria.map((c) => (
+            {criteriaOf(item).map((c) => (
               <li key={c}>{c}</li>
             ))}
           </ul>

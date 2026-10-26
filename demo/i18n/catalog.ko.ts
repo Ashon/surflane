@@ -110,6 +110,8 @@ export const catalogKo: {
       '앱 셸 전체에 걸쳐 제품 전체의 상태를 모두에게 알립니다.',
     '/components/timeline':
       '배포 기록이나 감사 로그처럼 시간 순서의 사건을 보여 줍니다.',
+    '/components/segmented-control':
+      '기간이나 방향처럼 몇 개 중 값 하나를 고릅니다.',
     '/components/kbd': '키나 단축키를 이 플랫폼이 쓰는 대로 적습니다.',
     '/components/card': '관련 정보만 한 표면에 그룹화합니다.',
     '/components/table': '정렬된 행과 열로 정보를 비교합니다.',

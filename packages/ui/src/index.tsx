@@ -415,6 +415,13 @@ export {
   type TimelineDetailProps,
 } from './timeline.js'
 export {
+  SegmentedControl,
+  SegmentedControlRoot,
+  SegmentedControlItem,
+  type SegmentedControlRootProps,
+  type SegmentedControlItemProps,
+} from './segmented-control.js'
+export {
   Kbd,
   type KbdKey,
   type KbdLabels,

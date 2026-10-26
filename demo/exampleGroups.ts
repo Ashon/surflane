@@ -39,6 +39,7 @@ export const inputExtensionExampleIds = ['autocomplete', 'slider']
 export const commandExampleIds = [
   'toggle',
   'toggle-group',
+  'segmented-control',
   'toolbar',
   'menubar',
 ]

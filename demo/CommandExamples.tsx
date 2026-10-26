@@ -8,6 +8,7 @@ import {
   Button,
   DirectionProvider,
   Icon,
+  SegmentedControl,
 } from '@surflane/ui'
 import { Flag } from './Flag'
 import { useLocale } from './i18n'
@@ -28,6 +29,9 @@ export function CommandExample({ id }: { id: string }) {
     [visible, setVisible] = useState<string[]>(['requests', 'errors']),
     [passed, setPassed] = useState(true),
     [density, setDensity] = useState('comfortable')
+  const [period, setPeriod] = useState('1m'),
+    [side, setSide] = useState('buy'),
+    [mood, setMood] = useState<string | null>(null)
   const [message, setMessage] = useState(t.noCommandExecuted)
   const flags = (
     <div className='actions'>
@@ -36,9 +40,11 @@ export function CommandExample({ id }: { id: string }) {
       </Flag>
       {id !== 'toggle' && (
         <>
-          <Flag checked={vertical} onChange={setVertical}>
-            {t.verticalLayout}
-          </Flag>
+          {id !== 'segmented-control' && (
+            <Flag checked={vertical} onChange={setVertical}>
+              {t.verticalLayout}
+            </Flag>
+          )}
           <Flag checked={rtl} onChange={setRtl}>
             {t.rightToLeft}
           </Flag>
@@ -80,6 +86,52 @@ export function CommandExample({ id }: { id: string }) {
           {cancel ? t.allowChanges : t.cancelChanges}
         </Button>
         <p>{timings ? t.controlledTimingsShown : t.controlledTimingsHidden}</p>
+      </>
+    )
+  else if (id === 'segmented-control')
+    example = (
+      <>
+        {/* One period is always chosen. */}
+        <SegmentedControl.Root
+          aria-label={t.period}
+          value={period}
+          onValueChange={setPeriod}
+          disabled={disabled}
+        >
+          {t.periods.map(([value, label]) => (
+            <SegmentedControl.Item key={value} value={value}>
+              {label}
+            </SegmentedControl.Item>
+          ))}
+        </SegmentedControl.Root>
+        {/* fill shares a sheet's width between the two sides. */}
+        <div className='segmented-preview-fill'>
+          <SegmentedControl.Root
+            aria-label={t.tradeSide}
+            value={side}
+            onValueChange={setSide}
+            width='fill'
+            disabled={disabled}
+          >
+            <SegmentedControl.Item value='buy'>{t.buy}</SegmentedControl.Item>
+            <SegmentedControl.Item value='sell'>{t.sell}</SegmentedControl.Item>
+          </SegmentedControl.Root>
+        </div>
+        {/* A filter: pressing the chosen one again shows everything. */}
+        <SegmentedControl.Root
+          aria-label={t.sentiment}
+          required={false}
+          value={mood}
+          onValueChange={setMood}
+          disabled={disabled}
+        >
+          {t.moods.map(([value, label]) => (
+            <SegmentedControl.Item key={value} value={value}>
+              {label}
+            </SegmentedControl.Item>
+          ))}
+        </SegmentedControl.Root>
+        <p>{t.segmentedLine(period, side, mood ?? t.all)}</p>
       </>
     )
   else if (id === 'toggle-group')

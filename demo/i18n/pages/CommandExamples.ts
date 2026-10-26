@@ -63,6 +63,25 @@ const en = {
     `Passed checks: ${passed ? 'visible' : 'hidden'} / Detail: ${density}`,
   commandHelpNote:
     'Menus group the application commands. These previews run no remote work.',
+  period: 'Period',
+  periods: [
+    ['1d', '1D'],
+    ['1w', '1W'],
+    ['1m', '1M'],
+    ['1y', '1Y'],
+  ] as [string, string][],
+  tradeSide: 'Trade side',
+  buy: 'Buy',
+  sell: 'Sell',
+  sentiment: 'Sentiment',
+  moods: [
+    ['positive', 'Positive 12'],
+    ['neutral', 'Neutral 5'],
+    ['negative', 'Negative 3'],
+  ] as [string, string][],
+  all: 'all',
+  segmentedLine: (period: string, side: string, mood: string) =>
+    `Period ${period}, side ${side}, sentiment ${mood}.`,
 }
 export const text: Record<Locale, typeof en> = {
   en,
@@ -129,5 +148,24 @@ export const text: Record<Locale, typeof en> = {
       `통과한 검사: ${passed ? '표시' : '숨김'} / 상세: ${density === 'compact' ? '간결' : '여유'}`,
     commandHelpNote:
       '메뉴는 애플리케이션 명령을 그룹으로 묶습니다. 이 미리보기는 원격 작업을 실행하지 않습니다.',
+    period: '기간',
+    periods: [
+      ['1d', '1일'],
+      ['1w', '1주'],
+      ['1m', '1개월'],
+      ['1y', '1년'],
+    ],
+    tradeSide: '거래 방향',
+    buy: '매수',
+    sell: '매도',
+    sentiment: '센티먼트',
+    moods: [
+      ['positive', '긍정 12'],
+      ['neutral', '중립 5'],
+      ['negative', '부정 3'],
+    ],
+    all: '전체',
+    segmentedLine: (period: string, side: string, mood: string) =>
+      `기간 ${period}, 방향 ${side}, 센티먼트 ${mood}.`,
   },
 }

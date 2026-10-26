@@ -1,0 +1,24 @@
+/* Segmented control, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import '@surflane/css/controls.css';
+
+@layer surflane.components {
+  /* content hugs the segments, even in a grid or flex column that would stretch
+     it; fill stretches the track to its container and shares the width among the
+     segments. */
+  .surf-segmented:not([data-width='fill']) {
+    inline-size: fit-content;
+    max-inline-size: 100%;
+  }
+  .surf-segmented[data-width='fill'] {
+    display: flex;
+    inline-size: 100%;
+  }
+  .surf-segmented[data-width='fill'] > .surf-segment {
+    flex: 1 1 0;
+    min-inline-size: 0;
+  }
+}

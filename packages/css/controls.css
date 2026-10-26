@@ -65,9 +65,20 @@
       var(--surf-interaction-active-bg)
     );
   }
-  .surf-segment[aria-current='page'] {
+  /* The chosen segment: the current page for links, a pressed button in a
+     SegmentedControl, or a checked radio below. */
+  .surf-segment:is([aria-current='page'], [aria-pressed='true']) {
     background-color: var(--surf-selected);
     color: var(--surf-ink);
+  }
+  button.surf-segment {
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+  }
+  .surf-segment:is(:disabled, [data-disabled]) {
+    opacity: var(--surf-control-disabled-opacity);
+    cursor: not-allowed;
   }
   .surf-segment:focus-visible,
   .surf-icon-button:focus-visible {
@@ -130,11 +141,20 @@
     outline-offset: var(--surf-focus-ring-offset);
   }
   @media (forced-colors: active) {
-    .surf-segment[aria-current='page'],
+    .surf-segment:is([aria-current='page'], [aria-pressed='true']),
     .surf-control-group label:has(input:checked) .surf-segment {
       background-color: Highlight;
       color: HighlightText;
       forced-color-adjust: none;
+    }
+  }
+  /* On touch a segment is a whole target, and the track grows around it. */
+  @media (pointer: coarse) {
+    .surf-control-group {
+      height: auto;
+    }
+    .surf-segment {
+      min-block-size: var(--surf-control-target-size);
     }
   }
 }

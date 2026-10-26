@@ -72,7 +72,7 @@ The three packages ship together with one version. Each component has its own en
 
 ## Catalog
 
-The catalog holds <!-- catalog-counts -->12 foundations, 67 components and 13 patterns<!-- /catalog-counts -->, in English and Korean. Each page shows live examples, the API and keyboard behavior. "Available" means an implementation, example and docs exist. It is not an accessibility certification. Names and data in examples are fictional.
+The catalog holds <!-- catalog-counts -->12 foundations, 68 components and 13 patterns<!-- /catalog-counts -->, in English and Korean. Each page shows live examples, the API and keyboard behavior. "Available" means an implementation, example and docs exist. It is not an accessibility certification. Names and data in examples are fictional.
 
 ## Contributing
 

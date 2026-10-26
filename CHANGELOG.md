@@ -6,6 +6,7 @@
 
 ### Added
 
+- `SegmentedControl` (Root, Item) chooses one value from a few, such as a period or a side of a trade, as a string rather than an array. One segment is always chosen unless `required={false}`, which lets pressing the chosen one clear it, as a filter does. `width='fill'` shares a container's width among the segments. It draws the same segments as the CSS-only `.surf-control-group`, which now also marks a pressed segment, disables segments and gives each a full 44px target on touch.
 - `Table.Root stickyColumn` keeps the first column, such as each row's name, in place while the Container scrolls sideways. The column sits on the surface behind the table, so stripes and selections still paint over it, and a line marks its edge once rows pass under it. Its Container stops fading that edge by itself; under a sticky header the header and the corner stay above the column.
 - `AppShell.Root collapseBelow` takes a window width, such as 1280, below which the sidebar starts on its rail. The toggle still opens it there; above the width the shell returns to its own state, and only that state is remembered.
 - `ScrollArea fade` (`both`, `start`, `end` or `none`) chooses which edges fade while they hide content, so an app no longer overrides the mask on internal classes.
