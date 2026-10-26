@@ -6,6 +6,7 @@ import {
   Avatar,
   Badge,
   Banner,
+  DataState,
   DescriptionList,
   Kbd,
   BottomNavigation,
@@ -677,6 +678,13 @@ export function Feedback() {
           </Button>
         </Banner.Actions>
       </Banner.Root>
+      <DataState
+        state='stale'
+        onRetry={() => {}}
+        message='The tide gauge stopped reporting at 05:40.'
+      >
+        <Text>High water 4.2 m at 06:15.</Text>
+      </DataState>
       <Progress.Root value={30} aria-valuetext='30 of 100 containers unloaded'>
         <Progress.Label>Unloading</Progress.Label>
         <Progress.Value>

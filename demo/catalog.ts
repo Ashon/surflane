@@ -57,6 +57,7 @@ const ready = new Set([
   'meter',
   'spinner',
   'skeleton',
+  'data-state',
   'tabs',
   'accordion',
   'collapsible',
@@ -483,6 +484,13 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
     1,
   ],
   [
+    'data-state',
+    'Data state',
+    'Feedback',
+    'Shows loading, an error with a retry, empty and stale data around any content.',
+    2,
+  ],
+  [
     'banner',
     'Banner',
     'Feedback',
@@ -544,6 +552,7 @@ const nonBase = new Set([
   'skeleton',
   'empty-state',
   'segmented-control',
+  'data-state',
 ])
 const specialized = new Set(['date-picker', 'file-upload', 'tree', 'chart'])
 export const components: CatalogItem[] = definitions.map(

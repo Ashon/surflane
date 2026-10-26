@@ -1,10 +1,84 @@
 import React, { useState } from 'react'
-import { Button, Progress, Meter, Spinner, Skeleton } from '@surflane/ui'
+import {
+  Button,
+  Progress,
+  Meter,
+  Spinner,
+  Skeleton,
+  DataState,
+  DescriptionList,
+  Select,
+  ChoiceLabel,
+  Checkbox,
+  type DataStateValue,
+} from '@surflane/ui'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/FeedbackExamples'
 export { feedbackExampleIds } from './exampleGroups'
+function DataStatePreview() {
+  const t = text[useLocale().locale]
+  const [state, setState] = useState<DataStateValue>('error')
+  const [layout, setLayout] = useState<'inline' | 'block' | 'page'>('block')
+  const [refreshing, setRefreshing] = useState(false)
+  return (
+    <div className='example-stack'>
+      <div className='actions'>
+        <label>
+          {t.dsState}
+          <Select
+            width='content'
+            value={state}
+            onValueChange={(value) => setState(value as DataStateValue)}
+            options={t.dsStates.map(([value, label]) => ({ value, label }))}
+          />
+        </label>
+        <label>
+          {t.dsLayout}
+          <Select
+            width='content'
+            value={layout}
+            onValueChange={(value) =>
+              setLayout(value as 'inline' | 'block' | 'page')
+            }
+            options={t.dsLayouts.map(([value, label]) => ({ value, label }))}
+          />
+        </label>
+        <ChoiceLabel
+          control={
+            <Checkbox.Root checked={refreshing} onCheckedChange={setRefreshing}>
+              <Checkbox.Indicator />
+            </Checkbox.Root>
+          }
+        >
+          {t.dsRefreshing}
+        </ChoiceLabel>
+      </div>
+      {/* Retry brings the data back; focus moves to the region. */}
+      <DataState
+        state={state}
+        layout={layout}
+        refreshing={refreshing}
+        onRetry={() => setState('ready')}
+        aria-label={t.dsRegion}
+        role='region'
+      >
+        <DescriptionList.Root>
+          <DescriptionList.Item>
+            <DescriptionList.Term>{t.dsRegionTerm}</DescriptionList.Term>
+            <DescriptionList.Value>ap-northeast-2</DescriptionList.Value>
+          </DescriptionList.Item>
+          <DescriptionList.Item>
+            <DescriptionList.Term>{t.dsInstances}</DescriptionList.Term>
+            <DescriptionList.Value>6</DescriptionList.Value>
+          </DescriptionList.Item>
+        </DescriptionList.Root>
+      </DataState>
+    </div>
+  )
+}
 export function FeedbackExample({ id }: { id: string }) {
   const t = text[useLocale().locale]
+  if (id === 'data-state') return <DataStatePreview />
   const [value, setValue] = useState<number | null>(30)
   const [loading, setLoading] = useState(true)
   if (id === 'progress')

@@ -5,6 +5,7 @@ import type { ChartLabels } from './chart.js'
 import type { CodeBlockLabels } from './code.js'
 import type { CopyButtonLabels } from './copy-button.js'
 import type { DashboardPanelLabels } from './dashboard.js'
+import type { DataStateLabels } from './data-state.js'
 import type { DescriptionListLabels } from './description-list.js'
 import type { FileUploadLabels } from './file-upload.js'
 import type { KbdLabels } from './kbd.js'
@@ -25,6 +26,7 @@ export type SurflaneLabels = {
   codeBlock: CodeBlockLabels & { label: string }
   copyButton: CopyButtonLabels
   dashboardPanel: DashboardPanelLabels
+  dataState: DataStateLabels
   descriptionList: DescriptionListLabels
   /** Dialog and AlertDialog. */
   dialog: { close: string; focusBoundary: string }

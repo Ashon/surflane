@@ -20,7 +20,13 @@ export const navigationExampleIds = [
   'link',
   'breadcrumbs',
 ]
-export const feedbackExampleIds = ['progress', 'meter', 'spinner', 'skeleton']
+export const feedbackExampleIds = [
+  'progress',
+  'meter',
+  'spinner',
+  'skeleton',
+  'data-state',
+]
 export const dataExampleIds = [
   'table',
   'list',

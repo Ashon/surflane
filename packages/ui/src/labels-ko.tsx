@@ -52,6 +52,14 @@ export const koLabels: SurflaneLabels = {
     retry: '다시 시도',
     empty: '이 기간에 데이터가 없습니다.',
   },
+  dataState: {
+    loading: '불러오는 중',
+    refreshing: '새로 고치는 중',
+    error: '불러오지 못했습니다.',
+    stale: '마지막으로 받은 값입니다. 새로 고치지 못했습니다.',
+    retry: '다시 시도',
+    empty: '아직 보여 줄 것이 없습니다.',
+  },
   descriptionList: {
     empty: '설정 안 됨',
     copy: '복사',

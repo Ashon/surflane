@@ -3,11 +3,10 @@ import * as React from 'react'
 import { Button } from './button.js'
 import { Card } from './card.js'
 import { Icon } from './icon.js'
-import { InlineMessage } from './inline-message.js'
 import { Popover } from './popover.js'
-import { Skeleton } from './skeleton.js'
 import { Spinner } from './spinner.js'
 import { cx } from './class-names.js'
+import { DataState } from './data-state.js'
 import { useLabels } from './label-context.js'
 
 export type DashboardRootProps = React.ComponentPropsWithoutRef<'div'> & {
@@ -119,21 +118,6 @@ const Panel = function DashboardPanel({
   const id = React.useId()
   const busy = state === 'loading' || refreshing
   const titleRef = React.useRef<HTMLHeadingElement>(null)
-  const retried = React.useRef(false)
-  // Retry takes its own button away when the panel leaves the error, so focus
-  // moves to the panel's title instead of falling to the page.
-  React.useEffect(() => {
-    if (!retried.current) return
-    retried.current = false
-    const active = document.activeElement
-    if (!active || active === document.body) titleRef.current?.focus()
-  }, [state])
-  const retry =
-    onRetry &&
-    (() => {
-      retried.current = true
-      onRetry()
-    })
   return (
     <Card.Root
       role='group'
@@ -181,60 +165,23 @@ const Panel = function DashboardPanel({
           <div className='surf-dashboard-panel-actions'>{actions}</div>
         )}
       </div>
-      <div className='surf-dashboard-panel-body'>
-        {state === 'loading' ? (
-          <>
-            <Skeleton
-              shape='block'
-              style={
-                placeholderHeight === undefined
-                  ? undefined
-                  : { blockSize: placeholderHeight }
-              }
-            />
-            <span className='surf-feedback-sr'>{text.loading}</span>
-          </>
-        ) : state === 'stale' ? (
-          <>
-            <InlineMessage.Root tone='caution'>
-              <InlineMessage.Icon />
-              <InlineMessage.Content>
-                <InlineMessage.Description>
-                  {message ?? text.stale}
-                </InlineMessage.Description>
-                {onRetry && (
-                  <InlineMessage.Actions>
-                    <Button variant='outline' size='small' onClick={retry}>
-                      {text.retry}
-                    </Button>
-                  </InlineMessage.Actions>
-                )}
-              </InlineMessage.Content>
-            </InlineMessage.Root>
-            {children}
-          </>
-        ) : state === 'error' ? (
-          <InlineMessage.Root tone='danger'>
-            <InlineMessage.Icon />
-            <InlineMessage.Content>
-              <InlineMessage.Description>
-                {message ?? text.error}
-              </InlineMessage.Description>
-              {onRetry && (
-                <InlineMessage.Actions>
-                  <Button variant='outline' size='small' onClick={retry}>
-                    {text.retry}
-                  </Button>
-                </InlineMessage.Actions>
-              )}
-            </InlineMessage.Content>
-          </InlineMessage.Root>
-        ) : state === 'empty' ? (
-          <p className='surf-dashboard-panel-empty'>{message ?? text.empty}</p>
-        ) : (
-          children
-        )}
-      </div>
+      <DataState
+        className='surf-dashboard-panel-body'
+        state={state}
+        message={message}
+        onRetry={onRetry}
+        placeholderHeight={placeholderHeight}
+        retryFocus={titleRef}
+        labels={{
+          loading: text.loading,
+          error: text.error,
+          stale: text.stale,
+          retry: text.retry,
+          empty: text.empty,
+        }}
+      >
+        {children}
+      </DataState>
     </Card.Root>
   )
 }

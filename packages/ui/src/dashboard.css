@@ -10,6 +10,7 @@
 @import './skeleton.css';
 @import './spinner.css';
 @import './inline-message.css';
+@import './data-state.css';
 
 @layer surflane.components {
   /* As many columns as fit a panel's minimum width; one on a phone. */
@@ -88,19 +89,10 @@
     gap: var(--surf-space-1);
     margin-inline-start: auto;
   }
+  /* The body is a DataState: it draws the loading, error, empty and stale states. */
   .surf-dashboard-panel-body {
     min-inline-size: 0;
     min-block-size: 0;
-  }
-  /* A stale panel keeps its last content under the caution. */
-  .surf-dashboard-panel[data-state='stale'] > .surf-dashboard-panel-body {
-    display: grid;
-    align-content: start;
-    gap: var(--surf-space-3);
-  }
-  .surf-dashboard-panel-empty {
-    margin: 0;
-    color: var(--surf-ink-muted);
   }
   /* A phone shows one panel a row, whatever it spans. */
   @media (max-width: 760px) {
@@ -116,12 +108,5 @@
     [data-ui-density='compact'] *
   ).surf-dashboard {
     --surf-dashboard-gap: var(--surf-ui-density-gap);
-  }
-  :where(
-      [data-ui-density='compact'],
-      [data-ui-density='compact'] *
-    ).surf-dashboard-panel[data-state='stale']
-    > .surf-dashboard-panel-body {
-    gap: var(--surf-ui-density-inset);
   }
 }

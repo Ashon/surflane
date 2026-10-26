@@ -83,6 +83,9 @@ const specializedCriteria: Record<string, string[]> = {
   timeline: [
     'An ordered list whose events name their time with a time element and their state in words, a current step announced as such, and details behind a disclosure',
   ],
+  'data-state': [
+    'Loading with a placeholder, an error with a retry that moves focus on, empty, stale values under a caution, and refreshing that keeps the content',
+  ],
   'segmented-control': [
     'A string value, one always chosen unless required is false, a named group, and the same segments as the CSS-only control group',
   ],

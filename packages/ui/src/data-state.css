@@ -1,0 +1,82 @@
+/* Data state, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './button.css';
+@import './icon.css';
+@import './inline-message.css';
+@import './skeleton.css';
+@import './spinner.css';
+
+@layer surflane.components {
+  .surf-data-state {
+    min-inline-size: 0;
+    min-block-size: 0;
+  }
+  /* Focus comes here only after a retry, by script; it is not a control. */
+  .surf-data-state:focus {
+    outline: none;
+  }
+  .surf-data-state-content {
+    min-inline-size: 0;
+  }
+  /* Stale values stay under the caution. */
+  .surf-data-state[data-state='stale'] {
+    display: grid;
+    align-content: start;
+    gap: var(--surf-space-3);
+  }
+  .surf-data-state-empty {
+    margin: 0;
+    color: var(--surf-ink-muted);
+  }
+  /* Refreshing keeps the content, a step back, until the new data arrives. */
+  .surf-data-state-content[data-refreshing] {
+    opacity: 0.6;
+    transition: opacity var(--surf-duration-fast) var(--surf-ease-out);
+  }
+  /* inline sits on a line with other text: one row of icon, words and action. */
+  .surf-data-state[data-layout='inline'] {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--surf-space-2);
+  }
+  .surf-data-state[data-layout='inline'][data-state='stale'] {
+    display: grid;
+  }
+  .surf-data-state-notice {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--surf-space-2);
+    color: var(--surf-status-danger-fg);
+  }
+  .surf-data-state-notice[data-tone='caution'] {
+    color: var(--surf-status-caution-fg);
+  }
+  .surf-data-state-icon {
+    display: inline-flex;
+    flex: none;
+  }
+  /* page stands in for a page's content: centred in the room a page gives. */
+  .surf-data-state[data-layout='page'] {
+    display: grid;
+    place-content: center;
+    min-block-size: 40vh;
+    text-align: center;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .surf-data-state-content[data-refreshing] {
+      transition: none;
+    }
+  }
+}
+@layer surflane.sizes {
+  /* Compact density: stale values sit 8px under the caution. */
+  :where(
+      [data-ui-density='compact'],
+      [data-ui-density='compact'] *
+    ).surf-data-state[data-state='stale'] {
+    gap: var(--surf-ui-density-inset);
+  }
+}

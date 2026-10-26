@@ -85,6 +85,7 @@
     "./kbd.css": "./dist/css/kbd.css",
     "./segmented-control.css": "./dist/css/segmented-control.css",
     "./description-list.css": "./dist/css/description-list.css",
+    "./data-state.css": "./dist/css/data-state.css",
     "./timeline.css": "./dist/css/timeline.css",
     "./card.css": "./dist/css/card.css",
     "./table.css": "./dist/css/table.css",
@@ -307,6 +308,10 @@
     "./description-list": {
       "types": "./dist/description-list.d.ts",
       "import": "./dist/description-list.js"
+    },
+    "./data-state": {
+      "types": "./dist/data-state.d.ts",
+      "import": "./dist/data-state.js"
     },
     "./timeline": {
       "types": "./dist/timeline.d.ts",

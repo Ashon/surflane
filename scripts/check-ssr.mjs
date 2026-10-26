@@ -80,6 +80,7 @@ const markers = {
   feedback: [
     'surf-banner',
     'surf-banner-dismiss',
+    'surf-data-state',
     'surf-progress',
     'surf-meter',
     'surf-spinner',

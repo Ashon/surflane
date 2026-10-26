@@ -25,6 +25,24 @@ const en = {
   standaloneStatusExample: 'Standalone status example',
   placeholderNote:
     'Placeholders are decorative. The containing region owns aria-busy and a single loading announcement.',
+  dsState: 'State',
+  dsStates: [
+    ['ready', 'Ready'],
+    ['loading', 'Loading'],
+    ['error', 'Error'],
+    ['empty', 'Empty'],
+    ['stale', 'Stale'],
+  ] as [string, string][],
+  dsLayout: 'Layout',
+  dsLayouts: [
+    ['inline', 'Inline'],
+    ['block', 'Block'],
+    ['page', 'Page'],
+  ] as [string, string][],
+  dsRefreshing: 'Refreshing',
+  dsRegion: 'Cluster summary',
+  dsRegionTerm: 'Region',
+  dsInstances: 'Instances',
 }
 export const text: Record<Locale, typeof en> = {
   en,
@@ -53,5 +71,23 @@ export const text: Record<Locale, typeof en> = {
     standaloneStatusExample: '단독 상태 예시',
     placeholderNote:
       '자리 표시자는 장식용입니다. 포함하는 영역이 aria-busy와 로딩 안내를 하나만 담당합니다.',
+    dsState: '상태',
+    dsStates: [
+      ['ready', '준비됨'],
+      ['loading', '불러오는 중'],
+      ['error', '오류'],
+      ['empty', '비어 있음'],
+      ['stale', '오래된 값'],
+    ],
+    dsLayout: '배치',
+    dsLayouts: [
+      ['inline', '줄 안'],
+      ['block', '블록'],
+      ['page', '페이지'],
+    ],
+    dsRefreshing: '새로 고치는 중',
+    dsRegion: '클러스터 요약',
+    dsRegionTerm: '리전',
+    dsInstances: '인스턴스',
   },
 }

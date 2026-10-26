@@ -7,6 +7,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import {
   Banner,
   Button,
+  DataState,
   DescriptionList,
   FileUpload,
   Icon,
@@ -282,5 +283,26 @@ test('KoreanLabels writes components in Korean; a provider and a prop each win o
   assert.match(
     html(h(KoreanLabels, null, pager({ labels: { previous: 'Back' } }))),
     />Back</,
+  )
+})
+
+test('DataState says where the data stands and keeps one wrapper for the content', () => {
+  const content = h('p', null, 'Values')
+  assert.match(
+    html(h(DataState, { state: 'loading' }, content)),
+    /aria-busy="true"[^>]*data-state="loading"/,
+  )
+  const error = html(
+    h(DataState, { state: 'error', onRetry: () => {} }, content),
+  )
+  assert.match(error, /data-tone="danger"/)
+  assert.match(error, />Retry</)
+  assert.doesNotMatch(error, />Values</)
+  const stale = html(h(DataState, { state: 'stale' }, content))
+  assert.match(stale, /data-tone="caution"/)
+  assert.match(stale, /class="surf-data-state-content"><p>Values</)
+  assert.match(
+    html(h(DataState, { refreshing: true }, content)),
+    /data-refreshing="true"><p>Values<\/p><\/div><span class="surf-feedback-sr" role="status">Refreshing</,
   )
 })

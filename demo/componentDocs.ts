@@ -6,6 +6,7 @@ import { doc as autocomplete } from './docs/autocomplete.en'
 import { doc as avatar } from './docs/avatar.en'
 import { doc as badge } from './docs/badge.en'
 import { doc as kbd } from './docs/kbd.en'
+import { doc as dataState } from './docs/data-state.en'
 import { doc as segmentedControl } from './docs/segmented-control.en'
 import { doc as timeline } from './docs/timeline.en'
 import { doc as banner } from './docs/banner.en'
@@ -101,6 +102,7 @@ export const componentDocs: Record<string, ComponentDoc> = {
   avatar,
   badge,
   kbd,
+  'data-state': dataState,
   'segmented-control': segmentedControl,
   timeline,
   banner,
