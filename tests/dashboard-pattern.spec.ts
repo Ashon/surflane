@@ -147,3 +147,16 @@ test('dashboard panels share columns, span where they fit and stack on a phone',
       .evaluate((el) => el.scrollWidth <= el.clientWidth),
   ).toBe(true)
 })
+test("a compact chart's view-table line is as compact as its table", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1100 })
+  await page.goto('/patterns/dashboard')
+  await waitForCatalogReady(page)
+  const summary = page
+    .locator(".surf-chart[data-density='compact'] .surf-chart-table summary")
+    .first()
+  await expect(summary).toHaveCSS('font-size', '12px')
+  // 18px caption leading and 4px above and below: over the 24px floor.
+  expect(Math.round((await summary.boundingBox())!.height)).toBe(26)
+})

@@ -27,7 +27,6 @@ export const sizeLabels = {
 // Patterns built from sized components get the same handle as component pages.
 const sizedPatterns = new Set(['data-table'])
 // Examples whose tables follow the density chosen in the handle.
-const densityExamples = new Set(['data-table'])
 const densities = ['default', 'compact'] as const
 // Examples whose tables follow the style chosen in the handle.
 const styleExamples = new Set(['table', 'data-table'])
@@ -59,7 +58,9 @@ export function ComponentSizePreview({
     striped: t.styleStriped,
   }
   const sized = item.kind === 'component' || sizedPatterns.has(item.id)
-  const withDensity = densityExamples.has(item.id)
+  // Every sized preview compares densities too: SizeProvider's compact, which
+  // the tables, charts and layout parts inside follow.
+  const withDensity = sized
   const withStyle = styleExamples.has(item.id)
   // With two groups, each shows its name, so their Default buttons tell apart.
   const named = (label: string, group: React.ReactNode) =>
@@ -136,11 +137,7 @@ export function ComponentSizePreview({
               </ToggleGroup>,
             )}
           <p>
-            {withDensity
-              ? t.descriptionDensity
-              : withStyle
-                ? t.descriptionStyle
-                : t.description}{' '}
+            {withStyle ? t.descriptionStyle : t.descriptionDensity}{' '}
             <a href={routeHref('/foundations/layout#component-sizes')}>
               {t.sizeGuidance}
             </a>
@@ -157,7 +154,7 @@ export function ComponentSizePreview({
         data-preview-size={size}
       >
         {sized ? (
-          <SizeProvider size={size}>
+          <SizeProvider size={size} density={density}>
             <PreviewDensityContext.Provider value={density}>
               <PreviewTableVariantContext.Provider value={variant}>
                 {example}

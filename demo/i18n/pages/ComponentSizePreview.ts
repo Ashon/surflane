@@ -9,9 +9,9 @@ const en = {
   sizeName: 'Size',
   densityName: 'Density',
   descriptionDensity:
-    'Compare the same example at each size, table density and style. Switching keeps input values and selection state.',
+    'Compare the same example at each size and density. Switching keeps input values and selection state.',
   descriptionStyle:
-    'Compare the same example at each size and table style. Switching keeps input values and selection state.',
+    'Compare the same example at each size, density and table style. Switching keeps input values and selection state.',
   styleName: 'Style',
   styleGroupLabel: 'Table style',
   previewStyle: (label: string) => `Table style: ${label}`,
@@ -19,12 +19,10 @@ const en = {
   styleLined: 'Lined',
   styleGrid: 'Grid',
   styleStriped: 'Striped',
-  densityGroupLabel: 'Table density',
-  previewDensity: (label: string) => `Table density: ${label}`,
+  densityGroupLabel: 'Preview density',
+  previewDensity: (label: string) => `Preview density: ${label}`,
   densityDefault: 'Default',
   densityCompact: 'Compact',
-  description:
-    'Compare the same example at each size. Switching keeps input values and selection state.',
   sizeGuidance: 'Size guidance and comparisons',
 }
 export const text: Record<Locale, typeof en> = {
@@ -38,9 +36,9 @@ export const text: Record<Locale, typeof en> = {
     sizeName: '크기',
     densityName: '밀도',
     descriptionDensity:
-      '같은 예시를 각 크기, 표 밀도와 스타일에서 비교하세요. 전환하면 입력 값과 선택 상태가 유지됩니다.',
+      '같은 예시를 각 크기와 밀도에서 비교하세요. 전환하면 입력 값과 선택 상태가 유지됩니다.',
     descriptionStyle:
-      '같은 예시를 각 크기와 표 스타일에서 비교하세요. 전환하면 입력 값과 선택 상태가 유지됩니다.',
+      '같은 예시를 각 크기, 밀도와 표 스타일에서 비교하세요. 전환하면 입력 값과 선택 상태가 유지됩니다.',
     styleName: '스타일',
     styleGroupLabel: '표 스타일',
     previewStyle: (label: string) => `표 스타일: ${label}`,
@@ -48,12 +46,10 @@ export const text: Record<Locale, typeof en> = {
     styleLined: '구분선',
     styleGrid: '격자',
     styleStriped: '줄무늬',
-    densityGroupLabel: '표 밀도',
-    previewDensity: (label: string) => `표 밀도: ${label}`,
+    densityGroupLabel: '미리보기 밀도',
+    previewDensity: (label: string) => `미리보기 밀도: ${label}`,
     densityDefault: '기본',
     densityCompact: '촘촘하게',
-    description:
-      '같은 예시를 각 크기에서 비교하세요. 전환하면 입력 값과 선택 상태가 유지됩니다.',
     sizeGuidance: '크기 가이드와 비교',
   },
 }

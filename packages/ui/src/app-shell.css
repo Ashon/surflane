@@ -443,6 +443,11 @@
   ) {
     padding: var(--surf-ui-density-gap);
   }
+  /* A workspace's content holds the page, which keeps the inset itself: padding
+     it too would double the inset, and on a phone pull the page off the edges. */
+  .surf-app-shell[data-layout='workspace'] > .surf-app-shell-content {
+    padding: 0;
+  }
   /* A row rendered as a Button, such as Menu.Trigger, keeps the row's shape and the
    * sidebar's text over the button's size scheme. */
   .surf-app-shell-link.surf-button {

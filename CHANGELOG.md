@@ -2,6 +2,13 @@
 
 `@surflane/design-tokens`, `@surflane/css` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## Unreleased
+
+### Fixed
+
+- Compact density no longer pads a workspace AppShell's content as well as its page. The inset doubled to 24px on a wide screen, and on a phone the page stood 12px off the screen's edges, 24px narrower.
+- A compact Chart's "view table" line takes the caption role and 4px above and below, 26px, as compact as its table; it stayed at 38px.
+
 ## 0.13.0
 
 ### Added

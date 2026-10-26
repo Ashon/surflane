@@ -689,3 +689,25 @@ test('right to left, the sidebar moves to the right and its edge toggle follows 
   expect(edge.x).toBeLessThan(sidebar.x)
   expect(edge.x + edge.width).toBeGreaterThan(sidebar.x)
 })
+for (const [width, inset] of [
+  [1440, 12],
+  [375, 0],
+] as const)
+  test(`compact density keeps a workspace page ${inset}px from the shell's edges at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 })
+    await page.goto('/patterns/app-shell')
+    await waitForCatalogReady(page)
+    const shell = page
+      .locator(".surf-app-shell[data-layout='workspace']")
+      .first()
+    await shell.evaluate((el) => el.setAttribute('data-ui-density', 'compact'))
+    const content = shell.locator('> .surf-app-shell-content')
+    const sheet = content.locator('.surf-app-shell-page').first()
+    // The content never pads; the page keeps the shell's inset, none on a phone.
+    await expect(content).toHaveCSS('padding-top', '0px')
+    await expect(sheet).toHaveCSS('margin-top', `${inset}px`)
+    // The page's own padding takes the compact 12px.
+    await expect(sheet).toHaveCSS('padding-top', '12px')
+  })

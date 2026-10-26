@@ -271,6 +271,14 @@
     text-decoration: underline;
     text-underline-offset: 3px;
   }
+  /* A compact chart's disclosure takes the caption role and 4px above and below:
+     26px, as compact as its table and still over the 24px target floor. */
+  .surf-chart[data-density='compact'] .surf-chart-table summary {
+    padding-block: var(--surf-space-1);
+    font-size: var(--surf-type-caption-size);
+    line-height: var(--surf-type-caption-leading);
+    letter-spacing: var(--surf-type-caption-tracking);
+  }
   .surf-chart-table .surf-scroll-root {
     margin-top: var(--surf-space-2);
   }

@@ -234,13 +234,13 @@ test('the preview handle sizes the pattern and sets table density, and row check
       )
   for (const offset of await centered()) expect(offset).toBeLessThan(0.75)
   await page.getByRole('button', { name: 'Preview size: Small' }).click()
-  await page.getByRole('button', { name: 'Table density: Compact' }).click()
+  await page.getByRole('button', { name: 'Preview density: Compact' }).click()
   await expect(
     page.locator('#preview .surf-size-scope').first(),
   ).toHaveAttribute('data-ui-size', 'small')
   await expect(table(page)).toHaveAttribute('data-density', 'compact')
   await expect(
-    page.getByRole('button', { name: 'Table density: Compact' }),
+    page.getByRole('button', { name: 'Preview density: Compact' }),
   ).toHaveAttribute('aria-pressed', 'true')
   for (const offset of await centered()) expect(offset).toBeLessThan(0.75)
 })
