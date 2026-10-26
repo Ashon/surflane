@@ -38,6 +38,8 @@ export const doc: DocKo = {
       '제어형 또는 비제어형 접힘 상태; 라벨은 접근 가능하게 유지',
     'Root.persist':
       '상태를 기억하는 localStorage 키. 서버 렌더링 앱은 대신 쿠키를 읽어 defaultCollapsed로 넘깁니다',
+    'Root.collapseBelow':
+      '1280처럼 창 너비를 주면 그보다 좁을 때 사이드바가 레일로 시작합니다. 토글로는 여전히 펼칠 수 있고, 그 너비 위의 상태만 기억합니다',
     'Root.shortcut':
       '텍스트 입력 밖에서 ⌘B나 Ctrl+B로 사이드바를 접고 폅니다. 페이지당 셸 하나만',
     'SidebarToggle.labels':

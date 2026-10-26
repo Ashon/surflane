@@ -3,7 +3,7 @@ export const doc: ComponentDoc = {
   usage: [
     "Put a phone app's three to five main destinations along the bottom edge, within thumb reach. Each Item is a link with an icon above a short label, and current marks the page you're on.",
     'By default it shows at 760px and narrower, where AppShell hides its sidebar, so the same destinations live in the sidebar on wider screens. Set visible="always" for a phone-only app.',
-    'It stays fixed to the bottom of the viewport and pads the safe area under the home indicator. Pad your scrolling content by var(--surf-size-bottom-navigation) plus env(safe-area-inset-bottom) so the last line stays visible. Set position="static" to place it in a frame of your own.',
+    'It stays fixed to the bottom of the viewport and pads the safe area under the home indicator. Wherever it shows, toasts rise above it and an AppShell ends where it begins, so their last lines stay visible. Pad other scrolling content by var(--surf-size-bottom-navigation) plus env(safe-area-inset-bottom). Set position="static" to place it in a frame of your own.',
     'A badge shows a count, capped at 99+, or a dot when you pass true. badgeLabel says what it means to screen readers, such as "3 unread"; a dot needs one.',
   ],
   avoid: [

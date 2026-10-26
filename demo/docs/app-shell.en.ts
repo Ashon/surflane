@@ -116,6 +116,11 @@ export const doc: ComponentDoc = {
       '—',
     ],
     [
+      'Root.collapseBelow',
+      'a window width, such as 1280, below which the sidebar starts on its rail; the toggle still opens it, and only the state above the width is remembered',
+      '—',
+    ],
+    [
       'Root.shortcut',
       '⌘B or Ctrl+B toggles the sidebar outside text fields; one shell per page',
       'true',

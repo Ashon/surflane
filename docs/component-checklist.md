@@ -36,14 +36,15 @@ The foundation pages explain why each rule exists: [Visual hierarchy](https://su
 
 ## Type, space and size
 
-| Rule                                                         | Enforced by               |
-| ------------------------------------------------------------ | ------------------------- |
-| Type through role tokens or the size scheme, never a literal | `check:package`           |
-| Literal lengths only fall, never rise                        | `check:package` (ceiling) |
-| `size`: small, default, large, following `SizeProvider`      | `component-sizes.spec.ts` |
-| Compact density makes nothing larger                         | `density.spec.ts`         |
-| Compact keeps targets at 24px or more                        | `touch-targets.spec.ts`   |
-| Touch targets reach 44px on coarse pointers                  | `touch-targets.spec.ts`   |
+| Rule                                                                              | Enforced by                                 |
+| --------------------------------------------------------------------------------- | ------------------------------------------- |
+| Type through role tokens or the size scheme, never a literal                      | `check:package`                             |
+| Containers of app content wrap with `break-word`; only text parts take `anywhere` | `check:package`, `content-wrapping.spec.ts` |
+| Literal lengths only fall, never rise                                             | `check:package` (ceiling)                   |
+| `size`: small, default, large, following `SizeProvider`                           | `component-sizes.spec.ts`                   |
+| Compact density makes nothing larger                                              | `density.spec.ts`                           |
+| Compact keeps targets at 24px or more                                             | `touch-targets.spec.ts`                     |
+| Touch targets reach 44px on coarse pointers                                       | `touch-targets.spec.ts`                     |
 
 ## Interaction
 

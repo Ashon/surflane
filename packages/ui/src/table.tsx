@@ -34,6 +34,7 @@ const TableRoot = function TableRoot({
   density,
   variant,
   stickyHeader,
+  stickyColumn,
   ref,
   ...props
 }: React.ComponentPropsWithoutRef<typeof RootPart> & {
@@ -47,6 +48,10 @@ const TableRoot = function TableRoot({
   variant?: TableVariant
   /** Keeps the header visible while a bounded Container scrolls vertically. */
   stickyHeader?: boolean
+  /** Keeps the first column, such as each row's name, in place while the Container
+   * scrolls sideways. That edge of the Container stops fading, and a line marks it
+   * once rows pass under it. */
+  stickyColumn?: boolean
 } & { ref?: React.Ref<HTMLTableElement> }) {
   return (
     <RootPart
@@ -55,6 +60,7 @@ const TableRoot = function TableRoot({
       data-density={density}
       data-variant={variant && variant !== 'plain' ? variant : undefined}
       data-sticky-header={stickyHeader || undefined}
+      data-sticky-column={stickyColumn || undefined}
     />
   )
 }

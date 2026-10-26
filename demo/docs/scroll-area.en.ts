@@ -29,6 +29,11 @@ export const doc: ComponentDoc = {
       'auto passes wheel/touch to parent at an edge; contain isolates the enabled axes',
       'auto',
     ],
+    [
+      'fade',
+      'both | start | end | none: which edges fade while they hide content; turn one off where something stays over it',
+      'both',
+    ],
     ['style / className', 'viewport attributes', '—'],
     ['rootStyle / rootClassName', 'outer sizing and flex/grid placement', '—'],
     [

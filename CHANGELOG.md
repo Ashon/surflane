@@ -2,6 +2,19 @@
 
 `@surflane/design-tokens`, `@surflane/css` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## Unreleased
+
+### Added
+
+- `Table.Root stickyColumn` keeps the first column, such as each row's name, in place while the Container scrolls sideways. The column sits on the surface behind the table, so stripes and selections still paint over it, and a line marks its edge once rows pass under it. Its Container stops fading that edge by itself; under a sticky header the header and the corner stay above the column.
+- `AppShell.Root collapseBelow` takes a window width, such as 1280, below which the sidebar starts on its rail. The toggle still opens it there; above the width the shell returns to its own state, and only that state is remembered.
+- `ScrollArea fade` (`both`, `start`, `end` or `none`) chooses which edges fade while they hide content, so an app no longer overrides the mask on internal classes.
+
+### Fixed
+
+- A fixed BottomNavigation no longer covers toasts or the end of an AppShell. Wherever it shows, the toast stack rises above it and the shell ends where it begins, so apps stop offsetting them by hand. Other scrolling content still pads by `--surf-size-bottom-navigation`.
+- Containers that hold an app's own content no longer set `overflow-wrap: anywhere`: AppShell's content, Tabs panels, Card bodies, disclosure bodies, PreviewCard, NavigationMenu content and List content wrap with `break-word`. `anywhere` is inherited and lets grid and flex columns size below a word, so tickers and figures in a data screen broke mid-word. A word now breaks only when it cannot fit; titles, labels, descriptions and prose keep `anywhere`.
+
 ## 0.14.0
 
 ### Added

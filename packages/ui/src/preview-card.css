@@ -25,7 +25,7 @@
       var(--surf-type-body-size)/var(--surf-type-body-leading)
       var(--surf-font-body);
     letter-spacing: var(--surf-type-body-tracking);
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
     outline: none;
   }
   .surf-preview-card > :first-child {

@@ -205,6 +205,53 @@ assert.deepEqual(
   `Physical sides that won't mirror right to left:\n${physical.join('\n')}`,
 )
 console.log('@surflane: sides are logical, apart from 6 deliberate ones')
+// A container that holds the app's own content wraps a word only when it cannot fit
+// (break-word). overflow-wrap: anywhere is inherited and lets grid and flex columns
+// size below a word, so tickers and figures in them break mid-word. It stays on
+// the text parts a component owns: titles, labels, descriptions and prose.
+const contentContainers = [
+  'surf-app-shell-content',
+  'surf-app-shell-page',
+  'surf-tabs-panel',
+  'surf-card-body',
+  'surf-disclosure-body',
+  'surf-collapsible-panel',
+  'surf-preview-card',
+  'surf-navigation-content',
+  'surf-list-content',
+  'surf-table',
+  'surf-dialog-body',
+  'surf-sheet-body',
+  'surf-dashboard-panel-body',
+  'surf-popover-popup',
+]
+const anywhereContainers = typeSheets.flatMap((file) =>
+  [
+    ...readFileSync(file, 'utf8')
+      .replace(/\/\*[\s\S]*?\*\//g, '')
+      .matchAll(/([^{}]+)\{([^{}]*)\}/g),
+  ]
+    .filter(([, , body]) => /overflow-wrap:\s*anywhere/.test(body))
+    .flatMap(([, selector]) =>
+      selector
+        .split(',')
+        .map((part) => part.trim())
+        .filter((part) =>
+          contentContainers.some((name) =>
+            new RegExp(`\\.${name}(?![\\w-])[^\\s>+~]*$`).test(part),
+          ),
+        )
+        .map((part) => `${file} ${part}`),
+    ),
+)
+assert.deepEqual(
+  anywhereContainers,
+  [],
+  `Containers of app content set overflow-wrap: anywhere:\n${anywhereContainers.join('\n')}`,
+)
+console.log(
+  `@surflane: ${contentContainers.length} content containers wrap with break-word, not anywhere`,
+)
 // Every class a component stylesheet selects is one a component renders, so a renamed
 // part cannot leave rules behind.
 const cssOnlyClasses = new Set()

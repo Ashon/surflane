@@ -31,11 +31,24 @@
     min-block-size: 100%;
   }
   /* A horizontal scroller fades the edge that hides more content, so a cut-off table
-   * or code line reads as scrollable before its scrollbar appears, on touch too. */
-  .surf-scroll-root[data-overflow-x-end] > .surf-scroll-viewport {
+   * or code line reads as scrollable before its scrollbar appears, on touch too.
+   * fade turns an edge off, and content with a sticky first column, such as a Table
+   * with stickyColumn, keeps its start edge sharp: the column stays over it. */
+  .surf-scroll-root[data-overflow-x-end]:not(
+      [data-fade='start'],
+      [data-fade='none']
+    )
+    > .surf-scroll-viewport {
     mask-image: linear-gradient(to left, transparent, #000 var(--surf-space-6));
   }
-  .surf-scroll-root[data-overflow-x-start] > .surf-scroll-viewport {
+  .surf-scroll-root[data-overflow-x-start]:not(
+      [data-fade='end'],
+      [data-fade='none'],
+      :has(
+        > .surf-scroll-viewport > .surf-scroll-content > [data-sticky-column]
+      )
+    )
+    > .surf-scroll-viewport {
     mask-image: linear-gradient(
       to right,
       transparent,
@@ -44,17 +57,33 @@
   }
   /* Start and end are logical: right to left, the end that hides content is the
      left edge, and the start the right. */
-  .surf-scroll-root:dir(rtl)[data-overflow-x-end] > .surf-scroll-viewport {
+  .surf-scroll-root:dir(rtl)[data-overflow-x-end]:not(
+      [data-fade='start'],
+      [data-fade='none']
+    )
+    > .surf-scroll-viewport {
     mask-image: linear-gradient(
       to right,
       transparent,
       #000 var(--surf-space-6)
     );
   }
-  .surf-scroll-root:dir(rtl)[data-overflow-x-start] > .surf-scroll-viewport {
+  .surf-scroll-root:dir(rtl)[data-overflow-x-start]:not(
+      [data-fade='end'],
+      [data-fade='none'],
+      :has(
+        > .surf-scroll-viewport > .surf-scroll-content > [data-sticky-column]
+      )
+    )
+    > .surf-scroll-viewport {
     mask-image: linear-gradient(to left, transparent, #000 var(--surf-space-6));
   }
-  .surf-scroll-root[data-overflow-x-start][data-overflow-x-end]
+  .surf-scroll-root[data-overflow-x-start][data-overflow-x-end]:not(
+      [data-fade],
+      :has(
+        > .surf-scroll-viewport > .surf-scroll-content > [data-sticky-column]
+      )
+    )
     > .surf-scroll-viewport {
     mask-image: linear-gradient(
       to right,

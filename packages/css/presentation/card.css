@@ -48,7 +48,7 @@
   }
   .surf-card-body {
     min-width: 0;
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
   }
   .surf-card-footer {
     display: flex;

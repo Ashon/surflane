@@ -5,6 +5,7 @@ import {
   Button,
   Input,
   Checkbox,
+  ChoiceLabel,
   StatusBadge,
   EmptyState,
   InlineMessage,
@@ -655,6 +656,7 @@ export function DataExample({ id }: { id: string }) {
   const variant = useContext(PreviewTableVariantContext)
   const [selected, setSelected] = useState<string[]>([]),
     [inspected, setInspected] = useState('')
+  const [stickyColumn, setStickyColumn] = useState(false)
   if (id === 'stat') return <StatPreview />
   if (id === 'description-list') return <DescriptionListPreview />
   if (id === 'timeline') return <TimelinePreview />
@@ -682,6 +684,20 @@ export function DataExample({ id }: { id: string }) {
           placeholder={t.searchByEnvironmentName}
         />
       </label>
+      {id === 'table' && (
+        <ChoiceLabel
+          control={
+            <Checkbox.Root
+              checked={stickyColumn}
+              onCheckedChange={setStickyColumn}
+            >
+              <Checkbox.Indicator />
+            </Checkbox.Root>
+          }
+        >
+          {t.keepFirstColumn}
+        </ChoiceLabel>
+      )}
       {rows.length === 0 ? (
         <EmptyState.Root>
           <EmptyState.Icon aria-hidden='true'>
@@ -699,7 +715,11 @@ export function DataExample({ id }: { id: string }) {
         </EmptyState.Root>
       ) : id === 'table' ? (
         <Table.Container label={t.environmentComparison}>
-          <Table.Root variant={variant} style={{ minWidth: 720 }}>
+          <Table.Root
+            variant={variant}
+            stickyColumn={stickyColumn}
+            style={{ minWidth: 720 }}
+          >
             <Table.Caption>{t.registeredEnvironmentsCaption}</Table.Caption>
             <Table.Head>
               <Table.Row>

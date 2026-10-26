@@ -15,6 +15,25 @@ type Shell = {
 }
 const ShellContext = /* @__PURE__ */ React.createContext<Shell | null>(null)
 const SidebarContext = /* @__PURE__ */ React.createContext(false)
+/** Whether the window is narrower than a width, as it changes. The server and the
+ * hydrating pass say no, so the markup matches. */
+function useNarrowerThan(width: number | undefined) {
+  const query = width ? `(width < ${width}px)` : null
+  const subscribe = React.useCallback(
+    (notify: () => void) => {
+      if (!query || typeof matchMedia === 'undefined') return () => {}
+      const list = matchMedia(query)
+      list.addEventListener('change', notify)
+      return () => list.removeEventListener('change', notify)
+    },
+    [query],
+  )
+  return React.useSyncExternalStore(
+    subscribe,
+    () => !!query && matchMedia(query).matches,
+    () => false,
+  )
+}
 const editable = (target: EventTarget | null) =>
   target instanceof HTMLElement &&
   (target.isContentEditable ||
@@ -32,6 +51,11 @@ export type AppShellRootProps = React.ComponentPropsWithoutRef<'div'> & {
   persist?: string
   /** ⌘B, or Ctrl+B, toggles the sidebar unless focus is in a text field. */
   shortcut?: boolean
+  /** A window width, such as 1280, below which the sidebar starts on its rail.
+   * The toggle still opens it there; above the width the shell returns to its own
+   * state, and only that state is remembered. Applies when the shell controls the
+   * state. */
+  collapseBelow?: number
 }
 /** Layout only. Routing, session, theme and mobile disclosure belong to the caller;
  * the shell keeps the sidebar's collapsed state unless you control it. */
@@ -41,6 +65,7 @@ const Root = function AppShellRoot({
   onCollapsedChange,
   persist,
   shortcut = true,
+  collapseBelow,
   layout = 'header',
   className,
   children,
@@ -48,19 +73,28 @@ const Root = function AppShellRoot({
   ...props
 }: AppShellRootProps & { ref?: React.Ref<HTMLDivElement> }) {
   const [own, setOwn] = React.useState(defaultCollapsed)
-  const value = collapsed ?? own
+  // Below collapseBelow the rail is the default, and a toggle there holds only
+  // until the window crosses the width again.
+  const narrow = useNarrowerThan(collapseBelow)
+  const [override, setOverride] = React.useState<boolean | null>(null)
+  React.useLayoutEffect(() => setOverride(null), [narrow])
+  const value = collapsed ?? (narrow ? (override ?? true) : own)
   const latest = React.useRef(value)
   latest.current = value
   const setCollapsed = React.useCallback(
     (next: boolean) => {
-      if (collapsed === undefined) setOwn(next)
       onCollapsedChange?.(next)
+      if (collapsed === undefined && narrow) {
+        setOverride(next)
+        return
+      }
+      if (collapsed === undefined) setOwn(next)
       if (persist)
         try {
           localStorage.setItem(persist, next ? 'collapsed' : 'expanded')
         } catch {}
     },
-    [collapsed, onCollapsedChange, persist],
+    [collapsed, onCollapsedChange, persist, narrow],
   )
   React.useLayoutEffect(() => {
     if (!persist || collapsed !== undefined) return

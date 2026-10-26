@@ -149,3 +149,46 @@ test('Bottom navigation shows where the sidebar hides and stays fixed under over
   expect(box && Math.round(box.y + box.height)).toBe(800)
   expect(box?.width).toBe(390)
 })
+
+test('a fixed bottom bar lifts the toast stack above it, and an AppShell ends where it begins', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  // Any page's fixed bar does this; the catalog's bars are static, so add one.
+  const addBar = () =>
+    page.evaluate(() => {
+      const bar = document.createElement('nav')
+      bar.className = 'surf-bottom-nav'
+      bar.dataset.position = 'fixed'
+      bar.dataset.visible = 'mobile'
+      bar.innerHTML = '<ul class="surf-bottom-nav-list"></ul>'
+      document.body.append(bar)
+      return bar.getBoundingClientRect().top
+    })
+  await page.goto('/components/toast')
+  await waitForCatalogReady(page)
+  const barTop = await addBar()
+  await page.getByRole('button', { name: 'Show success', exact: true }).click()
+  const toast = page.locator('.surf-toast').first()
+  await expect(toast).toBeVisible()
+  expect(
+    (await toast.boundingBox())!.y + (await toast.boundingBox())!.height,
+  ).toBeLessThanOrEqual(barTop)
+  await page.goto('/patterns/app-shell')
+  await waitForCatalogReady(page)
+  await addBar()
+  expect(
+    await page
+      .locator('.surf-app-shell')
+      .first()
+      .evaluate((shell) => getComputedStyle(shell).paddingBlockEnd),
+  ).toBe('56px')
+  // Wider than a phone the bar hides, and nothing makes room for it.
+  await page.setViewportSize({ width: 1440, height: 900 })
+  expect(
+    await page
+      .locator('.surf-app-shell')
+      .first()
+      .evaluate((shell) => getComputedStyle(shell).paddingBlockEnd),
+  ).toBe('0px')
+})

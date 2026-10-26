@@ -98,7 +98,7 @@
   }
   .surf-disclosure-body {
     padding: var(--surf-space-2) var(--surf-space-4) var(--surf-space-4);
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
     min-width: 0;
   }
   .surf-disclosure-body > :first-child {

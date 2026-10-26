@@ -72,7 +72,7 @@
     min-width: 0;
     padding-block: var(--surf-space-4);
     outline: none;
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
   }
   .surf-tabs-panel:focus-visible {
     outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);

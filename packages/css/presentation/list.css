@@ -33,7 +33,7 @@
   .surf-list-content {
     flex: 1;
     min-width: 0;
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
   }
   .surf-list-title {
     font-weight: var(--surf-weight-medium);

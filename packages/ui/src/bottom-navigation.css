@@ -142,6 +142,30 @@
     block-size: var(--surf-space-2);
     padding: 0;
   }
+  /* A fixed bar covers the bottom of the screen wherever it shows. The page's other
+     parts make room for it: toasts rise above it, and an AppShell ends where it
+     begins, so its last line scrolls into view. */
+  @media (max-width: 760px) {
+    :root:has(.surf-bottom-nav[data-position='fixed']) {
+      --surf-bottom-nav-clearance: calc(
+        var(--surf-size-bottom-navigation) + env(safe-area-inset-bottom, 0px)
+      );
+    }
+    :root:has(.surf-bottom-nav[data-position='fixed']) .surf-app-shell {
+      box-sizing: border-box;
+      padding-block-end: var(--surf-bottom-nav-clearance);
+    }
+  }
+  :root:has(.surf-bottom-nav[data-position='fixed'][data-visible='always']) {
+    --surf-bottom-nav-clearance: calc(
+      var(--surf-size-bottom-navigation) + env(safe-area-inset-bottom, 0px)
+    );
+  }
+  :root:has(.surf-bottom-nav[data-position='fixed'])
+    .surf-toast-viewport:not([data-layout='anchored']) {
+    bottom: var(--surf-bottom-nav-clearance, 0px);
+    max-height: calc(100dvh - var(--surf-bottom-nav-clearance, 0px));
+  }
   @media (prefers-reduced-motion: reduce) {
     .surf-bottom-nav-icon {
       transition: none;

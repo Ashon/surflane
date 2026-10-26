@@ -12,6 +12,7 @@ export const doc: DocKo = {
       'vertical | horizontal | both; 네이티브 스크롤과 표시되는 바를 해당 축으로 제한합니다.',
     scrollChain:
       'auto는 가장자리에서 휠/터치를 부모로 전달합니다. contain은 활성화된 축을 격리합니다.',
+    fade: 'both | start | end | none: 내용을 가릴 때 흐려질 가장자리. 무언가가 그 위에 고정되는 쪽은 끄세요',
     'style / className': 'viewport 속성',
     'rootStyle / rootClassName': '외부 크기와 flex/grid 배치',
     tabIndex: '필요할 때 명명된 viewport 기본값을 재정의합니다.',

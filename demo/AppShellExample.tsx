@@ -214,6 +214,7 @@ export function AppShellExample({
           <AppShell.Root
             layout='workspace'
             persist='surflane-preview-sidebar'
+            collapseBelow={1280}
             className='app-shell-preview'
           >
             {/* A notice for the whole product spans the shell above everything. */}

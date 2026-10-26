@@ -44,6 +44,7 @@ const en = {
   localExamples: 'Local examples',
   controlsNoContact: "These controls don't contact DEMO or create resources.",
   filterEnvironments: 'Filter environments',
+  keepFirstColumn: 'Keep the first column in place',
   searchByEnvironmentName: 'Search by environment name',
   clearSearchToSeeEnvironments:
     'Clear the search to see registered environments.',
@@ -184,6 +185,7 @@ export const text: Record<Locale, typeof en> = {
     controlsNoContact:
       '이 컨트롤은 DEMO에 연결하지 않으며 리소스를 생성하지도 않습니다.',
     filterEnvironments: '환경 필터',
+    keepFirstColumn: '첫 열을 제자리에 두기',
     searchByEnvironmentName: '환경 이름으로 검색하세요',
     clearSearchToSeeEnvironments:
       '검색어를 지우면 등록된 환경을 볼 수 있습니다.',

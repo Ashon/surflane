@@ -713,3 +713,37 @@ for (const [width, inset] of [
     // The page's own padding takes the compact 12px.
     await expect(sheet).toHaveCSS('padding-top', '12px')
   })
+
+test('below collapseBelow the sidebar starts on its rail, and only the wide state is remembered', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/patterns/app-shell')
+  await waitForCatalogReady(page)
+  await page.evaluate(() => localStorage.removeItem('surflane-preview-sidebar'))
+  await page.reload()
+  await waitForCatalogReady(page)
+  const shell = page.locator(".surf-app-shell[data-layout='workspace']")
+  const toggle = shell.locator('.surf-app-shell-toggle')
+  const stored = () =>
+    page.evaluate(() => localStorage.getItem('surflane-preview-sidebar'))
+  await expect(shell).toHaveAttribute('data-sidebar', 'expanded')
+  // The catalog's shell sets collapseBelow={1280}.
+  await page.setViewportSize({ width: 1100, height: 900 })
+  await expect(shell).toHaveAttribute('data-sidebar', 'collapsed')
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false')
+  // The toggle still opens it, without touching the remembered state.
+  await toggle.click()
+  await expect(shell).toHaveAttribute('data-sidebar', 'expanded')
+  expect(await stored()).toBeNull()
+  // Wide again, the shell returns to its own state.
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await expect(shell).toHaveAttribute('data-sidebar', 'expanded')
+  await toggle.click()
+  await expect(shell).toHaveAttribute('data-sidebar', 'collapsed')
+  expect(await stored()).toBe('collapsed')
+  await page.setViewportSize({ width: 1100, height: 900 })
+  await expect(shell).toHaveAttribute('data-sidebar', 'collapsed')
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await expect(shell).toHaveAttribute('data-sidebar', 'collapsed')
+})

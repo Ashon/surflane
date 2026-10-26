@@ -63,7 +63,7 @@
     padding: var(--surf-space-6);
     background: var(--surf-canvas);
     border-radius: var(--surf-app-shell-page-radius);
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
     --surf-plane: var(--surf-canvas);
     --surf-recessed: var(--surf-surface);
   }

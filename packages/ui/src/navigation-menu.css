@@ -121,7 +121,7 @@
     width: 380px;
     max-width: calc(100vw - 26px);
     padding: var(--surf-space-4);
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
   }
   @media (max-width: 760px), (pointer: coarse) {
     .surf-navigation-trigger,

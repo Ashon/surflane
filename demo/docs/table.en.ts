@@ -90,6 +90,11 @@ const selection = useTableSelection({
       'keeps the header in view inside a Container with a bounded height and orientation="both"; --surf-table-surface sets its background',
       'false',
     ],
+    [
+      'Root.stickyColumn',
+      "keeps the first column, such as each row's name, in place while the Container scrolls sideways; that edge stops fading, and a line marks it once rows pass under it",
+      'false',
+    ],
     ['Caption / Head / Body / Foot', 'native table element props', '—'],
     [
       'HeaderCell.scope / aria-sort',

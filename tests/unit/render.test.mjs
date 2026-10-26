@@ -11,6 +11,7 @@ import {
   FileUpload,
   Icon,
   Kbd,
+  ScrollArea,
   Skeleton,
   Stat,
   Table,
@@ -218,5 +219,17 @@ test('Timeline is an ordered list; an event carries its tone, its time and, when
   assert.match(
     markup,
     /<time dateTime="2026-10-26T09:42:00Z" class="surf-timeline-time">09:42<\/time>/,
+  )
+})
+
+test('ScrollArea writes which edges fade, and Table a sticky first column', () => {
+  assert.match(
+    html(h(ScrollArea, { label: 'Runs', fade: 'end' }, 'x')),
+    /<div [^>]*data-fade="end" class="surf-scroll-root"/,
+  )
+  assert.doesNotMatch(html(h(ScrollArea, { label: 'Runs' }, 'x')), /data-fade/)
+  assert.match(
+    html(h(Table.Root, { stickyColumn: true })),
+    /<table data-sticky-column="true" class="surf-table"/,
   )
 })

@@ -6,6 +6,7 @@ export const ScrollArea = function ScrollArea({
   label,
   orientation = 'horizontal',
   scrollChain = 'auto',
+  fade = 'both',
   style,
   rootClassName,
   rootStyle,
@@ -21,6 +22,10 @@ export const ScrollArea = function ScrollArea({
   rootStyle?: React.CSSProperties
   orientation?: 'horizontal' | 'vertical' | 'both'
   scrollChain?: 'auto' | 'contain'
+  /** Which edges fade while they hide content. Turn one off where something stays
+   * in place over it, such as a sticky first column; a Table with stickyColumn
+   * turns its start edge off itself. */
+  fade?: 'both' | 'start' | 'end' | 'none'
 } & { ref?: React.Ref<HTMLDivElement> }) {
   const dragPointer = React.useRef<number | null>(null)
   const clearDrag = (event: React.PointerEvent<HTMLDivElement>) => {
@@ -32,6 +37,7 @@ export const ScrollArea = function ScrollArea({
     <BaseScrollArea.Root
       className={cx('surf-scroll-root', rootClassName)}
       style={rootStyle}
+      data-fade={fade === 'both' ? undefined : fade}
       onPointerMoveCapture={(event) => {
         if (event.pointerType === 'touch') return
         const root = event.currentTarget

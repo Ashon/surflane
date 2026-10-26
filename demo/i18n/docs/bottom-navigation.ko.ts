@@ -3,7 +3,7 @@ export const doc: DocKo = {
   usage: [
     '휴대폰 앱의 주요 목적지 3~5개를 엄지가 닿는 화면 아래쪽에 두세요. 각 Item은 아이콘 아래 짧은 라벨이 붙은 링크이고, current로 지금 있는 페이지를 표시합니다.',
     '기본으로 AppShell이 사이드바를 숨기는 760px 이하에서만 보입니다. 그래서 넓은 화면에서는 같은 목적지가 사이드바에 있습니다. 휴대폰 전용 앱이면 visible="always"를 설정하세요.',
-    '뷰포트 아래쪽에 고정되고 홈 인디케이터 아래 안전 영역만큼 여백을 둡니다. 마지막 줄이 가려지지 않게 스크롤 콘텐츠에 var(--surf-size-bottom-navigation)과 env(safe-area-inset-bottom)을 더한 만큼 아래 여백을 주세요. 직접 만든 프레임 안에 두려면 position="static"을 설정하세요.',
+    '뷰포트 아래쪽에 고정되고 홈 인디케이터 아래 안전 영역만큼 여백을 둡니다. 내비게이션이 보이는 동안 토스트는 그 위로 올라가고, AppShell은 내비게이션이 시작하는 곳에서 끝나서 마지막 줄이 가려지지 않습니다. 그 밖의 스크롤 콘텐츠에는 var(--surf-size-bottom-navigation)과 env(safe-area-inset-bottom)을 더한 만큼 아래 여백을 주세요. 직접 만든 프레임 안에 두려면 position="static"을 설정하세요.',
     '배지는 개수를 99+까지 보여 주고, true를 주면 점으로 보여 줍니다. badgeLabel은 스크린 리더에 배지의 뜻을 읽어 줍니다(예: "읽지 않음 3개"). 점 배지에는 꼭 필요합니다.',
   ],
   avoid: [
