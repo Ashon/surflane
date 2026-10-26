@@ -7,10 +7,14 @@
 ### Added
 
 - `Kbd` writes a key or a shortcut the way the reader's platform does. `keys={['mod', 'k']}` reads ⌘K on Apple platforms and Ctrl+K elsewhere; modifiers take the platform's order (⇧⌘R, Ctrl+Shift+R), and ⌘, ⇧, ⌥, ⌃ and the arrows carry their names for screen readers in visually hidden text, which `labels` translates. A key sits on the recessed plane at 87.5% of the text around it. The server and the hydrating pass write the Ctrl form, so the markup matches; pass `platform` when the server knows the reader's. The `.surf-kbd` class is in `@surflane/css/presentation/kbd.css` too.
+- `DescriptionList` (Root, Item, Term, Value) shows a resource's properties as terms and their values in a native `dl`. `layout='inline'` sets each value beside its term in a column of its own width and moves it under the term where the row is too narrow, or on a phone; `layout='stacked'` always does. `columns={2}` sets two columns where both fit. A row is at least as tall as the size's menu row, with its line centred, so a Badge or a copy action fits without growing it; compact density takes the small row. `Value truncate` keeps one line and the whole value in the text and the title; `Value copy` adds an icon-only CopyButton described by its term. An empty value reads "Not set" (`labels.empty`). The classes are in `@surflane/css/presentation/description-list.css` too.
+- `CopyButton labelHidden` shows the icon alone in a square button, for rows with no room for the text. The label stays the button's name and live result and shows as a tooltip; the icon and its colour show the result.
 
 ### Changed
 
 - `Tooltip`'s `shortcut` takes keys as Kbd does, such as `['mod', 'b']`, and renders a Kbd. A string you pass still shows as written. AppShell's sidebar toggle uses it, and its shortcut and the keydown handler read the platform from the same place.
+- The copy button's rules moved from `@surflane/css/presentation/code.css` to `presentation/copy-button.css`; `presentation.css` and `@surflane/ui/code.css` include both. A page that imports `presentation/code.css` alone for a copy button adds `presentation/copy-button.css`.
+- The catalog's content foundation lists its formatted values with DescriptionList, and the coverage page counts readiness with Stat.Group, instead of hand-built lists.
 
 ### Fixed
 

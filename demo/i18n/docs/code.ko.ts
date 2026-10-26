@@ -25,6 +25,8 @@ export const doc: DocKo = {
       '복사할 텍스트, 또는 누를 때 그것을 돌려주는 함수나 그 promise',
     'CopyButton.labels / onCopy':
       'CodeBlock과 같습니다. 액션의 기본값은 Copy입니다',
+    'CopyButton.labelHidden':
+      '줄에 자리가 없을 때 아이콘만 정사각형 버튼에 둡니다. 레이블은 이름과 실시간 결과로 남고 툴팁으로 보입니다',
     'CopyButton.onResult':
       "누를 때마다 'copied' 또는 'failed'를 받습니다. 실패한 뒤 원문을 선택할 때 씁니다",
   },

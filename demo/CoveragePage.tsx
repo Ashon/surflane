@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Table, Select } from '@surflane/ui'
+import { Table, Select, Stat } from '@surflane/ui'
 import { catalog, stageLabels, itemHref, referenceSources } from './catalog'
 import { StageLabel } from './StageLabel'
 import { Link } from './router'
@@ -19,14 +19,20 @@ export function CoveragePage() {
       <section id='coverage-scope'>
         <h2>{t.scopeAndReadiness}</h2>
         <p>{t.scopeIntro}</p>
-        <dl className='coverage-summary'>
+        <Stat.Group
+          label={t.scopeAndReadiness}
+          labelHidden
+          className='coverage-summary'
+        >
           {Object.entries(stageLabels).map(([stage, label]) => (
-            <div key={stage}>
-              <dt>{label}</dt>
-              <dd>{catalog.filter((i) => i.stage === stage).length}</dd>
-            </div>
+            <Stat.Root key={stage}>
+              <Stat.Label>{label}</Stat.Label>
+              <Stat.Value>
+                {catalog.filter((i) => i.stage === stage).length}
+              </Stat.Value>
+            </Stat.Root>
           ))}
-        </dl>
+        </Stat.Group>
         <p>
           <strong>{t.available}</strong>
           {t.availableDesc}

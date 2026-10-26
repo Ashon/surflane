@@ -46,6 +46,7 @@ const ready = new Set([
   'table',
   'list',
   'stat',
+  'description-list',
   'sparkline',
   'bar-list',
   'inline-message',
@@ -340,6 +341,13 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
     1,
   ],
   [
+    'description-list',
+    'Description list',
+    'Data display',
+    "Shows a resource's properties as terms and their values.",
+    1,
+  ],
+  [
     'kbd',
     'Kbd',
     'Data display',
@@ -495,6 +503,7 @@ const nonBase = new Set([
   'pagination',
   'bottom-navigation',
   'badge',
+  'description-list',
   'kbd',
   'card',
   'table',
@@ -581,6 +590,9 @@ const specializedCriteria: Record<string, string[]> = {
   ],
   'bar-list': [
     'An ordered list whose names and values are text, decorative bars, and a named scroll region when it is bounded',
+  ],
+  'description-list': [
+    'A native dl whose terms name their values, long values that wrap or keep the whole value when cut, and a copy action that names its term',
   ],
   kbd: [
     'The platform modifier, ⌘ or Ctrl, decided in one place, and a spoken name for every symbol',

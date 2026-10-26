@@ -307,6 +307,7 @@ const internalModules = [
   'parts',
   'size',
   'class-names',
+  'copy-button',
   'element-part',
   'choice',
   'panel',

@@ -5,6 +5,7 @@ import {
   Autocomplete,
   Avatar,
   Badge,
+  DescriptionList,
   Kbd,
   BottomNavigation,
   Breadcrumbs,
@@ -767,6 +768,22 @@ export function Data() {
           </Table.Foot>
         </Table.Root>
       </Table.Container>
+      <DescriptionList.Root columns={2}>
+        <DescriptionList.Item>
+          <DescriptionList.Term>Harbor</DescriptionList.Term>
+          <DescriptionList.Value>North pier</DescriptionList.Value>
+        </DescriptionList.Item>
+        <DescriptionList.Item>
+          <DescriptionList.Term>Manifest</DescriptionList.Term>
+          <DescriptionList.Value truncate copy>
+            mf-2026-10-26-north-pier-0042-containers-inbound
+          </DescriptionList.Value>
+        </DescriptionList.Item>
+        <DescriptionList.Item>
+          <DescriptionList.Term>Pilot</DescriptionList.Term>
+          <DescriptionList.Value />
+        </DescriptionList.Item>
+      </DescriptionList.Root>
       <List.Root aria-label='Berths'>
         {berths.map((berth) => (
           <List.Item key={berth.id}>

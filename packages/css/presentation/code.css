@@ -55,40 +55,4 @@
     white-space: pre-wrap;
     overflow-wrap: anywhere;
   }
-  /* Copy results stay inside the button. */
-  .surf-copy-button[data-copy-state='copied'] {
-    color: var(--surf-status-success-fg);
-  }
-  .surf-copy-button[data-copy-state='failed'] {
-    color: var(--surf-status-danger-fg);
-  }
-  /* Every label sits in one cell: the longest sets the width, the current shows. */
-  /* The label sits beside the icon; the room a longer result needs trails it. */
-  .surf-copy-text {
-    display: inline-grid;
-    text-align: start;
-  }
-  .surf-copy-text > * {
-    grid-area: 1 / 1;
-  }
-  .surf-copy-room {
-    visibility: hidden;
-  }
-  .surf-copy-room::before {
-    content: attr(data-label);
-  }
-  /* The result fades in where the action was, and the action fades back. */
-  .surf-copy-button[data-copy-used] :is(.surf-copy-icon, .surf-copy-label) {
-    animation: surf-copy-fade var(--surf-duration-base) var(--surf-ease-out);
-  }
-  @keyframes surf-copy-fade {
-    from {
-      opacity: 0;
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .surf-copy-button[data-copy-used] :is(.surf-copy-icon, .surf-copy-label) {
-      animation: none;
-    }
-  }
 }

@@ -391,6 +391,16 @@ export {
   type StatusTone,
 } from './badge.js'
 export {
+  DescriptionList,
+  DescriptionListRoot,
+  DescriptionListItem,
+  DescriptionListTerm,
+  DescriptionListValue,
+  type DescriptionListLabels,
+  type DescriptionListRootProps,
+  type DescriptionListValueProps,
+} from './description-list.js'
+export {
   Kbd,
   type KbdKey,
   type KbdLabels,

@@ -25,6 +25,7 @@ export const dataExampleIds = [
   'table',
   'list',
   'stat',
+  'description-list',
   'sparkline',
   'bar-list',
   'inline-message',

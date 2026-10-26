@@ -87,6 +87,8 @@ const markers = {
   ],
   data: [
     'surf-table',
+    'surf-description-list',
+    'surf-copy-button',
     'surf-list',
     'surf-card',
     'surf-pagination',

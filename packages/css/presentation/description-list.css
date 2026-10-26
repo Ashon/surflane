@@ -1,0 +1,116 @@
+/* Presentation classes: Description list. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+
+@layer surflane.components {
+  /* Terms and their values, a row each, at least as tall as a menu row with its
+     line centred, so a badge or a copy action fits without growing it: the term in
+     muted ink in a column of its own width, the value beside it in ink. Where a row
+     is too narrow for both, the value moves under its term. No lines between rows:
+     the term column and the rhythm carry the structure. */
+  .surf-description-list {
+    --surf-description-list-term-width: 10rem;
+    --surf-description-list-value-min-width: 10rem;
+    --surf-description-list-column-min-width: 22rem;
+    --surf-description-list-row: var(--surf-size-row-default);
+    --surf-description-list-leading: var(--surf-size-leading-default);
+    --surf-description-list-gap: var(--surf-space-8);
+    --surf-description-list-stack-padding: var(--surf-space-2);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    column-gap: var(--surf-description-list-gap);
+    margin: 0;
+    font: var(--surf-weight-regular) var(--surf-size-font-default) /
+      var(--surf-description-list-leading) var(--surf-font-body);
+    letter-spacing: var(--surf-type-body-tracking);
+  }
+  /* Two columns where both fit, one where they do not. */
+  .surf-description-list[data-columns='2'] {
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(
+        max(
+          min(100%, var(--surf-description-list-column-min-width)),
+          calc((100% - var(--surf-description-list-gap)) / 2)
+        ),
+        1fr
+      )
+    );
+  }
+  .surf-description-list-item {
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: baseline;
+    column-gap: var(--surf-space-4);
+    min-inline-size: 0;
+    min-block-size: var(--surf-description-list-row);
+  }
+  .surf-description-list-term {
+    flex: 0 1 var(--surf-description-list-term-width);
+    min-inline-size: 0;
+    color: var(--surf-ink-muted);
+    overflow-wrap: anywhere;
+  }
+  .surf-description-list-value {
+    flex: 1 1 var(--surf-description-list-value-min-width);
+    min-inline-size: 0;
+    margin: 0;
+    color: var(--surf-ink);
+    overflow-wrap: anywhere;
+  }
+  /* Stacked, and inline on a phone: each term above its value, a pair set apart from
+     the next by its own padding rather than a row height. */
+  .surf-description-list[data-layout='stacked'] .surf-description-list-item {
+    min-block-size: 0;
+    padding-block: var(--surf-description-list-stack-padding);
+  }
+  .surf-description-list[data-layout='stacked'] .surf-description-list-term {
+    flex-basis: 100%;
+  }
+  @media (max-width: 760px) {
+    .surf-description-list .surf-description-list-item {
+      min-block-size: 0;
+      padding-block: var(--surf-description-list-stack-padding);
+    }
+    .surf-description-list .surf-description-list-term {
+      flex-basis: 100%;
+    }
+  }
+  .surf-description-list-value[data-empty] {
+    color: var(--surf-ink-muted);
+  }
+  /* One line, cut with an ellipsis; the whole value stays in the text, in the title
+     and in what the copy action copies. */
+  .surf-description-list-value[data-truncate]:not([data-copy]),
+  .surf-description-list-value[data-truncate] > .surf-description-list-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  /* A value with a copy action: the text, then the action, a square of the small
+     control height that fits the row. */
+  .surf-description-list-value[data-copy] {
+    display: flex;
+    align-items: center;
+    gap: var(--surf-space-2);
+  }
+  .surf-description-list-text {
+    min-inline-size: 0;
+  }
+  .surf-description-list-value > .surf-copy-button {
+    flex: none;
+  }
+  /* Compact: a small row, for dense panels. A list in a compact density scope is
+     compact unless it says density='default'. */
+  .surf-description-list:is(
+    [data-density='compact'],
+    :where([data-ui-density='compact'] :not([data-density]))
+  ) {
+    --surf-description-list-row: var(--surf-size-row-small);
+    --surf-description-list-gap: var(--surf-space-6);
+    --surf-description-list-stack-padding: var(--surf-space-1);
+  }
+}

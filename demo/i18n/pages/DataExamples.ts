@@ -1,3 +1,4 @@
+import type { DescriptionListLabels } from '@surflane/ui'
 import type { Locale } from '../../i18n'
 
 const en = {
@@ -84,6 +85,18 @@ const en = {
     ],
   withGap: 'With a missing week',
   oneWeekMissing: 'one week missing',
+  dlLayout: 'Layout',
+  dlInline: 'Inline',
+  dlStacked: 'Stacked',
+  dlColumns: 'Columns',
+  dlLabels: {} as Partial<DescriptionListLabels>,
+  dlStatus: 'Status',
+  dlRunning: 'Running',
+  dlRegion: 'Region',
+  dlClusterId: 'Cluster ID',
+  dlImage: 'Image',
+  dlCreated: 'Created',
+  dlDescription: 'Description',
 }
 export const text: Record<Locale, typeof en> = {
   en,
@@ -171,5 +184,22 @@ export const text: Record<Locale, typeof en> = {
       ],
     withGap: '한 주가 빠진 계열',
     oneWeekMissing: '한 주 데이터 없음',
+    dlLayout: '배치',
+    dlInline: '옆에',
+    dlStacked: '아래에',
+    dlColumns: '열',
+    dlLabels: {
+      empty: '설정 안 됨',
+      copy: '복사',
+      copied: '복사됨',
+      copyError: '복사할 수 없음',
+    },
+    dlStatus: '상태',
+    dlRunning: '실행 중',
+    dlRegion: '리전',
+    dlClusterId: '클러스터 ID',
+    dlImage: '이미지',
+    dlCreated: '생성 시각',
+    dlDescription: '설명',
   },
 }

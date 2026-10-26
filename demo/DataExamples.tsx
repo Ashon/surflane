@@ -14,6 +14,9 @@ import {
   Stat,
   Sparkline,
   BarList,
+  DescriptionList,
+  Inline,
+  Select,
   formatCurrency,
   formatNumber,
   formatPercent,
@@ -459,6 +462,98 @@ function SparklinePreview() {
     </div>
   )
 }
+function DescriptionListPreview() {
+  const { locale } = useLocale()
+  const t = text[locale]
+  const [layout, setLayout] = useState<'inline' | 'stacked'>('inline')
+  const [columns, setColumns] = useState<'1' | '2'>('2')
+  const created = new Date('2026-10-21T09:30:00Z')
+  return (
+    <div className='example-stack'>
+      <Inline gap={4}>
+        <label>
+          {t.dlLayout}
+          <Select
+            width='content'
+            value={layout}
+            onValueChange={(value) => setLayout(value as 'inline' | 'stacked')}
+            options={[
+              { value: 'inline', label: t.dlInline },
+              { value: 'stacked', label: t.dlStacked },
+            ]}
+          />
+        </label>
+        <label>
+          {t.dlColumns}
+          <Select
+            width='content'
+            value={columns}
+            onValueChange={(value) => setColumns(value as '1' | '2')}
+            options={[
+              { value: '1', label: '1' },
+              { value: '2', label: '2' },
+            ]}
+          />
+        </label>
+      </Inline>
+      <Card.Root>
+        <Card.Header>
+          <Card.Title>platform-api</Card.Title>
+        </Card.Header>
+        <Card.Body>
+          <DescriptionList.Root
+            layout={layout}
+            columns={columns === '2' ? 2 : 1}
+            labels={t.dlLabels}
+          >
+            <DescriptionList.Item>
+              <DescriptionList.Term>{t.dlStatus}</DescriptionList.Term>
+              <DescriptionList.Value>
+                <StatusBadge tone='success'>{t.dlRunning}</StatusBadge>
+              </DescriptionList.Value>
+            </DescriptionList.Item>
+            <DescriptionList.Item>
+              <DescriptionList.Term>{t.dlRegion}</DescriptionList.Term>
+              <DescriptionList.Value>ap-northeast-2</DescriptionList.Value>
+            </DescriptionList.Item>
+            <DescriptionList.Item>
+              <DescriptionList.Term>{t.dlClusterId}</DescriptionList.Term>
+              <DescriptionList.Value copy>
+                cls-7f3a9c2e41b84d0f9a1e
+              </DescriptionList.Value>
+            </DescriptionList.Item>
+            <DescriptionList.Item>
+              <DescriptionList.Term>{t.dlImage}</DescriptionList.Term>
+              <DescriptionList.Value truncate copy>
+                registry.example.com/platform/api@sha256:4f1c9a0b7e2d3c8a6b5f1e0d9c8b7a6f5e4d3c2b1a0f9e8d7c6b5a4f3e2d1c0b
+              </DescriptionList.Value>
+            </DescriptionList.Item>
+            <DescriptionList.Item>
+              <DescriptionList.Term>{t.dlCreated}</DescriptionList.Term>
+              <DescriptionList.Value>
+                <time dateTime={created.toISOString()}>
+                  {new Intl.DateTimeFormat(
+                    locale === 'ko' ? 'ko-KR' : 'en-US',
+                    {
+                      dateStyle: 'medium',
+                      timeStyle: 'short',
+                      timeZone: 'UTC',
+                    },
+                  ).format(created)}{' '}
+                  UTC
+                </time>
+              </DescriptionList.Value>
+            </DescriptionList.Item>
+            <DescriptionList.Item>
+              <DescriptionList.Term>{t.dlDescription}</DescriptionList.Term>
+              <DescriptionList.Value />
+            </DescriptionList.Item>
+          </DescriptionList.Root>
+        </Card.Body>
+      </Card.Root>
+    </div>
+  )
+}
 export function DataExample({ id }: { id: string }) {
   const t = text[useLocale().locale]
   const [query, setQuery] = useState(''),
@@ -467,6 +562,7 @@ export function DataExample({ id }: { id: string }) {
   const [selected, setSelected] = useState<string[]>([]),
     [inspected, setInspected] = useState('')
   if (id === 'stat') return <StatPreview />
+  if (id === 'description-list') return <DescriptionListPreview />
   if (id === 'sparkline') return <SparklinePreview />
   if (id === 'bar-list') return <BarListPreview />
   if (id === 'empty-state') return <EmptyPreview />

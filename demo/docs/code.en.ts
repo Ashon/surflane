@@ -60,6 +60,11 @@ export const doc: ComponentDoc = {
       'Copy / Copied / Copy unavailable',
     ],
     [
+      'CopyButton.labelHidden',
+      'the icon alone in a square button, where a row has no room; the label stays the name and the live result, and shows as a tooltip',
+      'false',
+    ],
+    [
       'CopyButton.onResult',
       "hears 'copied' or 'failed' after each press, such as to select the source after a failure",
       '—',

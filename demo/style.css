@@ -761,22 +761,7 @@ body,
   }
 }
 .coverage-summary {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--surf-space-8);
   margin-block: var(--surf-space-6);
-}
-.coverage-summary dt {
-  font-size: var(--surf-type-caption-size);
-  letter-spacing: var(--surf-type-caption-tracking);
-  color: var(--surf-ink-muted);
-}
-.coverage-summary dd {
-  font: var(--surf-weight-medium)
-    var(--surf-type-metric-size)/var(--surf-type-metric-leading)
-    var(--surf-font-display);
-  letter-spacing: var(--surf-type-metric-tracking);
-  margin: var(--surf-space-1) 0 0;
 }
 .delivery-waves {
   display: grid;
@@ -1438,22 +1423,6 @@ body,
 }
 .content-preview-settings .surf-field {
   min-inline-size: 0;
-}
-.content-value-list {
-  margin: 0;
-}
-.content-value-list > div {
-  display: grid;
-  grid-template-columns: minmax(120px, 1fr) minmax(0, 2fr);
-  gap: var(--surf-space-4);
-  padding-block: var(--surf-space-3);
-}
-.content-value-list dt {
-  color: var(--surf-ink-muted);
-}
-.content-value-list dd {
-  margin: 0;
-  overflow-wrap: anywhere;
 }
 .content-format-preview > p {
   color: var(--surf-ink-muted);

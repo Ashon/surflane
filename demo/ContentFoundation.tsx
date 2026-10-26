@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import {
   Checkbox,
+  DescriptionList,
   DirectionProvider,
   Field,
   Grid,
@@ -238,14 +239,16 @@ export function ContentFoundation() {
           aria-label={t.localizedFormatPreview}
           role='group'
         >
-          <dl className='content-value-list'>
+          <DescriptionList.Root className='content-value-list'>
             {copy.labels.map((label, index) => (
-              <div key={index}>
-                <dt>{label}</dt>
-                <dd data-content-value={index}>{displayValues[index]}</dd>
-              </div>
+              <DescriptionList.Item key={index}>
+                <DescriptionList.Term>{label}</DescriptionList.Term>
+                <DescriptionList.Value data-content-value={index}>
+                  {displayValues[index]}
+                </DescriptionList.Value>
+              </DescriptionList.Item>
             ))}
-          </dl>
+          </DescriptionList.Root>
           <p>{copy.reference}</p>
         </div>
         <p>

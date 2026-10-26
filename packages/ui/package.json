@@ -83,6 +83,7 @@
     "./avatar.css": "./dist/css/avatar.css",
     "./badge.css": "./dist/css/badge.css",
     "./kbd.css": "./dist/css/kbd.css",
+    "./description-list.css": "./dist/css/description-list.css",
     "./card.css": "./dist/css/card.css",
     "./table.css": "./dist/css/table.css",
     "./code.css": "./dist/css/code.css",
@@ -287,6 +288,10 @@
     "./kbd": {
       "types": "./dist/kbd.d.ts",
       "import": "./dist/kbd.js"
+    },
+    "./description-list": {
+      "types": "./dist/description-list.d.ts",
+      "import": "./dist/description-list.js"
     },
     "./card": {
       "types": "./dist/card.d.ts",

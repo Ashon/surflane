@@ -6,6 +6,7 @@ import { createElement as h } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import {
   Button,
+  DescriptionList,
   FileUpload,
   Icon,
   Kbd,
@@ -129,4 +130,41 @@ test("Kbd writes a chord in each platform's order and names its symbols", () => 
   assert.match(html(h(Kbd, { keys: 'escape' })), /<kbd>Esc<\/kbd>/)
   assert.match(html(h(Kbd, { keys: 'F5' })), /<kbd>F5<\/kbd>/)
   assert.match(html(h(Kbd, { keys: '⌘⇧R' })), /<kbd>⌘⇧R<\/kbd>/)
+})
+
+test('DescriptionList renders a native dl, names an empty value and ties its copy action to the term', () => {
+  const { Root, Item, Term, Value } = DescriptionList
+  const markup = html(
+    h(
+      Root,
+      { columns: 2, labels: { empty: 'Not set yet' } },
+      h(Item, null, h(Term, null, 'Region'), h(Value, null, 'ap-northeast-2')),
+      h(
+        Item,
+        null,
+        h(Term, null, 'Cluster ID'),
+        h(Value, { truncate: true, copy: true }, 'cls-7f3a9c2e41b84d0f9a1e'),
+      ),
+      h(Item, null, h(Term, null, 'Description'), h(Value, null)),
+    ),
+  )
+  assert.match(
+    markup,
+    /^<dl class="surf-description-list" data-layout="inline" data-columns="2">/,
+  )
+  assert.match(
+    markup,
+    /<div class="surf-description-list-item"><dt id="[^"]+" class="surf-description-list-term">Region<\/dt><dd class="surf-description-list-value">ap-northeast-2<\/dd><\/div>/,
+  )
+  // The copy action is described by its term, and the cut value keeps its whole text.
+  const term = markup.match(/<dt id="([^"]+)"[^>]*>Cluster ID/)[1]
+  assert.match(markup, new RegExp(`aria-describedby="${term}"`))
+  assert.match(
+    markup,
+    /data-truncate="true" data-copy="true"><span class="surf-description-list-text" title="cls-7f3a9c2e41b84d0f9a1e">cls-7f3a9c2e41b84d0f9a1e<\/span>/,
+  )
+  assert.match(
+    markup,
+    /<dd class="surf-description-list-value" data-empty="true">Not set yet<\/dd>/,
+  )
 })
