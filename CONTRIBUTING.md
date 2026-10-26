@@ -15,12 +15,14 @@ npm run build:brand          # PNG brand assets from the mark
 npm run check:package        # exports, types, class rules and bundle budgets
 npm run test:unit            # unit tests in Node, after npm run build
 npm run check:ssr            # render every component in plain Node
-npx playwright install chromium firefox webkit
+npx playwright install chromium
 npm run check:examples       # Vite, Next.js, React Router and Astro apps
-npm run test:browsers        # build the production catalog first
+npm run test:browsers        # Chromium, Firefox and WebKit, in Docker; build the catalog first
 npm test                     # the full Chromium suite
 npm run test:visual          # package screenshots, in Docker
 ```
+
+`test:browsers` and `test:visual` run in the Playwright Linux image that CI uses, within 4 CPUs and 8 GB of memory (`SURFLANE_CONTAINER_CPUS`, `SURFLANE_CONTAINER_MEMORY`), with one worker per CPU. `test:browsers` runs on the machine's own platform; `test:visual` renders on x86-64, as CI does, so its pixels match. Each platform keeps its image under a local `surflane-playwright` tag and its Linux dependencies in a `surflane-playwright-node-modules-<platform>` volume, installed again only when the lockfile changes. Don't run Firefox or WebKit natively on macOS: WebKit's window captures leaked window-server surfaces until the window server aborted.
 
 ## Unit tests
 

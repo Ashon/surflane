@@ -1,5 +1,6 @@
 import { defineConfig } from "@playwright/test";
-/** Small production-build gate; the full Chromium suite remains a separate job. */
+/** Small production-build gate; the full Chromium suite remains a separate job. Run it
+ * with `npm run test:browsers`, which runs it in the Playwright Linux image. */
 export default defineConfig({
   testDir: "tests",
   testMatch: [

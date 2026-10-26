@@ -5,7 +5,7 @@ The release unit is three packages: `@surflane/design-tokens`, `@surflane/css` a
 ## Checks
 
 1. Run `npm ci`, `npm run build:catalog`, `npm run test:unit`, `npm run check:package`, `npm run check:ssr` and `npm run check:public`.
-2. Install Playwright engines and run `npm run test:browsers`. Run `npm test` for the full Chromium suite. The browser gate uses the production catalog.
+2. Run `npm run test:browsers`: Chromium, Firefox and WebKit on the production catalog, in the Playwright Linux image within a CPU and memory budget. Install Chromium (`npx playwright install chromium`) and run `npm test` for the full Chromium suite.
 3. Run `npm run check:examples` to install packed tarballs into the Vite, Next.js, React Router and Astro examples, build them and verify server HTML, hydration and dialog focus in Chromium. See [framework integration](frameworks.md).
 4. Run `npm run pack` to create local, content-addressed tarballs under `artifacts/`. Tarballs are versioned `<release version>-dev.<hash>` from staged copies; the repository manifests and lockfile keep the release version. `pack:local` performs the same local operation. Neither command touches sibling repositories or publishes packages.
 5. Run `npm run export:source` for a source-only archive without repository history or local files.
