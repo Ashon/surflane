@@ -267,6 +267,16 @@ export function ChartExample() {
       description: t.descriptions.disk,
       series: diskSeries,
       xScale: 'time',
+      // When something changed: an event at one time, a period between two.
+      references: [
+        { x: at(17, 5), label: t.diskEvents[0] },
+        {
+          xFrom: at(17, 11),
+          xTo: at(17, 13),
+          label: t.diskEvents[1],
+          tone: 'caution',
+        },
+      ],
       xLabel: t.time,
       yLabel: t.diskUsed,
     },
@@ -283,6 +293,8 @@ export function ChartExample() {
       data: latency,
       unit: 'ms',
       description: t.descriptions.latency,
+      // On a category axis, an event names the datum it falls on.
+      references: [{ x: 'latency-4', label: t.latencyEvent }],
     },
     memory: {
       data: memory,

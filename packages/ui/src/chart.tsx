@@ -43,11 +43,22 @@ export type ChartSeries = {
   color?: string
 }
 export type ChartTone = 'neutral' | 'caution' | 'danger'
+/** A place on the x axis: a datum's id on a category axis, or a time, in ms or as a
+ * Date, on a time axis. */
+export type ChartPosition = string | number | Date
 /** A threshold line at y, or a band from one value to another, such as a target
- * range. The legend names it with its value. */
+ * range; an event line at x, or a period from xFrom to xTo, such as a deploy or a
+ * maintenance window. The legend names each with its value or its place. */
 export type ChartReference =
   | { y: number; label: string; tone?: ChartTone }
   | { from: number; to: number; label: string; tone?: ChartTone }
+  | { x: ChartPosition; label: string; tone?: ChartTone }
+  | {
+      xFrom: ChartPosition
+      xTo: ChartPosition
+      label: string
+      tone?: ChartTone
+    }
 export type ChartProps = Omit<
   React.ComponentPropsWithoutRef<'figure'>,
   'children' | 'title'
@@ -78,7 +89,8 @@ export type ChartProps = Omit<
   curve?: 'linear' | 'step'
   /** Stacks bar and area series, so the top of the stack is their total. */
   stacked?: boolean
-  /** Thresholds and target bands over the plot. The value axis reaches them. */
+  /** Thresholds and target bands over the plot, which the value axis reaches, and
+   * events and periods across it, which inspecting a row names. */
   references?: readonly ChartReference[]
   /** compact keeps the plot, legend and floating values for a dashboard card; the
    * caption, keyboard help and readout stay for assistive technology. Without it the
@@ -403,6 +415,23 @@ function ReferenceMark({ reference }: { reference: ChartReference }) {
           strokeWidth='2'
           strokeDasharray='4 3'
         />
+      ) : 'x' in reference ? (
+        <path
+          d='M16 1v18'
+          stroke={color}
+          strokeWidth='2'
+          strokeDasharray='4 3'
+        />
+      ) : 'xFrom' in reference ? (
+        <rect
+          x='10'
+          y='2'
+          width='12'
+          height='16'
+          rx='2'
+          fill={color}
+          fillOpacity='0.2'
+        />
       ) : (
         <rect
           x='4'
@@ -625,6 +654,49 @@ export const Chart = function Chart({
   const byTime = new Map(rows.map((row) => [row.time, row]))
   const rowFor = (label: unknown) =>
     timeScale ? byTime.get(Number(label)) : byId.get(String(label))
+  // An x reference's place: its time, or the index of the datum it names; null when
+  // there is no such place, so it is left out.
+  const indexOf = new Map(rows.map((row, index) => [row.id, index]))
+  const axisAt = (position: ChartPosition) => {
+    const at = timeScale ? Number(position) : indexOf.get(String(position))
+    return isNumber(at) ? at : null
+  }
+  const plotAt = (position: ChartPosition) =>
+    timeScale ? Number(position) : String(position)
+  // Inspecting a row names the events nearest it and the periods around it.
+  const referencesAt = new Map<string, ChartReference[]>()
+  const rowAt = (row: Row, index: number) => (timeScale ? row.time! : index)
+  for (const reference of references) {
+    let hits: Row[] = []
+    if ('x' in reference) {
+      const at = axisAt(reference.x)
+      if (at !== null && rows.length) {
+        const first = rowAt(rows[0], 0),
+          last = rowAt(rows[rows.length - 1], rows.length - 1)
+        if (at >= first && at <= last) {
+          let near = 0
+          rows.forEach((row, index) => {
+            if (
+              Math.abs(rowAt(row, index) - at) <
+              Math.abs(rowAt(rows[near], near) - at)
+            )
+              near = index
+          })
+          hits = [rows[near]]
+        }
+      }
+    } else if ('xFrom' in reference) {
+      const from = axisAt(reference.xFrom),
+        to = axisAt(reference.xTo)
+      if (from !== null && to !== null)
+        hits = rows.filter((row, index) => {
+          const at = rowAt(row, index)
+          return at >= Math.min(from, to) && at <= Math.max(from, to)
+        })
+    }
+    for (const row of hits)
+      referencesAt.set(row.id, [...(referencesAt.get(row.id) ?? []), reference])
+  }
   // On a time axis, a wait of more than twice the usual interval is a break in
   // sampling: an empty row there keeps the line from bridging it.
   const interval = React.useMemo(() => {
@@ -672,7 +744,7 @@ export const Chart = function Chart({
       })
     : values
   const referenceValues = references
-    .flatMap((r) => ('y' in r ? [r.y] : [r.from, r.to]))
+    .flatMap((r) => ('y' in r ? [r.y] : 'from' in r ? [r.from, r.to] : []))
     .filter((v) => isNumber(v) && (!logScale || v > 0))
   const extent = [...sums, ...(values.length ? referenceValues : [])]
   // Bars grow from zero, so they always keep it on a linear axis.
@@ -777,10 +849,18 @@ export const Chart = function Chart({
       .map((s) => row.values[s.key])
       .filter(isNumber)
       .reduce((a, b) => a + b, 0)
+  const placeText = (position: ChartPosition) =>
+    timeScale
+      ? (time?.format(Number(position)) ?? String(position))
+      : (byId.get(String(position))?.label ?? String(position))
   const referenceText = (r: ChartReference) =>
     'y' in r
       ? `${r.label} ${format(r.y)}`
-      : `${r.label} ${formatNumber(r.from) ?? text.missing}–${format(r.to)}`
+      : 'from' in r
+        ? `${r.label} ${formatNumber(r.from) ?? text.missing}–${format(r.to)}`
+        : 'x' in r
+          ? `${r.label} ${placeText(r.x)}`
+          : `${r.label} ${placeText(r.xFrom)}–${placeText(r.xTo)}`
   const legendButton = (s: ChartSeries, index: number) => (
     <button
       ref={index === 0 ? firstLegend : undefined}
@@ -905,7 +985,7 @@ export const Chart = function Chart({
                   </defs>
                   <CartesianGrid vertical={false} stroke='var(--surf-line)' />
                   {references.map((reference, index) =>
-                    'y' in reference ? null : (
+                    'from' in reference ? (
                       <ReferenceArea
                         key={index}
                         y1={reference.from}
@@ -914,7 +994,18 @@ export const Chart = function Chart({
                         fillOpacity={0.12}
                         stroke='none'
                       />
-                    ),
+                    ) : 'xFrom' in reference &&
+                      axisAt(reference.xFrom) !== null &&
+                      axisAt(reference.xTo) !== null ? (
+                      <ReferenceArea
+                        key={index}
+                        x1={plotAt(reference.xFrom)}
+                        x2={plotAt(reference.xTo)}
+                        fill={toneColors[reference.tone ?? 'neutral']}
+                        fillOpacity={0.12}
+                        stroke='none'
+                      />
+                    ) : null,
                   )}
                   {time ? (
                     <XAxis
@@ -1020,6 +1111,13 @@ export const Chart = function Chart({
                                       {text.total}: {format(total(row))}
                                     </li>
                                   )}
+                                  {referencesAt
+                                    .get(row.id)
+                                    ?.map((reference, index) => (
+                                      <li key={`reference-${index}`}>
+                                        {reference.label}
+                                      </li>
+                                    ))}
                                 </ul>
                               </>
                             ) : (
@@ -1093,6 +1191,14 @@ export const Chart = function Chart({
                         strokeWidth={1.5}
                         strokeDasharray='4 3'
                       />
+                    ) : 'x' in reference && axisAt(reference.x) !== null ? (
+                      <ReferenceLine
+                        key={index}
+                        x={plotAt(reference.x)}
+                        stroke={toneColors[reference.tone ?? 'neutral']}
+                        strokeWidth={1.5}
+                        strokeDasharray='4 3'
+                      />
                     ) : null,
                   )}
                   <FloatingValues
@@ -1129,6 +1235,17 @@ export const Chart = function Chart({
                                 </span>
                               </li>
                             )}
+                            {referencesAt
+                              .get(row.id)
+                              ?.map((reference, index) => (
+                                <li
+                                  key={`reference-${index}`}
+                                  className='surf-chart-tooltip-reference'
+                                >
+                                  <ReferenceMark reference={reference} />
+                                  <span>{reference.label}</span>
+                                </li>
+                              ))}
                           </ul>
                         </>
                       )

@@ -352,6 +352,78 @@ test('a time axis ticks on round times and breaks lines where sampling stopped',
     'October 17, 2026, 00:10',
   )
 })
+test('x references mark events and periods where they happened, and inspecting a row names them', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 1000 })
+  await open(page)
+  const plot = page.locator('.surf-chart-plot')
+  const legend = page.getByRole('list', { name: 'Pipeline activity series' })
+  const chart = page.getByRole('application', { name: 'Pipeline activity' })
+  const readout = page.locator('.surf-chart-readout')
+  // On a category axis an event names the datum it falls on.
+  await choose(page, 'Chart data', 'Latency far from zero')
+  await expect(legend.locator('.surf-chart-legend-reference')).toHaveText([
+    'Cache on October 4, 2026',
+  ])
+  await expect(plot.locator('.recharts-reference-line')).toHaveCount(2)
+  await chart.focus()
+  for (let step = 0; step < 3; step++) await chart.press('ArrowRight')
+  await expect(readout).toContainText('October 4, 2026')
+  await expect(readout).toContainText('Cache on')
+  // On a time axis it sits at its time, and a period spans its two.
+  await choose(page, 'Chart data', 'Disk used, hourly steps')
+  await expect(legend.locator('.surf-chart-legend-reference')).toHaveText([
+    'Model sync 5:00 AM',
+    'Cleanup window 11:00 AM–1:00 PM',
+  ])
+  // The zero line and the event; the period is a band under the series.
+  await expect(plot.locator('.recharts-reference-line')).toHaveCount(2)
+  await expect(plot.locator('.recharts-reference-area')).toHaveCount(1)
+  // Both sit at their times: 05:00 is five sixths of the way from midnight to 06:00.
+  const geometry = await plot.evaluate((element) => {
+    const ticks = [
+      ...element.querySelectorAll('.recharts-xAxis-tick-labels text'),
+    ].map((text) => Number(text.getAttribute('x')))
+    const line = element.querySelectorAll<SVGLineElement>(
+      '.recharts-reference-line-line',
+    )[1]
+    const band = (
+      element.querySelector(
+        '.recharts-reference-area path',
+      ) as SVGGraphicsElement
+    ).getBBox()
+    // An SVGRect does not serialize, so its numbers come back on their own.
+    return {
+      ticks,
+      line: Number(line.getAttribute('x1')),
+      band: { x: band.x, width: band.width },
+    }
+  })
+  const [midnight, six, noon] = geometry.ticks
+  const hour = (six - midnight) / 6
+  expect(Math.abs(geometry.line - (midnight + 5 * hour))).toBeLessThan(1)
+  expect(Math.abs(geometry.band.x - (six + 5 * hour))).toBeLessThan(1)
+  expect(
+    Math.abs(geometry.band.x + geometry.band.width - (noon + hour)),
+  ).toBeLessThan(1)
+  // Inspecting 05:00 names the event; 12:00 is inside the period. The inspected
+  // row carries over from the latency data, the fourth.
+  await chart.focus()
+  for (let step = 0; step < 2; step++) await chart.press('ArrowRight')
+  await expect(readout).toContainText('October 17, 2026, 05:00')
+  await expect(readout).toContainText('Model sync')
+  await expect(page.locator('.surf-chart-tooltip')).toContainText('Model sync')
+  await chart.press('ArrowRight')
+  await expect(readout).not.toContainText('Model sync')
+  for (let step = 0; step < 6; step++) await chart.press('ArrowRight')
+  await expect(readout).toContainText('October 17, 2026, 12:00')
+  await expect(readout).toContainText('Cleanup window')
+  expect(
+    (await new AxeBuilder({ page }).include('.surf-chart').analyze())
+      .violations,
+  ).toEqual([])
+})
 test('stacked bars read their total, a log axis spans decades and a step line holds its value', async ({
   page,
 }) => {

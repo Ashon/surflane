@@ -213,6 +213,10 @@
     padding-block-start: var(--surf-space-1);
     border-block-start: 1px solid var(--surf-line);
   }
+  /* An event or a period at the point: named, not measured. */
+  .surf-chart-tooltip-reference {
+    color: var(--surf-ink-muted);
+  }
   .surf-chart-tooltip-value {
     white-space: nowrap;
     margin-inline-start: auto;

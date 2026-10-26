@@ -26,7 +26,7 @@ const en = {
     empty:
       'No reports in this sample scope. The empty state shows no fabricated trend.',
     latency:
-      'P95 latency over six days, between 144 and 230 ms. Far from zero, so the value axis can start near the lowest value.',
+      'P95 latency over six days, between 144 and 230 ms. Far from zero, so the value axis can start near the lowest value. A line marks October 4, when the cache was turned on.',
     buckets:
       'Daily runs by duration in five buckets. Categories that color must tell apart use the categorical palette.',
     memory:
@@ -36,7 +36,7 @@ const en = {
       'Tokens a day by kind over a week, stacked so the top of each bar is the day’s total.',
     throughput:
       'Prefill runs at thousands of tokens a second and decode at tens. A log value axis keeps both readable on one chart.',
-    disk: 'Disk used by one directory, measured every hour. The value holds until the next measurement, so a step line shows it.',
+    disk: 'Disk used by one directory, measured every hour. The value holds until the next measurement, so a step line shows it. A line marks the 05:00 model sync and a band the cleanup window from 11:00 to 13:00.',
     projects:
       'Tokens a day for twelve projects. Twelve categorical colors stay apart, and the legend shows four and folds the rest.',
   },
@@ -98,6 +98,8 @@ const en = {
     kTokens: 'k tokens',
   },
   references: ['Warning', 'Limit'],
+  latencyEvent: 'Cache on',
+  diskEvents: ['Model sync', 'Cleanup window'],
   buckets: ['Under 1 min', '1–5 min', '5–15 min', '15–60 min', 'Over 60 min'],
   /** The chart's own text: the package's English on this page. */
 }
@@ -129,7 +131,7 @@ export const text: Record<Locale, typeof en> = {
       empty:
         '이 샘플 범위에는 보고서가 없습니다. 빈 상태는 조작된 추세를 표시하지 않습니다.',
       latency:
-        '6일 동안의 P95 지연 시간으로, 144~230ms 사이입니다. 0에서 멀어서 값 축을 가장 낮은 값 근처에서 시작할 수 있습니다.',
+        '6일 동안의 P95 지연 시간으로, 144~230ms 사이입니다. 0에서 멀어서 값 축을 가장 낮은 값 근처에서 시작할 수 있습니다. 캐시를 켠 10월 4일을 선으로 표시합니다.',
       buckets:
         '하루 실행 수를 소요 시간에 따라 다섯 구간으로 나눴습니다. 색으로 구분해야 하는 범주라 범주형 팔레트를 씁니다.',
       memory:
@@ -139,7 +141,7 @@ export const text: Record<Locale, typeof en> = {
         '한 주 동안 종류별로 쓴 하루 토큰 수입니다. 쌓아서 막대 꼭대기가 그날의 합계가 됩니다.',
       throughput:
         'prefill은 초당 수천 토큰, decode는 초당 수십 토큰입니다. 로그 값 축이면 한 차트에서 둘 다 읽힙니다.',
-      disk: '디렉토리 하나의 디스크 사용량을 한 시간마다 잰 값입니다. 다음 측정까지 값이 그대로이므로 계단선으로 보여 줍니다.',
+      disk: '디렉토리 하나의 디스크 사용량을 한 시간마다 잰 값입니다. 다음 측정까지 값이 그대로이므로 계단선으로 보여 줍니다. 05:00 모델 동기화를 선으로, 11:00부터 13:00까지의 정리 시간을 띠로 표시합니다.',
       projects:
         '프로젝트 12개의 하루 토큰 수입니다. 범주형 12색이 서로 구분되고, 범례는 4개만 보이고 나머지는 접습니다.',
     },
@@ -201,6 +203,8 @@ export const text: Record<Locale, typeof en> = {
       kTokens: 'k 토큰',
     },
     references: ['주의', '한계'],
+    latencyEvent: '캐시 켬',
+    diskEvents: ['모델 동기화', '정리 시간'],
     buckets: ['1분 미만', '1–5분', '5–15분', '15–60분', '60분 초과'],
   },
 }
