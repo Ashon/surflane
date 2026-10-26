@@ -75,6 +75,84 @@
     white-space: nowrap;
     border-radius: var(--surf-radius-sm);
   }
+  /* A collapsible title is a button inside its heading: the chevron, then the title,
+     the whole header row tall so it is easy to press. */
+  .surf-dashboard-panel-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--surf-space-1);
+    max-inline-size: 100%;
+    min-block-size: var(--surf-control-height);
+    padding: 0;
+    padding-inline-end: var(--surf-space-1);
+    border: 0;
+    border-radius: var(--surf-radius-sm);
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+    text-align: start;
+    cursor: pointer;
+  }
+  .surf-dashboard-panel-toggle:hover {
+    background-image: linear-gradient(
+      var(--surf-interaction-hover-bg),
+      var(--surf-interaction-hover-bg)
+    );
+  }
+  .surf-dashboard-panel-toggle:active {
+    background-image: linear-gradient(
+      var(--surf-interaction-active-bg),
+      var(--surf-interaction-active-bg)
+    );
+  }
+  .surf-dashboard-panel-toggle:focus-visible {
+    outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+    outline-offset: var(--surf-focus-ring-inset);
+  }
+  .surf-dashboard-panel-title-text {
+    min-inline-size: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .surf-dashboard-panel-chevron {
+    flex: none;
+    color: var(--surf-ink-muted);
+    transition: rotate var(--surf-duration-fast) var(--surf-ease-out);
+  }
+  .surf-dashboard-panel-toggle[aria-expanded='true']
+    > .surf-dashboard-panel-chevron {
+    rotate: 90deg;
+  }
+  .surf-dashboard-panel-toggle:dir(rtl)[aria-expanded='true']
+    > .surf-dashboard-panel-chevron {
+    rotate: -90deg;
+  }
+  /* A folded panel is its header: it keeps its own height in a row, and its summary
+     takes the rest of the line, cut short before the title is. */
+  .surf-dashboard-panel[data-open='false'] {
+    align-self: start;
+  }
+  .surf-dashboard-panel-summary {
+    flex: 1 1 0;
+    min-inline-size: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--surf-ink-muted);
+    font-variant-numeric: tabular-nums;
+  }
+  /* Like a button, the toggle grows to a whole target on narrow screens and touch. */
+  @media (max-width: 760px), (pointer: coarse) {
+    .surf-dashboard-panel-toggle {
+      min-block-size: var(--surf-control-target-size);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .surf-dashboard-panel-chevron {
+      transition: none;
+    }
+  }
   /* The title takes focus after Retry; a keyboard reader sees where they are. */
   .surf-dashboard-panel-header .surf-card-title:focus-visible {
     outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);

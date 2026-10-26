@@ -97,7 +97,14 @@ export function DashboardExample() {
               locale={locale === 'ko' ? 'ko-KR' : 'en-US'}
             />
           </Dashboard.Panel>
-          <Dashboard.Panel title={t.disk} {...panel}>
+          {/* A secondary panel folds to its title and a summary, and remembers it. */}
+          <Dashboard.Panel
+            title={t.disk}
+            collapsible
+            persist='surflane-preview-disk'
+            summary={t.diskSummary}
+            {...panel}
+          >
             {/* The panel title already names the measure. */}
             <Stat.Group label={t.diskByNode} labelHidden>
               <Stat.Root>

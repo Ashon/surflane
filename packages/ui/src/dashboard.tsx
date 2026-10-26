@@ -93,6 +93,18 @@ export type DashboardPanelProps = Omit<
   /** Columns the panel spans where they fit; a phone shows one. */
   span?: 1 | 2 | 3 | 'full'
   labels?: Partial<DashboardPanelLabels>
+  /** Folds the panel to its title row: the title becomes a button that shows or
+   * hides the content, and a folded panel does not render its content at all. */
+  collapsible?: boolean
+  /** Whether a collapsible panel is open. Pass it to control the state. */
+  open?: boolean
+  defaultOpen?: boolean
+  onOpenChange?: (open: boolean) => void
+  /** A localStorage key that remembers whether the panel is open across visits. */
+  persist?: string
+  /** What a folded panel still says, in a line after its title, such as its value.
+   * The title stays whole; the summary is cut short where the row is narrow. */
+  summary?: React.ReactNode
 }
 /** One panel of a dashboard: a card with its title, an optional description, the
  * states of its data and the content. The content takes the room the row gives it. */
@@ -108,6 +120,12 @@ const Panel = function DashboardPanel({
   span,
   placeholderHeight,
   labels,
+  collapsible = false,
+  open,
+  defaultOpen = true,
+  onOpenChange,
+  persist,
+  summary,
   className,
   children,
   ref,
@@ -118,6 +136,26 @@ const Panel = function DashboardPanel({
   const id = React.useId()
   const busy = state === 'loading' || refreshing
   const titleRef = React.useRef<HTMLHeadingElement>(null)
+  const [own, setOwn] = React.useState(defaultOpen)
+  // A remembered state is read before paint, so the first frame is already right on
+  // the client; a server render shows defaultOpen.
+  React.useLayoutEffect(() => {
+    if (!collapsible || !persist || open !== undefined) return
+    try {
+      const stored = localStorage.getItem(persist)
+      if (stored) setOwn(stored === 'open')
+    } catch {}
+  }, [collapsible, persist, open])
+  const isOpen = !collapsible || (open ?? own)
+  const toggle = () => {
+    const next = !isOpen
+    if (open === undefined) setOwn(next)
+    onOpenChange?.(next)
+    if (persist)
+      try {
+        localStorage.setItem(persist, next ? 'open' : 'closed')
+      } catch {}
+  }
   return (
     <Card.Root
       role='group'
@@ -127,6 +165,7 @@ const Panel = function DashboardPanel({
       ref={ref}
       data-span={span}
       data-state={state}
+      data-open={collapsible ? String(isOpen) : undefined}
       className={cx('surf-dashboard-panel', className)}
     >
       <div className='surf-dashboard-panel-header'>
@@ -138,8 +177,27 @@ const Panel = function DashboardPanel({
           ref={titleRef}
           tabIndex={-1}
         >
-          {title}
+          {collapsible ? (
+            <button
+              type='button'
+              className='surf-dashboard-panel-toggle'
+              aria-expanded={isOpen}
+              aria-controls={isOpen ? `${id}-body` : undefined}
+              onClick={toggle}
+            >
+              <Icon
+                name='chevron-forward'
+                className='surf-dashboard-panel-chevron'
+              />
+              <span className='surf-dashboard-panel-title-text'>{title}</span>
+            </button>
+          ) : (
+            title
+          )}
         </Card.Title>
+        {!isOpen && summary != null && (
+          <span className='surf-dashboard-panel-summary'>{summary}</span>
+        )}
         {description && (
           <Popover.Root>
             <Popover.Trigger
@@ -165,23 +223,27 @@ const Panel = function DashboardPanel({
           <div className='surf-dashboard-panel-actions'>{actions}</div>
         )}
       </div>
-      <DataState
-        className='surf-dashboard-panel-body'
-        state={state}
-        message={message}
-        onRetry={onRetry}
-        placeholderHeight={placeholderHeight}
-        retryFocus={titleRef}
-        labels={{
-          loading: text.loading,
-          error: text.error,
-          stale: text.stale,
-          retry: text.retry,
-          empty: text.empty,
-        }}
-      >
-        {children}
-      </DataState>
+      {/* Folded, the content is not rendered: nothing inside runs or draws. */}
+      {isOpen && (
+        <DataState
+          id={`${id}-body`}
+          className='surf-dashboard-panel-body'
+          state={state}
+          message={message}
+          onRetry={onRetry}
+          placeholderHeight={placeholderHeight}
+          retryFocus={titleRef}
+          labels={{
+            loading: text.loading,
+            error: text.error,
+            stale: text.stale,
+            retry: text.retry,
+            empty: text.empty,
+          }}
+        >
+          {children}
+        </DataState>
+      )}
     </Card.Root>
   )
 }

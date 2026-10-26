@@ -14,14 +14,17 @@ test('dashboard panels are named groups that show loading, refreshing, error and
   await expect(
     gpu.getByRole('application', { name: 'GPU temperature' }),
   ).toBeVisible()
-  // Titles line up across a row and come from the small size scheme.
+  // Titles line up across a row and come from the small size scheme; a collapsible
+  // one's text lines up inside its taller toggle.
   const tops = await page
     .locator('.surf-dashboard-panel')
     .evaluateAll((panels) =>
       panels.map(
         (panel) =>
-          panel.querySelector('.surf-card-title')!.getBoundingClientRect().top -
-          panel.getBoundingClientRect().top,
+          (
+            panel.querySelector('.surf-dashboard-panel-title-text') ??
+            panel.querySelector('.surf-card-title')!
+          ).getBoundingClientRect().top - panel.getBoundingClientRect().top,
       ),
     )
   expect(new Set(tops).size).toBe(1)
@@ -96,6 +99,67 @@ test('a dashboard names its region, caps its columns, titles in full and keeps s
   await expect(disk).toContainText('These are the last values')
   await expect(disk).toContainText('24 GiB')
   await expect(disk.getByRole('button', { name: 'Retry' })).toBeVisible()
+})
+test('a collapsible panel folds to its title and summary, and remembers it', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1100 })
+  await page.goto('/patterns/dashboard')
+  await waitForCatalogReady(page)
+  const disk = page.getByRole('group', { name: 'Free disk', exact: true })
+  const toggle = disk.getByRole('button', { name: 'Free disk', exact: true })
+  const body = disk.locator('.surf-dashboard-panel-body')
+  const summary = disk.locator('.surf-dashboard-panel-summary')
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true')
+  await expect(toggle).toHaveAttribute(
+    'aria-controls',
+    (await body.getAttribute('id'))!,
+  )
+  await expect(summary).toHaveCount(0)
+  const openHeight = await disk.evaluate((el) => el.offsetHeight)
+  await toggle.click()
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false')
+  await expect(toggle).not.toHaveAttribute('aria-controls')
+  // Folded, the content is not there at all, and the summary says what matters.
+  await expect(body).toHaveCount(0)
+  await expect(summary).toHaveText('dgx-001 24 GiB, below the limit')
+  // It keeps its own height instead of stretching to the row.
+  const folded = await disk.evaluate((el) => ({
+    height: el.offsetHeight,
+    align: getComputedStyle(el).alignSelf,
+  }))
+  expect(folded.height).toBeLessThan(openHeight)
+  expect(folded.align).toBe('start')
+  // The title stays whole while the summary takes what is left of the row.
+  const title = disk.locator('.surf-dashboard-panel-title-text')
+  expect(await title.evaluate((el) => el.scrollWidth <= el.clientWidth)).toBe(
+    true,
+  )
+  // A reload remembers it.
+  await page.reload()
+  await waitForCatalogReady(page)
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false')
+  await expect(body).toHaveCount(0)
+  // Enter and Space unfold and fold from the keyboard.
+  await toggle.focus()
+  await page.keyboard.press('Enter')
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true')
+  await expect(disk.getByText('24 GiB', { exact: true })).toBeVisible()
+  await expect(toggle).toBeFocused()
+  const chevron = disk.locator('.surf-dashboard-panel-chevron')
+  await expect(chevron).toHaveCSS('rotate', '90deg')
+  await page.keyboard.press('Space')
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false')
+  await expect(chevron).toHaveCSS('rotate', 'none')
+  // Right to left, the folded chevron points the reading way and opens downward.
+  await page.evaluate(() => (document.documentElement.dir = 'rtl'))
+  await page.keyboard.press('Space')
+  await expect(chevron).toHaveCSS('rotate', '-90deg')
+  await page.evaluate(() => (document.documentElement.dir = 'ltr'))
+  expect(
+    (await new AxeBuilder({ page }).include('[data-preview-size]').analyze())
+      .violations,
+  ).toEqual([])
 })
 test('a compact density tightens the dashboard and keeps controls at their size on a phone', async ({
   page,

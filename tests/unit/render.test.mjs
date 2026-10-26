@@ -22,6 +22,7 @@ import {
   Table,
   Timeline,
 } from '@surflane/ui'
+import { Dashboard } from '@surflane/ui/dashboard'
 
 const html = (element) => renderToStaticMarkup(element)
 
@@ -304,5 +305,37 @@ test('DataState says where the data stands and keeps one wrapper for the content
   assert.match(
     html(h(DataState, { refreshing: true }, content)),
     /data-refreshing="true"><p>Values<\/p><\/div><span class="surf-feedback-sr" role="status">Refreshing</,
+  )
+})
+
+test('a collapsible Dashboard.Panel titles with a toggle and leaves its folded content out', () => {
+  const panel = (props) =>
+    html(
+      h(
+        Dashboard.Panel,
+        { title: 'Free disk', collapsible: true, summary: '24 GiB', ...props },
+        h('p', null, 'Values'),
+      ),
+    )
+  const open = panel({})
+  assert.match(open, /data-open="true"/)
+  assert.match(
+    open,
+    /<button type="button" class="surf-dashboard-panel-toggle" aria-expanded="true" aria-controls="[^"]+-body"/,
+  )
+  assert.match(open, />Values</)
+  assert.doesNotMatch(open, /surf-dashboard-panel-summary/)
+  const folded = panel({ defaultOpen: false })
+  assert.match(folded, /data-open="false"/)
+  assert.match(folded, /aria-expanded="false"/)
+  assert.doesNotMatch(
+    folded,
+    /aria-controls|>Values<|surf-dashboard-panel-body/,
+  )
+  assert.match(folded, /class="surf-dashboard-panel-summary">24 GiB</)
+  // A panel that does not fold keeps its plain title.
+  assert.doesNotMatch(
+    html(h(Dashboard.Panel, { title: 'Free disk' }, 'Values')),
+    /data-open|surf-dashboard-panel-toggle/,
   )
 })

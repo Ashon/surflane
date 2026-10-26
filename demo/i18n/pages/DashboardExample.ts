@@ -7,6 +7,7 @@ const en = {
   gpuDescription:
     'The hottest GPU on each node, measured every 10 minutes. 85 °C is the limit.',
   disk: 'Free disk',
+  diskSummary: 'dgx-001 24 GiB, below the limit',
   diskByNode: 'Free disk by node',
   tokens: 'Tokens by project',
   tokensDescription: 'Prompt and completion tokens this week.',
@@ -35,6 +36,7 @@ export const text: Record<Locale, typeof en> = {
     gpuDescription:
       '노드마다 가장 뜨거운 GPU를 10분마다 잰 값입니다. 85 °C가 한계입니다.',
     disk: '남은 디스크',
+    diskSummary: 'dgx-001 24 GiB, 한계 미만',
     diskByNode: '노드별 남은 디스크',
     tokens: '프로젝트별 토큰',
     tokensDescription: '이번 주 프롬프트와 응답 토큰입니다.',
