@@ -2,6 +2,7 @@
 import * as React from 'react'
 import { useComponentSize, type ComponentSize } from './sizing.js'
 import { usePortalDirection } from './parts.js'
+import { Kbd, type KbdKey } from './kbd.js'
 import { Tooltip as BaseTooltip } from '@base-ui/react/tooltip'
 export function TooltipProvider({
   delayDuration = 150,
@@ -26,9 +27,10 @@ export type TooltipProps = {
   /** What the trigger does, in a few words. It may hold an icon or emphasis, but
    * nothing interactive: a tooltip never takes focus. */
   label: React.ReactNode
-  /** A keyboard shortcut for the same action, such as '⌘B', set apart after the
-   * label. */
-  shortcut?: string
+  /** A keyboard shortcut for the same action, set apart after the label: the keys
+   * as Kbd takes them, such as ['mod', 'b'], which reads ⌘B on Apple platforms and
+   * Ctrl+B elsewhere. */
+  shortcut?: KbdKey | readonly KbdKey[]
   /** Keeps the tooltip from opening while the trigger stays as it is. */
   disabled?: boolean
   children: React.ReactElement
@@ -63,8 +65,8 @@ export function Tooltip({
         >
           <BaseTooltip.Popup className='surf-tooltip' data-ui-size={scheme}>
             {label}
-            {shortcut && (
-              <kbd className='surf-tooltip-shortcut'>{shortcut}</kbd>
+            {shortcut && shortcut.length > 0 && (
+              <Kbd keys={shortcut} className='surf-tooltip-shortcut' />
             )}
           </BaseTooltip.Popup>
         </BaseTooltip.Positioner>

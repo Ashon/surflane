@@ -15,6 +15,7 @@ export const navigationExampleIds = [
   'collapsible',
   'avatar',
   'badge',
+  'kbd',
   'separator',
   'link',
   'breadcrumbs',

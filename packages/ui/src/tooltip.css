@@ -4,6 +4,7 @@
 @import './base.css';
 @import './sizing.css';
 @import './popup.css';
+@import './kbd.css';
 
 @layer surflane.components {
   .surf-tooltip-positioner {
@@ -19,9 +20,15 @@
     letter-spacing: var(--surf-type-caption-tracking);
     line-height: var(--surf-type-caption-leading);
   }
-  /* The shortcut follows the label in the same face, a step quieter. */
-  .surf-tooltip-shortcut {
+  /* The shortcut follows the label in the same face, a step quieter: plain text on
+     the tooltip's own plane, not a key cap. */
+  .surf-tooltip .surf-tooltip-shortcut {
+    min-inline-size: 0;
     margin-inline-start: var(--surf-space-2);
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
     font: inherit;
     font-variant-numeric: tabular-nums;
     opacity: 0.72;

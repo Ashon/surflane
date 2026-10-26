@@ -372,7 +372,9 @@ test('the shell keeps and remembers its sidebar state, with a shortcut and rail 
   )
   // The toggle's tooltip names the shortcut.
   await toggle.hover()
-  await expect(page.locator('.surf-tooltip')).toContainText(/⌘B|Ctrl\+B/)
+  await expect(page.locator('.surf-tooltip')).toContainText(
+    /⌘Command B|Ctrl\+B/,
+  )
   // The shortcut toggles from anywhere but a text field.
   await page.locator('body').click({ position: { x: 5, y: 5 } })
   await page.keyboard.press('ControlOrMeta+b')

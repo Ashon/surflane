@@ -5,6 +5,7 @@ import { cx, skin } from './parts.js'
 import { Button, type ButtonProps } from './button.js'
 import { Icon } from './icon.js'
 import { Tooltip } from './tooltip.js'
+import { commandKey } from './platform.js'
 
 type Shell = {
   collapsed: boolean
@@ -18,10 +19,6 @@ const editable = (target: EventTarget | null) =>
   target instanceof HTMLElement &&
   (target.isContentEditable ||
     /^(input|textarea|select)$/i.test(target.tagName))
-const apple = () =>
-  typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform)
-/** The sidebar shortcut as this platform writes it. */
-const shortcutLabel = () => (apple() ? '⌘B' : 'Ctrl+B')
 
 export type AppShellRootProps = React.ComponentPropsWithoutRef<'div'> & {
   layout?: 'header' | 'workspace'
@@ -79,7 +76,7 @@ const Root = function AppShellRoot({
         event.key.toLowerCase() !== 'b' ||
         event.altKey ||
         event.shiftKey ||
-        !(apple() ? event.metaKey : event.ctrlKey) ||
+        !commandKey(event) ||
         editable(event.target)
       )
         return
@@ -112,7 +109,8 @@ export type AppShellSidebarToggleLabels = {
   /** The button's name in each state; it is also the tooltip. */
   collapse: string
   expand: string
-  /** The shortcut the tooltip shows; ⌘B on Apple platforms, Ctrl+B elsewhere. */
+  /** The shortcut the tooltip shows, written as it is. By default Kbd writes the
+   * platform's: ⌘B on Apple platforms, Ctrl+B elsewhere. */
   shortcut: string
 }
 export type AppShellSidebarToggleProps = Omit<ButtonProps, 'children'> & {
@@ -136,9 +134,7 @@ const SidebarToggle = function AppShellSidebarToggle({
   return (
     <Tooltip
       label={label}
-      shortcut={
-        shell.shortcut ? (labels?.shortcut ?? shortcutLabel()) : undefined
-      }
+      shortcut={shell.shortcut ? (labels?.shortcut ?? ['mod', 'b']) : undefined}
     >
       <Button
         variant='ghost'

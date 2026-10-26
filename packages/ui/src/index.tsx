@@ -391,6 +391,13 @@ export {
   type StatusTone,
 } from './badge.js'
 export {
+  Kbd,
+  type KbdKey,
+  type KbdLabels,
+  type KbdNamedKey,
+  type KbdProps,
+} from './kbd.js'
+export {
   Card,
   CardRoot,
   CardHeader,

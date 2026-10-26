@@ -7,6 +7,8 @@ import {
   Inline,
   Badge,
   StatusBadge,
+  Kbd,
+  Table,
   Separator,
   Link as TextLink,
   Breadcrumbs,
@@ -269,6 +271,47 @@ function BadgeExample() {
     </div>
   )
 }
+function KbdExample() {
+  const t = text[useLocale().locale]
+  const labels = t.kbdLabels
+  return (
+    <div className='example-stack'>
+      <p>
+        {t.kbdSearchBefore}
+        <Kbd keys={['mod', 'k']} />
+        {t.kbdSearchAfter}
+      </p>
+      <p className='muted'>
+        <Kbd keys='up' labels={labels} /> <Kbd keys='down' labels={labels} />{' '}
+        {t.kbdChoose} · <Kbd keys='enter' /> {t.kbdOpen} · <Kbd keys='escape' />{' '}
+        {t.kbdClose}
+      </p>
+      <Table.Root>
+        <Table.Caption>{t.kbdCaption}</Table.Caption>
+        <Table.Head>
+          <Table.Row>
+            <Table.HeaderCell scope='col'>{t.kbdAction}</Table.HeaderCell>
+            <Table.HeaderCell scope='col'>{t.kbdApple}</Table.HeaderCell>
+            <Table.HeaderCell scope='col'>{t.kbdOther}</Table.HeaderCell>
+          </Table.Row>
+        </Table.Head>
+        <Table.Body>
+          {t.kbdRows.map((row) => (
+            <Table.Row key={row.label}>
+              <Table.Cell>{row.label}</Table.Cell>
+              <Table.Cell>
+                <Kbd keys={row.keys} labels={labels} platform='apple' />
+              </Table.Cell>
+              <Table.Cell>
+                <Kbd keys={row.keys} labels={labels} platform='other' />
+              </Table.Cell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table.Root>
+    </div>
+  )
+}
 function SeparatorExample() {
   const t = text[useLocale().locale]
   const [inset, setInset] = useState(false)
@@ -348,6 +391,7 @@ export function NavigationExample({ id }: { id: string }) {
     collapsible: <CollapsibleExample />,
     avatar: <AvatarExample />,
     badge: <BadgeExample />,
+    kbd: <KbdExample />,
     separator: <SeparatorExample />,
     link: <LinkExample />,
     breadcrumbs: <BreadcrumbExample />,

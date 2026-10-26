@@ -356,19 +356,24 @@ test('individual component examples retain selection, overlay and focus behavior
   await expect(page.locator('.surf-tooltip')).toBeVisible()
   await page.keyboard.press('Escape')
   await expect(page.locator('.surf-tooltip')).toBeHidden()
-  // A shortcut follows the label as a kbd element, in the tooltip's own face.
+  // A shortcut follows the label as a kbd element, in the tooltip's own face, written
+  // for this platform: ⇧⌘R on Apple platforms, Ctrl+Shift+R elsewhere.
   await page.keyboard.press('Tab')
   const tip = page.locator('.surf-tooltip')
-  await expect(tip).toHaveText('Run the pipeline again⌘⇧R')
-  await expect(tip.locator('kbd.surf-tooltip-shortcut')).toHaveText('⌘⇧R')
+  const apple = await page.evaluate(() =>
+    /Mac|iPhone|iPad/.test(navigator.platform),
+  )
+  const shortcut = tip.locator('kbd.surf-tooltip-shortcut')
+  await expect(tip).toContainText('Run the pipeline again')
+  await expect(shortcut).toHaveText(
+    apple ? '⇧Shift ⌘Command R' : 'Ctrl+Shift+R',
+  )
   expect(
-    await tip
-      .locator('kbd')
-      .evaluate(
-        (el) =>
-          getComputedStyle(el).fontFamily ===
-          getComputedStyle(el.parentElement!).fontFamily,
-      ),
+    await shortcut.evaluate(
+      (el) =>
+        getComputedStyle(el).fontFamily ===
+        getComputedStyle(el.parentElement!).fontFamily,
+    ),
   ).toBe(true)
   await page.goto('/components/popover')
   await waitForCatalogReady(page)

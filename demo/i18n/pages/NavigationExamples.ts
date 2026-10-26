@@ -1,5 +1,5 @@
 import type { Locale } from '../../i18n'
-import type { StatusTone } from '@surflane/ui'
+import type { KbdKey, KbdLabels, StatusTone } from '@surflane/ui'
 
 type BadgeState = {
   value: string
@@ -107,6 +107,22 @@ const en = {
   projects: 'Projects',
   showsProjectPathAsOrderedList:
     'Shows the project path as an ordered list. The current location can stay unlinked.',
+  kbdSearchBefore: 'Press ',
+  kbdSearchAfter: ' to open search.',
+  kbdChoose: 'Choose',
+  kbdOpen: 'Open',
+  kbdClose: 'Close',
+  kbdLabels: {} as Partial<KbdLabels>,
+  kbdCaption: 'The same shortcuts on each platform',
+  kbdAction: 'Action',
+  kbdApple: 'Apple platforms',
+  kbdOther: 'Other platforms',
+  kbdRows: [
+    { label: 'Open search', keys: ['mod', 'k'] },
+    { label: 'Collapse the sidebar', keys: ['mod', 'b'] },
+    { label: 'Run the pipeline again', keys: ['shift', 'mod', 'r'] },
+    { label: 'Move a row down', keys: ['alt', 'down'] },
+  ] as { label: string; keys: KbdKey[] }[],
 }
 export const text: Record<Locale, typeof en> = {
   en,
@@ -207,5 +223,26 @@ export const text: Record<Locale, typeof en> = {
     projects: '프로젝트',
     showsProjectPathAsOrderedList:
       '프로젝트 경로를 정렬된 목록으로 표시합니다. 현재 위치는 연결되지 않은 채로 유지할 수 있습니다.',
+    kbdSearchBefore: '',
+    kbdSearchAfter: ' 키를 누르면 검색이 열립니다.',
+    kbdChoose: '선택',
+    kbdOpen: '열기',
+    kbdClose: '닫기',
+    kbdLabels: {
+      up: '위쪽 화살표',
+      down: '아래쪽 화살표',
+      left: '왼쪽 화살표',
+      right: '오른쪽 화살표',
+    },
+    kbdCaption: '플랫폼마다 같은 단축키',
+    kbdAction: '동작',
+    kbdApple: 'Apple 플랫폼',
+    kbdOther: '그 밖의 플랫폼',
+    kbdRows: [
+      { label: '검색 열기', keys: ['mod', 'k'] },
+      { label: '사이드바 접기', keys: ['mod', 'b'] },
+      { label: '파이프라인 다시 실행', keys: ['shift', 'mod', 'r'] },
+      { label: '행을 아래로 옮기기', keys: ['alt', 'down'] },
+    ],
   },
 }

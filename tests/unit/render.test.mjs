@@ -4,7 +4,15 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { createElement as h } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
-import { Button, FileUpload, Icon, Skeleton, Stat, Table } from '@surflane/ui'
+import {
+  Button,
+  FileUpload,
+  Icon,
+  Kbd,
+  Skeleton,
+  Stat,
+  Table,
+} from '@surflane/ui'
 
 const html = (element) => renderToStaticMarkup(element)
 
@@ -85,4 +93,40 @@ test('FileUpload carries the field class once', () => {
     .slice(1)
   const names = classes.split(' ')
   assert.deepEqual(names, [...new Set(names)])
+})
+
+test("Kbd writes a chord in each platform's order and names its symbols", () => {
+  const keys = ['shift', 'mod', 'r']
+  assert.equal(
+    html(h(Kbd, { keys, platform: 'other' })),
+    '<kbd class="surf-kbd"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd></kbd>',
+  )
+  assert.equal(
+    html(h(Kbd, { keys, platform: 'apple' })),
+    '<kbd class="surf-kbd"><kbd><span aria-hidden="true">⇧</span><span class="surf-feedback-sr">Shift </span></kbd>' +
+      '<kbd><span aria-hidden="true">⌘</span><span class="surf-feedback-sr">Command </span></kbd><kbd>R</kbd></kbd>',
+  )
+  // Ctrl is the command modifier off Apple platforms, so it is written once.
+  assert.match(
+    html(h(Kbd, { keys: ['ctrl', 'mod', 'alt', 'z'], platform: 'other' })),
+    /<kbd>Ctrl<\/kbd>\+<kbd>Alt<\/kbd>\+<kbd>Z<\/kbd><\/kbd>$/,
+  )
+  // Apple's order is Control, Option, Shift, Command.
+  assert.match(
+    html(
+      h(Kbd, { keys: ['mod', 'shift', 'alt', 'ctrl', 'k'], platform: 'apple' }),
+    ),
+    /⌃.*⌥.*⇧.*⌘.*<kbd>K<\/kbd><\/kbd>$/,
+  )
+  // Named keys, spoken names that change, and keys written as they are.
+  const arrows = html(
+    h(Kbd, { keys: 'down', labels: { down: '아래쪽 화살표' } }),
+  )
+  assert.match(
+    arrows,
+    /aria-hidden="true">↓<\/span><span class="surf-feedback-sr">아래쪽 화살표 </,
+  )
+  assert.match(html(h(Kbd, { keys: 'escape' })), /<kbd>Esc<\/kbd>/)
+  assert.match(html(h(Kbd, { keys: 'F5' })), /<kbd>F5<\/kbd>/)
+  assert.match(html(h(Kbd, { keys: '⌘⇧R' })), /<kbd>⌘⇧R<\/kbd>/)
 })

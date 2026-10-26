@@ -59,6 +59,7 @@ const ready = new Set([
   'collapsible',
   'avatar',
   'badge',
+  'kbd',
   'separator',
   'link',
   'breadcrumbs',
@@ -339,6 +340,13 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
     1,
   ],
   [
+    'kbd',
+    'Kbd',
+    'Data display',
+    'Writes a key or shortcut the way this platform does.',
+    1,
+  ],
+  [
     'card',
     'Card / Surface',
     'Data display',
@@ -487,6 +495,7 @@ const nonBase = new Set([
   'pagination',
   'bottom-navigation',
   'badge',
+  'kbd',
   'card',
   'table',
   'code',
@@ -572,6 +581,9 @@ const specializedCriteria: Record<string, string[]> = {
   ],
   'bar-list': [
     'An ordered list whose names and values are text, decorative bars, and a named scroll region when it is bounded',
+  ],
+  kbd: [
+    'The platform modifier, ⌘ or Ctrl, decided in one place, and a spoken name for every symbol',
   ],
   'otp-field': ['Code paste, autofill, deletion, errors, expiry, and resend'],
   'bottom-navigation': [

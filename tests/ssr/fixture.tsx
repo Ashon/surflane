@@ -5,6 +5,7 @@ import {
   Autocomplete,
   Avatar,
   Badge,
+  Kbd,
   BottomNavigation,
   Breadcrumbs,
   Button,
@@ -180,6 +181,7 @@ export function Foundations() {
             <Badge>3 berths</Badge>
             <StatusBadge tone='success'>Tide window open</StatusBadge>
             <StatusBadge tone='progress'>Unloading</StatusBadge>
+            <Kbd keys={['mod', 'k']} />
           </Inline>
           <Grid columns={3} gap={4}>
             <GridItem span={4}>

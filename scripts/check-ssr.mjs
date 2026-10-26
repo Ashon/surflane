@@ -24,6 +24,7 @@ const markers = {
     'surf-text',
     'surf-inline',
     'surf-badge',
+    'surf-kbd',
     'surf-grid',
     'surf-grid-item',
     'surf-surface',
@@ -163,6 +164,13 @@ try {
     html,
     /class="surf-syntax ssr-highlighted"[^>]*data-highlighted="true"[^>]*><span data-syntax=/,
     'SyntaxHighlighting suspense renders highlighted code on the server',
+  )
+  // Node has a navigator that names the host's platform; the server still writes
+  // the Ctrl form, so hydration matches whatever the reader's platform is.
+  assert.match(
+    html,
+    /<kbd class="surf-kbd"><kbd>Ctrl<\/kbd>\+<kbd>K<\/kbd><\/kbd>/,
+    'Kbd writes the Ctrl form on the server',
   )
   const pui = [...classes].filter((name) => name.startsWith('surf-'))
   console.log(

@@ -1,3 +1,4 @@
+import type { KbdLabels } from '@surflane/ui'
 import type { Locale } from '../../i18n'
 
 const en = {
@@ -21,7 +22,10 @@ const en = {
   noResults: 'No results. Try a shorter name or another category.',
   pagesAndActions: 'Pages and actions',
   planned: 'Planned',
-  keyboardHint: '↑ ↓ Choose / Enter Open / Escape Close',
+  keyChoose: 'Choose',
+  keyOpen: 'Open',
+  keyClose: 'Close',
+  keyLabels: {} as Partial<KbdLabels>,
   commandResult: 'Command result',
 }
 export const text: Record<Locale, typeof en> = {
@@ -48,7 +52,10 @@ export const text: Record<Locale, typeof en> = {
     noResults: '결과가 없습니다. 더 짧은 이름이나 다른 카테고리를 시도하세요.',
     pagesAndActions: '페이지 및 액션',
     planned: '계획됨',
-    keyboardHint: '↑ ↓ 선택 / Enter 열기 / Escape 닫기',
+    keyChoose: '선택',
+    keyOpen: '열기',
+    keyClose: '닫기',
+    keyLabels: { up: '위쪽 화살표', down: '아래쪽 화살표' },
     commandResult: '명령 결과',
   },
 }

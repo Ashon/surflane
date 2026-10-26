@@ -18,7 +18,7 @@ export const doc: ComponentDoc = {
   <Tooltip label='Inspect the build logs'>
     <Button variant='outline'>Logs</Button>
   </Tooltip>
-  <Tooltip label='Run the pipeline again' shortcut='⌘⇧R'>
+  <Tooltip label='Run the pipeline again' shortcut={['mod', 'shift', 'r']}>
     <Button variant='outline'>Rerun</Button>
   </Tooltip>
 </TooltipProvider>`,
@@ -30,7 +30,7 @@ export const doc: ComponentDoc = {
     ],
     [
       'shortcut',
-      "keyboard shortcut set apart after the label, such as '⌘B'",
+      "the keys of a shortcut for the same action, as Kbd takes them, set apart after the label: ['mod', 'b'] reads ⌘B on Apple platforms and Ctrl+B elsewhere",
       '—',
     ],
     [

@@ -5,6 +5,7 @@ import { doc as asyncJob } from './docs/async-job.en'
 import { doc as autocomplete } from './docs/autocomplete.en'
 import { doc as avatar } from './docs/avatar.en'
 import { doc as badge } from './docs/badge.en'
+import { doc as kbd } from './docs/kbd.en'
 import { doc as bottomNavigation } from './docs/bottom-navigation.en'
 import { doc as breadcrumbs } from './docs/breadcrumbs.en'
 import { doc as button } from './docs/button.en'
@@ -95,6 +96,7 @@ export const componentDocs: Record<string, ComponentDoc> = {
   autocomplete,
   avatar,
   badge,
+  kbd,
   'bottom-navigation': bottomNavigation,
   breadcrumbs,
   button,

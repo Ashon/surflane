@@ -312,7 +312,11 @@ export function BasicExample({
             <Tooltip label={t.inspectBuildLogs}>
               <Button variant='outline'>{t.inspectLogs}</Button>
             </Tooltip>
-            <Tooltip label={t.rerunPipeline} shortcut='⌘⇧R' side='bottom'>
+            <Tooltip
+              label={t.rerunPipeline}
+              shortcut={['mod', 'shift', 'r']}
+              side='bottom'
+            >
               <Button variant='outline'>{t.rerun}</Button>
             </Tooltip>
           </div>

@@ -1,0 +1,34 @@
+/* Presentation classes: Kbd. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+
+@layer surflane.components {
+  /* A key or a chord, on the plane recessed one step from the one it sits on. Its
+     size follows the text around it, like inline code, and its face is the body's:
+     key caps print words, not code. */
+  .surf-kbd {
+    box-sizing: border-box;
+    display: inline-block;
+    min-inline-size: 1.5em;
+    padding: 0 var(--surf-space-1);
+    border-radius: var(--surf-radius-sm);
+    background: var(--surf-recessed);
+    color: var(--surf-ink);
+    font-family: var(--surf-font-body);
+    font-size: 0.875em;
+    font-weight: var(--surf-weight-medium);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: normal;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .surf-kbd kbd {
+    font: inherit;
+  }
+  @media (forced-colors: active) {
+    .surf-kbd {
+      padding-inline: calc(var(--surf-space-1) - 1px);
+      border: 1px solid CanvasText;
+    }
+  }
+}

@@ -310,6 +310,7 @@ const internalModules = [
   'element-part',
   'choice',
   'panel',
+  'platform',
   'status',
   'form-state',
   'dialog-focus',

@@ -123,7 +123,7 @@ export const doc: ComponentDoc = {
     [
       'SidebarToggle.labels',
       '{ collapse, expand, shortcut }: the button name and tooltip in each state, and the shortcut the tooltip shows',
-      'Collapse sidebar / Expand sidebar / ⌘B or Ctrl+B',
+      'Collapse sidebar / Expand sidebar / Kbd: ⌘B or Ctrl+B',
     ],
     [
       'Root style --surf-app-shell-rail-width',

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Button, Combobox, Dialog, ScrollArea } from '@surflane/ui'
+import { Button, Combobox, Dialog, Kbd, ScrollArea } from '@surflane/ui'
 import { catalog, itemHref, type CatalogItem } from './catalog'
 import { navigate } from './router'
 import { useLocale } from './i18n'
@@ -141,6 +141,8 @@ export function CommandSearchExample({
             }
           >
             {t.searchDocumentation}
+            {/* aria-keyshortcuts names the shortcut; the key cap is for sight. */}
+            <Kbd keys={['mod', 'k']} aria-hidden='true' />
           </Dialog.Trigger>
           <Dialog.Content
             className='command-search-dialog'
@@ -198,7 +200,12 @@ export function CommandSearchExample({
                   )}
                 </Combobox.List>
               </ScrollArea>
-              <p className='muted'>{t.keyboardHint}</p>
+              <p className='muted'>
+                <Kbd keys='up' labels={t.keyLabels} />{' '}
+                <Kbd keys='down' labels={t.keyLabels} /> {t.keyChoose} ·{' '}
+                <Kbd keys='enter' /> {t.keyOpen} · <Kbd keys='escape' />{' '}
+                {t.keyClose}
+              </p>
             </Dialog.Body>
           </Dialog.Content>
         </Dialog.Root>

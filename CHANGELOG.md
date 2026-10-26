@@ -4,6 +4,14 @@
 
 ## Unreleased
 
+### Added
+
+- `Kbd` writes a key or a shortcut the way the reader's platform does. `keys={['mod', 'k']}` reads ⌘K on Apple platforms and Ctrl+K elsewhere; modifiers take the platform's order (⇧⌘R, Ctrl+Shift+R), and ⌘, ⇧, ⌥, ⌃ and the arrows carry their names for screen readers in visually hidden text, which `labels` translates. A key sits on the recessed plane at 87.5% of the text around it. The server and the hydrating pass write the Ctrl form, so the markup matches; pass `platform` when the server knows the reader's. The `.surf-kbd` class is in `@surflane/css/presentation/kbd.css` too.
+
+### Changed
+
+- `Tooltip`'s `shortcut` takes keys as Kbd does, such as `['mod', 'b']`, and renders a Kbd. A string you pass still shows as written. AppShell's sidebar toggle uses it, and its shortcut and the keydown handler read the platform from the same place.
+
 ### Fixed
 
 - Compact density no longer pads a workspace AppShell's content as well as its page. The inset doubled to 24px on a wide screen, and on a phone the page stood 12px off the screen's edges, 24px narrower.
