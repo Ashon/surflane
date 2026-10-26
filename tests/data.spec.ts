@@ -201,10 +201,11 @@ test('Empty state distinguishes first use, no results and missing permissions wi
     'Access request previewed. No message was sent.',
   )
 })
-test('Data/message pages pass light/dark accessibility, narrow reflow and enlarged RTL text', async ({
-  page,
-}) => {
-  for (const id of dataExampleIds) {
+// One test per page, so each stays within the timeout and a failure names its page.
+for (const id of dataExampleIds)
+  test(`/components/${id}: passes light/dark accessibility, narrow reflow and enlarged RTL text`, async ({
+    page,
+  }) => {
     await page.goto(`/components/${id}`)
     await waitForCatalogReady(page)
     for (const theme of ['light', 'dark']) {
@@ -232,5 +233,4 @@ test('Data/message pages pass light/dark accessibility, narrow reflow and enlarg
         () => document.documentElement.scrollWidth <= innerWidth,
       ),
     ).toBeTruthy()
-  }
-})
+  })

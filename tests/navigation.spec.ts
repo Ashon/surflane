@@ -324,13 +324,13 @@ test('Link and Breadcrumbs retain native navigation and ordered current-location
       ),
   ).toBe(true)
 })
-test('navigation/data primitives stay accessible and fit both themes at desktop and mobile widths', async ({
-  page,
-}) => {
-  test.setTimeout(90000)
-  for (const width of [1440, 320])
-    for (const dark of [false, true])
-      for (const id of navigationExampleIds) {
+// One test per page, so each stays within the timeout and a failure names its page.
+for (const id of navigationExampleIds)
+  test(`/components/${id}: stays accessible and fits both themes at desktop and mobile widths`, async ({
+    page,
+  }) => {
+    for (const width of [1440, 320])
+      for (const dark of [false, true]) {
         await page.setViewportSize({ width, height: 1000 })
         await page.goto('/components/' + id)
         await waitForCatalogReady(page)
@@ -349,7 +349,7 @@ test('navigation/data primitives stay accessible and fit both themes at desktop 
           `${id} ${width} dark=${dark}`,
         ).toEqual([])
       }
-})
+  })
 test('navigation examples reflow with enlarged text and retain RTL structure', async ({
   page,
 }) => {
