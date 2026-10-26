@@ -71,6 +71,9 @@ for (const item of components.filter((item) => item.stage !== 'planned'))
     await page.setViewportSize({ width: 1440, height: 1000 })
     await page.goto(`/components/${item.id}`)
     await waitForCatalogReady(page)
+    // A web font that swaps in after the first paint changes line heights, so
+    // measure only once every font is in.
+    await page.evaluate(() => document.fonts.ready)
     const before = await measure(page, '[data-preview-size]')
     const compact = page.getByRole('button', {
       name: 'Preview density: Compact',
@@ -92,6 +95,9 @@ for (const item of patterns)
     await waitForCatalogReady(page)
     const root = '#preview'
     test.skip(!(await page.locator(root).count()), 'no live preview')
+    // A web font that swaps in after the first paint changes line heights, so
+    // measure only once every font is in.
+    await page.evaluate(() => document.fonts.ready)
     const before = await measure(page, root)
     await page
       .locator(root)

@@ -90,6 +90,8 @@ const markers = {
   data: [
     'surf-table',
     'surf-description-list',
+    'surf-timeline',
+    'surf-timeline-detail',
     'surf-copy-button',
     'surf-list',
     'surf-card',

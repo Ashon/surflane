@@ -1,0 +1,117 @@
+/* Presentation classes: Timeline. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+
+@layer surflane.components {
+  /* Events in time order, one row each: the tone's icon in a column of its own on
+     the title's line, then what happened with its time at the end of the line,
+     and its state and description under it. No connecting line: the icon column
+     carries the sequence, and the current step sits on the recessed plane. */
+  .surf-timeline {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--surf-ink-body);
+    font: var(--surf-weight-regular) var(--surf-type-body-size) /
+      var(--surf-type-body-leading) var(--surf-font-body);
+    letter-spacing: var(--surf-type-body-tracking);
+  }
+  .surf-timeline-item {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: var(--surf-space-3);
+    min-inline-size: 0;
+    padding: var(--surf-space-2) var(--surf-space-3);
+    border-radius: var(--surf-radius-md);
+  }
+  /* The current step is recessed one step from its plane, and what it holds sits on
+     that step: the pair passes to its children swapped. */
+  .surf-timeline-item[data-current] {
+    background: var(--surf-recessed);
+    --surf-timeline-plane: var(--surf-recessed);
+    --surf-timeline-recessed: var(--surf-plane);
+  }
+  .surf-timeline-item[data-current] > * {
+    --surf-plane: var(--surf-timeline-plane);
+    --surf-recessed: var(--surf-timeline-recessed);
+  }
+  /* One width for every mark, a Spinner's too, so the titles line up. */
+  .surf-timeline-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--surf-size-icon-default);
+    block-size: 1lh;
+    color: var(--surf-status-neutral-fg);
+  }
+  .surf-timeline-body {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      'title title time'
+      'status description description'
+      'detail detail detail';
+    min-inline-size: 0;
+  }
+  .surf-timeline-title {
+    grid-area: title;
+    min-inline-size: 0;
+    color: var(--surf-ink);
+    font-weight: var(--surf-weight-medium);
+    overflow-wrap: anywhere;
+  }
+  .surf-timeline-time {
+    grid-area: time;
+    margin-inline-start: var(--surf-space-3);
+    color: var(--surf-ink-muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .surf-timeline-status {
+    grid-area: status;
+    margin-inline-end: var(--surf-space-2);
+    color: var(--surf-status-neutral-fg);
+    font-weight: var(--surf-weight-medium);
+  }
+  .surf-timeline-description {
+    grid-area: description;
+    min-inline-size: 0;
+    color: var(--surf-ink-muted);
+    overflow-wrap: anywhere;
+  }
+  /* The disclosure's label lines up with the title; open, its plane reaches out
+     into the item's padding. */
+  .surf-timeline-detail {
+    grid-area: detail;
+    margin-block-start: var(--surf-space-1);
+    margin-inline-start: calc(-1 * var(--surf-space-4));
+  }
+  .surf-timeline-item[data-tone='info']
+    :is(.surf-timeline-mark, .surf-timeline-status) {
+    color: var(--surf-status-info-fg);
+  }
+  .surf-timeline-item[data-tone='success']
+    :is(.surf-timeline-mark, .surf-timeline-status) {
+    color: var(--surf-status-success-fg);
+  }
+  .surf-timeline-item[data-tone='danger']
+    :is(.surf-timeline-mark, .surf-timeline-status) {
+    color: var(--surf-status-danger-fg);
+  }
+  .surf-timeline-item[data-tone='caution']
+    :is(.surf-timeline-mark, .surf-timeline-status) {
+    color: var(--surf-status-caution-fg);
+  }
+  .surf-timeline-item[data-tone='progress']
+    :is(.surf-timeline-mark, .surf-timeline-status) {
+    color: var(--surf-status-progress-fg);
+  }
+  /* Forced colours drop the plane, so a line marks the current step. */
+  @media (forced-colors: active) {
+    .surf-timeline-item[data-current] {
+      outline: 1px solid CanvasText;
+      outline-offset: -1px;
+    }
+  }
+}

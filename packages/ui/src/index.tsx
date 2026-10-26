@@ -401,6 +401,20 @@ export {
   type DescriptionListValueProps,
 } from './description-list.js'
 export {
+  Timeline,
+  TimelineRoot,
+  TimelineItem,
+  TimelineTitle,
+  TimelineTime,
+  TimelineStatus,
+  TimelineDescription,
+  TimelineDetail,
+  type TimelineRootProps,
+  type TimelineItemProps,
+  type TimelineTimeProps,
+  type TimelineDetailProps,
+} from './timeline.js'
+export {
   Kbd,
   type KbdKey,
   type KbdLabels,

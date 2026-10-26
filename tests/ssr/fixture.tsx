@@ -69,6 +69,7 @@ import {
   Switch,
   SyntaxHighlighter,
   Table,
+  Timeline,
   Tabs,
   Text,
   Textarea,
@@ -799,6 +800,22 @@ export function Data() {
           <DescriptionList.Value />
         </DescriptionList.Item>
       </DescriptionList.Root>
+      <Timeline.Root aria-label='Berth log'>
+        <Timeline.Item tone='progress' current>
+          <Timeline.Title>MV Aurora unloading</Timeline.Title>
+          <Timeline.Time dateTime='2026-10-26T09:40:00Z'>09:40</Timeline.Time>
+          <Timeline.Status>Running</Timeline.Status>
+        </Timeline.Item>
+        <Timeline.Item tone='success'>
+          <Timeline.Title>MV Kestrel moored</Timeline.Title>
+          <Timeline.Time dateTime='2026-10-26T08:15:00Z'>08:15</Timeline.Time>
+          <Timeline.Status>Done</Timeline.Status>
+          <Timeline.Description>North pier, berth 2</Timeline.Description>
+          <Timeline.Detail summary='Crew notes'>
+            Tugs released at 08:20.
+          </Timeline.Detail>
+        </Timeline.Item>
+      </Timeline.Root>
       <List.Root aria-label='Berths'>
         {berths.map((berth) => (
           <List.Item key={berth.id}>

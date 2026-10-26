@@ -14,6 +14,7 @@ import {
   Skeleton,
   Stat,
   Table,
+  Timeline,
 } from '@surflane/ui'
 
 const html = (element) => renderToStaticMarkup(element)
@@ -189,5 +190,33 @@ test('Banner is a polite live region whose dismiss button has a name', () => {
   assert.doesNotMatch(
     html(h(Banner.Root, null, 'Notice')),
     /surf-banner-dismiss/,
+  )
+})
+
+test('Timeline is an ordered list; an event carries its tone, its time and, when current, the step', () => {
+  const markup = html(
+    h(
+      Timeline.Root,
+      { 'aria-label': 'Deploy history' },
+      h(
+        Timeline.Item,
+        { tone: 'danger', current: true },
+        h(Timeline.Title, null, 'Deploy failed'),
+        h(Timeline.Time, { dateTime: '2026-10-26T09:42:00Z' }, '09:42'),
+        h(Timeline.Status, null, 'Failed'),
+      ),
+    ),
+  )
+  assert.match(
+    markup,
+    /^<ol aria-label="Deploy history" class="surf-timeline">/,
+  )
+  assert.match(
+    markup,
+    /<li aria-current="step" class="surf-timeline-item" data-tone="danger" data-current="true"><span class="surf-timeline-mark" aria-hidden="true"><svg/,
+  )
+  assert.match(
+    markup,
+    /<time dateTime="2026-10-26T09:42:00Z" class="surf-timeline-time">09:42<\/time>/,
   )
 })

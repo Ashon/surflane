@@ -1,0 +1,25 @@
+/* Timeline, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+@import './icon.css';
+@import './collapsible.css';
+@import '@surflane/css/presentation/timeline.css';
+
+@layer surflane.sizes {
+  :where([data-ui-size], [data-ui-size] *).surf-timeline {
+    font-size: var(--surf-ui-font);
+    line-height: var(--surf-ui-leading);
+  }
+  :where([data-ui-size], [data-ui-size] *).surf-timeline-mark {
+    inline-size: var(--surf-ui-icon);
+  }
+  /* Compact density, after any size: 4px above and below each event. */
+  :where(
+    [data-ui-density='compact'],
+    [data-ui-density='compact'] *
+  ).surf-timeline-item {
+    padding-block: var(--surf-space-1);
+  }
+}

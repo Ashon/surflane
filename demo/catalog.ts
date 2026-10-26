@@ -47,6 +47,7 @@ const ready = new Set([
   'list',
   'stat',
   'description-list',
+  'timeline',
   'sparkline',
   'bar-list',
   'inline-message',
@@ -349,6 +350,13 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
     1,
   ],
   [
+    'timeline',
+    'Timeline',
+    'Data display',
+    'Shows events in time order, such as a deploy history or an audit log.',
+    2,
+  ],
+  [
     'kbd',
     'Kbd',
     'Data display',
@@ -512,6 +520,7 @@ const nonBase = new Set([
   'bottom-navigation',
   'badge',
   'description-list',
+  'timeline',
   'kbd',
   'card',
   'table',
@@ -605,6 +614,9 @@ const specializedCriteria: Record<string, string[]> = {
   ],
   'description-list': [
     'A native dl whose terms name their values, long values that wrap or keep the whole value when cut, and a copy action that names its term',
+  ],
+  timeline: [
+    'An ordered list whose events name their time with a time element and their state in words, a current step announced as such, and details behind a disclosure',
   ],
   kbd: [
     'The platform modifier, ⌘ or Ctrl, decided in one place, and a spoken name for every symbol',

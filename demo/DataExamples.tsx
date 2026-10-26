@@ -17,6 +17,7 @@ import {
   Banner,
   type BannerTone,
   DescriptionList,
+  Timeline,
   Inline,
   Select,
   formatCurrency,
@@ -599,6 +600,54 @@ function DescriptionListPreview() {
     </div>
   )
 }
+function TimelinePreview() {
+  const t = text[useLocale().locale]
+  return (
+    <Timeline.Root aria-label={t.tlLabel}>
+      <Timeline.Item
+        tone='progress'
+        current
+        icon={<Spinner decorative size='small' />}
+      >
+        <Timeline.Title>{t.tlCanary}</Timeline.Title>
+        <Timeline.Time dateTime='2026-10-26T09:44:00Z'>09:44 UTC</Timeline.Time>
+        <Timeline.Status>{t.tlRunning}</Timeline.Status>
+        <Timeline.Description>{t.tlCanaryBy}</Timeline.Description>
+      </Timeline.Item>
+      <Timeline.Item tone='success'>
+        <Timeline.Title>{t.tlDeployed}</Timeline.Title>
+        <Timeline.Time dateTime='2026-10-26T09:42:00Z'>09:42 UTC</Timeline.Time>
+        <Timeline.Status>{t.tlSucceeded}</Timeline.Status>
+        <Timeline.Description>{t.tlDeployedBy}</Timeline.Description>
+        <Timeline.Detail summary={t.tlChanges}>
+          <ul>
+            {t.tlChangeList.map((change) => (
+              <li key={change}>{change}</li>
+            ))}
+          </ul>
+        </Timeline.Detail>
+      </Timeline.Item>
+      <Timeline.Item tone='danger'>
+        <Timeline.Title>{t.tlFailed}</Timeline.Title>
+        <Timeline.Time dateTime='2026-10-25T18:05:00Z'>
+          {t.tlYesterday} 18:05 UTC
+        </Timeline.Time>
+        <Timeline.Status>{t.tlFailedStatus}</Timeline.Status>
+        <Timeline.Description>{t.tlFailedWhy}</Timeline.Description>
+        <Timeline.Detail summary={t.tlLogs}>
+          <p>{t.tlLogLine}</p>
+        </Timeline.Detail>
+      </Timeline.Item>
+      <Timeline.Item>
+        <Timeline.Title>{t.tlCreated}</Timeline.Title>
+        <Timeline.Time dateTime='2026-10-20T08:00:00Z'>
+          {t.tlCreatedOn}
+        </Timeline.Time>
+        <Timeline.Status>{t.tlCreatedStatus}</Timeline.Status>
+      </Timeline.Item>
+    </Timeline.Root>
+  )
+}
 export function DataExample({ id }: { id: string }) {
   const t = text[useLocale().locale]
   const [query, setQuery] = useState(''),
@@ -608,6 +657,7 @@ export function DataExample({ id }: { id: string }) {
     [inspected, setInspected] = useState('')
   if (id === 'stat') return <StatPreview />
   if (id === 'description-list') return <DescriptionListPreview />
+  if (id === 'timeline') return <TimelinePreview />
   if (id === 'sparkline') return <SparklinePreview />
   if (id === 'bar-list') return <BarListPreview />
   if (id === 'empty-state') return <EmptyPreview />
