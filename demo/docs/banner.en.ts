@@ -2,7 +2,7 @@ import type { ComponentDoc } from '../componentDocs'
 export const doc: ComponentDoc = {
   usage: [
     'Tell everyone using the product about a state of the whole product, such as maintenance, degraded service or an outage. Put Banner.Root first in AppShell.Root: it spans the shell edge to edge above the header, or above the sidebar and the content, and lines its icon up with the shell.',
-    'Name the state in Banner.Title, such as Scheduled maintenance; the tone colours the plane and the icon but never says it alone. Banner.Description adds when and what to do, in one line where it fits. Banner.Actions holds a link or button to the status page or the next step; on a phone the actions go under the text.',
+    'Name the state in Banner.Title, such as Scheduled maintenance; the tone colors the plane and the icon but never says it alone. Banner.Description adds when and what to do, in one line where it fits. Banner.Actions holds a link or button to the status page or the next step; on a phone the actions go under the text.',
     'The banner is a polite live region: a change to its text is announced without interrupting. onDismiss shows a dismiss button; remove the banner when it is called, and focus moves to the first control after it.',
   ],
   avoid: [

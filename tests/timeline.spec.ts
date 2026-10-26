@@ -129,7 +129,7 @@ test('a detail opens on the recessed plane with its label in line with the title
   await expect(trigger).toHaveAttribute('aria-expanded', 'false')
 })
 
-test('right to left the time is on the left; a phone keeps it all inside; compact is 4px; forced colours mark the current step', async ({
+test('right to left the time is on the left; a phone keeps it all inside; compact is 4px; forced colors mark the current step', async ({
   page,
 }) => {
   let list = await open(page)

@@ -29,6 +29,8 @@ const en = {
     'grid-system': 'Grid',
     spacing: 'Spacing',
     'component-sizes': 'Component sizes',
+    density: 'Density',
+    direction: 'Reading direction',
   },
   containersIntro:
     'Pick a container by task. It fills the available width up to its maximum and centers beyond it.',
@@ -84,6 +86,64 @@ const en = {
   readingPara2Tail: 'use a monospace face.',
   readingPara3:
     'This preview keeps the reading measure apart from the workspace width.',
+  densityIntro:
+    "Density is a second axis beside size. Size sets how big a control is; density sets how close blocks sit. SizeProvider density='compact' packs a region people scan more than they edit, such as a monitoring dashboard: blocks sit 12px apart and keep 8px inside, and the parts inside take their compact forms.",
+  densityTableLabel: 'Compact density by part',
+  densityCaption: 'What compact changes',
+  densityPartHeader: 'Part',
+  densityCompactHeader: 'Compact',
+  densityRows: [
+    [
+      'Gaps between Dashboard panels, card padding, the AppShell page inset',
+      '12px, --surf-ui-density-gap',
+    ],
+    [
+      'Gaps inside a card or panel, FilterBar, PageHeader and Stat.Group gaps',
+      '8px, --surf-ui-density-inset',
+    ],
+    ['Card and Dashboard.Panel titles', 'The label role'],
+    ['Table, Chart', "Compact, unless density='default'"],
+    ['DescriptionList rows', 'The small row, 32px'],
+    ['Banner, Timeline events', '4px above and below'],
+    ['Controls on touch screens', 'Their own size, at least 24px'],
+  ] as [string, string][],
+  densityUse:
+    "Keep forms, documents and phone-first screens at the default density. Set compact on a whole region, not on single parts, so neighboring blocks match; a table people read closely opts back with density='default'.",
+  densityFloor:
+    'Compact never takes a target under 24px, the WCAG 2.2 AA minimum. On touch screens its controls keep their size instead of growing to 44px.',
+  directionIntro:
+    "Components mirror for right-to-left languages when two things are set: dir='rtl' on the page or region turns the layout, and DirectionProvider direction='rtl' around it turns arrow keys and the popups that render outside the region. Every side in the stylesheets is logical, so padding, alignment and docked parts follow the reading direction.",
+  directionTableLabel: 'Right-to-left behavior by part',
+  directionCaption: 'What follows the reading direction',
+  directionPartHeader: 'Part',
+  directionRtlHeader: 'Right to left',
+  directionRows: [
+    ['Layout, padding and alignment', 'Mirrors'],
+    [
+      'Menu, Select, Popover and Tooltip popups',
+      "Take the provider's direction",
+    ],
+    ['Arrow keys in Tabs, Toolbar, Menubar and Slider', 'Swap left and right'],
+    ['Chevrons, back arrows and breadcrumb separators', 'Mirror'],
+    ['Scroll fades, the Switch thumb and Tree toggles', 'Mirror'],
+    ["A Chart's key and legend", 'Sit at the inline end'],
+    ["A Chart's plot", 'Runs as drawn, left to right'],
+    ['Arrow keys written with Kbd', 'Stay: they name physical keys'],
+    [
+      "A centered Dialog, a Sheet's side, a horizontal scrollbar",
+      'Stay physical',
+    ],
+  ] as [string, string][],
+  directionTextStart:
+    'For text that mixes directions, such as names and identifiers, see ',
+  directionTextLink: 'Content and localization',
+  directionTextEnd: '.',
+  directionPreviewLabel: 'The same parts left to right and right to left',
+  directionLtr: 'Left to right',
+  directionRtl: 'Right to left',
+  directionCrumbs: ['Projects', 'platform-api', 'Deployments'],
+  directionNotify: 'Notify on failure',
+  directionTrail: (side: string) => `Breadcrumb, ${side}`,
 }
 export const text: Record<Locale, typeof en> = {
   en,
@@ -116,6 +176,8 @@ export const text: Record<Locale, typeof en> = {
       'grid-system': '그리드',
       spacing: '간격',
       'component-sizes': '컴포넌트 크기',
+      density: '밀도',
+      direction: '읽기 방향',
     },
     containersIntro:
       '작업에 맞는 컨테이너를 고르세요. 컨테이너는 최대 너비까지 공간을 채우고, 그보다 넓으면 가운데에 놓입니다.',
@@ -164,5 +226,59 @@ export const text: Record<Locale, typeof en> = {
     readingPara2Intro: '배포 정책에 맞춰 서비스 권한을 검토하세요.',
     readingPara2Tail: '같은 식별자는 고정폭 글꼴로 씁니다.',
     readingPara3: '이 미리보기는 읽기 폭을 작업 공간 너비와 따로 둡니다.',
+    densityIntro:
+      "밀도는 크기 옆의 두 번째 축입니다. 크기는 컨트롤이 얼마나 큰지를, 밀도는 블록이 얼마나 가까이 놓이는지를 정합니다. SizeProvider density='compact'는 모니터링 대시보드처럼 편집보다 훑어보는 영역을 촘촘하게 만듭니다. 블록 사이는 12px, 안쪽은 8px이 되고, 안의 부품은 촘촘한 형태를 씁니다.",
+    densityTableLabel: '부품별 촘촘한 밀도',
+    densityCaption: 'compact가 바꾸는 것',
+    densityPartHeader: '부품',
+    densityCompactHeader: 'compact',
+    densityRows: [
+      [
+        'Dashboard 패널 사이 간격, 카드 패딩, AppShell 페이지 여백',
+        '12px, --surf-ui-density-gap',
+      ],
+      [
+        '카드나 패널 안쪽 간격, FilterBar, PageHeader, Stat.Group 간격',
+        '8px, --surf-ui-density-inset',
+      ],
+      ['Card와 Dashboard.Panel 제목', '레이블 역할'],
+      ['Table, Chart', "density='default'가 아니면 촘촘하게"],
+      ['DescriptionList 줄', '작은 줄, 32px'],
+      ['Banner, Timeline 사건', '위아래 4px'],
+      ['터치 화면의 컨트롤', '제 크기, 최소 24px'],
+    ],
+    densityUse:
+      "폼, 문서, 휴대폰 중심 화면은 기본 밀도로 두세요. compact는 부품 하나가 아니라 영역 전체에 정해서 이웃한 블록이 서로 맞게 하세요. 자세히 읽는 표는 density='default'로 되돌립니다.",
+    densityFloor:
+      'compact는 대상을 WCAG 2.2 AA 최소치인 24px 밑으로 줄이지 않습니다. 터치 화면에서 컨트롤은 44px로 커지는 대신 제 크기를 지킵니다.',
+    directionIntro:
+      "두 가지를 정하면 컴포넌트가 오른쪽에서 왼쪽으로 쓰는 언어에 맞게 뒤집힙니다. 페이지나 영역의 dir='rtl'은 레이아웃을, 그것을 감싼 DirectionProvider direction='rtl'은 화살표 키와 영역 밖에 그려지는 팝업을 뒤집습니다. 스타일시트의 모든 방향은 논리 속성이라서 패딩, 정렬, 붙어 있는 부품이 읽기 방향을 따릅니다.",
+    directionTableLabel: '부품별 오른쪽에서 왼쪽 동작',
+    directionCaption: '읽기 방향을 따르는 것',
+    directionPartHeader: '부품',
+    directionRtlHeader: '오른쪽에서 왼쪽',
+    directionRows: [
+      ['레이아웃, 패딩, 정렬', '뒤집힙니다'],
+      ['Menu, Select, Popover, Tooltip 팝업', 'Provider의 방향을 따릅니다'],
+      [
+        'Tabs, Toolbar, Menubar, Slider의 화살표 키',
+        '왼쪽과 오른쪽이 바뀝니다',
+      ],
+      ['갈매기표, 뒤로 화살표, 브레드크럼 구분자', '뒤집힙니다'],
+      ['스크롤 페이드, Switch 손잡이, Tree 토글', '뒤집힙니다'],
+      ['Chart의 키와 범례', '인라인 끝에 놓입니다'],
+      ['Chart의 플롯', '그린 대로 왼쪽에서 오른쪽으로'],
+      ['Kbd로 적은 화살표 키', '그대로: 물리 키를 가리킵니다'],
+      ['가운데 Dialog, Sheet의 side, 가로 스크롤 막대', '물리 방향 그대로'],
+    ],
+    directionTextStart: '이름이나 식별자처럼 방향이 섞인 글은 ',
+    directionTextLink: '콘텐츠와 현지화',
+    directionTextEnd: '를 보세요.',
+    directionPreviewLabel: '같은 부품의 왼쪽에서 오른쪽, 오른쪽에서 왼쪽',
+    directionLtr: '왼쪽에서 오른쪽',
+    directionRtl: '오른쪽에서 왼쪽',
+    directionCrumbs: ['프로젝트', 'platform-api', '배포'],
+    directionNotify: '실패하면 알림',
+    directionTrail: (side: string) => `브레드크럼, ${side}`,
   },
 }

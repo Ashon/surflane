@@ -1,5 +1,9 @@
 import React, { useRef, useState } from 'react'
 import {
+  Breadcrumbs,
+  ChoiceLabel,
+  DirectionProvider,
+  Switch,
   Button,
   Container,
   Grid,
@@ -11,7 +15,6 @@ import {
   Table,
   Text,
   Toggle,
-  Breadcrumbs,
 } from '@surflane/ui'
 import { GridBlueprint } from './BlueprintCanvas'
 import { ComponentSizeGuide } from './ComponentSizeGuide'
@@ -155,6 +158,91 @@ export function LayoutPreview() {
   )
 }
 
+/** A part and what one setting does to it, in two columns of short fragments. */
+function PartTable({
+  label,
+  caption,
+  headers,
+  rows,
+}: {
+  label: string
+  caption: string
+  headers: [string, string]
+  rows: [string, string][]
+}) {
+  return (
+    <Table.Container bleed label={label} orientation='horizontal'>
+      <Table.Root>
+        <Table.Caption>{caption}</Table.Caption>
+        <Table.Head>
+          <Table.Row>
+            {headers.map((header) => (
+              <Table.HeaderCell key={header} scope='col'>
+                {header}
+              </Table.HeaderCell>
+            ))}
+          </Table.Row>
+        </Table.Head>
+        <Table.Body>
+          {rows.map(([part, value]) => (
+            <Table.Row key={part}>
+              <Table.HeaderCell scope='row'>{part}</Table.HeaderCell>
+              <Table.Cell>{value}</Table.Cell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table.Root>
+    </Table.Container>
+  )
+}
+/** The same breadcrumbs and switch in each direction: the trail and the thumb mirror. */
+function DirectionPreview() {
+  const t = text[useLocale().locale]
+  return (
+    <div
+      className='direction-preview'
+      role='group'
+      aria-label={t.directionPreviewLabel}
+    >
+      {(['ltr', 'rtl'] as const).map((dir) => (
+        <DirectionProvider key={dir} direction={dir}>
+          <div dir={dir} className='direction-preview-pane'>
+            <strong>{dir === 'rtl' ? t.directionRtl : t.directionLtr}</strong>
+            <Breadcrumbs.Root
+              aria-label={t.directionTrail(
+                dir === 'rtl' ? t.directionRtl : t.directionLtr,
+              )}
+            >
+              <Breadcrumbs.List>
+                {t.directionCrumbs.map((crumb, index) => (
+                  <Breadcrumbs.Item key={crumb}>
+                    {index > 0 && <Breadcrumbs.Separator />}
+                    {index === t.directionCrumbs.length - 1 ? (
+                      <Breadcrumbs.Current>{crumb}</Breadcrumbs.Current>
+                    ) : (
+                      <Breadcrumbs.Link href='#direction'>
+                        {crumb}
+                      </Breadcrumbs.Link>
+                    )}
+                  </Breadcrumbs.Item>
+                ))}
+              </Breadcrumbs.List>
+            </Breadcrumbs.Root>
+            <ChoiceLabel
+              control={
+                <Switch.Root defaultChecked>
+                  <Switch.Thumb />
+                </Switch.Root>
+              }
+            >
+              {t.directionNotify}
+            </ChoiceLabel>
+          </div>
+        </DirectionProvider>
+      ))}
+    </div>
+  )
+}
 export function LayoutFoundation() {
   const t = text[useLocale().locale]
   return (
@@ -222,6 +310,32 @@ export function LayoutFoundation() {
       </FoundationSection>
       <FoundationSection id='component-sizes'>
         <ComponentSizeGuide />
+      </FoundationSection>
+      <FoundationSection id='density'>
+        <p>{t.densityIntro}</p>
+        <PartTable
+          label={t.densityTableLabel}
+          caption={t.densityCaption}
+          headers={[t.densityPartHeader, t.densityCompactHeader]}
+          rows={t.densityRows}
+        />
+        <p>{t.densityUse}</p>
+        <p>{t.densityFloor}</p>
+      </FoundationSection>
+      <FoundationSection id='direction'>
+        <p>{t.directionIntro}</p>
+        <PartTable
+          label={t.directionTableLabel}
+          caption={t.directionCaption}
+          headers={[t.directionPartHeader, t.directionRtlHeader]}
+          rows={t.directionRows}
+        />
+        <DirectionPreview />
+        <p>
+          {t.directionTextStart}
+          <Link href='/foundations/content'>{t.directionTextLink}</Link>
+          {t.directionTextEnd}
+        </p>
       </FoundationSection>
     </FoundationPage>
   )

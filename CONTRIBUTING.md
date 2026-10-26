@@ -1,6 +1,6 @@
 # Contributing to Surflane
 
-Word catalog text by [Writing for Surflane](docs/writing.md). [Release and validation](docs/release-and-validation.md) covers what each check proves and how a release ships.
+Word catalog text by [Writing for Surflane](docs/writing.md). [Release and validation](docs/release-and-validation.md) covers what each check proves and how a release ships. A new or changed component meets the [component checklist](docs/component-checklist.md).
 
 ## Develop
 

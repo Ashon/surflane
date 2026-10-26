@@ -228,7 +228,7 @@
   .surf-toast-viewport[data-layout='stack'] > .surf-toast[data-ending-style] {
     transition-duration: 0s;
   }
-  /* Touch targets grow to the target size with the small Button scheme; the close button stays centred
+  /* Touch targets grow to the target size with the small Button scheme; the close button stays centered
      on the first line. */
   @media (max-width: 760px), (pointer: coarse) {
     .surf-toast-close {

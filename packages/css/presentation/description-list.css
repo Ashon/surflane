@@ -4,7 +4,7 @@
 
 @layer surflane.components {
   /* Terms and their values, a row each, at least as tall as a menu row with its
-     line centred, so a badge or a copy action fits without growing it: the term in
+     line centered, so a badge or a copy action fits without growing it: the term in
      muted ink in a column of its own width, the value beside it in ink. Where a row
      is too narrow for both, the value moves under its term. No lines between rows:
      the term column and the rhythm carry the structure. */

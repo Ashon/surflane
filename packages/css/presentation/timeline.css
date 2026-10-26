@@ -107,7 +107,7 @@
     :is(.surf-timeline-mark, .surf-timeline-status) {
     color: var(--surf-status-progress-fg);
   }
-  /* Forced colours drop the plane, so a line marks the current step. */
+  /* Forced colors drop the plane, so a line marks the current step. */
   @media (forced-colors: active) {
     .surf-timeline-item[data-current] {
       outline: 1px solid CanvasText;

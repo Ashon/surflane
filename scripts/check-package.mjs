@@ -96,7 +96,7 @@ console.log(
   `@surflane: ${literalLengths.length} literal lengths remain (ceiling ${literalCeiling})`,
 )
 // Hover and pressed are one state layer painted as a background image over whatever
-// fill the control has, and selected or current fills set the colour alone. A
+// fill the control has, and selected or current fills set the color alone. A
 // shorthand would replace the fill under the layer, or wipe the layer off a selection.
 const stateFills = [...typeSheets, 'demo/style.css'].flatMap((file) =>
   readFileSync(file, 'utf8')
@@ -115,7 +115,7 @@ assert.deepEqual(
   `State fills that replace the background instead of layering:\n${stateFills.join('\n')}`,
 )
 console.log(
-  '@surflane: hover and pressed layer over every fill, selections set the colour',
+  '@surflane: hover and pressed layer over every fill, selections set the color',
 )
 // Forced colors replace every token, so a selection drawn with --surf-selected alone
 // vanishes there. Each selected, current or pressed fill restates its state inside a

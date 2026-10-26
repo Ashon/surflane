@@ -24,7 +24,7 @@ export type CopyButtonProps = Omit<
   onResult?: (result: 'copied' | 'failed') => void
   /** Shows the icon alone, in a square button, where a row has no room for the
    * text: the label stays the button's name and live result, and shows as a
-   * tooltip. The icon and its colour show the result. */
+   * tooltip. The icon and its color show the result. */
   labelHidden?: boolean
 }
 const copyIcons = { idle: 'copy', copied: 'check', failed: 'alert' } as const

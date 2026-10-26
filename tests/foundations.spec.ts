@@ -274,3 +274,68 @@ test('foundations remain accessible in both themes and on narrow screens', async
       })
     }
 })
+
+test('the layout foundation says what density and reading direction change, and its preview mirrors', async ({
+  page,
+}) => {
+  for (const [path, names, trail] of [
+    [
+      '/foundations/layout',
+      [
+        'Density',
+        'Reading direction',
+        'What compact changes',
+        'What follows the reading direction',
+      ],
+      ['Breadcrumb, Left to right', 'Breadcrumb, Right to left'],
+    ],
+    [
+      '/ko/foundations/layout',
+      ['밀도', '읽기 방향', 'compact가 바꾸는 것', '읽기 방향을 따르는 것'],
+      ['브레드크럼, 왼쪽에서 오른쪽', '브레드크럼, 오른쪽에서 왼쪽'],
+    ],
+  ] as const) {
+    await page.goto(path)
+    await waitForCatalogReady(page)
+    await expect(
+      page.getByRole('heading', { name: names[0], exact: true }),
+    ).toBeVisible()
+    await expect(
+      page.getByRole('heading', { name: names[1], exact: true }),
+    ).toBeVisible()
+    await expect(
+      page.getByRole('table', { name: names[2], exact: true }),
+    ).toBeVisible()
+    await expect(
+      page.getByRole('table', { name: names[3], exact: true }),
+    ).toBeVisible()
+    // The same trail and switch run the other way right to left.
+    const lefts = (name: string) =>
+      page
+        .getByRole('navigation', { name, exact: true })
+        .getByRole('listitem')
+        .evaluateAll((items) =>
+          items.map((item) => item.getBoundingClientRect().left),
+        )
+    const ltr = await lefts(trail[0])
+    const rtl = await lefts(trail[1])
+    expect(ltr[0]).toBeLessThan(ltr[2])
+    expect(rtl[0]).toBeGreaterThan(rtl[2])
+    const thumbs = await page
+      .locator('.direction-preview-pane')
+      .evaluateAll((panes) =>
+        panes.map((pane) => {
+          const track = pane
+            .querySelector('.surf-switch')!
+            .getBoundingClientRect()
+          const thumb = pane
+            .querySelector('.surf-switch-thumb')!
+            .getBoundingClientRect()
+          return thumb.left - track.left > track.right - thumb.right
+            ? 'end-right'
+            : 'end-left'
+        }),
+      )
+    expect(thumbs).toEqual(['end-right', 'end-left'])
+  }
+})

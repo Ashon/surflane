@@ -8,7 +8,7 @@ export const doc: ComponentDoc = {
   ],
   avoid: [
     "Don't use a timeline for records the reader sorts or filters; use a Table.",
-    "Don't let colour or the icon carry the state alone. Write it in Status.",
+    "Don't let color or the icon carry the state alone. Write it in Status.",
     "Don't write relative times alone, such as 5 minutes ago; keep the absolute instant in dateTime and in the text or a title.",
   ],
   keyboard: [

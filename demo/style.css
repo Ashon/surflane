@@ -3352,7 +3352,7 @@ body,
   --surf-app-shell-page-radius: var(--surf-radius-md);
   block-size: 100%;
 }
-/* The avatar sits on the navigation's icon column (a 24px mark centred on the 16px
+/* The avatar sits on the navigation's icon column (a 24px mark centered on the 16px
  * icons) and its name starts on the navigation label line, as the brand's does. */
 .landing-console-account {
   display: flex;
@@ -3803,4 +3803,15 @@ body,
   flex-direction: column;
   gap: var(--surf-layout-gutter);
   min-width: 0;
+}
+.direction-preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: var(--surf-space-6);
+  margin-block: var(--surf-space-6);
+}
+.direction-preview-pane {
+  display: grid;
+  align-content: start;
+  gap: var(--surf-space-3);
 }

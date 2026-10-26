@@ -92,7 +92,7 @@ test('dismissing moves focus to the next control, and the actions go under the t
   expect(layout).toEqual({ below: true, inside: true })
 })
 
-test('right to left the dismiss button is on the left; forced colours keep an edge; compact is 4px above and below', async ({
+test('right to left the dismiss button is on the left; forced colors keep an edge; compact is 4px above and below', async ({
   page,
 }) => {
   const banner = await open(page)

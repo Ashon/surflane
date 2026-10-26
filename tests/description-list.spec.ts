@@ -103,7 +103,7 @@ test('a cut value keeps the whole value, and the copy action copies it and names
   await expect(copy).toHaveAccessibleName('Copy')
   await expect(copy).toHaveAccessibleDescription('Image')
   // The icon-only action shows its label as a tooltip; the result is its name, said
-  // in place, and the check icon in the success colour.
+  // in place, and the check icon in the success color.
   await copy.hover()
   await expect(page.locator('.surf-tooltip')).toHaveText('Copy')
   await copy.click()

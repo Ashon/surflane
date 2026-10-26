@@ -115,7 +115,7 @@ export const Banner = {
     HTMLDivElement,
     React.ComponentPropsWithoutRef<'div'>
   >('div', 'surf-banner-content'),
-  /** The state in words, such as "Scheduled maintenance"; the tone's colour never
+  /** The state in words, such as "Scheduled maintenance"; the tone's color never
    * says it alone. */
   Title: /* @__PURE__ */ part<
     HTMLElement,

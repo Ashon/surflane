@@ -79,7 +79,7 @@
       margin-inline-start: 0;
     }
   }
-  /* Forced colours drop the tone's plane, so a line keeps the notice apart. */
+  /* Forced colors drop the tone's plane, so a line keeps the notice apart. */
   @media (forced-colors: active) {
     .surf-banner {
       border-block-end: 1px solid CanvasText;
