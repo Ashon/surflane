@@ -3,7 +3,7 @@ export const doc: ComponentDoc = {
   usage: [
     'Use the workspace layout to pair main content with a sidebar that holds a brand, a collapse toggle, and an account at the bottom. For documentation sites that need a global top rail, use the default header layout.',
     'AppShell provides the layout and native link styles; the caller owns routes, account, and theme. The shell keeps the collapsed state itself: SidebarToggle collapses the sidebar, ⌘B (Ctrl+B elsewhere) does too outside text fields, persist remembers the state in localStorage, and on the rail each Link shows its name as a tooltip. Pass collapsed and onCollapsedChange to control the state, or read a cookie into defaultCollapsed so a server-rendered first paint is right.',
-    "The workspace sidebar collapses from 224px to 72px, and icons keep their positions. Brand is its top row: it centers the product mark, about 24px, on the links' icon column, and hides on the rail, where the toggle takes its place. In the header it sits on one line.",
+    "The workspace sidebar collapses from 224px to 72px, and icons keep their positions. Brand is its top row: it centers the product mark, about 24px, on the links' icon column, and SidebarToggle ends the row, as tall as a link and as far from the edge. On the rail the brand hides and the toggle takes its place. In the header it sits on one line.",
     'Brand sets the product name on one line in the subsection role (Manrope 500, 16/24, --surf-ink, default tracking), starting on the link label line. A long name truncates with an ellipsis and keeps its full text in title. Its description is an optional second line in the caption role (12/18, --surf-ink-muted), such as the workspace.',
     'Nav stacks Links with even gaps and, in the workspace sidebar, insets them so their icons sit on the rail. Its label shows over the links, keeps its row on the rail, and names the navigation; without one, give Nav an aria-label.',
     "Link takes render. Pass a router's link to keep client navigation, such as render={<NextLink href='/resources' />}. The account row is a Link rendered as the menu's trigger, render={<Menu.Trigger />}, with a 24px Avatar as its icon, so it lines up with the links.",
@@ -24,7 +24,7 @@ export const doc: ComponentDoc = {
     "Don't give two shells on one page the shortcut. Set shortcut={false} on any shell that only illustrates, such as a mockup.",
   ],
   anatomy:
-    'AppShell.Root(layout=workspace) → mobile Header(Brand, MenuTrigger) + Sidebar(Brand, SidebarToggle on the edge, ScrollArea(Nav(Links)), Footer(Link as the account menu trigger)) + Content(ScrollArea → Page); mobile: bottom Sheet(Header(Title, Description), Body(Nav(Links)), Footer(account, Close menu))',
+    'AppShell.Root(layout=workspace) → mobile Header(Brand, MenuTrigger) + Sidebar(Brand, SidebarToggle ending the brand row, ScrollArea(Nav(Links)), Footer(Link as the account menu trigger)) + Content(ScrollArea → Page); mobile: bottom Sheet(Header(Title, Description), Body(Nav(Links)), Footer(account, Close menu))',
   keyboard: [
     'Tab and Shift+Tab reach native links and buttons. Enter follows a link.',
     'The mobile bottom Sheet opens on the current destination. Choosing a destination closes the Sheet and moves focus to the new content heading.',

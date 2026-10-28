@@ -281,47 +281,38 @@
     background: transparent;
     border-radius: 0;
   }
-  /* The toggle sits on the sidebar's edge, a round button half over the content.
-   * Collapsed, it centers in the rail where the brand was. */
+  /* The toggle ends the brand row: an icon button as tall as a link, centered on the
+   * row, as far from the sidebar's inner edge as the links are. Collapsed, it centers
+   * in the rail where the brand was; by default both places stand 16px from the
+   * edge, so the toggle travels with it. On touch it grows to the target size. */
+  .surf-app-shell[data-layout='workspace'] > .surf-app-shell-sidebar {
+    --surf-app-shell-toggle-size: var(--surf-app-shell-icon-column);
+  }
+  @media (pointer: coarse) {
+    .surf-app-shell[data-layout='workspace'] > .surf-app-shell-sidebar {
+      --surf-app-shell-toggle-size: max(
+        var(--surf-app-shell-icon-column),
+        var(--surf-control-target-size)
+      );
+    }
+  }
   .surf-app-shell[data-layout='workspace']
     > .surf-app-shell-sidebar
     > .surf-app-shell-toggle {
-    --surf-app-shell-toggle-size: var(--surf-space-8);
     position: absolute;
-    inset-block-start: var(--surf-space-5);
-    inset-inline-end: calc(var(--surf-app-shell-toggle-size) / -2);
-    border: 1px solid var(--surf-control-border);
-    background: var(--surf-canvas);
+    inset-block-start: calc(
+      (var(--surf-app-shell-brand-height) - var(--surf-app-shell-toggle-size)) /
+        2
+    );
+    inset-inline-end: var(--surf-space-4);
     z-index: 1;
   }
   .surf-app-shell[data-layout='workspace'][data-sidebar='collapsed']
     > .surf-app-shell-sidebar
     > .surf-app-shell-toggle {
-    --surf-app-shell-toggle-size: var(--surf-space-10);
     inset-inline-end: calc(
       (var(--surf-app-shell-rail-width) - var(--surf-app-shell-toggle-size)) / 2
     );
-    border-color: transparent;
-    background: transparent;
-  }
-  /* On touch the toggle grows to the target size, expanded or collapsed. */
-  @media (pointer: coarse) {
-    .surf-app-shell[data-layout='workspace']
-      > .surf-app-shell-sidebar
-      > .surf-app-shell-toggle {
-      --surf-app-shell-toggle-size: max(
-        var(--surf-space-8),
-        var(--surf-control-target-size)
-      );
-    }
-    .surf-app-shell[data-layout='workspace'][data-sidebar='collapsed']
-      > .surf-app-shell-sidebar
-      > .surf-app-shell-toggle {
-      --surf-app-shell-toggle-size: max(
-        var(--surf-space-10),
-        var(--surf-control-target-size)
-      );
-    }
   }
   /* A ScrollArea in the sidebar takes the room between the brand and the footer, and
    * one in the content fills it, so the menu and the page scroll on their own. */
@@ -341,6 +332,15 @@
     > .surf-app-shell-sidebar
     > .surf-app-shell-brand {
     padding-inline: var(--surf-space-4);
+  }
+  /* With a toggle at the end of its row, the brand's name stops short of it. */
+  .surf-app-shell[data-layout='workspace']
+    > .surf-app-shell-sidebar:has(> .surf-app-shell-toggle)
+    > .surf-app-shell-brand {
+    padding-inline-end: calc(
+      var(--surf-space-4) + var(--surf-app-shell-toggle-size) +
+        var(--surf-space-2)
+    );
   }
   /* Collapsed, the toggle takes the brand's place on the rail. */
   .surf-app-shell[data-layout='workspace'][data-sidebar='collapsed']
@@ -462,7 +462,7 @@
       min-block-size: var(--surf-control-target-size);
     }
   }
-  /* Above the icon button's size scheme: the edge toggle is a circle of its own size. */
+  /* Above the icon button's size scheme: the toggle is as tall as a link row. */
   .surf-app-shell[data-layout='workspace']
     > .surf-app-shell-sidebar
     > .surf-app-shell-toggle {
@@ -471,6 +471,5 @@
     min-inline-size: var(--surf-app-shell-toggle-size);
     min-block-size: var(--surf-app-shell-toggle-size);
     padding: 0;
-    border-radius: var(--surf-radius-full);
   }
 }

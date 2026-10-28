@@ -20,8 +20,17 @@ test('collapse keeps icons fixed, names accessible and account at the bottom', a
     exact: true,
   })
   const expandedBounds = (await expandedToggle.boundingBox())!
-  expect(expandedBounds.width).toBe(32)
+  expect(expandedBounds.width).toBe(40)
   expect(expandedBounds.height).toBe(expandedBounds.width)
+  // It ends the brand row, centered on it, as far from the edge as the links' rows.
+  const brand = (await sidebar.locator('.surf-app-shell-brand').boundingBox())!
+  expect(expandedBounds.y + expandedBounds.height / 2).toBe(
+    brand.y + brand.height / 2,
+  )
+  const row = (await sidebar
+    .getByRole('link', { name: 'Overview', exact: true })
+    .boundingBox())!
+  expect(expandedBounds.x + expandedBounds.width).toBe(row.x + row.width)
   const x = (await resources.locator('svg').boundingBox())!.x
   const account = sidebar.getByRole('button', {
     name: 'Preview user account menu',
@@ -448,7 +457,7 @@ test('a shell that fills the window keeps a square edge, rounds only its page an
   expect(box.x + box.width).toBe(390)
 })
 
-test('a workspace shell takes the window height, scrolls its menu and page inside and puts the toggle on the sidebar edge', async ({
+test('a workspace shell takes the window height, scrolls its menu and page inside and ends the brand row with the toggle', async ({
   page,
 }) => {
   const React = await import('react')
@@ -464,6 +473,7 @@ test('a workspace shell takes the window height, scrolls its menu and page insid
         h(
           AppShell.Sidebar,
           { 'aria-label': 'Harbor' },
+          h(AppShell.Brand, { name: 'Harbor operations control center' }),
           h(AppShell.SidebarToggle),
           h(
             ScrollArea,
@@ -523,14 +533,22 @@ test('a workspace shell takes the window height, scrolls its menu and page insid
   expect((await scrolls('.surf-app-shell-sidebar')).scrolls).toBe(true)
   const footer = (await root.locator('.surf-app-shell-footer').boundingBox())!
   expect(footer.y + footer.height).toBeLessThanOrEqual(900)
-  // Expanded, the round toggle straddles the sidebar's edge.
+  // Expanded, the toggle ends the brand row, 16px from the sidebar's inner edge and
+  // centered on the row, and a long name stops short of it.
   const toggle = root.locator('.surf-app-shell-toggle')
   const sidebar = (await root.locator('.surf-app-shell-sidebar').boundingBox())!
+  const brand = (await root.locator('.surf-app-shell-brand').boundingBox())!
   let box = (await toggle.boundingBox())!
-  expect(box.width).toBe(32)
-  expect(box.x + box.width / 2).toBe(sidebar.x + sidebar.width)
-  await expect(toggle).toHaveCSS('border-top-left-radius', /^(1[6-9]|[2-9]\d)/)
-  // Collapsed, it centers in the rail.
+  expect(box.width).toBe(40)
+  expect(box.x + box.width).toBe(sidebar.x + sidebar.width - 16)
+  expect(box.y + box.height / 2).toBe(brand.y + brand.height / 2)
+  const name = root.locator('.surf-app-shell-brand-name')
+  const nameBox = (await name.boundingBox())!
+  expect(nameBox.x + nameBox.width).toBeLessThanOrEqual(box.x - 8)
+  expect(
+    await name.evaluate((element) => element.scrollWidth > element.clientWidth),
+  ).toBe(true)
+  // Collapsed, it centers in the rail where the brand was.
   await mount(shell(true))
   box = (await toggle.boundingBox())!
   expect(box.width).toBe(40)
@@ -668,7 +686,7 @@ test('Brand, Nav and a Link rendered as a button line up on the icon column, and
     /^40px /,
   )
 })
-test('right to left, the sidebar moves to the right and its edge toggle follows its inner edge', async ({
+test('right to left, the sidebar moves to the right and its toggle ends the brand row on the left', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 1000 })
@@ -687,9 +705,8 @@ test('right to left, the sidebar moves to the right and its edge toggle follows 
   const edge = (await shell
     .getByRole('button', { name: 'Collapse workspace sidebar', exact: true })
     .boundingBox())!
-  // The toggle straddles the sidebar's inner edge, which now faces left.
-  expect(edge.x).toBeLessThan(sidebar.x)
-  expect(edge.x + edge.width).toBeGreaterThan(sidebar.x)
+  // The brand row ends at the sidebar's inner edge, which now faces left.
+  expect(edge.x).toBe(sidebar.x + 16)
 })
 for (const [width, inset] of [
   [1440, 12],

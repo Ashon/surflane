@@ -15,6 +15,10 @@
 - `Chart references` mark when something changed on the x axis: `{ x, label, tone }` draws an event line and `{ xFrom, xTo, label, tone }` a period, at a datum's id on a category axis or a time on a time axis. The legend names each with its place as the axis writes it, and inspecting a row lists the events nearest it and the periods around it in the readout and the floating values. Value references work as before.
 - `ScrollArea fade` (`both`, `start`, `end` or `none`) chooses which edges fade while they hide content, so an app no longer overrides the mask on internal classes.
 
+### Changed
+
+- A workspace AppShell's `SidebarToggle` ends the brand row instead of floating on the sidebar's edge: an icon button as tall as a link row (40px, the touch target on touch), centered on the row and 16px from the sidebar's inner edge like the links, with the brand's name stopping short of it. On the rail it still takes the brand's place, and both places sit 16px from the edge, so it moves with the sidebar as it collapses.
+
 ### Fixed
 
 - A fixed BottomNavigation no longer covers toasts or the end of an AppShell. Wherever it shows, the toast stack rises above it and the shell ends where it begins, so apps stop offsetting them by hand. Other scrolling content still pads by `--surf-size-bottom-navigation`.

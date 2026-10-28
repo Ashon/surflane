@@ -967,6 +967,7 @@ export function Shell() {
             description='Port of Busan'
             render={<a href='/harbor' />}
           />
+          <AppShell.SidebarToggle />
           <AppShell.Nav label='Workspace'>
             <AppShell.Link
               href='/harbor/berths'
