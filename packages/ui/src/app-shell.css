@@ -424,22 +424,20 @@
     gap: var(--surf-space-3);
     min-inline-size: 0;
   }
-  /* First in a page it spans the page's top edge to edge, a line under it, as tall
-   * as the brand row less the shell's inset above and below: what it holds stands on
-   * the brand row's line, and starts and ends where the page's content does. The
-   * line hangs below that height, so it doesn't move the line of the bar's items. */
+  /* First in a page it starts at the page's top edge, as tall as the brand row less
+   * the shell's inset above and below: what it holds stands on the brand row's line,
+   * and starts where the page's content does. No line parts it from the page: the
+   * space under it does, and the current tab's plane marks where the reader is. */
   .surf-app-shell-page > .surf-app-shell-bar:first-child {
-    box-sizing: content-box;
+    box-sizing: border-box;
     block-size: calc(
       var(--surf-app-shell-brand-height) - var(--surf-app-shell-inset) * 2
     );
-    margin: calc(var(--surf-app-shell-page-padding) * -1);
-    margin-block-end: var(--surf-app-shell-page-padding);
-    padding-inline: var(--surf-app-shell-page-padding);
-    border-block-end: 1px solid var(--surf-line);
+    margin-block: calc(var(--surf-app-shell-page-padding) * -1)
+      var(--surf-app-shell-page-padding);
   }
-  /* On a phone there is no brand row to stand on: the bar keeps its line, as tall as
-   * what it holds. */
+  /* On a phone there is no brand row to stand on: the bar is as tall as what it
+   * holds. */
   @media (max-width: 760px) {
     .surf-app-shell-page > .surf-app-shell-bar:first-child {
       block-size: auto;

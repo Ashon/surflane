@@ -765,7 +765,7 @@ test('below collapseBelow the sidebar starts on its rail, and only the wide stat
   await expect(shell).toHaveAttribute('data-sidebar', 'collapsed')
 })
 
-test("a page's tab bar spans its top on the brand row's line and starts where its content does", async ({
+test("a page's tab bar sits at its top on the brand row's line and starts where its content does", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 1000 })
@@ -789,7 +789,7 @@ test("a page's tab bar spans its top on the brand row's line and starts where it
         page: box('.surf-app-shell-page'),
         padding: parseFloat(getComputedStyle(sheet).paddingInlineStart),
         line: getComputedStyle(element.querySelector('.surf-app-shell-bar')!)
-          .borderBlockEndWidth,
+          .borderBlockEndStyle,
       }
     })
   for (const density of ['default', 'compact']) {
@@ -798,11 +798,10 @@ test("a page's tab bar spans its top on the brand row's line and starts where it
         element.setAttribute('data-ui-density', 'compact'),
       )
     const at = await measure()
-    // Edge to edge at the page's top, with a line under it.
+    // At the page's top, parted from the page by space, not a line.
     expect(at.bar.y).toBe(at.page.y)
-    expect(at.bar.x).toBe(at.page.x)
-    expect(at.bar.w).toBe(at.page.w)
-    expect(at.line).toBe('1px')
+    expect(at.bar.x).toBe(at.page.x + at.padding)
+    expect(at.line).toBe('none')
     // Its tabs stand on the brand row's line and start where the content does.
     expect(at.link.y + at.link.h / 2).toBe(at.brand.y + at.brand.h / 2)
     expect(at.link.x).toBe(at.page.x + at.padding)

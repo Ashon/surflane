@@ -8,6 +8,7 @@
 
 - Content in a ScrollArea no longer makes the document taller than the window. A visually hidden live region, such as a DataState's, is absolutely placed. The viewport wasn't positioned, so the region was placed against the scroller's root and hung below it at its spot after the content. The whole document then scrolled: a wheel over a sidebar moved the shell, and a reload restored the page part of the way down. The viewport now holds such content, and a DataState holds its own live region wherever it sits.
 - `DataState layout='page'` centers only its loading, error and empty notices. Ready content, and stale content under its caution, keep their own layout instead of being centered and held 40vh tall.
+- `AppShell.Bar` no longer draws a line under it. A line is for where planes can't part two areas; here the space under the bar parts it from the page, and the current tab's plane marks where the reader is. The bar starts where the page's content does, still on the brand row's line.
 
 ## 0.16.0
 

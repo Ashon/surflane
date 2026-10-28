@@ -268,10 +268,11 @@ const Content = function AppShellContent({
   )
 }
 /**
- * A page's own tabs, such as a project's pages as links, first in a Page. It spans
- * the page's top edge to edge with a line under it, as tall as the brand row less the
- * shell's inset, so what it holds stands on the brand row's line and starts where the
- * page's content does. On a phone it is as tall as what it holds.
+ * A page's own tabs, such as a project's pages as links, first in a Page. It starts at
+ * the page's top edge, as tall as the brand row less the shell's inset, so what it
+ * holds stands on the brand row's line and starts where the page's content does. The
+ * space under it parts it from the page, not a line. On a phone it is as tall as
+ * what it holds.
  */
 const Bar = function AppShellBar({
   className,

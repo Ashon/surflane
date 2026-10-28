@@ -5,7 +5,7 @@ export const doc: ComponentDoc = {
     'AppShell provides the layout and native link styles; the caller owns routes, account, and theme. The shell keeps the collapsed state itself: SidebarToggle collapses the sidebar, ⌘B (Ctrl+B elsewhere) does too outside text fields, persist remembers the state in localStorage, and on the rail each Link shows its name as a tooltip. Pass collapsed and onCollapsedChange to control the state, or read a cookie into defaultCollapsed so a server-rendered first paint is right.',
     "The workspace sidebar collapses from 224px to 72px, and icons keep their positions. Brand is its top row: it centers the product mark, about 24px, on the links' icon column, and SidebarToggle ends the row, as tall as a link and as far from the edge. On the rail the brand hides and the toggle takes its place. In the header it sits on one line.",
     'Brand sets the product name in the subsection role (Manrope 500, 16/24, --surf-ink, default tracking), starting on the link label line. In the sidebar a name with no description takes up to two lines of the brand row before it is cut short; a longer one, or a name in the header, truncates with an ellipsis and keeps its full text in title. Its description is an optional second line in the caption role (12/18, --surf-ink-muted), such as the workspace.',
-    "Bar holds a page's own tabs, such as a project's pages as links, at the top of the page. Make it the Page's first child: it spans the page's top edge to edge with a line under it, as tall as the brand row less the shell's inset, so what it holds stands on the brand row's line and starts where the page's content does. On a phone it sits under the mobile header, as tall as what it holds.",
+    "Bar holds a page's own tabs, such as a project's pages as links, at the top of the page. Make it the Page's first child: it starts at the page's top edge, as tall as the brand row less the shell's inset, so what it holds stands on the brand row's line and starts where the page's content does. No line parts it from the page: the space under it does, and the current tab's plane marks the page. On a phone it sits under the mobile header, as tall as what it holds.",
     'In compact density (SizeProvider density="compact" around the shell) the sidebar\'s rows and its toggle are 32px. The brand row and the rail keep their size, so the icon column and the brand row\'s line stay. On touch a row grows to the target size and never shrinks below its own.',
     'Nav stacks Links with even gaps and, in the workspace sidebar, insets them so their icons sit on the rail. Its label shows over the links, keeps its row on the rail, and names the navigation; without one, give Nav an aria-label.',
     "Link takes render. Pass a router's link to keep client navigation, such as render={<NextLink href='/resources' />}. The account row is a Link rendered as the menu's trigger, render={<Menu.Trigger />}, with a 24px Avatar as its icon, so it lines up with the links.",
@@ -165,7 +165,7 @@ export const doc: ComponentDoc = {
     ],
     [
       'Bar',
-      "the page's own tabs as its first child: edge to edge at the page's top with a line under it, on the brand row's line, its content where the page's is; as tall as its content on a phone",
+      "the page's own tabs as its first child: at the page's top on the brand row's line, its content where the page's is, no line under it; as tall as its content on a phone",
       'div',
     ],
     [
