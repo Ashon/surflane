@@ -1,6 +1,6 @@
 {
   "name": "@surflane/css",
-  "version": "0.16.0",
+  "version": "0.16.1",
   "description": "Surflane's CSS-only layer: control, layout composition, document typography and presentation classes that work without React, on top of @surflane/design-tokens.",
   "keywords": [
     "design-system",
@@ -37,7 +37,7 @@
     "./package.json": "./package.json"
   },
   "peerDependencies": {
-    "@surflane/design-tokens": "^0.16.0"
+    "@surflane/design-tokens": "^0.16.1"
   },
   "publishConfig": {
     "access": "public"
