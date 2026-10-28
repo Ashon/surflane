@@ -268,6 +268,23 @@ const Content = function AppShellContent({
   )
 }
 /**
+ * A page's own tabs, such as a project's pages as links, first in a Page. It spans
+ * the page's top edge to edge with a line under it, as tall as the brand row less the
+ * shell's inset, so what it holds stands on the brand row's line and starts where the
+ * page's content does. On a phone it is as tall as what it holds.
+ */
+const Bar = function AppShellBar({
+  className,
+  ref,
+  ...props
+}: React.ComponentPropsWithoutRef<'div'> & {
+  ref?: React.Ref<HTMLDivElement>
+}) {
+  return (
+    <div {...props} ref={ref} className={cx('surf-app-shell-bar', className)} />
+  )
+}
+/**
  * The page surface inside a workspace Content. It insets from the shell on every
  * side but the sidebar's; without the sidebar, on narrow screens, it insets evenly.
  */
@@ -453,6 +470,7 @@ export const AppShell = {
   Brand,
   Nav,
   Content,
+  Bar,
   Page,
   Footer,
   Label,
@@ -469,6 +487,7 @@ export const {
   Brand: AppShellBrand,
   Nav: AppShellNav,
   Content: AppShellContent,
+  Bar: AppShellBar,
   Page: AppShellPage,
   Footer: AppShellFooter,
   Label: AppShellLabel,

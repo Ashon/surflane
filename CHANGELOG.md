@@ -2,6 +2,21 @@
 
 `@surflane/design-tokens`, `@surflane/css` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## Unreleased
+
+### Added
+
+- `AppShell.Bar` holds a page's own tabs, such as a project's pages as links, at the top of the page. As the Page's first child it spans the page's top edge to edge with a line under it, as tall as the brand row less the shell's inset (56px by default), so its tabs stand on the brand row's line and start where the page's content does, in compact density too. On a phone it sits under the mobile header, as tall as its tabs.
+
+### Changed
+
+- In compact density a workspace sidebar's rows and its toggle are 32px. The brand row and the rail keep their size, so the icon column and the brand row's line stay; `--surf-app-shell-row-height` sets the row height for any shell.
+
+### Fixed
+
+- A sidebar brand name with no description takes up to two lines of the brand row before it is cut short. Since 0.15.0 the toggle at the row's end left a name about 104px, so a name such as "Growth experts" was cut to "Growth ex…".
+- On touch, a compact sidebar's rows no longer shrink to 24px: a row grows to the target size and never below its own height, as the toggle does.
+
 ## 0.15.0
 
 ### Added

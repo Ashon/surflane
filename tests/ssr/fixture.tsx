@@ -987,6 +987,9 @@ export function Shell() {
         <AppShell.Content>
           <ScrollArea orientation='vertical' label='Workspace content'>
             <AppShell.Page>
+              <AppShell.Bar>
+                <Text>Schedule</Text>
+              </AppShell.Bar>
               <Text>Workspace body</Text>
             </AppShell.Page>
           </ScrollArea>

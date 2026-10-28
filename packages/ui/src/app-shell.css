@@ -10,7 +10,9 @@
 @layer surflane.components {
   /* The parts' sizes. Links and brands also render outside the shell, such as in a
    * mobile Sheet, so the root holds them; set them on AppShell.Root to change one
-   * shell. The links' icon column is what the brand's mark and the rail line up on. */
+   * shell. The links' icon column is what the brand's mark and the rail line up on.
+   * A row is as tall as the column is wide, or --surf-app-shell-row-height where a
+   * density sets it: compact rows are 32px. */
   :root {
     --surf-app-shell-icon-column: 40px;
     --surf-app-shell-brand-height: 80px;
@@ -78,8 +80,10 @@
     grid-template-columns: var(--surf-app-shell-icon-column) minmax(0, 1fr);
     align-items: center;
     inline-size: 100%;
-    /* The icon's cell is square, so a row is as tall as the column is wide. */
-    min-block-size: var(--surf-app-shell-icon-column);
+    min-block-size: var(
+      --surf-app-shell-row-height,
+      var(--surf-app-shell-icon-column)
+    );
     gap: 0;
     padding: 0;
     border: 0;
@@ -184,6 +188,18 @@
   .surf-app-shell-sidebar > .surf-app-shell-brand > .surf-app-shell-brand-mark {
     inline-size: var(--surf-app-shell-icon-column);
   }
+  /* With no description, a name takes up to two lines of the row before it is cut
+   * short, so a product's name shows whole beside the toggle. */
+  .surf-app-shell-sidebar
+    > .surf-app-shell-brand
+    > .surf-app-shell-brand-text:not(:has(> .surf-app-shell-brand-description))
+    > .surf-app-shell-brand-name {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    white-space: normal;
+  }
   /* Links stack with even gaps under an optional label that names the group. */
   .surf-app-shell-nav {
     display: grid;
@@ -232,9 +248,13 @@
       margin-inline-start: auto;
     }
   }
+  /* On touch a row grows to the target size, and never shrinks below its own. */
   @media (max-width: 760px), (pointer: coarse) {
     .surf-app-shell-link {
-      min-block-size: var(--surf-control-target-size);
+      min-block-size: max(
+        var(--surf-app-shell-row-height, var(--surf-app-shell-icon-column)),
+        var(--surf-control-target-size)
+      );
     }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -286,12 +306,15 @@
    * in the rail where the brand was; by default both places stand 16px from the
    * edge, so the toggle travels with it. On touch it grows to the target size. */
   .surf-app-shell[data-layout='workspace'] > .surf-app-shell-sidebar {
-    --surf-app-shell-toggle-size: var(--surf-app-shell-icon-column);
+    --surf-app-shell-toggle-size: var(
+      --surf-app-shell-row-height,
+      var(--surf-app-shell-icon-column)
+    );
   }
   @media (pointer: coarse) {
     .surf-app-shell[data-layout='workspace'] > .surf-app-shell-sidebar {
       --surf-app-shell-toggle-size: max(
-        var(--surf-app-shell-icon-column),
+        var(--surf-app-shell-row-height, var(--surf-app-shell-icon-column)),
         var(--surf-control-target-size)
       );
     }
@@ -375,11 +398,12 @@
    * sidebar's. Stretch or size it from its container: a percentage height here
    * would resolve against a scroll content that sizes from the page itself. */
   .surf-app-shell-page {
+    --surf-app-shell-page-padding: var(--surf-space-6);
     box-sizing: border-box;
     min-inline-size: 0;
     margin: var(--surf-app-shell-inset);
     margin-inline-start: 0;
-    padding: var(--surf-space-6);
+    padding: var(--surf-app-shell-page-padding);
     background: var(--surf-canvas);
     border-radius: var(--surf-app-shell-page-radius);
     --surf-plane: var(--surf-canvas);
@@ -388,9 +412,38 @@
   /* On a phone the page meets the screen's edges, below the mobile header. */
   @media (max-width: 760px) {
     .surf-app-shell-page {
+      --surf-app-shell-page-padding: var(--surf-space-4);
       margin: 0;
-      padding: var(--surf-space-4);
       border-radius: 0;
+    }
+  }
+  /* A bar at the top of the page, such as a project's page tabs. */
+  .surf-app-shell-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--surf-space-3);
+    min-inline-size: 0;
+  }
+  /* First in a page it spans the page's top edge to edge, a line under it, as tall
+   * as the brand row less the shell's inset above and below: what it holds stands on
+   * the brand row's line, and starts and ends where the page's content does. The
+   * line hangs below that height, so it doesn't move the line of the bar's items. */
+  .surf-app-shell-page > .surf-app-shell-bar:first-child {
+    box-sizing: content-box;
+    block-size: calc(
+      var(--surf-app-shell-brand-height) - var(--surf-app-shell-inset) * 2
+    );
+    margin: calc(var(--surf-app-shell-page-padding) * -1);
+    margin-block-end: var(--surf-app-shell-page-padding);
+    padding-inline: var(--surf-app-shell-page-padding);
+    border-block-end: 1px solid var(--surf-line);
+  }
+  /* On a phone there is no brand row to stand on: the bar keeps its line, as tall as
+   * what it holds. */
+  @media (max-width: 760px) {
+    .surf-app-shell-page > .surf-app-shell-bar:first-child {
+      block-size: auto;
+      padding-block: var(--surf-space-2);
     }
   }
   .surf-app-shell[data-layout='workspace'] .surf-app-shell-footer {
@@ -435,8 +488,19 @@
   }
 }
 @layer surflane.sizes {
+  /* Compact density: the sidebar's rows and its toggle are 32px; the brand row and
+     the rail keep their size, so the icon column and the brand row's line stay. */
+  [data-ui-density='compact'] {
+    --surf-app-shell-row-height: var(--surf-space-8);
+  }
   /* Compact density: the page and the content keep the 12px the blocks inside keep,
      on a phone too. */
+  :where(
+    [data-ui-density='compact'],
+    [data-ui-density='compact'] *
+  ).surf-app-shell-page {
+    --surf-app-shell-page-padding: var(--surf-ui-density-gap);
+  }
   :where([data-ui-density='compact'], [data-ui-density='compact'] *):is(
     .surf-app-shell-page,
     .surf-app-shell-content
@@ -452,14 +516,20 @@
    * sidebar's text over the button's size scheme. */
   .surf-app-shell-link.surf-button {
     block-size: auto;
-    min-block-size: var(--surf-app-shell-icon-column);
+    min-block-size: var(
+      --surf-app-shell-row-height,
+      var(--surf-app-shell-icon-column)
+    );
     padding: 0;
     font-size: inherit;
     line-height: inherit;
   }
   @media (max-width: 760px), (pointer: coarse) {
     .surf-app-shell-link.surf-button {
-      min-block-size: var(--surf-control-target-size);
+      min-block-size: max(
+        var(--surf-app-shell-row-height, var(--surf-app-shell-icon-column)),
+        var(--surf-control-target-size)
+      );
     }
   }
   /* Above the icon button's size scheme: the toggle is as tall as a link row. */

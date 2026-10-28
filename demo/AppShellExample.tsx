@@ -7,6 +7,7 @@ import {
   Icon,
   type IconName,
   Menu,
+  NavigationMenu,
   PageHeader,
   ScrollArea,
   Sheet,
@@ -30,6 +31,8 @@ export function AppShellExample({
   ]
   const responsive = id === 'responsive-navigation'
   const [notice, setNotice] = useState(false)
+  const [bar, setBar] = useState(false),
+    [section, setSection] = useState(0)
   const [longContent, setLongContent] = useState(false),
     [longNavigation, setLongNavigation] = useState(false)
   const contentViewport = useRef<HTMLDivElement>(null)
@@ -171,6 +174,15 @@ export function AppShellExample({
           }
         >
           {t.systemNotice}
+        </ChoiceLabel>
+        <ChoiceLabel
+          control={
+            <Checkbox.Root checked={bar} onCheckedChange={setBar}>
+              <Checkbox.Indicator />
+            </Checkbox.Root>
+          }
+        >
+          {t.pageBar}
         </ChoiceLabel>
         {responsive && (
           <>
@@ -328,6 +340,29 @@ export function AppShellExample({
                 className='app-shell-content-viewport'
               >
                 <AppShell.Page>
+                  {/* The page's own tabs, at its top on the brand row's line. */}
+                  {bar && (
+                    <AppShell.Bar>
+                      <NavigationMenu.Root aria-label={t.pageLinks(view)}>
+                        <NavigationMenu.List>
+                          {t.pageSections.map((name, index) => (
+                            <NavigationMenu.Item key={name}>
+                              <NavigationMenu.Link
+                                href={`#${previewId}-section-${index}`}
+                                active={index === section}
+                                onClick={(event) => {
+                                  event.preventDefault()
+                                  setSection(index)
+                                }}
+                              >
+                                {name}
+                              </NavigationMenu.Link>
+                            </NavigationMenu.Item>
+                          ))}
+                        </NavigationMenu.List>
+                      </NavigationMenu.Root>
+                    </AppShell.Bar>
+                  )}
                   <PageHeader
                     title={view}
                     level={3}

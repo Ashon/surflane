@@ -653,6 +653,7 @@ export {
   AppShellNav,
   type AppShellNavProps,
   AppShellContent,
+  AppShellBar,
   AppShellPage,
   AppShellFooter,
   AppShellLabel,

@@ -5,7 +5,9 @@ import { waitForCatalogReady } from './catalog-ready'
 // Compact density packs a screen: it may keep a part as it is, never make it
 // larger. Every part's padding, gaps, text, minimum height and height are
 // measured in both densities. A scrollbar thumb is left out: its length follows
-// the content, which compact shortens.
+// the content, which compact shortens. So is the height of a part that fills the
+// room a column leaves, such as a sidebar's menu, and of what fills it: it takes
+// what the rows around it give up.
 test.use({ reducedMotion: 'reduce' })
 
 const metrics = [
@@ -25,6 +27,28 @@ function measure(page: Page, root: string) {
   return page.evaluate(
     ({ root, metrics }) => {
       const frame = document.querySelector(root)!
+      const fills = (el: HTMLElement) => {
+        for (
+          let node: HTMLElement | null = el;
+          node && node !== frame;
+          node = node.parentElement
+        ) {
+          const parent = node.parentElement
+          if (
+            parent &&
+            parseFloat(getComputedStyle(node).flexGrow) > 0 &&
+            getComputedStyle(parent).display.endsWith('flex') &&
+            getComputedStyle(parent).flexDirection.startsWith('column')
+          )
+            return (
+              Math.abs(
+                node.getBoundingClientRect().height -
+                  el.getBoundingClientRect().height,
+              ) < 0.5
+            )
+        }
+        return false
+      }
       const seen = new Map<string, number>()
       const found: Record<string, number[]> = {}
       for (const el of frame.querySelectorAll<HTMLElement>(
@@ -38,7 +62,9 @@ function measure(page: Page, root: string) {
         const style = getComputedStyle(el)
         found[`${name}#${index}`] = metrics.map((metric) =>
           metric === 'height'
-            ? el.getBoundingClientRect().height
+            ? fills(el)
+              ? 0
+              : el.getBoundingClientRect().height
             : style.getPropertyValue(metric).endsWith('px')
               ? parseFloat(style.getPropertyValue(metric))
               : 0,

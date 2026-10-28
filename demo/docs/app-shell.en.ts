@@ -4,7 +4,9 @@ export const doc: ComponentDoc = {
     'Use the workspace layout to pair main content with a sidebar that holds a brand, a collapse toggle, and an account at the bottom. For documentation sites that need a global top rail, use the default header layout.',
     'AppShell provides the layout and native link styles; the caller owns routes, account, and theme. The shell keeps the collapsed state itself: SidebarToggle collapses the sidebar, ⌘B (Ctrl+B elsewhere) does too outside text fields, persist remembers the state in localStorage, and on the rail each Link shows its name as a tooltip. Pass collapsed and onCollapsedChange to control the state, or read a cookie into defaultCollapsed so a server-rendered first paint is right.',
     "The workspace sidebar collapses from 224px to 72px, and icons keep their positions. Brand is its top row: it centers the product mark, about 24px, on the links' icon column, and SidebarToggle ends the row, as tall as a link and as far from the edge. On the rail the brand hides and the toggle takes its place. In the header it sits on one line.",
-    'Brand sets the product name on one line in the subsection role (Manrope 500, 16/24, --surf-ink, default tracking), starting on the link label line. A long name truncates with an ellipsis and keeps its full text in title. Its description is an optional second line in the caption role (12/18, --surf-ink-muted), such as the workspace.',
+    'Brand sets the product name in the subsection role (Manrope 500, 16/24, --surf-ink, default tracking), starting on the link label line. In the sidebar a name with no description takes up to two lines of the brand row before it is cut short; a longer one, or a name in the header, truncates with an ellipsis and keeps its full text in title. Its description is an optional second line in the caption role (12/18, --surf-ink-muted), such as the workspace.',
+    "Bar holds a page's own tabs, such as a project's pages as links, at the top of the page. Make it the Page's first child: it spans the page's top edge to edge with a line under it, as tall as the brand row less the shell's inset, so what it holds stands on the brand row's line and starts where the page's content does. On a phone it sits under the mobile header, as tall as what it holds.",
+    'In compact density (SizeProvider density="compact" around the shell) the sidebar\'s rows and its toggle are 32px. The brand row and the rail keep their size, so the icon column and the brand row\'s line stay. On touch a row grows to the target size and never shrinks below its own.',
     'Nav stacks Links with even gaps and, in the workspace sidebar, insets them so their icons sit on the rail. Its label shows over the links, keeps its row on the rail, and names the navigation; without one, give Nav an aria-label.',
     "Link takes render. Pass a router's link to keep client navigation, such as render={<NextLink href='/resources' />}. The account row is a Link rendered as the menu's trigger, render={<Menu.Trigger />}, with a 24px Avatar as its icon, so it lines up with the links.",
     'The brand and account stay fixed while the menu and main content scroll in separate ScrollAreas. The content surface spans the full scrolling content, so its bottom rounded corners appear only at the end.',
@@ -21,10 +23,11 @@ export const doc: ComponentDoc = {
     "Don't hide the desktop sidebar on mobile without other navigation. Provide a replacement, such as a bottom Sheet or BottomNavigation.",
     "Don't expect the layout module to handle permissions or sign-in. Handle them in the application.",
     "Don't fade the sidebar edge with a blur that blurs text.",
+    "Don't line a page's tabs up with the brand row by padding the page. Put them in Bar, first in the Page.",
     "Don't give two shells on one page the shortcut. Set shortcut={false} on any shell that only illustrates, such as a mockup.",
   ],
   anatomy:
-    'AppShell.Root(layout=workspace) → mobile Header(Brand, MenuTrigger) + Sidebar(Brand, SidebarToggle ending the brand row, ScrollArea(Nav(Links)), Footer(Link as the account menu trigger)) + Content(ScrollArea → Page); mobile: bottom Sheet(Header(Title, Description), Body(Nav(Links)), Footer(account, Close menu))',
+    'AppShell.Root(layout=workspace) → mobile Header(Brand, MenuTrigger) + Sidebar(Brand, SidebarToggle ending the brand row, ScrollArea(Nav(Links)), Footer(Link as the account menu trigger)) + Content(ScrollArea → Page(Bar?, content)); mobile: bottom Sheet(Header(Title, Description), Body(Nav(Links)), Footer(account, Close menu))',
   keyboard: [
     'Tab and Shift+Tab reach native links and buttons. Enter follows a link.',
     'The mobile bottom Sheet opens on the current destination. Choosing a destination closes the Sheet and moves focus to the new content heading.',
@@ -141,6 +144,11 @@ export const doc: ComponentDoc = {
       '40px / 80px / 24px',
     ],
     [
+      'style --surf-app-shell-row-height',
+      "a sidebar row's and the toggle's height, on any element above them; compact density sets 32px",
+      'the icon column',
+    ],
+    [
       'Root style --surf-app-shell-sidebar-width',
       'expanded width; header: 216px / 64px; workspace: 224px / 72px',
       'layout-dependent',
@@ -154,6 +162,11 @@ export const doc: ComponentDoc = {
       'Header / Sidebar / Content / Footer',
       'layout slots with native attributes, className, and refs',
       'div / aside / div / div',
+    ],
+    [
+      'Bar',
+      "the page's own tabs as its first child: edge to edge at the page's top with a line under it, on the brand row's line, its content where the page's is; as tall as its content on a phone",
+      'div',
     ],
     [
       'Page',

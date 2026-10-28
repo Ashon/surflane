@@ -534,7 +534,7 @@ test('a workspace shell takes the window height, scrolls its menu and page insid
   const footer = (await root.locator('.surf-app-shell-footer').boundingBox())!
   expect(footer.y + footer.height).toBeLessThanOrEqual(900)
   // Expanded, the toggle ends the brand row, 16px from the sidebar's inner edge and
-  // centered on the row, and a long name stops short of it.
+  // centered on the row, and a long name takes two lines of the row before the toggle.
   const toggle = root.locator('.surf-app-shell-toggle')
   const sidebar = (await root.locator('.surf-app-shell-sidebar').boundingBox())!
   const brand = (await root.locator('.surf-app-shell-brand').boundingBox())!
@@ -545,9 +545,9 @@ test('a workspace shell takes the window height, scrolls its menu and page insid
   const name = root.locator('.surf-app-shell-brand-name')
   const nameBox = (await name.boundingBox())!
   expect(nameBox.x + nameBox.width).toBeLessThanOrEqual(box.x - 8)
-  expect(
-    await name.evaluate((element) => element.scrollWidth > element.clientWidth),
-  ).toBe(true)
+  expect(nameBox.height).toBe(48)
+  expect(nameBox.y).toBeGreaterThanOrEqual(brand.y)
+  expect(nameBox.y + nameBox.height).toBeLessThanOrEqual(brand.y + brand.height)
   // Collapsed, it centers in the rail where the brand was.
   await mount(shell(true))
   box = (await toggle.boundingBox())!
@@ -763,4 +763,141 @@ test('below collapseBelow the sidebar starts on its rail, and only the wide stat
   await expect(shell).toHaveAttribute('data-sidebar', 'collapsed')
   await page.setViewportSize({ width: 1440, height: 900 })
   await expect(shell).toHaveAttribute('data-sidebar', 'collapsed')
+})
+
+test("a page's tab bar spans its top on the brand row's line and starts where its content does", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.goto('/patterns/app-shell')
+  await waitForCatalogReady(page)
+  await page.getByRole('checkbox', { name: 'Page bar', exact: true }).check()
+  const shell = page.locator('.app-shell-preview')
+  const pages = shell.getByRole('navigation', { name: 'Overview pages' })
+  const measure = () =>
+    shell.evaluate((element) => {
+      const box = (selector: string) => {
+        const rect = element.querySelector(selector)!.getBoundingClientRect()
+        return { x: rect.x, y: rect.y, w: rect.width, h: rect.height }
+      }
+      const sheet = element.querySelector('.surf-app-shell-page')!
+      return {
+        brand: box('.surf-app-shell-sidebar > .surf-app-shell-brand'),
+        bar: box('.surf-app-shell-bar'),
+        link: box('.surf-app-shell-bar a'),
+        title: box('.surf-app-shell-page h3'),
+        page: box('.surf-app-shell-page'),
+        padding: parseFloat(getComputedStyle(sheet).paddingInlineStart),
+        line: getComputedStyle(element.querySelector('.surf-app-shell-bar')!)
+          .borderBlockEndWidth,
+      }
+    })
+  for (const density of ['default', 'compact']) {
+    if (density === 'compact')
+      await shell.evaluate((element) =>
+        element.setAttribute('data-ui-density', 'compact'),
+      )
+    const at = await measure()
+    // Edge to edge at the page's top, with a line under it.
+    expect(at.bar.y).toBe(at.page.y)
+    expect(at.bar.x).toBe(at.page.x)
+    expect(at.bar.w).toBe(at.page.w)
+    expect(at.line).toBe('1px')
+    // Its tabs stand on the brand row's line and start where the content does.
+    expect(at.link.y + at.link.h / 2).toBe(at.brand.y + at.brand.h / 2)
+    expect(at.link.x).toBe(at.page.x + at.padding)
+    expect(at.title.x).toBe(at.link.x)
+    // The page's content keeps its padding under the line.
+    expect(at.title.y).toBeGreaterThanOrEqual(at.bar.y + at.bar.h + at.padding)
+  }
+  await shell.evaluate((element) => element.removeAttribute('data-ui-density'))
+  await pages.getByRole('link', { name: 'Members', exact: true }).click()
+  await expect(
+    pages.getByRole('link', { name: 'Members', exact: true }),
+  ).toHaveAttribute('aria-current', 'page')
+  // On a phone it sits under the mobile header, as tall as its tabs need.
+  await page.setViewportSize({ width: 390, height: 844 })
+  const header = (await shell.locator('.surf-app-shell-header').boundingBox())!
+  const bar = (await shell.locator('.surf-app-shell-bar').boundingBox())!
+  expect(bar.y).toBeGreaterThanOrEqual(header.y + header.height)
+  await expect(pages).toBeVisible()
+  expect(
+    (await new AxeBuilder({ page }).include('.app-shell-preview').analyze())
+      .violations,
+  ).toEqual([])
+})
+
+test('compact density makes the sidebar rows and toggle 32px, and touch never makes them smaller', async ({
+  browser,
+}) => {
+  const React = await import('react')
+  const { renderToStaticMarkup } = await import('react-dom/server')
+  const { AppShell, Icon } = await import('@surflane/ui')
+  const h = React.createElement
+  const markup = renderToStaticMarkup(
+    h(
+      'div',
+      { 'data-ui-density': 'compact', style: { height: '100%' } },
+      h(
+        AppShell.Root,
+        { layout: 'workspace', shortcut: false },
+        h(
+          AppShell.Sidebar,
+          { 'aria-label': 'Harbor' },
+          h(AppShell.Brand, { name: 'Harbor' }),
+          h(AppShell.SidebarToggle),
+          h(
+            AppShell.Nav,
+            { 'aria-label': 'Berths' },
+            h(AppShell.Link, {
+              href: '#',
+              label: 'Berths',
+              icon: h(Icon, { name: 'menu', decorative: true }),
+            }),
+            h(AppShell.Link, {
+              render: h('button', { type: 'button' }),
+              label: 'Harbor master',
+              icon: h(Icon, { name: 'info', decorative: true }),
+            }),
+          ),
+        ),
+        h(AppShell.Content, null, h(AppShell.Page, null, 'Arrivals')),
+      ),
+    ),
+  )
+  const rows = async (touch: boolean) => {
+    const context = await browser.newContext({
+      viewport: { width: 1280, height: 800 },
+      hasTouch: touch,
+      isMobile: touch,
+      reducedMotion: 'reduce',
+    })
+    const page = await context.newPage()
+    await page.goto('/install')
+    await waitForCatalogReady(page)
+    await page.evaluate((html) => {
+      const host = document.createElement('div')
+      host.id = 'harbor'
+      host.style.cssText = 'position: fixed; inset: 0; z-index: 2000'
+      host.innerHTML = html
+      document.body.append(host)
+    }, markup)
+    const sizes = await page.evaluate(() =>
+      [
+        '#harbor .surf-app-shell-nav > a',
+        '#harbor .surf-app-shell-nav > button',
+        '#harbor .surf-app-shell-toggle',
+      ].map((selector) =>
+        Math.round(
+          document.querySelector(selector)!.getBoundingClientRect().height,
+        ),
+      ),
+    )
+    await context.close()
+    return sizes
+  }
+  // Link rows, a row rendered as a button and the toggle are 32px, on touch too:
+  // compact keeps a control at its size, never under the row.
+  expect(await rows(false)).toEqual([32, 32, 32])
+  expect(await rows(true)).toEqual([32, 32, 32])
 })
