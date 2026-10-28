@@ -10,7 +10,11 @@
     min-width: 0;
     max-width: 100%;
   }
+  /* Absolutely placed content, such as a visually hidden live region, is placed
+     against the viewport: it scrolls with the content and never reaches past the
+     scroller, where it would make the document taller than the window. */
   .surf-scroll-viewport {
+    position: relative;
     max-width: 100%;
     overscroll-behavior: auto;
     scrollbar-width: none !important;

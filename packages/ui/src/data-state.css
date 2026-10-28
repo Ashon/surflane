@@ -10,7 +10,9 @@
 @import './spinner.css';
 
 @layer surflane.components {
+  /* It holds its own live region, wherever it sits. */
   .surf-data-state {
+    position: relative;
     min-inline-size: 0;
     min-block-size: 0;
   }
@@ -58,8 +60,14 @@
     display: inline-flex;
     flex: none;
   }
-  /* page stands in for a page's content: centred in the room a page gives. */
-  .surf-data-state[data-layout='page'] {
+  /* page stands in for a page's content while there is none: its loading, error
+     and empty notices centre in the room a page gives. Ready and stale content
+     keep their own layout. */
+  .surf-data-state[data-layout='page']:is(
+      [data-state='loading'],
+      [data-state='error'],
+      [data-state='empty']
+    ) {
     display: grid;
     place-content: center;
     min-block-size: 40vh;

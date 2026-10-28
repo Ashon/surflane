@@ -4,7 +4,7 @@ export const doc: ComponentDoc = {
     'Wrap any content that waits for data in DataState, so loading, failure and emptiness never look the same. state says where the data stands; the content shows when it is ready, and stays under a caution when it is stale.',
     'loading draws a placeholder of placeholderHeight, so nothing moves when the data arrives. error says what failed, in message, with a retry when onRetry is set; after a retry focus moves to retryFocus, or the DataState itself. empty says why there is nothing, and what to do next.',
     'refreshing keeps the content, dimmed and busy, while new data comes, and announces it. Dashboard.Panel draws its body with DataState and shows its own spinner by the title.',
-    'layout inline fits a line beside other text, block fills a card or a region, and page stands in for a whole page, centred.',
+    "layout inline fits a line beside other text, block fills a card or a region, and page stands in for a whole page while there is none: its loading, error and empty notices centre in the page's room, and ready or stale content keeps its own layout.",
   ],
   avoid: [
     "Don't decide the state from the data alone: an empty result and a failure both have no data. Take it from the request.",

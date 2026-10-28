@@ -87,4 +87,82 @@ test('inline fits one line; page centers in the room a page gives', async ({
   }))
   expect(page_.height).toBeGreaterThanOrEqual(page_.viewport * 0.4 - 1)
   expect(page_.align).toBe('center')
+  // Once the data is there, the content keeps its own layout.
+  await choose('State', 'Ready')
+  const ready = await region.evaluate((element) => ({
+    height: element.getBoundingClientRect().height,
+    viewport: window.innerHeight,
+    align: getComputedStyle(element).textAlign,
+    display: getComputedStyle(element).display,
+  }))
+  expect(ready.align).toBe('start')
+  expect(ready.display).toBe('block')
+  expect(ready.height).toBeLessThan(ready.viewport * 0.4)
+})
+
+test('a DataState at the end of a long page in a ScrollArea keeps the document the window high', async ({
+  page,
+}) => {
+  const React = await import('react')
+  const { renderToStaticMarkup } = await import('react-dom/server')
+  const { AppShell, DataState, ScrollArea } = await import('@surflane/ui')
+  const h = React.createElement
+  // The shell's content scrolls inside it; the DataState's live region sits at the
+  // end of a page three windows long, where it once hung below the window.
+  const markup = renderToStaticMarkup(
+    h(
+      AppShell.Root,
+      { layout: 'workspace', shortcut: false },
+      h(AppShell.Sidebar, { 'aria-label': 'Harbor' }),
+      h(
+        AppShell.Content,
+        null,
+        h(
+          ScrollArea,
+          { orientation: 'vertical', label: 'Arrivals' },
+          h(
+            AppShell.Page,
+            null,
+            h(
+              DataState,
+              { refreshing: true },
+              h('div', { style: { height: 2700 } }, 'Arrivals'),
+            ),
+          ),
+        ),
+      ),
+    ),
+  )
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/install')
+  await waitForCatalogReady(page)
+  await page.evaluate((html) => {
+    const host = document.createElement('div')
+    host.id = 'harbor'
+    host.style.cssText = 'position: fixed; inset: 0; z-index: 2000'
+    host.innerHTML = html
+    document.body.replaceChildren(host)
+  }, markup)
+  const sizes = await page.evaluate(() => {
+    const status = document.querySelector(
+      '#harbor .surf-data-state [role="status"]',
+    )!
+    const viewport = document.querySelector(
+      '#harbor .surf-app-shell-content .surf-scroll-viewport',
+    )!
+    return {
+      document: document.scrollingElement!.scrollHeight,
+      window: window.innerHeight,
+      root: document.querySelector(
+        '#harbor .surf-app-shell-content > .surf-scroll-root',
+      )!.scrollHeight,
+      statusInViewport:
+        status.getBoundingClientRect().top -
+          viewport.getBoundingClientRect().top <
+        viewport.scrollHeight,
+    }
+  })
+  expect(sizes.document).toBe(sizes.window)
+  expect(sizes.root).toBe(sizes.window)
+  expect(sizes.statusInViewport).toBe(true)
 })

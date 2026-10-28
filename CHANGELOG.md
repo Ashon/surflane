@@ -2,6 +2,13 @@
 
 `@surflane/design-tokens`, `@surflane/css` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## Unreleased
+
+### Fixed
+
+- Content in a ScrollArea no longer makes the document taller than the window. A visually hidden live region, such as a DataState's, is absolutely placed. The viewport wasn't positioned, so the region was placed against the scroller's root and hung below it at its spot after the content. The whole document then scrolled: a wheel over a sidebar moved the shell, and a reload restored the page part of the way down. The viewport now holds such content, and a DataState holds its own live region wherever it sits.
+- `DataState layout='page'` centers only its loading, error and empty notices. Ready content, and stale content under its caution, keep their own layout instead of being centered and held 40vh tall.
+
 ## 0.16.0
 
 ### Added
