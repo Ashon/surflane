@@ -213,6 +213,15 @@
     padding-block-start: var(--surf-space-1);
     border-block-start: 1px solid var(--surf-line);
   }
+  /* The shaded gap between two series is drawn under the lines, never a target. */
+  .surf-chart-gap {
+    pointer-events: none;
+  }
+  /* The gap between two series at the point: after the values, set apart by a line. */
+  .surf-chart-tooltip-gap {
+    padding-block-start: var(--surf-space-1);
+    border-block-start: 1px solid var(--surf-line);
+  }
   /* An event or a period at the point: named, not measured. */
   .surf-chart-tooltip-reference {
     color: var(--surf-ink-muted);

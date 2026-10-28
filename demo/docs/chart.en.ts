@@ -1,7 +1,7 @@
 import type { ComponentDoc } from '../componentDocs'
 export const doc: ComponentDoc = {
   usage:
-    'Compare numeric trends in one unit as a line, bar, or area chart. Always provide a title, a factual summary, and axis names with units. Series default to brand and neutral fills and lines, told apart by dashes and markers; pass palette="categorical" when color must separate categories, such as buckets. For values far from zero, such as prices or latency, set includeZero={false}. For monitoring, xScale="time" places rows by data[].time, ticks on round times and breaks a line where sampling stops; references draw thresholds and target bands, and mark events and periods on the x axis; stacked shows a total; curve="step" holds values sampled on change; yScale="log" spans orders of magnitude. In a dashboard card, density="compact" keeps the plot, legend and floating values. Pass data as an immutable array that the caller owns.',
+    'Compare numeric trends in one unit as a line, bar, or area chart. Always provide a title, a factual summary, and axis names with units. Series default to brand and neutral fills and lines, told apart by dashes and markers; pass palette="categorical" when color must separate categories, such as buckets. For values far from zero, such as prices or latency, set includeZero={false}. For monitoring, xScale="time" places rows by data[].time, ticks on round times and breaks a line where sampling stops; references draw thresholds and target bands, and mark events and periods on the x axis; a comparison series, such as a benchmark, draws quieter, and gap shades the lead between two lines; stacked shows a total; curve="step" holds values sampled on change; yScale="log" spans orders of magnitude. In a dashboard card, density="compact" keeps the plot, legend and floating values. Pass data as an immutable array that the caller owns.',
   avoid: [
     "Don't mix units on one axis. Use separate charts instead.",
     "Don't put more than seven series on one chart where you can choose: keep the largest, sum the rest as Other, or split the chart. A monitoring view that must compare more, such as tokens per project, keeps every line on the plot, takes the twelve categorical colors and folds the legend with legendLimit.",
@@ -104,6 +104,16 @@ const data: ChartDatum[] = [
       'stacked',
       'stacks bar and area series; the readout adds their total',
       'false',
+    ],
+    [
+      'series[].comparison',
+      'a series the others are read against, such as a benchmark: thinner, muted ink, drawn under the others',
+      'false',
+    ],
+    [
+      'gap',
+      '{series, against, above, below}: shades a line chart between two series in the trend-up color where series is above and trend-down where it is below; the legend names both sides and inspecting a row says the side and the size',
+      '—',
     ],
     [
       'references',

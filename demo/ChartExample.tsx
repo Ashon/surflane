@@ -4,7 +4,9 @@ import {
   Chart,
   type ChartDatum,
   type ChartProps,
+  type ChartGap,
   type ChartReference,
+  type ChartSeries,
 } from '@surflane/ui/chart'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/ChartExample'
@@ -177,8 +179,23 @@ const projects: ChartDatum[] = Array.from({ length: 7 }, (_, day) => ({
     ]),
   ),
 }))
+// A portfolio and its benchmark, indexed to 100 on October 1.
+const portfolio: ChartDatum[] = Array.from({ length: 20 }, (_, index) => ({
+  id: `portfolio-${index}`,
+  label: `October ${index + 1}, 2026`,
+  time: at(index + 1, 0),
+  values: {
+    basket: Number((100 + 5 * Math.sin(index / 2.2) + index * 0.3).toFixed(1)),
+    benchmark: Number(
+      (100 + 1.5 * Math.sin(index / 5) + index * 0.35).toFixed(1),
+    ),
+  },
+}))
 type Preset = Partial<
-  Pick<ChartProps, 'type' | 'yScale' | 'curve' | 'stacked' | 'palette'>
+  Pick<
+    ChartProps,
+    'type' | 'yScale' | 'curve' | 'stacked' | 'palette' | 'includeZero'
+  >
 > & { legendLimit?: number | 'auto' }
 // What each sample is best read with; picking a sample applies it.
 const presets: Record<string, Preset> = {
@@ -187,6 +204,7 @@ const presets: Record<string, Preset> = {
   throughput: { type: 'line', yScale: 'log' },
   disk: { type: 'area', curve: 'step' },
   projects: { type: 'line', palette: 'categorical', legendLimit: 4 },
+  portfolio: { type: 'line', includeZero: false },
 }
 export function ChartExample() {
   const { locale: pageLocale } = useLocale()
@@ -214,6 +232,7 @@ export function ChartExample() {
     setStacked(preset.stacked ?? false)
     setPalette(preset.palette ?? 'neutral')
     setLegendLimit(preset.legendLimit)
+    setIncludeZero(preset.includeZero ?? true)
   }
   const [notice, setNotice] = useState(t.allSeriesVisible)
   const scenarios: Record<
@@ -222,10 +241,11 @@ export function ChartExample() {
       data: ChartDatum[]
       unit: string
       description: string
-      series?: { key: string; label: string }[]
+      series?: ChartSeries[]
       formatValue?: (value: number) => string
       xScale?: 'time'
       references?: ChartReference[]
+      gap?: ChartGap
       xLabel?: string
       yLabel?: string
     }
@@ -288,6 +308,26 @@ export function ChartExample() {
       xScale: 'time',
       xLabel: t.day,
       yLabel: t.tokens,
+    },
+    portfolio: {
+      data: portfolio,
+      unit: t.units.points,
+      description: t.descriptions.portfolio,
+      // The benchmark is read against: drawn quieter, with the gap shaded by side.
+      series: [
+        { key: 'basket', label: t.portfolio[0] },
+        { key: 'benchmark', label: t.portfolio[1], comparison: true },
+      ],
+      gap: {
+        series: 'basket',
+        against: 'benchmark',
+        above: t.portfolio[2],
+        below: t.portfolio[3],
+      },
+      references: [{ y: 100, label: t.portfolio[4] }],
+      xScale: 'time',
+      xLabel: t.day,
+      yLabel: t.indexed,
     },
     latency: {
       data: latency,
@@ -374,6 +414,7 @@ export function ChartExample() {
             <option value='throughput'>{t.options.throughput}</option>
             <option value='disk'>{t.options.disk}</option>
             <option value='projects'>{t.options.projects}</option>
+            <option value='portfolio'>{t.options.portfolio}</option>
           </NativeSelect>
         </label>
         <label>
@@ -514,6 +555,7 @@ export function ChartExample() {
         }
         xScale={sample.xScale}
         references={sample.references}
+        gap={sample.gap}
         yScale={yScale}
         curve={curve}
         stacked={stacked}

@@ -424,6 +424,91 @@ test('x references mark events and periods where they happened, and inspecting a
       .violations,
   ).toEqual([])
 })
+test('a gap shades which series leads, and a comparison series draws quieter and under', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 1000 })
+  await open(page)
+  await choose(page, 'Chart data', 'A basket against its benchmark')
+  const plot = page.locator('.surf-chart-plot')
+  const legend = page.getByRole('list', { name: 'Pipeline activity series' })
+  await expect(legend.locator('.surf-chart-legend-reference')).toHaveText([
+    'Base 100 pt',
+    'Ahead of the benchmark',
+    'Behind the benchmark',
+  ])
+  // Each side in its trend color; the basket leads, falls behind and leads again.
+  const pieces = await plot
+    .locator('.surf-chart-gap path')
+    .evaluateAll((paths) =>
+      paths.map((path) => [
+        path.getAttribute('data-side'),
+        path.getAttribute('fill'),
+      ]),
+    )
+  expect(pieces.map(([side]) => side)).toEqual(['above', 'below', 'above'])
+  for (const [side, fill] of pieces)
+    expect(fill).toBe(
+      side === 'above'
+        ? 'var(--surf-trend-up-fg)'
+        : 'var(--surf-trend-down-fg)',
+    )
+  // Where the lines cross, one side ends where the next begins.
+  const ends = await plot.locator('.surf-chart-gap path').evaluateAll((paths) =>
+    paths.map((path) => {
+      const xs = (path.getAttribute('d') ?? '')
+        .replace(/[MLZ]/g, ' ')
+        .trim()
+        .split(/\s+/)
+        .map((pair) => Number(pair.split(',')[0]))
+      return [Math.min(...xs), Math.max(...xs)]
+    }),
+  )
+  expect(Math.abs(ends[0][1] - ends[1][0])).toBeLessThan(0.01)
+  expect(Math.abs(ends[1][1] - ends[2][0])).toBeLessThan(0.01)
+  // The benchmark is thinner, in muted ink, drawn first; the gap is under both.
+  const order = await plot.evaluate((element) => {
+    const lines = [...element.querySelectorAll('.recharts-line-curve')]
+    const gap = element.querySelector('.surf-chart-gap')!
+    return {
+      lines: lines.map((line) => [
+        line.getAttribute('stroke-width'),
+        line.getAttribute('stroke'),
+      ]),
+      gapFirst: Boolean(
+        gap.compareDocumentPosition(lines[0]) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+      ),
+    }
+  })
+  expect(order.lines[0]).toEqual(['1.5', 'var(--surf-ink-muted)'])
+  expect(order.lines[1][0]).toBe('2')
+  expect(order.gapFirst).toBe(true)
+  // Inspecting a row says which side it is on and by how much.
+  const chart = page.getByRole('application', { name: 'Pipeline activity' })
+  const readout = page.locator('.surf-chart-readout')
+  await chart.focus()
+  await expect(readout).toContainText('October 1, 2026')
+  await expect(readout).not.toContainText('benchmark:')
+  await chart.press('ArrowRight')
+  await expect(readout).toContainText('Ahead of the benchmark: 1.9 pt')
+  for (let step = 0; step < 8; step++) await chart.press('ArrowRight')
+  await expect(readout).toContainText('October 10, 2026')
+  await expect(readout).toContainText('Behind the benchmark: 6 pt')
+  await expect(page.locator('.surf-chart-tooltip-gap')).toContainText(
+    'Behind the benchmark',
+  )
+  // Hiding either series takes the gap and its legend away.
+  await page.getByRole('button', { name: 'Benchmark series' }).click()
+  await expect(plot.locator('.surf-chart-gap')).toHaveCount(0)
+  await expect(legend.locator('.surf-chart-legend-reference')).toHaveText([
+    'Base 100 pt',
+  ])
+  expect(
+    (await new AxeBuilder({ page }).include('.surf-chart').analyze())
+      .violations,
+  ).toEqual([])
+})
 test('stacked bars read their total, a log axis spans decades and a step line holds its value', async ({
   page,
 }) => {

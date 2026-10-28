@@ -16,6 +16,10 @@ import {
   useActiveTooltipLabel,
   useIsTooltipActive,
   usePlotArea,
+  useXAxisScale,
+  useYAxisScale,
+  ZIndexLayer,
+  DefaultZIndexes,
   type DotProps,
 } from 'recharts'
 import { createPortal } from 'react-dom'
@@ -41,6 +45,21 @@ export type ChartSeries = {
   /** A color of your own, such as var(--surf-chart-category-3), in place of the
    * palette's. Marks and dashes still tell the series apart. */
   color?: string
+  /** A series the others are read against, such as a benchmark index or a plan:
+   * drawn thinner, in muted ink and under the others. Its dash and marks still tell
+   * it apart. */
+  comparison?: boolean
+}
+/** The gap between a series and the one it is read against, named on each side. */
+export type ChartGap = {
+  /** The series read against the other, such as a portfolio. */
+  series: string
+  /** The series it is read against, such as its benchmark. */
+  against: string
+  /** Names the side where series is above, such as "Ahead of the benchmark". */
+  above: string
+  /** Names the side where series is below, such as "Behind the benchmark". */
+  below: string
 }
 export type ChartTone = 'neutral' | 'caution' | 'danger'
 /** A place on the x axis: a datum's id on a category axis, or a time, in ms or as a
@@ -89,6 +108,11 @@ export type ChartProps = Omit<
   curve?: 'linear' | 'step'
   /** Stacks bar and area series, so the top of the stack is their total. */
   stacked?: boolean
+  /** Shades the gap between two series of a line chart, in the trend-up color where
+   * the first is above and trend-down where it is below, such as a portfolio's lead
+   * over its benchmark. The legend names both sides; inspecting a row says which side
+   * it is on and by how much. */
+  gap?: ChartGap
   /** Thresholds and target bands over the plot, which the value axis reaches, and
    * events and periods across it, which inspecting a row names. */
   references?: readonly ChartReference[]
@@ -181,6 +205,10 @@ function seriesColor(
       : `var(--surf-chart-series-${(index % 3) + 1})`)
   )
 }
+const trendColors = {
+  above: 'var(--surf-trend-up-fg)',
+  below: 'var(--surf-trend-down-fg)',
+} as const
 const toneColors = {
   neutral: 'var(--surf-ink-muted)',
   caution: 'var(--surf-status-caution-fg)',
@@ -399,6 +427,116 @@ function SeriesMark({
     </svg>
   )
 }
+/** Shades the gap between two series, in the trend-up color where the first is above
+ * the second and trend-down where it is below. A linear gap turns color where the lines
+ * cross; a step gap holds each row's side until the next. A missing value breaks it,
+ * as it breaks the lines. */
+function SeriesGap({
+  points,
+  step,
+}: {
+  points: readonly { x: unknown; a: number | null; b: number | null }[]
+  step: boolean
+}) {
+  const xScale = useXAxisScale()
+  const yScale = useYAxisScale()
+  if (!xScale || !yScale) return null
+  const shapes: { side: 'above' | 'below'; d: string }[] = []
+  let run: { x: number; a: number; b: number }[] = []
+  const flush = () => {
+    if (run.length < 2) return (run = [])
+    // Each piece walks along the first series and back along the second.
+    const shape = (part: typeof run) => {
+      const top = part.map((p) => `${p.x},${p.a}`)
+      const bottom = part.map((p) => `${p.x},${p.b}`).reverse()
+      return `M${[...top, ...bottom].join('L')}Z`
+    }
+    // Pixel y grows downward, so the first series is above where its y is smaller.
+    const sideOf = (p: (typeof run)[number]) =>
+      p.a <= p.b ? ('above' as const) : ('below' as const)
+    if (step) {
+      for (let index = 0; index < run.length - 1; index++) {
+        const p = run[index],
+          next = run[index + 1]
+        shapes.push({
+          side: sideOf(p),
+          d: shape([p, { ...p, x: next.x }]),
+        })
+      }
+    } else {
+      let part = [run[0]]
+      for (let index = 1; index < run.length; index++) {
+        const p = run[index - 1],
+          next = run[index]
+        const from = p.b - p.a,
+          to = next.b - next.a
+        if (from * to < 0) {
+          // The lines cross between the rows: close the piece where they meet.
+          const t = from / (from - to)
+          const cross = {
+            x: p.x + t * (next.x - p.x),
+            a: p.a + t * (next.a - p.a),
+            b: p.a + t * (next.a - p.a),
+          }
+          shapes.push({ side: sideOf(p), d: shape([...part, cross]) })
+          part = [cross]
+        }
+        part.push(next)
+      }
+      shapes.push({
+        side: sideOf(part.find((p) => p.a !== p.b) ?? part[0]),
+        d: shape(part),
+      })
+    }
+    run = []
+  }
+  for (const point of points) {
+    const x = point.a === null || point.b === null ? undefined : xScale(point.x)
+    if (x === undefined || !isNumber(x)) {
+      flush()
+      continue
+    }
+    run.push({ x, a: yScale(point.a)!, b: yScale(point.b)! })
+  }
+  flush()
+  return (
+    <ZIndexLayer zIndex={DefaultZIndexes.area - 1}>
+      <g className='surf-chart-gap' aria-hidden='true'>
+        {shapes.map((shape, index) => (
+          <path
+            key={index}
+            d={shape.d}
+            data-side={shape.side}
+            fill={trendColors[shape.side]}
+            fillOpacity={0.16}
+            stroke='none'
+          />
+        ))}
+      </g>
+    </ZIndexLayer>
+  )
+}
+/** A side of a gap, as the legend and the floating values draw it. */
+function GapMark({ side }: { side: 'above' | 'below' }) {
+  return (
+    <svg
+      className='surf-chart-mark'
+      viewBox='0 0 32 20'
+      aria-hidden='true'
+      focusable='false'
+    >
+      <rect
+        x='4'
+        y='4'
+        width='24'
+        height='12'
+        rx='2'
+        fill={trendColors[side]}
+        fillOpacity='0.32'
+      />
+    </svg>
+  )
+}
 function ReferenceMark({ reference }: { reference: ChartReference }) {
   const color = toneColors[reference.tone ?? 'neutral']
   return (
@@ -537,6 +675,7 @@ export const Chart = function Chart({
   curve = 'linear',
   stacked = false,
   references = [],
+  gap,
   density: ownDensity,
   legendPosition = 'top',
   legendLimit,
@@ -554,7 +693,12 @@ export const Chart = function Chart({
   const text: ChartLabels = { ...chartLabels, ...provided, ...labels }
   const id = React.useId().replace(/[^a-zA-Z0-9_-]/g, '_')
   const colorFor = (index: number) =>
-    seriesColor(index, palette, series[index]?.color)
+    seriesColor(
+      index,
+      palette,
+      series[index]?.color ??
+        (series[index]?.comparison ? 'var(--surf-ink-muted)' : undefined),
+    )
   const timeScale = xScale === 'time'
   const logScale = yScale === 'log'
   const stacks = stacked && type !== 'line'
@@ -849,6 +993,24 @@ export const Chart = function Chart({
       .map((s) => row.values[s.key])
       .filter(isNumber)
       .reduce((a, b) => a + b, 0)
+  // A gap shows on a line chart while both of its series do.
+  const shownGap =
+    gap &&
+    type === 'line' &&
+    [gap.series, gap.against].every(
+      (key) => series.some((s) => s.key === key) && !hidden.has(key),
+    )
+      ? gap
+      : undefined
+  const gapAt = (row: Row) => {
+    if (!shownGap) return null
+    const a = valueOf(row, shownGap.series),
+      b = valueOf(row, shownGap.against)
+    if (a === null || b === null || a === b) return null
+    return a > b
+      ? { side: 'above' as const, label: shownGap.above, size: a - b }
+      : { side: 'below' as const, label: shownGap.below, size: b - a }
+  }
   const placeText = (position: ChartPosition) =>
     timeScale
       ? (time?.format(Number(position)) ?? String(position))
@@ -921,6 +1083,13 @@ export const Chart = function Chart({
           <span>{referenceText(reference)}</span>
         </li>
       ))}
+      {shownGap &&
+        (['above', 'below'] as const).map((side) => (
+          <li key={side} className='surf-chart-legend-reference'>
+            <GapMark side={side} />
+            <span>{shownGap[side]}</span>
+          </li>
+        ))}
     </ul>
   )
   return (
@@ -1111,6 +1280,12 @@ export const Chart = function Chart({
                                       {text.total}: {format(total(row))}
                                     </li>
                                   )}
+                                  {gapAt(row) && (
+                                    <li>
+                                      {gapAt(row)!.label}:{' '}
+                                      {format(gapAt(row)!.size)}
+                                    </li>
+                                  )}
                                   {referencesAt
                                     .get(row.id)
                                     ?.map((reference, index) => (
@@ -1128,7 +1303,28 @@ export const Chart = function Chart({
                       }}
                     />
                   )}
-                  {series.map((s, index) => {
+                  {shownGap && (
+                    <SeriesGap
+                      step={curve === 'step'}
+                      points={plotRows.map((row) => ({
+                        x: timeScale ? row.time : row.id,
+                        a: valueOf(row, shownGap.series),
+                        b: valueOf(row, shownGap.against),
+                      }))}
+                    />
+                  )}
+                  {/* Comparison series draw first, under the ones read against them. */}
+                  {(stacks
+                    ? series.map((s, index) => [s, index] as const)
+                    : [
+                        ...series
+                          .map((s, index) => [s, index] as const)
+                          .filter(([s]) => s.comparison),
+                        ...series
+                          .map((s, index) => [s, index] as const)
+                          .filter(([s]) => !s.comparison),
+                      ]
+                  ).map(([s, index]) => {
                     const common = {
                       name: s.label,
                       dataKey: (row: Row) => valueOf(row, s.key),
@@ -1161,7 +1357,7 @@ export const Chart = function Chart({
                         key={s.key}
                         {...common}
                         type={shape}
-                        strokeWidth={2}
+                        strokeWidth={s.comparison ? 1.5 : 2}
                         strokeDasharray={dashes[index % dashes.length]}
                         fill={`url(#${id}-pattern-${index})`}
                         fillOpacity={stacks ? 0.32 : 0.12}
@@ -1174,7 +1370,7 @@ export const Chart = function Chart({
                         key={s.key}
                         {...common}
                         type={shape}
-                        strokeWidth={2}
+                        strokeWidth={s.comparison ? 1.5 : 2}
                         strokeDasharray={dashes[index % dashes.length]}
                         connectNulls={false}
                         dot={dot}
@@ -1232,6 +1428,15 @@ export const Chart = function Chart({
                                 <span>{text.total}</span>
                                 <span className='surf-chart-tooltip-value'>
                                   {format(total(row))}
+                                </span>
+                              </li>
+                            )}
+                            {gapAt(row) && (
+                              <li className='surf-chart-tooltip-gap'>
+                                <GapMark side={gapAt(row)!.side} />
+                                <span>{gapAt(row)!.label}</span>
+                                <span className='surf-chart-tooltip-value'>
+                                  {format(gapAt(row)!.size)}
                                 </span>
                               </li>
                             )}
