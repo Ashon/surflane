@@ -7,6 +7,7 @@ import { Icon } from './icon.js'
 import { Tooltip } from './tooltip.js'
 import { commandKey } from './platform.js'
 import { useLabels } from './label-context.js'
+import { SizeScope } from './sizing.js'
 
 type Shell = {
   collapsed: boolean
@@ -268,11 +269,10 @@ const Content = function AppShellContent({
   )
 }
 /**
- * A page's own tabs, such as a project's pages as links, first in a Page. It starts at
- * the page's top edge, as tall as the brand row less the shell's inset, so what it
- * holds stands on the brand row's line and starts where the page's content does. The
- * space under it parts it from the page, not a line. On a phone it is as tall as
- * what it holds.
+ * A page's own tabs, such as a project's pages as links, first in a Page. Its controls
+ * take the small size: each tab stands as far from the page's top and start as the
+ * page stands from the shell, its label lines up with the page's text, and its middle
+ * on the brand row's line. The space under it parts it from the page, not a line.
  */
 const Bar = function AppShellBar({
   className,
@@ -282,7 +282,14 @@ const Bar = function AppShellBar({
   ref?: React.Ref<HTMLDivElement>
 }) {
   return (
-    <div {...props} ref={ref} className={cx('surf-app-shell-bar', className)} />
+    <SizeScope size='small'>
+      <div
+        {...props}
+        ref={ref}
+        data-ui-size='small'
+        className={cx('surf-app-shell-bar', className)}
+      />
+    </SizeScope>
   )
 }
 /**

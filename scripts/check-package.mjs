@@ -284,7 +284,6 @@ const hookClasses = new Set([
   'surf-combobox-section',
   'surf-date-range-picker',
   'surf-meter',
-  'surf-navigation-item',
   'surf-page-header-breadcrumb',
   'surf-preview-trigger',
   'surf-select-group',

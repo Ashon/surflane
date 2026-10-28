@@ -424,22 +424,31 @@
     gap: var(--surf-space-3);
     min-inline-size: 0;
   }
-  /* First in a page it starts at the page's top edge, as tall as the brand row less
-   * the shell's inset above and below: what it holds stands on the brand row's line,
-   * and starts where the page's content does. No line parts it from the page: the
-   * space under it does, and the current tab's plane marks where the reader is. */
+  /* First in a page it is as tall as the brand row less the shell's inset above and
+   * below, B - 2I, from the page's top edge, so a tab centers on the brand row's line.
+   * It bleeds a tab's inline padding X past the page's text, so a tab's label lines
+   * up with the text and the tab stands G = P - X from the page's start. A tab of the
+   * small size, H = B - 2I - 2G, stands G from the page's top too: by default
+   * G = 24 - 13 = 11 and 12 above, the shell's inset, and H = 80 - 24 - 24 = 32, the
+   * small control. No line parts it
+   * from the page: the space under it does, and the current tab's plane marks where
+   * the reader is. */
   .surf-app-shell-page > .surf-app-shell-bar:first-child {
+    /* X: a tab's inline padding and its 1px edge. */
+    --surf-app-shell-bar-bleed: calc(var(--surf-space-3) + 1px);
     box-sizing: border-box;
     block-size: calc(
       var(--surf-app-shell-brand-height) - var(--surf-app-shell-inset) * 2
     );
     margin-block: calc(var(--surf-app-shell-page-padding) * -1)
       var(--surf-app-shell-page-padding);
+    margin-inline-start: calc(var(--surf-app-shell-bar-bleed) * -1);
   }
-  /* On a phone there is no brand row to stand on: the bar is as tall as what it
-   * holds. */
+  /* On a phone there is no brand row to stand on, and the page's 16px padding leaves
+   * no room to bleed: the bar is as tall as what it holds, its tabs at the text. */
   @media (max-width: 760px) {
     .surf-app-shell-page > .surf-app-shell-bar:first-child {
+      --surf-app-shell-bar-bleed: 0px;
       block-size: auto;
       padding-block: var(--surf-space-2);
     }
@@ -490,6 +499,12 @@
      the rail keep their size, so the icon column and the brand row's line stay. */
   [data-ui-density='compact'] {
     --surf-app-shell-row-height: var(--surf-space-8);
+  }
+  /* Compact density: a page's 12px padding is the shell's inset, so a bar has no room
+     to bleed: its tabs start at the page's text. */
+  :where([data-ui-density='compact'], [data-ui-density='compact'] *)
+    > .surf-app-shell-bar:first-child {
+    --surf-app-shell-bar-bleed: 0px;
   }
   /* Compact density: the page and the content keep the 12px the blocks inside keep,
      on a phone too. */

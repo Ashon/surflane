@@ -58,6 +58,15 @@
     letter-spacing: var(--surf-type-body-tracking);
     overflow-wrap: anywhere;
   }
+  /* A link in the list is one line, as tall as the size's control and no taller:
+     its label centers in that height, so a small list is 32px, as a small button
+     is, and a touch one 44px. Links in a content panel keep their padding for a
+     title and a description. */
+  .surf-navigation-item > .surf-navigation-link {
+    display: flex;
+    align-items: center;
+    padding-block: 0;
+  }
   .surf-navigation-link:hover,
   .surf-navigation-link[data-highlighted] {
     background-image: linear-gradient(

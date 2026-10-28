@@ -781,10 +781,13 @@ test("a page's tab bar sits at its top on the brand row's line and starts where 
         return { x: rect.x, y: rect.y, w: rect.width, h: rect.height }
       }
       const sheet = element.querySelector('.surf-app-shell-page')!
+      const label = document.createRange()
+      label.selectNodeContents(element.querySelector('.surf-app-shell-bar a')!)
       return {
         brand: box('.surf-app-shell-sidebar > .surf-app-shell-brand'),
         bar: box('.surf-app-shell-bar'),
-        link: box('.surf-app-shell-bar a'),
+        tab: box('.surf-app-shell-bar a'),
+        label: label.getBoundingClientRect().x,
         title: box('.surf-app-shell-page h3'),
         page: box('.surf-app-shell-page'),
         padding: parseFloat(getComputedStyle(sheet).paddingInlineStart),
@@ -792,21 +795,26 @@ test("a page's tab bar sits at its top on the brand row's line and starts where 
           .borderBlockEndStyle,
       }
     })
+  // By default a tab bleeds its padding and edge: its label is on the page's text,
+  // and it stands 12px under the page's top and 11px from its start, as the page
+  // stands from the shell. In compact density there is no room to bleed: the tab
+  // starts at the text.
   for (const density of ['default', 'compact']) {
     if (density === 'compact')
       await shell.evaluate((element) =>
         element.setAttribute('data-ui-density', 'compact'),
       )
     const at = await measure()
-    // At the page's top, parted from the page by space, not a line.
-    expect(at.bar.y).toBe(at.page.y)
-    expect(at.bar.x).toBe(at.page.x + at.padding)
     expect(at.line).toBe('none')
-    // Its tabs stand on the brand row's line and start where the content does.
-    expect(at.link.y + at.link.h / 2).toBe(at.brand.y + at.brand.h / 2)
-    expect(at.link.x).toBe(at.page.x + at.padding)
-    expect(at.title.x).toBe(at.link.x)
-    // The page's content keeps its padding under the line.
+    expect(at.bar.y).toBe(at.page.y)
+    expect(at.tab.h).toBe(32)
+    expect(at.tab.y + at.tab.h / 2).toBe(at.brand.y + at.brand.h / 2)
+    expect(at.tab.y - at.page.y).toBe(12)
+    if (density === 'default') {
+      expect(at.label).toBe(at.title.x)
+      expect(at.tab.x - at.page.x).toBe(11)
+    } else expect(at.tab.x).toBe(at.title.x)
+    // The page's content keeps its padding under the bar.
     expect(at.title.y).toBeGreaterThanOrEqual(at.bar.y + at.bar.h + at.padding)
   }
   await shell.evaluate((element) => element.removeAttribute('data-ui-density'))
@@ -814,11 +822,15 @@ test("a page's tab bar sits at its top on the brand row's line and starts where 
   await expect(
     pages.getByRole('link', { name: 'Members', exact: true }),
   ).toHaveAttribute('aria-current', 'page')
-  // On a phone it sits under the mobile header, as tall as its tabs need.
+  // On a phone it sits under the mobile header.
   await page.setViewportSize({ width: 390, height: 844 })
   const header = (await shell.locator('.surf-app-shell-header').boundingBox())!
   const bar = (await shell.locator('.surf-app-shell-bar').boundingBox())!
   expect(bar.y).toBeGreaterThanOrEqual(header.y + header.height)
+  // There it has no room to bleed: its tabs start at the page's text.
+  expect(
+    (await shell.locator('.surf-app-shell-bar a').first().boundingBox())!.x,
+  ).toBe((await shell.locator('.surf-app-shell-page h3').boundingBox())!.x)
   await expect(pages).toBeVisible()
   expect(
     (await new AxeBuilder({ page }).include('.app-shell-preview').analyze())

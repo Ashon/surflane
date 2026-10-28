@@ -9,6 +9,8 @@
 - Content in a ScrollArea no longer makes the document taller than the window. A visually hidden live region, such as a DataState's, is absolutely placed. The viewport wasn't positioned, so the region was placed against the scroller's root and hung below it at its spot after the content. The whole document then scrolled: a wheel over a sidebar moved the shell, and a reload restored the page part of the way down. The viewport now holds such content, and a DataState holds its own live region wherever it sits.
 - `DataState layout='page'` centers only its loading, error and empty notices. Ready content, and stale content under its caution, keep their own layout instead of being centered and held 40vh tall.
 - `AppShell.Bar` no longer draws a line under it. A line is for where planes can't part two areas; here the space under the bar parts it from the page, and the current tab's plane marks where the reader is. The bar starts where the page's content does, still on the brand row's line.
+- `AppShell.Bar` lines its tabs' labels up with the page's text. Its controls take the small size (32px), and it bleeds a NavigationMenu link's padding and edge (13px) past the text. A tab then stands about 12px from the page's top and start, as the page stands from the shell, with its middle on the brand row's line. In compact density and on a phone the page's padding leaves no room to bleed, so the tabs start at the text.
+- A NavigationMenu link in the list is as tall as the size's control: a small list's links were 38px, their block padding over the 32px control, and now center their label in it.
 
 ## 0.16.0
 

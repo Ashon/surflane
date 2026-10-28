@@ -988,7 +988,20 @@ export function Shell() {
           <ScrollArea orientation='vertical' label='Workspace content'>
             <AppShell.Page>
               <AppShell.Bar>
-                <Text>Schedule</Text>
+                <NavigationMenu.Root aria-label='Harbor pages'>
+                  <NavigationMenu.List>
+                    <NavigationMenu.Item>
+                      <NavigationMenu.Link href='/harbor/schedule' active>
+                        Schedule
+                      </NavigationMenu.Link>
+                    </NavigationMenu.Item>
+                    <NavigationMenu.Item>
+                      <NavigationMenu.Link href='/harbor/crews'>
+                        Crews
+                      </NavigationMenu.Link>
+                    </NavigationMenu.Item>
+                  </NavigationMenu.List>
+                </NavigationMenu.Root>
               </AppShell.Bar>
               <Text>Workspace body</Text>
             </AppShell.Page>
