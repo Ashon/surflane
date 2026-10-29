@@ -21,6 +21,7 @@ const en = {
   documentation: 'Documentation',
   allStates: 'All states',
   ready: 'Ready',
+  results: 'Matching resources',
   pending: 'Pending',
   summary: (visible: number, total: number, active: number) =>
     `${visible} of ${total} resources / ${active} active filters`,
@@ -52,6 +53,7 @@ export const text: Record<Locale, typeof en> = {
     documentation: '문서',
     allStates: '모든 상태',
     ready: '준비됨',
+    results: '조건에 맞는 리소스',
     pending: '보류 중',
     summary: (visible: number, total: number, active: number) =>
       `${visible} / ${total}개 리소스 / ${active}개 활성 필터`,

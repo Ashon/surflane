@@ -13,19 +13,19 @@ export const doc: ComponentDoc = {
   keyboard:
     'Tab moves focus. Native text editing and Korean IME input keep working.',
   anatomy:
-    'label → Input wrapper → leadingIcon(optional) + input, help text / error',
+    'Field.Root → Field.Label + Input wrapper(leadingIcon? + input) + Field.Description? / Field.Error',
   tokens: controls,
-  code: `import { Input } from '@surflane/ui'
+  code: `import { Field, Input } from '@surflane/ui'
 
-<label>
-  Project name
+<Field.Root>
+  <Field.Label>Project name</Field.Label>
   <Input name='project' placeholder='Enter a name' />
-</label>
-<Input
-  aria-label='Project ID'
-  aria-invalid='true'
-  aria-describedby='project-error'
-/>`,
+</Field.Root>
+<Field.Root invalid>
+  <Field.Label>Project ID</Field.Label>
+  <Input name='project-id' aria-invalid='true' />
+  <Field.Error match>Check the project ID.</Field.Error>
+</Field.Root>`,
   props: [
     ['leadingIcon', 'ReactNode', '—'],
     ['wrapperClassName', 'string', '—'],

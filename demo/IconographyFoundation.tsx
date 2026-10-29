@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Icon, iconNames, Select, Table } from '@surflane/ui'
+import { Field, Button, Icon, iconNames, Select, Table } from '@surflane/ui'
 import { CatalogCodeBlock as CodeBlock } from './CatalogCodeBlock'
 import { FoundationPage, FoundationSection } from './FoundationPage'
 import { Link } from './router'
@@ -130,10 +130,9 @@ export function IconographyFoundation() {
       </FoundationSection>
       <FoundationSection id='direction'>
         <p>{t.directionIntro}</p>
-        <label>
-          {t.previewDirectionLabel}
+        <Field.Root>
+          <Field.Label>{t.previewDirectionLabel}</Field.Label>
           <Select
-            aria-label={t.previewDirectionLabel}
             value={direction}
             onValueChange={(value) => setDirection(value ?? 'ltr')}
             options={[
@@ -141,7 +140,7 @@ export function IconographyFoundation() {
               { value: 'rtl', label: t.rtlOption },
             ]}
           />
-        </label>
+        </Field.Root>
         <div
           className='actions icon-direction-preview'
           dir={direction}

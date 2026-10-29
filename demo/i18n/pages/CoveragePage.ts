@@ -27,10 +27,8 @@ const en = {
   wave3Desc:
     'Review dedicated behavior and library fit for dates, files, trees, charts, OTP, and command search.',
   layer: 'Layer',
-  layerAriaLabel: 'Coverage layer',
   allLayers: 'All layers',
   wave: 'Wave',
-  waveAriaLabel: 'Coverage wave',
   allWaves: 'All waves',
   waveOption: (n: number) => `Wave ${n}`,
   tableLabel: 'Coverage inventory table',
@@ -86,10 +84,8 @@ export const text: Record<Locale, typeof en> = {
     wave3Desc:
       '날짜, 파일, 트리, 차트, OTP, 명령 검색의 전용 동작과 라이브러리 적합성을 검토합니다.',
     layer: '레이어',
-    layerAriaLabel: '커버리지 레이어',
     allLayers: '모든 레이어',
     wave: '단계',
-    waveAriaLabel: '커버리지 단계',
     allWaves: '모든 단계',
     waveOption: (n: number) => `${n}단계`,
     tableLabel: '커버리지 인벤토리 테이블',

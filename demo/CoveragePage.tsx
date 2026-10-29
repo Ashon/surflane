@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Table, Select, Stat } from '@surflane/ui'
+import { Field, Table, Select, Stat } from '@surflane/ui'
 import { catalog, stageLabels, itemHref, referenceSources } from './catalog'
 import { StageLabel } from './StageLabel'
 import { Link } from './router'
@@ -66,10 +66,9 @@ export function CoveragePage() {
       <section id='coverage-inventory'>
         <h2>{t.coverageInventory}</h2>
         <div className='catalog-filters'>
-          <label>
-            {t.layer}
+          <Field.Root>
+            <Field.Label>{t.layer}</Field.Label>
             <Select
-              aria-label={t.layerAriaLabel}
               value={kind}
               onValueChange={setKind}
               options={[
@@ -80,11 +79,10 @@ export function CoveragePage() {
                 })),
               ]}
             />
-          </label>
-          <label>
-            {t.wave}
+          </Field.Root>
+          <Field.Root>
+            <Field.Label>{t.wave}</Field.Label>
             <Select
-              aria-label={t.waveAriaLabel}
               value={phase}
               onValueChange={setPhase}
               options={[
@@ -95,7 +93,7 @@ export function CoveragePage() {
                 })),
               ]}
             />
-          </label>
+          </Field.Root>
         </div>
         <Table.Container
           bleed

@@ -1,5 +1,7 @@
 import React, { useRef, useState } from 'react'
 import {
+  Stat,
+  Field,
   Breadcrumbs,
   ChoiceLabel,
   DirectionProvider,
@@ -36,10 +38,9 @@ export function LayoutPreview() {
   return (
     <>
       <div className='foundation-controls'>
-        <label>
-          {t.layoutProfile}
+        <Field.Root>
+          <Field.Label>{t.layoutProfile}</Field.Label>
           <Select
-            aria-label={t.layoutProfile}
             value={profile}
             onValueChange={setProfile}
             options={[
@@ -48,11 +49,10 @@ export function LayoutPreview() {
               { value: 'wide', label: t.profileWide },
             ]}
           />
-        </label>
-        <label>
-          {t.density}
+        </Field.Root>
+        <Field.Root>
+          <Field.Label>{t.density}</Field.Label>
           <Select
-            aria-label={t.layoutDensity}
             value={density}
             onValueChange={setDensity}
             options={[
@@ -60,7 +60,7 @@ export function LayoutPreview() {
               { value: 'compact', label: t.densityCompact },
             ]}
           />
-        </label>
+        </Field.Root>
       </div>
       <div
         id='layout-preview'
@@ -129,15 +129,11 @@ export function LayoutPreview() {
                     ? [[t.statClusters, '03', t.statClustersDesc]]
                     : []),
                 ].map(([name, value, desc]) => (
-                  <div className='foundation-stat' key={name}>
-                    <Stack gap={2}>
-                      <Text variant='label'>{name}</Text>
-                      <Text variant='metric'>{value}</Text>
-                      <Text variant='caption' color='muted'>
-                        {desc}
-                      </Text>
-                    </Stack>
-                  </div>
+                  <Stat.Root data-testid='layout-stat' key={name}>
+                    <Stat.Label>{name}</Stat.Label>
+                    <Stat.Value>{value}</Stat.Value>
+                    <Stat.Caption>{desc}</Stat.Caption>
+                  </Stat.Root>
                 ))}
               </Grid>
             ) : (

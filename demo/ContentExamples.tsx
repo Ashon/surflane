@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import {
+  Field,
   Card,
   Pagination,
   Button,
@@ -31,8 +32,8 @@ function PaginationExample() {
     rows = filtered.slice((page - 1) * 4, page * 4)
   return (
     <div className='example-stack'>
-      <label>
-        {t.findRun}
+      <Field.Root>
+        <Field.Label>{t.findRun}</Field.Label>
         <Input
           value={query}
           onChange={(e) => {
@@ -41,7 +42,7 @@ function PaginationExample() {
           }}
           placeholder={t.searchRunNames}
         />
-      </label>
+      </Field.Root>
       <List.Root aria-label={t.pagedPipelineRuns}>
         {rows.map((row) => (
           <List.Item key={row.id}>

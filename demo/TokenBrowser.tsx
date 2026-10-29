@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import catalog from '@surflane/design-tokens/catalog.json'
-import { Input, Select, Button, Text, CopyButton } from '@surflane/ui'
+import { Field, Input, Select, Button, Text, CopyButton } from '@surflane/ui'
 import { codeText } from './codeText'
 import { FoundationPage, FoundationSection } from './FoundationPage'
 import { useLocale } from './i18n'
@@ -103,19 +103,17 @@ function Browser({ initialQuery }: { initialQuery: string }) {
   return (
     <>
       <div className='foundation-controls'>
-        <label>
-          {t.search}
+        <Field.Root>
+          <Field.Label>{t.search}</Field.Label>
           <Input
-            aria-label={t.searchAriaLabel}
             placeholder={t.searchPlaceholder}
             value={query}
             onChange={(e) => changeQuery(e.target.value)}
           />
-        </label>
-        <label>
-          {t.category}
+        </Field.Root>
+        <Field.Root>
+          <Field.Label>{t.category}</Field.Label>
           <Select
-            aria-label={t.categoryAriaLabel}
             value={category}
             onValueChange={(value) => {
               setCategory(value)
@@ -126,7 +124,7 @@ function Browser({ initialQuery }: { initialQuery: string }) {
               ...catalog.categories.map((value) => ({ value, label: value })),
             ]}
           />
-        </label>
+        </Field.Root>
       </div>
       <Text variant='caption' color='muted' aria-live='polite'>
         {t.count(tokens.length, Math.min(limit, tokens.length))}

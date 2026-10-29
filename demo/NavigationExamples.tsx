@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import {
+  Text,
+  Field,
   Tabs,
   Accordion,
   Collapsible,
@@ -56,10 +58,9 @@ function TabsExample() {
   return (
     <div className='example-stack'>
       <div className='grid'>
-        <label>
-          {t.tabOrientation}
+        <Field.Root>
+          <Field.Label>{t.tabOrientation}</Field.Label>
           <Select
-            aria-label={t.tabOrientation}
             value={orientation}
             onValueChange={(v) => setOrientation(v as typeof orientation)}
             options={[
@@ -67,7 +68,7 @@ function TabsExample() {
               { value: 'vertical', label: t.vertical },
             ]}
           />
-        </label>
+        </Field.Root>
         <div>
           <Toggle checked={automatic} onChange={setAutomatic}>
             {t.activateOnFocus}
@@ -108,10 +109,10 @@ function TabsExample() {
             </Tabs.List>
             <Tabs.Panel value='overview' keepMounted>
               <p>{t.reviewEnvironmentAndDeploymentScope}</p>
-              <label>
-                {t.previewNote}
+              <Field.Root>
+                <Field.Label>{t.previewNote}</Field.Label>
                 <Input placeholder={t.noteRetainedAcrossTabs} />
-              </label>
+              </Field.Root>
             </Tabs.Panel>
             <Tabs.Panel value='logs' keepMounted>
               <p>{t.reviewBuildLogsForSelectedPipelineRun}</p>
@@ -153,10 +154,10 @@ function AccordionExample() {
           </Accordion.Header>
           <Accordion.Panel>
             <p>{t.checkServiceAccountPermissionsAndTeamIsolation}</p>
-            <label>
-              {t.caseNote}
+            <Field.Root>
+              <Field.Label>{t.caseNote}</Field.Label>
               <Input placeholder={t.retainedWhileCollapsed} />
-            </label>
+            </Field.Root>
           </Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item value='environments'>
@@ -190,10 +191,10 @@ function CollapsibleExample() {
         <Collapsible.Trigger>{t.technicalDetails}</Collapsible.Trigger>
         <Collapsible.Panel keepMounted>
           <p>{t.reviewDeploymentResultsAndRedactedBuildLogs}</p>
-          <label>
-            {t.buildNote}
+          <Field.Root>
+            <Field.Label>{t.buildNote}</Field.Label>
             <Input placeholder={t.retainedWhileCollapsed} />
-          </label>
+          </Field.Root>
         </Collapsible.Panel>
       </Collapsible.Root>
     </div>
@@ -255,15 +256,14 @@ function BadgeExample() {
         ))}
         <Badge>{t.threeEnvironments}</Badge>
       </div>
-      <label>
-        {t.statusPreview}
+      <Field.Root>
+        <Field.Label>{t.statusPreview}</Field.Label>
         <Select
-          aria-label={t.statusPreview}
           value={value}
           onValueChange={setValue}
           options={badgeStates.map((s) => ({ value: s.value, label: s.label }))}
         />
-      </label>
+      </Field.Root>
       <div role='status' className='status-sentence'>
         <StatusBadge tone={state.tone}>{state.label}</StatusBadge>
         <span>{state.description}</span>
@@ -281,11 +281,11 @@ function KbdExample() {
         <Kbd keys={['mod', 'k']} />
         {t.kbdSearchAfter}
       </p>
-      <p className='muted'>
+      <Text variant='caption' color='muted'>
         <Kbd keys='up' labels={labels} /> <Kbd keys='down' labels={labels} />{' '}
         {t.kbdChoose} · <Kbd keys='enter' /> {t.kbdOpen} · <Kbd keys='escape' />{' '}
         {t.kbdClose}
-      </p>
+      </Text>
       <Table.Root>
         <Table.Caption>{t.kbdCaption}</Table.Caption>
         <Table.Head>

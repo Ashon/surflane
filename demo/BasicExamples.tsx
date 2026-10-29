@@ -1,9 +1,12 @@
 import React, { useRef, useState } from 'react'
 import {
   Button,
+  Field,
   Stack,
   Inline,
   Input,
+  Table,
+  Text,
   Select,
   NativeSelect,
   Popover,
@@ -86,29 +89,31 @@ export function BasicExample({
             <Button disabled>{t.unavailable}</Button>
           </div>
           <div className='button-variant-guide'>
-            <p>{t.defaultIsFormerName}</p>
-            <ScrollArea label={t.buttonVariantsAndSizes}>
-              <table className='button-variant-table'>
-                <caption>{t.emphasisLevelAndSize}</caption>
-                <thead>
-                  <tr>
-                    <th scope='col'>{t.role}</th>
+            <Text color='muted'>{t.defaultIsFormerName}</Text>
+            <Table.Container bleed label={t.buttonVariantsAndSizes}>
+              <Table.Root>
+                <Table.Caption>{t.emphasisLevelAndSize}</Table.Caption>
+                <Table.Head>
+                  <Table.Row>
+                    <Table.HeaderCell scope='col'>{t.role}</Table.HeaderCell>
                     {t.sizes.map((size) => (
-                      <th key={size} scope='col'>
+                      <Table.HeaderCell key={size} scope='col'>
                         {size}
-                      </th>
+                      </Table.HeaderCell>
                     ))}
-                  </tr>
-                </thead>
-                <tbody>
+                  </Table.Row>
+                </Table.Head>
+                <Table.Body>
                   {t.variantRows.map(([variant, label, description]) => (
-                    <tr key={variant}>
-                      <th scope='row'>
+                    <Table.Row key={variant}>
+                      <Table.HeaderCell scope='row'>
                         {label}
-                        <span>{description}</span>
-                      </th>
+                        <Text as='div' variant='caption' color='muted'>
+                          {description}
+                        </Text>
+                      </Table.HeaderCell>
                       {(['small', 'default', 'large'] as const).map((size) => (
-                        <td key={size}>
+                        <Table.Cell key={size}>
                           <Button
                             variant={variant}
                             size={size}
@@ -117,13 +122,13 @@ export function BasicExample({
                           >
                             {label}
                           </Button>
-                        </td>
+                        </Table.Cell>
                       ))}
-                    </tr>
+                    </Table.Row>
                   ))}
-                </tbody>
-              </table>
-            </ScrollArea>
+                </Table.Body>
+              </Table.Root>
+            </Table.Container>
           </div>
         </div>
       )
@@ -131,33 +136,24 @@ export function BasicExample({
     case 'input':
       example = (
         <div className='grid'>
-          <label>
-            {t.name}
+          <Field.Root>
+            <Field.Label>{t.name}</Field.Label>
             <Input placeholder={t.enterName} />
-          </label>
-          <label>
-            {t.readOnly}
+          </Field.Root>
+          <Field.Root>
+            <Field.Label>{t.readOnly}</Field.Label>
             <Input readOnly value='demo-e2e-01' />
-          </label>
-          {/* The error sits outside the label, so it describes the field
-              without becoming part of its name. */}
-          <div className='example-field'>
-            <label>
-              {t.projectID}
-              <Input
-                placeholder='project-id'
-                aria-invalid='true'
-                aria-describedby='input-error'
-              />
-            </label>
-            <span id='input-error' className='field-error'>
-              {t.checkProjectID}
-            </span>
-          </div>
-          <label>
-            {t.disabled}
+          </Field.Root>
+          {/* Field.Error describes the input without becoming part of its name. */}
+          <Field.Root invalid>
+            <Field.Label>{t.projectID}</Field.Label>
+            <Input placeholder='project-id' aria-invalid='true' />
+            <Field.Error match>{t.checkProjectID}</Field.Error>
+          </Field.Root>
+          <Field.Root disabled>
+            <Field.Label>{t.disabled}</Field.Label>
             <Input disabled placeholder={t.unavailable} />
-          </label>
+          </Field.Root>
         </div>
       )
       break
@@ -174,19 +170,17 @@ export function BasicExample({
             )
           }}
         >
-          <label>
-            {t.environment}
+          <Field.Root>
+            <Field.Label>{t.environment}</Field.Label>
             {id === 'select' ? (
               <Select
                 name='environment'
                 options={regions}
                 defaultValue='staging'
-                aria-label={t.environment}
               />
             ) : (
               <NativeSelect
                 name='environment'
-                aria-label={t.environment}
                 value={selected}
                 onChange={(e) => setSelected(e.target.value)}
               >
@@ -197,16 +191,12 @@ export function BasicExample({
                 </option>
               </NativeSelect>
             )}
-          </label>
+          </Field.Root>
           {id === 'select' && (
-            <label>
-              {t.region}
-              <Select
-                name='region'
-                options={regionGroups}
-                aria-label={t.region}
-              />
-            </label>
+            <Field.Root>
+              <Field.Label>{t.region}</Field.Label>
+              <Select name='region' options={regionGroups} />
+            </Field.Root>
           )}
           {id === 'select' && (
             // Content width: each fits its longest option and stays beside the other.
@@ -271,10 +261,10 @@ export function BasicExample({
                 <Popover.Title>{t.previewAccount}</Popover.Title>
                 <Popover.Description>{t.reviewDetails}</Popover.Description>
               </Stack>
-              <label>
-                {t.nickname}
+              <Field.Root>
+                <Field.Label>{t.nickname}</Field.Label>
                 <Input placeholder={t.displayName} />
-              </label>
+              </Field.Root>
               <Inline gap={2}>
                 <Popover.Close render={<Button variant='outline' />}>
                   {t.done}
@@ -337,14 +327,10 @@ export function BasicExample({
               </Dialog.Description>
             </Dialog.Header>
             <Dialog.Body>
-              <label>
-                {t.environment}
-                <Select
-                  options={regions}
-                  defaultValue='staging'
-                  aria-label={t.dialogEnvironment}
-                />
-              </label>
+              <Field.Root>
+                <Field.Label>{t.environment}</Field.Label>
+                <Select options={regions} defaultValue='staging' />
+              </Field.Root>
             </Dialog.Body>
             <Dialog.Footer>
               <Dialog.Close render={<Button variant='outline' />}>
@@ -430,16 +416,20 @@ export function BasicExample({
           orientation='both'
           style={{ maxHeight: 200 }}
         >
-          <table>
-            <caption>{t.previewBuildRevisions}</caption>
-            <thead>
-              <tr>
-                <th scope='col'>{t.service}</th>
-                <th scope='col'>{t.startRevision}</th>
-                <th scope='col'>{t.finishRevision}</th>
-              </tr>
-            </thead>
-            <tbody>
+          <Table.Root>
+            <Table.Caption>{t.previewBuildRevisions}</Table.Caption>
+            <Table.Head>
+              <Table.Row>
+                <Table.HeaderCell scope='col'>{t.service}</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>
+                  {t.startRevision}
+                </Table.HeaderCell>
+                <Table.HeaderCell scope='col'>
+                  {t.finishRevision}
+                </Table.HeaderCell>
+              </Table.Row>
+            </Table.Head>
+            <Table.Body>
               {[
                 'platform-api',
                 'auth-gateway',
@@ -448,18 +438,22 @@ export function BasicExample({
                 'notification-worker',
                 'payments-api',
               ].map((s) => (
-                <tr key={s}>
-                  <th scope='row'>{s}</th>
-                  <td>
-                    <code>sha256:8af4935c6e2b1542a302a89238c0</code>
-                  </td>
-                  <td>
-                    <code>sha256:28c04592d081b1b83f1b2d46177a</code>
-                  </td>
-                </tr>
+                <Table.Row key={s}>
+                  <Table.HeaderCell scope='row'>{s}</Table.HeaderCell>
+                  <Table.Cell>
+                    <Text as='span' variant='mono'>
+                      sha256:8af4935c6e2b1542a302a89238c0
+                    </Text>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Text as='span' variant='mono'>
+                      sha256:28c04592d081b1b83f1b2d46177a
+                    </Text>
+                  </Table.Cell>
+                </Table.Row>
               ))}
-            </tbody>
-          </table>
+            </Table.Body>
+          </Table.Root>
         </ScrollArea>
       )
       break

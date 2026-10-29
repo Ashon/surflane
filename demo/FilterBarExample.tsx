@@ -1,5 +1,7 @@
 import React, { useRef, useState } from 'react'
 import {
+  List,
+  StatusBadge,
   FilterBar,
   Input,
   Select,
@@ -153,14 +155,20 @@ export function FilterBarExample() {
       </FilterBar.Root>
       <div id='filter-preview-results'>
         {visible.length ? (
-          <ul className='filter-preview-list'>
+          <List.Root aria-label={t.results}>
             {visible.map((item) => (
-              <li key={item.name}>
-                <strong>{item.name}</strong>
-                <span>{item.status === 'ready' ? t.ready : t.pending}</span>
-              </li>
+              <List.Item key={item.name}>
+                <List.Content>
+                  <List.Title>{item.name}</List.Title>
+                </List.Content>
+                <StatusBadge
+                  tone={item.status === 'ready' ? 'success' : 'progress'}
+                >
+                  {item.status === 'ready' ? t.ready : t.pending}
+                </StatusBadge>
+              </List.Item>
             ))}
-          </ul>
+          </List.Root>
         ) : (
           <EmptyState.Root>
             <EmptyState.Title>{t.noMatchingResources}</EmptyState.Title>

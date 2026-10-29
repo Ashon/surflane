@@ -12,7 +12,7 @@ for (const width of [1440, 1024, 320])
     const boxes = () =>
       page
         .locator(
-          '[data-testid="layout-stack"], [data-testid="layout-grid"], .foundation-stat',
+          '[data-testid="layout-stack"], [data-testid="layout-grid"], [data-testid="layout-stat"]',
         )
         .evaluateAll((elements) =>
           elements.map((el) => {

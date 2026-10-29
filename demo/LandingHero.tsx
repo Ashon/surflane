@@ -112,17 +112,20 @@ export function LandingHero() {
                 ))}
               </AppShell.Nav>
               <AppShell.Footer>
-                <div className='landing-console-account' data-blueprint-guide>
-                  <Avatar.Root size='small' data-blueprint-guide>
-                    <Avatar.Image
-                      alt=''
-                      src={withBase('/avatar-preview.svg')}
-                    />
-                    <Avatar.Fallback>U</Avatar.Fallback>
-                    <Avatar.Status />
-                  </Avatar.Root>
-                  <AppShell.Label data-blueprint-guide>user</AppShell.Label>
-                </div>
+                <AppShell.Link
+                  href='#'
+                  label='user'
+                  icon={
+                    <Avatar.Root size='small' data-blueprint-guide>
+                      <Avatar.Image
+                        alt=''
+                        src={withBase('/avatar-preview.svg')}
+                      />
+                      <Avatar.Fallback>U</Avatar.Fallback>
+                      <Avatar.Status />
+                    </Avatar.Root>
+                  }
+                />
               </AppShell.Footer>
             </AppShell.Sidebar>
             <AppShell.Content>

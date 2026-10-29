@@ -144,7 +144,7 @@ test('library filtering, partial and planned pages communicate actual readiness'
   await page.goto('/coverage')
   await waitForCatalogReady(page)
   await expect(page.locator('table tbody tr')).toHaveCount(catalog.length)
-  await page.getByRole('combobox', { name: 'Coverage layer' }).click()
+  await page.getByRole('combobox', { name: 'Layer', exact: true }).click()
   await page.getByRole('option', { name: 'component', exact: true }).click()
   await expect(page.locator('table tbody tr')).toHaveCount(components.length)
 })
@@ -170,7 +170,7 @@ test('component reference, token deep link and copy example use the documented v
     .getByRole('link', { name: '--surf-control-height', exact: true })
     .click()
   await expect(
-    page.getByRole('textbox', { name: 'Search design tokens' }),
+    page.getByRole('textbox', { name: 'Search', exact: true }),
   ).toHaveValue('--surf-control-height')
   await expect(
     page.locator('[data-token="--surf-control-height"]'),

@@ -142,8 +142,8 @@ export function FormWorkflowExample() {
     restricted = phase === 'permission'
   return (
     <div className='form-workflow-example'>
-      <label className='workflow-response'>
-        {t.previewResponseLabel}
+      <Field.Root className='workflow-response'>
+        <Field.Label>{t.previewResponseLabel}</Field.Label>
         <NativeSelect
           value={outcome}
           disabled={busy}
@@ -154,7 +154,7 @@ export function FormWorkflowExample() {
           <option value='request-failure'>{t.outcomeRequestFailure}</option>
           <option value='permission-denied'>{t.outcomePermissionDenied}</option>
         </NativeSelect>
-      </label>
+      </Field.Root>
       <p>{t.intro}</p>
       {phase === 'field-error' && (
         <InlineMessage.Root tone='danger' role='alert'>
@@ -268,7 +268,6 @@ export function FormWorkflowExample() {
           <Field.Root name='region'>
             <Field.Label>{t.clusterLabel}</Field.Label>
             <Select
-              aria-label={t.clusterAriaLabel}
               name='region'
               value={draft.region}
               onValueChange={(value) => edit('region', value)}

@@ -27,10 +27,8 @@ const en = {
   intro: (n: number) =>
     `${n} tokens, generated from the CSS source. Search by name, purpose, or alias.`,
   search: 'Search',
-  searchAriaLabel: 'Search design tokens',
   searchPlaceholder: 'e.g. --surf-ink, typography, dialog',
   category: 'Category',
-  categoryAriaLabel: 'Token category',
   allCategories: 'All categories',
   count: (n: number, shown: number) => `${n} matching tokens / ${shown} shown`,
   sourceAndReferences: 'Source and references',
@@ -70,10 +68,8 @@ export const text: Record<Locale, typeof en> = {
     intro: (n: number) =>
       `CSS 소스에서 생성한 토큰 ${n}개입니다. 이름, 용도, 별칭으로 검색하세요.`,
     search: '검색',
-    searchAriaLabel: '디자인 토큰 검색',
     searchPlaceholder: '예: --surf-ink, typography, dialog',
     category: '카테고리',
-    categoryAriaLabel: '토큰 카테고리',
     allCategories: '모든 카테고리',
     count: (n: number, shown: number) =>
       `일치하는 토큰 ${n}개 / ${shown}개 표시`,

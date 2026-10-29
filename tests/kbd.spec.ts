@@ -153,7 +153,9 @@ test('Korean pages name the arrows in Korean, and command search draws its keys 
     'true',
   )
   await trigger.click()
-  const hint = page.getByRole('dialog').locator('p.muted')
+  const hint = page
+    .getByRole('dialog')
+    .locator("p.surf-text[data-variant='caption']")
   expect(await glyphs(hint.locator('kbd.surf-kbd'))).toEqual([
     '↑',
     '↓',

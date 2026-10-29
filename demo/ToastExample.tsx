@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import {
+  Field,
   Toast,
   Button,
   NativeSelect,
@@ -21,8 +22,8 @@ export function ToastExample() {
   const [presentation, setPresentation] = useState('stack')
   return (
     <div className='example-stack'>
-      <label className='toast-duration'>
-        {t.presentationLabel}
+      <Field.Root className='toast-duration'>
+        <Field.Label>{t.presentationLabel}</Field.Label>
         <NativeSelect
           value={presentation}
           onChange={(event) => setPresentation(event.target.value)}
@@ -31,7 +32,7 @@ export function ToastExample() {
           <option value='list'>{t.presentationExpandedList}</option>
           <option value='anchored'>{t.presentationAnchoredFeedback}</option>
         </NativeSelect>
-      </label>
+      </Field.Root>
       {presentation !== 'anchored' ? (
         <ToastDemo
           key={presentation}
@@ -168,8 +169,8 @@ function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
   return (
     <div className='example-stack'>
       <div className='toast-demo-settings'>
-        <label className='toast-duration'>
-          {t.durationLabel}
+        <Field.Root className='toast-duration'>
+          <Field.Label>{t.durationLabel}</Field.Label>
           <NativeSelect
             value={String(duration)}
             onChange={(event) => setDuration(Number(event.target.value))}
@@ -178,7 +179,7 @@ function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
             <option value='1500'>{t.duration1_5s}</option>
             <option value='0'>{t.durationUntilDismissed}</option>
           </NativeSelect>
-        </label>
+        </Field.Root>
         <ChoiceLabel
           control={
             <Checkbox.Root checked={fail} onCheckedChange={setFail}>

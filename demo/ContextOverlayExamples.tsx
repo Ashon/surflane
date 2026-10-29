@@ -1,5 +1,9 @@
 import React, { useState } from 'react'
 import {
+  Inline,
+  Stack,
+  Surface,
+  Text,
   ContextMenu,
   Menu,
   PreviewCard,
@@ -76,41 +80,49 @@ export function ContextOverlayExample({ id }: { id: string }) {
           </ChoiceLabel>
         </div>
         <DirectionProvider direction={rtl ? 'rtl' : 'ltr'}>
-          <div dir={rtl ? 'rtl' : 'ltr'} className='context-evidence'>
-            <ContextMenu.Root disabled={disabled}>
-              <ContextMenu.Trigger
-                className='context-evidence-target'
-                aria-describedby='context-hint'
-              >
-                <strong>{t.platformApiBuildLogs}</strong>
-                <p id='context-hint'>{t.contextHint}</p>
-              </ContextMenu.Trigger>
-              <ContextMenu.Portal>
-                <ContextMenu.Content
-                  aria-label={t.logContextActions}
-                  collisionPadding={12}
+          <Surface dir={rtl ? 'rtl' : 'ltr'} padding={5}>
+            <Stack gap={4}>
+              <ContextMenu.Root disabled={disabled}>
+                <ContextMenu.Trigger
+                  className='context-evidence-target'
+                  aria-describedby='context-hint'
                 >
-                  <Items
-                    pinned={pinned}
-                    setPinned={setPinned}
-                    setAction={setAction}
-                  />
-                </ContextMenu.Content>
-              </ContextMenu.Portal>
-            </ContextMenu.Root>
-            <Menu.Root>
-              <Menu.Trigger>{t.logActions}</Menu.Trigger>
-              <Menu.Portal>
-                <Menu.Content aria-label={t.logActions}>
-                  <Items
-                    pinned={pinned}
-                    setPinned={setPinned}
-                    setAction={setAction}
-                  />
-                </Menu.Content>
-              </Menu.Portal>
-            </Menu.Root>
-          </div>
+                  <Stack gap={2}>
+                    <Text weight='medium'>{t.platformApiBuildLogs}</Text>
+                    <Text id='context-hint' color='secondary'>
+                      {t.contextHint}
+                    </Text>
+                  </Stack>
+                </ContextMenu.Trigger>
+                <ContextMenu.Portal>
+                  <ContextMenu.Content
+                    aria-label={t.logContextActions}
+                    collisionPadding={12}
+                  >
+                    <Items
+                      pinned={pinned}
+                      setPinned={setPinned}
+                      setAction={setAction}
+                    />
+                  </ContextMenu.Content>
+                </ContextMenu.Portal>
+              </ContextMenu.Root>
+              <Inline>
+                <Menu.Root>
+                  <Menu.Trigger>{t.logActions}</Menu.Trigger>
+                  <Menu.Portal>
+                    <Menu.Content aria-label={t.logActions}>
+                      <Items
+                        pinned={pinned}
+                        setPinned={setPinned}
+                        setAction={setAction}
+                      />
+                    </Menu.Content>
+                  </Menu.Portal>
+                </Menu.Root>
+              </Inline>
+            </Stack>
+          </Surface>
         </DirectionProvider>
         <p role='status'>
           {action} {pinned ? t.logsPinned : t.logsUnpinned}

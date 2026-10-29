@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import {
+  Table,
+  Text,
+  Field,
   Button,
   Input,
   Select,
@@ -36,28 +39,26 @@ export function InteractionLab({ toggleTheme }: { toggleTheme: () => void }) {
           }}
         >
           <div className='grid'>
-            <label>
-              {t.name}
+            <Field.Root>
+              <Field.Label>{t.name}</Field.Label>
               <Input
                 name='name'
                 defaultValue='UI preview'
                 placeholder={t.enterName}
                 required
               />
-            </label>
-            <label>
-              {t.environment}
+            </Field.Root>
+            <Field.Root>
+              <Field.Label>{t.environment}</Field.Label>
               <Select
                 name='environment'
                 options={options}
                 defaultValue='staging'
-                aria-label={t.environment}
               />
-            </label>
-            <label>
-              {t.compatibilityField}
+            </Field.Root>
+            <Field.Root>
+              <Field.Label>{t.compatibilityField}</Field.Label>
               <NativeSelect
-                aria-label={t.compatibilityField}
                 name='legacyEnvironment'
                 value={legacy}
                 onChange={(e) => setLegacy(e.target.value)}
@@ -65,11 +66,11 @@ export function InteractionLab({ toggleTheme }: { toggleTheme: () => void }) {
                 <option value='staging'>{t.staging}</option>
                 <option value='production'>{t.production}</option>
               </NativeSelect>
-            </label>
-            <label>
-              {t.disabled}
+            </Field.Root>
+            <Field.Root>
+              <Field.Label>{t.disabled}</Field.Label>
               <Input placeholder={t.unavailable} disabled />
-            </label>
+            </Field.Root>
           </div>
           <div className='actions'>
             <Button type='submit'>{t.submitPreview}</Button>
@@ -122,14 +123,10 @@ export function InteractionLab({ toggleTheme }: { toggleTheme: () => void }) {
                 <Dialog.Description>{t.dialogDescription}</Dialog.Description>
               </Dialog.Header>
               <Dialog.Body>
-                <label>
-                  {t.dialogEnvironment}
-                  <Select
-                    aria-label={t.dialogEnvironment}
-                    options={options}
-                    defaultValue='staging'
-                  />
-                </label>
+                <Field.Root>
+                  <Field.Label>{t.dialogEnvironment}</Field.Label>
+                  <Select options={options} defaultValue='staging' />
+                </Field.Root>
               </Dialog.Body>
               <Dialog.Footer>
                 <Dialog.Close render={<Button variant='outline' />}>
@@ -149,28 +146,36 @@ export function InteractionLab({ toggleTheme }: { toggleTheme: () => void }) {
           orientation='both'
           style={{ maxHeight: 160 }}
         >
-          <table>
-            <thead>
-              <tr>
-                <th>{t.service}</th>
-                <th>{t.startRevision}</th>
-                <th>{t.finishRevision}</th>
-              </tr>
-            </thead>
-            <tbody>
+          <Table.Root>
+            <Table.Head>
+              <Table.Row>
+                <Table.HeaderCell scope='col'>{t.service}</Table.HeaderCell>
+                <Table.HeaderCell scope='col'>
+                  {t.startRevision}
+                </Table.HeaderCell>
+                <Table.HeaderCell scope='col'>
+                  {t.finishRevision}
+                </Table.HeaderCell>
+              </Table.Row>
+            </Table.Head>
+            <Table.Body>
               {['auth', 'compute', 'infra', 'identity', 'storage'].map((s) => (
-                <tr key={s}>
-                  <td>{s}</td>
-                  <td>
-                    <code>sha256:8af4935c6e2b1542a302a89238c0</code>
-                  </td>
-                  <td>
-                    <code>sha256:28c04592d081b1b83f1b2d46177a</code>
-                  </td>
-                </tr>
+                <Table.Row key={s}>
+                  <Table.HeaderCell scope='row'>{s}</Table.HeaderCell>
+                  <Table.Cell>
+                    <Text as='span' variant='mono'>
+                      sha256:8af4935c6e2b1542a302a89238c0
+                    </Text>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Text as='span' variant='mono'>
+                      sha256:28c04592d081b1b83f1b2d46177a
+                    </Text>
+                  </Table.Cell>
+                </Table.Row>
               ))}
-            </tbody>
-          </table>
+            </Table.Body>
+          </Table.Root>
         </ScrollArea>
       </section>
     </>

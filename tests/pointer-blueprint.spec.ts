@@ -644,10 +644,11 @@ test('the decorative landing console still shows construction guides, unless an 
   await expect
     .poll(() => alphaInside(page, '.landing-console-sheet'))
     .toBeGreaterThan(60)
-  // Brand and account rows are plain containers; they opt in with data-blueprint-guide.
+  // The brand row is a plain container that opts in with data-blueprint-guide; the
+  // account row is a link.
   for (const row of [
     '.landing-console .surf-app-shell-brand',
-    '.landing-console-account',
+    '.landing-console .surf-app-shell-footer .surf-app-shell-link',
   ]) {
     const area = (await page.locator(row).boundingBox())!
     await page.mouse.move(area.x + area.width / 2, area.y + area.height / 2)

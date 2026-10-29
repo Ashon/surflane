@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import {
+  Text,
+  Card,
+  Inline,
   Button,
   Collapsible,
   EmptyState,
@@ -125,8 +128,8 @@ export function ErrorRecoveryExample() {
   return (
     <div className='recovery-example'>
       <div className='recovery-settings actions'>
-        <label>
-          {t.previewRecoveryState}
+        <Field.Root>
+          <Field.Label>{t.previewRecoveryState}</Field.Label>
           <NativeSelect
             value={
               mode === 'pending' ? (pending.current?.origin ?? 'error') : mode
@@ -141,9 +144,9 @@ export function ErrorRecoveryExample() {
               ),
             )}
           </NativeSelect>
-        </label>
-        <label>
-          {t.nextRetryResult}
+        </Field.Root>
+        <Field.Root>
+          <Field.Label>{t.nextRetryResult}</Field.Label>
           <NativeSelect
             disabled={mode === 'pending'}
             value={outcome}
@@ -157,7 +160,7 @@ export function ErrorRecoveryExample() {
               </option>
             ))}
           </NativeSelect>
-        </label>
+        </Field.Root>
       </div>
       <Field.Root name='request-label'>
         <Field.Label>{t.previewRequestLabel}</Field.Label>
@@ -286,16 +289,20 @@ export function ErrorRecoveryExample() {
         </div>
       )}
       {cached && saved && (
-        <section aria-label={t.savedPreviewLabel} className='recovery-saved'>
-          <h3 ref={result} tabIndex={-1}>
-            {t.lastSavedPreview}
-          </h3>
-          <p>{saved.label}</p>
-          <p>{t.revision(saved.revision)}</p>
-          <StatusBadge tone={mode === 'ready' ? 'success' : 'caution'}>
-            {mode === 'ready' ? t.currentPreview : t.mayBeOutdated}
-          </StatusBadge>
-        </section>
+        <Card.Root role='region' aria-label={t.savedPreviewLabel} padding={4}>
+          <Card.Header>
+            <Card.Title ref={result} tabIndex={-1}>
+              {t.lastSavedPreview}
+            </Card.Title>
+            <Card.Description>{saved.label}</Card.Description>
+            <Card.Description>{t.revision(saved.revision)}</Card.Description>
+          </Card.Header>
+          <Inline>
+            <StatusBadge tone={mode === 'ready' ? 'success' : 'caution'}>
+              {mode === 'ready' ? t.currentPreview : t.mayBeOutdated}
+            </StatusBadge>
+          </Inline>
+        </Card.Root>
       )}
       {mode === 'error' && (
         <Collapsible.Root>
@@ -317,7 +324,9 @@ export function ErrorRecoveryExample() {
       <p role='status' aria-label={t.recoveryResultLabel}>
         {notice}
       </p>
-      <p className='recovery-attempts'>{t.requestsStarted(attempts)}</p>
+      <Text variant='caption' color='muted'>
+        {t.requestsStarted(attempts)}
+      </Text>
     </div>
   )
 }

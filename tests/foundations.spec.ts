@@ -77,9 +77,7 @@ test('layout adapts its grid and maintains typography at 320px and enlarged text
     expect(
       await page.evaluate(() => document.body.scrollWidth <= innerWidth),
     ).toBe(true)
-    await page
-      .getByRole('combobox', { name: 'Layout density', exact: true })
-      .click()
+    await page.getByRole('combobox', { name: 'Density', exact: true }).click()
     await page
       .getByRole('option', { name: 'Compact / 12px', exact: true })
       .click()
@@ -153,7 +151,7 @@ test('token search, aliases, copy references and live theme values work', async 
   })
   await page.goto('/foundations/lab')
   await waitForCatalogReady(page)
-  const search = page.getByRole('textbox', { name: 'Search design tokens' })
+  const search = page.getByRole('textbox', { name: 'Search', exact: true })
   await search.fill('--surf-ink')
   const row = page.locator('[data-token="--surf-ink"]')
   await expect(row.getByTestId('resolved-value')).toHaveText(/^oklch\(/)
@@ -181,9 +179,7 @@ test('token search, aliases, copy references and live theme values work', async 
     ),
   ).toBeVisible()
   await search.fill('')
-  await page
-    .getByRole('combobox', { name: 'Token category', exact: true })
-    .click()
+  await page.getByRole('combobox', { name: 'Category', exact: true }).click()
   await page.getByRole('option', { name: 'Typography', exact: true }).click()
   expect(await page.locator('[data-token]').count()).toBeGreaterThan(0)
   expect(

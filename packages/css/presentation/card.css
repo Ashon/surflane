@@ -6,6 +6,9 @@
   /* Cards use one surface; children provide hierarchy without extra frames. */
   .surf-card {
     display: grid;
+    /* Stretched to a taller neighbor in a row, a card keeps its parts at the top
+       and leaves the extra height below them. */
+    align-content: start;
     gap: var(--surf-space-4);
     min-width: 0;
     padding: var(--surf-surface-padding, var(--surf-space-6));

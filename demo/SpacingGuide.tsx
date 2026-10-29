@@ -1,7 +1,15 @@
 import { SpacingScaleMark } from './BlueprintCanvas'
 import React, { useRef, useState } from 'react'
 import { SpacingMeasurements } from './SpacingMeasurements'
-import { Button, Inline, Input, Stack, Table, Toggle } from '@surflane/ui'
+import {
+  Field,
+  Button,
+  Inline,
+  Input,
+  Stack,
+  Table,
+  Toggle,
+} from '@surflane/ui'
 import { CatalogCodeBlock as CodeBlock } from './CatalogCodeBlock'
 import { Link } from './router'
 import { useLocale } from './i18n'
@@ -75,10 +83,10 @@ export function SpacingGuide() {
           <h3 data-spacing-title>{t.accountDetails}</h3>
           <p data-spacing-description>{t.enterNameToDisplay}</p>
         </Stack>
-        <label>
-          <span data-spacing-label>{t.displayName}</span>
+        <Field.Root>
+          <Field.Label data-spacing-label>{t.displayName}</Field.Label>
           <Input placeholder={t.namePlaceholder} />
-        </label>
+        </Field.Root>
         <Inline gap={2} data-spacing-actions>
           <Button type='button'>{t.savePreview}</Button>
           <Button type='button' variant='outline'>
@@ -91,7 +99,7 @@ export function SpacingGuide() {
         language='tsx'
         label={t.codeLabel}
         code={
-          '<Stack gap={4}>\n  <Stack gap={1}>{/* Title and description; margin: 0 */}</Stack>\n  <label>{/* Label + Input; gap: var(--surf-space-2) */}</label>\n  <Inline gap={2}>{/* Action buttons */}</Inline>\n</Stack>'
+          '<Stack gap={4}>\n  <Stack gap={1}>{/* Title and description; margin: 0 */}</Stack>\n  <Field.Root>{/* Field.Label + Input; gap: var(--surf-space-2) */}</Field.Root>\n  <Inline gap={2}>{/* Action buttons */}</Inline>\n</Stack>'
         }
       />
       <p>{t.adapting}</p>

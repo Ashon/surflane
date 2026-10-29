@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Checkbox, NativeSelect, ChoiceLabel } from '@surflane/ui'
+import { Field, Checkbox, NativeSelect, ChoiceLabel } from '@surflane/ui'
 import {
   Chart,
   type ChartDatum,
@@ -384,8 +384,8 @@ export function ChartExample() {
   return (
     <div className='example-stack'>
       <div className='foundation-controls'>
-        <label>
-          {t.chartType}
+        <Field.Root>
+          <Field.Label>{t.chartType}</Field.Label>
           <NativeSelect
             value={type}
             onChange={(event) => setType(event.target.value as typeof type)}
@@ -394,9 +394,9 @@ export function ChartExample() {
             <option value='bar'>{t.barType}</option>
             <option value='area'>{t.areaType}</option>
           </NativeSelect>
-        </label>
-        <label>
-          {t.chartData}
+        </Field.Root>
+        <Field.Root>
+          <Field.Label>{t.chartData}</Field.Label>
           <NativeSelect
             value={scenario}
             onChange={(event) => choose(event.target.value)}
@@ -416,9 +416,9 @@ export function ChartExample() {
             <option value='projects'>{t.options.projects}</option>
             <option value='portfolio'>{t.options.portfolio}</option>
           </NativeSelect>
-        </label>
-        <label>
-          {t.valueScale}
+        </Field.Root>
+        <Field.Root>
+          <Field.Label>{t.valueScale}</Field.Label>
           <NativeSelect
             value={yScale}
             onChange={(event) => setYScale(event.target.value as typeof yScale)}
@@ -426,9 +426,9 @@ export function ChartExample() {
             <option value='linear'>{t.linear}</option>
             <option value='log'>{t.log}</option>
           </NativeSelect>
-        </label>
-        <label>
-          {t.curve}
+        </Field.Root>
+        <Field.Root>
+          <Field.Label>{t.curve}</Field.Label>
           <NativeSelect
             value={curve}
             onChange={(event) => setCurve(event.target.value as typeof curve)}
@@ -436,9 +436,9 @@ export function ChartExample() {
             <option value='linear'>{t.linear}</option>
             <option value='step'>{t.step}</option>
           </NativeSelect>
-        </label>
-        <label>
-          {t.density}
+        </Field.Root>
+        <Field.Root>
+          <Field.Label>{t.density}</Field.Label>
           <NativeSelect
             value={density}
             onChange={(event) =>
@@ -448,9 +448,9 @@ export function ChartExample() {
             <option value='default'>{t.densityDefault}</option>
             <option value='compact'>{t.densityCompact}</option>
           </NativeSelect>
-        </label>
-        <label>
-          {t.legend}
+        </Field.Root>
+        <Field.Root>
+          <Field.Label>{t.legend}</Field.Label>
           <NativeSelect
             value={legendPosition}
             onChange={(event) =>
@@ -460,9 +460,9 @@ export function ChartExample() {
             <option value='top'>{t.top}</option>
             <option value='bottom'>{t.bottom}</option>
           </NativeSelect>
-        </label>
-        <label>
-          {t.legendLimit}
+        </Field.Root>
+        <Field.Root>
+          <Field.Label>{t.legendLimit}</Field.Label>
           <NativeSelect
             value={legendLimit ?? 'all'}
             onChange={(event) =>
@@ -480,9 +480,9 @@ export function ChartExample() {
             <option value='4'>{t.four}</option>
             <option value='2'>{t.two}</option>
           </NativeSelect>
-        </label>
-        <label>
-          {t.palette}
+        </Field.Root>
+        <Field.Root>
+          <Field.Label>{t.palette}</Field.Label>
           <NativeSelect
             value={palette}
             onChange={(event) =>
@@ -492,9 +492,9 @@ export function ChartExample() {
             <option value='neutral'>{t.neutral}</option>
             <option value='categorical'>{t.categorical}</option>
           </NativeSelect>
-        </label>
-        <label>
-          {t.numberLocale}
+        </Field.Root>
+        <Field.Root>
+          <Field.Label>{t.numberLocale}</Field.Label>
           <NativeSelect
             value={locale}
             onChange={(event) => setLocale(event.target.value)}
@@ -502,7 +502,7 @@ export function ChartExample() {
             <option value='en-US'>{t.english}</option>
             <option value='ko-KR'>{t.korean}</option>
           </NativeSelect>
-        </label>
+        </Field.Root>
         <ChoiceLabel
           control={
             <Checkbox.Root checked={locked} onCheckedChange={setLocked}>

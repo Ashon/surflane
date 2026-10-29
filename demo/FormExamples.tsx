@@ -83,7 +83,6 @@ export function FormExample({ id }: { id: string }) {
                 <Field.Label>{t.environment}</Field.Label>
                 <Select
                   name='environment'
-                  aria-label={t.environment}
                   defaultValue='staging'
                   options={[
                     { value: 'staging', label: t.staging },

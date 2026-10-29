@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import {
+  Field,
   Table,
   List,
   Button,
@@ -165,8 +166,8 @@ function BannerPreview() {
   const notice = t.bannerNotices[tone]
   return (
     <div className='example-stack'>
-      <label>
-        {t.bannerState}
+      <Field.Root>
+        <Field.Label>{t.bannerState}</Field.Label>
         <Select
           width='content'
           value={tone}
@@ -176,7 +177,7 @@ function BannerPreview() {
             label: t.bannerNotices[value].title,
           }))}
         />
-      </label>
+      </Field.Root>
       {shown ? (
         <Banner.Root
           tone={tone}
@@ -518,8 +519,8 @@ function DescriptionListPreview() {
   return (
     <div className='example-stack'>
       <Inline gap={4}>
-        <label>
-          {t.dlLayout}
+        <Field.Root>
+          <Field.Label>{t.dlLayout}</Field.Label>
           <Select
             width='content'
             value={layout}
@@ -529,9 +530,9 @@ function DescriptionListPreview() {
               { value: 'stacked', label: t.dlStacked },
             ]}
           />
-        </label>
-        <label>
-          {t.dlColumns}
+        </Field.Root>
+        <Field.Root>
+          <Field.Label>{t.dlColumns}</Field.Label>
           <Select
             width='content'
             value={columns}
@@ -541,7 +542,7 @@ function DescriptionListPreview() {
               { value: '2', label: '2' },
             ]}
           />
-        </label>
+        </Field.Root>
       </Inline>
       <Card.Root>
         <Card.Header>
@@ -676,14 +677,14 @@ export function DataExample({ id }: { id: string }) {
     )
   return (
     <div className='example-stack'>
-      <label>
-        {t.filterEnvironments}
+      <Field.Root>
+        <Field.Label>{t.filterEnvironments}</Field.Label>
         <Input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={t.searchByEnvironmentName}
         />
-      </label>
+      </Field.Root>
       {id === 'table' && (
         <ChoiceLabel
           control={

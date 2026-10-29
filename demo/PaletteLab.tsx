@@ -6,6 +6,7 @@ import React, {
   useState,
 } from 'react'
 import {
+  Field,
   Button,
   Icon,
   Select,
@@ -338,8 +339,8 @@ const CategorySet = memo(function CategorySet({
           format={(value) => `±${fixed(value)}`}
           onChange={onSpread}
         />
-        <label className='palette-field'>
-          {t.vision}
+        <Field.Root className='palette-field'>
+          <Field.Label>{t.vision}</Field.Label>
           <Select
             value={vision}
             onValueChange={(value) => onVision(value as Vision)}
@@ -348,7 +349,7 @@ const CategorySet = memo(function CategorySet({
               label: t.visions[name],
             }))}
           />
-        </label>
+        </Field.Root>
       </div>
       <div
         className='palette-category-preview'
@@ -452,8 +453,8 @@ const ContrastChecker = memo(function ContrastChecker({
                 <strong>{t[which]}</strong>
                 <code>{toCss(color)}</code>
               </div>
-              <label className='palette-field'>
-                {t.source}
+              <Field.Root className='palette-field'>
+                <Field.Label>{t.source}</Field.Label>
                 <Select
                   value={sources[which]}
                   onValueChange={(value) =>
@@ -461,7 +462,7 @@ const ContrastChecker = memo(function ContrastChecker({
                   }
                   options={options(which)}
                 />
-              </label>
+              </Field.Root>
               <SliderField
                 label={t.lightness}
                 value={Number(fixed(color.l, 3))}
@@ -778,8 +779,8 @@ export function PaletteLab() {
               format={(value) => fixed(value)}
               onChange={setWheelLightness}
             />
-            <label className='palette-field'>
-              {t.harmony}
+            <Field.Root className='palette-field'>
+              <Field.Label>{t.harmony}</Field.Label>
               <Select
                 value={harmony}
                 onValueChange={(value) => {
@@ -799,7 +800,7 @@ export function PaletteLab() {
                   },
                 ]}
               />
-            </label>
+            </Field.Root>
             <div className='palette-field'>
               <span id='palette-theme'>{t.evaluateIn}</span>
               <ToggleGroup

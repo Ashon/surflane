@@ -1,5 +1,6 @@
 import React, { useLayoutEffect, useState } from 'react'
 import {
+  ChoiceLabel,
   AppShell,
   Button,
   Checkbox,
@@ -187,18 +188,24 @@ function Preview({
                     aria-label={t.searchServices}
                     placeholder={t.searchServices}
                   />
-                  <label className='theme-preview-choice'>
-                    <Switch.Root defaultChecked>
-                      <Switch.Thumb />
-                    </Switch.Root>
+                  <ChoiceLabel
+                    control={
+                      <Switch.Root defaultChecked>
+                        <Switch.Thumb />
+                      </Switch.Root>
+                    }
+                  >
                     {t.autoPromote}
-                  </label>
-                  <label className='theme-preview-choice'>
-                    <Checkbox.Root defaultChecked>
-                      <Checkbox.Indicator />
-                    </Checkbox.Root>
+                  </ChoiceLabel>
+                  <ChoiceLabel
+                    control={
+                      <Checkbox.Root defaultChecked>
+                        <Checkbox.Indicator />
+                      </Checkbox.Root>
+                    }
+                  >
                     {t.notifyOwners}
-                  </label>
+                  </ChoiceLabel>
                 </div>
                 <Table.Container bleed label={t.tableLabel}>
                   <Table.Root density='compact'>

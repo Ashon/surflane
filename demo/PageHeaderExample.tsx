@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import {
+  Field,
   PageHeader,
   Breadcrumbs,
   Button,
@@ -27,8 +28,8 @@ export function PageHeaderExample() {
   return (
     <>
       <div className='page-header-settings actions'>
-        <label>
-          {t.headingRole}{' '}
+        <Field.Root>
+          <Field.Label>{t.headingRole} </Field.Label>
           <NativeSelect
             value={profile}
             onChange={(e) => setProfile(e.target.value)}
@@ -37,7 +38,7 @@ export function PageHeaderExample() {
             <option value='inventory'>{t.optionPage}</option>
             <option value='docs'>{t.optionReading}</option>
           </NativeSelect>
-        </label>
+        </Field.Root>
         {(
           [
             [t.longTitleLabel, long, setLong],
@@ -69,7 +70,9 @@ export function PageHeaderExample() {
               <Breadcrumbs.Root aria-label={t.breadcrumbLabel}>
                 <Breadcrumbs.List>
                   <Breadcrumbs.Item>
-                    <a href={routeHref('/patterns')}>{t.patterns}</a>
+                    <Breadcrumbs.Link href={routeHref('/patterns')}>
+                      {t.patterns}
+                    </Breadcrumbs.Link>
                   </Breadcrumbs.Item>
                   <Breadcrumbs.Item>
                     <Breadcrumbs.Separator />

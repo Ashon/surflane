@@ -47,13 +47,6 @@
     gap: 24px;
     margin-bottom: 40px;
   }
-  label,
-  .example-field {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    min-width: 0;
-  }
   output {
     display: block;
     overflow-wrap: anywhere;
@@ -118,10 +111,6 @@ html {
   border-radius: var(--surf-radius-sheet);
   box-shadow: var(--surf-shadow-sheet);
 }
-.eyebrow {
-  font-size: var(--surf-type-caption-size);
-  letter-spacing: var(--surf-type-caption-tracking);
-}
 .note {
   margin-top: 24px;
 }
@@ -180,51 +169,6 @@ body,
   gap: 16px;
   margin-top: 24px;
 }
-.panel-example {
-  background: var(--surf-surface);
-  padding: 24px;
-  border-radius: var(--surf-radius-sheet);
-}
-.panel-example h3 {
-  font-size: var(--surf-type-section-size);
-  line-height: var(--surf-type-section-leading);
-  letter-spacing: var(--surf-type-section-tracking);
-  margin: 8px 0;
-}
-.panel-example p {
-  margin: 0;
-}
-.panel-summary {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 20px;
-  margin-block: 0 24px;
-  border-radius: var(--surf-radius-md);
-  background: var(--surf-surface);
-}
-.surf-panel-body .panel-summary:not(:first-child) {
-  margin-top: 24px;
-}
-.panel-summary span {
-  color: var(--surf-ink-body);
-}
-.panel-history {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-.panel-history li {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 14px 0;
-}
-.panel-history li span:last-child {
-  font-size: var(--surf-type-caption-size);
-  letter-spacing: var(--surf-type-caption-tracking);
-  color: var(--surf-ink-muted);
-}
 @media (max-width: 760px) {
   .panel-examples {
     grid-template-columns: 1fr;
@@ -244,13 +188,6 @@ body,
   border-radius: var(--surf-radius-md);
   padding: var(--surf-layout-page-inset);
   margin-top: var(--surf-space-6);
-}
-.layout-preview-shell a {
-  color: var(--surf-ink-body);
-  text-underline-offset: 0.2em;
-}
-.foundation-stat {
-  padding-block: var(--surf-space-4);
 }
 .font-specimens {
   display: grid;
@@ -679,18 +616,8 @@ body,
 .example-stack > .surf-button {
   justify-self: start;
 }
-/* A native label around a control, spaced like Field's label and control. */
-.example-field {
-  display: grid;
-  gap: var(--surf-space-2);
-}
 .example-stack .actions {
   margin: 0;
-}
-.field-error {
-  color: var(--surf-status-danger-fg);
-  font-size: var(--surf-type-caption-size);
-  letter-spacing: var(--surf-type-caption-tracking);
 }
 .catalog-anatomy {
   overflow-wrap: anywhere;
@@ -897,17 +824,6 @@ body,
 }
 .example-stack > .surf-button {
   align-self: flex-start;
-}
-.context-evidence {
-  padding: var(--surf-space-5);
-  border-radius: var(--surf-radius-md);
-  background: var(--surf-surface);
-}
-.context-evidence-target {
-  padding-block: var(--surf-space-3);
-}
-.context-evidence-target p {
-  margin-block: var(--surf-space-2) var(--surf-space-4);
 }
 #preview-destination {
   scroll-margin-top: var(--surf-space-6);
@@ -1874,10 +1790,6 @@ body,
   align-items: end;
   margin-block-end: var(--surf-space-6);
 }
-.page-header-settings > label:first-child {
-  display: grid;
-  gap: var(--surf-space-2);
-}
 .page-header-preview {
   min-inline-size: 0;
 }
@@ -1891,30 +1803,7 @@ body,
   gap: var(--surf-space-6);
   min-inline-size: 0;
 }
-.filter-preview-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: var(--surf-space-2);
-}
-.filter-preview-list li {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--surf-space-3);
-  padding: var(--surf-space-4);
-  border-radius: var(--surf-radius-md);
-  background: var(--surf-surface);
-}
-.filter-preview-list strong {
-  min-inline-size: 0;
-  overflow-wrap: anywhere;
-}
-.filter-preview-list span {
-  color: var(--surf-ink-muted);
-}
+
 .surf-filter-bar .catalog-count {
   margin-block: 0 var(--surf-space-4);
 }
@@ -1982,12 +1871,6 @@ body,
   justify-content: space-between;
   gap: var(--surf-space-3);
   margin-block-end: var(--surf-space-3);
-}
-.resource-loading {
-  display: flex;
-  align-items: center;
-  gap: var(--surf-space-3);
-  padding: var(--surf-space-4);
 }
 .resource-action-status {
   margin: 0;
@@ -2402,10 +2285,6 @@ body,
   gap: var(--surf-space-3);
   margin-block: var(--surf-space-4);
 }
-.data-table-pagination > label {
-  display: grid;
-  gap: var(--surf-space-2);
-}
 .data-table-preview {
   min-inline-size: 800px;
   table-layout: fixed;
@@ -2488,9 +2367,7 @@ body,
   margin-block-end: var(--surf-space-6);
   align-items: end;
 }
-.documentation-settings > label:first-child {
-  display: grid;
-  gap: var(--surf-space-2);
+.documentation-settings > .surf-field:first-child {
   min-inline-size: 12rem;
 }
 .documentation-layout {
@@ -2507,8 +2384,6 @@ body,
   margin-block-end: var(--surf-space-4);
 }
 .documentation-meta {
-  color: var(--surf-ink-muted);
-  font-size: var(--surf-type-caption-size);
   margin-block: 0 var(--surf-space-8);
 }
 .documentation-toc {
@@ -2609,30 +2484,11 @@ body,
   max-inline-size: 40rem;
   min-inline-size: 0;
 }
-.recovery-settings > label {
-  display: grid;
-  gap: var(--surf-space-2);
+.recovery-settings > .surf-field {
   min-inline-size: 12rem;
-}
-.recovery-saved {
-  padding: var(--surf-space-4);
-  border-radius: var(--surf-radius-md);
-  background: var(--surf-surface);
-  overflow-wrap: anywhere;
-}
-.recovery-saved h3 {
-  margin-block: 0 var(--surf-space-3);
-  font-size: var(--surf-type-subsection-size);
-}
-.recovery-saved h3:focus {
-  outline: none;
 }
 .recovery-example > p {
   margin: 0;
-}
-.recovery-attempts {
-  color: var(--surf-ink-muted);
-  font-size: var(--surf-type-caption-size);
 }
 
 /* Workspace benchmark: fixed brand/account, independently scrollable destinations and content. */
@@ -2661,10 +2517,6 @@ body,
   }
 }
 
-.command-search-label {
-  display: grid;
-  gap: var(--surf-space-2);
-}
 .command-search-results {
   block-size: min(360px, 40dvh);
   min-block-size: 0;
@@ -2724,9 +2576,7 @@ body,
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--surf-space-4);
 }
-.tree-preview-settings > label {
-  display: grid;
-  gap: var(--surf-space-2);
+.tree-preview-settings > .surf-field {
   min-inline-size: 0;
 }
 .tree-example > [role='status'] {
@@ -2963,18 +2813,6 @@ body,
 }
 
 /* Demo chrome keeps authored Markdown distinct from the documentation around it. */
-.markdown-demo-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: var(--surf-space-3);
-}
-.markdown-demo-hint,
-.markdown-pane-heading > :last-child {
-  color: var(--surf-ink-muted);
-  font-size: var(--surf-type-caption-size);
-}
 .markdown-workbench {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -3011,7 +2849,8 @@ body,
 .markdown-preview-scroll {
   block-size: 480px;
 }
-.markdown-preview-scroll .surf-markdown {
+.markdown-preview-body,
+.markdown-second-preview {
   padding: var(--surf-space-4);
 }
 .markdown-second-preview {
@@ -3072,38 +2911,6 @@ body,
 
 .button-variant-guide {
   min-inline-size: 0;
-}
-.button-variant-guide > p {
-  color: var(--surf-ink-muted);
-}
-.button-variant-table {
-  inline-size: 100%;
-  border-collapse: collapse;
-  text-align: start;
-}
-.button-variant-table caption {
-  text-align: start;
-  font-weight: var(--surf-weight-medium);
-  padding-block: var(--surf-space-4);
-}
-.button-variant-table th,
-.button-variant-table td {
-  padding: var(--surf-space-4);
-  border-block-end: 1px solid var(--surf-line);
-  text-align: start;
-  white-space: nowrap;
-}
-.button-variant-table th:first-child {
-  padding-inline-start: 0;
-}
-.button-variant-table th {
-  font-weight: var(--surf-weight-medium);
-}
-.button-variant-table th span {
-  display: block;
-  color: var(--surf-ink-muted);
-  font-size: var(--surf-type-caption-size);
-  margin-block-start: var(--surf-space-1);
 }
 
 /* Pointer-local construction lines live outside layout and never intercept input. */
@@ -3264,7 +3071,8 @@ body,
 .navigation-sheet nav {
   padding: var(--surf-space-3) var(--surf-space-1) 0;
 }
-.navigation-sheet nav a {
+/* The catalog's own page links meet the touch target; AppShell links size themselves. */
+.catalog-mobile-navigation nav a {
   min-height: var(--surf-control-target-size);
 }
 
@@ -3354,13 +3162,6 @@ body,
 }
 /* The avatar sits on the navigation's icon column (a 24px mark centered on the 16px
  * icons) and its name starts on the navigation label line, as the brand's does. */
-.landing-console-account {
-  display: flex;
-  align-items: center;
-  gap: var(--surf-space-2);
-  padding-block: var(--surf-space-4);
-  padding-inline: var(--surf-space-2) 0;
-}
 /* A dummy logomark: stacked layers for a platform, on the brand tile. */
 .landing-console-logo rect {
   fill: var(--surf-brand);
@@ -3714,12 +3515,6 @@ body,
 }
 .theme-preview-controls .surf-input {
   inline-size: 14rem;
-}
-.theme-preview .theme-preview-choice {
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-  gap: var(--surf-space-2);
 }
 .theme-pair-tokens {
   display: block;

@@ -141,3 +141,53 @@ test('opt-in grid bleed aligns padded card content while nested and default grid
     )
   }
 })
+test('a card stretched to a taller neighbor keeps its parts at the top', async ({
+  page,
+}) => {
+  await page.goto('/foundations/layout')
+  await waitForCatalogReady(page)
+  const card = (id: string, lines: number) =>
+    React.createElement(
+      Card.Root,
+      { id, key: id },
+      React.createElement(
+        Card.Header,
+        null,
+        React.createElement(Card.Title, null, 'Title'),
+        React.createElement(Card.Description, null, 'Description'),
+      ),
+      React.createElement(
+        Card.Body,
+        null,
+        ...Array.from({ length: lines }, (_, index) =>
+          React.createElement('p', { key: index }, `Line ${index + 1}`),
+        ),
+      ),
+    )
+  const markup = renderToStaticMarkup(
+    React.createElement(
+      Grid,
+      { columns: 2, id: 'stretch-grid' },
+      card('short-card', 1),
+      card('tall-card', 12),
+    ),
+  )
+  await page.locator('#main-content').evaluate((el, html) => {
+    const host = document.createElement('div')
+    host.innerHTML = html
+    el.append(host)
+  }, markup)
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  const box = async (selector: string) =>
+    (await page.locator(selector).boundingBox())!
+  const short = await box('#short-card')
+  const tall = await box('#tall-card')
+  expect(short.height).toBeCloseTo(tall.height, 0)
+  // The extra height stays below the content: the header and body keep the
+  // card's own gap between them, as in the tall card.
+  const shortHeader = await box('#short-card .surf-card-header')
+  const shortBody = await box('#short-card .surf-card-body')
+  const tallHeader = await box('#tall-card .surf-card-header')
+  expect(shortHeader.height).toBeCloseTo(tallHeader.height, 0)
+  expect(shortBody.y - (shortHeader.y + shortHeader.height)).toBeCloseTo(16, 0)
+})

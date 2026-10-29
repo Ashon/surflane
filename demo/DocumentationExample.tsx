@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import {
+  Text,
+  Field,
   Button,
   Checkbox,
   Collapsible,
@@ -130,8 +132,8 @@ export function DocumentationExample() {
   return (
     <div className='documentation-example'>
       <div className='documentation-settings actions'>
-        <label>
-          {t.documentLanguage}
+        <Field.Root>
+          <Field.Label>{t.documentLanguage}</Field.Label>
           <NativeSelect
             value={locale}
             onChange={(event) => setLocale(event.target.value as 'ko' | 'en')}
@@ -139,7 +141,7 @@ export function DocumentationExample() {
             <option value='en'>{t.english}</option>
             <option value='ko'>{t.korean}</option>
           </NativeSelect>
-        </label>
+        </Field.Root>
         <ChoiceLabel
           control={
             <Checkbox.Root checked={long} onCheckedChange={setLong}>
@@ -192,9 +194,9 @@ export function DocumentationExample() {
             level={3}
             variant='display'
           />
-          <p className='documentation-meta'>
+          <Text variant='caption' color='muted' className='documentation-meta'>
             <time dateTime='2026-10-17'>{copyText.updated}</time>
-          </p>
+          </Text>
           <Prose>
             <section aria-labelledby='guide-preview-prepare'>
               <h4 id='guide-preview-prepare' tabIndex={-1}>

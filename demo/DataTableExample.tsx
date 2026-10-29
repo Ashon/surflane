@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useId, useRef, useState } from 'react'
 import {
+  Field,
   Table,
   Checkbox,
   Button,
@@ -229,8 +230,8 @@ export function DataTableExample() {
   )
   return (
     <div className='data-table-example'>
-      <label className='data-table-state'>
-        {t.previewTableState}
+      <Field.Root className='data-table-state'>
+        <Field.Label>{t.previewTableState}</Field.Label>
         <NativeSelect
           value={mode}
           onChange={(event) => {
@@ -246,7 +247,7 @@ export function DataTableExample() {
             </option>
           ))}
         </NativeSelect>
-      </label>
+      </Field.Root>
       <FilterBar.Root
         label={t.filterTableResources}
         onSubmit={(event) => event.preventDefault()}
@@ -539,8 +540,8 @@ export function DataTableExample() {
         {ready && filtered.length > 0 && (
           <>
             <div className='data-table-pagination'>
-              <label>
-                {t.rowsPerPage}
+              <Field.Root>
+                <Field.Label>{t.rowsPerPage}</Field.Label>
                 <NativeSelect
                   value={String(size)}
                   onChange={(event) => {
@@ -554,7 +555,7 @@ export function DataTableExample() {
                     </option>
                   ))}
                 </NativeSelect>
-              </label>
+              </Field.Root>
               <Pagination
                 page={current}
                 pageCount={pageCount}

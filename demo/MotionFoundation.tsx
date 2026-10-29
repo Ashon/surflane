@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {
+  Field,
   Button,
   Dialog,
   Input,
@@ -216,13 +217,13 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
                 </Dialog.Description>
               </Dialog.Header>
               <Dialog.Body>
-                <label>
-                  {t.previewDraftLabel}
+                <Field.Root>
+                  <Field.Label>{t.previewDraftLabel}</Field.Label>
                   <Input
                     value={draft}
                     onChange={(event) => setDraft(event.target.value)}
                   />
-                </label>
+                </Field.Root>
               </Dialog.Body>
               <Dialog.Footer>
                 <Button variant='ghost' onClick={toggleTheme}>

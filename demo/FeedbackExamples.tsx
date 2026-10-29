@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import {
+  Field,
   Button,
   Progress,
   Meter,
@@ -23,17 +24,17 @@ function DataStatePreview() {
   return (
     <div className='example-stack'>
       <div className='actions'>
-        <label>
-          {t.dsState}
+        <Field.Root>
+          <Field.Label>{t.dsState}</Field.Label>
           <Select
             width='content'
             value={state}
             onValueChange={(value) => setState(value as DataStateValue)}
             options={t.dsStates.map(([value, label]) => ({ value, label }))}
           />
-        </label>
-        <label>
-          {t.dsLayout}
+        </Field.Root>
+        <Field.Root>
+          <Field.Label>{t.dsLayout}</Field.Label>
           <Select
             width='content'
             value={layout}
@@ -42,7 +43,7 @@ function DataStatePreview() {
             }
             options={t.dsLayouts.map(([value, label]) => ({ value, label }))}
           />
-        </label>
+        </Field.Root>
         <ChoiceLabel
           control={
             <Checkbox.Root checked={refreshing} onCheckedChange={setRefreshing}>

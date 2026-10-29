@@ -1,5 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Button, Combobox, Dialog, Kbd, ScrollArea } from '@surflane/ui'
+import {
+  Text,
+  Field,
+  Button,
+  Combobox,
+  Dialog,
+  Kbd,
+  ScrollArea,
+} from '@surflane/ui'
 import { catalog, itemHref, type CatalogItem } from './catalog'
 import { navigate } from './router'
 import { useLocale } from './i18n'
@@ -158,21 +166,23 @@ export function CommandSearchExample({
               </Dialog.Description>
             </Dialog.Header>
             <Dialog.Body className='command-search-body'>
-              <label className='command-search-label'>
-                {t.searchPagesAndActions}
+              <Field.Root>
+                <Field.Label>{t.searchPagesAndActions}</Field.Label>
                 <Combobox.Input
                   ref={input}
                   placeholder={t.searchPlaceholder}
                   autoComplete='off'
                 />
-              </label>
-              <div
+              </Field.Root>
+              <Text
+                as='div'
                 role='status'
                 aria-label={t.searchResultsCount}
-                className='muted'
+                variant='caption'
+                color='muted'
               >
                 {t.results(count)}
-              </div>
+              </Text>
               <ScrollArea
                 orientation='vertical'
                 label={t.commandResults}
@@ -200,12 +210,12 @@ export function CommandSearchExample({
                   )}
                 </Combobox.List>
               </ScrollArea>
-              <p className='muted'>
+              <Text variant='caption' color='muted'>
                 <Kbd keys='up' labels={t.keyLabels} />{' '}
                 <Kbd keys='down' labels={t.keyLabels} /> {t.keyChoose} ·{' '}
                 <Kbd keys='enter' /> {t.keyOpen} · <Kbd keys='escape' />{' '}
                 {t.keyClose}
-              </p>
+              </Text>
             </Dialog.Body>
           </Dialog.Content>
         </Dialog.Root>

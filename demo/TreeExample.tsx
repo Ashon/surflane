@@ -1,5 +1,6 @@
 import React, { useMemo, useRef, useState } from 'react'
 import {
+  Field,
   Button,
   Checkbox,
   InlineMessage,
@@ -105,8 +106,8 @@ export function TreeExample() {
   return (
     <div className='example-stack tree-example'>
       <div className='tree-preview-settings'>
-        <label>
-          {t.previewDataset}
+        <Field.Root>
+          <Field.Label>{t.previewDataset}</Field.Label>
           <NativeSelect
             ref={datasetControl}
             value={dataset}
@@ -118,9 +119,9 @@ export function TreeExample() {
             <option value='loading'>{t.datasetLoading}</option>
             <option value='error'>{t.datasetError}</option>
           </NativeSelect>
-        </label>
-        <label>
-          {t.selectionMode}
+        </Field.Root>
+        <Field.Root>
+          <Field.Label>{t.selectionMode}</Field.Label>
           <NativeSelect
             value={mode}
             onChange={(event) => {
@@ -131,7 +132,7 @@ export function TreeExample() {
             <option value='single'>{t.modeSingle}</option>
             <option value='multiple'>{t.modeMultiple}</option>
           </NativeSelect>
-        </label>
+        </Field.Root>
       </div>
       <div className='actions'>
         {(

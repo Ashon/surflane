@@ -70,10 +70,10 @@ export function AccessibilityFoundation() {
                 </Dialog.Description>
               </Dialog.Header>
               <Dialog.Body>
-                <label>
-                  {t.localNote}
+                <Field.Root>
+                  <Field.Label>{t.localNote}</Field.Label>
                   <Input defaultValue={t.keyboardInputValue} />
-                </label>
+                </Field.Root>
               </Dialog.Body>
               <Dialog.Footer>
                 <Dialog.Close render={<Button variant='outline' />}>

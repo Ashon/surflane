@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import {
+  Inline,
+  Text,
+  Field,
   List,
   Checkbox,
   Button,
@@ -98,8 +101,8 @@ export function ResourceListExample() {
   }
   return (
     <div className='resource-list-example'>
-      <label className='resource-preview-mode'>
-        {t.resultState}
+      <Field.Root className='resource-preview-mode'>
+        <Field.Label>{t.resultState}</Field.Label>
         <NativeSelect
           value={mode}
           onChange={(e) => {
@@ -113,7 +116,7 @@ export function ResourceListExample() {
           <option value='permission'>{t.permissionRestricted}</option>
           <option value='empty'>{t.initiallyEmpty}</option>
         </NativeSelect>
-      </label>
+      </Field.Root>
       <FilterBar.Root
         label={t.findResourceExamples}
         onSubmit={(e) => e.preventDefault()}
@@ -155,10 +158,12 @@ export function ResourceListExample() {
       </FilterBar.Root>
       <div id='resource-preview-results' aria-busy={mode === 'loading'}>
         {mode === 'loading' ? (
-          <div className='resource-loading'>
+          <Inline gap={3}>
             <Spinner label={t.loadingPreview} />
-            <span>{t.waitingDescription}</span>
-          </div>
+            <Text as='span' color='muted'>
+              {t.waitingDescription}
+            </Text>
+          </Inline>
         ) : mode === 'error' ? (
           <InlineMessage.Root tone='danger' role='alert'>
             <InlineMessage.Icon tone='danger' />

@@ -215,8 +215,8 @@ export function AsyncJobExample() {
         />
         <Field.Description>{t.fieldDescription}</Field.Description>
       </Field.Root>
-      <label className='example-field'>
-        {t.nextRunResult}
+      <Field.Root>
+        <Field.Label>{t.nextRunResult}</Field.Label>
         <NativeSelect
           value={scenario}
           onChange={(event) => setScenario(event.target.value as Scenario)}
@@ -226,7 +226,7 @@ export function AsyncJobExample() {
           <option value='partial'>{t.scenarioPartial}</option>
           <option value='failure'>{t.scenarioFailure}</option>
         </NativeSelect>
-      </label>
+      </Field.Root>
       <div className='actions'>
         <Button
           onClick={() => start()}

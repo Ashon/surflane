@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import {
+  Inline,
+  SegmentedControl,
+  Text,
   Button,
   Field,
   NativeSelect,
@@ -71,31 +74,33 @@ export function RichContentExample({ id }: { id: string }) {
   if (id === 'markdown')
     return (
       <div className='example-stack'>
-        <div className='markdown-demo-toolbar'>
-          <div role='group' aria-label={t.markdownView} className='actions'>
+        <Inline justify='between' gap={3}>
+          <SegmentedControl.Root
+            aria-label={t.markdownView}
+            value={view}
+            onValueChange={setView}
+          >
             {[
               ['split', t.sideBySide],
               ['source', t.source],
               ['preview', t.preview],
             ].map(([value, label]) => (
-              <Toggle
-                key={value}
-                pressed={view === value}
-                onPressedChange={(pressed) => pressed && setView(value)}
-              >
+              <SegmentedControl.Item key={value} value={value}>
                 {label}
-              </Toggle>
+              </SegmentedControl.Item>
             ))}
-          </div>
-          <span className='markdown-demo-hint'>
+          </SegmentedControl.Root>
+          <Text as='span' variant='caption' color='muted'>
             {t.editSourceToUpdatePreview}
-          </span>
-        </div>
+          </Text>
+        </Inline>
         <div className='markdown-workbench' data-view={view}>
           <div className='markdown-source-pane' hidden={view === 'preview'}>
             <div className='markdown-pane-heading'>
               <label htmlFor='markdown-source'>{t.markdownSource}</label>
-              <span>{t.markdown}</span>
+              <Text as='span' variant='caption' color='muted'>
+                {t.markdown}
+              </Text>
             </div>
             <Textarea
               id='markdown-source'
@@ -109,19 +114,23 @@ export function RichContentExample({ id }: { id: string }) {
           <div className='markdown-preview-pane' hidden={view === 'source'}>
             <div className='markdown-pane-heading'>
               <span>{t.renderedPreview}</span>
-              <span>{t.live}</span>
+              <Text as='span' variant='caption' color='muted'>
+                {t.live}
+              </Text>
             </div>
             <ScrollArea
               orientation='vertical'
               label={t.renderedMarkdownExample}
               className='markdown-preview-scroll'
             >
-              <Markdown
-                source={source}
-                label={t.markdownPreview}
-                codeWrap={wrap}
-                headingLevel={3}
-              />
+              <div className='markdown-preview-body'>
+                <Markdown
+                  source={source}
+                  label={t.markdownPreview}
+                  codeWrap={wrap}
+                  headingLevel={3}
+                />
+              </div>
               {duplicate && (
                 <div className='markdown-second-preview'>
                   <Markdown

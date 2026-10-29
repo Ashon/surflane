@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react'
 import {
+  Field,
   Button,
   Checkbox,
   InlineMessage,
@@ -59,8 +60,8 @@ export function DatePickerExample() {
   return (
     <div className='date-picker-example'>
       <div className='foundation-controls'>
-        <label>
-          {t.locale}
+        <Field.Root>
+          <Field.Label>{t.locale}</Field.Label>
           <NativeSelect
             value={locale}
             onChange={(e) => setLocale(e.target.value)}
@@ -69,7 +70,7 @@ export function DatePickerExample() {
             <option value='ko-KR'>Korean / South Korea</option>
             <option value='ar-EG-u-ca-gregory'>العربية / Gregorian</option>
           </NativeSelect>
-        </label>
+        </Field.Root>
         <ChoiceLabel
           control={
             <Checkbox.Root checked={disabled} onCheckedChange={setDisabled}>
@@ -239,8 +240,8 @@ export function DatePickerExample() {
             <h3 id='local-time-heading'>{t.resolveLocalTimeHeading}</h3>
             <p>{t.resolveLocalTimeIntro}</p>
             <div className='foundation-controls'>
-              <label>
-                {t.timeZone}
+              <Field.Root>
+                <Field.Label>{t.timeZone}</Field.Label>
                 <NativeSelect
                   value={zone}
                   onChange={(e) => {
@@ -252,9 +253,9 @@ export function DatePickerExample() {
                   <option value='America/New_York'>America/New_York</option>
                   <option value='Asia/Seoul'>Asia/Seoul</option>
                 </NativeSelect>
-              </label>
-              <label>
-                {t.dstDisambiguation}
+              </Field.Root>
+              <Field.Root>
+                <Field.Label>{t.dstDisambiguation}</Field.Label>
                 <NativeSelect
                   value={policy}
                   onChange={(e) => {
@@ -267,7 +268,7 @@ export function DatePickerExample() {
                   <option value='earlier'>{t.explicitEarlierInstant}</option>
                   <option value='later'>{t.explicitLaterInstant}</option>
                 </NativeSelect>
-              </label>
+              </Field.Root>
             </div>
             <DatePicker
               label={t.localWallTime}
