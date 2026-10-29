@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import {
+  Stack,
   Inline,
   SegmentedControl,
   Text,
@@ -73,7 +74,7 @@ export function RichContentExample({ id }: { id: string }) {
   const [view, setView] = useState('split')
   if (id === 'markdown')
     return (
-      <div className='example-stack'>
+      <Stack gap={5}>
         <Inline justify='between' gap={3}>
           <SegmentedControl.Root
             aria-label={t.markdownView}
@@ -145,7 +146,7 @@ export function RichContentExample({ id }: { id: string }) {
             </ScrollArea>
           </div>
         </div>
-        <div className='actions'>
+        <Inline gap={3}>
           <Button
             variant='outline'
             onClick={() => setSource(markdownExampleSource)}
@@ -158,11 +159,11 @@ export function RichContentExample({ id }: { id: string }) {
           <Toggle pressed={duplicate} onPressedChange={setDuplicate}>
             {t.compareTwoInstances}
           </Toggle>
-        </div>
-      </div>
+        </Inline>
+      </Stack>
     )
   return (
-    <div className='example-stack'>
+    <Stack gap={5}>
       <div className='syntax-theme-intro'>
         <strong>{t.platformQuiet}</strong>
         <p>{t.introParagraph}</p>
@@ -209,20 +210,20 @@ export function RichContentExample({ id }: { id: string }) {
           onChange={(event) => setCode(event.target.value)}
         />
       </Field.Root>
-      <div className='actions'>
+      <Inline gap={3}>
         <Toggle pressed={wrap} onPressedChange={setWrap}>
           {t.wrapSourceLines}
         </Toggle>
         <Button variant='outline' onClick={() => setCode(examples[language])}>
           {t.restoreSource}
         </Button>
-      </div>
+      </Inline>
       <SyntaxHighlighter
         code={code}
         language={language}
         label={t.highlightedSourcePreview}
         wrap={wrap}
       />
-    </div>
+    </Stack>
   )
 }

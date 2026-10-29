@@ -4,6 +4,7 @@ import {
   refreshIntervalOptions,
   timeRangeOptions,
 } from '@surflane/ui/time-range-picker'
+import { Stack, Text } from '@surflane/ui'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/TimeRangeExample'
 
@@ -22,7 +23,7 @@ export function TimeRangeExample() {
   const [interval, setIntervalValue] = useState(0)
   const [count, setCount] = useState(0)
   return (
-    <div className='example-stack'>
+    <Stack gap={5}>
       <TimeRangePicker
         label={t.dashboardTime}
         range={range}
@@ -33,13 +34,13 @@ export function TimeRangeExample() {
         refreshIntervals={intervals}
         onRefresh={() => setCount((n) => n + 1)}
       />
-      <p role='status' aria-label={t.statusLabel}>
+      <Text color='secondary' role='status' aria-label={t.statusLabel}>
         {t.status(
           ranges.find((option) => option.value === range)!.label,
           intervals.find((option) => option.value === interval)!.label,
           count,
         )}
-      </p>
-    </div>
+      </Text>
+    </Stack>
   )
 }

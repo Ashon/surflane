@@ -57,7 +57,7 @@ export function AccessibilityFoundation() {
           {t.keyboardTargetEnd}
         </p>
         <p>{t.keyboardDialog}</p>
-        <div className='actions'>
+        <Inline gap={3}>
           <Dialog.Root>
             <Dialog.Trigger render={<Button variant='outline' />}>
               {t.openFocusPreview}
@@ -82,7 +82,7 @@ export function AccessibilityFoundation() {
               </Dialog.Footer>
             </Dialog.Content>
           </Dialog.Root>
-        </div>
+        </Inline>
       </FoundationSection>
       <FoundationSection id='recovery'>
         <p>{t.recoveryIntro}</p>

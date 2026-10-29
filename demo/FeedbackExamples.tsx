@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import {
+  Stack,
+  Inline,
+  Text,
   Field,
   Button,
   Progress,
@@ -22,8 +25,8 @@ function DataStatePreview() {
   const [layout, setLayout] = useState<'inline' | 'block' | 'page'>('block')
   const [refreshing, setRefreshing] = useState(false)
   return (
-    <div className='example-stack'>
-      <div className='actions'>
+    <Stack gap={5}>
+      <Inline gap={3}>
         <Field.Root>
           <Field.Label>{t.dsState}</Field.Label>
           <Select
@@ -53,7 +56,7 @@ function DataStatePreview() {
         >
           {t.dsRefreshing}
         </ChoiceLabel>
-      </div>
+      </Inline>
       {/* Retry brings the data back; focus moves to the region. */}
       <DataState
         state={state}
@@ -74,7 +77,7 @@ function DataStatePreview() {
           </DescriptionList.Item>
         </DescriptionList.Root>
       </DataState>
-    </div>
+    </Stack>
   )
 }
 export function FeedbackExample({ id }: { id: string }) {
@@ -84,7 +87,7 @@ export function FeedbackExample({ id }: { id: string }) {
   const [loading, setLoading] = useState(true)
   if (id === 'progress')
     return (
-      <div className='example-stack'>
+      <Stack gap={5}>
         <Progress.Root
           value={value}
           aria-valuetext={
@@ -101,7 +104,7 @@ export function FeedbackExample({ id }: { id: string }) {
             <Progress.Indicator />
           </Progress.Track>
         </Progress.Root>
-        <div className='actions'>
+        <Inline gap={3}>
           <Button
             variant='outline'
             onClick={() => setValue((v) => Math.min(100, (v ?? 0) + 10))}
@@ -114,15 +117,15 @@ export function FeedbackExample({ id }: { id: string }) {
           <Button variant='ghost' onClick={() => setValue(0)}>
             {t.resetProgress}
           </Button>
-        </div>
-        <p role='status'>
+        </Inline>
+        <Text color='secondary' role='status'>
           {value === 100 ? t.allChecksCompleted : t.previewOnly}
-        </p>
-      </div>
+        </Text>
+      </Stack>
     )
   if (id === 'meter')
     return (
-      <div className='example-stack'>
+      <Stack gap={5}>
         <Meter.Root
           value={value ?? 30}
           min={0}
@@ -135,7 +138,7 @@ export function FeedbackExample({ id }: { id: string }) {
             <Meter.Indicator />
           </Meter.Track>
         </Meter.Root>
-        <div className='actions'>
+        <Inline gap={3}>
           <Button
             variant='outline'
             onClick={() => setValue((v) => Math.min(64, (v ?? 30) + 8))}
@@ -145,53 +148,54 @@ export function FeedbackExample({ id }: { id: string }) {
           <Button variant='ghost' onClick={() => setValue(0)}>
             {t.releaseAllocation}
           </Button>
-        </div>
-        <p>{t.capacityNote}</p>
-      </div>
+        </Inline>
+        <Text color='secondary'>{t.capacityNote}</Text>
+      </Stack>
     )
   return (
-    <div className='example-stack'>
-      <div className='actions'>
+    <Stack gap={5}>
+      <Inline gap={3}>
         <Button variant='outline' onClick={() => setLoading((v) => !v)}>
           {loading ? t.finishPreviewLoading : t.reloadPreview}
         </Button>
-      </div>
-      <section
+      </Inline>
+      <Stack
+        gap={5}
+        role='region'
         aria-label={t.environmentPreview}
         aria-busy={loading}
-        className='example-stack'
       >
         {loading ? (
           id === 'spinner' ? (
-            <div className='actions'>
+            <Inline gap={3}>
               <Spinner decorative size='small' />
               <Spinner decorative />
               <Spinner decorative size='large' />
               <span>{t.loadingEnvironmentPreview}</span>
-            </div>
+            </Inline>
           ) : (
             <>
-              <div className='actions'>
+              <Inline gap={3}>
                 <Skeleton shape='circle' />
                 <Skeleton lines={2} />
-              </div>
+              </Inline>
               <Skeleton shape='block' />
             </>
           )
         ) : (
-          <p>{t.servicesAvailable}</p>
+          <Text color='secondary'>{t.servicesAvailable}</Text>
         )}
-      </section>
-      <p role='status'>
+      </Stack>
+      <Text color='secondary' role='status'>
         {loading ? t.loadingEnvironmentPreview : t.environmentPreviewLoaded}
-      </p>
+      </Text>
       {id === 'spinner' && (
-        <div className='actions'>
+        <Inline gap={3}>
           <Spinner label={t.backgroundSyncInProgress} />
           <span>{t.standaloneStatusExample}</span>
-        </div>
+        </Inline>
       )}
-      {id === 'skeleton' && <p>{t.placeholderNote}</p>}
-    </div>
+      {id === 'skeleton' && <Text color='secondary'>{t.placeholderNote}</Text>}
+    </Stack>
   )
 }

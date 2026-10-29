@@ -1,5 +1,12 @@
 import { useState } from 'react'
-import { BarList, SizeProvider, Stat, ToggleGroup, Toggle } from '@surflane/ui'
+import {
+  Stack,
+  BarList,
+  SizeProvider,
+  Stat,
+  ToggleGroup,
+  Toggle,
+} from '@surflane/ui'
 import { Dashboard } from '@surflane/ui/dashboard'
 import { Chart, type ChartDatum } from '@surflane/ui/chart'
 import {
@@ -46,7 +53,7 @@ export function DashboardExample() {
     onRetry: () => setDemo('ready'),
   } as const
   return (
-    <div className='example-stack'>
+    <Stack gap={5}>
       <ToggleGroup
         aria-label={t.stateLabel}
         value={[demo]}
@@ -148,6 +155,6 @@ export function DashboardExample() {
           </Dashboard.Panel>
         </Dashboard.Root>
       </SizeProvider>
-    </div>
+    </Stack>
   )
 }

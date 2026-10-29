@@ -5,7 +5,7 @@ import React, {
   useRef,
   useSyncExternalStore,
 } from 'react'
-import { Button, VisuallyHidden } from '@surflane/ui'
+import { Inline, Button, VisuallyHidden } from '@surflane/ui'
 import { Link, catalogScrollPosition } from './router'
 import { useMessages } from './i18n'
 import type { Messages } from './messages'
@@ -96,12 +96,12 @@ class LoadBoundary extends React.Component<
             <h3>{this.props.text.previewFailed}</h3>
           )}
           <p>{this.props.text.failedHint}</p>
-          <div className='actions'>
+          <Inline gap={3}>
             <Button variant='outline' onClick={() => window.location.reload()}>
               {this.props.text.reload}
             </Button>
             <Link href='/components'>{this.props.text.browse}</Link>
-          </div>
+          </Inline>
         </div>
       )
     return this.props.children

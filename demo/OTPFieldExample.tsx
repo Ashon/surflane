@@ -1,5 +1,14 @@
 import React, { useState } from 'react'
-import { OTPField, Field, Form, Button, DirectionProvider } from '@surflane/ui'
+import {
+  Stack,
+  Text,
+  Inline,
+  OTPField,
+  Field,
+  Form,
+  Button,
+  DirectionProvider,
+} from '@surflane/ui'
 import { Flag } from './Flag'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/OTPFieldExample'
@@ -43,8 +52,8 @@ export function OTPFieldExample() {
   const [errors, setErrors] = useState<Record<string, string>>({}),
     [result, setResult] = useState(t.noVerificationSubmitted)
   return (
-    <div className='example-stack'>
-      <div className='actions'>
+    <Stack gap={5}>
+      <Inline gap={3}>
         <Flag checked={disabled} onChange={setDisabled}>
           {t.disableCodes}
         </Flag>
@@ -57,9 +66,9 @@ export function OTPFieldExample() {
         <Flag checked={rtl} onChange={setRtl}>
           {t.rtlPreview}
         </Flag>
-      </div>
+      </Inline>
       <DirectionProvider direction={rtl ? 'rtl' : 'ltr'}>
-        <div dir={rtl ? 'rtl' : 'ltr'} className='example-stack'>
+        <Stack gap={5} dir={rtl ? 'rtl' : 'ltr'}>
           <Form
             id='otp-preview-form'
             errors={errors}
@@ -97,7 +106,7 @@ export function OTPFieldExample() {
               </OTPField.Root>
               <Field.Error />
             </Field.Root>
-            <div className='actions'>
+            <Inline gap={3}>
               <Button type='submit'>{t.verifyPreview}</Button>
               <Button type='reset' variant='outline'>
                 {t.resetCodes}
@@ -120,7 +129,7 @@ export function OTPFieldExample() {
               >
                 {t.requestNewCode}
               </Button>
-            </div>
+            </Inline>
           </Form>
           <Field.Root name='recoveryCode'>
             <Field.Label>{t.recoveryCode}</Field.Label>
@@ -143,9 +152,9 @@ export function OTPFieldExample() {
             </OTPField.Root>
             <Field.Error />
           </Field.Root>
-        </div>
+        </Stack>
       </DirectionProvider>
-      <div className='actions'>
+      <Inline gap={3}>
         <Flag checked={cancelChanges} onChange={setCancelChanges}>
           {t.cancelCodeChanges}
         </Flag>
@@ -155,8 +164,10 @@ export function OTPFieldExample() {
         <Flag checked={autoSubmit} onChange={setAutoSubmit}>
           {t.submitWhenComplete}
         </Flag>
-      </div>
-      <p role='status'>{t.status(result, complete, rejected)}</p>
-    </div>
+      </Inline>
+      <Text color='secondary' role='status'>
+        {t.status(result, complete, rejected)}
+      </Text>
+    </Stack>
   )
 }

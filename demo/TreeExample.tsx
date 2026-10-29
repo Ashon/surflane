@@ -1,5 +1,8 @@
 import React, { useMemo, useRef, useState } from 'react'
 import {
+  Stack,
+  Text,
+  Inline,
   Field,
   Button,
   Checkbox,
@@ -104,7 +107,7 @@ export function TreeExample() {
     setExpanded(next === 'large' ? ['batch-0'] : ['projects', 'workspace'])
   }
   return (
-    <div className='example-stack tree-example'>
+    <Stack gap={5} className='tree-example'>
       <div className='tree-preview-settings'>
         <Field.Root>
           <Field.Label>{t.previewDataset}</Field.Label>
@@ -134,7 +137,7 @@ export function TreeExample() {
           </NativeSelect>
         </Field.Root>
       </div>
-      <div className='actions'>
+      <Inline gap={3}>
         {(
           [
             [t.longLabels, long, setLong],
@@ -153,8 +156,8 @@ export function TreeExample() {
             {label}
           </ChoiceLabel>
         ))}
-      </div>
-      <div className='actions'>
+      </Inline>
+      <Inline gap={3}>
         <Button variant='outline' onClick={() => setExpanded([])}>
           {t.collapseAll}
         </Button>
@@ -181,8 +184,8 @@ export function TreeExample() {
         >
           {t.removeSelected}
         </Button>
-      </div>
-      <p>{t.loadedNodes(labels.size)}</p>
+      </Inline>
+      <Text color='secondary'>{t.loadedNodes(labels.size)}</Text>
       {dataset === 'loading' ? (
         <InlineMessage.Root tone='progress' role='status'>
           <Spinner size='small' label={t.loadingTree} />
@@ -232,11 +235,11 @@ export function TreeExample() {
           height={352}
         />
       )}
-      <p role='status' aria-label={t.treeSelectionLabel}>
+      <Text color='secondary' role='status' aria-label={t.treeSelectionLabel}>
         {selected.length
           ? t.selected(selected.map((id) => labels.get(id) ?? id).join(', '))
           : t.noSelected}
-      </p>
-    </div>
+      </Text>
+    </Stack>
   )
 }

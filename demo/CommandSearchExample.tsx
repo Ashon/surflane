@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import {
+  Inline,
+  Stack,
   Badge,
   Text,
   Field,
@@ -113,118 +115,122 @@ export function CommandSearchExample({
   }
   const count = commands.filter((command) => matches(command, query)).length
   return (
-    <div className='example-stack command-search-example'>
-      <p>{t.intro}</p>
-      <Combobox.Root<Command>
-        inline
-        open={open}
-        onOpenChange={changeOpen}
-        items={commands}
-        filter={matches}
-        value={null}
-        inputValue={query}
-        onInputValueChange={setQuery}
-        itemToStringLabel={(command) => command.label}
-        isItemEqualToValue={(a, b) => a.id === b.id}
-        autoHighlight
-        onValueChange={execute}
-      >
-        <Dialog.Root
+    <Stack gap={5} className='command-search-example'>
+      <Text color='secondary'>{t.intro}</Text>
+      <Inline>
+        <Combobox.Root<Command>
+          inline
           open={open}
           onOpenChange={changeOpen}
-          onOpenChangeComplete={(isOpen) => {
-            if (!isOpen) {
-              const href = navigation.current
-              navigation.current = null
-              if (href) navigate(href)
-            }
-          }}
+          items={commands}
+          filter={matches}
+          value={null}
+          inputValue={query}
+          onInputValueChange={setQuery}
+          itemToStringLabel={(command) => command.label}
+          isItemEqualToValue={(a, b) => a.id === b.id}
+          autoHighlight
+          onValueChange={execute}
         >
-          <Dialog.Trigger
-            render={
-              <Button
-                ref={trigger}
-                variant='outline'
-                aria-keyshortcuts='Control+k Meta+k'
-              />
-            }
+          <Dialog.Root
+            open={open}
+            onOpenChange={changeOpen}
+            onOpenChangeComplete={(isOpen) => {
+              if (!isOpen) {
+                const href = navigation.current
+                navigation.current = null
+                if (href) navigate(href)
+              }
+            }}
           >
-            {t.searchDocumentation}
-            {/* aria-keyshortcuts names the shortcut; the key cap is for sight. */}
-            <Kbd keys={['mod', 'k']} aria-hidden='true' />
-          </Dialog.Trigger>
-          <Dialog.Content
-            className='command-search-dialog'
-            closeLabel={t.closeCommandSearch}
-            aria-modal='true'
-            initialFocus={input}
-            finalFocus={() => (navigation.current ? false : trigger.current)}
-          >
-            <Dialog.Header>
-              <Dialog.Title>{t.commandSearchTitle}</Dialog.Title>
-              <Dialog.Description>
-                {t.commandSearchDescription}
-              </Dialog.Description>
-            </Dialog.Header>
-            <Dialog.Body className='command-search-body'>
-              <Field.Root>
-                <Field.Label>{t.searchPagesAndActions}</Field.Label>
-                <Combobox.Input
-                  ref={input}
-                  placeholder={t.searchPlaceholder}
-                  autoComplete='off'
+            <Dialog.Trigger
+              render={
+                <Button
+                  ref={trigger}
+                  variant='outline'
+                  aria-keyshortcuts='Control+k Meta+k'
                 />
-              </Field.Root>
-              <Text
-                as='div'
-                role='status'
-                aria-label={t.searchResultsCount}
-                variant='caption'
-                color='muted'
-              >
-                {t.results(count)}
-              </Text>
-              <ScrollArea
-                orientation='vertical'
-                label={t.commandResults}
-                tabIndex={-1}
-                scrollChain='contain'
-                rootClassName='command-search-results'
-              >
-                <Combobox.Empty>{t.noResults}</Combobox.Empty>
-                <Combobox.List aria-label={t.pagesAndActions}>
-                  {(command: Command) => (
-                    <Combobox.Item
-                      key={command.id}
-                      value={command}
-                      disabled={command.disabled}
-                    >
-                      <Combobox.ItemContent>
-                        <Combobox.ItemTitle>{command.label}</Combobox.ItemTitle>
-                        <Combobox.ItemDescription>
-                          {command.description}
-                        </Combobox.ItemDescription>
-                      </Combobox.ItemContent>
-                      <Badge>
-                        {command.disabled ? t.planned : command.category}
-                      </Badge>
-                    </Combobox.Item>
-                  )}
-                </Combobox.List>
-              </ScrollArea>
-              <Text variant='caption' color='muted'>
-                <Kbd keys='up' labels={t.keyLabels} />{' '}
-                <Kbd keys='down' labels={t.keyLabels} /> {t.keyChoose} ·{' '}
-                <Kbd keys='enter' /> {t.keyOpen} · <Kbd keys='escape' />{' '}
-                {t.keyClose}
-              </Text>
-            </Dialog.Body>
-          </Dialog.Content>
-        </Dialog.Root>
-      </Combobox.Root>
-      <p role='status' aria-label={t.commandResult}>
+              }
+            >
+              {t.searchDocumentation}
+              {/* aria-keyshortcuts names the shortcut; the key cap is for sight. */}
+              <Kbd keys={['mod', 'k']} aria-hidden='true' />
+            </Dialog.Trigger>
+            <Dialog.Content
+              className='command-search-dialog'
+              closeLabel={t.closeCommandSearch}
+              aria-modal='true'
+              initialFocus={input}
+              finalFocus={() => (navigation.current ? false : trigger.current)}
+            >
+              <Dialog.Header>
+                <Dialog.Title>{t.commandSearchTitle}</Dialog.Title>
+                <Dialog.Description>
+                  {t.commandSearchDescription}
+                </Dialog.Description>
+              </Dialog.Header>
+              <Dialog.Body className='command-search-body'>
+                <Field.Root>
+                  <Field.Label>{t.searchPagesAndActions}</Field.Label>
+                  <Combobox.Input
+                    ref={input}
+                    placeholder={t.searchPlaceholder}
+                    autoComplete='off'
+                  />
+                </Field.Root>
+                <Text
+                  as='div'
+                  role='status'
+                  aria-label={t.searchResultsCount}
+                  variant='caption'
+                  color='muted'
+                >
+                  {t.results(count)}
+                </Text>
+                <ScrollArea
+                  orientation='vertical'
+                  label={t.commandResults}
+                  tabIndex={-1}
+                  scrollChain='contain'
+                  rootClassName='command-search-results'
+                >
+                  <Combobox.Empty>{t.noResults}</Combobox.Empty>
+                  <Combobox.List aria-label={t.pagesAndActions}>
+                    {(command: Command) => (
+                      <Combobox.Item
+                        key={command.id}
+                        value={command}
+                        disabled={command.disabled}
+                      >
+                        <Combobox.ItemContent>
+                          <Combobox.ItemTitle>
+                            {command.label}
+                          </Combobox.ItemTitle>
+                          <Combobox.ItemDescription>
+                            {command.description}
+                          </Combobox.ItemDescription>
+                        </Combobox.ItemContent>
+                        <Badge>
+                          {command.disabled ? t.planned : command.category}
+                        </Badge>
+                      </Combobox.Item>
+                    )}
+                  </Combobox.List>
+                </ScrollArea>
+                <Text variant='caption' color='muted'>
+                  <Kbd keys='up' labels={t.keyLabels} />{' '}
+                  <Kbd keys='down' labels={t.keyLabels} /> {t.keyChoose} ·{' '}
+                  <Kbd keys='enter' /> {t.keyOpen} · <Kbd keys='escape' />{' '}
+                  {t.keyClose}
+                </Text>
+              </Dialog.Body>
+            </Dialog.Content>
+          </Dialog.Root>
+        </Combobox.Root>
+      </Inline>
+      <Text color='secondary' role='status' aria-label={t.commandResult}>
         {notice}
-      </p>
-    </div>
+      </Text>
+    </Stack>
   )
 }

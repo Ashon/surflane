@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import {
+  Stack,
+  Grid,
   Text,
   Field,
   Tabs,
@@ -56,8 +58,8 @@ function TabsExample() {
       'horizontal',
     )
   return (
-    <div className='example-stack'>
-      <div className='grid'>
+    <Stack gap={5}>
+      <Grid columns={2} gap={5}>
         <Field.Root>
           <Field.Label>{t.tabOrientation}</Field.Label>
           <Select
@@ -80,7 +82,7 @@ function TabsExample() {
             {t.rightToLeft}
           </Toggle>
         </div>
-      </div>
+      </Grid>
       {/* Right to left takes both the provider, for the arrow keys, and dir. */}
       <DirectionProvider direction={rtl ? 'rtl' : 'ltr'}>
         <div dir={rtl ? 'rtl' : 'ltr'}>
@@ -124,7 +126,7 @@ function TabsExample() {
           </Tabs.Root>
         </div>
       </DirectionProvider>
-    </div>
+    </Stack>
   )
 }
 function AccordionExample() {
@@ -132,7 +134,7 @@ function AccordionExample() {
   const [multiple, setMultiple] = useState(false),
     [open, setOpen] = useState<string[]>(['identity'])
   return (
-    <div className='example-stack'>
+    <Stack gap={5}>
       <Toggle
         checked={multiple}
         onChange={(next) => {
@@ -176,14 +178,14 @@ function AccordionExample() {
           <Accordion.Panel>{t.unavailablePreview}</Accordion.Panel>
         </Accordion.Item>
       </Accordion.Root>
-    </div>
+    </Stack>
   )
 }
 function CollapsibleExample() {
   const t = text[useLocale().locale]
   const [disabled, setDisabled] = useState(false)
   return (
-    <div className='example-stack'>
+    <Stack gap={5}>
       <Toggle checked={disabled} onChange={setDisabled}>
         {t.disableDisclosure}
       </Toggle>
@@ -197,7 +199,7 @@ function CollapsibleExample() {
           </Field.Root>
         </Collapsible.Panel>
       </Collapsible.Root>
-    </div>
+    </Stack>
   )
 }
 function AvatarExample() {
@@ -205,7 +207,7 @@ function AvatarExample() {
   const [broken, setBroken] = useState(false),
     [loading, setLoading] = useState('idle')
   return (
-    <div className='example-stack'>
+    <Stack gap={5}>
       <Inline gap={3}>
         <Avatar.Root
           role='img'
@@ -237,8 +239,10 @@ function AvatarExample() {
           {broken ? t.restorePreviewImage : t.previewBrokenImage}
         </Button>
       </Inline>
-      <p role='status'>{t.imageStatus(loading)}</p>
-    </div>
+      <Text color='secondary' role='status'>
+        {t.imageStatus(loading)}
+      </Text>
+    </Stack>
   )
 }
 function BadgeExample() {
@@ -247,15 +251,15 @@ function BadgeExample() {
   const [value, setValue] = useState('passed')
   const state = badgeStates.find((s) => s.value === value)!
   return (
-    <div className='example-stack'>
-      <div className='actions'>
+    <Stack gap={5}>
+      <Inline gap={3}>
         {badgeStates.map((s) => (
           <StatusBadge tone={s.tone} key={s.value}>
             {s.label}
           </StatusBadge>
         ))}
         <Badge>{t.threeEnvironments}</Badge>
-      </div>
+      </Inline>
       <Field.Root>
         <Field.Label>{t.statusPreview}</Field.Label>
         <Select
@@ -268,19 +272,19 @@ function BadgeExample() {
         <StatusBadge tone={state.tone}>{state.label}</StatusBadge>
         <span>{state.description}</span>
       </div>
-    </div>
+    </Stack>
   )
 }
 function KbdExample() {
   const t = text[useLocale().locale]
   const labels = t.kbdLabels
   return (
-    <div className='example-stack'>
-      <p>
+    <Stack gap={5}>
+      <Text color='secondary'>
         {t.kbdSearchBefore}
         <Kbd keys={['mod', 'k']} />
         {t.kbdSearchAfter}
-      </p>
+      </Text>
       <Text variant='caption' color='muted'>
         <Kbd keys='up' labels={labels} /> <Kbd keys='down' labels={labels} />{' '}
         {t.kbdChoose} · <Kbd keys='enter' /> {t.kbdOpen} · <Kbd keys='escape' />{' '}
@@ -309,38 +313,38 @@ function KbdExample() {
           ))}
         </Table.Body>
       </Table.Root>
-    </div>
+    </Stack>
   )
 }
 function SeparatorExample() {
   const t = text[useLocale().locale]
   const [inset, setInset] = useState(false)
   return (
-    <div className='example-stack'>
+    <Stack gap={5}>
       <Toggle checked={inset} onChange={setInset}>
         {t.useInsetSeparator}
       </Toggle>
-      <p>{t.environmentOverview}</p>
+      <Text color='secondary'>{t.environmentOverview}</Text>
       <Separator inset={inset} />
-      <p>{t.deploymentDetails}</p>
-      <div className='actions'>
+      <Text color='secondary'>{t.deploymentDetails}</Text>
+      <Inline gap={3}>
         <span>{t.staging}</span>
         <Separator orientation='vertical' />
         <span>{t.production}</span>
-      </div>
-    </div>
+      </Inline>
+    </Stack>
   )
 }
 function LinkExample() {
   const t = text[useLocale().locale]
   return (
-    <div className='example-stack'>
-      <p>
+    <Stack gap={5}>
+      <Text color='secondary'>
         <TextLink href='#link-preview-target'>
           {t.inspectPreviewDestination}
         </TextLink>
-      </p>
-      <p>
+      </Text>
+      <Text color='secondary'>
         <TextLink
           href='https://base-ui.com/react/overview/about'
           target='_blank'
@@ -348,17 +352,17 @@ function LinkExample() {
         >
           {t.baseUIDocumentationOpensInNewTab}
         </TextLink>
-      </p>
-      <p id='link-preview-target' tabIndex={-1}>
+      </Text>
+      <Text color='secondary' id='link-preview-target' tabIndex={-1}>
         {t.previewDestinationNativeAnchorsKeepBrowserBehavior}
-      </p>
-    </div>
+      </Text>
+    </Stack>
   )
 }
 function BreadcrumbExample() {
   const t = text[useLocale().locale]
   return (
-    <div className='example-stack'>
+    <Stack gap={5}>
       <Breadcrumbs.Root aria-label={t.projectBreadcrumb}>
         <Breadcrumbs.List>
           <Breadcrumbs.Item>
@@ -378,10 +382,10 @@ function BreadcrumbExample() {
           </Breadcrumbs.Item>
         </Breadcrumbs.List>
       </Breadcrumbs.Root>
-      <p id='breadcrumb-preview-target' tabIndex={-1}>
+      <Text color='secondary' id='breadcrumb-preview-target' tabIndex={-1}>
         {t.showsProjectPathAsOrderedList}
-      </p>
-    </div>
+      </Text>
+    </Stack>
   )
 }
 export function NavigationExample({ id }: { id: string }) {

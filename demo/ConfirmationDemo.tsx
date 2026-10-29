@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import { AlertDialog, Popover, Button } from '@surflane/ui'
+import { Inline, AlertDialog, Popover, Button, Stack, Text } from '@surflane/ui'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/ConfirmationDemo'
 
@@ -12,66 +12,68 @@ export function ConfirmationDemo() {
   return (
     <section aria-labelledby='confirmations-title'>
       <h2 id='confirmations-title'>{t.heading}</h2>
-      <p className='note'>{t.intro}</p>
-      <div className='actions'>
-        <AlertDialog.Root open={open} onOpenChange={setOpen}>
-          <AlertDialog.Trigger render={<Button variant='outline' />}>
-            {t.discardTrigger}
-          </AlertDialog.Trigger>
-          <AlertDialog.Content initialFocus={cancel}>
-            <AlertDialog.Header>
-              <AlertDialog.Title>{t.discardTitle}</AlertDialog.Title>
-              <AlertDialog.Description>
-                {t.discardDescription}
-              </AlertDialog.Description>
-            </AlertDialog.Header>
-            <AlertDialog.Footer>
-              <AlertDialog.Close
-                ref={cancel}
-                render={<Button variant='outline' />}
-              >
-                {t.keepDraft}
-              </AlertDialog.Close>
-              <Button
-                variant='destructive'
-                onClick={() => {
-                  setResult(t.draftDiscarded)
-                  setOpen(false)
-                }}
-              >
-                {t.discardPreviewDraft}
-              </Button>
-            </AlertDialog.Footer>
-          </AlertDialog.Content>
-        </AlertDialog.Root>
-        <Popover.Root open={inlineOpen} onOpenChange={setInlineOpen}>
-          <Popover.Trigger render={<Button variant='outline' />}>
-            {t.resetTrigger}
-          </Popover.Trigger>
-          <Popover.Portal>
-            <Popover.Content align='start'>
-              <Popover.Title>{t.resetTitle}</Popover.Title>
-              <Popover.Description>{t.resetDescription}</Popover.Description>
-              <div className='actions'>
-                <Popover.Close render={<Button variant='outline' />}>
-                  {t.keepFilters}
-                </Popover.Close>
+      <Stack gap={6}>
+        <Text color='secondary'>{t.intro}</Text>
+        <Inline gap={3}>
+          <AlertDialog.Root open={open} onOpenChange={setOpen}>
+            <AlertDialog.Trigger render={<Button variant='outline' />}>
+              {t.discardTrigger}
+            </AlertDialog.Trigger>
+            <AlertDialog.Content initialFocus={cancel}>
+              <AlertDialog.Header>
+                <AlertDialog.Title>{t.discardTitle}</AlertDialog.Title>
+                <AlertDialog.Description>
+                  {t.discardDescription}
+                </AlertDialog.Description>
+              </AlertDialog.Header>
+              <AlertDialog.Footer>
+                <AlertDialog.Close
+                  ref={cancel}
+                  render={<Button variant='outline' />}
+                >
+                  {t.keepDraft}
+                </AlertDialog.Close>
                 <Button
+                  variant='destructive'
                   onClick={() => {
-                    setResult(t.filtersReset)
-                    setInlineOpen(false)
+                    setResult(t.draftDiscarded)
+                    setOpen(false)
                   }}
                 >
-                  {t.resetPreviewFilters}
+                  {t.discardPreviewDraft}
                 </Button>
-              </div>
-            </Popover.Content>
-          </Popover.Portal>
-        </Popover.Root>
-      </div>
-      <p role='status' className='note'>
-        {result}
-      </p>
+              </AlertDialog.Footer>
+            </AlertDialog.Content>
+          </AlertDialog.Root>
+          <Popover.Root open={inlineOpen} onOpenChange={setInlineOpen}>
+            <Popover.Trigger render={<Button variant='outline' />}>
+              {t.resetTrigger}
+            </Popover.Trigger>
+            <Popover.Portal>
+              <Popover.Content align='start'>
+                <Popover.Title>{t.resetTitle}</Popover.Title>
+                <Popover.Description>{t.resetDescription}</Popover.Description>
+                <Inline gap={3}>
+                  <Popover.Close render={<Button variant='outline' />}>
+                    {t.keepFilters}
+                  </Popover.Close>
+                  <Button
+                    onClick={() => {
+                      setResult(t.filtersReset)
+                      setInlineOpen(false)
+                    }}
+                  >
+                    {t.resetPreviewFilters}
+                  </Button>
+                </Inline>
+              </Popover.Content>
+            </Popover.Portal>
+          </Popover.Root>
+        </Inline>
+        <Text role='status' color='secondary'>
+          {result}
+        </Text>
+      </Stack>
     </section>
   )
 }

@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import {
+  Stack,
+  Text,
   Button,
   Checkbox,
   Field,
@@ -116,7 +118,7 @@ export function InteractionFoundation() {
       </FoundationSection>
       <FoundationSection id='activation'>
         <p>{t.activationIntro}</p>
-        <div className='example-stack interaction-preview'>
+        <Stack gap={5} className='interaction-preview'>
           <Inline gap={3}>
             <Toggle
               value='evidence'
@@ -133,10 +135,12 @@ export function InteractionFoundation() {
               {t.unavailablePreview}
             </Button>
           </Inline>
-          <p id='unavailable-reason'>{t.unavailableReason}</p>
-          <p data-evidence-selection>
+          <Text color='secondary' id='unavailable-reason'>
+            {t.unavailableReason}
+          </Text>
+          <Text color='secondary' data-evidence-selection>
             {included ? t.evidenceIncluded : t.evidenceExcluded}
-          </p>
+          </Text>
           <Field.Root>
             <Field.Label>{t.readOnlyResourceId}</Field.Label>
             <Field.Description>
@@ -144,7 +148,7 @@ export function InteractionFoundation() {
             </Field.Description>
             <Input readOnly value='demo-e2e-42' />
           </Field.Root>
-        </div>
+        </Stack>
         <p>{t.activationNote}</p>
         <p>
           <a href='https://base-ui.com/react/components/button'>
@@ -158,7 +162,7 @@ export function InteractionFoundation() {
       </FoundationSection>
       <FoundationSection id='pending'>
         <p>{t.pendingIntro}</p>
-        <div className='example-stack interaction-preview'>
+        <Stack gap={5} className='interaction-preview'>
           <ChoiceLabel
             control={
               <Checkbox.Root
@@ -187,17 +191,18 @@ export function InteractionFoundation() {
               {t.cancelPreview}
             </Button>
           </Inline>
-          <p>
+          <Text color='secondary'>
             {t.attempts} <span data-local-attempts>{attempts}</span>
-          </p>
-          <p
+          </Text>
+          <Text
+            color='secondary'
             role='status'
             aria-label={t.resultLabel}
             aria-atomic='true'
             data-local-result
           >
             {status}
-          </p>
+          </Text>
           {outcome === 'error' && (
             <InlineMessage.Root tone='danger'>
               <InlineMessage.Icon tone='danger' />
@@ -209,7 +214,7 @@ export function InteractionFoundation() {
               </InlineMessage.Content>
             </InlineMessage.Root>
           )}
-        </div>
+        </Stack>
         <p>{codeText(t.pendingTiming)}</p>
         <p>{t.pendingNote}</p>
         <CodeBlock

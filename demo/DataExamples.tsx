@@ -1,5 +1,7 @@
 import React, { useContext, useState } from 'react'
 import {
+  Stack,
+  Text,
   VisuallyHidden,
   Field,
   Table,
@@ -61,8 +63,8 @@ function EmptyPreview() {
   const [created, setCreated] = useState(false),
     [notice, setNotice] = useState('')
   return (
-    <div className='example-stack'>
-      <div className='actions'>
+    <Stack gap={5}>
+      <Inline gap={3}>
         <Button
           variant='outline'
           onClick={() => {
@@ -93,7 +95,7 @@ function EmptyPreview() {
         >
           {t.permissionRequired}
         </Button>
-      </div>
+      </Inline>
       {created ? (
         <List.Root aria-label={t.registeredPreviewEnvironments}>
           <List.Item>
@@ -157,7 +159,7 @@ function EmptyPreview() {
       <VisuallyHidden as='p' role='status'>
         {notice}
       </VisuallyHidden>
-    </div>
+    </Stack>
   )
 }
 function BannerPreview() {
@@ -166,7 +168,7 @@ function BannerPreview() {
   const [shown, setShown] = useState(true)
   const notice = t.bannerNotices[tone]
   return (
-    <div className='example-stack'>
+    <Stack gap={5}>
       <Field.Root>
         <Field.Label>{t.bannerState}</Field.Label>
         <Select
@@ -197,10 +199,12 @@ function BannerPreview() {
           </Banner.Actions>
         </Banner.Root>
       ) : null}
-      <Button variant='outline' onClick={() => setShown(true)}>
-        {t.bannerShowAgain}
-      </Button>
-    </div>
+      <Inline>
+        <Button variant='outline' onClick={() => setShown(true)}>
+          {t.bannerShowAgain}
+        </Button>
+      </Inline>
+    </Stack>
   )
 }
 function MessagePreview() {
@@ -210,7 +214,7 @@ function MessagePreview() {
   const tone =
     state === 'error' ? 'danger' : state === 'pending' ? 'progress' : 'success'
   return (
-    <div className='example-stack'>
+    <Stack gap={5}>
       <InlineMessage.Root tone={tone}>
         <InlineMessage.Icon tone={tone}>
           {state === 'pending' ? (
@@ -291,7 +295,7 @@ function MessagePreview() {
           </InlineMessage.Description>
         </InlineMessage.Content>
       </InlineMessage.Root>
-    </div>
+    </Stack>
   )
 }
 // Twelve weeks of a platform's figures; one week of deploy data is missing.
@@ -487,7 +491,7 @@ function SparklinePreview() {
   const previous = 2540
   const change = (close.at(-1)! - previous) / previous
   return (
-    <div className='example-stack'>
+    <Stack gap={5}>
       {(['small', 'default', 'large'] as const).map((size) => (
         <div key={size} className='sparkline-row'>
           <span>{t.sizeName(size)}</span>
@@ -508,7 +512,7 @@ function SparklinePreview() {
           label={t.trendLabel(t.deploySuccess, t.oneWeekMissing)}
         />
       </div>
-    </div>
+    </Stack>
   )
 }
 function DescriptionListPreview() {
@@ -518,7 +522,7 @@ function DescriptionListPreview() {
   const [columns, setColumns] = useState<'1' | '2'>('2')
   const created = new Date('2026-10-21T09:30:00Z')
   return (
-    <div className='example-stack'>
+    <Stack gap={5}>
       <Inline gap={4}>
         <Field.Root>
           <Field.Label>{t.dlLayout}</Field.Label>
@@ -600,7 +604,7 @@ function DescriptionListPreview() {
           </DescriptionList.Root>
         </Card.Body>
       </Card.Root>
-    </div>
+    </Stack>
   )
 }
 function TimelinePreview() {
@@ -677,7 +681,7 @@ export function DataExample({ id }: { id: string }) {
         : current.filter((v) => v !== id),
     )
   return (
-    <div className='example-stack'>
+    <Stack gap={5}>
       <Field.Root>
         <Field.Label>{t.filterEnvironments}</Field.Label>
         <Input
@@ -803,7 +807,9 @@ export function DataExample({ id }: { id: string }) {
           ))}
         </List.Root>
       )}
-      <p role='status'>{t.selectedSummary(selected.length, inspected)}</p>
-    </div>
+      <Text color='secondary' role='status'>
+        {t.selectedSummary(selected.length, inspected)}
+      </Text>
+    </Stack>
   )
 }

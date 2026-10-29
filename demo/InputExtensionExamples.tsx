@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import {
+  Stack,
+  Text,
+  Inline,
   Autocomplete,
   Slider,
   NumberField,
@@ -71,15 +74,15 @@ export function InputExtensionExample({ id }: { id: string }) {
     [committed, setCommitted] = useState(t.noValueCommitted)
   if (id === 'autocomplete')
     return (
-      <div className='example-stack'>
-        <div className='actions'>
+      <Stack gap={5}>
+        <Inline gap={3}>
           <Toggle checked={disabled} onChange={setDisabled}>
             {t.disableSuggestions}
           </Toggle>
           <Toggle checked={readOnly} onChange={setReadOnly}>
             {t.readOnly}
           </Toggle>
-        </div>
+        </Inline>
         <Form
           id='autocomplete-example-form'
           onSubmit={(e) => {
@@ -122,12 +125,12 @@ export function InputExtensionExample({ id }: { id: string }) {
             </Autocomplete.Root>
             <Field.Error />
           </Field.Root>
-          <div className='actions'>
+          <Inline gap={3}>
             <Button type='submit'>{t.submitSearch}</Button>
             <Button type='reset' variant='outline'>
               {t.resetSearch}
             </Button>
-          </div>
+          </Inline>
         </Form>
         <Field.Root name='tag'>
           <Field.Label>{t.controlledSearchTag}</Field.Label>
@@ -159,28 +162,30 @@ export function InputExtensionExample({ id }: { id: string }) {
           </Autocomplete.Root>
           <Field.Error />
         </Field.Root>
-        <div className='actions'>
+        <Inline gap={3}>
           <Button variant='outline' onClick={() => setCancelReset((v) => !v)}>
             {cancelReset ? t.allowReset : t.cancelReset}
           </Button>
           <Button variant='outline' onClick={() => setCancelChange((v) => !v)}>
             {cancelChange ? t.allowQueryChanges : t.cancelQueryChanges}
           </Button>
-        </div>
-        <p role='status'>{result}</p>
-      </div>
+        </Inline>
+        <Text color='secondary' role='status'>
+          {result}
+        </Text>
+      </Stack>
     )
   return (
     <DirectionProvider direction={rtl ? 'rtl' : 'ltr'}>
-      <div className='example-stack' dir={rtl ? 'rtl' : 'ltr'}>
-        <div className='actions'>
+      <Stack gap={5} dir={rtl ? 'rtl' : 'ltr'}>
+        <Inline gap={3}>
           <Toggle checked={disabled} onChange={setDisabled}>
             {t.disableSliders}
           </Toggle>
           <Toggle checked={rtl} onChange={setRtl}>
             {t.rightToLeft}
           </Toggle>
-        </div>
+        </Inline>
         <Form
           id='slider-example-form'
           onSubmit={(e) => {
@@ -288,12 +293,12 @@ export function InputExtensionExample({ id }: { id: string }) {
               </NumberField.Group>
             </NumberField.Root>
           </Field.Root>
-          <div className='actions'>
+          <Inline gap={3}>
             <Button type='submit'>{t.submitSliderValues}</Button>
             <Button type='reset' variant='outline'>
               {t.resetSliders}
             </Button>
-          </div>
+          </Inline>
         </Form>
         <Slider.Root
           name='priority'
@@ -313,18 +318,18 @@ export function InputExtensionExample({ id }: { id: string }) {
             <Slider.Thumb />
           </Slider.Control>
         </Slider.Root>
-        <div className='actions'>
+        <Inline gap={3}>
           <Button variant='outline' onClick={() => setCancelReset((v) => !v)}>
             {cancelReset ? t.allowReset : t.cancelReset}
           </Button>
           <Button variant='outline' onClick={() => setCancelChange((v) => !v)}>
             {cancelChange ? t.allowWorkerChanges : t.cancelWorkerChanges}
           </Button>
-        </div>
-        <p role='status'>
+        </Inline>
+        <Text color='secondary' role='status'>
           {result} {committed}
-        </p>
-      </div>
+        </Text>
+      </Stack>
     </DirectionProvider>
   )
 }

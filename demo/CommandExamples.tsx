@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import {
+  Inline,
+  Stack,
+  Text,
   Toggle,
   ToggleGroup,
   Toolbar,
@@ -34,7 +37,7 @@ export function CommandExample({ id }: { id: string }) {
     [mood, setMood] = useState<string | null>(null)
   const [message, setMessage] = useState(t.noCommandExecuted)
   const flags = (
-    <div className='actions'>
+    <Inline gap={3}>
       <Flag checked={disabled} onChange={setDisabled}>
         {t.disableCommands}
       </Flag>
@@ -50,13 +53,13 @@ export function CommandExample({ id }: { id: string }) {
           </Flag>
         </>
       )}
-    </div>
+    </Inline>
   )
   let example: React.ReactNode
   if (id === 'toggle')
     example = (
       <>
-        <div className='actions'>
+        <Inline gap={3}>
           <Toggle
             disabled={disabled}
             onPressedChange={(pressed, event) => {
@@ -81,11 +84,15 @@ export function CommandExample({ id }: { id: string }) {
             {t.showTimings}
           </Toggle>
           <Toggle disabled>{t.unavailableMode}</Toggle>
-        </div>
-        <Button variant='outline' onClick={() => setCancel((v) => !v)}>
-          {cancel ? t.allowChanges : t.cancelChanges}
-        </Button>
-        <p>{timings ? t.controlledTimingsShown : t.controlledTimingsHidden}</p>
+        </Inline>
+        <Inline>
+          <Button variant='outline' onClick={() => setCancel((v) => !v)}>
+            {cancel ? t.allowChanges : t.cancelChanges}
+          </Button>
+        </Inline>
+        <Text color='secondary'>
+          {timings ? t.controlledTimingsShown : t.controlledTimingsHidden}
+        </Text>
       </>
     )
   else if (id === 'segmented-control')
@@ -131,7 +138,9 @@ export function CommandExample({ id }: { id: string }) {
             </SegmentedControl.Item>
           ))}
         </SegmentedControl.Root>
-        <p>{t.segmentedLine(period, side, mood ?? t.all)}</p>
+        <Text color='secondary'>
+          {t.segmentedLine(period, side, mood ?? t.all)}
+        </Text>
       </>
     )
   else if (id === 'toggle-group')
@@ -165,15 +174,17 @@ export function CommandExample({ id }: { id: string }) {
           <Toggle value='errors'>{t.errors}</Toggle>
           <Toggle value='timings'>{t.timings}</Toggle>
         </ToggleGroup>
-        <Button variant='outline' onClick={() => setCancel((v) => !v)}>
-          {cancel ? t.allowSourceChanges : t.cancelSourceChanges}
-        </Button>
-        <p>
+        <Inline>
+          <Button variant='outline' onClick={() => setCancel((v) => !v)}>
+            {cancel ? t.allowSourceChanges : t.cancelSourceChanges}
+          </Button>
+        </Inline>
+        <Text color='secondary'>
           {t.sourceLine(
             source.join(', ') || t.none,
             visible.join(', ') || t.none,
           )}
-        </p>
+        </Text>
       </>
     )
   else if (id === 'toolbar')
@@ -223,8 +234,10 @@ export function CommandExample({ id }: { id: string }) {
           </Menu.Root>
           <Toolbar.Link href='#toolbar-help'>{t.toolbarHelp}</Toolbar.Link>
         </Toolbar.Root>
-        <p>{t.pinnedResultsLine(pinned)}</p>
-        <p id='toolbar-help'>{t.toolbarHelpNote}</p>
+        <Text color='secondary'>{t.pinnedResultsLine(pinned)}</Text>
+        <Text color='secondary' id='toolbar-help'>
+          {t.toolbarHelpNote}
+        </Text>
       </>
     )
   else
@@ -299,17 +312,21 @@ export function CommandExample({ id }: { id: string }) {
             </Menu.Portal>
           </Menu.Root>
         </Menubar>
-        <p>{t.passedChecksLine(passed, density)}</p>
-        <p id='command-help'>{t.commandHelpNote}</p>
+        <Text color='secondary'>{t.passedChecksLine(passed, density)}</Text>
+        <Text color='secondary' id='command-help'>
+          {t.commandHelpNote}
+        </Text>
       </>
     )
   return (
     <DirectionProvider direction={rtl ? 'rtl' : 'ltr'}>
-      <div className='example-stack' dir={rtl ? 'rtl' : 'ltr'}>
+      <Stack gap={5} dir={rtl ? 'rtl' : 'ltr'}>
         {flags}
         {example}
-        <p role='status'>{message}</p>
-      </div>
+        <Text color='secondary' role='status'>
+          {message}
+        </Text>
+      </Stack>
     </DirectionProvider>
   )
 }

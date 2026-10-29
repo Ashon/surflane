@@ -111,9 +111,6 @@ html {
   border-radius: var(--surf-radius-sheet);
   box-shadow: var(--surf-shadow-sheet);
 }
-.note {
-  margin-top: 24px;
-}
 /* The inset sits on both sides of each divider, so the last section adds nothing below. */
 .catalog-page-body > section + section {
   position: relative;
@@ -126,7 +123,7 @@ html {
 .catalog-page-body > section > h2 {
   margin-bottom: var(--surf-space-4);
 }
-.catalog-page-body > section > h2 + :is(.actions, p) {
+.catalog-page-body > section > h2 + p {
   margin-top: 0;
 }
 .catalog-page-body > section + section::before {
@@ -137,35 +134,9 @@ html {
   border-top: 1px solid var(--surf-chrome);
   pointer-events: none;
 }
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-.actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 20px;
-}
 @media (max-width: 760px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
   header {
     align-items: flex-start;
-  }
-}
-.panel-examples {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-top: 24px;
-}
-@media (max-width: 760px) {
-  .panel-examples {
-    grid-template-columns: 1fr;
   }
 }
 /* Labelled fields and choices share the control line: align them on the bottom edge. */
@@ -581,9 +552,7 @@ html {
 .component-example {
   padding-block: 0;
 }
-.catalog-example-frame[data-kind='component']
-  :is(.component-example, .example-stack)
-  > :last-child,
+.catalog-example-frame[data-kind='component'] .component-example > :last-child,
 .catalog-example-frame[data-kind='component'] p:last-child {
   margin-bottom: 0;
 }
@@ -594,26 +563,12 @@ html {
 .example-controls > form {
   max-width: 480px;
 }
-.example-controls > .actions:first-child {
-  margin-top: 0;
-}
 /* A Sparkline row: what the line shows, then the line taking the rest. */
 .sparkline-row {
   display: grid;
   grid-template-columns: minmax(8rem, 12rem) minmax(0, 20rem);
   align-items: center;
   gap: var(--surf-space-4);
-}
-.example-stack {
-  display: grid;
-  gap: var(--surf-space-5);
-}
-/* A grid stretches its items; a lone button keeps its label width. */
-.example-stack > .surf-button {
-  justify-self: start;
-}
-.example-stack .actions {
-  margin: 0;
 }
 .catalog-anatomy {
   overflow-wrap: anywhere;
@@ -707,9 +662,6 @@ html {
 .catalog-rules li + li {
   margin-block-start: var(--surf-space-2);
 }
-.panel-examples[data-single] {
-  grid-template-columns: minmax(0, 1fr);
-}
 @media (max-width: 960px) {
   .catalog-shell {
     grid-template-columns: minmax(0, 1fr);
@@ -799,12 +751,6 @@ html {
 }
 
 /* Stack spacing owns the rhythm; native paragraph margins must not double it. */
-.example-stack > p {
-  margin: 0;
-}
-.example-stack > .surf-button {
-  align-self: flex-start;
-}
 #preview-destination {
   scroll-margin-top: var(--surf-space-6);
 }
@@ -3422,14 +3368,7 @@ body,
   margin: var(--surf-space-2) 0 0;
 }
 
-/* The native date form and the time resolution section stack their parts as Form
-   and Stack do. */
-.date-native-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--surf-space-6);
-  min-width: 0;
-}
+/* The time resolution section stacks its parts as Stack does. */
 .date-time-resolution {
   display: flex;
   flex-direction: column;

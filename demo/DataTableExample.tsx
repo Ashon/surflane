@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useId, useRef, useState } from 'react'
 import {
+  Inline,
   Field,
   Table,
   Checkbox,
@@ -322,7 +323,7 @@ export function DataTableExample() {
             </>
           ) : (
             <>
-              <div className='actions'>
+              <Inline gap={3}>
                 <Button
                   variant='outline'
                   disabled={!ready || !selected.length}
@@ -347,7 +348,7 @@ export function DataTableExample() {
                 >
                   {t.clearSelection}
                 </Button>
-              </div>
+              </Inline>
               <Menu.Root>
                 <Menu.Trigger
                   render={<Button variant='outline' disabled={!ready} />}

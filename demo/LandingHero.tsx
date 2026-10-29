@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  Inline,
   AppShell,
   Avatar,
   Button,
@@ -47,7 +48,7 @@ export function LandingHero() {
         <Text variant='reading' color='secondary'>
           {t.lead}
         </Text>
-        <div className='actions'>
+        <Inline gap={3}>
           <LinkButton
             variant='primary'
             size='large'
@@ -62,7 +63,7 @@ export function LandingHero() {
           >
             {t.quickStart}
           </LinkButton>
-        </div>
+        </Inline>
         <CodeBlock
           className='landing-install'
           label={t.install}

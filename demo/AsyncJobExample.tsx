@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import {
+  Stack,
+  Text,
+  Inline,
   Button,
   Field,
   InlineMessage,
@@ -204,8 +207,8 @@ export function AsyncJobExample() {
     ).length ?? 0
   const evidence = inspected === null ? null : run?.steps[inspected]
   return (
-    <div className='example-stack async-job-example'>
-      <p>{t.intro}</p>
+    <Stack gap={5} className='async-job-example'>
+      <Text color='secondary'>{t.intro}</Text>
       <Field.Root name='job-target'>
         <Field.Label>{t.nextRunEnvironment}</Field.Label>
         <Field.Control
@@ -227,7 +230,7 @@ export function AsyncJobExample() {
           <option value='failure'>{t.scenarioFailure}</option>
         </NativeSelect>
       </Field.Root>
-      <div className='actions'>
+      <Inline gap={3}>
         <Button
           onClick={() => start()}
           disabled={active(run) || !target.trim()}
@@ -256,21 +259,23 @@ export function AsyncJobExample() {
             </Button>
           </>
         )}
-      </div>
+      </Inline>
       {run && (
-        <section className='example-stack' aria-label={t.runDetailsLabel}>
+        <Stack gap={5} role='region' aria-label={t.runDetailsLabel}>
           <h3 ref={result} tabIndex={-1}>
             {t.runSummary}
           </h3>
-          <p>
+          <Text color='secondary'>
             {run.id} / {run.target}
-          </p>
+          </Text>
           <div role='status' aria-label={t.runStatusLabel}>
             <StatusBadge tone={tones[run.phase]}>
               {phaseLabels[run.phase]}
             </StatusBadge>
           </div>
-          {run.reused > 0 && <p>{t.reusedChecks(run.reused)}</p>}
+          {run.reused > 0 && (
+            <Text color='secondary'>{t.reusedChecks(run.reused)}</Text>
+          )}
           <Progress.Root
             value={finished}
             max={3}
@@ -336,8 +341,8 @@ export function AsyncJobExample() {
               wrap
             />
           )}
-        </section>
+        </Stack>
       )}
-    </div>
+    </Stack>
   )
 }

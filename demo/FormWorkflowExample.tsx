@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import {
+  Inline,
   Form,
   Field,
   Fieldset,
@@ -278,7 +279,7 @@ export function FormWorkflowExample() {
             />
           </Field.Root>
         </Fieldset.Root>
-        <div className='actions'>
+        <Inline gap={3}>
           <Button ref={submit} type='submit' disabled={busy || restricted}>
             {busy
               ? t.submittingPreview
@@ -289,7 +290,7 @@ export function FormWorkflowExample() {
           <Button type='reset' variant='outline' disabled={busy}>
             {t.resetPreview}
           </Button>
-        </div>
+        </Inline>
       </Form>
       {busy && (
         <InlineMessage.Root tone='progress'>

@@ -1,5 +1,13 @@
 import React, { useState } from 'react'
-import { FileUpload, Form, Button, type UploadTransport } from '@surflane/ui'
+import {
+  Stack,
+  Text,
+  Inline,
+  FileUpload,
+  Form,
+  Button,
+  type UploadTransport,
+} from '@surflane/ui'
 import { Flag } from './Flag'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/FileUploadExample'
@@ -35,8 +43,8 @@ export function FileUploadExample() {
       if (signal.aborted) abort()
     })
   return (
-    <div className='example-stack'>
-      <div className='actions'>
+    <Stack gap={5}>
+      <Inline gap={3}>
         <Flag checked={disabled} onChange={setDisabled}>
           {t.disableFileControls}
         </Flag>
@@ -52,7 +60,7 @@ export function FileUploadExample() {
         <Flag checked={cancelReset} onChange={setCancelReset}>
           {t.cancelReset}
         </Flag>
-      </div>
+      </Inline>
       <Form
         id='file-upload-preview-form'
         errors={formErrors}
@@ -94,7 +102,7 @@ export function FileUploadExample() {
             if (cancel) details.cancel()
           }}
         />
-        <div className='actions'>
+        <Inline gap={3}>
           <Button type='submit'>{t.inspectSubmittedFiles}</Button>
           <Button
             type='button'
@@ -110,7 +118,7 @@ export function FileUploadExample() {
           <Button type='reset' variant='outline'>
             {t.resetFileForm}
           </Button>
-        </div>
+        </Inline>
       </Form>
       <FileUpload
         labels={
@@ -132,9 +140,9 @@ export function FileUploadExample() {
           else setControlled(files)
         }}
       />
-      <p className='file-demo-result' role='status'>
+      <Text color='secondary' className='file-demo-result' role='status'>
         {summary}
-      </p>
-    </div>
+      </Text>
+    </Stack>
   )
 }

@@ -1,5 +1,11 @@
 import React, { useState } from 'react'
-import { NavigationMenu, DirectionProvider } from '@surflane/ui'
+import {
+  Stack,
+  Text,
+  Inline,
+  NavigationMenu,
+  DirectionProvider,
+} from '@surflane/ui'
 import { Flag } from './Flag'
 import { routeHref } from './router'
 import { useLocale } from './i18n'
@@ -30,8 +36,8 @@ export function NavigationMenuExample() {
     },
   ]
   return (
-    <div className='example-stack'>
-      <div className='actions'>
+    <Stack gap={5}>
+      <Inline gap={3}>
         <Flag checked={rtl} onChange={setRtl}>
           {t.rtlPreview}
         </Flag>
@@ -44,7 +50,7 @@ export function NavigationMenuExample() {
         <Flag checked={cancel} onChange={setCancel}>
           {t.cancelChanges}
         </Flag>
-      </div>
+      </Inline>
       <DirectionProvider direction={rtl ? 'rtl' : 'ltr'}>
         <div dir={rtl ? 'rtl' : 'ltr'}>
           <NavigationMenu.Root<'products' | 'learn'>
@@ -126,7 +132,9 @@ export function NavigationMenuExample() {
           </NavigationMenu.Root>
         </div>
       </DirectionProvider>
-      <p role='status'>{t.status(value ?? t.none, current)}</p>
+      <Text color='secondary' role='status'>
+        {t.status(value ?? t.none, current)}
+      </Text>
       <div className='navigation-demo-destinations'>
         {links.map((link) => (
           <section
@@ -148,6 +156,6 @@ export function NavigationMenuExample() {
           <p>{t.guideSectionDescription}</p>
         </section>
       </div>
-    </div>
+    </Stack>
   )
 }

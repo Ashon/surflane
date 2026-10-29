@@ -127,7 +127,7 @@ export function ErrorRecoveryExample() {
   const cached = Boolean(saved) && mode !== 'permission' && mode !== 'not-found'
   return (
     <div className='recovery-example'>
-      <div className='recovery-settings actions'>
+      <Inline gap={3} className='recovery-settings'>
         <Field.Root>
           <Field.Label>{t.previewRecoveryState}</Field.Label>
           <NativeSelect
@@ -161,7 +161,7 @@ export function ErrorRecoveryExample() {
             ))}
           </NativeSelect>
         </Field.Root>
-      </div>
+      </Inline>
       <Field.Root name='request-label'>
         <Field.Label>{t.previewRequestLabel}</Field.Label>
         <Field.Control
@@ -282,11 +282,11 @@ export function ErrorRecoveryExample() {
         </EmptyState.Root>
       )}
       {mode === 'ready' && (
-        <div className='actions'>
+        <Inline gap={3}>
           <Button ref={load} onClick={start}>
             {saved ? t.refreshPreview : t.loadPreview}
           </Button>
-        </div>
+        </Inline>
       )}
       {cached && saved && (
         <Card.Root role='region' aria-label={t.savedPreviewLabel} padding={4}>

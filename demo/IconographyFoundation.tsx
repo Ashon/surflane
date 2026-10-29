@@ -1,5 +1,13 @@
 import React, { useState } from 'react'
-import { Field, Button, Icon, iconNames, Select, Table } from '@surflane/ui'
+import {
+  Inline,
+  Field,
+  Button,
+  Icon,
+  iconNames,
+  Select,
+  Table,
+} from '@surflane/ui'
 import { CatalogCodeBlock as CodeBlock } from './CatalogCodeBlock'
 import { FoundationPage, FoundationSection } from './FoundationPage'
 import { Link } from './router'
@@ -80,7 +88,7 @@ export function IconographyFoundation() {
       </FoundationSection>
       <FoundationSection id='names'>
         <p>{t.namesIntro}</p>
-        <div className='actions'>
+        <Inline gap={3}>
           <Button variant='outline' onClick={() => setCount((n) => n + 1)}>
             <Icon name='plus' />
             {t.incrementPreview}
@@ -93,7 +101,7 @@ export function IconographyFoundation() {
           >
             <Icon name='close' />
           </Button>
-        </div>
+        </Inline>
         <p role='status'>{t.localCount(count)}</p>
         <p className='icon-inline-example'>
           <Icon
@@ -141,8 +149,9 @@ export function IconographyFoundation() {
             ]}
           />
         </Field.Root>
-        <div
-          className='actions icon-direction-preview'
+        <Inline
+          gap={3}
+          className='icon-direction-preview'
           dir={direction}
           data-icon-direction={direction}
         >
@@ -158,7 +167,7 @@ export function IconographyFoundation() {
             <Icon name='external-link' />
             {t.externalLink}
           </span>
-        </div>
+        </Inline>
         <p>{t.directionPreviewNote}</p>
       </FoundationSection>
     </FoundationPage>

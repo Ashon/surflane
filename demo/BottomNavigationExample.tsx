@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import {
+  Stack,
+  Text,
+  Inline,
   BottomNavigation,
   DirectionProvider,
   Heading,
@@ -30,15 +33,15 @@ export function BottomNavigationExample() {
     'account',
   ]
   return (
-    <div className='example-stack'>
-      <div className='actions'>
+    <Stack gap={5}>
+      <Inline gap={3}>
         <Flag checked={badges} onChange={setBadges}>
           {t.showBadges}
         </Flag>
         <Flag checked={rtl} onChange={setRtl}>
           {t.rtlPreview}
         </Flag>
-      </div>
+      </Inline>
       <DirectionProvider direction={rtl ? 'rtl' : 'ltr'}>
         <section
           className='bottom-nav-preview'
@@ -106,7 +109,9 @@ export function BottomNavigationExample() {
           </BottomNavigation.Root>
         </section>
       </DirectionProvider>
-      <p role='status'>{t.current(t[current])}</p>
-    </div>
+      <Text color='secondary' role='status'>
+        {t.current(t[current])}
+      </Text>
+    </Stack>
   )
 }

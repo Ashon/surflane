@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import {
+  Stack,
+  Grid,
+  Inline,
   Table,
   Text,
   Field,
@@ -38,52 +41,54 @@ export function InteractionLab({ toggleTheme }: { toggleTheme: () => void }) {
             )
           }}
         >
-          <div className='grid'>
-            <Field.Root>
-              <Field.Label>{t.name}</Field.Label>
-              <Input
-                name='name'
-                defaultValue='UI preview'
-                placeholder={t.enterName}
-                required
-              />
-            </Field.Root>
-            <Field.Root>
-              <Field.Label>{t.environment}</Field.Label>
-              <Select
-                name='environment'
-                options={options}
-                defaultValue='staging'
-              />
-            </Field.Root>
-            <Field.Root>
-              <Field.Label>{t.compatibilityField}</Field.Label>
-              <NativeSelect
-                name='legacyEnvironment'
-                value={legacy}
-                onChange={(e) => setLegacy(e.target.value)}
-              >
-                <option value='staging'>{t.staging}</option>
-                <option value='production'>{t.production}</option>
-              </NativeSelect>
-            </Field.Root>
-            <Field.Root>
-              <Field.Label>{t.disabled}</Field.Label>
-              <Input placeholder={t.unavailable} disabled />
-            </Field.Root>
-          </div>
-          <div className='actions'>
-            <Button type='submit'>{t.submitPreview}</Button>
-            <Button variant='outline' type='reset'>
-              {t.reset}
-            </Button>
-          </div>
-          <output aria-live='polite'>{result}</output>
+          <Stack gap={6}>
+            <Grid columns={2} gap={5}>
+              <Field.Root>
+                <Field.Label>{t.name}</Field.Label>
+                <Input
+                  name='name'
+                  defaultValue='UI preview'
+                  placeholder={t.enterName}
+                  required
+                />
+              </Field.Root>
+              <Field.Root>
+                <Field.Label>{t.environment}</Field.Label>
+                <Select
+                  name='environment'
+                  options={options}
+                  defaultValue='staging'
+                />
+              </Field.Root>
+              <Field.Root>
+                <Field.Label>{t.compatibilityField}</Field.Label>
+                <NativeSelect
+                  name='legacyEnvironment'
+                  value={legacy}
+                  onChange={(e) => setLegacy(e.target.value)}
+                >
+                  <option value='staging'>{t.staging}</option>
+                  <option value='production'>{t.production}</option>
+                </NativeSelect>
+              </Field.Root>
+              <Field.Root>
+                <Field.Label>{t.disabled}</Field.Label>
+                <Input placeholder={t.unavailable} disabled />
+              </Field.Root>
+            </Grid>
+            <Inline gap={3}>
+              <Button type='submit'>{t.submitPreview}</Button>
+              <Button variant='outline' type='reset'>
+                {t.reset}
+              </Button>
+            </Inline>
+            <output aria-live='polite'>{result}</output>
+          </Stack>
         </form>
       </section>
       <section>
         <h2>{t.overlaysFocus}</h2>
-        <div className='actions'>
+        <Inline gap={3}>
           <Popover.Root>
             <Popover.Trigger
               render={<Button variant='outline' />}
@@ -135,7 +140,7 @@ export function InteractionLab({ toggleTheme }: { toggleTheme: () => void }) {
               </Dialog.Footer>
             </Dialog.Content>
           </Dialog.Root>
-        </div>
+        </Inline>
       </section>
       <ConfirmationDemo />
       <PanelsDemo toggleTheme={toggleTheme} />

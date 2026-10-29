@@ -322,7 +322,7 @@ for (const works of [true, false])
     await page.goto('/components/code')
     await waitForCatalogReady(page)
     // Its name is its label, which becomes the result, so find it by place.
-    const button = page.locator('main .actions .surf-copy-button')
+    const button = page.locator('main .surf-inline > .surf-copy-button')
     await expect(button).toHaveAccessibleName('Copy command')
     const width = (await button.boundingBox())!.width
     await button.focus()

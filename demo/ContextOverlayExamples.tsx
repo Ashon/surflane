@@ -58,8 +58,8 @@ export function ContextOverlayExample({ id }: { id: string }) {
   const [cancel, setCancel] = useState(false)
   if (id === 'context-menu')
     return (
-      <div className='example-stack'>
-        <div className='actions'>
+      <Stack gap={5}>
+        <Inline gap={3}>
           <ChoiceLabel
             control={
               <Checkbox.Root checked={disabled} onCheckedChange={setDisabled}>
@@ -78,7 +78,7 @@ export function ContextOverlayExample({ id }: { id: string }) {
           >
             {t.rtlPreview}
           </ChoiceLabel>
-        </div>
+        </Inline>
         <DirectionProvider direction={rtl ? 'rtl' : 'ltr'}>
           <Surface dir={rtl ? 'rtl' : 'ltr'} padding={5}>
             <Stack gap={4}>
@@ -124,13 +124,13 @@ export function ContextOverlayExample({ id }: { id: string }) {
             </Stack>
           </Surface>
         </DirectionProvider>
-        <p role='status'>
+        <Text color='secondary' role='status'>
           {action} {pinned ? t.logsPinned : t.logsUnpinned}
-        </p>
-      </div>
+        </Text>
+      </Stack>
     )
   return (
-    <div className='example-stack'>
+    <Stack gap={5}>
       <ChoiceLabel
         control={
           <Checkbox.Root checked={cancel} onCheckedChange={setCancel}>
@@ -145,14 +145,14 @@ export function ContextOverlayExample({ id }: { id: string }) {
           if (open && cancel) details.cancel()
         }}
       >
-        <p>
+        <Text color='secondary'>
           {/* Each language carries its own spaces: Korean attaches the particle. */}
           {t.readThe}
           <PreviewCard.Trigger href='#preview-destination'>
             {t.deploymentPolicyGuide}
           </PreviewCard.Trigger>
           {t.beforeConfiguringDeploymentChecks}
-        </p>
+        </Text>
         <PreviewCard.Portal>
           <PreviewCard.Content>
             <strong>{t.deploymentPolicyGuideTitle}</strong>
@@ -169,6 +169,6 @@ export function ContextOverlayExample({ id }: { id: string }) {
         <p>{t.previewDescription}</p>
         <p>{t.destinationRepeatsSummary}</p>
       </section>
-    </div>
+    </Stack>
   )
 }

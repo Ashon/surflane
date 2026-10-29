@@ -1,5 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import {
+  Inline,
   Banner,
   AppShell,
   Button,
@@ -141,7 +142,7 @@ export function AppShellExample({
   )
   return (
     <>
-      <div className='actions app-shell-preview-options'>
+      <Inline gap={3} className='app-shell-preview-options'>
         <ChoiceLabel
           control={
             <Checkbox.Root
@@ -215,7 +216,7 @@ export function AppShellExample({
             </ChoiceLabel>
           </>
         )}
-      </div>
+      </Inline>
       <div
         className='catalog-example-frame'
         data-kind='pattern'

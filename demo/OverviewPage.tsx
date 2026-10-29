@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Icon, LinkButton } from '@surflane/ui'
+import { Inline, Grid, Icon, LinkButton } from '@surflane/ui'
 import { Link } from './router'
 import { useMessages } from './i18n'
 export function Overview() {
@@ -31,14 +31,14 @@ export function Overview() {
       <section id='overview-components'>
         <h2>{o.componentsTitle}</h2>
         <p>{o.componentsBody}</p>
-        <div className='actions'>
+        <Inline gap={3}>
           <LinkButton variant='outline' render={<Link href='/components' />}>
             {o.browseComponents}
           </LinkButton>
           <LinkButton variant='outline' render={<Link href='/coverage' />}>
             {o.reviewCoverage}
           </LinkButton>
-        </div>
+        </Inline>
       </section>
       <section id='overview-direction'>
         <h2>{o.directionTitle}</h2>

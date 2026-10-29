@@ -1,5 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Button, Field, NativeSelect, Slider, Table } from '@surflane/ui'
+import {
+  Inline,
+  Button,
+  Field,
+  NativeSelect,
+  Slider,
+  Table,
+} from '@surflane/ui'
 import { codeText } from './codeText'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/EasingLab'
@@ -235,12 +242,12 @@ export function EasingLab() {
           <p data-easing-readout>
             {t.readout(time.toFixed(0), (progress * 100).toFixed(1))}
           </p>
-          <div className='actions'>
+          <Inline gap={3}>
             <Button onClick={play}>{t.playPreview}</Button>
             <Button variant='outline' onClick={() => seek(0)}>
               {t.resetPreview}
             </Button>
-          </div>
+          </Inline>
           <p role='status' aria-label={t.playbackStatusLabel}>
             {t.phaseLabels[phase]}
           </p>

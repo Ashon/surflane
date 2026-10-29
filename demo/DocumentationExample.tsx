@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import {
+  Inline,
   NavigationMenu,
   Text,
   Field,
@@ -132,7 +133,7 @@ export function DocumentationExample() {
   }, [locale, long, wrap])
   return (
     <div className='documentation-example'>
-      <div className='documentation-settings actions'>
+      <Inline gap={3} className='documentation-settings'>
         <Field.Root>
           <Field.Label>{t.documentLanguage}</Field.Label>
           <NativeSelect
@@ -161,7 +162,7 @@ export function DocumentationExample() {
         >
           {t.wrapSampleCode}
         </ChoiceLabel>
-      </div>
+      </Inline>
       <div className='documentation-layout'>
         <aside className='documentation-toc' lang={locale}>
           <Collapsible.Root open={contentsOpen} onOpenChange={setContentsOpen}>

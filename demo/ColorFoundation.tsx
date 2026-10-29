@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { lazy } from './lazy'
-import { StatusBadge, Table } from '@surflane/ui'
+import { Inline, StatusBadge, Table } from '@surflane/ui'
 import { CatalogCodeBlock as CodeBlock } from './CatalogCodeBlock'
 import { Link } from './router'
 import { contrastRatio } from './contrast'
@@ -631,17 +631,13 @@ export function ColorFoundation() {
       </FoundationSection>
       <FoundationSection id='status'>
         <p>{t.statusIntro}</p>
-        <div
-          className='actions'
-          role='group'
-          aria-label={t.statusExamplesLabel}
-        >
+        <Inline gap={3} role='group' aria-label={t.statusExamplesLabel}>
           <StatusBadge tone='success'>{t.passed}</StatusBadge>
           <StatusBadge tone='danger'>{t.failed}</StatusBadge>
           <StatusBadge tone='caution'>{t.needsReview}</StatusBadge>
           <StatusBadge tone='progress'>{t.running}</StatusBadge>
           <StatusBadge>{t.notStarted}</StatusBadge>
-        </div>
+        </Inline>
         <p data-selection-sample>{t.selectionSample}</p>
       </FoundationSection>
       <FoundationSection id='oklch'>

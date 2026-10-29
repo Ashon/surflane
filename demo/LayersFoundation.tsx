@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import {
+  Inline,
   Button,
   Checkbox,
   Dialog,
@@ -34,7 +35,7 @@ function StackingLab() {
   )
   return (
     <>
-      <div className='actions layer-demo-controls'>
+      <Inline gap={3} className='layer-demo-controls'>
         <Toggle pressed={portal} onPressedChange={setPortal}>
           {t.portalToStage}
         </Toggle>
@@ -47,7 +48,7 @@ function StackingLab() {
         >
           {t.clipLocalHost}
         </ChoiceLabel>
-      </div>
+      </Inline>
       <div
         ref={setStage}
         className='layer-demo-stage'
@@ -105,7 +106,7 @@ function OverlayLab() {
           <p>
             {t.selectedEnvironment} <strong data-layer-region>{region}</strong>
           </p>
-          <div className='actions'>
+          <Inline gap={3}>
             <Popover.Root>
               <Popover.Trigger render={<Button variant='outline' />}>
                 {t.inspectOverlayDetails}
@@ -151,7 +152,7 @@ function OverlayLab() {
                 </Dialog.Footer>
               </Dialog.Content>
             </Dialog.Root>
-          </div>
+          </Inline>
         </Dialog.Body>
         <Dialog.Footer>
           <Dialog.Close render={<Button variant='outline' />}>
@@ -227,9 +228,9 @@ export function LayersFoundation() {
       </FoundationSection>
       <FoundationSection id='overlays'>
         <p>{t.overlaysIntro}</p>
-        <div className='actions'>
+        <Inline gap={3}>
           <OverlayLab />
-        </div>
+        </Inline>
       </FoundationSection>
       <FoundationSection id='diagnosis'>
         <ol>

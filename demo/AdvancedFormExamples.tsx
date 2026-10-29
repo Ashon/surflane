@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import {
+  Inline,
+  Stack,
+  Text,
   Combobox,
   NumberField,
   Field,
@@ -32,7 +35,7 @@ function Flags({
 }) {
   const t = text[useLocale().locale]
   return (
-    <div className='actions'>
+    <Inline gap={3}>
       <ChoiceLabel
         control={
           <Checkbox.Root checked={disabled} onCheckedChange={setDisabled}>
@@ -51,7 +54,7 @@ function Flags({
       >
         {t.readOnly}
       </ChoiceLabel>
-    </div>
+    </Inline>
   )
 }
 export function AdvancedFormExample({ id }: { id: string }) {
@@ -83,7 +86,7 @@ export function AdvancedFormExample({ id }: { id: string }) {
   }
   if (id === 'combobox')
     return (
-      <div className='example-stack'>
+      <Stack gap={5}>
         <Flags {...{ disabled, readOnly, setDisabled, setReadOnly }} />
         <Form
           id='advanced-selection-form'
@@ -172,12 +175,12 @@ export function AdvancedFormExample({ id }: { id: string }) {
             </Combobox.Root>
             <Field.Error />
           </Field.Root>
-          <div className='actions'>
+          <Inline gap={3}>
             <Button type='submit'>{t.submitSelection}</Button>
             <Button type='reset' variant='outline'>
               {t.resetSelection}
             </Button>
-          </div>
+          </Inline>
         </Form>
         <Field.Root name='controlledEnvironment'>
           <Field.Label>{t.controlledEnvironment}</Field.Label>
@@ -214,19 +217,21 @@ export function AdvancedFormExample({ id }: { id: string }) {
             </Combobox.Content>
           </Combobox.Root>
         </Field.Root>
-        <div className='actions'>
+        <Inline gap={3}>
           <Button variant='outline' onClick={() => setCancelReset((v) => !v)}>
             {cancelReset ? t.allowReset : t.cancelReset}
           </Button>
           <Button variant='outline' onClick={() => setCancelChanges((v) => !v)}>
             {cancelChanges ? t.allowSelectionChanges : t.cancelSelectionChanges}
           </Button>
-        </div>
-        <p role='status'>{result}</p>
-      </div>
+        </Inline>
+        <Text color='secondary' role='status'>
+          {result}
+        </Text>
+      </Stack>
     )
   return (
-    <div className='example-stack'>
+    <Stack gap={5}>
       <Flags {...{ disabled, readOnly, setDisabled, setReadOnly }} />
       <Form
         onSubmit={submit}
@@ -299,22 +304,24 @@ export function AdvancedFormExample({ id }: { id: string }) {
           </NumberField.Root>
           <Field.Error />
         </Field.Root>
-        <div className='actions'>
+        <Inline gap={3}>
           <Button type='submit'>{t.submitNumbers}</Button>
           <Button type='reset' variant='outline'>
             {t.resetNumbers}
           </Button>
-        </div>
+        </Inline>
       </Form>
-      <div className='actions'>
+      <Inline gap={3}>
         <Button variant='outline' onClick={() => setCancelReset((v) => !v)}>
           {cancelReset ? t.allowReset : t.cancelReset}
         </Button>
         <Button variant='outline' onClick={() => setCancelChanges((v) => !v)}>
           {cancelChanges ? t.allowNumberChanges : t.cancelNumberChanges}
         </Button>
-      </div>
-      <p role='status'>{result}</p>
-    </div>
+      </Inline>
+      <Text color='secondary' role='status'>
+        {result}
+      </Text>
+    </Stack>
   )
 }

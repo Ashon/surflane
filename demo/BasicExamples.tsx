@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react'
 import {
+  Grid,
   Button,
   Field,
   Stack,
@@ -60,8 +61,8 @@ export function BasicExample({
   switch (id) {
     case 'button':
       example = (
-        <div className='example-stack'>
-          <div className='actions'>
+        <Stack gap={5}>
+          <Inline gap={3}>
             <Button
               variant='primary'
               onClick={() => setMessage(t.primaryActionPreviewed)}
@@ -87,7 +88,7 @@ export function BasicExample({
               {t.discardPreview}
             </Button>
             <Button disabled>{t.unavailable}</Button>
-          </div>
+          </Inline>
           <div className='button-variant-guide'>
             <Text color='muted'>{t.defaultIsFormerName}</Text>
             <Table.Container bleed label={t.buttonVariantsAndSizes}>
@@ -130,12 +131,12 @@ export function BasicExample({
               </Table.Root>
             </Table.Container>
           </div>
-        </div>
+        </Stack>
       )
       break
     case 'input':
       example = (
-        <div className='grid'>
+        <Grid columns={2} gap={5}>
           <Field.Root>
             <Field.Label>{t.name}</Field.Label>
             <Input placeholder={t.enterName} />
@@ -154,7 +155,7 @@ export function BasicExample({
             <Field.Label>{t.disabled}</Field.Label>
             <Input disabled placeholder={t.unavailable} />
           </Field.Root>
-        </div>
+        </Grid>
       )
       break
     case 'select':
@@ -170,82 +171,84 @@ export function BasicExample({
             )
           }}
         >
-          <Field.Root>
-            <Field.Label>{t.environment}</Field.Label>
-            {id === 'select' ? (
-              <Select
-                name='environment'
-                options={regions}
-                defaultValue='staging'
-              />
-            ) : (
-              <NativeSelect
-                name='environment'
-                value={selected}
-                onChange={(e) => setSelected(e.target.value)}
-              >
-                <option value='staging'>{t.staging}</option>
-                <option value='production'>{t.production}</option>
-                <option disabled value='unavailable'>
-                  {t.unavailable}
-                </option>
-              </NativeSelect>
-            )}
-          </Field.Root>
-          {id === 'select' && (
+          <Stack gap={6}>
             <Field.Root>
-              <Field.Label>{t.region}</Field.Label>
-              <Select name='region' options={regionGroups} />
+              <Field.Label>{t.environment}</Field.Label>
+              {id === 'select' ? (
+                <Select
+                  name='environment'
+                  options={regions}
+                  defaultValue='staging'
+                />
+              ) : (
+                <NativeSelect
+                  name='environment'
+                  value={selected}
+                  onChange={(e) => setSelected(e.target.value)}
+                >
+                  <option value='staging'>{t.staging}</option>
+                  <option value='production'>{t.production}</option>
+                  <option disabled value='unavailable'>
+                    {t.unavailable}
+                  </option>
+                </NativeSelect>
+              )}
             </Field.Root>
-          )}
-          {id === 'select' && (
-            // Content width: each fits its longest option and stays beside the other.
-            <Inline gap={2} role='group' aria-label={t.toolbarSelects}>
-              {/* Several values on one line: the first option chooses them all. */}
-              <Select
-                multiple
-                width='content'
-                name='projects'
-                options={['Harbor', 'Beacon', 'Tideline', 'Anchor'].map(
-                  (project) => ({
-                    value: project.toLowerCase(),
-                    label: project,
-                  }),
-                )}
-                defaultValue={['harbor', 'beacon']}
-                labels={{
-                  all: t.allProjects,
-                  none: t.noProjects,
-                  count: t.projectCount,
-                }}
-                aria-label={t.projects}
-              />
-              <Select
-                width='content'
-                options={[
-                  { value: '1h', label: t.lastHour },
-                  { value: '24h', label: t.last24Hours },
-                  { value: '7d', label: t.last7Days },
-                ]}
-                defaultValue='24h'
-                aria-label={t.timeRange}
-              />
-              <Select
-                width='content'
-                options={[
-                  { value: 'off', label: t.refreshOff },
-                  { value: '30s', label: t.every30Seconds },
-                ]}
-                aria-label={t.refresh}
-              />
+            {id === 'select' && (
+              <Field.Root>
+                <Field.Label>{t.region}</Field.Label>
+                <Select name='region' options={regionGroups} />
+              </Field.Root>
+            )}
+            {id === 'select' && (
+              // Content width: each fits its longest option and stays beside the other.
+              <Inline gap={2} role='group' aria-label={t.toolbarSelects}>
+                {/* Several values on one line: the first option chooses them all. */}
+                <Select
+                  multiple
+                  width='content'
+                  name='projects'
+                  options={['Harbor', 'Beacon', 'Tideline', 'Anchor'].map(
+                    (project) => ({
+                      value: project.toLowerCase(),
+                      label: project,
+                    }),
+                  )}
+                  defaultValue={['harbor', 'beacon']}
+                  labels={{
+                    all: t.allProjects,
+                    none: t.noProjects,
+                    count: t.projectCount,
+                  }}
+                  aria-label={t.projects}
+                />
+                <Select
+                  width='content'
+                  options={[
+                    { value: '1h', label: t.lastHour },
+                    { value: '24h', label: t.last24Hours },
+                    { value: '7d', label: t.last7Days },
+                  ]}
+                  defaultValue='24h'
+                  aria-label={t.timeRange}
+                />
+                <Select
+                  width='content'
+                  options={[
+                    { value: 'off', label: t.refreshOff },
+                    { value: '30s', label: t.every30Seconds },
+                  ]}
+                  aria-label={t.refresh}
+                />
+              </Inline>
+            )}
+            <Inline gap={3}>
+              <Button type='submit'>{t.submitPreview}</Button>
+              <Button type='reset' variant='outline'>
+                {t.reset}
+              </Button>
             </Inline>
-          )}
-          <div className='actions'>
-            <Button type='submit'>{t.submitPreview}</Button>
-            <Button type='reset' variant='outline'>
-              {t.reset}
-            </Button>
-          </div>
+          </Stack>
         </form>
       )
       break
@@ -298,7 +301,7 @@ export function BasicExample({
     case 'tooltip':
       example = (
         <TooltipProvider delayDuration={200}>
-          <div className='actions'>
+          <Inline gap={3}>
             <Tooltip label={t.inspectBuildLogs}>
               <Button variant='outline'>{t.inspectLogs}</Button>
             </Tooltip>
@@ -309,7 +312,7 @@ export function BasicExample({
             >
               <Button variant='outline'>{t.rerun}</Button>
             </Tooltip>
-          </div>
+          </Inline>
         </TooltipProvider>
       )
       break
@@ -388,7 +391,7 @@ export function BasicExample({
               <Popover.Description>
                 {t.resetsSelectedFilters}
               </Popover.Description>
-              <div className='actions'>
+              <Inline gap={3}>
                 <Popover.Close render={<Button variant='outline' />}>
                   {t.keepFilters}
                 </Popover.Close>
@@ -400,7 +403,7 @@ export function BasicExample({
                 >
                   {t.resetPreviewFilters}
                 </Button>
-              </div>
+              </Inline>
             </Popover.Content>
           </Popover.Portal>
         </Popover.Root>
@@ -464,17 +467,19 @@ export function BasicExample({
   // switch it.
   if (id === 'select' || id === 'menu' || id === 'scroll-area')
     example = (
-      <>
-        <Toggle pressed={rtl} onPressedChange={setRtl}>
-          {t.rightToLeft}
-        </Toggle>
+      <Stack gap={5}>
+        <Inline>
+          <Toggle pressed={rtl} onPressedChange={setRtl}>
+            {t.rightToLeft}
+          </Toggle>
+        </Inline>
         <DirectionProvider direction={rtl ? 'rtl' : 'ltr'}>
           <div dir={rtl ? 'rtl' : 'ltr'}>{example}</div>
         </DirectionProvider>
-      </>
+      </Stack>
     )
   return (
-    <div className='component-example'>
+    <Stack gap={6} className='component-example'>
       <div className='example-controls'>{example}</div>
       {[
         'button',
@@ -484,10 +489,10 @@ export function BasicExample({
         'alert-dialog',
         'inline-confirmation',
       ].includes(id) && (
-        <p role='status' className='note'>
+        <Text role='status' color='secondary'>
           {message}
-        </p>
+        </Text>
       )}
-    </div>
+    </Stack>
   )
 }

@@ -1,5 +1,12 @@
 import React, { useState } from 'react'
-import { Field, Checkbox, NativeSelect, ChoiceLabel } from '@surflane/ui'
+import {
+  Stack,
+  Text,
+  Field,
+  Checkbox,
+  NativeSelect,
+  ChoiceLabel,
+} from '@surflane/ui'
 import {
   Chart,
   type ChartDatum,
@@ -382,7 +389,7 @@ export function ChartExample() {
   }
   const sample = scenarios[scenario]
   return (
-    <div className='example-stack'>
+    <Stack gap={5}>
       <div className='foundation-controls'>
         <Field.Root>
           <Field.Label>{t.chartType}</Field.Label>
@@ -581,9 +588,9 @@ export function ChartExample() {
           }
         }}
       />
-      <p role='status' aria-label={t.selectionResultLabel}>
+      <Text color='secondary' role='status' aria-label={t.selectionResultLabel}>
         {notice}
-      </p>
-    </div>
+      </Text>
+    </Stack>
   )
 }

@@ -68,11 +68,11 @@ export function SpacingGuide() {
         </Table.Root>
       </Table.Container>
       <p>{t.measureIntro}</p>
-      <div className='actions spacing-measurement-controls'>
+      <Inline gap={3} className='spacing-measurement-controls'>
         <Toggle pressed={measurements} onPressedChange={setMeasurements}>
           {t.spacingDimensions}
         </Toggle>
-      </div>
+      </Inline>
       <Stack
         gap={4}
         ref={host}

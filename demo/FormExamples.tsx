@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { FormContractExample } from './FormContractExample'
 import {
+  Text,
+  Inline,
   Button,
   Select,
   Field,
@@ -51,12 +53,12 @@ export function FormExample({ id }: { id: string }) {
     </Field.Root>
   )
   const buttons = (
-    <div className='actions'>
+    <Inline gap={3}>
       <Button type='submit'>{t.submitPreview}</Button>
       <Button type='reset' variant='outline'>
         {t.resetPreview}
       </Button>
-    </div>
+    </Inline>
   )
   let example: React.ReactNode
   switch (id) {
@@ -70,11 +72,13 @@ export function FormExample({ id }: { id: string }) {
       break
     case 'fieldset':
       example = (
-        <div className='example-stack'>
+        <Stack gap={5}>
           {/* A toggle keeps one name; its pressed state says whether it is on. */}
-          <Toggle pressed={disabled} onPressedChange={setDisabled}>
-            {t.disableGroup}
-          </Toggle>
+          <Inline>
+            <Toggle pressed={disabled} onPressedChange={setDisabled}>
+              {t.disableGroup}
+            </Toggle>
+          </Inline>
           <Form onFormSubmit={submit}>
             <Fieldset.Root disabled={disabled}>
               <Fieldset.Legend>{t.deploymentTarget}</Fieldset.Legend>
@@ -96,7 +100,7 @@ export function FormExample({ id }: { id: string }) {
             </Fieldset.Root>
             {buttons}
           </Form>
-        </div>
+        </Stack>
       )
       break
     case 'form':
@@ -114,7 +118,7 @@ export function FormExample({ id }: { id: string }) {
             <Field.Label>{t.description}</Field.Label>
             <Textarea rows={3} placeholder={t.deploymentPurposePlaceholder} />
           </Field.Root>
-          <div className='actions'>
+          <Inline gap={3}>
             <Button type='submit'>{t.submitPreview}</Button>
             <Button type='reset' variant='outline'>
               {t.resetPreview}
@@ -130,7 +134,7 @@ export function FormExample({ id }: { id: string }) {
             >
               {t.previewServerError}
             </Button>
-          </div>
+          </Inline>
         </Form>
       )
       break
@@ -346,12 +350,12 @@ export function FormExample({ id }: { id: string }) {
   }
   return (
     <>
-      <div className='component-example'>
+      <Stack gap={6} className='component-example'>
         <div className='example-controls'>{example}</div>
-        <p role='status' className='note'>
+        <Text role='status' color='secondary'>
           {result}
-        </p>
-      </div>
+        </Text>
+      </Stack>
       {id === 'form' && <FormContractExample />}
     </>
   )

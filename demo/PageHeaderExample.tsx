@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import {
+  Inline,
   Field,
   PageHeader,
   Breadcrumbs,
@@ -27,7 +28,7 @@ export function PageHeaderExample() {
   const variant = profile === 'inventory' ? 'page' : 'display'
   return (
     <>
-      <div className='page-header-settings actions'>
+      <Inline gap={3} className='page-header-settings'>
         <Field.Root>
           <Field.Label>{t.headingRole} </Field.Label>
           <NativeSelect
@@ -56,7 +57,7 @@ export function PageHeaderExample() {
             {label}
           </ChoiceLabel>
         ))}
-      </div>
+      </Inline>
       <div
         className='page-header-preview catalog-example-frame'
         data-kind='pattern'

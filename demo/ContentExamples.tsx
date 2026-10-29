@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import {
+  Stack,
+  Text,
+  Inline,
   VisuallyHidden,
   Field,
   Card,
@@ -32,7 +35,7 @@ function PaginationExample() {
   const pageCount = Math.ceil(filtered.length / 4),
     rows = filtered.slice((page - 1) * 4, page * 4)
   return (
-    <div className='example-stack'>
+    <Stack gap={5}>
       <Field.Root>
         <Field.Label>{t.findRun}</Field.Label>
         <Input
@@ -71,13 +74,13 @@ function PaginationExample() {
         aria-label={t.pipelineRunPages}
         labels={messages.pagination}
       />
-      <p role='status'>
+      <Text color='secondary' role='status'>
         {filtered.length === 0
           ? t.noMatchingRuns
           : t.status(page, pageCount, filtered.length)}{' '}
         {inspected}
-      </p>
-      <div className='actions'>
+      </Text>
+      <Inline gap={3}>
         <Button variant='outline' onClick={() => setDisabled((v) => !v)}>
           {disabled ? t.enablePagination : t.disablePagination}
         </Button>
@@ -90,9 +93,9 @@ function PaginationExample() {
         >
           {t.goToLastPage}
         </Button>
-      </div>
+      </Inline>
       <h3>{t.urlNavigation}</h3>
-      <p>{t.urlNavigationParagraph}</p>
+      <Text color='secondary'>{t.urlNavigationParagraph}</Text>
       <Pagination
         page={2}
         pageCount={5}
@@ -100,7 +103,7 @@ function PaginationExample() {
         aria-label={t.documentationPages}
         labels={messages.pagination}
       />
-    </div>
+    </Stack>
   )
 }
 export function ContentExample({ id }: { id: string }) {
@@ -112,7 +115,7 @@ export function ContentExample({ id }: { id: string }) {
   if (id === 'pagination') return <PaginationExample />
   if (id === 'card')
     return (
-      <div className='example-stack'>
+      <Stack gap={5}>
         <Card.Root aria-labelledby='card-environment-title'>
           <Card.Header>
             <Card.Title id='card-environment-title'>DEMO main</Card.Title>
@@ -135,19 +138,19 @@ export function ContentExample({ id }: { id: string }) {
         <VisuallyHidden as='p' role='status'>
           {notice}
         </VisuallyHidden>
-        <p>{t.cardFooterText}</p>
-      </div>
+        <Text color='secondary'>{t.cardFooterText}</Text>
+      </Stack>
     )
   return (
-    <div className='example-stack'>
-      <div className='actions'>
+    <Stack gap={5}>
+      <Inline gap={3}>
         <Button variant='outline' onClick={() => setWrap((v) => !v)}>
           {wrap ? t.keepSourceLineBreaks : t.wrapLongLines}
         </Button>
         <Button variant='outline' onClick={() => setRevision((v) => v + 1)}>
           {t.changeSource}
         </Button>
-      </div>
+      </Inline>
       <CodeBlock
         label={t.runnerTask}
         language='YAML'
@@ -166,13 +169,13 @@ export function ContentExample({ id }: { id: string }) {
         labels={{ copy: t.tryUnavailableClipboard }}
       />
       {/* CopyButton on its own: the same action and result beside any value. */}
-      <div className='actions'>
+      <Inline gap={3}>
         <code>npm install @surflane/ui</code>
         <CopyButton
           value='npm install @surflane/ui'
           labels={{ ...messages.codeBlock, copy: t.copyInstallCommand }}
         />
-      </div>
-    </div>
+      </Inline>
+    </Stack>
   )
 }

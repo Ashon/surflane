@@ -1,5 +1,7 @@
 import React, { useRef, useState } from 'react'
 import {
+  Stack,
+  Inline,
   Field,
   Button,
   Checkbox,
@@ -104,7 +106,6 @@ export function DatePickerExample() {
           {/* A native form: the date fields take part in the browser's own
               validation, which Form, built for Field, turns off. */}
           <form
-            className='date-native-form'
             aria-label={t.dateTimePreview}
             onSubmit={(event) => {
               event.preventDefault()
@@ -121,117 +122,119 @@ export function DatePickerExample() {
               setResult(t.formReset)
             }}
           >
-            <DatePicker
-              ref={fieldRef}
-              label={t.runDate}
-              name='runDate'
-              value={date}
-              onValueChange={setDate}
-              minValue={minimum}
-              maxValue={maximum}
-              required
-              disabled={disabled}
-              readOnly={readOnly}
-              isDateUnavailable={
-                weekends
-                  ? (value) => [0, 6].includes(getDayOfWeek(value, 'en-US'))
-                  : undefined
-              }
-              description={t.runDateDescription}
-              errorMessage={t.runDateError}
-            />
-            <DateRangePicker
-              label={t.releaseWindow}
-              startName='rangeStart'
-              endName='rangeEnd'
-              value={range}
-              onValueChange={setRange}
-              minValue={minimum}
-              maxValue={maximum}
-              required
-              disabled={disabled}
-              readOnly={readOnly}
-              isDateUnavailable={
-                weekends
-                  ? (value) => [0, 6].includes(getDayOfWeek(value, 'en-US'))
-                  : undefined
-              }
-              description={t.releaseWindowDescription}
-              errorMessage={t.releaseWindowError}
-            />
-            <TimeField
-              label={t.startTime}
-              name='startTime'
-              defaultValue={new Time(9, 30)}
-              minValue={new Time(9)}
-              maxValue={new Time(18)}
-              hourCycle={24}
-              required
-              disabled={disabled}
-              readOnly={readOnly}
-              description={t.startTimeDescription}
-              errorMessage={t.startTimeError}
-            />
-            <DatePicker
-              label={t.zonedExecution}
-              name='execution'
-              value={zoned}
-              onValueChange={setZoned}
-              granularity='minute'
-              hourCycle={24}
-              disabled={disabled}
-              readOnly={readOnly}
-              description={t.zonedExecutionDescription}
-            />
-            <div className='actions'>
-              <Button type='submit' disabled={disabled || readOnly}>
-                {t.submitLocalDates}
-              </Button>
-              <Button type='reset' variant='outline'>
-                {t.resetLocalDates}
-              </Button>
-              <Button
-                variant='ghost'
-                disabled={disabled || readOnly}
-                onClick={() => setDate(null)}
-              >
-                {t.clearRunDate}
-              </Button>
-              <Button
-                variant='ghost'
-                onClick={() =>
-                  setZoned((value) =>
-                    value
-                      ? toTimeZone(
-                          value,
-                          value.timeZone === 'Asia/Seoul'
-                            ? 'America/New_York'
-                            : 'Asia/Seoul',
-                        )
-                      : null,
-                  )
+            <Stack gap={6}>
+              <DatePicker
+                ref={fieldRef}
+                label={t.runDate}
+                name='runDate'
+                value={date}
+                onValueChange={setDate}
+                minValue={minimum}
+                maxValue={maximum}
+                required
+                disabled={disabled}
+                readOnly={readOnly}
+                isDateUnavailable={
+                  weekends
+                    ? (value) => [0, 6].includes(getDayOfWeek(value, 'en-US'))
+                    : undefined
                 }
-              >
-                {t.changeDisplayZone}
-              </Button>
-            </div>
-            <p role='status' aria-label={t.dateFormResult}>
-              {result}
-            </p>
-            <p data-date-value>
-              {t.runDateStatus(
-                date?.toString() ?? t.none,
-                range
-                  ? `${range.start.toString()} / ${range.end.toString()}`
-                  : t.none,
-              )}
-            </p>
-            <p data-zoned-value>
-              {t.zonedValueStatus(
-                zoned?.toString() ?? t.noZonedDate,
-                zoned?.toAbsoluteString() ?? t.none,
-              )}
-            </p>
+                description={t.runDateDescription}
+                errorMessage={t.runDateError}
+              />
+              <DateRangePicker
+                label={t.releaseWindow}
+                startName='rangeStart'
+                endName='rangeEnd'
+                value={range}
+                onValueChange={setRange}
+                minValue={minimum}
+                maxValue={maximum}
+                required
+                disabled={disabled}
+                readOnly={readOnly}
+                isDateUnavailable={
+                  weekends
+                    ? (value) => [0, 6].includes(getDayOfWeek(value, 'en-US'))
+                    : undefined
+                }
+                description={t.releaseWindowDescription}
+                errorMessage={t.releaseWindowError}
+              />
+              <TimeField
+                label={t.startTime}
+                name='startTime'
+                defaultValue={new Time(9, 30)}
+                minValue={new Time(9)}
+                maxValue={new Time(18)}
+                hourCycle={24}
+                required
+                disabled={disabled}
+                readOnly={readOnly}
+                description={t.startTimeDescription}
+                errorMessage={t.startTimeError}
+              />
+              <DatePicker
+                label={t.zonedExecution}
+                name='execution'
+                value={zoned}
+                onValueChange={setZoned}
+                granularity='minute'
+                hourCycle={24}
+                disabled={disabled}
+                readOnly={readOnly}
+                description={t.zonedExecutionDescription}
+              />
+              <Inline gap={3}>
+                <Button type='submit' disabled={disabled || readOnly}>
+                  {t.submitLocalDates}
+                </Button>
+                <Button type='reset' variant='outline'>
+                  {t.resetLocalDates}
+                </Button>
+                <Button
+                  variant='ghost'
+                  disabled={disabled || readOnly}
+                  onClick={() => setDate(null)}
+                >
+                  {t.clearRunDate}
+                </Button>
+                <Button
+                  variant='ghost'
+                  onClick={() =>
+                    setZoned((value) =>
+                      value
+                        ? toTimeZone(
+                            value,
+                            value.timeZone === 'Asia/Seoul'
+                              ? 'America/New_York'
+                              : 'Asia/Seoul',
+                          )
+                        : null,
+                    )
+                  }
+                >
+                  {t.changeDisplayZone}
+                </Button>
+              </Inline>
+              <p role='status' aria-label={t.dateFormResult}>
+                {result}
+              </p>
+              <p data-date-value>
+                {t.runDateStatus(
+                  date?.toString() ?? t.none,
+                  range
+                    ? `${range.start.toString()} / ${range.end.toString()}`
+                    : t.none,
+                )}
+              </p>
+              <p data-zoned-value>
+                {t.zonedValueStatus(
+                  zoned?.toString() ?? t.noZonedDate,
+                  zoned?.toAbsoluteString() ?? t.none,
+                )}
+              </p>
+            </Stack>
           </form>
           <section
             className='date-time-resolution'
@@ -282,7 +285,7 @@ export function DatePickerExample() {
               hourCycle={24}
               description={t.localWallTimeDescription}
             />
-            <div className='actions'>
+            <Inline gap={3}>
               <Button
                 onClick={() => {
                   if (!wall) {
@@ -332,7 +335,7 @@ export function DatePickerExample() {
               >
                 {t.normalLocalTime}
               </Button>
-            </div>
+            </Inline>
             {zoneError && (
               <InlineMessage.Root tone='danger' role='alert'>
                 <InlineMessage.Icon tone='danger' />

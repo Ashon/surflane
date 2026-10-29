@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import {
+  Stack,
+  Text,
+  Inline,
   Button,
   Checkbox,
   CheckboxGroup,
@@ -35,9 +38,9 @@ export function FormContractExample() {
     setModel((previous) => ({ ...previous, [key]: value }))
   }
   return (
-    <div className='form-contract-example example-stack'>
+    <Stack gap={5} className='form-contract-example'>
       <h3>{t.title}</h3>
-      <p>{t.description}</p>
+      <Text color='secondary'>{t.description}</Text>
       <form
         id='reset-contract-form'
         onSubmit={(event) => {
@@ -53,25 +56,27 @@ export function FormContractExample() {
           )
         }}
       >
-        <div className='actions'>
-          <Button type='submit'>{t.submitContract}</Button>
-          <Button variant='outline' type='reset'>
-            {t.nativeReset}
-          </Button>
-          <Button
-            variant='outline'
-            type='button'
-            onClick={() => {
-              setModel(initial)
-              setResult(t.modelRestored)
-            }}
-          >
-            {t.restoreInitialModel}
-          </Button>
-          <Toggle pressed={reject} onPressedChange={setReject}>
-            {t.rejectChanges}
-          </Toggle>
-        </div>
+        <Stack gap={6}>
+          <Inline gap={3}>
+            <Button type='submit'>{t.submitContract}</Button>
+            <Button variant='outline' type='reset'>
+              {t.nativeReset}
+            </Button>
+            <Button
+              variant='outline'
+              type='button'
+              onClick={() => {
+                setModel(initial)
+                setResult(t.modelRestored)
+              }}
+            >
+              {t.restoreInitialModel}
+            </Button>
+            <Toggle pressed={reject} onPressedChange={setReject}>
+              {t.rejectChanges}
+            </Toggle>
+          </Inline>
+        </Stack>
       </form>
       <ChoiceLabel
         control={
@@ -165,7 +170,9 @@ export function FormContractExample() {
           </ChoiceLabel>
         ))}
       </CheckboxGroup>
-      <p role='status'>{result}</p>
-    </div>
+      <Text color='secondary' role='status'>
+        {result}
+      </Text>
+    </Stack>
   )
 }

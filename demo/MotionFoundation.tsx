@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {
+  Inline,
   Field,
   Button,
   Dialog,
@@ -204,7 +205,7 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
           </Table.Root>
         </Table.Container>
         <p>{t.panelsIntro}</p>
-        <div className='actions'>
+        <Inline gap={3}>
           <Dialog.Root>
             <Dialog.Trigger render={<Button variant='outline' />}>
               {t.openMotionDialog}
@@ -262,7 +263,7 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
               </Sheet.Footer>
             </Sheet.Content>
           </Sheet.Root>
-        </div>
+        </Inline>
         <p>{codeText(t.transitionsNote)}</p>
       </FoundationSection>
       <FoundationSection id='theme'>
@@ -285,11 +286,11 @@ export function MotionFoundation({ toggleTheme }: { toggleTheme: () => void }) {
             </strong>
           </li>
         </ul>
-        <div className='actions'>
+        <Inline gap={3}>
           <Button variant='outline' onClick={toggleTheme}>
             {t.cyclePreviewTheme}
           </Button>
-        </div>
+        </Inline>
         <CodeBlock
           language='tsx'
           label={t.codeLabel}

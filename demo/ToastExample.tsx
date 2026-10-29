@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import {
+  Stack,
+  Text,
   Field,
   Toast,
   Button,
@@ -21,7 +23,7 @@ export function ToastExample() {
   const t = text[useLocale().locale]
   const [presentation, setPresentation] = useState('stack')
   return (
-    <div className='example-stack'>
+    <Stack gap={5}>
       <Field.Root className='toast-duration'>
         <Field.Label>{t.presentationLabel}</Field.Label>
         <NativeSelect
@@ -43,7 +45,7 @@ export function ToastExample() {
           <AnchoredDemo />
         </Toast.Provider>
       )}
-    </div>
+    </Stack>
   )
 }
 function AnchoredDemo() {
@@ -51,7 +53,7 @@ function AnchoredDemo() {
   const anchor = useRef<HTMLButtonElement>(null)
   const { toasts } = Toast.useToastManager<{ source: string }>()
   return (
-    <div className='example-stack'>
+    <Stack gap={5}>
       <Button
         ref={anchor}
         onClick={() =>
@@ -72,7 +74,7 @@ function AnchoredDemo() {
       >
         {t.showAnchoredFeedback}
       </Button>
-      <p>{t.anchoredIntro}</p>
+      <Text color='secondary'>{t.anchoredIntro}</Text>
       <Toast.Portal>
         <Toast.Viewport layout='anchored' aria-label={t.anchoredViewportLabel}>
           {toasts.map((toast) => (
@@ -94,7 +96,7 @@ function AnchoredDemo() {
           ))}
         </Toast.Viewport>
       </Toast.Portal>
-    </div>
+    </Stack>
   )
 }
 function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
@@ -167,7 +169,7 @@ function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
       .catch(() => {})
   }
   return (
-    <div className='example-stack'>
+    <Stack gap={5}>
       <div className='toast-demo-settings'>
         <Field.Root className='toast-duration'>
           <Field.Label>{t.durationLabel}</Field.Label>
@@ -236,7 +238,7 @@ function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
           {t.dismissAll}
         </Button>
       </div>
-      <p>{t.itemStatus(archived)}</p>
+      <Text color='secondary'>{t.itemStatus(archived)}</Text>
       {archived && (
         <Button
           variant='outline'
@@ -276,6 +278,6 @@ function ToastDemo({ layout }: { layout: 'stack' | 'list' }) {
           swipeDirection={rtl ? 'left' : 'right'}
         />
       </DirectionProvider>
-    </div>
+    </Stack>
   )
 }
