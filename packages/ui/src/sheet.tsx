@@ -4,7 +4,7 @@ import { Icon } from './icon.js'
 import { useDialogFocusBoundary } from './dialog-focus.js'
 import { useLabels } from './label-context.js'
 import { skin, usePortalDirection } from './parts.js'
-import { useComponentSize, normalizeSize } from './sizing.js'
+import { SizeScope, useComponentSize, normalizeSize } from './sizing.js'
 import { Dialog as BaseDialog } from '@base-ui/react/dialog'
 import {
   Body,
@@ -52,36 +52,40 @@ const SheetContent = function SheetContent({
   )
   const { side, modal } = React.useContext(SheetSide)
   return (
-    <BaseDialog.Portal ref={portalRef}>
-      <div className='surf-panel-layer' data-ui-size={scheme}>
-        {modal === true && (
-          <BaseDialog.Backdrop className='surf-panel-backdrop' />
-        )}
-        <div
-          className='surf-panel-viewport'
-          data-side={side}
-          data-flush={flush || undefined}
-        >
-          <BaseDialog.Popup
-            dir={dir}
-            {...props}
-            ref={ref}
-            className={skin('surf-panel', className)}
+    // A portal keeps React context, so the overlay gives its own size to what it
+    // holds: a large one opened from a small card draws large controls.
+    <SizeScope size={scheme}>
+      <BaseDialog.Portal ref={portalRef}>
+        <div className='surf-panel-layer' data-ui-size={scheme}>
+          {modal === true && (
+            <BaseDialog.Backdrop className='surf-panel-backdrop' />
+          )}
+          <div
+            className='surf-panel-viewport'
             data-side={side}
-            data-size={normalizeSize(size) ?? 'default'}
             data-flush={flush || undefined}
           >
-            <BaseDialog.Close
-              className='surf-panel-close surf-icon-button'
-              aria-label={closeLabel ?? text.close ?? 'Close panel'}
+            <BaseDialog.Popup
+              dir={dir}
+              {...props}
+              ref={ref}
+              className={skin('surf-panel', className)}
+              data-side={side}
+              data-size={normalizeSize(size) ?? 'default'}
+              data-flush={flush || undefined}
             >
-              <Icon name='close' />
-            </BaseDialog.Close>
-            {children}
-          </BaseDialog.Popup>
+              <BaseDialog.Close
+                className='surf-panel-close surf-icon-button'
+                aria-label={closeLabel ?? text.close ?? 'Close panel'}
+              >
+                <Icon name='close' />
+              </BaseDialog.Close>
+              {children}
+            </BaseDialog.Popup>
+          </div>
         </div>
-      </div>
-    </BaseDialog.Portal>
+      </BaseDialog.Portal>
+    </SizeScope>
   )
 }
 function SheetTitle({

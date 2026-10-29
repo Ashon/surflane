@@ -13,6 +13,7 @@ const sections = [
   'content',
   'highlighted',
   'shell',
+  'monitoring',
 ]
 
 test.skip(

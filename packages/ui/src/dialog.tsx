@@ -4,7 +4,7 @@ import { Icon } from './icon.js'
 import { part, skin, cx, usePortalDirection } from './parts.js'
 import { useDialogFocusBoundary } from './dialog-focus.js'
 import { useLabels } from './label-context.js'
-import { useComponentSize, type ComponentSize } from './sizing.js'
+import { SizeScope, useComponentSize, type ComponentSize } from './sizing.js'
 import { Dialog as BaseDialog } from '@base-ui/react/dialog'
 
 /** Visible icon close action; inherits Dialog focus and dismissal behavior. */
@@ -51,23 +51,27 @@ const DialogContent = function DialogContent({
   )
   const dir = usePortalDirection()
   return (
-    <BaseDialog.Portal ref={portalRef}>
-      <BaseDialog.Backdrop className='surf-dialog-backdrop' />
-      <BaseDialog.Popup
-        dir={dir}
-        data-ui-size={scheme}
-        data-size={size}
-        {...props}
-        ref={ref}
-        className={skin('surf-dialog-popup surf-dialog-content', className)}
-      >
-        <DialogCloseButton
-          aria-label={closeLabel ?? text.close ?? 'Close dialog'}
-          disabled={closeDisabled}
-        />
-        {children}
-      </BaseDialog.Popup>
-    </BaseDialog.Portal>
+    // A portal keeps React context, so the overlay gives its own size to what it
+    // holds: a large one opened from a small card draws large controls.
+    <SizeScope size={scheme}>
+      <BaseDialog.Portal ref={portalRef}>
+        <BaseDialog.Backdrop className='surf-dialog-backdrop' />
+        <BaseDialog.Popup
+          dir={dir}
+          data-ui-size={scheme}
+          data-size={size}
+          {...props}
+          ref={ref}
+          className={skin('surf-dialog-popup surf-dialog-content', className)}
+        >
+          <DialogCloseButton
+            aria-label={closeLabel ?? text.close ?? 'Close dialog'}
+            disabled={closeDisabled}
+          />
+          {children}
+        </BaseDialog.Popup>
+      </BaseDialog.Portal>
+    </SizeScope>
   )
 }
 function DialogHeader({ className, ...props }: React.ComponentProps<'div'>) {

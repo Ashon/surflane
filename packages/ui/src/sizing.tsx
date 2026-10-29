@@ -59,17 +59,19 @@ export function SizeProvider({
     </ComponentSizeContext.Provider>
   )
 }
-/** The size context for a part a server component renders with an explicit size, so
- * the popups it portals keep that size. */
+/** The size context for what a part renders, such as a Card's contents or an
+ * overlay's, or a part a server component renders with an explicit size, so the
+ * popups it portals keep that size. Without a size it keeps the surrounding one. */
 export function SizeScope({
   size,
   children,
 }: {
-  size: ComponentSize
+  size?: ComponentSize
   children: React.ReactNode
 }) {
+  const inherited = React.useContext(ComponentSizeContext)
   return (
-    <ComponentSizeContext.Provider value={size}>
+    <ComponentSizeContext.Provider value={size ?? inherited}>
       {children}
     </ComponentSizeContext.Provider>
   )

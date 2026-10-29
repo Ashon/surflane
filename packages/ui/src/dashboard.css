@@ -132,6 +132,9 @@
      takes the rest of the line, cut short before the title is. */
   .surf-dashboard-panel[data-open='false'] {
     align-self: start;
+    /* Its body is gone, and with it the row and the gap above it: the header
+       centers between the panel's padding. */
+    grid-template-rows: auto;
   }
   .surf-dashboard-panel-summary {
     flex: 1 1 0;

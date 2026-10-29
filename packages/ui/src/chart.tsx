@@ -959,6 +959,34 @@ export const Chart = function Chart({
       month: 'short',
       day: 'numeric',
     })
+    // A place on the axis, such as an x reference's, at the data's own precision
+    // rather than the ticks': rows hours apart name the hour, and the day too when the
+    // data spans more than one; rows days apart name the day; months apart, the month.
+    // The year shows when the data crosses one.
+    const step = interval || DAY
+    const firstDate = new Date(first),
+      lastDate = new Date(last)
+    const oneDay = firstDate.toDateString() === lastDate.toDateString()
+    const oneYear = firstDate.getFullYear() === lastDate.getFullYear()
+    const placeFormat = new Intl.DateTimeFormat(
+      locale,
+      step < DAY
+        ? oneDay
+          ? { hour: 'numeric', minute: '2-digit' }
+          : {
+              month: 'short',
+              day: 'numeric',
+              hour: 'numeric',
+              minute: '2-digit',
+            }
+        : step < 28 * DAY
+          ? {
+              month: 'short',
+              day: 'numeric',
+              year: oneYear ? undefined : 'numeric',
+            }
+          : { month: 'short', year: 'numeric' },
+    )
     return {
       domain: [first - pad, last + pad] as [number, number],
       ticks: timeAxisTicks,
@@ -969,6 +997,7 @@ export const Chart = function Chart({
           ? dayFormat.format(date)
           : tickFormat.format(date)
       },
+      place: (value: number) => placeFormat.format(new Date(value)),
     }
   }, [rows, timeScale, type, interval, locale, frameWidth, frame, fontsReady])
   const hasValues = values.length > 0
@@ -1013,7 +1042,7 @@ export const Chart = function Chart({
   }
   const placeText = (position: ChartPosition) =>
     timeScale
-      ? (time?.format(Number(position)) ?? String(position))
+      ? (time?.place(Number(position)) ?? String(position))
       : (byId.get(String(position))?.label ?? String(position))
   const referenceText = (r: ChartReference) =>
     'y' in r

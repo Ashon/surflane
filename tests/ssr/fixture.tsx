@@ -88,6 +88,11 @@ import {
   LinkButton,
 } from '@surflane/ui'
 import { Chart, type ChartDatum } from '@surflane/ui/chart'
+import { BarList } from '@surflane/ui/bar-list'
+import { Dashboard } from '@surflane/ui/dashboard'
+import { Sparkline } from '@surflane/ui/sparkline'
+import { Stat } from '@surflane/ui/stat'
+import { TimeRangePicker } from '@surflane/ui/time-range-picker'
 import {
   DateLocaleProvider,
   DatePicker,
@@ -116,6 +121,16 @@ const throughput: ChartDatum[] = [
   { id: 'tue', label: 'Tuesday', values: { north: 47, east: null } },
   { id: 'wed', label: 'Wednesday', values: { north: 39, east: 24 } },
 ]
+// Two weeks of daily moves at North pier against its plan, in local time.
+const fortnight: ChartDatum[] = Array.from({ length: 14 }, (_, index) => ({
+  id: `day-${index}`,
+  label: `October ${index + 1}, 2026`,
+  time: new Date(2026, 9, index + 1),
+  values: {
+    moved: [42, 47, 39, 44, 51, 49, 36, 38, 45, 52, 55, 50, 46, 48][index],
+    plan: [44, 44, 44, 45, 45, 45, 46, 46, 46, 47, 47, 47, 48, 48][index],
+  },
+}))
 const manifest: TreeNode[] = [
   {
     id: 'vessels',
@@ -1042,7 +1057,127 @@ export function SsrFixture() {
         <Content />
         <Highlighted />
         <Shell />
+        <Monitoring />
+        <OverlayScopes />
       </SizeProvider>
     </DirectionProvider>
+  )
+}
+
+/** Overlays opened from a small scope keep their own size for what they hold. Checked
+ * by tests/package/size-scopes.spec.ts, not by the screenshots. */
+export function OverlayScopes() {
+  return (
+    <section data-ssr='scopes'>
+      <SizeProvider size='small'>
+        <Button className='ssr-scope-outside'>Outside</Button>
+        <Popover.Root defaultOpen>
+          <Popover.Trigger render={<Button />}>Berth</Popover.Trigger>
+          <Popover.Content size='large'>
+            <Button className='ssr-scope-popover'>Assign</Button>
+          </Popover.Content>
+        </Popover.Root>
+        <Sheet.Root defaultOpen modal={false}>
+          <Sheet.Content size='large' closeLabel='Close'>
+            <Toggle className='ssr-scope-sheet' aria-label='Pin'>
+              Pin
+            </Toggle>
+          </Sheet.Content>
+        </Sheet.Root>
+      </SizeProvider>
+    </section>
+  )
+}
+
+/** A compact monitoring screen: the dashboard parts, a folded panel with its summary,
+ * and a chart with its plan, the gap between them, an event and a period. */
+export function Monitoring() {
+  return (
+    <section data-ssr='monitoring'>
+      <SizeProvider size='small' density='compact'>
+        <TimeRangePicker
+          label='Harbor time'
+          range={24 * 3_600_000}
+          onRangeChange={() => {}}
+          onRefresh={() => {}}
+        />
+        <Dashboard.Root label='Harbor overview' columns={3}>
+          <Dashboard.Panel
+            title='Cranes in use'
+            description='Cranes working a ship, every 10 minutes.'
+          >
+            <Stat.Group label='Cranes by pier' labelHidden>
+              <Stat.Root>
+                <Stat.Label>North pier</Stat.Label>
+                <Stat.Value>4</Stat.Value>
+                <Stat.Change value={0.12} />
+              </Stat.Root>
+              <Stat.Root>
+                <Stat.Label>East quay</Stat.Label>
+                <Stat.Value>1</Stat.Value>
+                <Stat.Status tone='caution'>One idle</Stat.Status>
+              </Stat.Root>
+            </Stat.Group>
+            <Sparkline
+              data={[3, 4, 4, 2, 5, 4, null, 4]}
+              label='Cranes in use over the shift'
+            />
+          </Dashboard.Panel>
+          <Dashboard.Panel title='Containers by berth'>
+            <BarList
+              label='Containers by berth'
+              items={[
+                { id: 'north', label: 'North pier', value: 42, text: '42' },
+                { id: 'east', label: 'East quay', value: 24, text: '24' },
+                { id: 'south', label: 'South dock', value: 9, text: '9' },
+              ]}
+            />
+          </Dashboard.Panel>
+          <Dashboard.Panel
+            title='Fuel on hand'
+            collapsible
+            defaultOpen={false}
+            summary='North pier 62%'
+          >
+            <Stat.Root>
+              <Stat.Label>North pier</Stat.Label>
+              <Stat.Value>62%</Stat.Value>
+            </Stat.Root>
+          </Dashboard.Panel>
+          <Dashboard.Panel title='Containers moved' span='full'>
+            <Chart
+              title='Containers moved'
+              description='North pier against its plan over two weeks, with the crane change and the storm.'
+              xLabel='Day'
+              yLabel='Containers'
+              unit='containers'
+              xScale='time'
+              includeZero={false}
+              locale='en-US'
+              data={fortnight}
+              series={[
+                { key: 'moved', label: 'Moved' },
+                { key: 'plan', label: 'Plan', comparison: true },
+              ]}
+              gap={{
+                series: 'moved',
+                against: 'plan',
+                above: 'Ahead of plan',
+                below: 'Behind plan',
+              }}
+              references={[
+                { x: new Date(2026, 9, 5), label: 'New crane' },
+                {
+                  xFrom: new Date(2026, 9, 7),
+                  xTo: new Date(2026, 9, 8),
+                  label: 'Storm',
+                  tone: 'caution',
+                },
+              ]}
+            />
+          </Dashboard.Panel>
+        </Dashboard.Root>
+      </SizeProvider>
+    </section>
   )
 }

@@ -114,6 +114,20 @@ const markers = {
     'surf-app-shell-link',
     'surf-bottom-nav',
   ],
+  monitoring: [
+    'surf-time-range',
+    'surf-dashboard',
+    'surf-dashboard-panel',
+    'surf-dashboard-panel-toggle',
+    'surf-dashboard-panel-summary',
+    'surf-stat-group',
+    'surf-stat-change',
+    'surf-stat-status',
+    'surf-sparkline',
+    'surf-bar-list',
+    'surf-chart',
+  ],
+  scopes: ['ssr-scope-outside'],
 }
 
 const root = resolve(import.meta.dirname, '..')

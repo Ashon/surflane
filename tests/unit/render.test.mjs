@@ -339,3 +339,42 @@ test('a collapsible Dashboard.Panel titles with a toggle and leaves its folded c
     /data-open|surf-dashboard-panel-toggle/,
   )
 })
+
+test("a Chart names an x reference's place at the data's precision, not the ticks'", async () => {
+  const { Chart } = await import('@surflane/ui/chart')
+  // Three months of daily rows: the axis ticks name months, the events their days.
+  const data = Array.from({ length: 92 }, (_, index) => {
+    const time = new Date(2026, 7, 1 + index)
+    return {
+      id: `day-${index}`,
+      label: time.toDateString(),
+      time,
+      values: { runs: index },
+    }
+  })
+  const legend = html(
+    h(Chart, {
+      title: 'Runs',
+      description: 'Daily runs over three months.',
+      data,
+      series: [{ key: 'runs', label: 'Runs' }],
+      unit: 'runs',
+      xLabel: 'Day',
+      yLabel: 'Runs',
+      xScale: 'time',
+      locale: 'en-US',
+      references: [
+        { x: new Date(2026, 9, 11), label: 'Growth' },
+        { x: new Date(2026, 9, 25), label: 'Seed' },
+        {
+          xFrom: new Date(2026, 8, 1),
+          xTo: new Date(2026, 8, 14),
+          label: 'Freeze',
+        },
+      ],
+    }),
+  )
+  assert.match(legend, />Growth Oct 11</)
+  assert.match(legend, />Seed Oct 25</)
+  assert.match(legend, />Freeze Sep 1–Sep 14</)
+})

@@ -300,3 +300,61 @@ for (const [route, selector] of [
     await page.emulateMedia({ forcedColors: 'none' })
     await expect(plane).toHaveCSS('outline-style', 'none')
   })
+test('chart references, the gap between series and a sticky column edge keep the text color in forced colors', async ({
+  page,
+}) => {
+  await page.emulateMedia({ forcedColors: 'active' })
+  await page.setViewportSize({ width: 1280, height: 1000 })
+  await page.goto('/components/chart')
+  await waitForCatalogReady(page)
+  const canvasText = await page.evaluate(() => {
+    const probe = document.createElement('span')
+    probe.style.color = 'CanvasText'
+    document.body.append(probe)
+    const color = getComputedStyle(probe).color
+    probe.remove()
+    return color
+  })
+  const choose = async (option: string) => {
+    await page
+      .getByRole('combobox', { name: 'Chart data', exact: true })
+      .click()
+    await page.getByRole('option', { name: option, exact: true }).click()
+  }
+  // Both sides of the gap, and a caution period, draw in the text color: the legend
+  // and the readout name what each one is.
+  await choose('A basket against its benchmark')
+  const sides = await page
+    .locator('.surf-chart-gap path')
+    .evaluateAll((paths) => paths.map((path) => getComputedStyle(path).fill))
+  expect(sides.length).toBeGreaterThan(0)
+  expect(new Set(sides)).toEqual(new Set([canvasText]))
+  await choose('Disk used, hourly steps')
+  expect(
+    await page
+      .locator('.recharts-reference-area path')
+      .evaluate((path) => getComputedStyle(path).fill),
+  ).toBe(canvasText)
+  // A sticky column's edge, once rows pass under it, is a line in the text color.
+  await page.setViewportSize({ width: 390, height: 900 })
+  await page.goto('/components/table')
+  await waitForCatalogReady(page)
+  await page
+    .getByRole('checkbox', { name: 'Keep the first column in place' })
+    .check()
+  const root = page.locator('#preview .surf-scroll-root').first()
+  await root
+    .locator('> .surf-scroll-viewport')
+    .evaluate((element) => element.scrollBy(160, 0))
+  await expect(root).toHaveAttribute('data-overflow-x-start')
+  expect(
+    await page
+      .locator('#preview .surf-table')
+      .first()
+      .evaluate((table) => {
+        const cell = table.querySelector('tbody tr > :first-child')!
+        const edge = getComputedStyle(cell, '::after')
+        return [edge.backgroundColor, edge.opacity]
+      }),
+  ).toEqual([canvasText, '1'])
+})

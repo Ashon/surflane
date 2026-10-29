@@ -2,6 +2,16 @@
 
 `@surflane/design-tokens`, `@surflane/css` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## Unreleased
+
+### Fixed
+
+- A folded `Dashboard.Panel` is its header and its padding. It kept the grid row and the gap of its missing body, so its title sat above center: a folded panel was 12px taller than it should be.
+- An overlay with a size of its own gives it to what it holds. `Dialog.Content`, `AlertDialog.Content`, `Sheet.Content`, `Drawer.Content` and `Popover.Content` drew their own surface at their size, but a portal keeps React context, so a Button or a Toggle inside took the size of the scope it was opened from: a large Sheet opened from a small Card drew small controls. `SizeScope` may now leave out `size` to keep the surrounding one.
+- A Chart x reference names its place at the data's precision, not the ticks': hourly rows name the hour, and the day too when the data spans more than one; daily rows name the day; monthly rows the month; the year shows when the data crosses one. On a three-month axis two events in one month both read "Oct 2026".
+- In forced colors, Chart references and the gap between series draw in the text color, and a sticky Table column keeps its edge line. They kept their author colors, or lost the line to the canvas.
+- 0.16.1's NavigationMenu change also brought a default-size list link from 40px to the 36px default control height, as tall as its trigger and a Button; its entry named only the small size.
+
 ## 0.16.1
 
 ### Fixed

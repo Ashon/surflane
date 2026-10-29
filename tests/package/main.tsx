@@ -15,7 +15,9 @@ import {
   Feedback,
   Foundations,
   Highlighted,
+  Monitoring,
   Overlays,
+  OverlayScopes,
   Shell,
 } from '../ssr/fixture'
 
@@ -30,6 +32,8 @@ const sections = {
   content: Content,
   highlighted: Highlighted,
   shell: Shell,
+  monitoring: Monitoring,
+  scopes: OverlayScopes,
 }
 const params = new URLSearchParams(location.search)
 const theme = params.get('theme')

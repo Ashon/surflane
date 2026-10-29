@@ -3,7 +3,7 @@ import * as React from 'react'
 import { part, skin, usePortalDirection } from './parts.js'
 import { useDialogFocusBoundary } from './dialog-focus.js'
 import { useLabels } from './label-context.js'
-import { useComponentSize, type ComponentSize } from './sizing.js'
+import { SizeScope, useComponentSize, type ComponentSize } from './sizing.js'
 import { AlertDialog as BaseAlertDialog } from '@base-ui/react/alert-dialog'
 import { DialogFooter, DialogHeader } from './dialog.js'
 
@@ -25,20 +25,24 @@ const AlertDialogContent = function AlertDialogContent({
   )
   const dir = usePortalDirection()
   return (
-    <BaseAlertDialog.Portal ref={portalRef}>
-      <BaseAlertDialog.Backdrop className='surf-dialog-backdrop' />
-      <BaseAlertDialog.Popup
-        dir={dir}
-        data-ui-size={scheme}
-        data-size={size}
-        {...props}
-        ref={ref}
-        className={skin(
-          'surf-dialog-popup surf-dialog-content surf-confirm-content',
-          className,
-        )}
-      />
-    </BaseAlertDialog.Portal>
+    // A portal keeps React context, so the overlay gives its own size to what it
+    // holds: a large one opened from a small card draws large controls.
+    <SizeScope size={scheme}>
+      <BaseAlertDialog.Portal ref={portalRef}>
+        <BaseAlertDialog.Backdrop className='surf-dialog-backdrop' />
+        <BaseAlertDialog.Popup
+          dir={dir}
+          data-ui-size={scheme}
+          data-size={size}
+          {...props}
+          ref={ref}
+          className={skin(
+            'surf-dialog-popup surf-dialog-content surf-confirm-content',
+            className,
+          )}
+        />
+      </BaseAlertDialog.Portal>
+    </SizeScope>
   )
 }
 const AlertDialogTitle = /* @__PURE__ */ part<

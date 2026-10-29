@@ -7,7 +7,7 @@ import {
   skin,
   usePortalDirection,
 } from './parts.js'
-import { useComponentSize, type ComponentSize } from './sizing.js'
+import { SizeScope, useComponentSize, type ComponentSize } from './sizing.js'
 import { Popover as BasePopover } from '@base-ui/react/popover'
 function PopoverContent({
   size,
@@ -29,23 +29,27 @@ function PopoverContent({
   const scheme = useComponentSize(size)
   const dir = usePortalDirection()
   return (
-    <OwnPortal portal={BasePopover.Portal}>
-      <BasePopover.Positioner
-        dir={dir}
-        side={side}
-        align={align}
-        sideOffset={sideOffset}
-        collisionPadding={collisionPadding}
-        className='surf-positioner'
-      >
-        <BasePopover.Popup
-          data-ui-size={scheme}
-          data-size={size}
-          {...props}
-          className={skin('surf-popover', className)}
-        />
-      </BasePopover.Positioner>
-    </OwnPortal>
+    // A portal keeps React context, so the overlay gives its own size to what it
+    // holds: a large one opened from a small card draws large controls.
+    <SizeScope size={scheme}>
+      <OwnPortal portal={BasePopover.Portal}>
+        <BasePopover.Positioner
+          dir={dir}
+          side={side}
+          align={align}
+          sideOffset={sideOffset}
+          collisionPadding={collisionPadding}
+          className='surf-positioner'
+        >
+          <BasePopover.Popup
+            data-ui-size={scheme}
+            data-size={size}
+            {...props}
+            className={skin('surf-popover', className)}
+          />
+        </BasePopover.Positioner>
+      </OwnPortal>
+    </SizeScope>
   )
 }
 const PopoverTitle = /* @__PURE__ */ part<

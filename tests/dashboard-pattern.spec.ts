@@ -130,6 +130,19 @@ test('a collapsible panel folds to its title and summary, and remembers it', asy
   }))
   expect(folded.height).toBeLessThan(openHeight)
   expect(folded.align).toBe('start')
+  // Folded, the panel is its header and its padding: no gap is left for the body.
+  const fold = await disk.evaluate((el) => {
+    const style = getComputedStyle(el)
+    const header = el.querySelector('.surf-dashboard-panel-header')!
+    return {
+      height: el.getBoundingClientRect().height,
+      inner:
+        header.getBoundingClientRect().height +
+        parseFloat(style.paddingTop) +
+        parseFloat(style.paddingBottom),
+    }
+  })
+  expect(fold.height).toBe(fold.inner)
   // The title stays whole while the summary takes what is left of the row.
   const title = disk.locator('.surf-dashboard-panel-title-text')
   expect(await title.evaluate((el) => el.scrollWidth <= el.clientWidth)).toBe(

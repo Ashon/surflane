@@ -274,6 +274,17 @@
     > :first-child::after {
     opacity: 1;
   }
+  /* Backgrounds turn to the canvas, so a sticky column's edge keeps its line in the
+     text color. */
+  @media (forced-colors: active) {
+    .surf-table[data-sticky-column]
+      > :is(.surf-table-head, .surf-table-body, .surf-table-foot)
+      > .surf-table-row
+      > :first-child::after {
+      background: CanvasText;
+      forced-color-adjust: none;
+    }
+  }
   .surf-table-truncate {
     display: inline-block;
     max-inline-size: var(--surf-table-truncate-measure, 32ch);

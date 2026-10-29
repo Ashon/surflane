@@ -356,6 +356,12 @@
       --surf-chart-category-10: CanvasText;
       --surf-chart-category-11: CanvasText;
       --surf-chart-category-12: CanvasText;
+      /* References and the gap between series: the legend and the readout name
+         their tone and side in words, so the text color draws them all. */
+      --surf-status-caution-fg: CanvasText;
+      --surf-status-danger-fg: CanvasText;
+      --surf-trend-up-fg: CanvasText;
+      --surf-trend-down-fg: CanvasText;
     }
     .surf-chart-plot .recharts-surface,
     .surf-chart-mark {
