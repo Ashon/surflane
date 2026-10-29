@@ -9,10 +9,11 @@ export const doc: ComponentDoc = {
     'In compact density (SizeProvider density="compact" around the shell) the sidebar\'s rows and its toggle are 32px. The brand row and the rail keep their size, so the icon column and the brand row\'s line stay. On touch a row grows to the target size and never shrinks below its own.',
     'Nav stacks Links with even gaps and, in the workspace sidebar, insets them so their icons sit on the rail. Its label shows over the links, keeps its row on the rail, and names the navigation; without one, give Nav an aria-label.',
     "Link takes render. Pass a router's link to keep client navigation, such as render={<NextLink href='/resources' />}. The account row is a Link rendered as the menu's trigger, render={<Menu.Trigger />}, with a 24px Avatar as its icon, so it lines up with the links.",
-    'The brand and account stay fixed while the menu and main content scroll in separate ScrollAreas. The content surface spans the full scrolling content, so its bottom rounded corners appear only at the end.',
+    "The brand and account stay fixed while the menu and main content scroll in separate ScrollAreas. The content surface spans the full scrolling content, so its bottom rounded corners appear only at the end. The content's ScrollArea is the page's own scroller: set fade=\"none\" so the page's top and bottom stay sharp, while the menu's edges fade to show more links.",
     'Main content can also scroll with the document. In a full-viewport shell with no page behind it, set scrollChain="contain" so an edge scroll doesn\'t bounce the page.',
     "The shell fills the window, and its edge is square: it is the window's edge. Only the page surface is rounded, by --surf-app-shell-page-radius (8px by default). Give the document no margin and the chrome background, as the install guide shows, so nothing shows around it.",
     "On a phone (≤760px) the frame gives way: the page meets the screen's edges below the mobile header, with no inset and no rounding.",
+    "The page pads its content by --surf-app-shell-page-padding: 24px, 12px in compact density and 16px on a phone. Set it on Root to give a denser or roomier product its own room; Bar takes the new value, so its tabs still line up with the page's text.",
     'To show a shell inside a page, as this example does, let the frame round and clip it. Here the frame clips at 22px and sets --surf-app-shell-page-radius to --surf-radius-md (10px), so the frame, the clip and the page stay concentric: 26, 22 and 10px.',
     'The example sits in a fixed-height frame on the page, so its ScrollAreas keep the default scrollChain="auto" and hand the wheel to the page at their edges. Turn on Overflow navigation and Long workspace content to see the separate scrolling.',
     "Product selection and preview options sit outside the example boundary, and the theme switch sits in the account menu. The example's icon collapse is a product choice, and a real documentation site's sidebar is text-first.",
@@ -87,7 +88,7 @@ export const doc: ComponentDoc = {
     </AppShell.Footer>
   </AppShell.Sidebar>
   <AppShell.Content>
-    <ScrollArea orientation='vertical' label='Workspace content'>
+    <ScrollArea orientation='vertical' fade='none' label='Workspace content'>
       <AppShell.Page>{children}</AppShell.Page>
     </ScrollArea>
   </AppShell.Content>
@@ -102,6 +103,11 @@ export const doc: ComponentDoc = {
       'Root style --surf-app-shell-page-radius / --surf-app-shell-inset',
       "the page surface's radius and the shell's inset; the shell itself is square",
       '8px / 12px; preview 10px',
+    ],
+    [
+      'Root style --surf-app-shell-page-padding',
+      "the page's room on every side: what its text stands from its edge, and what Bar bleeds from to line its tabs up with that text",
+      '24px; 12px in compact density, 16px on a phone',
     ],
     [
       'Root.layout',

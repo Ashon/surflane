@@ -20,7 +20,11 @@ import {
   Skeleton,
   Stat,
   Table,
+  Textarea,
+  Input,
+  Combobox,
   Timeline,
+  VisuallyHidden,
 } from '@surflane/ui'
 import { Dashboard } from '@surflane/ui/dashboard'
 
@@ -377,4 +381,120 @@ test("a Chart names an x reference's place at the data's precision, not the tick
   assert.match(legend, />Growth Oct 11</)
   assert.match(legend, />Seed Oct 25</)
   assert.match(legend, />Freeze Sep 1–Sep 14</)
+})
+
+test('Table writes its layout, minimum width, one-line cells, column widths and steps aside', () => {
+  const markup = html(
+    h(
+      Table.Root,
+      { layout: 'fixed', minWidth: '50rem', nowrap: true },
+      h(
+        Table.Columns,
+        null,
+        h(Table.Column, { width: '8rem' }),
+        h(Table.Column),
+      ),
+      h(
+        Table.Body,
+        null,
+        h(
+          Table.Row,
+          null,
+          h(Table.Cell, null, 'api'),
+          h(Table.Cell, { hideBelow: 'sm' }, 'production'),
+        ),
+      ),
+    ),
+  )
+  assert.match(
+    markup,
+    /<table style="min-inline-size:50rem" data-layout="fixed" data-nowrap="true" class="surf-table">/,
+  )
+  assert.match(
+    markup,
+    /<colgroup class="surf-table-columns"><col class="surf-table-column" style="inline-size:8rem"\/><col class="surf-table-column"\/><\/colgroup>/,
+  )
+  assert.match(markup, /<td data-hide-below="sm" class="surf-table-cell">/)
+  assert.doesNotMatch(html(h(Table.Root)), /data-layout|data-nowrap|style=/)
+  // A Container always carries its hook, so its table can step columns aside.
+  assert.match(
+    html(h(Table.Container, { label: 'Runs' }, 'x')),
+    /class="surf-scroll-root surf-table-container"/,
+  )
+})
+
+test('Skeleton sets its width and draws lines, the last one short', () => {
+  assert.match(
+    html(h(Skeleton, { width: '55%' })),
+    /style="--surf-skeleton-width:55%" data-shape="text"/,
+  )
+  const lines = html(h(Skeleton, { lines: 3 }))
+  assert.match(lines, /^<span class="surf-skeleton-lines" aria-hidden="true">/)
+  assert.equal(lines.match(/class="surf-skeleton"/g).length, 3)
+  // One line is a plain text skeleton; lines only change a text shape.
+  assert.match(html(h(Skeleton, { lines: 1 })), /^<span class="surf-skeleton"/)
+  assert.match(
+    html(h(Skeleton, { shape: 'block', lines: 3 })),
+    /^<span class="surf-skeleton" data-shape="block"/,
+  )
+})
+
+test('VisuallyHidden keeps its text in the reading order as the element asked for', () => {
+  assert.equal(
+    html(h(VisuallyHidden, null, 'Select')),
+    '<span class="surf-visually-hidden">Select</span>',
+  )
+  assert.equal(
+    html(h(VisuallyHidden, { as: 'p', role: 'status' }, 'Saved')),
+    '<p role="status" class="surf-visually-hidden">Saved</p>',
+  )
+})
+
+test('Input and Textarea mark the code face; Combobox options take a title and a description', () => {
+  assert.match(html(h(Input, { mono: true })), /data-mono="true"/)
+  assert.doesNotMatch(html(h(Input)), /data-mono/)
+  assert.match(html(h(Textarea, { mono: true })), /data-mono="true"/)
+  assert.equal(
+    html(
+      h(
+        Combobox.ItemContent,
+        null,
+        h(Combobox.ItemTitle, null, 'Table'),
+        h(Combobox.ItemDescription, null, 'Rows and columns'),
+      ),
+    ),
+    '<div class="surf-combobox-item-content"><div class="surf-combobox-item-title">Table</div><div class="surf-combobox-item-description">Rows and columns</div></div>',
+  )
+})
+
+test('a Chart shades a difference, and gap still names one', async () => {
+  const { Chart } = await import('@surflane/ui/chart')
+  const data = [1, 3, 2].map((value, index) => ({
+    id: `d${index}`,
+    label: `Day ${index + 1}`,
+    values: { basket: value, benchmark: 2 },
+  }))
+  const shade = {
+    series: 'basket',
+    against: 'benchmark',
+    above: 'Ahead of the benchmark',
+    below: 'Behind the benchmark',
+  }
+  const props = {
+    title: 'Basket',
+    description: 'A basket against its benchmark.',
+    data,
+    series: [
+      { key: 'basket', label: 'Basket' },
+      { key: 'benchmark', label: 'Benchmark', comparison: true },
+    ],
+    unit: 'pt',
+    xLabel: 'Day',
+    yLabel: 'Index',
+  }
+  for (const named of [{ difference: shade }, { gap: shade }]) {
+    const markup = html(h(Chart, { ...props, ...named }))
+    assert.match(markup, />Ahead of the benchmark</)
+    assert.match(markup, />Behind the benchmark</)
+  }
 })

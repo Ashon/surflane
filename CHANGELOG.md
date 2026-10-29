@@ -4,12 +4,34 @@
 
 ## Unreleased
 
+### Added
+
+- `Table.Root` takes `layout='fixed'`, `minWidth` and `nowrap`, and `Table.Columns` with `Table.Column width` sets column widths in a native colgroup. Fixed columns hold still while rows turn into skeletons or a message; nowrap keeps a console's rows on one line, with `Table.Truncate` for long names.
+- `HeaderCell` and `Cell` take `hideBelow='sm' | 'md'`: the column steps aside while its `Table.Container` is narrower than 30rem or 40rem, so the columns that matter keep their room. Give it to every cell of the column.
+- `Combobox.ItemContent`, `Combobox.ItemTitle` and `Combobox.ItemDescription` set an option's title over a line that describes it, as a List row does. What follows ItemContent, such as a Badge, sits at the row's end.
+- `Skeleton` takes `width`, such as '55%', and `lines`: a placeholder paragraph a line's gap apart, its last line at 60%, which takes the room beside a circle in a row.
+- `VisuallyHidden` keeps text for assistive technology only, such as a column's name over checkboxes or a live status, in the reading order without taking space. `as` makes it a span, a div or a p.
+- `Input` and `Textarea` take `mono`: the code face for values read character by character. A mono Input keeps the control's size, so it lines up with the fields beside it; a mono Textarea is source, set in the code role as a CodeBlock is, and 16px on touch.
+- `Chart` takes `difference` for the shaded difference between two series; `ChartDifference` is its type.
+
+### Changed
+
+- A `ScrollArea` fades its top and bottom edges too while they hide content, as it already faded its sides, so a cut-off list reads as more to come. A page's own scroller, such as an AppShell's content, sets `fade='none'`; a Table with `stickyHeader` keeps its top sharp, as one with `stickyColumn` keeps its start.
+
+### Deprecated
+
+- `Chart`'s `gap` and the `ChartGap` type are the earlier names for `difference` and `ChartDifference`, which read apart from the layout gap of Stack and Inline. They still work.
+
 ### Fixed
 
+- A `ScrollArea` given a height, or a flex or grid track, scrolls inside it. Its viewport took its content's height and spilled past the root, so a bounded list did not scroll unless the app sized the viewport itself.
+- A vertical `ScrollArea` no longer fades its sides when its content hangs past them, such as a Table that bleeds into the gutter. Only an axis that scrolls fades.
+- A `NavigationMenu` link marked `aria-current="location"`, such as the section in view in a table of contents, draws as the current page does. A list link whose label wraps keeps the room above and below that a one-line link has; it had none since 0.16.1.
+- `--surf-app-shell-page-padding` set on `AppShell.Root` reaches the page, as `--surf-app-shell-page-radius` does. The page declared it on itself, so a value set on the shell did nothing; `AppShell.Bar` follows the new value.
 - A folded `Dashboard.Panel` is its header and its padding. It kept the grid row and the gap of its missing body, so its title sat above center: a folded panel was 12px taller than it should be.
 - An overlay with a size of its own gives it to what it holds. `Dialog.Content`, `AlertDialog.Content`, `Sheet.Content`, `Drawer.Content` and `Popover.Content` drew their own surface at their size, but a portal keeps React context, so a Button or a Toggle inside took the size of the scope it was opened from: a large Sheet opened from a small Card drew small controls. `SizeScope` may now leave out `size` to keep the surrounding one.
 - A Chart x reference names its place at the data's precision, not the ticks': hourly rows name the hour, and the day too when the data spans more than one; daily rows name the day; monthly rows the month; the year shows when the data crosses one. On a three-month axis two events in one month both read "Oct 2026".
-- In forced colors, Chart references and the gap between series draw in the text color, and a sticky Table column keeps its edge line. They kept their author colors, or lost the line to the canvas.
+- In forced colors, Chart references and the shaded difference between series draw in the text color, and a sticky Table column keeps its edge line. They kept their author colors, or lost the line to the canvas.
 - A Card stretched to a taller neighbor in a row keeps its parts at the top. Its grid rows took the extra height between them, so a short card's title, description and actions drifted apart.
 - 0.16.1's NavigationMenu change also brought a default-size list link from 40px to the 36px default control height, as tall as its trigger and a Button; its entry named only the small size.
 

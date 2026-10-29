@@ -5,8 +5,12 @@
 @import './sizing.css';
 
 @layer surflane.components {
+  /* Given a height, or a flex or grid track, the root bounds the viewport, which
+     fills it and scrolls; without one both take their content's height. */
   .surf-scroll-root {
     position: relative;
+    display: flex;
+    flex-direction: column;
     min-width: 0;
     max-width: 100%;
   }
@@ -15,6 +19,8 @@
      scroller, where it would make the document taller than the window. */
   .surf-scroll-viewport {
     position: relative;
+    flex: 1 1 auto;
+    min-block-size: 0;
     max-width: 100%;
     overscroll-behavior: auto;
     scrollbar-width: none !important;
@@ -34,16 +40,54 @@
   .surf-scroll-content {
     min-block-size: 100%;
   }
-  /* A horizontal scroller fades the edge that hides more content, so a cut-off table
-   * or code line reads as scrollable before its scrollbar appears, on touch too.
-   * fade turns an edge off, and content with a sticky first column, such as a Table
-   * with stickyColumn, keeps its start edge sharp: the column stays over it. */
+  /* A scroller fades each edge that hides content, so a cut-off table, code line or
+   * list reads as scrollable before its scrollbar appears, on touch too. Each axis
+   * draws its fade into a property and the viewport intersects the two, so a corner
+   * that hides content both ways fades both ways. fade turns edges off, as a page's
+   * own scroller does; content that stays in place over an edge keeps that edge
+   * sharp: a Table's sticky first column its inline start, a sticky header its top. */
+  .surf-scroll-root:is(
+      [data-overflow-x-start],
+      [data-overflow-x-end],
+      [data-overflow-y-start],
+      [data-overflow-y-end]
+    ):not([data-fade='none'])
+    > .surf-scroll-viewport {
+    mask-image:
+      var(--surf-scroll-fade-x, linear-gradient(#000, #000)),
+      var(--surf-scroll-fade-y, linear-gradient(#000, #000));
+    mask-composite: intersect;
+  }
+  /* Only an axis that scrolls fades: a vertical list whose content hangs past its
+     sides, such as a table that bleeds into the gutter, keeps its sides sharp. */
+  .surf-scroll-root:is(
+      [data-overflow-x-start],
+      [data-overflow-x-end],
+      [data-overflow-y-start],
+      [data-overflow-y-end]
+    ):not([data-fade='none'])
+    > .surf-scroll-viewport[data-scroll-orientation='vertical'] {
+    mask-image: var(--surf-scroll-fade-y, linear-gradient(#000, #000));
+  }
+  .surf-scroll-root:is(
+      [data-overflow-x-start],
+      [data-overflow-x-end],
+      [data-overflow-y-start],
+      [data-overflow-y-end]
+    ):not([data-fade='none'])
+    > .surf-scroll-viewport[data-scroll-orientation='horizontal'] {
+    mask-image: var(--surf-scroll-fade-x, linear-gradient(#000, #000));
+  }
   .surf-scroll-root[data-overflow-x-end]:not(
       [data-fade='start'],
       [data-fade='none']
     )
     > .surf-scroll-viewport {
-    mask-image: linear-gradient(to left, transparent, #000 var(--surf-space-6));
+    --surf-scroll-fade-x: linear-gradient(
+      to left,
+      transparent,
+      #000 var(--surf-space-6)
+    );
   }
   .surf-scroll-root[data-overflow-x-start]:not(
       [data-fade='end'],
@@ -53,7 +97,7 @@
       )
     )
     > .surf-scroll-viewport {
-    mask-image: linear-gradient(
+    --surf-scroll-fade-x: linear-gradient(
       to right,
       transparent,
       #000 var(--surf-space-6)
@@ -66,7 +110,7 @@
       [data-fade='none']
     )
     > .surf-scroll-viewport {
-    mask-image: linear-gradient(
+    --surf-scroll-fade-x: linear-gradient(
       to right,
       transparent,
       #000 var(--surf-space-6)
@@ -80,7 +124,11 @@
       )
     )
     > .surf-scroll-viewport {
-    mask-image: linear-gradient(to left, transparent, #000 var(--surf-space-6));
+    --surf-scroll-fade-x: linear-gradient(
+      to left,
+      transparent,
+      #000 var(--surf-space-6)
+    );
   }
   .surf-scroll-root[data-overflow-x-start][data-overflow-x-end]:not(
       [data-fade],
@@ -89,8 +137,47 @@
       )
     )
     > .surf-scroll-viewport {
-    mask-image: linear-gradient(
+    --surf-scroll-fade-x: linear-gradient(
       to right,
+      transparent,
+      #000 var(--surf-space-6),
+      #000 calc(100% - var(--surf-space-6)),
+      transparent
+    );
+  }
+  .surf-scroll-root[data-overflow-y-end]:not(
+      [data-fade='start'],
+      [data-fade='none']
+    )
+    > .surf-scroll-viewport {
+    --surf-scroll-fade-y: linear-gradient(
+      to top,
+      transparent,
+      #000 var(--surf-space-6)
+    );
+  }
+  .surf-scroll-root[data-overflow-y-start]:not(
+      [data-fade='end'],
+      [data-fade='none'],
+      :has(
+        > .surf-scroll-viewport > .surf-scroll-content > [data-sticky-header]
+      )
+    )
+    > .surf-scroll-viewport {
+    --surf-scroll-fade-y: linear-gradient(
+      to bottom,
+      transparent,
+      #000 var(--surf-space-6)
+    );
+  }
+  .surf-scroll-root[data-overflow-y-start][data-overflow-y-end]:not(
+      [data-fade],
+      :has(
+        > .surf-scroll-viewport > .surf-scroll-content > [data-sticky-header]
+      )
+    )
+    > .surf-scroll-viewport {
+    --surf-scroll-fade-y: linear-gradient(
       transparent,
       #000 var(--surf-space-6),
       #000 calc(100% - var(--surf-space-6)),

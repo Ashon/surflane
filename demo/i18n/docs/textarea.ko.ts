@@ -7,6 +7,7 @@ export const doc: DocKo = {
   keyboard:
     'Enter는 줄 바꿈을 삽입합니다. Tab은 다음 입력으로 이동합니다. 네이티브 텍스트 편집과 한국어 IME 입력이 계속 작동합니다.',
   props: {
+    mono: 'Markdown이나 JSON 같은 소스를 CodeBlock처럼 코드 서체와 code 역할로 씁니다. 터치에서는 16px을 유지합니다',
     'rows / maxLength / required / disabled / readOnly':
       '네이티브 textarea props',
     variant:

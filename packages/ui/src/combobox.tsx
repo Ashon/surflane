@@ -4,6 +4,7 @@ import { Icon } from './icon.js'
 import { Combobox as BaseCombobox } from '@base-ui/react/combobox'
 import { OwnPortal, defined, part, scopedPortal, skin } from './parts.js'
 import { useResetValue } from './form-state.js'
+import { elementPart } from './element-part.js'
 
 function ComboboxRoot<
   Value,
@@ -158,6 +159,21 @@ export const Combobox = {
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseCombobox.Item>
   >(BaseCombobox.Item, 'surf-combobox-item'),
+  /** An option's text when it has more than a label: its title and a line that
+   * describes it, as a List row has. Anything after it, such as a Badge, sits at
+   * the row's end. */
+  ItemContent: /* @__PURE__ */ elementPart<
+    HTMLDivElement,
+    React.ComponentPropsWithoutRef<'div'>
+  >('div', 'surf-combobox-item-content'),
+  ItemTitle: /* @__PURE__ */ elementPart<
+    HTMLDivElement,
+    React.ComponentPropsWithoutRef<'div'>
+  >('div', 'surf-combobox-item-title'),
+  ItemDescription: /* @__PURE__ */ elementPart<
+    HTMLDivElement,
+    React.ComponentPropsWithoutRef<'div'>
+  >('div', 'surf-combobox-item-description'),
   Empty: /* @__PURE__ */ part<
     HTMLDivElement,
     React.ComponentPropsWithoutRef<typeof BaseCombobox.Empty>
@@ -204,7 +220,10 @@ export const {
   Input: ComboboxInput,
   InputGroup: ComboboxInputGroup,
   Item: ComboboxItem,
+  ItemContent: ComboboxItemContent,
+  ItemDescription: ComboboxItemDescription,
   ItemIndicator: ComboboxItemIndicator,
+  ItemTitle: ComboboxItemTitle,
   Label: ComboboxLabel,
   List: ComboboxList,
   Popup: ComboboxPopup,

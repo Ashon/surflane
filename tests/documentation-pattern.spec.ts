@@ -163,3 +163,37 @@ test('long guides retain reading geometry, accessible headings and responsive co
     page.getByRole('navigation', { name: 'In this guide', exact: true }),
   ).toBeVisible()
 })
+
+test('the table of contents is a vertical NavigationMenu: the section in view is current, a wrapped label keeps its room', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.goto(route)
+  await waitForCatalogReady(page)
+  const contents = page.getByRole('navigation', { name: 'In this guide' })
+  await expect(contents).toHaveAttribute('data-orientation', 'vertical')
+  const current = contents.locator('a[aria-current="location"]')
+  await expect(current).toHaveCount(1)
+  const selected = await page.evaluate(() => {
+    const probe = document.createElement('div')
+    probe.style.background = 'var(--surf-selected)'
+    document.body.append(probe)
+    const color = getComputedStyle(probe).backgroundColor
+    probe.remove()
+    return color
+  })
+  await expect(current).toHaveCSS('background-color', selected)
+  // A label that wraps keeps the room a one-line link has above and below it.
+  const links = contents.locator('a')
+  const one = await links.first().evaluate((el) => {
+    const style = getComputedStyle(el)
+    return [style.paddingTop, el.getBoundingClientRect().height]
+  })
+  const wrapped = await links.nth(1).evaluate((el) => {
+    const style = getComputedStyle(el)
+    return [style.paddingTop, el.getBoundingClientRect().height]
+  })
+  expect(wrapped[0]).toBe(one[0])
+  expect(Number.parseFloat(String(one[0]))).toBeGreaterThan(0)
+  expect(Number(wrapped[1])).toBeGreaterThan(Number(one[1]))
+})

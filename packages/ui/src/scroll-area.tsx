@@ -22,9 +22,10 @@ export const ScrollArea = function ScrollArea({
   rootStyle?: React.CSSProperties
   orientation?: 'horizontal' | 'vertical' | 'both'
   scrollChain?: 'auto' | 'contain'
-  /** Which edges fade while they hide content. Turn one off where something stays
-   * in place over it, such as a sticky first column; a Table with stickyColumn
-   * turns its start edge off itself. */
+  /** Which edges fade while they hide content, on each axis that scrolls. Turn one
+   * off where something stays in place over it; a Table with stickyColumn turns its
+   * inline start off itself, and one with stickyHeader its top. A page's own
+   * scroller, such as an AppShell's content, sets none. */
   fade?: 'both' | 'start' | 'end' | 'none'
 } & { ref?: React.Ref<HTMLDivElement> }) {
   const dragPointer = React.useRef<number | null>(null)

@@ -173,10 +173,7 @@ export function FeedbackExample({ id }: { id: string }) {
             <>
               <div className='actions'>
                 <Skeleton shape='circle' />
-                <div style={{ flex: 1 }}>
-                  <Skeleton style={{ width: '55%' }} />
-                  <Skeleton style={{ marginTop: 12, width: '80%' }} />
-                </div>
+                <Skeleton lines={2} />
               </div>
               <Skeleton shape='block' />
             </>

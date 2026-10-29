@@ -245,12 +245,14 @@ test('long content scrolls with the wheel and thumb, then hands the wheel to the
   await content.scrollIntoViewIfNeeded()
   const outerTop = await outer.evaluate((el) => el.scrollTop)
   await content.hover()
+  const bar = root.locator('.surf-scrollbar[data-orientation="vertical"]')
   await page.mouse.wheel(0, 320)
+  // The bar shows while the wheel scrolls; once scrolling stops it fades again,
+  // so it is read before waiting for the scroll to land.
+  await expect(bar).toHaveCSS('opacity', '1')
   await expect
     .poll(() => content.evaluate((el) => el.scrollTop))
     .toBeGreaterThan(100)
-  const bar = root.locator('.surf-scrollbar[data-orientation="vertical"]')
-  await expect(bar).toHaveCSS('opacity', '1')
   expect(await outer.evaluate((el) => el.scrollTop)).toBe(outerTop)
   const bounds = (await content.boundingBox())!
   await page.mouse.move(bounds.x + bounds.width - 4, bounds.y + 30)
@@ -911,4 +913,30 @@ test('compact density makes the sidebar rows and toggle 32px, and touch never ma
   // compact keeps a control at its size, never under the row.
   expect(await rows(false)).toEqual([32, 32, 32])
   expect(await rows(true)).toEqual([32, 32, 32])
+})
+
+test('the page padding is set on the shell, and the bar bleeds from what is set', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.goto('/patterns/app-shell')
+  await waitForCatalogReady(page)
+  await page.getByRole('checkbox', { name: 'Page bar', exact: true }).check()
+  const shell = page.locator('.app-shell-preview')
+  const sheet = shell.locator('.surf-app-shell-page')
+  await expect(sheet).toHaveCSS('padding-top', '24px')
+  await shell.evaluate((el) =>
+    (el as HTMLElement).style.setProperty(
+      '--surf-app-shell-page-padding',
+      '40px',
+    ),
+  )
+  await expect(sheet).toHaveCSS('padding-top', '40px')
+  await expect(sheet).toHaveCSS('padding-inline-start', '40px')
+  // The bar pulls up through the new padding and keeps it below.
+  const [bar, box] = await Promise.all([
+    shell.locator('.surf-app-shell-bar').boundingBox(),
+    sheet.boundingBox(),
+  ])
+  expect(Math.round(bar!.y)).toBe(Math.round(box!.y))
 })

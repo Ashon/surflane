@@ -102,6 +102,7 @@ const en = {
     'Use role=alert only for an error that needs action now.',
     "Say it once. Don't repeat one message in the field, a toast, and a status region.",
     "Keep the result and its recovery path on the page. Don't rely on a toast alone.",
+    "When a status or a name has no place on screen, such as the name of a column of checkboxes, put it in VisuallyHidden: it keeps its place in the reading order and takes no space. Don't hide it with display: none, which removes it for everyone.",
   ],
   testing: [
     'Finish the task by keyboard alone: start, edit, cancel, and recover from an error.',
@@ -215,6 +216,7 @@ export const text: Record<Locale, typeof en> = {
       'role=alert는 지금 조치가 필요한 오류에만 쓰세요.',
       '한 번만 알리세요. 같은 메시지를 필드, 토스트, 상태 영역에 반복하지 마세요.',
       '결과와 복구 경로는 페이지에 남기세요. 토스트에만 기대지 마세요.',
+      '체크박스 열의 이름처럼 화면에 자리가 없는 상태나 이름은 VisuallyHidden에 넣으세요. 읽는 순서에서 자리를 지키고 공간은 차지하지 않습니다. display: none으로 숨기면 모두에게서 사라지니 쓰지 마세요.',
     ],
     testing: [
       '키보드만으로 작업을 끝내 보세요. 시작, 편집, 취소, 오류 복구까지 해 봅니다.',

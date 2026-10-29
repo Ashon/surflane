@@ -335,6 +335,7 @@ export function AppShellExample({
               <ScrollArea
                 ref={contentViewport}
                 orientation='vertical'
+                fade='none'
                 label={t.contentLabel}
                 rootClassName='app-shell-content-scroll'
                 className='app-shell-content-viewport'

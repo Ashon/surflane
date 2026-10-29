@@ -145,13 +145,18 @@ export function LandingHero() {
                   }
                 />
                 <Table.Container label={t.tableLabel}>
-                  <Table.Root>
+                  <Table.Root layout='fixed' nowrap>
+                    <Table.Columns>
+                      <Table.Column />
+                      <Table.Column />
+                      <Table.Column width='8.5rem' />
+                    </Table.Columns>
                     <Table.Head>
                       <Table.Row>
                         <Table.HeaderCell scope='col'>
                           {t.service}
                         </Table.HeaderCell>
-                        <Table.HeaderCell scope='col'>
+                        <Table.HeaderCell scope='col' hideBelow='sm'>
                           {t.environment}
                         </Table.HeaderCell>
                         <Table.HeaderCell scope='col'>
@@ -163,9 +168,11 @@ export function LandingHero() {
                       {deployments.map(([service, env, tone, status]) => (
                         <Table.Row key={service}>
                           <Table.Cell>
-                            <code>{service}</code>
+                            <Table.Truncate>
+                              <code>{service}</code>
+                            </Table.Truncate>
                           </Table.Cell>
-                          <Table.Cell>{env}</Table.Cell>
+                          <Table.Cell hideBelow='sm'>{env}</Table.Cell>
                           <Table.Cell>
                             <StatusBadge tone={tone}>{status}</StatusBadge>
                           </Table.Cell>

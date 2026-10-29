@@ -7,6 +7,7 @@ export const doc: DocKo = {
   keyboard:
     'Tab은 포커스를 이동합니다. 네이티브 텍스트 편집과 한글 IME 입력은 계속 동작합니다.',
   props: {
+    mono: '식별자, 키, 경로처럼 글자 하나하나 읽는 값을 컨트롤 크기 그대로 코드 서체로 씁니다',
     'name / required / readOnly / disabled': '네이티브 input props',
   },
 }

@@ -67,3 +67,13 @@ export const Prose = function Prose({
 }: React.ComponentProps<'div'> & { ref?: React.Ref<HTMLDivElement> }) {
   return <div {...props} ref={ref} className={cx('surf-prose', className)} />
 }
+/** Text for assistive technology only, such as a column's name over checkboxes or a
+ * live status that has no place on screen. It keeps its place in the reading order
+ * and takes no space. */
+export function VisuallyHidden({
+  as: Tag = 'span',
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLElement> & { as?: 'span' | 'div' | 'p' }) {
+  return <Tag {...props} className={cx('surf-visually-hidden', className)} />
+}

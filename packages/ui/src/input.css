@@ -28,9 +28,34 @@
     );
   }
 }
+@layer surflane.components {
+  /* The code face for values read character by character. A one-line field keeps
+     the control's size, so it lines up with the fields beside it; a multi-line one
+     is source, set in the code role as a CodeBlock is. Touch keeps the 16px that
+     stops iOS zooming into a focused field. */
+  .surf-input[data-mono] {
+    font-family: var(--surf-font-code);
+    letter-spacing: var(--surf-tracking-mono);
+    font-variant-ligatures: none;
+  }
+  .surf-textarea[data-mono] {
+    font-size: max(
+      var(--surf-control-text-min-size),
+      var(--surf-type-code-size)
+    );
+    line-height: var(--surf-type-code-leading);
+  }
+}
 @layer surflane.sizes {
   :where([data-ui-size], [data-ui-size] *):is(.surf-input) {
     font-size: max(var(--surf-control-text-min-size), var(--surf-ui-font));
     line-height: var(--surf-ui-leading);
+  }
+  :where([data-ui-size], [data-ui-size] *):is(.surf-textarea[data-mono]) {
+    font-size: max(
+      var(--surf-control-text-min-size),
+      var(--surf-type-code-size)
+    );
+    line-height: var(--surf-type-code-leading);
   }
 }

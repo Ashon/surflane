@@ -105,6 +105,7 @@ export function RichContentExample({ id }: { id: string }) {
             <Textarea
               id='markdown-source'
               variant='embedded'
+              mono
               className='rich-source-editor'
               value={source}
               spellCheck={false}
@@ -202,6 +203,7 @@ export function RichContentExample({ id }: { id: string }) {
         <Field.Label htmlFor='syntax-source'>{t.sourceCode}</Field.Label>
         <Textarea
           id='syntax-source'
+          mono
           className='rich-source-editor'
           value={code}
           onChange={(event) => setCode(event.target.value)}

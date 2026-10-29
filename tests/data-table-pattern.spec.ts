@@ -244,3 +244,39 @@ test('the preview handle sizes the pattern and sets table density, and row check
   ).toHaveAttribute('aria-pressed', 'true')
   for (const offset of await centered()) expect(offset).toBeLessThan(0.75)
 })
+
+test('fixed columns hold their widths, and a console column steps aside in a narrow container', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.goto('/patterns/data-table')
+  await waitForCatalogReady(page)
+  const grid = table(page)
+  await expect(grid).toHaveAttribute('data-layout', 'fixed')
+  const widths = await grid
+    .locator('thead th')
+    .evaluateAll((cells) =>
+      cells.map((cell) => Math.round(cell.getBoundingClientRect().width)),
+    )
+  // 3.5rem for selection, the name takes what is left, 9.5rem and 8rem columns.
+  expect(widths[0]).toBe(56)
+  expect(widths[2]).toBe(152)
+  expect(widths[4]).toBe(128)
+  expect(
+    await grid.evaluate((el) => el.getBoundingClientRect().width),
+  ).toBeGreaterThanOrEqual(800)
+  // The landing console keeps its rows on one line and steps the environment
+  // column aside below 30rem, keeping service and status.
+  await page.goto('/')
+  await waitForCatalogReady(page)
+  const consoleTable = page.locator('.landing-console table')
+  const environment = consoleTable.locator('thead th').nth(1)
+  await expect(environment).toBeVisible()
+  await expect(consoleTable.locator('tbody td').first()).toHaveCSS(
+    'white-space',
+    'nowrap',
+  )
+  await page.setViewportSize({ width: 800, height: 1000 })
+  await expect(environment).toBeHidden()
+  await expect(consoleTable.locator('thead th').nth(2)).toBeVisible()
+})

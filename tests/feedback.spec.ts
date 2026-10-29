@@ -170,3 +170,25 @@ test('Skeleton shows on a light canvas through its own tokens', async ({
   expect(shades.own).toBe(shades.base)
   expect(shades.own).not.toBe(shades.surface)
 })
+
+test('Skeleton lines sit beside a circle, the last one short', async ({
+  page,
+}) => {
+  await page.goto('/components/skeleton')
+  await waitForCatalogReady(page)
+  const lines = page.locator('.surf-skeleton-lines').first()
+  const circle = page.locator('.surf-skeleton[data-shape="circle"]').first()
+  const [area, mark] = await Promise.all([
+    lines.boundingBox(),
+    circle.boundingBox(),
+  ])
+  expect(area!.x).toBeGreaterThan(mark!.x + mark!.width)
+  expect(area!.y).toBeLessThan(mark!.y + mark!.height)
+  const widths = await lines
+    .locator('.surf-skeleton')
+    .evaluateAll((items) =>
+      items.map((item) => item.getBoundingClientRect().width),
+    )
+  expect(widths).toHaveLength(2)
+  expect(widths[1] / widths[0]).toBeCloseTo(0.6, 2)
+})

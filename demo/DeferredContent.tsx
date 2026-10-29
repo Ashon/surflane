@@ -5,7 +5,7 @@ import React, {
   useRef,
   useSyncExternalStore,
 } from 'react'
-import { Button } from '@surflane/ui'
+import { Button, VisuallyHidden } from '@surflane/ui'
 import { Link, catalogScrollPosition } from './router'
 import { useMessages } from './i18n'
 import type { Messages } from './messages'
@@ -125,9 +125,9 @@ export function DeferredContent({
             role='status'
             aria-label={scope === 'page' ? text.page : text.preview}
           >
-            <span className='example-announcement'>
+            <VisuallyHidden>
               {scope === 'page' ? text.page : text.preview}
-            </span>
+            </VisuallyHidden>
           </div>
         }
       >

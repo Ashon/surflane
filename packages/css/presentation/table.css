@@ -14,6 +14,31 @@
      * while an inherited overflow-wrap: anywhere would squeeze columns mid-word. */
     overflow-wrap: break-word;
   }
+  /* Fixed columns take their width from Table.Column and the header row, so they
+     hold still while rows turn into skeletons or a message. */
+  .surf-table[data-layout='fixed'] {
+    table-layout: fixed;
+  }
+  /* One line per cell; Table.Truncate ends what does not fit. */
+  .surf-table[data-nowrap] .surf-table-cell {
+    white-space: nowrap;
+    overflow-wrap: normal;
+  }
+  /* A Container whose table steps columns aside measures its own width. Only then:
+     a container sized by its width no longer grows with its content. */
+  .surf-table-container:has(.surf-table [data-hide-below]) {
+    container: surf-table / inline-size;
+  }
+  @container surf-table (max-width: 40rem) {
+    .surf-table [data-hide-below='md'] {
+      display: none;
+    }
+  }
+  @container surf-table (max-width: 30rem) {
+    .surf-table [data-hide-below] {
+      display: none;
+    }
+  }
   .surf-table-caption {
     text-align: start;
     font-weight: var(--surf-weight-regular);

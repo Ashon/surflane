@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import {
+  NavigationMenu,
   Text,
   Field,
   Button,
@@ -168,17 +169,23 @@ export function DocumentationExample() {
               {copyText.contents}
             </Collapsible.Trigger>
             <Collapsible.Panel>
-              <nav aria-label={copyText.contents}>
-                {sections.map((id) => (
-                  <a
-                    key={id}
-                    href={`#guide-preview-${id}`}
-                    aria-current={active === id ? 'location' : undefined}
-                  >
-                    {copyText[id]}
-                  </a>
-                ))}
-              </nav>
+              <NavigationMenu.Root
+                orientation='vertical'
+                aria-label={copyText.contents}
+              >
+                <NavigationMenu.List>
+                  {sections.map((id) => (
+                    <NavigationMenu.Item key={id}>
+                      <NavigationMenu.Link
+                        href={`#guide-preview-${id}`}
+                        aria-current={active === id ? 'location' : undefined}
+                      >
+                        {copyText[id]}
+                      </NavigationMenu.Link>
+                    </NavigationMenu.Item>
+                  ))}
+                </NavigationMenu.List>
+              </NavigationMenu.Root>
             </Collapsible.Panel>
           </Collapsible.Root>
         </aside>

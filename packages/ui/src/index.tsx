@@ -66,7 +66,10 @@ export {
   ComboboxInput,
   ComboboxInputGroup,
   ComboboxItem,
+  ComboboxItemContent,
+  ComboboxItemDescription,
   ComboboxItemIndicator,
+  ComboboxItemTitle,
   ComboboxLabel,
   ComboboxList,
   ComboboxPopup,
@@ -464,6 +467,8 @@ export {
   TableCell,
   TableTruncate,
   TableMessage,
+  TableColumns,
+  TableColumn,
   type TableDensity,
   type TableVariant,
   type TableSort,
@@ -618,7 +623,7 @@ export {
   type SurfaceKind,
   type Space,
 } from './layout.js'
-export { Heading, Text, Prose } from './typography.js'
+export { Heading, Text, Prose, VisuallyHidden } from './typography.js'
 export {
   formatNumber,
   formatCurrency,

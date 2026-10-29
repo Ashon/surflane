@@ -1,7 +1,7 @@
 import type { DocKo } from './types'
 export const doc: DocKo = {
   usage:
-    '검색이 필요할 만큼 긴 목록에서 고르세요. Combobox는 단일 선택과 여러 값용 Chips 레이아웃을 지원합니다(예: 역할). Input에 Field.Label이나 네이티브 label로 이름을 지으세요. Clear, Trigger, ChipRemove 액션 이름도 주세요.',
+    '검색이 필요할 만큼 긴 목록에서 고르세요. Combobox는 단일 선택과 여러 값용 Chips 레이아웃을 지원합니다(예: 역할). Input에 Field.Label이나 네이티브 label로 이름을 지으세요. Clear, Trigger, ChipRemove 액션 이름도 주세요. 명령과 그 설명처럼 라벨보다 많은 것을 보여 주는 옵션은 ItemContent 안에 ItemTitle과 ItemDescription을 두세요.',
   avoid:
     '임의의 검색 텍스트를 유효한 선택으로 제출하지 마세요. 자유 텍스트가 유효하면 Autocomplete를 쓰세요. Autocomplete는 자유 텍스트를 저장합니다.',
   keyboard: [
@@ -14,6 +14,8 @@ export const doc: DocKo = {
   props: {
     'Root.items / value / defaultValue': 'Base UI 일반 항목과 선택 타입',
     'Root.multiple': 'Chips / ChipRemove로 배열 선택',
+    'ItemContent / ItemTitle / ItemDescription':
+      'List 행처럼 옵션의 제목과 그 아래 설명 한 줄. Item 안에서 ItemContent 뒤에 오는 Badge 같은 것은 행 끝에 놓입니다',
     'Root.itemToStringLabel / itemToStringValue': '객체 표시 / 제출 매핑',
     'Root.inputValue / onInputValueChange': '제어되는 검색 쿼리',
     'Content.side / align / sideOffset / collisionPadding': '팝업 배치',

@@ -35,6 +35,11 @@ export const doc: ComponentDoc = {
       'default | embedded: embedded fills its pane with no edge of its own and rings inside on focus',
       'default',
     ],
+    [
+      'mono',
+      'sets the text in the code face and the code role, as a CodeBlock is, for source such as Markdown or JSON; touch keeps 16px',
+      'false',
+    ],
     ['ref', 'HTMLTextAreaElement', '—'],
   ],
 }

@@ -382,21 +382,22 @@ export function DataTableExample() {
         {/* The header and columns stay put in every state; messages fill the body. */}
         <Table.Container label={t.tableScrollLabel} orientation='horizontal'>
           <Table.Root
-            className='data-table-preview'
+            layout='fixed'
+            minWidth='50rem'
             density={density}
             variant={variant}
             aria-busy={mode === 'loading' || undefined}
           >
             <Table.Caption>{t.caption}</Table.Caption>
             {/* Fixed widths keep the columns still while rows turn into skeletons or a message. */}
-            <colgroup>
-              <col className='data-table-select' />
-              <col />
-              {columns.product && <col className='data-table-text' />}
-              {columns.region && <col className='data-table-text' />}
-              {columns.instances && <col className='data-table-number' />}
-              <col className='data-table-text' />
-            </colgroup>
+            <Table.Columns>
+              <Table.Column width='3.5rem' />
+              <Table.Column />
+              {columns.product && <Table.Column width='9.5rem' />}
+              {columns.region && <Table.Column width='9.5rem' />}
+              {columns.instances && <Table.Column width='8rem' />}
+              <Table.Column width='9.5rem' />
+            </Table.Columns>
             <Table.Head>
               <Table.Row>
                 <Table.HeaderCell scope='col'>

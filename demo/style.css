@@ -678,8 +678,7 @@ body,
       .page-toc,
       .component-meta,
       .component-pagination,
-      .token-reference-links,
-      .documentation-toc nav
+      .token-reference-links
     )
     a {
     display: inline-flex;
@@ -782,15 +781,6 @@ body,
   overflow-wrap: anywhere;
 }
 
-/* Keep one live announcement without introducing an empty spacing row. */
-.example-announcement {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
 
 /* A phone-width screen: the content scrolls between the title and BottomNavigation,
  * which sits in the flow here; an app keeps it fixed and pads the content instead. */
@@ -2285,23 +2275,6 @@ body,
   gap: var(--surf-space-3);
   margin-block: var(--surf-space-4);
 }
-.data-table-preview {
-  min-inline-size: 800px;
-  table-layout: fixed;
-}
-.data-table-select {
-  inline-size: 3.5rem;
-}
-.data-table-text {
-  inline-size: 9.5rem;
-}
-.data-table-number {
-  inline-size: 8rem;
-}
-.data-table-preview th[scope='row'] {
-  max-inline-size: 22rem;
-  overflow-wrap: anywhere;
-}
 .data-table-example > p {
   margin: 0;
 }
@@ -2392,38 +2365,6 @@ body,
   inset-block-start: 88px;
   min-inline-size: 0;
 }
-.documentation-toc nav {
-  display: grid;
-  gap: var(--surf-space-1);
-}
-.documentation-toc nav a {
-  padding: var(--surf-space-2);
-  color: var(--surf-ink-body);
-  text-decoration: none;
-  border-radius: var(--surf-radius-md);
-  overflow-wrap: anywhere;
-}
-.documentation-toc nav a:hover {
-  background-image: linear-gradient(
-    var(--surf-interaction-hover-bg),
-    var(--surf-interaction-hover-bg)
-  );
-}
-.documentation-toc nav a:active:not([aria-current]) {
-  background-image: linear-gradient(
-    var(--surf-interaction-active-bg),
-    var(--surf-interaction-active-bg)
-  );
-}
-.documentation-toc nav a[aria-current] {
-  background-color: var(--surf-selected);
-  color: var(--surf-ink);
-  font-weight: var(--surf-weight-medium);
-}
-.documentation-toc nav a:focus-visible {
-  outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
-  outline-offset: var(--surf-focus-ring-inset);
-}
 .documentation-article .surf-prose > section + section {
   margin-block-start: var(--surf-space-8);
 }
@@ -2444,36 +2385,6 @@ body,
   }
   .documentation-toc {
     position: static;
-  }
-}
-
-/* Soften only the sidebar's overflow edges; keep labels and handles sharp. */
-.catalog-navigation-scroll::before,
-.catalog-navigation-scroll::after {
-  content: '';
-  position: absolute;
-  inset-inline: 0;
-  block-size: 12px;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0;
-}
-.catalog-navigation-scroll::before {
-  inset-block-start: 0;
-  background: linear-gradient(to bottom, var(--surf-chrome), transparent);
-}
-.catalog-navigation-scroll::after {
-  inset-block-end: 0;
-  background: linear-gradient(to top, var(--surf-chrome), transparent);
-}
-.catalog-navigation-scroll[data-overflow-y-start]::before,
-.catalog-navigation-scroll[data-overflow-y-end]::after {
-  opacity: 1;
-}
-@media (forced-colors: active), (prefers-reduced-transparency: reduce) {
-  .catalog-navigation-scroll::before,
-  .catalog-navigation-scroll::after {
-    display: none;
   }
 }
 
@@ -2520,19 +2431,6 @@ body,
 .command-search-results {
   block-size: min(360px, 40dvh);
   min-block-size: 0;
-}
-.command-search-results-viewport {
-  block-size: 100%;
-}
-.command-search-item {
-  display: grid;
-  gap: var(--surf-space-1);
-  min-inline-size: 0;
-  overflow-wrap: anywhere;
-}
-.command-search-item > span,
-.command-search-item > small {
-  color: var(--surf-ink-muted);
 }
 .command-search-body {
   display: grid;
@@ -2707,10 +2605,6 @@ body,
 
 .rich-source-editor {
   min-block-size: 220px;
-  font-family: var(--surf-font-code);
-  font-size: var(--surf-type-code-size);
-  line-height: var(--surf-type-code-leading);
-  letter-spacing: var(--surf-tracking-mono);
 }
 
 /* Blueprint guides paint over the real container; they never create grid items or gaps. */
@@ -3023,14 +2917,6 @@ body,
   }
 }
 
-@media (max-width: 960px) {
-  /* The floating panel already has an edge; chrome-colored fades obscure its rows. */
-  .catalog-sidebar .catalog-navigation-scroll::before,
-  .catalog-sidebar .catalog-navigation-scroll::after {
-    display: none;
-  }
-}
-
 /* The mobile document is a full-width canvas, with gutters inside the content. */
 @media (max-width: 960px) {
   .catalog-app .catalog-document-scroll {
@@ -3184,42 +3070,15 @@ body,
   gap: var(--surf-space-6);
   overflow: hidden;
 }
-/* The console's table keeps each row on one line, like a real console. When its
- * content area narrows, the environment column steps aside and long service
- * names truncate, rather than words breaking mid-letter. */
+/* A narrow console tightens its sheet; the table steps its environment column
+   aside and truncates long service names itself. */
 .landing-console .surf-app-shell-content {
   container: landing-content / inline-size;
-}
-.landing-console-sheet :is(th, td) {
-  white-space: nowrap;
-  overflow-wrap: normal;
 }
 @container landing-content (max-width: 520px) {
   .landing-console-sheet {
     padding: var(--surf-space-4);
     gap: var(--surf-space-4);
-  }
-  .landing-console-sheet table {
-    table-layout: fixed;
-    inline-size: 100%;
-  }
-  .landing-console-sheet :is(th, td):nth-child(2) {
-    display: none;
-  }
-  .landing-console-sheet :is(th, td):first-child {
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .landing-console-sheet :is(th, td):last-child {
-    inline-size: 8.5rem;
-  }
-}
-@container landing-content (max-width: 320px) {
-  .landing-console-sheet :is(th, td) {
-    padding-inline: var(--surf-space-2);
-  }
-  .landing-console-sheet :is(th, td):last-child {
-    inline-size: 7rem;
   }
 }
 @media (max-width: 960px) {
@@ -3454,29 +3313,13 @@ body,
   block-size: calc(100% - 2 * var(--surf-app-shell-inset));
   display: flex;
   flex-direction: column;
-  padding-block: 0;
   overflow: hidden;
 }
-/* The content scrolls inside the page and fades out at both ends. Each fade spans an
-   empty pad that takes the place of the page's own inset, so content that fits, or
-   sits at either end, is never faded. */
+/* The content scrolls inside the page; ScrollArea fades an edge while it hides
+   content, so content that fits, or sits at either end, is never faded. */
 .theme-preview-scroll {
-  --theme-preview-fade: var(--surf-space-6);
   flex: 1;
   min-block-size: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--surf-space-4);
-  padding-block: var(--theme-preview-fade);
-  overflow: auto;
-  overscroll-behavior: contain;
-  scrollbar-width: thin;
-  mask-image: linear-gradient(
-    transparent,
-    #000 var(--theme-preview-fade),
-    #000 calc(100% - var(--theme-preview-fade)),
-    transparent
-  );
 }
 /* On phones the page starts flush below the header, so only the bottom inset remains. */
 /* On a phone the page meets the frame's foot, as it meets a phone's, and rounds its
@@ -3487,25 +3330,9 @@ body,
     border-end-start-radius: var(--workspace-shell-radius);
     border-end-end-radius: var(--workspace-shell-radius);
   }
-  .theme-preview-scroll {
-    --theme-preview-fade: var(--surf-space-4);
-  }
 }
 .theme-preview-sheet table {
   min-width: 0;
-}
-.theme-preview-sheet :is(th, td) {
-  white-space: nowrap;
-  overflow-wrap: normal;
-}
-.theme-preview .surf-app-shell-content {
-  container: theme-preview / inline-size;
-}
-/* A narrow preview drops the environment column instead of clipping status. */
-@container theme-preview (max-width: 600px) {
-  .theme-preview-sheet :is(th, td):nth-child(3) {
-    display: none;
-  }
 }
 .theme-preview-controls {
   display: flex;

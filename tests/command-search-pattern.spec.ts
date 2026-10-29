@@ -208,3 +208,25 @@ test('modal keyboard containment, result scrolling and 320px theme semantics', a
     ).toEqual([])
   }
 })
+
+test('a result sets its title over its description, its category at the row end', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 900 })
+  await open(page)
+  await search(page).fill('table')
+  const option = dialog(page).getByRole('option').first()
+  const [row, title, description, badge] = await Promise.all([
+    option.boundingBox(),
+    option.locator('.surf-combobox-item-title').boundingBox(),
+    option.locator('.surf-combobox-item-description').boundingBox(),
+    option.locator('.surf-badge').boundingBox(),
+  ])
+  expect(description!.y).toBeGreaterThanOrEqual(title!.y + title!.height)
+  expect(badge!.x).toBeGreaterThan(description!.x + description!.width)
+  expect(row!.x + row!.width - (badge!.x + badge!.width)).toBeLessThan(24)
+  await expect(option.locator('.surf-combobox-item-title')).toHaveCSS(
+    'font-weight',
+    '500',
+  )
+})

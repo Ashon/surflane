@@ -1,7 +1,7 @@
 import type { ComponentDoc } from '../componentDocs'
 export const doc: ComponentDoc = {
   usage:
-    'Fit long content, such as tables, diffs, or logs, into limited space. Scrollbars appear while scrolling or when the pointer comes within 24px of their edge. They stay operable during drag and keyboard scrolling.',
+    "Fit long content, such as tables, diffs, or logs, into limited space. Scrollbars appear while scrolling or when the pointer comes within 24px of their edge. They stay operable during drag and keyboard scrolling. Given a height, or a flex or grid track, the region fills it and scrolls; without one it takes its content's height. Each edge that hides content fades, the top and bottom too, so a cut-off list reads as more to come. A page's own scroller, such as an AppShell's content, sets fade=\"none\".",
   avoid:
     "Don't split the page into needless nested scroll regions. Use a single scroll region instead. Give a label to any region whose content scrolls out of view.",
   keyboard:
@@ -31,7 +31,7 @@ export const doc: ComponentDoc = {
     ],
     [
       'fade',
-      'both | start | end | none: which edges fade while they hide content; turn one off where something stays over it',
+      "both | start | end | none: which edges fade while they hide content, on each axis that scrolls; turn one off where something stays over it, and set none on a page's own scroller",
       'both',
     ],
     ['style / className', 'viewport attributes', '—'],

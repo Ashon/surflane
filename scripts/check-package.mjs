@@ -287,6 +287,8 @@ const hookClasses = new Set([
   'surf-page-header-breadcrumb',
   'surf-preview-trigger',
   'surf-select-group',
+  'surf-table-column',
+  'surf-table-columns',
   'surf-table-message',
   'surf-table-sort-header',
 ])

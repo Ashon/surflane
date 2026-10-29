@@ -1,7 +1,7 @@
 import type { ComponentDoc } from '../componentDocs'
 export const doc: ComponentDoc = {
   usage:
-    'Compare relationships across rows and columns. Render a native table: Caption, HeaderCell with scope=col or scope=row, and Cell. Wrap it in Container, the labeled scroll region. Set numeric on number columns, use SortHeader for sortable columns, and set density="compact" for consoles people scan with a pointer. The calling screen owns sorting, search, and selection state; useTableSelection keeps selection by row ID. See Guidelines below for each rule with a working design.',
+    'Compare relationships across rows and columns. Render a native table: Caption, HeaderCell with scope=col or scope=row, and Cell. Wrap it in Container, the labeled scroll region. Set numeric on number columns, use SortHeader for sortable columns, and set density="compact" for consoles people scan with a pointer. The calling screen owns sorting, search, and selection state; useTableSelection keeps selection by row ID. See Guidelines below for each rule with a working design. Set layout="fixed" with Column widths so columns hold still while rows change, nowrap for a console\'s one-line rows with Truncate for long names, and hideBelow on a column that can step aside when the Container narrows.',
   avoid: [
     "Don't add a grid role or arrow-key cell navigation to an ordinary table. Keep native table semantics instead.",
     "Don't rely on whole-row clicks. Put links, buttons, and checkboxes in the cells instead.",
@@ -9,7 +9,7 @@ export const doc: ComponentDoc = {
     "Don't put units in every cell. Name the unit in the header and set numeric instead.",
   ],
   anatomy:
-    'Container(ScrollArea) → Root(table, density, stickyHeader) → Caption + Head(Row/HeaderCell or SortHeader) + Body(Row/Cell, Truncate, or Message)',
+    'Container(ScrollArea) → Root(table, density, layout, stickyHeader) → Caption + Columns(Column)? + Head(Row/HeaderCell or SortHeader) + Body(Row/Cell, Truncate, or Message)',
   keyboard:
     "Tab moves through sort buttons, row selection checkboxes, and actions. Rows aren't focus targets. On small screens, the labeled region takes focus and scrolls horizontally. SortHeader sets aria-sort on the sorted column only, and its button keeps the column's visible name.",
   tokens: [
@@ -94,6 +94,31 @@ const selection = useTableSelection({
       'Root.stickyColumn',
       "keeps the first column, such as each row's name, in place while the Container scrolls sideways; that edge stops fading, and a line marks it once rows pass under it",
       'false',
+    ],
+    [
+      'Root.layout',
+      'auto | fixed: fixed sizes columns by their Column widths and the header row, not by their content, so they hold still while rows turn into skeletons or a message; columns without a width share what is left',
+      'auto',
+    ],
+    [
+      'Root.minWidth',
+      "the narrowest the table gets, such as '50rem'; the Container scrolls past it",
+      '—',
+    ],
+    [
+      'Root.nowrap',
+      "keeps each cell on one line, as a console's rows are; Truncate ends long text",
+      'false',
+    ],
+    [
+      'Columns / Column.width',
+      "a native colgroup and its cols, first in Root; width sets a column's width, such as '8rem'",
+      '—',
+    ],
+    [
+      'HeaderCell.hideBelow / Cell.hideBelow',
+      'sm | md: the column steps aside while its Container is narrower than 30rem or 40rem, so the columns that matter keep their room; give it to every cell of the column, and no Column width',
+      '—',
     ],
     ['Caption / Head / Body / Foot', 'native table element props', '—'],
     [

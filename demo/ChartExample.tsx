@@ -4,7 +4,7 @@ import {
   Chart,
   type ChartDatum,
   type ChartProps,
-  type ChartGap,
+  type ChartDifference,
   type ChartReference,
   type ChartSeries,
 } from '@surflane/ui/chart'
@@ -245,7 +245,7 @@ export function ChartExample() {
       formatValue?: (value: number) => string
       xScale?: 'time'
       references?: ChartReference[]
-      gap?: ChartGap
+      difference?: ChartDifference
       xLabel?: string
       yLabel?: string
     }
@@ -313,12 +313,12 @@ export function ChartExample() {
       data: portfolio,
       unit: t.units.points,
       description: t.descriptions.portfolio,
-      // The benchmark is read against: drawn quieter, with the gap shaded by side.
+      // The benchmark is read against: drawn quieter, with the difference shaded by side.
       series: [
         { key: 'basket', label: t.portfolio[0] },
         { key: 'benchmark', label: t.portfolio[1], comparison: true },
       ],
-      gap: {
+      difference: {
         series: 'basket',
         against: 'benchmark',
         above: t.portfolio[2],
@@ -555,7 +555,7 @@ export function ChartExample() {
         }
         xScale={sample.xScale}
         references={sample.references}
-        gap={sample.gap}
+        difference={sample.difference}
         yScale={yScale}
         curve={curve}
         stacked={stacked}

@@ -36,7 +36,7 @@ for (const reduced of [false, true])
     await expect(loading).toBeVisible()
     await expect(loading).toHaveAccessibleName('Loading content')
     await expect(loading.locator('.surf-skeleton')).toHaveCount(0)
-    await expect(loading.locator('.example-announcement')).toHaveText(
+    await expect(loading.locator('.surf-visually-hidden')).toHaveText(
       'Loading content',
     )
     release()

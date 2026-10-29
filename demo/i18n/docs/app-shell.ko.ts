@@ -9,10 +9,11 @@ export const doc: DocKo = {
     'compact 밀도(셸을 SizeProvider density="compact"로 감쌀 때)에서는 사이드바의 줄과 접기 단추가 32px입니다. 브랜드 줄과 레일은 크기를 유지해 아이콘 열과 브랜드 줄의 선이 그대로입니다. 터치에서는 줄이 대상 크기만큼 커지되 자기 크기보다 작아지지 않습니다.',
     'Nav는 Link를 고른 간격으로 쌓고, 워크스페이스 사이드바에서는 아이콘이 레일에 놓이도록 안쪽 여백을 둡니다. label은 링크 위에 보이고, 레일에서도 줄을 유지하며, 내비게이션의 이름이 됩니다. label이 없으면 Nav에 aria-label을 주세요.',
     "Link는 render를 받습니다. 라우터의 링크를 넘기면 클라이언트 내비게이션이 유지됩니다(예: render={<NextLink href='/resources' />}). 계정 줄은 메뉴의 트리거로 그린 Link입니다(render={<Menu.Trigger />}). 24px Avatar를 아이콘으로 두면 링크와 같은 줄에 맞습니다.",
-    '브랜드와 계정은 고정되어 있고, 메뉴와 메인 콘텐츠는 별도 ScrollArea에서 스크롤됩니다. 콘텐츠 표면이 전체 스크롤 콘텐츠를 덮으므로 하단 모서리 반경은 끝에서만 나타납니다.',
+    '브랜드와 계정은 고정되어 있고, 메뉴와 메인 콘텐츠는 별도 ScrollArea에서 스크롤됩니다. 콘텐츠 표면이 전체 스크롤 콘텐츠를 덮으므로 하단 모서리 반경은 끝에서만 나타납니다. 콘텐츠의 ScrollArea는 페이지 자체의 스크롤 영역이므로 fade="none"을 주어 페이지의 위아래를 선명하게 두고, 메뉴는 가장자리가 흐려져 링크가 더 있음을 보여 줍니다.',
     '메인 콘텐츠는 문서와 함께 스크롤될 수도 있습니다. 뒤에 페이지가 없는 전체 뷰포트 셸에서는 scrollChain="contain"을 설정해 가장자리 스크롤이 페이지를 바운스하지 않게 하세요.',
     '셸은 창 전체를 채우고 가장자리가 직각입니다. 창의 가장자리가 곧 셸의 가장자리이기 때문입니다. 둥근 것은 안쪽 페이지 면뿐이며, 반경은 --surf-app-shell-page-radius(기본 8px)로 정합니다. 설치 가이드처럼 문서의 여백을 없애고 배경을 크롬 색으로 칠해, 셸 바깥에 아무것도 보이지 않게 하세요.',
     '휴대폰(≤760px)에서는 틀이 물러납니다. 페이지가 모바일 헤더 아래에서 여백과 둥근 모서리 없이 화면 가장자리까지 닿습니다.',
+    '페이지는 내용을 --surf-app-shell-page-padding만큼 띄웁니다. 기본 24px, compact 밀도에서 12px, 휴대폰에서 16px입니다. 더 촘촘하거나 넉넉한 제품은 Root에 이 값을 주세요. Bar도 새 값을 따라 탭이 본문 텍스트와 계속 맞습니다.',
     '이 예시처럼 페이지 안에 셸을 보여 줄 때는 액자가 셸을 둥글게 잘라 내게 하세요. 여기서는 액자가 22px로 잘라 내고 --surf-app-shell-page-radius를 --surf-radius-md(10px)로 정해, 액자와 잘린 면과 페이지가 26, 22, 10px로 동심을 이룹니다.',
     '예시는 페이지의 고정 높이 프레임에 있으므로 ScrollArea는 기본 scrollChain="auto"를 유지하고 가장자리에서 휠을 페이지에 넘깁니다. Overflow 내비게이션과 Long workspace content를 켜면 별도 스크롤을 볼 수 있습니다.',
     '제품 선택과 미리보기 옵션은 예시 경계 밖에 있고, 테마 스위치는 계정 메뉴에 있습니다. 예시의 아이콘 접기는 제품 선택이며, 실제 문서 사이트의 사이드바는 텍스트 우선입니다.',
@@ -35,6 +36,8 @@ export const doc: DocKo = {
   props: {
     'Root style --surf-app-shell-page-radius / --surf-app-shell-inset':
       '페이지 면의 반경과 셸의 간격. 셸 자체는 직각입니다',
+    'Root style --surf-app-shell-page-padding':
+      '페이지가 사방에 두는 여백. 본문 텍스트가 가장자리에서 떨어진 거리이며, Bar가 탭을 그 텍스트에 맞추려고 블리드하는 기준입니다',
     'Root.layout':
       'header(전역 레일) / workspace(사이드바 브랜드, 모바일 전용 header)',
     'Root.collapsed / defaultCollapsed / onCollapsedChange':

@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import {
+  VisuallyHidden,
   Field,
   Table,
   List,
@@ -153,9 +154,9 @@ function EmptyPreview() {
           </EmptyState.Actions>
         </EmptyState.Root>
       )}
-      <p role='status' className='example-announcement'>
+      <VisuallyHidden as='p' role='status'>
         {notice}
-      </p>
+      </VisuallyHidden>
     </div>
   )
 }
@@ -269,9 +270,9 @@ function MessagePreview() {
           </InlineMessage.Actions>
         </InlineMessage.Content>
       </InlineMessage.Root>
-      <p role='status' className='example-announcement'>
+      <VisuallyHidden as='p' role='status'>
         {notice}
-      </p>
+      </VisuallyHidden>
       <InlineMessage.Root tone='caution'>
         <InlineMessage.Icon tone='caution' />
         <InlineMessage.Content>

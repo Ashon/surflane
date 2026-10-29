@@ -179,3 +179,50 @@ test('right to left, the vertical bar sits at the left and the fade marks the en
   ])
   expect(Math.round(track!.x)).toBe(Math.round(box!.x))
 })
+
+test('a bounded vertical list fills its height, scrolls and fades the ends that hide content; a page scroller stays sharp', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.goto('/foundations/themes')
+  await waitForCatalogReady(page)
+  const root = page.locator('.theme-preview-scroll').first()
+  const viewport = root.locator('> .surf-scroll-viewport')
+  const mask = () => viewport.evaluate((el) => getComputedStyle(el).maskImage)
+  // The viewport fills the root it is given, so the content scrolls inside it.
+  const [rootBox, viewBox] = await Promise.all([
+    root.boundingBox(),
+    viewport.boundingBox(),
+  ])
+  expect(Math.round(viewBox!.height)).toBe(Math.round(rootBox!.height))
+  expect(
+    await viewport.evaluate((el) => el.scrollHeight > el.clientHeight),
+  ).toBe(true)
+  // At the top only the bottom hides content; its table bleeds into the gutter,
+  // but a vertical list keeps its sides sharp. A fade is 24px at each edge it
+  // marks.
+  const stops = async () => (await mask()).match(/24px/g)?.length ?? 0
+  await expect(root).toHaveAttribute('data-overflow-y-end')
+  expect(await mask()).toContain('to top')
+  expect(await stops()).toBe(1)
+  await viewport.evaluate((el) => {
+    el.scrollTop = (el.scrollHeight - el.clientHeight) / 2
+  })
+  await expect(root).toHaveAttribute('data-overflow-y-start')
+  await expect(root).toHaveAttribute('data-overflow-y-end')
+  expect(await stops()).toBe(2)
+  await viewport.evaluate((el) => (el.scrollTop = el.scrollHeight))
+  await expect(root).not.toHaveAttribute('data-overflow-y-end')
+  expect(await mask()).not.toContain('to top')
+  expect(await stops()).toBe(1)
+  expect(await mask()).not.toMatch(/to (left|right)/)
+  // The catalog's document is a page's own scroller: fade="none".
+  const document = page.locator('.catalog-document-scroll')
+  await document.evaluate((el) => (el.scrollTop = 300))
+  await expect(page.locator('.catalog-document-root')).toHaveAttribute(
+    'data-overflow-y-start',
+  )
+  expect(await document.evaluate((el) => getComputedStyle(el).maskImage)).toBe(
+    'none',
+  )
+})

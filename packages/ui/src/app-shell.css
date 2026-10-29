@@ -27,6 +27,9 @@
       0px,
       calc(var(--surf-radius-sheet) - var(--surf-app-shell-inset))
     );
+    /* The page's room on every side; Bar bleeds from it. Set it on the shell, as
+       the radius and the inset are. */
+    --surf-app-shell-page-padding: var(--surf-space-6);
     --surf-app-shell-sidebar-width: 216px;
     /* The collapsed sidebar's width. Set it on the shell for a narrower rail. */
     --surf-app-shell-rail-width: 64px;
@@ -398,7 +401,6 @@
    * sidebar's. Stretch or size it from its container: a percentage height here
    * would resolve against a scroll content that sizes from the page itself. */
   .surf-app-shell-page {
-    --surf-app-shell-page-padding: var(--surf-space-6);
     box-sizing: border-box;
     min-inline-size: 0;
     margin: var(--surf-app-shell-inset);
@@ -411,8 +413,10 @@
   }
   /* On a phone the page meets the screen's edges, below the mobile header. */
   @media (max-width: 760px) {
-    .surf-app-shell-page {
+    .surf-app-shell {
       --surf-app-shell-page-padding: var(--surf-space-4);
+    }
+    .surf-app-shell-page {
       margin: 0;
       border-radius: 0;
     }
@@ -511,7 +515,7 @@
   :where(
     [data-ui-density='compact'],
     [data-ui-density='compact'] *
-  ).surf-app-shell-page {
+  ).surf-app-shell {
     --surf-app-shell-page-padding: var(--surf-ui-density-gap);
   }
   :where([data-ui-density='compact'], [data-ui-density='compact'] *):is(

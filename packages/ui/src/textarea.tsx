@@ -13,10 +13,14 @@ export const Textarea = function Textarea({
   rows,
   cols,
   wrap,
+  mono,
   ref,
   ...props
 }: React.ComponentPropsWithoutRef<'textarea'> & {
   size?: ComponentSize
+  /** Sets the text in the code face, for source such as Markdown or JSON, where
+   * columns and every character count. */
+  mono?: boolean
   /** `embedded` fills the pane it sits in, such as an editor beside a preview: no
    * edge or corners of its own, and focus as a ring inside it. */
   variant?: 'default' | 'embedded'
@@ -28,6 +32,7 @@ export const Textarea = function Textarea({
       ref={ref as unknown as React.Ref<HTMLInputElement>}
       data-ui-size={scheme}
       data-variant={variant === 'embedded' ? variant : undefined}
+      data-mono={mono || undefined}
       render={<textarea rows={rows} cols={cols} wrap={wrap} />}
       className={cx('surf-input surf-textarea', className)}
     />

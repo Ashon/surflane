@@ -28,6 +28,11 @@ export const doc: ComponentDoc = {
 </Field.Root>`,
   props: [
     ['leadingIcon', 'ReactNode', '—'],
+    [
+      'mono',
+      "sets the value in the code face at the control's size, for identifiers, keys and paths read character by character",
+      'false',
+    ],
     ['wrapperClassName', 'string', '—'],
     ['name / required / readOnly / disabled', 'native input props', '—'],
   ],

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import {
+  VisuallyHidden,
   Field,
   Card,
   Pagination,
@@ -131,9 +132,9 @@ export function ContentExample({ id }: { id: string }) {
             </Button>
           </Card.Footer>
         </Card.Root>
-        <p role='status' className='example-announcement'>
+        <VisuallyHidden as='p' role='status'>
           {notice}
-        </p>
+        </VisuallyHidden>
         <p>{t.cardFooterText}</p>
       </div>
     )

@@ -20,7 +20,11 @@ const TableContainer = function TableContainer({
     <ScrollArea
       {...props}
       ref={ref}
-      rootClassName={cx(bleed && 'surf-table-bleed', rootClassName)}
+      rootClassName={cx(
+        'surf-table-container',
+        bleed && 'surf-table-bleed',
+        rootClassName,
+      )}
     />
   )
 }
@@ -35,6 +39,10 @@ const TableRoot = function TableRoot({
   variant,
   stickyHeader,
   stickyColumn,
+  layout,
+  minWidth,
+  nowrap,
+  style,
   ref,
   ...props
 }: React.ComponentPropsWithoutRef<typeof RootPart> & {
@@ -52,11 +60,25 @@ const TableRoot = function TableRoot({
    * scrolls sideways. That edge of the Container stops fading, and a line marks it
    * once rows pass under it. */
   stickyColumn?: boolean
+  /** fixed sizes columns by Table.Column widths and the header row, not by their
+   * content, so they hold still while rows change and long text truncates.
+   * Columns without a width share what is left. */
+  layout?: 'auto' | 'fixed'
+  /** The narrowest the table gets, such as '50rem'; a Container scrolls past it. */
+  minWidth?: string
+  /** Keeps each cell on one line, as a console's rows are. Table.Truncate ends
+   * long text in an ellipsis. */
+  nowrap?: boolean
 } & { ref?: React.Ref<HTMLTableElement> }) {
   return (
     <RootPart
       {...props}
       ref={ref}
+      style={
+        minWidth === undefined ? style : { minInlineSize: minWidth, ...style }
+      }
+      data-layout={layout === 'fixed' ? 'fixed' : undefined}
+      data-nowrap={nowrap || undefined}
       data-density={density}
       data-variant={variant && variant !== 'plain' ? variant : undefined}
       data-sticky-header={stickyHeader || undefined}
@@ -68,10 +90,15 @@ type CellLayout = {
   align?: 'start' | 'center' | 'end'
   /** Aligns to the end with tabular figures, so digits line up down the column. */
   numeric?: boolean
+  /** Steps the column aside when its Container is narrower than sm (30rem) or md
+   * (40rem), so the columns that matter keep their room. Give it to every cell of
+   * the column, header included. */
+  hideBelow?: 'sm' | 'md'
 }
-const layout = ({ align, numeric }: CellLayout) => ({
+const layout = ({ align, numeric, hideBelow }: CellLayout) => ({
   'data-align': numeric ? 'end' : align,
   'data-numeric': numeric || undefined,
+  'data-hide-below': hideBelow,
 })
 const HeaderCellPart = /* @__PURE__ */ elementPart<
   HTMLTableCellElement,
@@ -85,20 +112,49 @@ const CellPart = /* @__PURE__ */ elementPart<
 const TableHeaderCell = function TableHeaderCell({
   align,
   numeric,
+  hideBelow,
   ref,
   ...props
 }: Omit<React.ComponentPropsWithoutRef<typeof HeaderCellPart>, 'align'> &
   CellLayout & { ref?: React.Ref<HTMLTableCellElement> }) {
-  return <HeaderCellPart {...props} {...layout({ align, numeric })} ref={ref} />
+  return (
+    <HeaderCellPart
+      {...props}
+      {...layout({ align, numeric, hideBelow })}
+      ref={ref}
+    />
+  )
 }
 const TableCell = function TableCell({
   align,
   numeric,
+  hideBelow,
   ref,
   ...props
 }: Omit<React.ComponentPropsWithoutRef<typeof CellPart>, 'align'> &
   CellLayout & { ref?: React.Ref<HTMLTableCellElement> }) {
-  return <CellPart {...props} {...layout({ align, numeric })} ref={ref} />
+  return (
+    <CellPart {...props} {...layout({ align, numeric, hideBelow })} ref={ref} />
+  )
+}
+/** One column's width, such as '8rem' for a status, in a Table.Columns group. */
+const TableColumn = function TableColumn({
+  width,
+  className,
+  style,
+  ref,
+  ...props
+}: Omit<React.ComponentPropsWithoutRef<'col'>, 'width'> & {
+  width?: string
+} & { ref?: React.Ref<HTMLTableColElement> }) {
+  return (
+    <col
+      {...props}
+      ref={ref}
+      className={cx('surf-table-column', className)}
+      style={width === undefined ? style : { inlineSize: width, ...style }}
+    />
+  )
 }
 export type TableSort = 'ascending' | 'descending'
 function SortIcon({ sort }: { sort?: TableSort }) {
@@ -241,6 +297,11 @@ export const Table = {
     HTMLTableSectionElement,
     React.ComponentPropsWithoutRef<'tfoot'>
   >('tfoot', 'surf-table-foot'),
+  Columns: /* @__PURE__ */ elementPart<
+    HTMLTableColElement,
+    React.ComponentPropsWithoutRef<'colgroup'>
+  >('colgroup', 'surf-table-columns'),
+  Column: TableColumn,
   Row: TableRow,
   HeaderCell: TableHeaderCell,
   SortHeader: TableSortHeader,
@@ -256,6 +317,7 @@ export {
   TableHeaderCell,
   TableSortHeader,
   TableCell,
+  TableColumn,
   TableTruncate,
   TableMessage,
 }
@@ -264,6 +326,7 @@ export const {
   Head: TableHead,
   Body: TableBody,
   Foot: TableFoot,
+  Columns: TableColumns,
 } = Table
 export {
   useTableSelection,

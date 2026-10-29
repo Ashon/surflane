@@ -599,6 +599,7 @@ function App() {
             setDocumentScrolled(event.currentTarget.scrollTop > 1)
           }}
           orientation='vertical'
+          fade='none'
           scrollChain='contain'
           rootClassName='catalog-document-root'
           className='catalog-document-scroll'

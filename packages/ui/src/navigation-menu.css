@@ -58,14 +58,18 @@
     letter-spacing: var(--surf-type-body-tracking);
     overflow-wrap: anywhere;
   }
-  /* A link in the list is one line, as tall as the size's control and no taller:
-     its label centers in that height, so a small list is 32px, as a small button
-     is, and a touch one 44px. Links in a content panel keep their padding for a
-     title and a description. */
+  /* A link in the list is as tall as the size's control: one line centers in that
+     height, so a small list is 32px, as a small button is, and a touch one 44px. A
+     label that wraps, as in a narrow table of contents, keeps the same room above
+     and below. Links in a content panel keep their padding for a title and a
+     description. */
   .surf-navigation-item > .surf-navigation-link {
     display: flex;
     align-items: center;
-    padding-block: 0;
+    padding-block: max(
+      0px,
+      calc((var(--surf-ui-row, var(--surf-control-height)) - 1lh) / 2 - 1px)
+    );
   }
   .surf-navigation-link:hover,
   .surf-navigation-link[data-highlighted] {
@@ -89,7 +93,9 @@
     line-height: var(--surf-type-compact-leading);
     letter-spacing: var(--surf-type-compact-tracking);
   }
-  .surf-navigation-link[aria-current='page'] {
+  /* The current page, or the section of this page in view, as a table of contents
+     marks it with aria-current="location". */
+  .surf-navigation-link:is([aria-current='page'], [aria-current='location']) {
     background-color: var(--surf-selected);
     color: var(--surf-ink);
     font-weight: var(--surf-weight-medium);
@@ -149,7 +155,7 @@
       color: CanvasText;
       border-color: CanvasText;
     }
-    .surf-navigation-link[aria-current='page'] {
+    .surf-navigation-link:is([aria-current='page'], [aria-current='location']) {
       background-color: Highlight;
       color: HighlightText;
       forced-color-adjust: none;

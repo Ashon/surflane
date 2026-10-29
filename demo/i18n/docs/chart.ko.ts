@@ -1,7 +1,7 @@
 import type { DocKo } from './types'
 export const doc: DocKo = {
   usage:
-    '한 단위의 숫자 추세를 라인, 바, 에어리어 차트로 비교합니다. 항상 제목, 사실 요약, 단위가 있는 축 이름을 제공하세요. 시리즈는 기본적으로 브랜드와 중립 색상의 채움과 선을 쓰고, 대시와 마커로 구분합니다. 구간처럼 색으로 나눠야 하는 범주에는 palette="categorical"을 주세요. 가격이나 지연 시간처럼 0에서 먼 값에는 includeZero={false}를 주세요. 모니터링에서는 xScale="time"이 data[].time으로 행을 놓고 둥근 시각에 눈금을 두며 수집이 멈춘 곳에서 선을 끊습니다. references는 임계선과 목표 띠, x 축의 사건과 기간을, comparison 시리즈는 벤치마크처럼 조용한 비교선을, gap은 두 선 사이의 차이를, stacked는 합계를, curve="step"은 바뀔 때만 잰 값을, yScale="log"는 자릿수가 다른 값을 보여 줍니다. 대시보드 카드 안에서는 density="compact"가 플롯, 범례, 떠 있는 값만 남깁니다. 호출하는 쪽이 소유한 불변 배열로 data를 전달하세요.',
+    '한 단위의 숫자 추세를 라인, 바, 에어리어 차트로 비교합니다. 항상 제목, 사실 요약, 단위가 있는 축 이름을 제공하세요. 시리즈는 기본적으로 브랜드와 중립 색상의 채움과 선을 쓰고, 대시와 마커로 구분합니다. 구간처럼 색으로 나눠야 하는 범주에는 palette="categorical"을 주세요. 가격이나 지연 시간처럼 0에서 먼 값에는 includeZero={false}를 주세요. 모니터링에서는 xScale="time"이 data[].time으로 행을 놓고 둥근 시각에 눈금을 두며 수집이 멈춘 곳에서 선을 끊습니다. references는 임계선과 목표 띠, x 축의 사건과 기간을, comparison 시리즈는 벤치마크처럼 조용한 비교선을, difference는 두 선 사이의 차이를, stacked는 합계를, curve="step"은 바뀔 때만 잰 값을, yScale="log"는 자릿수가 다른 값을 보여 줍니다. 대시보드 카드 안에서는 density="compact"가 플롯, 범례, 떠 있는 값만 남깁니다. 호출하는 쪽이 소유한 불변 배열로 data를 전달하세요.',
   avoid: [
     '한 축에 단위를 섞지 마세요. 대신 별도 차트를 사용하세요.',
     '고를 수 있다면 한 차트에 시리즈를 일곱 개 넘게 넣지 마세요. 큰 것만 남기고 나머지는 기타로 합치거나 차트를 나누세요. 프로젝트별 토큰처럼 더 많이 비교해야 하는 모니터링 화면은 선을 모두 플롯에 두고, 범주형 12색을 쓰고, legendLimit으로 범례를 접습니다.',
@@ -38,7 +38,8 @@ export const doc: DocKo = {
     stacked: '막대와 에어리어 시리즈를 쌓고, 값 영역에 합계를 더합니다',
     'series[].comparison':
       '다른 시리즈를 견주는 기준, 벤치마크 같은 것. 더 가늘고 흐린 잉크로 다른 시리즈 아래에 그립니다',
-    gap: '{series, against, above, below}: 라인 차트에서 두 시리즈 사이를 series가 위면 trend-up 색, 아래면 trend-down 색으로 칠합니다. 범례가 두 쪽의 이름을 적고, 행을 살피면 어느 쪽인지와 차이를 말합니다',
+    difference:
+      '{series, against, above, below}: 라인 차트에서 두 시리즈 사이를 series가 위면 trend-up 색, 아래면 trend-down 색으로 칠합니다. 범례가 두 쪽의 이름을 적고, 행을 살피면 어느 쪽인지와 차이를 말합니다. gap은 예전 이름이며 더는 권하지 않습니다',
     references:
       '읽기 전용 ({y, label, tone?} | {from, to, label, tone?} | {x, label, tone?} | {xFrom, xTo, label, tone?})[]: 값 축이 닿는 임계선과 띠, 데이터 id나 시각에 놓는 사건 선과 기간. neutral, caution, danger로 칠합니다. 범례가 값이나 자리와 함께 이름을 적고, 행을 살피면 그 행의 사건과 기간을 말합니다',
     density:

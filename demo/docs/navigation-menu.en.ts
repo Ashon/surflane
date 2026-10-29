@@ -1,7 +1,7 @@
 import type { ComponentDoc } from '../componentDocs'
 export const doc: ComponentDoc = {
   usage:
-    'Group links and sub-navigation to products, docs, and sections. It keeps the native nav, ul, li, and a structure. Trigger opens sub-links, and Link navigates. Set Link.active to mark the current destination.',
+    'Group links and sub-navigation to products, docs, and sections. It keeps the native nav, ul, li, and a structure. Trigger opens sub-links, and Link navigates. Set Link.active to mark the current destination. A vertical list also serves as a table of contents: mark the section in view with aria-current="location", which draws as the current page does, and a label that wraps keeps its room above and below.',
   avoid:
     "Use Menu or Menubar for commands, and Tabs for switching panels on one screen. Keep links native, and don't give nav role=menu. Don't make it hover-only. Provide click and keyboard paths, on small screens too.",
   anatomy:
@@ -74,7 +74,7 @@ export const doc: ComponentDoc = {
     ],
     [
       'Link.href / active / closeOnClick',
-      'native navigation; aria-current=page; close on selection',
+      'native navigation; aria-current=page, or location for a section of this page; close on selection',
       '— / false / false',
     ],
     ['Content.keepMounted', 'preserve hidden content and SSR links', 'false'],

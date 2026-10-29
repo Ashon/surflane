@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import {
+  Badge,
   Text,
   Field,
   Button,
@@ -189,7 +190,6 @@ export function CommandSearchExample({
                 tabIndex={-1}
                 scrollChain='contain'
                 rootClassName='command-search-results'
-                className='command-search-results-viewport'
               >
                 <Combobox.Empty>{t.noResults}</Combobox.Empty>
                 <Combobox.List aria-label={t.pagesAndActions}>
@@ -199,13 +199,15 @@ export function CommandSearchExample({
                       value={command}
                       disabled={command.disabled}
                     >
-                      <span className='command-search-item'>
-                        <strong>{command.label}</strong>
-                        <span>{command.description}</span>
-                        <small>
-                          {command.disabled ? t.planned : command.category}
-                        </small>
-                      </span>
+                      <Combobox.ItemContent>
+                        <Combobox.ItemTitle>{command.label}</Combobox.ItemTitle>
+                        <Combobox.ItemDescription>
+                          {command.description}
+                        </Combobox.ItemDescription>
+                      </Combobox.ItemContent>
+                      <Badge>
+                        {command.disabled ? t.planned : command.category}
+                      </Badge>
                     </Combobox.Item>
                   )}
                 </Combobox.List>

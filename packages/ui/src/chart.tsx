@@ -50,8 +50,9 @@ export type ChartSeries = {
    * it apart. */
   comparison?: boolean
 }
-/** The gap between a series and the one it is read against, named on each side. */
-export type ChartGap = {
+/** The difference between a series and the one it is read against, named on each
+ * side. */
+export type ChartDifference = {
   /** The series read against the other, such as a portfolio. */
   series: string
   /** The series it is read against, such as its benchmark. */
@@ -61,6 +62,8 @@ export type ChartGap = {
   /** Names the side where series is below, such as "Behind the benchmark". */
   below: string
 }
+/** @deprecated The earlier name for ChartDifference. */
+export type ChartGap = ChartDifference
 export type ChartTone = 'neutral' | 'caution' | 'danger'
 /** A place on the x axis: a datum's id on a category axis, or a time, in ms or as a
  * Date, on a time axis. */
@@ -108,11 +111,13 @@ export type ChartProps = Omit<
   curve?: 'linear' | 'step'
   /** Stacks bar and area series, so the top of the stack is their total. */
   stacked?: boolean
-  /** Shades the gap between two series of a line chart, in the trend-up color where
-   * the first is above and trend-down where it is below, such as a portfolio's lead
-   * over its benchmark. The legend names both sides; inspecting a row says which side
-   * it is on and by how much. */
-  gap?: ChartGap
+  /** Shades the difference between two series of a line chart, in the trend-up
+   * color where the first is above and trend-down where it is below, such as a
+   * portfolio's lead over its benchmark. The legend names both sides; inspecting a
+   * row says which side it is on and by how much. */
+  difference?: ChartDifference
+  /** @deprecated The earlier name for difference. */
+  gap?: ChartDifference
   /** Thresholds and target bands over the plot, which the value axis reaches, and
    * events and periods across it, which inspecting a row names. */
   references?: readonly ChartReference[]
@@ -675,6 +680,7 @@ export const Chart = function Chart({
   curve = 'linear',
   stacked = false,
   references = [],
+  difference,
   gap,
   density: ownDensity,
   legendPosition = 'top',
@@ -1022,14 +1028,15 @@ export const Chart = function Chart({
       .map((s) => row.values[s.key])
       .filter(isNumber)
       .reduce((a, b) => a + b, 0)
-  // A gap shows on a line chart while both of its series do.
+  // A difference shows on a line chart while both of its series do.
+  const shaded = difference ?? gap
   const shownGap =
-    gap &&
+    shaded &&
     type === 'line' &&
-    [gap.series, gap.against].every(
+    [shaded.series, shaded.against].every(
       (key) => series.some((s) => s.key === key) && !hidden.has(key),
     )
-      ? gap
+      ? shaded
       : undefined
   const gapAt = (row: Row) => {
     if (!shownGap) return null

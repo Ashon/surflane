@@ -74,6 +74,23 @@
   .surf-combobox-item[data-disabled] {
     opacity: var(--surf-control-disabled-opacity);
   }
+  /* A title over a describing line, as a List row sets them. */
+  .surf-combobox-item-content {
+    display: grid;
+    flex: 1;
+    gap: var(--surf-space-1);
+    min-width: 0;
+  }
+  .surf-combobox-item-title {
+    font-weight: var(--surf-weight-medium);
+    color: var(--surf-ink);
+  }
+  .surf-combobox-item-description {
+    color: var(--surf-ink-body);
+    font-size: var(--surf-type-caption-size);
+    line-height: var(--surf-type-caption-leading);
+    letter-spacing: var(--surf-type-caption-tracking);
+  }
   .surf-combobox-indicator {
     display: inline-flex;
     align-items: center;

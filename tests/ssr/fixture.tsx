@@ -1159,7 +1159,7 @@ export function Monitoring() {
                 { key: 'moved', label: 'Moved' },
                 { key: 'plan', label: 'Plan', comparison: true },
               ]}
-              gap={{
+              difference={{
                 series: 'moved',
                 against: 'plan',
                 above: 'Ahead of plan',

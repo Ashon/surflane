@@ -8,12 +8,16 @@ export const Input = function Input({
   leadingIcon,
   wrapperClassName,
   size,
+  mono,
   ref,
   ...props
 }: Omit<React.ComponentPropsWithoutRef<'input'>, 'size'> & {
   size?: number | ComponentSize
   leadingIcon?: React.ReactNode
   wrapperClassName?: string
+  /** Sets the value in the code face, for identifiers, keys and paths that are read
+   * character by character. */
+  mono?: boolean
 } & { ref?: React.Ref<HTMLInputElement> }) {
   const scheme = useComponentSize(typeof size === 'string' ? size : undefined)
   return (
@@ -32,6 +36,7 @@ export const Input = function Input({
         {...props}
         size={typeof size === 'number' ? size : undefined}
         ref={ref}
+        data-mono={mono || undefined}
         className={cx('surf-input', className)}
       />
     </span>

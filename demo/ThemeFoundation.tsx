@@ -1,5 +1,8 @@
 import React, { useLayoutEffect, useState } from 'react'
 import {
+  VisuallyHidden,
+  ScrollArea,
+  Stack,
   ChoiceLabel,
   AppShell,
   Button,
@@ -161,121 +164,128 @@ function Preview({
           <AppShell.Content>
             <AppShell.Page className='theme-preview-sheet'>
               {/* The page keeps its surface; only its content scrolls, under a fade. */}
-              <div className='theme-preview-scroll'>
-                <PageHeader
-                  variant='page'
-                  level={3}
-                  title={t.pageTitle}
-                  description={t.pageDescription}
-                  actions={
-                    <>
-                      <Button variant='outline'>{t.export}</Button>
-                      <Button variant='primary'>{t.newDeployment}</Button>
-                    </>
-                  }
-                />
-                <InlineMessage.Root tone='caution'>
-                  <InlineMessage.Icon tone='caution' />
-                  <InlineMessage.Content>
-                    <InlineMessage.Title>{t.reviewTitle}</InlineMessage.Title>
-                    <InlineMessage.Description>
-                      {t.reviewBody}
-                    </InlineMessage.Description>
-                  </InlineMessage.Content>
-                </InlineMessage.Root>
-                <div className='theme-preview-controls'>
-                  <Input
-                    aria-label={t.searchServices}
-                    placeholder={t.searchServices}
+              <ScrollArea
+                orientation='vertical'
+                rootClassName='theme-preview-scroll'
+              >
+                <Stack gap={4}>
+                  <PageHeader
+                    variant='page'
+                    level={3}
+                    title={t.pageTitle}
+                    description={t.pageDescription}
+                    actions={
+                      <>
+                        <Button variant='outline'>{t.export}</Button>
+                        <Button variant='primary'>{t.newDeployment}</Button>
+                      </>
+                    }
                   />
-                  <ChoiceLabel
-                    control={
-                      <Switch.Root defaultChecked>
-                        <Switch.Thumb />
-                      </Switch.Root>
-                    }
-                  >
-                    {t.autoPromote}
-                  </ChoiceLabel>
-                  <ChoiceLabel
-                    control={
-                      <Checkbox.Root defaultChecked>
-                        <Checkbox.Indicator />
-                      </Checkbox.Root>
-                    }
-                  >
-                    {t.notifyOwners}
-                  </ChoiceLabel>
-                </div>
-                <Table.Container bleed label={t.tableLabel}>
-                  <Table.Root density='compact'>
-                    <Table.Head>
-                      <Table.Row>
-                        <Table.HeaderCell scope='col'>
-                          <span className='surf-feedback-sr'>
-                            {t.selection}
-                          </span>
-                        </Table.HeaderCell>
-                        <Table.HeaderCell scope='col'>
-                          {t.service}
-                        </Table.HeaderCell>
-                        <Table.HeaderCell scope='col'>
-                          {t.environment}
-                        </Table.HeaderCell>
-                        <Table.HeaderCell scope='col' numeric>
-                          {t.duration}
-                        </Table.HeaderCell>
-                        <Table.HeaderCell scope='col'>
-                          {t.status}
-                        </Table.HeaderCell>
-                      </Table.Row>
-                    </Table.Head>
-                    <Table.Body>
-                      {deployments.map(([name, environment, seconds, tone]) => (
-                        <Table.Row
-                          key={name}
-                          selected={selected.includes(name)}
-                        >
-                          <Table.Cell>
-                            <Checkbox.Root
-                              aria-label={t.selectRow(name)}
-                              checked={selected.includes(name)}
-                              onCheckedChange={(checked) =>
-                                setSelected((old) =>
-                                  checked
-                                    ? [...old, name]
-                                    : old.filter((id) => id !== name),
-                                )
-                              }
-                            >
-                              <Checkbox.Indicator />
-                            </Checkbox.Root>
-                          </Table.Cell>
-                          <Table.HeaderCell scope='row'>
-                            <TextLink
-                              href='#theme-preview'
-                              onClick={(event) => event.preventDefault()}
-                            >
-                              {name}
-                            </TextLink>
+                  <InlineMessage.Root tone='caution'>
+                    <InlineMessage.Icon tone='caution' />
+                    <InlineMessage.Content>
+                      <InlineMessage.Title>{t.reviewTitle}</InlineMessage.Title>
+                      <InlineMessage.Description>
+                        {t.reviewBody}
+                      </InlineMessage.Description>
+                    </InlineMessage.Content>
+                  </InlineMessage.Root>
+                  <div className='theme-preview-controls'>
+                    <Input
+                      aria-label={t.searchServices}
+                      placeholder={t.searchServices}
+                    />
+                    <ChoiceLabel
+                      control={
+                        <Switch.Root defaultChecked>
+                          <Switch.Thumb />
+                        </Switch.Root>
+                      }
+                    >
+                      {t.autoPromote}
+                    </ChoiceLabel>
+                    <ChoiceLabel
+                      control={
+                        <Checkbox.Root defaultChecked>
+                          <Checkbox.Indicator />
+                        </Checkbox.Root>
+                      }
+                    >
+                      {t.notifyOwners}
+                    </ChoiceLabel>
+                  </div>
+                  <Table.Container bleed label={t.tableLabel}>
+                    <Table.Root density='compact' nowrap>
+                      <Table.Head>
+                        <Table.Row>
+                          <Table.HeaderCell scope='col'>
+                            <VisuallyHidden>{t.selection}</VisuallyHidden>
                           </Table.HeaderCell>
-                          <Table.Cell>{environment}</Table.Cell>
-                          <Table.Cell numeric>{number(seconds)}</Table.Cell>
-                          <Table.Cell>
-                            <StatusBadge tone={tone}>
-                              {tone === 'success'
-                                ? t.live
-                                : tone === 'caution'
-                                  ? t.review
-                                  : t.failed}
-                            </StatusBadge>
-                          </Table.Cell>
+                          <Table.HeaderCell scope='col'>
+                            {t.service}
+                          </Table.HeaderCell>
+                          <Table.HeaderCell scope='col' hideBelow='md'>
+                            {t.environment}
+                          </Table.HeaderCell>
+                          <Table.HeaderCell scope='col' numeric>
+                            {t.duration}
+                          </Table.HeaderCell>
+                          <Table.HeaderCell scope='col'>
+                            {t.status}
+                          </Table.HeaderCell>
                         </Table.Row>
-                      ))}
-                    </Table.Body>
-                  </Table.Root>
-                </Table.Container>
-              </div>
+                      </Table.Head>
+                      <Table.Body>
+                        {deployments.map(
+                          ([name, environment, seconds, tone]) => (
+                            <Table.Row
+                              key={name}
+                              selected={selected.includes(name)}
+                            >
+                              <Table.Cell>
+                                <Checkbox.Root
+                                  aria-label={t.selectRow(name)}
+                                  checked={selected.includes(name)}
+                                  onCheckedChange={(checked) =>
+                                    setSelected((old) =>
+                                      checked
+                                        ? [...old, name]
+                                        : old.filter((id) => id !== name),
+                                    )
+                                  }
+                                >
+                                  <Checkbox.Indicator />
+                                </Checkbox.Root>
+                              </Table.Cell>
+                              <Table.HeaderCell scope='row'>
+                                <TextLink
+                                  href='#theme-preview'
+                                  onClick={(event) => event.preventDefault()}
+                                >
+                                  {name}
+                                </TextLink>
+                              </Table.HeaderCell>
+                              <Table.Cell hideBelow='md'>
+                                {environment}
+                              </Table.Cell>
+                              <Table.Cell numeric>{number(seconds)}</Table.Cell>
+                              <Table.Cell>
+                                <StatusBadge tone={tone}>
+                                  {tone === 'success'
+                                    ? t.live
+                                    : tone === 'caution'
+                                      ? t.review
+                                      : t.failed}
+                                </StatusBadge>
+                              </Table.Cell>
+                            </Table.Row>
+                          ),
+                        )}
+                      </Table.Body>
+                    </Table.Root>
+                  </Table.Container>
+                </Stack>
+              </ScrollArea>
             </AppShell.Page>
           </AppShell.Content>
         </AppShell.Root>

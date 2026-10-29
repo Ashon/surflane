@@ -232,15 +232,17 @@ test('current sidebar item stays clear of full-width edge fades on entry and res
   }
   await expect.poll(gap).toBeGreaterThanOrEqual(15)
   const scroll = page.locator('.catalog-navigation-scroll')
-  expect(
-    await scroll.evaluate((el) => getComputedStyle(el, '::after').right),
-  ).toBe('0px')
   await page.keyboard.press('Tab')
   await expect(
     page.getByRole('link', { name: 'Skip to content', exact: true }),
   ).toBeFocused()
   await page.setViewportSize({ width: 1440, height: 520 })
   await expect.poll(gap).toBeGreaterThanOrEqual(15)
+  // The list's edges fade through its viewport's mask, across its full width.
+  await expect(scroll).toHaveAttribute('data-overflow-y-end')
+  expect(
+    await viewport.evaluate((el) => getComputedStyle(el).maskImage),
+  ).toContain('linear-gradient')
   await page.setViewportSize({ width: 1440, height: 1000 })
   await expect.poll(gap).toBeGreaterThanOrEqual(15)
   await viewport.focus()
@@ -248,13 +250,11 @@ test('current sidebar item stays clear of full-width edge fades on entry and res
     ':scope > .surf-scrollbar[data-orientation="vertical"]',
   )
   await expect(bar).toHaveCSS('opacity', '1')
+  // The bar sits beside the masked viewport, so the fade never dims it.
   expect(
-    await bar.evaluate((el) => Number(getComputedStyle(el).zIndex)),
-  ).toBeGreaterThan(
-    await scroll.evaluate((el) =>
-      Number(getComputedStyle(el, '::after').zIndex),
-    ),
-  )
+    await bar.evaluate((el) => el.closest('.catalog-navigation-viewport')),
+  ).toBeNull()
+  await expect(bar).toHaveCSS('mask-image', 'none')
 })
 
 test('mobile catalog opens as a centered bottom sheet, traps focus and preserves document position', async ({
