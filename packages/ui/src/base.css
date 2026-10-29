@@ -4,6 +4,19 @@
 @import '@surflane/design-tokens/tokens.css';
 @import '@surflane/css/presentation/base.css';
 
+@layer surflane.base {
+  /* A form control takes the browser's font shorthand, which leaves the root's
+     inherited font settings behind. Surflane's controls inherit them, the
+     ligatures turned off among them, and set their own size, leading, weight and
+     family. */
+  :where(button, input, select, textarea)[class*='surf-'] {
+    font-kerning: inherit;
+    font-optical-sizing: inherit;
+    font-synthesis-weight: inherit;
+    font-variant-ligatures: inherit;
+  }
+}
+
 @layer surflane.components {
   @keyframes surf-progress-pulse {
     50% {

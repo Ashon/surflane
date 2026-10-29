@@ -72,6 +72,25 @@ assert.deepEqual(
 console.log(
   `@surflane: ${typeSheets.length} package stylesheets set type through role tokens`,
 )
+// Type is set with longhands. The font shorthand resets every font property it
+// leaves out, so it would cut the inherited ones, such as the ligatures turned off
+// at the root, off at that component. font: inherit inherits them all.
+const fontShorthands = typeSheets.flatMap((file) =>
+  readFileSync(file, 'utf8')
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .split('\n')
+    .map((line, index) => [line.trim(), `${file}:${index + 1}`])
+    .filter(([line]) => /^font:/.test(line) && !/^font:\s*inherit;/.test(line))
+    .map(([line, at]) => `${at} ${line}`),
+)
+assert.deepEqual(
+  fontShorthands,
+  [],
+  `Font shorthands cut inherited font settings:\n${fontShorthands.join('\n')}`,
+)
+console.log(
+  '@surflane: type is set with longhands, so inherited font settings reach every component',
+)
 // Other lengths and durations move to tokens over time. The count may only fall: lower
 // it when values move to tokens, never raise it. 0, 1px hairlines and @media
 // conditions stay literal.

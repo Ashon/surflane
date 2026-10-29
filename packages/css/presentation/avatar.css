@@ -19,8 +19,10 @@
     border-radius: var(--surf-radius-full);
     background: var(--surf-recessed);
     color: var(--surf-ink-body);
-    font: var(--surf-weight-medium) var(--surf-type-caption-size)/1
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-medium);
+    font-size: var(--surf-type-caption-size);
+    line-height: 1;
+    font-family: var(--surf-font-body);
     letter-spacing: var(--surf-type-caption-tracking);
   }
   .surf-avatar[data-size='small'] {

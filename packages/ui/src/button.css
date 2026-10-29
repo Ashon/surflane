@@ -16,9 +16,10 @@
     padding: 0 var(--surf-size-button-padding-default);
     border: 1px solid transparent;
     border-radius: var(--surf-radius-pill);
-    font: var(--surf-weight-medium)
-      var(--surf-type-label-size)/var(--surf-type-label-leading)
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-medium);
+    font-size: var(--surf-type-label-size);
+    line-height: var(--surf-type-label-leading);
+    font-family: var(--surf-font-body);
     letter-spacing: var(--surf-type-label-tracking);
     color: var(--surf-ink);
     background: var(--surf-canvas);

@@ -335,3 +335,40 @@ test('the layout foundation says what density and reading direction change, and 
     expect(thumbs).toEqual(['end-right', 'end-left'])
   }
 })
+
+test('common ligatures are off in every component, so "--" stays two hyphens; code turns all off', async ({
+  page,
+}) => {
+  const read = (selectors: Record<string, string>) =>
+    page.evaluate((selectors) => {
+      const out: Record<string, string | null> = {}
+      for (const [name, selector] of Object.entries(selectors)) {
+        const element = document.querySelector(selector)
+        out[name] = element
+          ? getComputedStyle(element).fontVariantLigatures
+          : null
+      }
+      return out
+    }, selectors)
+  await page.goto('/components/navigation-menu')
+  await waitForCatalogReady(page)
+  expect(
+    await read({
+      body: 'body',
+      button: '.surf-button',
+      link: 'main .surf-navigation-link',
+    }),
+  ).toEqual({
+    body: 'no-common-ligatures',
+    button: 'no-common-ligatures',
+    link: 'no-common-ligatures',
+  })
+  await page.goto('/components/input')
+  await waitForCatalogReady(page)
+  expect(
+    await read({
+      field: 'main input.surf-input',
+      code: 'main .surf-code-text',
+    }),
+  ).toEqual({ field: 'no-common-ligatures', code: 'none' })
+})

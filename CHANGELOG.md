@@ -16,6 +16,7 @@
 
 ### Changed
 
+- Common ligatures are off in every Surflane component. Manrope joins "--" into one dash, so a token name or a flag such as `--dry-run` read as one dash outside code. `@surflane/design-tokens`' typography-rendering.css turns them off at the root, as it sets kerning; components set their type with longhands instead of the `font` shorthand, which reset every inherited font setting, and Surflane's form controls inherit them past the browser's own font rule. Code keeps all ligatures off. An app's own `font` shorthand still resets them for what it styles.
 - A `ScrollArea` fades its top and bottom edges too while they hide content, as it already faded its sides, so a cut-off list reads as more to come. A page's own scroller, such as an AppShell's content, sets `fade='none'`; a Table with `stickyHeader` keeps its top sharp, as one with `stickyColumn` keeps its start.
 
 ### Deprecated

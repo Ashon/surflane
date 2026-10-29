@@ -17,17 +17,19 @@
     gap: var(--surf-space-3);
   }
   .surf-chart-caption strong {
-    font: var(--surf-weight-medium)
-      var(--surf-type-subsection-size)/var(--surf-type-subsection-leading)
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-medium);
+    font-size: var(--surf-type-subsection-size);
+    line-height: var(--surf-type-subsection-leading);
+    font-family: var(--surf-font-body);
   }
   .surf-chart-caption p,
   .surf-chart-help {
     margin: var(--surf-space-2) 0 0;
     color: var(--surf-ink-muted);
-    font: var(--surf-weight-regular)
-      var(--surf-type-body-size)/var(--surf-type-body-leading)
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-regular);
+    font-size: var(--surf-type-body-size);
+    line-height: var(--surf-type-body-leading);
+    font-family: var(--surf-font-body);
   }
   /* The key, the plot and the x-axis name read as one block: the key sits right on
      the plot, the value axis name to its left and the legend to its right. */
@@ -67,9 +69,10 @@
     border-radius: var(--surf-radius-md);
     background: transparent;
     color: var(--surf-ink-body);
-    font: var(--surf-weight-regular)
-      var(--surf-type-body-size)/var(--surf-type-body-leading)
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-regular);
+    font-size: var(--surf-type-body-size);
+    line-height: var(--surf-type-body-leading);
+    font-family: var(--surf-font-body);
     cursor: pointer;
     text-align: start;
   }
@@ -85,9 +88,10 @@
     min-height: var(--surf-control-height);
     padding: var(--surf-space-1) var(--surf-space-2);
     color: var(--surf-ink-body);
-    font: var(--surf-weight-regular)
-      var(--surf-type-body-size)/var(--surf-type-body-leading)
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-regular);
+    font-size: var(--surf-type-body-size);
+    line-height: var(--surf-type-body-leading);
+    font-family: var(--surf-font-body);
   }
   .surf-chart-legend-more {
     font-variant-numeric: tabular-nums;
@@ -143,9 +147,10 @@
   .surf-chart-axis-label {
     margin: 0;
     color: var(--surf-ink-muted);
-    font: var(--surf-weight-regular)
-      var(--surf-type-caption-size)/var(--surf-type-caption-leading)
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-regular);
+    font-size: var(--surf-type-caption-size);
+    line-height: var(--surf-type-caption-leading);
+    font-family: var(--surf-font-body);
     overflow-wrap: anywhere;
   }
   .surf-chart-x-label {
@@ -182,9 +187,10 @@
     background: var(--surf-menu-background);
     box-shadow: var(--surf-shadow-float);
     color: var(--surf-ink-body);
-    font: var(--surf-weight-regular)
-      var(--surf-type-compact-size)/var(--surf-type-compact-leading)
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-regular);
+    font-size: var(--surf-type-compact-size);
+    line-height: var(--surf-type-compact-leading);
+    font-family: var(--surf-font-body);
     overflow-wrap: break-word;
   }
   .surf-chart-tooltip strong {
@@ -240,9 +246,10 @@
     background: var(--surf-recessed);
     color: var(--surf-ink-body);
     border-radius: var(--surf-radius-md);
-    font: var(--surf-weight-regular)
-      var(--surf-type-body-size)/var(--surf-type-body-leading)
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-regular);
+    font-size: var(--surf-type-body-size);
+    line-height: var(--surf-type-body-leading);
+    font-family: var(--surf-font-body);
     overflow-wrap: anywhere;
   }
   .surf-chart-inspector[hidden] {

@@ -14,5 +14,9 @@
     font-kerning: normal;
     font-optical-sizing: auto;
     font-synthesis-weight: none;
+    /* Manrope's common ligature joins "--" into one dash, which misreads token
+       names and CLI flags such as --dry-run. Components set their type with
+       longhands, so this reaches every one of them. */
+    font-variant-ligatures: no-common-ligatures;
   }
 }

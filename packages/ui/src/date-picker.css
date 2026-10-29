@@ -78,9 +78,10 @@
     flex: 1;
     min-width: 0;
     padding-block: var(--surf-space-1);
-    font: var(--surf-weight-regular)
-      var(--surf-type-body-size)/var(--surf-type-body-leading)
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-regular);
+    font-size: var(--surf-type-body-size);
+    line-height: var(--surf-type-body-leading);
+    font-family: var(--surf-font-body);
     /* iOS zooms the page into a focused segment whose text is under 16px. */
     font-size: max(
       var(--surf-control-text-min-size),
@@ -179,9 +180,10 @@
   .surf-calendar {
     width: 280px;
     max-width: 100%;
-    font: var(--surf-weight-regular)
-      var(--surf-type-body-size)/var(--surf-type-body-leading)
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-regular);
+    font-size: var(--surf-type-body-size);
+    line-height: var(--surf-type-body-leading);
+    font-family: var(--surf-font-body);
   }
   .surf-calendar-header {
     display: flex;
@@ -192,9 +194,10 @@
   }
   .surf-calendar-heading {
     margin: 0;
-    font: var(--surf-weight-medium)
-      var(--surf-type-body-size)/var(--surf-type-body-leading)
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-medium);
+    font-size: var(--surf-type-body-size);
+    line-height: var(--surf-type-body-leading);
+    font-family: var(--surf-font-body);
     text-align: center;
   }
   .surf-calendar-grid {

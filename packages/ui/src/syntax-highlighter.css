@@ -50,9 +50,10 @@
     padding: var(--surf-ui-surface-padding, var(--surf-space-4));
     background: var(--surf-code-bg);
     border-radius: var(--surf-radius-md);
-    font: var(--surf-weight-regular)
-      var(--surf-type-code-size)/var(--surf-type-code-leading)
-      var(--surf-font-code);
+    font-weight: var(--surf-weight-regular);
+    font-size: var(--surf-type-code-size);
+    line-height: var(--surf-type-code-leading);
+    font-family: var(--surf-font-code);
     /* Code shows the characters as typed, like the other code text: no === or => ligatures. */
     font-variant-ligatures: none;
     letter-spacing: var(--surf-tracking-mono);

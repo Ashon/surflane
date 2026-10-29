@@ -21,9 +21,10 @@
     max-width: 100%;
   }
   .surf-breadcrumbs {
-    font: var(--surf-weight-regular)
-      var(--surf-type-caption-size)/var(--surf-type-caption-leading)
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-regular);
+    font-size: var(--surf-type-caption-size);
+    line-height: var(--surf-type-caption-leading);
+    font-family: var(--surf-font-body);
   }
   .surf-breadcrumb-separator {
     display: inline-flex;

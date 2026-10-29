@@ -149,12 +149,6 @@ html {
   flex-wrap: wrap;
   margin-top: 20px;
 }
-/* Manrope's common ligature joins "--" into one dash, which misreads token names and
- * CLI flags in body text; the catalog keeps both hyphens. */
-body,
-:is(input, textarea, .surf-input, .surf-textarea) {
-  font-variant-ligatures: no-common-ligatures;
-}
 @media (max-width: 760px) {
   .grid {
     grid-template-columns: 1fr;
@@ -332,9 +326,10 @@ body,
   padding: var(--surf-space-3);
   color: var(--surf-ink);
   text-decoration: none;
-  font: var(--surf-weight-medium)
-    var(--surf-type-section-size)/var(--surf-type-section-leading)
-    var(--surf-font-display);
+  font-weight: var(--surf-weight-medium);
+  font-size: var(--surf-type-section-size);
+  line-height: var(--surf-type-section-leading);
+  font-family: var(--surf-font-display);
 }
 /* Wordmark: Manrope Medium (the system's 500 maximum) with -2% tracking. */
 .catalog-brand-name {
@@ -353,9 +348,10 @@ body,
 .catalog-brand small {
   display: block;
   color: var(--surf-ink-muted);
-  font: var(--surf-weight-regular)
-    var(--surf-type-caption-size)/var(--surf-type-caption-leading)
-    var(--surf-font-body);
+  font-weight: var(--surf-weight-regular);
+  font-size: var(--surf-type-caption-size);
+  line-height: var(--surf-type-caption-leading);
+  font-family: var(--surf-font-body);
   letter-spacing: var(--surf-type-caption-tracking);
 }
 .catalog-navigation {
@@ -674,12 +670,7 @@ body,
 /* On touch and narrow screens the page's own links take a
    --surf-control-target-size press, as Surflane's controls do. */
 @media (max-width: 760px), (pointer: coarse) {
-  :is(
-      .page-toc,
-      .component-meta,
-      .component-pagination,
-      .token-reference-links
-    )
+  :is(.page-toc, .component-meta, .component-pagination, .token-reference-links)
     a {
     display: inline-flex;
     align-items: center;
@@ -781,7 +772,6 @@ body,
   overflow-wrap: anywhere;
 }
 
-
 /* A phone-width screen: the content scrolls between the title and BottomNavigation,
  * which sits in the flow here; an app keeps it fixed and pads the content instead. */
 .bottom-nav-preview {
@@ -868,8 +858,10 @@ body,
 }
 .color-group-minimum {
   color: var(--surf-ink-muted);
-  font: var(--surf-weight-regular) var(--surf-type-compact-size) /
-    var(--surf-type-compact-leading) var(--surf-font-body);
+  font-weight: var(--surf-weight-regular);
+  font-size: var(--surf-type-compact-size);
+  line-height: var(--surf-type-compact-leading);
+  font-family: var(--surf-font-body);
 }
 .color-group > p {
   margin-block: var(--surf-space-3) 0;
@@ -897,8 +889,10 @@ body,
   inline-size: var(--surf-space-10);
   block-size: var(--surf-space-6);
   border-radius: max(0px, calc(var(--surf-radius-sm) - 3px));
-  font: var(--surf-weight-medium) var(--surf-type-caption-size) / 1
-    var(--surf-font-body);
+  font-weight: var(--surf-weight-medium);
+  font-size: var(--surf-type-caption-size);
+  line-height: 1;
+  font-family: var(--surf-font-body);
 }
 .color-chip[data-kind='fill'] > span {
   background: var(--swatch);
@@ -927,8 +921,10 @@ body,
   inline-size: var(--surf-space-10);
   block-size: var(--surf-space-6);
   border-radius: var(--surf-radius-sm);
-  font: var(--surf-weight-medium) var(--surf-type-caption-size) / 1
-    var(--surf-font-body);
+  font-weight: var(--surf-weight-medium);
+  font-size: var(--surf-type-caption-size);
+  line-height: 1;
+  font-family: var(--surf-font-body);
 }
 .color-pair-chip > span {
   inline-size: var(--surf-space-3);
@@ -974,8 +970,10 @@ body,
 .palette-wheel-panel p {
   margin: 0;
   color: var(--surf-ink-muted);
-  font: var(--surf-weight-regular) var(--surf-type-caption-size) /
-    var(--surf-type-caption-leading) var(--surf-font-body);
+  font-weight: var(--surf-weight-regular);
+  font-size: var(--surf-type-caption-size);
+  line-height: var(--surf-type-caption-leading);
+  font-family: var(--surf-font-body);
 }
 .palette-inputs-block {
   display: grid;
@@ -1015,8 +1013,10 @@ body,
 }
 .hue-wheel-guides text {
   fill: var(--surf-ink);
-  font: var(--surf-weight-medium) var(--surf-type-caption-size) / 1
-    var(--surf-font-body);
+  font-weight: var(--surf-weight-medium);
+  font-size: var(--surf-type-caption-size);
+  line-height: 1;
+  font-family: var(--surf-font-body);
   text-anchor: middle;
   dominant-baseline: middle;
   paint-order: stroke;
@@ -1113,8 +1113,10 @@ body,
   gap: var(--surf-space-1);
   block-size: 100%;
   text-align: center;
-  font: var(--surf-weight-regular) var(--surf-type-caption-size) /
-    var(--surf-type-caption-leading) var(--surf-font-body);
+  font-weight: var(--surf-weight-regular);
+  font-size: var(--surf-type-caption-size);
+  line-height: var(--surf-type-caption-leading);
+  font-family: var(--surf-font-body);
 }
 .palette-category > span:first-child {
   border-radius: var(--surf-radius-sm) var(--surf-radius-sm) 0 0;
@@ -1166,13 +1168,17 @@ body,
   gap: var(--surf-space-3);
 }
 .palette-ratio strong {
-  font: var(--surf-weight-medium) var(--surf-type-page-size) /
-    var(--surf-type-page-leading) var(--surf-font-body);
+  font-weight: var(--surf-weight-medium);
+  font-size: var(--surf-type-page-size);
+  line-height: var(--surf-type-page-leading);
+  font-family: var(--surf-font-body);
   font-variant-numeric: tabular-nums;
 }
 .palette-sample-large {
-  font: var(--surf-weight-medium) var(--surf-type-section-size) /
-    var(--surf-type-section-leading) var(--surf-font-body);
+  font-weight: var(--surf-weight-medium);
+  font-size: var(--surf-type-section-size);
+  line-height: var(--surf-type-section-leading);
+  font-family: var(--surf-font-body);
 }
 .palette-sample-mark {
   display: flex;
@@ -1481,7 +1487,8 @@ body,
   color: var(--surf-ink-muted);
 }
 .easing-visuals text {
-  font: 12px var(--surf-font-body);
+  font-size: 12px;
+  font-family: var(--surf-font-body);
   fill: currentColor;
 }
 .easing-playback {
@@ -1606,8 +1613,10 @@ body,
 }
 .hierarchy-figure-point {
   color: var(--surf-ink);
-  font: var(--surf-weight-medium) var(--surf-type-page-size) / 1
-    var(--surf-font-body);
+  font-weight: var(--surf-weight-medium);
+  font-size: var(--surf-type-page-size);
+  line-height: 1;
+  font-family: var(--surf-font-body);
 }
 .hierarchy-figure-dot {
   inline-size: var(--surf-space-2);
@@ -2648,9 +2657,10 @@ body,
 .spacing-dimension-label {
   position: absolute;
   white-space: nowrap;
-  font: var(--surf-weight-regular)
-    var(--surf-type-caption-size)/var(--surf-type-caption-leading)
-    var(--surf-font-code);
+  font-weight: var(--surf-weight-regular);
+  font-size: var(--surf-type-caption-size);
+  line-height: var(--surf-type-caption-leading);
+  font-family: var(--surf-font-code);
   background: var(--surf-canvas);
   padding-inline: 2px;
 }

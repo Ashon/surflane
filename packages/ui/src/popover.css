@@ -28,8 +28,10 @@
   .surf-popover-title {
     margin: 0 0 var(--surf-space-2);
     color: var(--surf-ink);
-    font: var(--surf-weight-medium) var(--surf-type-subsection-size) /
-      var(--surf-type-subsection-leading) var(--surf-font-body);
+    font-weight: var(--surf-weight-medium);
+    font-size: var(--surf-type-subsection-size);
+    line-height: var(--surf-type-subsection-leading);
+    font-family: var(--surf-font-body);
     letter-spacing: var(--surf-type-subsection-tracking);
   }
   .surf-popover-description {

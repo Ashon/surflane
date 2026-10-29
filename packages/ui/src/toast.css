@@ -44,9 +44,10 @@
     background: var(--surf-menu-background);
     color: var(--surf-ink);
     box-shadow: var(--surf-shadow-float);
-    font: var(--surf-weight-regular)
-      var(--surf-type-compact-size)/var(--surf-type-compact-leading)
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-regular);
+    font-size: var(--surf-type-compact-size);
+    line-height: var(--surf-type-compact-leading);
+    font-family: var(--surf-font-body);
     letter-spacing: var(--surf-type-compact-tracking);
     overflow-wrap: anywhere;
     pointer-events: auto;
@@ -109,9 +110,10 @@
   }
   .surf-toast-title {
     margin: 0;
-    font: var(--surf-weight-medium)
-      var(--surf-type-compact-size)/var(--surf-type-compact-leading)
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-medium);
+    font-size: var(--surf-type-compact-size);
+    line-height: var(--surf-type-compact-leading);
+    font-family: var(--surf-font-body);
     letter-spacing: var(--surf-type-compact-tracking);
   }
   .surf-toast-description {

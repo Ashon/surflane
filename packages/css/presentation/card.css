@@ -39,9 +39,10 @@
   .surf-card-title {
     margin: 0;
     color: var(--surf-ink);
-    font: var(--surf-weight-medium)
-      var(--surf-type-section-size)/var(--surf-type-section-leading)
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-medium);
+    font-size: var(--surf-type-section-size);
+    line-height: var(--surf-type-section-leading);
+    font-family: var(--surf-font-body);
     letter-spacing: var(--surf-type-section-tracking);
     overflow-wrap: anywhere;
   }

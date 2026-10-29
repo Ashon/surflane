@@ -73,9 +73,10 @@
     border-radius: var(--surf-radius-sheet);
     box-shadow: var(--surf-shadow-float);
     outline: none;
-    font: var(--surf-weight-regular)
-      var(--surf-type-body-size)/var(--surf-type-body-leading)
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-regular);
+    font-size: var(--surf-type-body-size);
+    line-height: var(--surf-type-body-leading);
+    font-family: var(--surf-font-body);
     letter-spacing: var(--surf-type-body-tracking);
     transform: translate(
       var(--drawer-swipe-movement-x, 0px),
@@ -160,17 +161,19 @@
   }
   .surf-panel-title {
     margin: 0;
-    font: var(--surf-weight-medium)
-      var(--surf-type-section-size)/var(--surf-type-section-leading)
-      var(--surf-font-display);
+    font-weight: var(--surf-weight-medium);
+    font-size: var(--surf-type-section-size);
+    line-height: var(--surf-type-section-leading);
+    font-family: var(--surf-font-display);
     letter-spacing: var(--surf-type-section-tracking);
   }
   .surf-panel-description {
     margin: var(--surf-space-2) 0 0;
     color: var(--surf-ink-body);
-    font: var(--surf-weight-regular)
-      var(--surf-type-body-size)/var(--surf-type-body-leading)
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-regular);
+    font-size: var(--surf-type-body-size);
+    line-height: var(--surf-type-body-leading);
+    font-family: var(--surf-font-body);
     letter-spacing: var(--surf-type-body-tracking);
   }
   .surf-panel-body {

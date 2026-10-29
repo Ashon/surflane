@@ -37,9 +37,10 @@
     background: transparent;
     color: var(--surf-ink);
     text-decoration: none;
-    font: var(--surf-weight-medium)
-      var(--surf-type-label-size)/var(--surf-type-label-leading)
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-medium);
+    font-size: var(--surf-type-label-size);
+    line-height: var(--surf-type-label-leading);
+    font-family: var(--surf-font-body);
     letter-spacing: var(--surf-type-label-tracking);
   }
   .surf-pagination .surf-pagination-control[aria-current='page'] {

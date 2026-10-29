@@ -25,9 +25,10 @@
     min-width: 0;
     padding: 0;
     text-align: center;
-    font: var(--surf-weight-regular)
-      var(--surf-type-section-size)/var(--surf-type-section-leading)
-      var(--surf-font-code);
+    font-weight: var(--surf-weight-regular);
+    font-size: var(--surf-type-section-size);
+    line-height: var(--surf-type-section-leading);
+    font-family: var(--surf-font-code);
     letter-spacing: var(--surf-tracking-mono);
     font-variant-numeric: tabular-nums;
     caret-color: var(--surf-control-focus);

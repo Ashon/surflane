@@ -171,14 +171,18 @@
     white-space: nowrap;
   }
   .surf-app-shell-brand-name {
-    font: var(--surf-weight-medium) var(--surf-type-subsection-size) /
-      var(--surf-type-subsection-leading) var(--surf-font-body);
+    font-weight: var(--surf-weight-medium);
+    font-size: var(--surf-type-subsection-size);
+    line-height: var(--surf-type-subsection-leading);
+    font-family: var(--surf-font-body);
     letter-spacing: var(--surf-type-subsection-tracking);
   }
   .surf-app-shell-brand-description {
     color: var(--surf-ink-muted);
-    font: var(--surf-weight-regular) var(--surf-type-caption-size) /
-      var(--surf-type-caption-leading) var(--surf-font-body);
+    font-weight: var(--surf-weight-regular);
+    font-size: var(--surf-type-caption-size);
+    line-height: var(--surf-type-caption-leading);
+    font-family: var(--surf-font-body);
     letter-spacing: var(--surf-type-caption-tracking);
   }
   /* In the sidebar the brand is the top row, its mark on the links' icon column and
@@ -217,8 +221,10 @@
     margin-block-end: var(--surf-space-1);
     padding-inline: var(--surf-space-3);
     color: var(--surf-ink-muted);
-    font: var(--surf-weight-regular) var(--surf-type-caption-size) /
-      var(--surf-type-caption-leading) var(--surf-font-body);
+    font-weight: var(--surf-weight-regular);
+    font-size: var(--surf-type-caption-size);
+    line-height: var(--surf-type-caption-leading);
+    font-family: var(--surf-font-body);
     letter-spacing: var(--surf-type-caption-tracking);
   }
   /* On a phone the frame costs more room than it gives: the page meets the screen's

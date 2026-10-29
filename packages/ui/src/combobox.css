@@ -31,9 +31,10 @@
     background: var(--surf-menu-background);
     color: var(--surf-ink);
     box-shadow: var(--surf-shadow-float);
-    font: var(--surf-weight-regular)
-      var(--surf-type-body-size)/var(--surf-type-body-leading)
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-regular);
+    font-size: var(--surf-type-body-size);
+    line-height: var(--surf-type-body-leading);
+    font-family: var(--surf-font-body);
     letter-spacing: var(--surf-type-body-tracking);
     outline: none;
   }

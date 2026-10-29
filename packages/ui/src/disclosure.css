@@ -34,9 +34,10 @@
     border-radius: var(--surf-radius-md);
     background: transparent;
     color: var(--surf-ink);
-    font: var(--surf-weight-medium)
-      var(--surf-type-body-size)/var(--surf-type-body-leading)
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-medium);
+    font-size: var(--surf-type-body-size);
+    line-height: var(--surf-type-body-leading);
+    font-family: var(--surf-font-body);
     text-align: start;
     cursor: pointer;
     outline: none;

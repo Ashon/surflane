@@ -19,16 +19,18 @@
     display: block;
     margin: 0;
     color: var(--surf-ink);
-    font: var(--surf-weight-regular)
-      var(--surf-type-body-size)/var(--surf-type-body-leading)
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-regular);
+    font-size: var(--surf-type-body-size);
+    line-height: var(--surf-type-body-leading);
+    font-family: var(--surf-font-body);
   }
   .surf-field-description,
   .surf-field-error {
     margin: 0;
-    font: var(--surf-weight-regular)
-      var(--surf-type-caption-size)/var(--surf-type-caption-leading)
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-regular);
+    font-size: var(--surf-type-caption-size);
+    line-height: var(--surf-type-caption-leading);
+    font-family: var(--surf-font-body);
     overflow-wrap: anywhere;
   }
   .surf-field-description {

@@ -96,9 +96,10 @@
   }
   .surf-prose {
     max-width: var(--surf-layout-reading);
-    font: var(--surf-weight-regular)
-      var(--surf-type-reading-size)/var(--surf-type-reading-leading)
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-regular);
+    font-size: var(--surf-type-reading-size);
+    line-height: var(--surf-type-reading-leading);
+    font-family: var(--surf-font-body);
     color: var(--surf-ink-body);
     overflow-wrap: anywhere;
   }

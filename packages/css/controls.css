@@ -14,8 +14,10 @@
     border-radius: var(--surf-radius-pill);
     background: transparent;
     color: var(--surf-ink-muted);
-    font: var(--surf-weight-medium) var(--surf-type-caption-size)/1
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-medium);
+    font-size: var(--surf-type-caption-size);
+    line-height: 1;
+    font-family: var(--surf-font-body);
     letter-spacing: var(--surf-type-caption-tracking);
     flex-shrink: 0;
   }
@@ -103,9 +105,10 @@
     border-radius: var(--surf-control-radius);
     background: transparent;
     color: var(--surf-ink);
-    font: var(--surf-weight-regular)
-      var(--surf-type-body-size)/var(--surf-type-body-leading)
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-regular);
+    font-size: var(--surf-type-body-size);
+    line-height: var(--surf-type-body-leading);
+    font-family: var(--surf-font-body);
     letter-spacing: var(--surf-type-body-tracking);
     cursor: pointer;
   }
@@ -128,8 +131,10 @@
 
   .surf-segment {
     min-block-size: calc(var(--surf-control-height) - 6px);
-    font: var(--surf-weight-medium) var(--surf-type-caption-size)/1
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-medium);
+    font-size: var(--surf-type-caption-size);
+    line-height: 1;
+    font-family: var(--surf-font-body);
     letter-spacing: var(--surf-type-caption-tracking);
   }
   .surf-control-group label:has(input:checked) .surf-segment {

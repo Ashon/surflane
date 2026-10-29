@@ -27,9 +27,10 @@
     block-size: var(--surf-space-8);
   }
   .surf-empty-title {
-    font: var(--surf-weight-medium)
-      var(--surf-type-section-size)/var(--surf-type-section-leading)
-      var(--surf-font-display);
+    font-weight: var(--surf-weight-medium);
+    font-size: var(--surf-type-section-size);
+    line-height: var(--surf-type-section-leading);
+    font-family: var(--surf-font-display);
     letter-spacing: var(--surf-type-section-tracking);
     color: var(--surf-ink);
     margin: 0;

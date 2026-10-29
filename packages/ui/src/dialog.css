@@ -81,9 +81,10 @@
     background: var(--surf-canvas);
     color: var(--surf-ink);
     box-shadow: var(--surf-shadow-float);
-    font: var(--surf-weight-regular)
-      var(--surf-type-body-size)/var(--surf-type-body-leading)
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-regular);
+    font-size: var(--surf-type-body-size);
+    line-height: var(--surf-type-body-leading);
+    font-family: var(--surf-font-body);
     letter-spacing: var(--surf-type-body-tracking);
   }
   .surf-dialog-header,
@@ -112,9 +113,10 @@
   }
   .surf-dialog-title {
     margin: 0;
-    font: var(--surf-weight-medium)
-      var(--surf-type-section-size)/var(--surf-type-section-leading)
-      var(--surf-font-display);
+    font-weight: var(--surf-weight-medium);
+    font-size: var(--surf-type-section-size);
+    line-height: var(--surf-type-section-leading);
+    font-family: var(--surf-font-display);
     letter-spacing: var(--surf-type-section-tracking);
   }
   .surf-dialog-description {

@@ -51,9 +51,10 @@
     min-inline-size: 0;
     min-block-size: var(--surf-control-target-size);
     color: var(--surf-ink-muted);
-    font: var(--surf-weight-medium)
-      var(--surf-type-caption-size)/var(--surf-type-caption-leading)
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-medium);
+    font-size: var(--surf-type-caption-size);
+    line-height: var(--surf-type-caption-leading);
+    font-family: var(--surf-font-body);
     letter-spacing: var(--surf-type-caption-tracking);
     text-decoration: none;
     -webkit-tap-highlight-color: transparent;

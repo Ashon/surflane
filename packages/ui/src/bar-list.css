@@ -44,9 +44,10 @@
     block-size: var(--surf-bar-list-row);
     padding-block: var(--surf-space-1);
     color: var(--surf-ink-body);
-    font: var(--surf-weight-regular)
-      var(--surf-type-body-size)/var(--surf-type-body-leading)
-      var(--surf-font-body);
+    font-weight: var(--surf-weight-regular);
+    font-size: var(--surf-type-body-size);
+    line-height: var(--surf-type-body-leading);
+    font-family: var(--surf-font-body);
   }
   .surf-bar-list-label {
     display: grid;

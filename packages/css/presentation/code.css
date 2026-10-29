@@ -27,9 +27,10 @@
   }
   .surf-code-language {
     color: var(--surf-ink-muted);
-    font: var(--surf-weight-regular)
-      var(--surf-type-caption-size)/var(--surf-type-caption-leading)
-      var(--surf-font-code);
+    font-weight: var(--surf-weight-regular);
+    font-size: var(--surf-type-caption-size);
+    line-height: var(--surf-type-caption-leading);
+    font-family: var(--surf-font-code);
     letter-spacing: var(--surf-tracking-mono);
   }
   .surf-code-block > :is(.surf-scroll-root, .surf-code-scroll) {
@@ -39,9 +40,10 @@
   .surf-code-text {
     margin: 0;
     padding: var(--surf-space-4);
-    font: var(--surf-weight-regular)
-      var(--surf-type-code-size)/var(--surf-type-code-leading)
-      var(--surf-font-code);
+    font-weight: var(--surf-weight-regular);
+    font-size: var(--surf-type-code-size);
+    line-height: var(--surf-type-code-leading);
+    font-family: var(--surf-font-code);
     letter-spacing: var(--surf-tracking-mono);
     font-variant-ligatures: none;
     white-space: pre;
