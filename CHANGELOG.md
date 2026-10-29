@@ -2,7 +2,7 @@
 
 `@surflane/design-tokens`, `@surflane/css` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
-## Unreleased
+## 0.17.0
 
 ### Added
 
@@ -35,6 +35,12 @@
 - In forced colors, Chart references and the shaded difference between series draw in the text color, and a sticky Table column keeps its edge line. They kept their author colors, or lost the line to the canvas.
 - A Card stretched to a taller neighbor in a row keeps its parts at the top. Its grid rows took the extra height between them, so a short card's title, description and actions drifted apart.
 - 0.16.1's NavigationMenu change also brought a default-size list link from 40px to the 36px default control height, as tall as its trigger and a Button; its entry named only the small size.
+
+### Migration
+
+- A ScrollArea that scrolls a whole page, such as an AppShell's content or a document column, takes `fade='none'`; otherwise its top and bottom fade while they hide content. Lists, sidebars and panels keep the default.
+- Chart `gap` becomes `difference`, and the `ChartGap` type `ChartDifference`. The old names still work.
+- Your own CSS that sets type with the `font` shorthand turns common ligatures back on for what it styles; set font-size, line-height, font-weight and font-family instead to keep "--" as two hyphens.
 
 ## 0.16.1
 
