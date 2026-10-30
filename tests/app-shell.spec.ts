@@ -977,4 +977,11 @@ test("a page's tabs scroll sideways on a phone and keep the current one in view"
   // A narrower screen lays the tabs out again; the current one stays in view.
   await page.setViewportSize({ width: 340, height: 900 })
   await expect.poll(() => inView('Audit log')).toBe(true)
+  // A late web font widens only the links, as on a first visit; the current one
+  // still comes back into view.
+  await page.addStyleTag({
+    content:
+      '.app-shell-preview .surf-app-shell-bar .surf-navigation-link { letter-spacing: 3px }',
+  })
+  await expect.poll(() => inView('Audit log')).toBe(true)
 })

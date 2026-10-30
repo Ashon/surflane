@@ -2,6 +2,21 @@
 
 `@surflane/design-tokens`, `@surflane/css` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## Unreleased
+
+### Added
+
+- `Chart breakAfter` sets, on a time axis, the longest wait between rows a line runs across, in ms. Past it the line breaks as where sampling stopped; by default that is twice the usual interval. Closes on trading days take 4 days, so their line runs over weekends and a holiday instead of breaking every week. A missing value still breaks it.
+
+### Changed
+
+- A `minimal` Chart keeps its data table's disclosure off the card until keyboard focus reaches it, as a skip link does. Assistive technology always has it, and an open table shows.
+
+### Fixed
+
+- A Chart's "View data table" disclosure is a 44px target on phones and touch screens, compact or not, as the legend's buttons are; in compact density it was 26px.
+- A `NavigationMenu` with `overflow='scroll'` brings the current link back into view when a late web font widens the links. It watched the viewport and the scroll content, which a wider list doesn't always resize, so on a first visit the current tab could stay partly hidden.
+
 ## 0.19.0
 
 ### Added

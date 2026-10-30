@@ -1,7 +1,7 @@
 import type { ComponentDoc } from '../componentDocs'
 export const doc: ComponentDoc = {
   usage:
-    'Compare numeric trends in one unit as a line, bar, or area chart. Always provide a title, a factual summary, and axis names with units. Series default to brand and neutral fills and lines, told apart by dashes and markers; pass palette="categorical" when color must separate categories, such as buckets. For values far from zero, such as prices or latency, set includeZero={false}. For monitoring, xScale="time" places rows by data[].time, ticks on round times and breaks a line where sampling stops; references draw thresholds and target bands, and mark events and periods on the x axis; a comparison series, such as a benchmark, draws quieter, and difference shades the lead between two lines; stacked shows a total; curve="step" holds values sampled on change; yScale="log" spans orders of magnitude. In a dashboard card, density="compact" keeps the plot, legend and floating values; for a trend on a card, minimal leaves the marks alone and extremes labels the period\'s high and low. Pass data as an immutable array that the caller owns.',
+    'Compare numeric trends in one unit as a line, bar, or area chart. Always provide a title, a factual summary, and axis names with units. Series default to brand and neutral fills and lines, told apart by dashes and markers; pass palette="categorical" when color must separate categories, such as buckets. For values far from zero, such as prices or latency, set includeZero={false}. For monitoring, xScale="time" places rows by data[].time, ticks on round times and breaks a line where sampling stops, or past breakAfter, such as 4 days for closes on trading days; references draw thresholds and target bands, and mark events and periods on the x axis; a comparison series, such as a benchmark, draws quieter, and difference shades the lead between two lines; stacked shows a total; curve="step" holds values sampled on change; yScale="log" spans orders of magnitude. In a dashboard card, density="compact" keeps the plot, legend and floating values; for a trend on a card, minimal leaves the marks alone and extremes labels the period\'s high and low. Pass data as an immutable array that the caller owns.',
   avoid: [
     "Don't mix units on one axis. Use separate charts instead.",
     "Don't plot one measure against another here. Use ScatterChart, one point per item.",
@@ -96,6 +96,11 @@ const data: ChartDatum[] = [
       'category',
     ],
     [
+      'breakAfter',
+      'on a time axis, the longest wait between rows a line runs across, in ms; past it the line breaks. For closes on trading days, 4 days carries a line over weekends and a holiday; a missing value still breaks it',
+      'twice the usual interval',
+    ],
+    [
       'yScale',
       'linear | log: log spans orders of magnitude; zero and negative values stay off the plot and in the table',
       'linear',
@@ -133,7 +138,7 @@ const data: ChartDatum[] = [
     ],
     [
       'minimal',
-      'the marks alone, for a trend on a card: no axes, grid, legend or axis names on screen; the readout, keyboard, references and data table stay, and the axis names stay for assistive technology',
+      "the marks alone, for a trend on a card: no axes, grid, legend or axis names on screen; the readout, keyboard, references and data table stay, the axis names stay for assistive technology, and the table's disclosure shows only when keyboard focus reaches it",
       'false',
     ],
     [

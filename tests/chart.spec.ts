@@ -737,3 +737,33 @@ test('a minimal chart keeps the marks, labels the high and low, and stays inspec
     page.getByRole('status', { name: 'Pipeline activity values' }),
   ).not.toContainText('Hover, touch')
 })
+
+test('breakAfter keeps closes on trading days one line, and a minimal chart shows its table disclosure on focus', async ({
+  page,
+}) => {
+  await open(page)
+  await choose(page, 'Chart data', 'Daily closes on trading days')
+  // Weekends have no rows; four days of breakAfter carries the line over them.
+  const curve = page.locator('figure.surf-chart .recharts-line-curve').first()
+  await expect(curve).toBeVisible()
+  expect(((await curve.getAttribute('d')) ?? '').match(/M/g)?.length).toBe(1)
+  // Minimal keeps the disclosure off the card until keyboard focus reaches it.
+  await page.getByRole('checkbox', { name: 'Minimal, for a card' }).click()
+  const disclosure = page.locator('figure.surf-chart .surf-chart-table')
+  expect((await disclosure.boundingBox())!.width).toBeLessThanOrEqual(1)
+  await page.getByRole('application', { name: 'Pipeline activity' }).focus()
+  await page.keyboard.press('Tab')
+  await expect(disclosure.locator('summary')).toBeFocused()
+  expect((await disclosure.boundingBox())!.width).toBeGreaterThan(40)
+})
+
+test('the data table disclosure is a full target on a phone, compact or not', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 900 })
+  await open(page)
+  const summary = page.locator('figure.surf-chart .surf-chart-table summary')
+  expect((await summary.boundingBox())!.height).toBeGreaterThanOrEqual(44)
+  await choose(page, 'Density', 'Compact')
+  expect((await summary.boundingBox())!.height).toBeGreaterThanOrEqual(44)
+})

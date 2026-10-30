@@ -39,6 +39,8 @@ const en = {
     disk: 'Disk used by one directory, measured every hour. The value holds until the next measurement, so a step line shows it. A line marks the 05:00 model sync and a band the cleanup window from 11:00 to 13:00.',
     projects:
       'Tokens a day for twelve projects. Twelve categorical colors stay apart, and the legend shows four and folds the rest.',
+    closes:
+      'Daily closes of the won against the dollar over nine weeks, on trading days only. Weekends have no rows, and the line runs on through them.',
     portfolio:
       'A basket against its benchmark over 20 days, both indexed to 100 on October 1. The benchmark is a comparison series, drawn quieter, and the gap between them is shaded by which one leads.',
     allocation:
@@ -63,6 +65,7 @@ const en = {
     throughput: 'Prefill and decode, log scale',
     disk: 'Disk used, hourly steps',
     projects: 'Twelve projects',
+    closes: 'Daily closes on trading days',
     portfolio: 'A basket against its benchmark',
     allocation: 'Allocation against its targets',
   },
@@ -164,6 +167,8 @@ export const text: Record<Locale, typeof en> = {
       disk: '디렉토리 하나의 디스크 사용량을 한 시간마다 잰 값입니다. 다음 측정까지 값이 그대로이므로 계단선으로 보여 줍니다. 05:00 모델 동기화를 선으로, 11:00부터 13:00까지의 정리 시간을 띠로 표시합니다.',
       projects:
         '프로젝트 12개의 하루 토큰 수입니다. 범주형 12색이 서로 구분되고, 범례는 4개만 보이고 나머지는 접습니다.',
+      closes:
+        '9주 동안 달러 대비 원화의 일별 종가로, 영업일에만 있습니다. 주말에는 행이 없고, 선은 주말을 건너 이어집니다.',
       portfolio:
         '20일 동안 바스켓과 벤치마크를 10월 1일을 100으로 놓고 비교합니다. 벤치마크는 비교 시리즈라 조용하게 그리고, 둘 사이의 차이는 어느 쪽이 앞서는지에 따라 칠합니다.',
       allocation:
@@ -188,6 +193,7 @@ export const text: Record<Locale, typeof en> = {
       throughput: 'prefill과 decode, 로그 축',
       disk: '시간마다 잰 디스크 사용량',
       projects: '프로젝트 12개',
+      closes: '영업일 일별 종가',
       portfolio: '벤치마크와 비교한 바스켓',
       allocation: '목표 대비 배분',
     },

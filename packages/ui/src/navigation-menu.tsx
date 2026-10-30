@@ -61,10 +61,18 @@ const List = function NavigationMenuList(
         view.scrollLeft += link.right - (box.right - fade)
     }
     align()
+    // The list itself widens when a late web font arrives, though the viewport and
+    // its content box may not change size; the fonts' own event catches the rest.
     const observer = new ResizeObserver(align)
     observer.observe(view)
     if (view.firstElementChild) observer.observe(view.firstElementChild)
-    return () => observer.disconnect()
+    const list = view.querySelector('ul')
+    if (list) observer.observe(list)
+    document.fonts?.addEventListener('loadingdone', align)
+    return () => {
+      observer.disconnect()
+      document.fonts?.removeEventListener('loadingdone', align)
+    }
   })
   if (!scrolling) return <ListPart {...props} />
   return (

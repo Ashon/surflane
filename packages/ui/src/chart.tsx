@@ -119,6 +119,11 @@ export type ChartProps = Omit<
   /** category spaces the rows evenly and names them by label. time places them by
    * data[].time, puts ticks on round times and breaks a line where sampling stops. */
   xScale?: 'category' | 'time'
+  /** On a time axis, the longest wait between rows a line runs across, in ms;
+   * past it the line breaks, as where sampling stopped. Twice the usual interval by
+   * default. For closes on trading days, four days carries a line over weekends
+   * and a holiday. A missing value still breaks it. */
+  breakAfter?: number
   /** log suits values across orders of magnitude, such as prefill and decode
    * throughput. Zero and negative values stay off the plot and in the table. */
   yScale?: 'linear' | 'log'
@@ -692,6 +697,7 @@ export const Chart = function Chart({
   includeZero = true,
   palette = 'neutral',
   xScale = 'category',
+  breakAfter,
   yScale = 'linear',
   curve = 'linear',
   stacked = false,
@@ -882,8 +888,9 @@ export const Chart = function Chart({
     for (const row of hits)
       referencesAt.set(row.id, [...(referencesAt.get(row.id) ?? []), reference])
   }
-  // On a time axis, a wait of more than twice the usual interval is a break in
-  // sampling: an empty row there keeps the line from bridging it.
+  // On a time axis, a wait of more than twice the usual interval, or than
+  // breakAfter, is a break in sampling: an empty row there keeps the line from
+  // bridging it.
   const interval = React.useMemo(() => {
     if (!timeScale || rows.length < 3) return 0
     const steps = rows
@@ -897,7 +904,7 @@ export const Chart = function Chart({
     const empty = Object.fromEntries(series.map((s) => [s.key, null]))
     return rows.flatMap((row, index) => {
       const next = rows[index + 1]
-      return next && next.time! - row.time! > interval * 2
+      return next && next.time! - row.time! > (breakAfter ?? interval * 2)
         ? [
             row,
             {
@@ -909,7 +916,7 @@ export const Chart = function Chart({
           ]
         : [row]
     })
-  }, [rows, series, interval])
+  }, [rows, series, interval, breakAfter])
   const valueOf = (row: Row, key: string) => {
     const value = row.values[key]
     return value === null || (logScale && value <= 0) ? null : value

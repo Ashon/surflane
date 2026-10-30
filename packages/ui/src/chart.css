@@ -386,6 +386,24 @@
     .surf-chart[data-density='compact'] .surf-chart-legend-button {
       min-height: var(--surf-control-target-size);
     }
+    /* The table's disclosure is a target too, compact or not. */
+    .surf-chart-table summary {
+      display: flex;
+      align-items: center;
+      min-block-size: var(--surf-control-target-size);
+      padding-block: 0;
+    }
+  }
+  /* A minimal chart on a card keeps its table's disclosure off the card until
+     keyboard focus reaches it, as a skip link does; assistive technology always
+     has it, and an open table shows. */
+  .surf-chart[data-minimal] .surf-chart-table:not([open]):not(:focus-within) {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
   @media (forced-colors: active) {
     .surf-chart {

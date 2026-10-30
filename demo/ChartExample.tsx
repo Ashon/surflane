@@ -186,6 +186,31 @@ const projects: ChartDatum[] = Array.from({ length: 7 }, (_, day) => ({
     ]),
   ),
 }))
+// Daily closes on trading days only: no rows on Saturdays and Sundays.
+const closes: ChartDatum[] = (() => {
+  const rows: ChartDatum[] = []
+  for (let day = 1; rows.length < 44; day++) {
+    const date = new Date(2026, 7, day)
+    if (date.getDay() === 0 || date.getDay() === 6) continue
+    const index = rows.length
+    rows.push({
+      id: `close-${index}`,
+      label: date.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+      }),
+      time: date.getTime(),
+      values: {
+        close: Number(
+          (1372 + 9 * Math.sin(index / 5) + 4 * Math.sin(index / 1.7)).toFixed(
+            1,
+          ),
+        ),
+      },
+    })
+  }
+  return rows
+})()
 // A portfolio and its benchmark, indexed to 100 on October 1.
 const portfolio: ChartDatum[] = Array.from({ length: 20 }, (_, index) => ({
   id: `portfolio-${index}`,
@@ -264,6 +289,7 @@ export function ChartExample() {
       series?: ChartSeries[]
       formatValue?: (value: number) => string
       xScale?: 'time'
+      breakAfter?: number
       references?: ChartReference[]
       difference?: ChartDifference
       xLabel?: string
@@ -328,6 +354,17 @@ export function ChartExample() {
       xScale: 'time',
       xLabel: t.day,
       yLabel: t.tokens,
+    },
+    closes: {
+      data: closes,
+      unit: 'KRW',
+      description: t.descriptions.closes,
+      series: [{ key: 'close', label: 'USD/KRW' }],
+      xScale: 'time',
+      // Weekends have no rows; four days carries the line over them and a holiday.
+      breakAfter: 4 * 86_400_000,
+      xLabel: t.day,
+      yLabel: 'USD/KRW',
     },
     portfolio: {
       data: portfolio,
@@ -448,6 +485,7 @@ export function ChartExample() {
             <option value='throughput'>{t.options.throughput}</option>
             <option value='disk'>{t.options.disk}</option>
             <option value='projects'>{t.options.projects}</option>
+            <option value='closes'>{t.options.closes}</option>
             <option value='portfolio'>{t.options.portfolio}</option>
             <option value='allocation'>{t.options.allocation}</option>
           </NativeSelect>
@@ -608,6 +646,7 @@ export function ChartExample() {
                 : t.pipelineRunCount)
         }
         xScale={sample.xScale}
+        breakAfter={sample.breakAfter}
         references={sample.references}
         difference={sample.difference}
         yScale={yScale}
