@@ -63,12 +63,41 @@ test('ThemeSwitch group presses the chosen theme and keeps only icons where the 
   expect((await names.first().boundingBox())!.width).toBeGreaterThan(20)
   // Narrow, the names leave the screen and stay as the buttons' names.
   await frame
-    .locator('.surf-theme-switch')
+    .locator(".surf-theme-switch[data-variant='group']")
     .evaluate((element) => ((element as HTMLElement).style.width = '200px'))
   await expect
     .poll(async () => (await names.first().boundingBox())!.width)
     .toBeLessThanOrEqual(1)
   await expect(group.getByRole('button', { name: 'Dark' })).toBeVisible()
+})
+
+test('switches on one target stay in step and onThemeChange hears the theme that applies', async ({
+  page,
+}) => {
+  await page.emulateMedia({ colorScheme: 'light' })
+  await page.goto('/components/theme-switch')
+  await waitForCatalogReady(page)
+  const frame = page.locator('#preview .surf-surface').nth(1)
+  const group = frame.getByRole('group', { name: 'Theme' })
+  const button = frame.getByRole('button', { name: /^Theme:/ })
+  const applied = frame.getByTestId('theme-applied')
+  // The switch reports the theme on mount, before anything is chosen.
+  await expect(applied).toHaveText('Applied: light (system)')
+  // A choice in the group reaches the button beside it.
+  await group.getByRole('button', { name: 'Dark' }).click()
+  await expect(button).toHaveAccessibleName('Theme: Dark. Switch to System')
+  await expect(applied).toHaveText('Applied: dark (dark)')
+  // And the button's step reaches the group.
+  await button.click()
+  await expect(group.getByRole('button', { name: 'System' })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  )
+  await expect(applied).toHaveText('Applied: light (system)')
+  // In system, the device's change is heard too.
+  await page.emulateMedia({ colorScheme: 'dark' })
+  await expect(applied).toHaveText('Applied: dark (system)')
+  await expect(frame).toHaveAttribute('data-theme', 'dark')
 })
 
 test('ThemeSwitch in an AppShell sidebar is a row that names the theme, and an icon on the rail', async ({

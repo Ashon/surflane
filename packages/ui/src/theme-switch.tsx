@@ -1,5 +1,6 @@
 'use client'
 import * as React from 'react'
+import { flushSync } from 'react-dom'
 import { transitionTheme } from '@surflane/design-tokens/theme-transition'
 import { ShellContext, SidebarContext } from './app-shell-context.js'
 import { AppShellLink } from './app-shell.js'
@@ -33,16 +34,14 @@ const isMode = (value: unknown): value is ThemeMode =>
   modes.includes(value as ThemeMode)
 const darkQuery = '(prefers-color-scheme: dark)'
 
+/** The theme a mode shows: system resolved by the device. */
+const resolve = (mode: ThemeMode): 'light' | 'dark' =>
+  mode === 'system' ? (matchMedia(darkQuery).matches ? 'dark' : 'light') : mode
 /** Sets the theme on an element: data-theme takes light or dark, system resolved by
  * the device, and data-theme-mode keeps the choice. */
 function apply(target: HTMLElement, mode: ThemeMode) {
   target.dataset.themeMode = mode
-  target.dataset.theme =
-    mode === 'system'
-      ? matchMedia(darkQuery).matches
-        ? 'dark'
-        : 'light'
-      : mode
+  target.dataset.theme = resolve(mode)
 }
 
 export type UseThemeModeOptions = {
@@ -50,6 +49,10 @@ export type UseThemeModeOptions = {
   /** The mode before anything is remembered or set on the target. */
   defaultValue?: ThemeMode
   onValueChange?: (mode: ThemeMode) => void
+  /** Hears the theme that applies, light or dark, with the mode, on mount and
+   * whenever it changes: by this switch, another one on the target, your own code
+   * or the device in system. Such as for <meta name="theme-color">. */
+  onThemeChange?: (theme: 'light' | 'dark', mode: ThemeMode) => void
   /** The element the theme applies to, such as a preview; the page's root element by
    * default. */
   target?: React.RefObject<HTMLElement | null>
@@ -65,6 +68,7 @@ export function useThemeMode({
   value,
   defaultValue = 'system',
   onValueChange,
+  onThemeChange,
   target,
   persist = 'surflane-theme',
   labels,
@@ -99,16 +103,53 @@ export function useThemeMode({
   React.useLayoutEffect(sync, [])
   // eslint-disable-next-line react-hooks/exhaustive-deps
   React.useEffect(sync, [])
-  // A controlled mode applies as it changes; system follows the device.
+  // A controlled mode applies as it changes: at once on mount, then crossfading.
+  const applied = React.useRef<ThemeMode | undefined>(undefined)
   React.useEffect(() => {
-    if (value !== undefined) apply(element(), value)
+    if (value === undefined) return
+    const first = applied.current === undefined
+    applied.current = value
+    if (first) apply(element(), value)
+    else void transitionTheme(() => apply(element(), value))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value])
+  // System follows the device as it changes.
+  React.useEffect(() => {
     if (mode !== 'system') return
     const query = matchMedia(darkQuery)
     const follow = () => void transitionTheme(() => apply(element(), 'system'))
     query.addEventListener('change', follow)
     return () => query.removeEventListener('change', follow)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode, value])
+  }, [mode])
+  // The target is the record: another switch on it, the app's own code or the
+  // device may change it, so every switch reads it back and the app hears the theme
+  // that applies.
+  const hear = React.useRef(onThemeChange)
+  hear.current = onThemeChange
+  const latest = React.useRef(mode)
+  latest.current = mode
+  React.useEffect(() => {
+    const node = element()
+    const report = () => {
+      const found = node.dataset.themeMode
+      const current = isMode(found) ? found : latest.current
+      if (value === undefined && isMode(found)) setOwn(found)
+      const shown = node.dataset.theme
+      hear.current?.(
+        shown === 'light' || shown === 'dark' ? shown : resolve(current),
+        current,
+      )
+    }
+    report()
+    const observer = new MutationObserver(report)
+    observer.observe(node, {
+      attributes: true,
+      attributeFilter: ['data-theme', 'data-theme-mode'],
+    })
+    return () => observer.disconnect()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [target, value])
   const choose = (next: ThemeMode) => {
     if (next === mode) return
     if (value === undefined) {
@@ -117,8 +158,12 @@ export function useThemeMode({
       } catch {
         // Storage can be blocked; the choice still holds for the session.
       }
-      setOwn(next)
-      void transitionTheme(() => apply(element(), next))
+      // The switch's own label changes in the same frame as the page, so the
+      // crossfade carries both.
+      void transitionTheme(() => {
+        flushSync(() => setOwn(next))
+        apply(element(), next)
+      })
     }
     onValueChange?.(next)
   }
@@ -151,6 +196,7 @@ export const ThemeSwitch = function ThemeSwitch({
   value,
   defaultValue,
   onValueChange,
+  onThemeChange,
   variant = 'cycle',
   target,
   persist,
@@ -163,6 +209,7 @@ export const ThemeSwitch = function ThemeSwitch({
     value,
     defaultValue,
     onValueChange,
+    onThemeChange,
     target,
     persist,
     labels,

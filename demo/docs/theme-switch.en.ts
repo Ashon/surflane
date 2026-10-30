@@ -1,7 +1,7 @@
 import type { ComponentDoc } from '../componentDocs'
 export const doc: ComponentDoc = {
   usage:
-    "Let people choose light, dark or the device's setting with one button that steps through them, naming the theme now and the next in its label and tooltip. The switch sets data-theme on the page's root element, or on target for a scoped region, with the theme crossfade, keeps the choice in data-theme-mode, and remembers it under persist. System resolves to light or dark by the device and follows it as it changes. variant='group' shows the three side by side, for a settings page, and only their icons where the names don't fit; in an AppShell sidebar, the switch is a row like the links, such as \"Theme: System\", its name a tooltip on the collapsed rail, and a group there shows the three only while the sidebar is expanded.",
+    "Let people choose light, dark or the device's setting with one button that steps through them, naming the theme now and the next in its label and tooltip. The switch sets data-theme on the page's root element, or on target for a scoped region, with the theme crossfade, keeps the choice in data-theme-mode, and remembers it under persist. Switches on one target stay in step, since each reads the target back; onThemeChange tells your code the theme that applies. System resolves to light or dark by the device and follows it as it changes. variant='group' shows the three side by side, for a settings page, and only their icons where the names don't fit; in an AppShell sidebar, the switch is a row like the links, such as \"Theme: System\", its name a tooltip on the collapsed rail, and a group there shows the three only while the sidebar is expanded.",
   avoid: [
     "Don't offer only light and dark where the device's setting matters; system is the default.",
     "Don't set data-theme elsewhere at the same time. Pass value and onValueChange to drive the switch from your own state, such as a cookie the server reads for the first paint.",
@@ -30,6 +30,11 @@ export const doc: ComponentDoc = {
       'system',
     ],
     ['variant', 'cycle | group', 'cycle'],
+    [
+      'onThemeChange',
+      '(theme: light | dark, mode) => void: hears the theme that applies on mount and whenever it changes, by this switch, another on the target, your own code or the device in system; such as for <meta name="theme-color">',
+      '—',
+    ],
     [
       'target',
       'a ref to the element the theme applies to, such as a preview',

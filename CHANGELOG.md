@@ -2,6 +2,17 @@
 
 `@surflane/design-tokens`, `@surflane/css` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## Unreleased
+
+### Added
+
+- `ThemeSwitch` and `useThemeMode` take `onThemeChange(theme, mode)`, which hears the theme that applies, light or dark, with the mode: on mount, and whenever it changes by this switch, another one on the target, your own code or the device in system. Apps can keep `<meta name="theme-color">` in step with it.
+
+### Fixed
+
+- Theme switches on one target stay in step. Each read the target only on mount and kept its mode to itself, so after a choice in a mobile Sheet's switch the sidebar's still named the old theme, and its first press only re-applied the new one. Each switch now reads the target's `data-theme-mode` back as it changes, whoever changes it.
+- A switch's own label changes in the same frame as the page, so the theme crossfade carries it; it used to change just before the crossfade began.
+
 ## 0.18.0
 
 ### Added
