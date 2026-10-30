@@ -69,6 +69,22 @@ test('ThemeSwitch group presses the chosen theme and keeps only icons where the 
     .poll(async () => (await names.first().boundingBox())!.width)
     .toBeLessThanOrEqual(1)
   await expect(group.getByRole('button', { name: 'Dark' })).toBeVisible()
+  // In a row that shrinks it to fit, as a panel footer does, it keeps three
+  // targets.
+  await frame
+    .locator(".surf-theme-switch[data-variant='group']")
+    .evaluate((element) => {
+      const box = element as HTMLElement
+      box.style.width = ''
+      box.parentElement!.style.cssText =
+        'display: flex; flex-direction: row; justify-content: flex-end'
+    })
+  const sizes = await group
+    .getByRole('button')
+    .evaluateAll((buttons) =>
+      buttons.map((button) => button.getBoundingClientRect().width),
+    )
+  expect(Math.min(...sizes)).toBeGreaterThanOrEqual(36)
 })
 
 test('switches on one target stay in step and onThemeChange hears the theme that applies', async ({

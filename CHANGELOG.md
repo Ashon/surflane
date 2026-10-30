@@ -15,6 +15,7 @@
 ### Fixed
 
 - A Chart's "View data table" disclosure is a 44px target on phones and touch screens, compact or not, as the legend's buttons are; in compact density it was 26px.
+- A `variant='group'` ThemeSwitch keeps three icon targets where its box shrinks to fit, as in a default `Sheet.Footer` row; it collapsed to no width there, its segments 16px wide.
 - A `NavigationMenu` with `overflow='scroll'` brings the current link back into view when a late web font widens the links. It watched the viewport and the scroll content, which a wider list doesn't always resize, so on a first visit the current tab could stay partly hidden.
 
 ## 0.19.0

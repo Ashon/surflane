@@ -14,8 +14,11 @@
     display: flex;
     min-inline-size: 0;
   }
+  /* Containment leaves the group no width of its own, so where its box shrinks to
+     fit, as in a panel footer's row, it keeps three targets for its icons. */
   .surf-theme-switch[data-variant='group'] {
     container: surf-theme-switch / inline-size;
+    min-inline-size: calc(var(--surf-control-target-size) * 3);
   }
   /* Too narrow for three names, as in an expanded sidebar, the icons stay and the
      names stay for assistive technology. */
