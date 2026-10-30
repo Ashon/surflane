@@ -1,7 +1,7 @@
 import type { ComponentDoc } from '../componentDocs'
 export const doc: ComponentDoc = {
   usage:
-    'Group links and sub-navigation to products, docs, and sections. It keeps the native nav, ul, li, and a structure. Trigger opens sub-links, and Link navigates. Set Link.active to mark the current destination. A vertical list also serves as a table of contents: mark the section in view with aria-current="location", which draws as the current page does, and a label that wraps keeps its room above and below.',
+    'Group links and sub-navigation to products, docs, and sections. It keeps the native nav, ul, li, and a structure. Trigger opens sub-links, and Link navigates. Set Link.active to mark the current destination. A vertical list also serves as a table of contents: mark the section in view with aria-current="location", which draws as the current page does, and a label that wraps keeps its room above and below. Page tabs that may not fit, as on a phone, take overflow=\'scroll\': the list stays on one line and scrolls sideways, and the current link stays in view.',
   avoid:
     "Use Menu or Menubar for commands, and Tabs for switching panels on one screen. Keep links native, and don't give nav role=menu. Don't make it hover-only. Provide click and keyboard paths, on small screens too.",
   anatomy:
@@ -61,6 +61,11 @@ export const doc: ComponentDoc = {
       'Root.orientation',
       'horizontal | vertical; layout and keyboard direction',
       'horizontal',
+    ],
+    [
+      'Root.overflow',
+      "scroll keeps a horizontal list on one line in a ScrollArea where its links don't fit, such as page tabs on a phone, and keeps the current link in view as fonts load and the width changes",
+      'the list keeps its width',
     ],
     [
       'Root.delay / closeDelay',

@@ -698,11 +698,24 @@ function ScrollingPreview() {
       orientation='both'
       className='table-guideline-bounded'
     >
-      <Table.Root density='compact' stickyHeader>
+      <Table.Root density='compact' stickyHeader stickyColumn>
         <Table.Caption>{t.scrollCaption}</Table.Caption>
         <Table.Head>
           <Table.Row>
-            <Table.HeaderCell scope='col'>{t.name}</Table.HeaderCell>
+            <Table.HeaderCell scope='col' rowSpan={2}>
+              {t.name}
+            </Table.HeaderCell>
+            <Table.HeaderCell scope='colgroup' colSpan={2}>
+              {t.placement}
+            </Table.HeaderCell>
+            <Table.HeaderCell scope='colgroup' colSpan={2}>
+              {t.resources}
+            </Table.HeaderCell>
+            <Table.HeaderCell scope='colgroup' colSpan={3}>
+              {t.health}
+            </Table.HeaderCell>
+          </Table.Row>
+          <Table.Row>
             <Table.HeaderCell scope='col'>{t.environment}</Table.HeaderCell>
             <Table.HeaderCell scope='col' numeric>
               {t.replicas}

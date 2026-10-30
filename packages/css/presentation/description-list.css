@@ -63,8 +63,10 @@
     color: var(--surf-ink);
     overflow-wrap: anywhere;
   }
-  /* Stacked, and inline on a phone: each term above its value, a pair set apart from
-     the next by its own padding rather than a row height. */
+  /* Stacked: each term above its value, a pair set apart from the next by its own
+     padding rather than a row height. On a phone inline pairs take that padding
+     too, but a pair stays on one row where it fits; only a value that does not
+     moves under its term. */
   .surf-description-list[data-layout='stacked'] .surf-description-list-item {
     min-block-size: 0;
     padding-block: var(--surf-description-list-stack-padding);
@@ -77,8 +79,10 @@
       min-block-size: 0;
       padding-block: var(--surf-description-list-stack-padding);
     }
-    .surf-description-list .surf-description-list-term {
-      flex-basis: 100%;
+    /* A value is as wide as its content: one that fits beside its term stays there,
+       and a longer one moves under it whole rather than breaking beside it. */
+    .surf-description-list .surf-description-list-value {
+      flex-basis: auto;
     }
   }
   .surf-description-list-value[data-empty] {

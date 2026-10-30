@@ -100,7 +100,7 @@ export function DashboardExample() {
               yLabel={t.gpu}
               xScale='time'
               references={[{ y: 85, label: t.limit, tone: 'danger' }]}
-              height={160}
+              height='fill'
               locale={locale === 'ko' ? 'ko-KR' : 'en-US'}
             />
           </Dashboard.Panel>

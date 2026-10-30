@@ -87,7 +87,7 @@ const selection = useTableSelection({
     ],
     [
       'Root.stickyHeader',
-      'keeps the header in view inside a Container with a bounded height and orientation="both"; --surf-table-surface sets its background',
+      'keeps the header in view inside a Container with a bounded height and orientation="both", every row of it, each where it sits, such as a group row over the column row; --surf-table-surface sets its background',
       'false',
     ],
     [

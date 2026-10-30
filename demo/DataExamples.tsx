@@ -724,7 +724,7 @@ export function DataExample({ id }: { id: string }) {
           <Table.Root
             variant={variant}
             stickyColumn={stickyColumn}
-            style={{ minWidth: 720 }}
+            minWidth='45rem'
           >
             <Table.Caption>{t.registeredEnvironmentsCaption}</Table.Caption>
             <Table.Head>

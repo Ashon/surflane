@@ -38,6 +38,20 @@
     flex-direction: column;
     min-width: 0;
   }
+  /* Fill: the chart takes its container's height, as in a stretched dashboard row,
+     and the plot the room its caption, legend and readout leave, never less than
+     its default height. */
+  .surf-chart[data-height='fill'] {
+    block-size: 100%;
+  }
+  .surf-chart[data-height='fill'] > .surf-chart-frame {
+    flex: 1 1 auto;
+    min-block-size: 0;
+  }
+  .surf-chart[data-height='fill'] .surf-chart-plot {
+    flex: 1 1 auto;
+    min-block-size: var(--surf-chart-plot-min);
+  }
   .surf-chart-key {
     display: flex;
     flex-wrap: wrap;

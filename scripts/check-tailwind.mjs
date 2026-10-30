@@ -67,6 +67,9 @@ const browserUtilities = [
   'text-title',
   'font-display',
   'dark:bg-surface',
+  'md:flex',
+  'max-md:hidden',
+  'phone:block',
 ]
 const source = [
   ...new Set([...expectations.map((e) => e.utility), ...browserUtilities]),
@@ -101,6 +104,25 @@ for (const { utility, declaration } of expectations)
     rule(alone, utility).includes(declaration),
     `${utility} should contain "${declaration}"`,
   )
+
+// Breakpoints: md starts at 761px, where Surflane's phone layout (760px and
+// narrower) ends, and phone: is that range.
+const inMedia = (css, query, utility) => {
+  const start = css.indexOf(query)
+  return start >= 0 && rule(css.slice(start), utility) !== ''
+}
+assert(
+  inMedia(alone, '@media (width >= 47.5625rem)', 'md:flex'),
+  'md: should start at 47.5625rem (761px)',
+)
+assert(
+  inMedia(alone, '@media (width < 47.5625rem)', 'max-md:hidden'),
+  'max-md: should end before 47.5625rem',
+)
+assert(
+  inMedia(alone, '@media (max-width: 760px)', 'phone:block'),
+  'phone: should apply at 760px and narrower',
+)
 
 // 2. The documented setup: every Surflane stylesheet, a theme preset and the shadcn
 // bridge in Tailwind's components layer, utilities last. The preset loads before the

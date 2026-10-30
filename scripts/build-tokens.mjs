@@ -182,6 +182,14 @@ writeFileSync(
   }
 }
 
+/* Surflane switches to its phone layout at 760px and narrower: AppShell hides its
+ * sidebar, BottomNavigation shows, pages go flush. md starts where that ends, at
+ * 761px, so md: and max-md: switch with the components; phone: names the same range. */
+@theme {
+  --breakpoint-md: 47.5625rem;
+}
+@custom-variant phone (@media (max-width: 760px));
+
 /* Preflight's document fonts. */
 @theme inline {
   --default-font-family: var(--surf-font-body);

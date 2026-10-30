@@ -7,7 +7,8 @@
   .surf-table {
     width: 100%;
     border-collapse: separate;
-    border-spacing: 0 var(--surf-space-1);
+    --surf-table-row-space: var(--surf-space-1);
+    border-spacing: 0 var(--surf-table-row-space);
     font: inherit;
     color: var(--surf-ink-body);
     /* Columns size to whole words: break-word only splits a word that cannot fit,
@@ -155,12 +156,14 @@
     [data-density='compact'],
     :where([data-ui-density='compact'] :not([data-density]))
   ) {
-    border-spacing: 0 2px;
+    --surf-table-row-space: 2px;
+    border-spacing: 0 var(--surf-table-row-space);
   }
   /* Lined, grid and striped rows meet edge to edge, square, so lines and stripes
    * run unbroken. Lines stay inside the table: none above the header, below the
    * last row or at its sides. */
   .surf-table[data-variant] {
+    --surf-table-row-space: 0px;
     border-spacing: 0;
   }
   .surf-table[data-variant] > .surf-table-body > .surf-table-row > * {
@@ -234,13 +237,29 @@
     > .surf-table-row
     > .surf-table-cell {
     position: sticky;
-    inset-block-start: 0;
+    /* A header of more rows stacks them: the Container measures where each row
+       sits under the ones above it. */
+    inset-block-start: var(--surf-table-sticky-top, 0px);
     z-index: 1;
     background: var(
       --surf-table-surface,
       var(--table-surface, var(--surf-plane))
     );
     box-shadow: inset 0 -1px var(--surf-line);
+  }
+  /* A lower header row covers the space between it and the row above, so nothing
+     that scrolls under the header shows between its rows. */
+  .surf-table[data-sticky-header]
+    > .surf-table-head
+    > .surf-table-row
+    + .surf-table-row
+    > .surf-table-cell::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 100%;
+    block-size: var(--surf-table-row-space);
+    background: inherit;
   }
   /* A sticky first column stays at the inline start while the rest scrolls under it,
    * on the surface behind the table. The fill has no specificity, so a stripe or a
@@ -276,6 +295,31 @@
     > .surf-table-row
     > :first-child {
     z-index: 3;
+  }
+  /* When the first header cell spans the header's rows, the first cell of a lower
+     header row is a data column's: it scrolls with the rest. */
+  .surf-table[data-sticky-column]:has(
+      > .surf-table-head
+        > .surf-table-row:first-child
+        > :first-child[rowspan]:not([rowspan='1'])
+    )
+    > .surf-table-head
+    > .surf-table-row
+    + .surf-table-row
+    > :first-child {
+    inset-inline-start: auto;
+    z-index: 2;
+  }
+  .surf-table[data-sticky-column]:has(
+      > .surf-table-head
+        > .surf-table-row:first-child
+        > :first-child[rowspan]:not([rowspan='1'])
+    )
+    > .surf-table-head
+    > .surf-table-row
+    + .surf-table-row
+    > :first-child::after {
+    display: none;
   }
   /* Once rows pass under the column, a line marks its edge. */
   .surf-table[data-sticky-column]

@@ -4,15 +4,73 @@ import { Icon } from './icon.js'
 import { NavigationMenu as BaseNavigationMenu } from '@base-ui/react/navigation-menu'
 import { part, skin } from './parts.js'
 import { elementPart } from './element-part.js'
-function Root<Value>(props: BaseNavigationMenu.Root.Props<Value>) {
-  const { className, orientation = 'horizontal', ...rest } = props
+import { ScrollArea } from './scroll-area.js'
+
+const ScrollingContext = React.createContext(false)
+function Root<Value>(
+  props: BaseNavigationMenu.Root.Props<Value> & {
+    /** scroll keeps a horizontal list on one line, scrolling sideways where its
+     * links do not fit, such as page tabs on a phone, and keeps the current link in
+     * view. */
+    overflow?: 'scroll'
+  },
+) {
+  const { className, orientation = 'horizontal', overflow, ...rest } = props
+  const scrolling = overflow === 'scroll' && orientation === 'horizontal'
   return (
-    <BaseNavigationMenu.Root<Value>
-      {...rest}
-      orientation={orientation}
-      data-orientation={orientation}
-      className={skin('surf-navigation-menu', className)}
-    />
+    <ScrollingContext.Provider value={scrolling}>
+      <BaseNavigationMenu.Root<Value>
+        {...rest}
+        orientation={orientation}
+        data-orientation={orientation}
+        data-overflow={scrolling ? 'scroll' : undefined}
+        className={skin('surf-navigation-menu', className)}
+      />
+    </ScrollingContext.Provider>
+  )
+}
+const ListPart = /* @__PURE__ */ part<
+  HTMLUListElement,
+  React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.List>
+>(BaseNavigationMenu.List, 'surf-navigation-list')
+// The fade at a scrolling list's edge, which the current link stays clear of.
+const fade = 24
+/** In a scrolling menu the list sits in a ScrollArea. Its current link is brought
+ * into view after layout and again whenever the list or its viewport resizes, as
+ * when a web font loads and widens the links; scrolling by hand is left alone. */
+const List = function NavigationMenuList(
+  props: React.ComponentPropsWithoutRef<typeof ListPart> & {
+    ref?: React.Ref<HTMLUListElement>
+  },
+) {
+  const scrolling = React.useContext(ScrollingContext)
+  const viewport = React.useRef<HTMLDivElement>(null)
+  React.useEffect(() => {
+    const view = viewport.current
+    if (!scrolling || !view) return
+    const align = () => {
+      const current = view.querySelector<HTMLElement>(
+        "[aria-current='page'], [aria-current='location']",
+      )
+      if (!current) return
+      const box = view.getBoundingClientRect(),
+        link = current.getBoundingClientRect()
+      if (link.left < box.left + fade)
+        view.scrollLeft -= box.left + fade - link.left
+      else if (link.right > box.right - fade)
+        view.scrollLeft += link.right - (box.right - fade)
+    }
+    align()
+    const observer = new ResizeObserver(align)
+    observer.observe(view)
+    if (view.firstElementChild) observer.observe(view.firstElementChild)
+    return () => observer.disconnect()
+  })
+  if (!scrolling) return <ListPart {...props} />
+  return (
+    <ScrollArea ref={viewport} orientation='horizontal'>
+      <ListPart {...props} />
+    </ScrollArea>
   )
 }
 const Trigger = function Trigger({
@@ -46,10 +104,7 @@ export const NavigationMenu = {
   ...BaseNavigationMenu,
   Root,
   Trigger,
-  List: /* @__PURE__ */ part<
-    HTMLUListElement,
-    React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.List>
-  >(BaseNavigationMenu.List, 'surf-navigation-list'),
+  List,
   Item: /* @__PURE__ */ part<
     HTMLLIElement,
     React.ComponentPropsWithoutRef<typeof BaseNavigationMenu.Item>

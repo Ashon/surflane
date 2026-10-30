@@ -41,6 +41,8 @@ const en = {
       'Tokens a day for twelve projects. Twelve categorical colors stay apart, and the legend shows four and folds the rest.',
     portfolio:
       'A basket against its benchmark over 20 days, both indexed to 100 on October 1. The benchmark is a comparison series, drawn quieter, and the gap between them is shaded by which one leads.',
+    allocation:
+      "Two buckets' share of a portfolio over twelve weeks, each beside its target. A target is its bucket's plan: the same color and marker, dashed, so solid reads as actual and dashed as plan.",
   },
   reportingDay: 'Reporting day',
   resource: 'Resource',
@@ -62,6 +64,7 @@ const en = {
     disk: 'Disk used, hourly steps',
     projects: 'Twelve projects',
     portfolio: 'A basket against its benchmark',
+    allocation: 'Allocation against its targets',
   },
   valueScale: 'Value scale',
   linear: 'Linear',
@@ -102,6 +105,9 @@ const en = {
     points: 'pt',
   },
   indexed: 'Indexed value',
+  week: 'Week',
+  share: 'Share of the portfolio',
+  allocation: ['Growth', 'Growth target', 'Income', 'Income target'],
   portfolio: [
     'My basket',
     'Benchmark',
@@ -158,6 +164,8 @@ export const text: Record<Locale, typeof en> = {
         '프로젝트 12개의 하루 토큰 수입니다. 범주형 12색이 서로 구분되고, 범례는 4개만 보이고 나머지는 접습니다.',
       portfolio:
         '20일 동안 바스켓과 벤치마크를 10월 1일을 100으로 놓고 비교합니다. 벤치마크는 비교 시리즈라 조용하게 그리고, 둘 사이의 차이는 어느 쪽이 앞서는지에 따라 칠합니다.',
+      allocation:
+        '12주 동안 포트폴리오에서 두 버킷이 차지한 비중과 각각의 목표입니다. 목표는 그 버킷의 계획선이라 같은 색과 표식에 점선으로 그려, 실선은 실제, 점선은 계획으로 읽힙니다.',
     },
     reportingDay: '보고일',
     resource: '리소스',
@@ -179,6 +187,7 @@ export const text: Record<Locale, typeof en> = {
       disk: '시간마다 잰 디스크 사용량',
       projects: '프로젝트 12개',
       portfolio: '벤치마크와 비교한 바스켓',
+      allocation: '목표 대비 배분',
     },
     valueScale: '값 축',
     linear: '선형',
@@ -219,6 +228,9 @@ export const text: Record<Locale, typeof en> = {
       points: 'pt',
     },
     indexed: '지수화한 값',
+    week: '주',
+    share: '포트폴리오 비중',
+    allocation: ['성장', '성장 목표', '배당', '배당 목표'],
     portfolio: [
       '내 바스켓',
       '벤치마크',

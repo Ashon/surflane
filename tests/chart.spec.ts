@@ -573,7 +573,7 @@ test("legendLimit='auto' keeps the legend on one line at any width", async ({
             .map((item) => (item as HTMLElement).offsetTop),
         ).size,
     )
-  const shown = () => legend.locator('[data-series]').count()
+  const shown = () => legend.locator('[data-entry]').count()
   await expect(
     legend.getByRole('button', { name: /more series$/ }),
   ).toBeVisible()
@@ -650,4 +650,35 @@ test('right to left, the legend moves to the inline end of the key', async ({
   expect((await edges()).right).toBe(0)
   await chart.evaluate((el) => el.setAttribute('dir', 'rtl'))
   expect((await edges()).left).toBe(0)
+})
+
+test('a legend limit folds references with the series, and a plan is dashed in its series color', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 900 })
+  await open(page)
+  await choose(page, 'Chart data', 'GPU temperature over a day')
+  const legend = page.getByRole('list', { name: 'Pipeline activity series' })
+  await expect(legend.locator('.surf-chart-legend-reference')).toHaveCount(2)
+  await choose(page, 'Legend limit', 'One line')
+  await expect(legend.locator('.surf-chart-legend-reference')).toHaveCount(0)
+  await expect(
+    legend.getByRole('button', { name: /more in the legend$/ }),
+  ).toBeVisible()
+  await page.setViewportSize({ width: 1280, height: 900 })
+  await choose(page, 'Chart data', 'Allocation against its targets')
+  const lines = await page
+    .locator('.surf-chart-plot .recharts-line-curve')
+    .evaluateAll((paths) =>
+      paths.map((path) => [
+        path.getAttribute('stroke'),
+        path.getAttribute('stroke-dasharray'),
+      ]),
+    )
+  // Plans draw first, under their series: growth target, income target, growth, income.
+  const [growthPlan, incomePlan, growth, income] = lines
+  expect(growthPlan).toEqual([growth[0], '5 4'])
+  expect(incomePlan).toEqual([income[0], '5 4'])
+  expect(growth[1]).toBeNull()
+  expect(income[1]).toBeNull()
 })

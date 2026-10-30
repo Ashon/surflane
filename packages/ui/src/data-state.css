@@ -23,6 +23,19 @@
   .surf-data-state-content {
     min-inline-size: 0;
   }
+  /* Content fills the state's height, so content that fills its container, such
+     as a Chart with height='fill' in a stretched dashboard panel, gets the room.
+     A state sized by its content is unchanged. */
+  .surf-data-state:not([data-layout='inline'], [data-state='stale']):has(
+      > .surf-data-state-content
+    ) {
+    display: flex;
+    flex-direction: column;
+  }
+  .surf-data-state:not([data-layout='inline'], [data-state='stale'])
+    > .surf-data-state-content {
+    flex: 1 1 auto;
+  }
   /* Stale values stay under the caution. */
   .surf-data-state[data-state='stale'] {
     display: grid;

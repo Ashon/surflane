@@ -86,7 +86,7 @@ const data: ChartDatum[] = [
     ['type', 'line | bar | area', 'line'],
     [
       'height',
-      'finite pixel height, minimum 200 (120 when compact)',
+      "finite pixel height, minimum 200 (120 when compact); 'fill' takes the container's height, as in a stretched dashboard panel, and gives the plot what the caption and legend leave, never less than the default",
       '280 / 180 compact',
     ],
     [
@@ -111,6 +111,11 @@ const data: ChartDatum[] = [
       'false',
     ],
     [
+      'series[].planOf',
+      'the key of the series this one plans, such as a target beside its actual: its color and marker, dashed, thinner and under it, while the series it plans stays solid',
+      '—',
+    ],
+    [
       'difference',
       '{series, against, above, below}: shades a line chart between two series in the trend-up color where series is above and trend-down where it is below; the legend names both sides and inspecting a row says the side and the size. gap is its earlier name, deprecated',
       '—',
@@ -127,7 +132,7 @@ const data: ChartDatum[] = [
     ],
     [
       'legendPosition / legendLimit',
-      'top | bottom / how many series the legend shows before folding the rest behind a "+N" popover; auto shows as many as fit one line',
+      'top | bottom / how many entries the legend shows, series first, then references and the difference\'s sides, before folding the rest behind a "+N" popover; auto shows as many as fit one line',
       'top / every series',
     ],
     [
@@ -152,7 +157,7 @@ const data: ChartDatum[] = [
     ],
     [
       'labels',
-      'text the chart shows or announces: missing, empty, noSeries, showAll, keyboardHelp, values, viewTable, table, tableCaption, inspectHint, noRows, legend(title), series(label), moreSeries(count), total',
+      'text the chart shows or announces: missing, empty, noSeries, showAll, keyboardHelp, values, viewTable, table, tableCaption, inspectHint, noRows, legend(title), series(label), moreSeries(count), moreEntries(count), total',
       'English',
     ],
     [

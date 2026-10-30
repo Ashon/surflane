@@ -940,3 +940,41 @@ test('the page padding is set on the shell, and the bar bleeds from what is set'
   ])
   expect(Math.round(bar!.y)).toBe(Math.round(box!.y))
 })
+
+test("a page's tabs scroll sideways on a phone and keep the current one in view", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 900 })
+  await page.goto('/patterns/app-shell')
+  await waitForCatalogReady(page)
+  await page.getByRole('checkbox', { name: 'Page bar', exact: true }).check()
+  const menu = page.locator('.app-shell-preview .surf-app-shell-bar nav')
+  await expect(menu).toHaveAttribute('data-overflow', 'scroll')
+  const viewport = menu.locator('.surf-scroll-viewport')
+  expect(await viewport.evaluate((el) => el.scrollWidth > el.clientWidth)).toBe(
+    true,
+  )
+  // Every tab keeps its label on one line.
+  const heights = await menu
+    .locator('.surf-navigation-link')
+    .evaluateAll((links) =>
+      links.map((link) => Math.round(link.getBoundingClientRect().height)),
+    )
+  expect(new Set(heights).size).toBe(1)
+  const inView = (name: string) =>
+    menu.evaluate((nav, name) => {
+      const view = nav.querySelector('.surf-scroll-viewport')!
+      const link = [...nav.querySelectorAll('a')].find(
+        (a) => a.textContent === name,
+      )!
+      const v = view.getBoundingClientRect(),
+        l = link.getBoundingClientRect()
+      return l.left >= v.left - 1 && l.right <= v.right + 1
+    }, name)
+  expect(await inView('Summary')).toBe(true)
+  await menu.getByRole('link', { name: 'Audit log', exact: true }).click()
+  await expect.poll(() => inView('Audit log')).toBe(true)
+  // A narrower screen lays the tabs out again; the current one stays in view.
+  await page.setViewportSize({ width: 340, height: 900 })
+  await expect.poll(() => inView('Audit log')).toBe(true)
+})

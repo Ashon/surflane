@@ -345,7 +345,10 @@ export function AppShellExample({
                   {/* The page's own tabs, at its top on the brand row's line. */}
                   {bar && (
                     <AppShell.Bar>
-                      <NavigationMenu.Root aria-label={t.pageLinks(view)}>
+                      <NavigationMenu.Root
+                        overflow='scroll'
+                        aria-label={t.pageLinks(view)}
+                      >
                         <NavigationMenu.List>
                           {t.pageSections.map((name, index) => (
                             <NavigationMenu.Item key={name}>

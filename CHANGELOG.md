@@ -2,6 +2,25 @@
 
 `@surflane/design-tokens`, `@surflane/css` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## Unreleased
+
+### Added
+
+- `NavigationMenu.Root overflow='scroll'` keeps a horizontal list on one line where its links don't fit, such as page tabs on a phone: the list scrolls sideways in a ScrollArea and keeps the current link in view, again whenever fonts load or the width changes.
+- `Chart height='fill'` takes the container's height, as in a stretched dashboard panel, and gives the plot what the caption and legend leave, never less than the default height.
+- `ChartSeries.planOf` makes a series the plan of another, such as a target beside its actual: drawn in that series' color and marker, dashed, thinner and under it, while the series it plans stays solid. `ChartSeriesMark` takes `plan` for a key of your own.
+- The Tailwind bridge moves `md` to 761px, where Surflane's phone layout ends, so `md:` and `max-md:` switch with the components, and adds a `phone:` variant for 760px and narrower.
+
+### Changed
+
+- `legendLimit` folds references and the difference's sides with the series: the legend's entries are counted in that order, and what is past the limit goes behind "+N", named "N more in the legend" (`labels.moreEntries`). On a phone a chart with bands and events keeps its plot on the first screen. A number now counts every entry, not only series.
+- On a phone an inline `DescriptionList` keeps a pair on one row where it fits: a value as wide as its content stays beside its term, and one that doesn't, such as a long identifier, moves under it whole. Every value used to move under its term.
+
+### Fixed
+
+- A sticky Table header of more than one row, such as a group row over the column row, keeps every row, each where it sits; the lower rows used to stick at the top under the first. With `stickyColumn`, a first header cell that spans the header's rows stays in place and the first cell of a lower header row scrolls with the data columns.
+- A DataState's content fills the state's height, so content that fills its container, such as a Chart with `height='fill'` in a stretched Dashboard.Panel, gets the room.
+
 ## 0.17.0
 
 ### Added

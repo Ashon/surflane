@@ -34,6 +34,7 @@ export const koLabels: SurflaneLabels = {
     legend: (title) => `${title} 시리즈`,
     series: (label) => `${label} 시리즈`,
     moreSeries: (count) => `시리즈 ${count}개 더 보기`,
+    moreEntries: (count) => `범례 ${count}개 더 보기`,
     total: '합계',
   },
   codeBlock: {

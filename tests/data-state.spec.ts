@@ -96,7 +96,8 @@ test('inline fits one line; page centers in the room a page gives', async ({
     display: getComputedStyle(element).display,
   }))
   expect(ready.align).toBe('start')
-  expect(ready.display).toBe('block')
+  // Not the centering grid: a column its content fills.
+  expect(ready.display).toBe('flex')
   expect(ready.height).toBeLessThan(ready.viewport * 0.4)
 })
 

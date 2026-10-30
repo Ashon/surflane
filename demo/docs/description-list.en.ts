@@ -3,6 +3,7 @@ export const doc: ComponentDoc = {
   usage: [
     "Show a resource's properties as terms and their values: a native dl, read by screen readers as a list of name and value pairs. Each Item holds one Term and its Value.",
     'Inline sets the value beside its term, in a term column of its own width, and moves it under the term where the row is too narrow. Stacked sets every value under its term. columns={2} sets two columns of items where both fit.',
+    'On a phone a pair takes less room: a value as wide as its content stays beside its term where it fits, and one that does not, such as a long identifier, moves under it whole.',
     'A row is as tall as a menu row of the size, and the small row in compact density. Rows have no lines between them: the term column and the rhythm carry the structure.',
     'A long value wraps anywhere, so identifiers never push the layout. truncate keeps it to one line instead; the whole value stays in the text and, for text, in the title. copy adds a copy action after the value, which reaches into the row so the row keeps its height, and names its term for screen readers.',
     'A value with nothing in it reads Not set in muted ink, not a dash or zero. Rename it with labels.empty.',

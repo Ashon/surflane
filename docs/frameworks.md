@@ -150,6 +150,8 @@ Import every Surflane stylesheet with `layer(components)`. Surflane's layers the
 
 Utilities read the tokens through `var()`, so they follow `data-theme`, including scoped themes, without a `dark:` variant. When you need one, `dark:` follows the nearest `data-theme`, not the operating system. The bridge never redefines a token: Tailwind emits no theme variables for it, even where Surflane and Tailwind share a name such as `--surf-radius-md`. Durations and layers have no Tailwind theme namespace; use them as `duration-(--surf-duration-fast)` and `z-(--surf-layer-dialog)`.
 
+Surflane switches to its phone layout at 760px and narrower: AppShell hides its sidebar, BottomNavigation shows and pages go flush. The bridge moves Tailwind's `md` breakpoint to 761px, where that ends, so `md:` and `max-md:` switch at the same width as the components, and adds `phone:` for the phone range itself. Without it, a 761 to 767px window would get Surflane's desktop shell with an app's phone classes.
+
 `npm run check:tailwind` compiles this setup with Tailwind CSS v4, checks every mapped utility and verifies the layer contract and `dark:` in Chromium.
 
 ## Themes

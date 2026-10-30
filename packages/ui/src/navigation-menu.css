@@ -6,6 +6,7 @@
 @import './popup.css';
 @import './icon.css';
 @import './button.css';
+@import './scroll-area.css';
 
 @layer surflane.components {
   .surf-navigation-menu {
@@ -19,6 +20,25 @@
     margin: 0;
     padding: 0;
     list-style: none;
+  }
+  /* A scrolling menu takes the room it is given and scrolls its one-line list
+     sideways inside it; its links ring inside, where the scroller cannot clip
+     them. */
+  .surf-navigation-menu[data-overflow='scroll'] {
+    min-inline-size: 0;
+  }
+  .surf-navigation-menu[data-overflow='scroll'] .surf-navigation-list {
+    inline-size: max-content;
+  }
+  .surf-navigation-menu[data-overflow='scroll']
+    .surf-navigation-item
+    > .surf-navigation-link {
+    white-space: nowrap;
+    overflow-wrap: normal;
+  }
+  .surf-navigation-menu[data-overflow='scroll']
+    .surf-navigation-link:focus-visible {
+    outline-offset: var(--surf-focus-ring-inset);
   }
   .surf-navigation-menu[data-orientation='vertical'] > .surf-navigation-list {
     flex-direction: column;

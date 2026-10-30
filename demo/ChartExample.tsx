@@ -198,6 +198,16 @@ const portfolio: ChartDatum[] = Array.from({ length: 20 }, (_, index) => ({
     ),
   },
 }))
+const allocation: ChartDatum[] = Array.from({ length: 12 }, (_, index) => ({
+  id: `allocation-${index}`,
+  label: `Week ${index + 1}`,
+  values: {
+    growth: Number((52 + 6 * Math.sin(index / 2) - index * 0.4).toFixed(1)),
+    growthTarget: index < 6 ? 55 : 50,
+    income: Number((30 + 4 * Math.cos(index / 2.5) + index * 0.5).toFixed(1)),
+    incomeTarget: index < 6 ? 30 : 35,
+  },
+}))
 type Preset = Partial<
   Pick<
     ChartProps,
@@ -212,6 +222,7 @@ const presets: Record<string, Preset> = {
   disk: { type: 'area', curve: 'step' },
   projects: { type: 'line', palette: 'categorical', legendLimit: 4 },
   portfolio: { type: 'line', includeZero: false },
+  allocation: { type: 'line', palette: 'categorical' },
 }
 export function ChartExample() {
   const { locale: pageLocale } = useLocale()
@@ -336,6 +347,20 @@ export function ChartExample() {
       xLabel: t.day,
       yLabel: t.indexed,
     },
+    allocation: {
+      data: allocation,
+      unit: '%',
+      description: t.descriptions.allocation,
+      // Each target plans its bucket: its color and marker, dashed, under it.
+      series: [
+        { key: 'growth', label: t.allocation[0] },
+        { key: 'growthTarget', label: t.allocation[1], planOf: 'growth' },
+        { key: 'income', label: t.allocation[2] },
+        { key: 'incomeTarget', label: t.allocation[3], planOf: 'income' },
+      ],
+      xLabel: t.week,
+      yLabel: t.share,
+    },
     latency: {
       data: latency,
       unit: 'ms',
@@ -422,6 +447,7 @@ export function ChartExample() {
             <option value='disk'>{t.options.disk}</option>
             <option value='projects'>{t.options.projects}</option>
             <option value='portfolio'>{t.options.portfolio}</option>
+            <option value='allocation'>{t.options.allocation}</option>
           </NativeSelect>
         </Field.Root>
         <Field.Root>

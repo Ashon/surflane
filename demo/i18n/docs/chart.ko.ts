@@ -29,7 +29,8 @@ export const doc: DocKo = {
     data: '읽기 전용 {id, label, values: Record<seriesKey, number | null | undefined>}[]; 고유한 비어 있지 않은 id',
     series:
       '읽기 전용 {key, label, color?}[]; 고유한 비어 있지 않은 key. color는 시리즈 하나의 팔레트 색을 바꿉니다',
-    height: '유한 픽셀 높이, 최소 200(compact는 120)',
+    height:
+      "유한 픽셀 높이, 최소 200(compact는 120). 'fill'은 늘어난 대시보드 패널처럼 컨테이너 높이를 채우고, 제목과 범례가 남긴 자리를 플롯에 줍니다. 기본 높이보다 작아지지는 않습니다",
     'xScale / data[].time':
       'category는 행을 라벨로 고르게 놓고, time은 시각(ms 또는 Date)으로 놓아 둥근 시각에 눈금을 두고 평소 간격의 두 배 넘게 빈 곳에서 선을 끊습니다',
     yScale:
@@ -38,6 +39,8 @@ export const doc: DocKo = {
     stacked: '막대와 에어리어 시리즈를 쌓고, 값 영역에 합계를 더합니다',
     'series[].comparison':
       '다른 시리즈를 견주는 기준, 벤치마크 같은 것. 더 가늘고 흐린 잉크로 다른 시리즈 아래에 그립니다',
+    'series[].planOf':
+      '실제 값 옆의 목표처럼 이 시리즈가 계획하는 시리즈의 key. 그 시리즈의 색과 표식에 점선으로, 더 가늘게 그 아래에 그리고, 계획되는 시리즈는 실선으로 둡니다',
     difference:
       '{series, against, above, below}: 라인 차트에서 두 시리즈 사이를 series가 위면 trend-up 색, 아래면 trend-down 색으로 칠합니다. 범례가 두 쪽의 이름을 적고, 행을 살피면 어느 쪽인지와 차이를 말합니다. gap은 예전 이름이며 더는 권하지 않습니다',
     references:
@@ -45,7 +48,7 @@ export const doc: DocKo = {
     density:
       'default | compact: compact는 플롯, 범례, 떠 있는 값만 보이고 캡션, 도움말, 값 영역은 보조 기술에만 남깁니다',
     'legendPosition / legendLimit':
-      'top | bottom / 범례에 보일 시리즈 수. 나머지는 "+N" 팝오버로 접습니다. auto는 한 줄에 들어가는 만큼 보입니다',
+      'top | bottom / 범례에 보일 항목 수. 시리즈, 기준선·이벤트, 차이의 두 쪽 순서이며 나머지는 "+N" 팝오버로 접습니다. auto는 한 줄에 들어가는 만큼 보입니다',
     includeZero: '값 축에 0을 둡니다. 막대는 항상 0에서 시작합니다',
     palette:
       'neutral | categorical: 잉크와 대시, 마커로 구분하거나, 범주에 열두 색상을 씁니다',
@@ -54,7 +57,7 @@ export const doc: DocKo = {
     'hiddenSeries / defaultHiddenSeries / onHiddenSeriesChange':
       '제어 또는 비제어 숨김 키; 콜백이 다음 키를 요청',
     labels:
-      '차트가 보여 주거나 알리는 텍스트: missing, empty, noSeries, showAll, keyboardHelp, values, viewTable, table, tableCaption, inspectHint, noRows, legend(title), series(label), moreSeries(count), total',
+      '차트가 보여 주거나 알리는 텍스트: missing, empty, noSeries, showAll, keyboardHelp, values, viewTable, table, tableCaption, inspectHint, noRows, legend(title), series(label), moreSeries(count), moreEntries(count), total',
     ChartSeriesMark:
       '{type, index, palette, color}: 범례가 그리는 시리즈 견본. 직접 만든 범례에 씁니다',
     'ref / className / figure props':

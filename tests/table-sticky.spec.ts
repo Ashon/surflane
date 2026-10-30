@@ -106,3 +106,45 @@ test('fade turns an edge off for any scroller', async ({ page }) => {
   await root.evaluate((element) => element.setAttribute('data-fade', 'none'))
   expect(await mask()).toBe('none')
 })
+
+test('a sticky header of two rows keeps both, and a first column spanning them stays in place', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 900 })
+  await page.goto('/components/table')
+  await waitForCatalogReady(page)
+  const region = page.getByRole('region', {
+    name: 'Service inventory, scrollable',
+  })
+  await region.scrollIntoViewIfNeeded()
+  await region.evaluate((el) => {
+    el.scrollTop = 120
+    el.scrollLeft = 160
+  })
+  const geometry = () =>
+    region.evaluate((el) => {
+      const view = el.getBoundingClientRect()
+      const rows = [...el.querySelectorAll('thead tr')].map((row) =>
+        [...row.children].map((cell) => cell.getBoundingClientRect()),
+      )
+      return {
+        top: view.top,
+        left: view.left,
+        groupTop: rows[0][1].top,
+        groupBottom: rows[0][1].bottom,
+        columnTop: rows[1][1].top,
+        name: rows[0][0],
+        environment: rows[1][0],
+      }
+    })
+  await expect
+    .poll(async () => Math.round((await geometry()).groupTop))
+    .toBe(Math.round((await geometry()).top))
+  const box = await geometry()
+  // The column row sits under the group row, not under the viewport's top.
+  expect(box.columnTop).toBeGreaterThanOrEqual(box.groupBottom - 1)
+  // The name spans both rows and stays at the start; the second row's first cell,
+  // a data column, has scrolled under it.
+  expect(Math.round(box.name.left)).toBe(Math.round(box.left))
+  expect(box.environment.left).toBeLessThan(box.name.right)
+})

@@ -49,6 +49,10 @@ export type ChartSeries = {
    * drawn thinner, in muted ink and under the others. Its dash and marks still tell
    * it apart. */
   comparison?: boolean
+  /** The key of the series this one plans, such as a target beside its actual: drawn
+   * in that series' color and marker, dashed, thinner and under it, while the
+   * series it plans stays solid. */
+  planOf?: string
 }
 /** The difference between a series and the one it is read against, named on each
  * side. */
@@ -93,8 +97,10 @@ export type ChartProps = Omit<
   xLabel: string
   yLabel: string
   type?: 'line' | 'bar' | 'area'
-  /** Plot height in px: 280 by default, 180 when compact. */
-  height?: number
+  /** Plot height in px: 280 by default, 180 when compact. fill makes the chart take
+   * its container's height, as in a stretched dashboard row, and the plot the room
+   * its caption and legend leave, never less than the default. */
+  height?: number | 'fill'
   /** Keeps 0 on the value axis. Turn it off for values far from zero, such as
    * prices, so the line uses the height; bars always start at zero. */
   includeZero?: boolean
@@ -160,6 +166,8 @@ export type ChartLabels = {
   series: (label: string) => string
   /** The button that opens the series past legendLimit. */
   moreSeries: (count: number) => string
+  /** The "+N" button when the folded entries include references. */
+  moreEntries: (count: number) => string
   /** The sum of stacked series in the readout. */
   total: string
 }
@@ -180,6 +188,7 @@ const chartLabels: ChartLabels = {
   legend: (title) => `${title} series`,
   series: (label) => `${label} series`,
   moreSeries: (count) => `${count} more series`,
+  moreEntries: (count) => `${count} more in the legend`,
   total: 'Total',
 }
 /** The round step at or above a raw step: 1, 2, 2.5 or 5 times a power of ten. */
@@ -197,6 +206,8 @@ function axisStep(low: number, high: number) {
   return step
 }
 const dashes = [undefined, '7 4', '2 4', '10 3 2 3', '12 5', '4 3']
+// A plan's dash: short and even, as a target line reads.
+const planDash = '5 4'
 /** A series' color: the caller's, or the palette's for its place. */
 function seriesColor(
   index: number,
@@ -391,9 +402,12 @@ function SeriesMark({
   index,
   color,
   pattern,
+  dash,
 }: {
   type: 'line' | 'bar' | 'area'
   index: number
+  /** The line's dash; null draws it solid. Without one, the index sets it. */
+  dash?: string | null
   color: string
   pattern: string
 }) {
@@ -424,7 +438,11 @@ function SeriesMark({
             d='M1 10h30'
             stroke={color}
             strokeWidth='2'
-            strokeDasharray={dashes[index % dashes.length]}
+            strokeDasharray={
+              dash === undefined
+                ? dashes[index % dashes.length]
+                : (dash ?? undefined)
+            }
           />
           <Marker cx={16} cy={10} index={index} color={color} />
         </>
@@ -595,6 +613,8 @@ export type ChartSeriesMarkProps = {
   index: number
   palette?: 'neutral' | 'categorical'
   color?: string
+  /** The swatch of a plan (ChartSeries.planOf): index is the planned series'. */
+  plan?: boolean
 }
 /** A series' swatch as Chart's legend draws it, for a legend or key of your own. */
 export function ChartSeriesMark({
@@ -602,6 +622,7 @@ export function ChartSeriesMark({
   index,
   palette = 'neutral',
   color,
+  plan,
 }: ChartSeriesMarkProps) {
   const id = React.useId().replace(/[^a-zA-Z0-9_-]/g, '_')
   return (
@@ -610,6 +631,7 @@ export function ChartSeriesMark({
       index={index}
       color={seriesColor(index, palette, color)}
       pattern={`${id}-mark`}
+      dash={plan ? planDash : undefined}
     />
   )
 }
@@ -698,13 +720,29 @@ export const Chart = function Chart({
   const provided = useLabels<ChartLabels>('chart')
   const text: ChartLabels = { ...chartLabels, ...provided, ...labels }
   const id = React.useId().replace(/[^a-zA-Z0-9_-]/g, '_')
-  const colorFor = (index: number) =>
-    seriesColor(
-      index,
-      palette,
-      series[index]?.color ??
-        (series[index]?.comparison ? 'var(--surf-ink-muted)' : undefined),
-    )
+  // A plan takes the color and marker of the series it plans, and the plan's dash;
+  // the series it plans stays solid.
+  const plannedIndex = (index: number) => {
+    const key = series[index]?.planOf
+    const planned = key ? series.findIndex((s) => s.key === key) : -1
+    return planned >= 0 && planned !== index ? planned : index
+  }
+  const isPlan = (index: number) => plannedIndex(index) !== index
+  const dashFor = (index: number): string | null =>
+    isPlan(index)
+      ? planDash
+      : series.some((s) => s.planOf === series[index]?.key)
+        ? null
+        : (dashes[index % dashes.length] ?? null)
+  const colorFor = (index: number): string =>
+    isPlan(index) && !series[index]?.color
+      ? colorFor(plannedIndex(index))
+      : seriesColor(
+          index,
+          palette,
+          series[index]?.color ??
+            (series[index]?.comparison ? 'var(--surf-ink-muted)' : undefined),
+        )
   const timeScale = xScale === 'time'
   const logScale = yScale === 'log'
   const stacks = stacked && type !== 'line'
@@ -718,18 +756,19 @@ export const Chart = function Chart({
   const fontsReady = useFontReady(host, data.map((d) => d.label).join(''))
   const [floatHost, setFloatHost] = React.useState<HTMLDivElement | null>(null)
   const [setFrame, frameWidth, frame] = useWidth<HTMLDivElement>()
-  // legendLimit='auto': lay every series out, count those on the first line, then
-  // fold the rest, keeping room for the "+N" button. A new width lays them out again.
+  // legendLimit='auto': lay every entry out, series, references and the difference's
+  // sides alike, count those on the first line, then fold the rest, keeping room for
+  // the "+N" button. A new width lays them out again.
   const legendList = React.useRef<HTMLUListElement>(null)
   const [legendFit, setLegendFit] = React.useState<number>()
   React.useLayoutEffect(() => {
     if (legendLimit === 'auto') setLegendFit(undefined)
-  }, [legendLimit, frameWidth, series.length])
+  }, [legendLimit, frameWidth, series.length, references.length])
   React.useLayoutEffect(() => {
     if (legendLimit !== 'auto' || legendFit !== undefined) return
     const items = Array.from(
       legendList.current?.querySelectorAll<HTMLElement>(
-        ':scope > [data-series]',
+        ':scope > [data-entry]',
       ) ?? [],
     )
     if (!items.length) return
@@ -1017,8 +1056,9 @@ export const Chart = function Chart({
         .filter((s) => (s.key === key ? !hidden.has(key) : hidden.has(s.key)))
         .map((s) => s.key),
     )
+  const fill = height === 'fill'
   const chartHeight =
-    height !== undefined && Number.isFinite(height)
+    typeof height === 'number' && Number.isFinite(height)
       ? Math.max(compact ? 120 : 200, height)
       : compact
         ? 180
@@ -1070,62 +1110,94 @@ export const Chart = function Chart({
     >
       <SeriesMark
         type={type}
-        index={index}
+        index={plannedIndex(index)}
         color={colorFor(index)}
         pattern={`${id}-legend-${index}`}
+        dash={dashFor(index)}
       />
       <span>{s.label}</span>
     </button>
   )
+  // The legend's entries in order: series, then references, then the difference's
+  // sides. A limit folds whatever is past it behind "+N".
+  const entries: React.ReactNode[] = [
+    ...series.map((s, index) => legendButton(s, index)),
+    ...references.map((reference, index) => (
+      <React.Fragment key={`reference-${index}`}>
+        <ReferenceMark reference={reference} />
+        <span>{referenceText(reference)}</span>
+      </React.Fragment>
+    )),
+    ...(shownGap
+      ? (['above', 'below'] as const).map((side) => (
+          <React.Fragment key={side}>
+            <GapMark side={side} />
+            <span>{shownGap[side]}</span>
+          </React.Fragment>
+        ))
+      : []),
+  ]
+  const kindOf = (index: number) =>
+    index < series.length ? 'series' : 'reference'
   const limit = legendLimit === 'auto' ? legendFit : legendLimit
-  const shown =
-    limit !== undefined && limit < series.length
-      ? series.slice(0, Math.max(0, limit))
-      : series
-  const folded = series.slice(shown.length)
+  const shownCount =
+    limit !== undefined && limit < entries.length
+      ? Math.max(0, limit)
+      : entries.length
+  const folded = entries.length - shownCount
+  // Folded entries run to the end: they are only series when nothing follows them.
+  const foldsSeriesOnly = entries.length === series.length
   const legend = (
     <ul
       ref={legendList}
       className='surf-chart-legend'
       aria-label={text.legend(title)}
     >
-      {shown.map((s, index) => (
-        <li key={s.key} data-series=''>
-          {legendButton(s, index)}
+      {entries.slice(0, shownCount).map((entry, index) => (
+        <li
+          key={index}
+          data-entry=''
+          className={
+            kindOf(index) === 'reference'
+              ? 'surf-chart-legend-reference'
+              : undefined
+          }
+        >
+          {entry}
         </li>
       ))}
-      {folded.length > 0 && (
+      {folded > 0 && (
         <li>
           <Popover.Root>
             <Popover.Trigger
               className='surf-chart-legend-button surf-chart-legend-more'
-              aria-label={text.moreSeries(folded.length)}
+              aria-label={
+                foldsSeriesOnly
+                  ? text.moreSeries(folded)
+                  : text.moreEntries(folded)
+              }
             >
-              +{folded.length}
+              +{folded}
             </Popover.Trigger>
             <Popover.Content size='small'>
               <ul className='surf-chart-legend-list'>
-                {folded.map((s, index) => (
-                  <li key={s.key}>{legendButton(s, shown.length + index)}</li>
+                {entries.slice(shownCount).map((entry, index) => (
+                  <li
+                    key={index}
+                    className={
+                      kindOf(shownCount + index) === 'reference'
+                        ? 'surf-chart-legend-reference'
+                        : undefined
+                    }
+                  >
+                    {entry}
+                  </li>
                 ))}
               </ul>
             </Popover.Content>
           </Popover.Root>
         </li>
       )}
-      {references.map((reference, index) => (
-        <li key={index} className='surf-chart-legend-reference'>
-          <ReferenceMark reference={reference} />
-          <span>{referenceText(reference)}</span>
-        </li>
-      ))}
-      {shownGap &&
-        (['above', 'below'] as const).map((side) => (
-          <li key={side} className='surf-chart-legend-reference'>
-            <GapMark side={side} />
-            <span>{shownGap[side]}</span>
-          </li>
-        ))}
     </ul>
   )
   return (
@@ -1133,6 +1205,15 @@ export const Chart = function Chart({
       {...props}
       ref={ref}
       data-density={density}
+      data-height={fill ? 'fill' : undefined}
+      style={
+        fill
+          ? ({
+              '--surf-chart-plot-min': `${chartHeight}px`,
+              ...props.style,
+            } as React.CSSProperties)
+          : props.style
+      }
       className={cx('surf-chart', className)}
       aria-labelledby={`${id}-title`}
     >
@@ -1165,8 +1246,9 @@ export const Chart = function Chart({
             >
               <ResponsiveContainer
                 width='100%'
-                height={chartHeight}
+                height={fill ? '100%' : chartHeight}
                 minWidth={0}
+                minHeight={fill ? chartHeight : undefined}
                 initialDimension={{ width: 320, height: chartHeight }}
               >
                 <ComposedChart
@@ -1349,16 +1431,16 @@ export const Chart = function Chart({
                       }))}
                     />
                   )}
-                  {/* Comparison series draw first, under the ones read against them. */}
+                  {/* Comparison series and plans draw first, under the ones read against them. */}
                   {(stacks
                     ? series.map((s, index) => [s, index] as const)
                     : [
                         ...series
                           .map((s, index) => [s, index] as const)
-                          .filter(([s]) => s.comparison),
+                          .filter(([s, i]) => s.comparison || isPlan(i)),
                         ...series
                           .map((s, index) => [s, index] as const)
-                          .filter(([s]) => !s.comparison),
+                          .filter(([s, i]) => !s.comparison && !isPlan(i)),
                       ]
                   ).map(([s, index]) => {
                     const common = {
@@ -1377,7 +1459,7 @@ export const Chart = function Chart({
                               cx={dot.cx}
                               cy={dot.cy}
                               color={colorFor(index)}
-                              index={index}
+                              index={plannedIndex(index)}
                             />
                           )
                     const shape = curve === 'step' ? 'stepAfter' : 'linear'
@@ -1393,8 +1475,8 @@ export const Chart = function Chart({
                         key={s.key}
                         {...common}
                         type={shape}
-                        strokeWidth={s.comparison ? 1.5 : 2}
-                        strokeDasharray={dashes[index % dashes.length]}
+                        strokeWidth={s.comparison || isPlan(index) ? 1.5 : 2}
+                        strokeDasharray={dashFor(index) ?? undefined}
                         fill={`url(#${id}-pattern-${index})`}
                         fillOpacity={stacks ? 0.32 : 0.12}
                         connectNulls={false}
@@ -1406,8 +1488,8 @@ export const Chart = function Chart({
                         key={s.key}
                         {...common}
                         type={shape}
-                        strokeWidth={s.comparison ? 1.5 : 2}
-                        strokeDasharray={dashes[index % dashes.length]}
+                        strokeWidth={s.comparison || isPlan(index) ? 1.5 : 2}
+                        strokeDasharray={dashFor(index) ?? undefined}
                         connectNulls={false}
                         dot={dot}
                         activeDot={false}
@@ -1448,9 +1530,10 @@ export const Chart = function Chart({
                                 <li key={s.key}>
                                   <SeriesMark
                                     type={type}
-                                    index={index}
+                                    index={plannedIndex(index)}
                                     color={colorFor(index)}
                                     pattern={`${id}-float-${index}`}
+                                    dash={dashFor(index)}
                                   />
                                   <span>{s.label}</span>
                                   <span className='surf-chart-tooltip-value'>

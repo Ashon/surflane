@@ -387,6 +387,7 @@ const internalModules = [
   'syntax-engine',
   'tone-transition',
   'table-selection',
+  'table-container',
 ]
 const utilityEntries = [
   'choice-label',

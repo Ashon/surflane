@@ -116,19 +116,26 @@ test('a cut value keeps the whole value, and the copy action copies it and names
   await expect(cluster).toHaveAccessibleDescription('Cluster ID')
 })
 
-test('a narrow list moves values under their terms, stacked layout always does, and compact rows are small', async ({
+test('a narrow list moves long values under their terms, stacked layout always does, and compact rows are small', async ({
   page,
 }) => {
   let list = await open(page, 320)
-  // One column, each value under its term, nothing wider than the page.
+  // One column, nothing wider than the page: a value sits beside its term where it
+  // fits and under it where it does not, as the long cluster ID and image do.
   let rows = await boxes(page)
   expect(new Set(rows.map((row) => Math.round(row.left))).size).toBe(1)
   for (const row of rows)
+    expect(
+      row.value.top >= row.term.bottom - 1 ||
+        (row.value.top < row.term.bottom && row.value.left > row.term.right),
+    ).toBe(true)
+  for (const row of rows.slice(2, 4))
     expect(row.value.top).toBeGreaterThanOrEqual(row.term.bottom - 1)
   // A pair is set apart from the next by its own padding, 8px on each side.
   for (let index = 1; index < rows.length; index++)
     expect(
-      rows[index].term.top - rows[index - 1].value.bottom,
+      rows[index].term.top -
+        Math.max(rows[index - 1].value.bottom, rows[index - 1].term.bottom),
     ).toBeGreaterThanOrEqual(15)
   expect(
     await page.evaluate(
@@ -163,4 +170,30 @@ test('right to left, the term column is on the right; Korean names the empty val
   await list.evaluate((dl) => dl.setAttribute('dir', 'rtl'))
   const rows = await boxes(page)
   for (const row of rows) expect(row.term.left).toBeGreaterThan(row.value.right)
+})
+
+test('on a phone a short value stays beside its term, and a long one moves under it whole', async ({
+  page,
+}) => {
+  await open(page, 480)
+  const rows = await boxes(page)
+  // Status and Region fit beside their terms.
+  for (const row of rows.slice(0, 2)) {
+    expect(row.value.top).toBeLessThan(row.term.bottom)
+    expect(row.value.left).toBeGreaterThan(row.term.right)
+  }
+  // The cluster ID moves under its term on one line, rather than breaking beside it.
+  const cluster = rows[2]
+  expect(cluster.value.top).toBeGreaterThanOrEqual(cluster.term.bottom - 1)
+  const lines = await page
+    .locator('#preview .surf-description-list-item')
+    .nth(2)
+    .locator('.surf-description-list-text')
+    .evaluate((text) => {
+      const range = document.createRange()
+      range.selectNodeContents(text)
+      return new Set([...range.getClientRects()].map((r) => Math.round(r.top)))
+        .size
+    })
+  expect(lines).toBe(1)
 })

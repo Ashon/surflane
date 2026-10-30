@@ -3,31 +3,8 @@ import { Icon } from './icon.js'
 import { Button } from './button.js'
 import { cx } from './class-names.js'
 import { elementPart } from './element-part.js'
-import { ScrollArea } from './scroll-area.js'
+import { TableContainer } from './table-container.js'
 
-const TableContainer = function TableContainer({
-  bleed,
-  rootClassName,
-  ref,
-  ...props
-}: React.ComponentPropsWithoutRef<typeof ScrollArea> & {
-  label: string
-  /** Hangs the table into the gutter by its cell inset, so cell text lines up with
-   * the text around it and a row's hover reaches past it evenly on both sides. */
-  bleed?: boolean
-} & { ref?: React.Ref<HTMLDivElement> }) {
-  return (
-    <ScrollArea
-      {...props}
-      ref={ref}
-      rootClassName={cx(
-        'surf-table-container',
-        bleed && 'surf-table-bleed',
-        rootClassName,
-      )}
-    />
-  )
-}
 const RootPart = /* @__PURE__ */ elementPart<
   HTMLTableElement,
   React.ComponentPropsWithoutRef<'table'>

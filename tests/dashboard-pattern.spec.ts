@@ -237,3 +237,27 @@ test("a compact chart's view-table line is as compact as its table", async ({
   // 18px caption leading and 4px above and below: over the 24px floor.
   expect(Math.round((await summary.boundingBox())!.height)).toBe(26)
 })
+
+test("a chart with height='fill' takes a stretched panel's room", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1200 })
+  await page.goto('/patterns/dashboard')
+  await waitForCatalogReady(page)
+  const panel = page.locator('.surf-dashboard-panel').first()
+  const plot = panel.locator('.surf-chart-plot')
+  const before = (await plot.boundingBox())!.height
+  await panel.evaluate(
+    (el) => ((el as HTMLElement).style.minBlockSize = '640px'),
+  )
+  await expect
+    .poll(async () => (await plot.boundingBox())!.height)
+    .toBeGreaterThan(before + 200)
+  const [body, chart] = await Promise.all([
+    panel.locator('.surf-dashboard-panel-body').boundingBox(),
+    panel.locator('.surf-chart').boundingBox(),
+  ])
+  expect(
+    Math.abs(body!.y + body!.height - (chart!.y + chart!.height)),
+  ).toBeLessThan(2)
+})
