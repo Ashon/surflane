@@ -332,6 +332,15 @@ function SeparatorExample() {
         <Separator orientation='vertical' />
         <span>{t.production}</span>
       </Inline>
+      {/* Values on one line: the dots separate them without being seen as text. */}
+      <Text data-testid='separator-strip'>
+        {t.strip.map((value, index) => (
+          <React.Fragment key={value}>
+            {index > 0 && <Separator variant='dot' />}
+            {value}
+          </React.Fragment>
+        ))}
+      </Text>
     </Stack>
   )
 }

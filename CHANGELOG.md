@@ -10,6 +10,8 @@
 - `Chart height='fill'` takes the container's height, as in a stretched dashboard panel, and gives the plot what the caption and legend leave, never less than the default height.
 - `ChartSeries.planOf` makes a series the plan of another, such as a target beside its actual: drawn in that series' color and marker, dashed, thinner and under it, while the series it plans stays solid. `ChartSeriesMark` takes `plan` for a key of your own.
 - The Tailwind bridge moves `md` to 761px, where Surflane's phone layout ends, so `md:` and `max-md:` switch with the components, and adds a `phone:` variant for 760px and narrower.
+- `Meter.Root` takes `low`, `high` and `optimum`, which split the range as the native meter element does: the fill keeps its color in the best range and turns caution one range away and danger two (`data-tone`). `Meter.Target` crosses the track at a goal and `Meter.Tick` marks the scale under it; a target's label and a labeled tick join the meter's description for assistive technology.
+- `Separator variant='dot'` sets a small dot between values on one line, such as a stat strip, with room on each side. Its comma stays in the line, clipped and transparent, so assistive technology and copied text keep the values apart: "dgx-001, 24 GiB free".
 
 ### Changed
 
@@ -20,6 +22,7 @@
 
 - A sticky Table header of more than one row, such as a group row over the column row, keeps every row, each where it sits; the lower rows used to stick at the top under the first. With `stickyColumn`, a first header cell that spans the header's rows stays in place and the first cell of a lower header row scrolls with the data columns.
 - A DataState's content fills the state's height, so content that fills its container, such as a Chart with `height='fill'` in a stretched Dashboard.Panel, gets the room.
+- In forced colors, a DatePicker's group and an OTPField's inputs draw their focus outline at `--surf-focus-ring-width`, as the other fields do, so a theme's ring width reaches them.
 
 ## 0.17.0
 

@@ -284,7 +284,7 @@
     }
     .surf-date-group[data-focus-within],
     .surf-date-group:focus-within {
-      outline: 2px solid Highlight;
+      outline: var(--surf-focus-ring-width) solid Highlight;
     }
     .surf-calendar-day[data-selected] {
       background: Highlight;

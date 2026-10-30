@@ -4,3 +4,51 @@
 @import './base.css';
 @import './sizing.css';
 @import './gauge.css';
+
+@layer surflane.components {
+  /* The fill takes its range's tone; the best range keeps the plain fill. */
+  .surf-meter[data-tone='caution'] .surf-gauge-indicator {
+    background: var(--surf-status-caution-fg);
+  }
+  .surf-meter[data-tone='danger'] .surf-gauge-indicator {
+    background: var(--surf-status-danger-fg);
+  }
+  /* A target and ticks reach past the track, so it stops clipping them; the fill
+     keeps the track's rounded ends itself. */
+  .surf-meter .surf-gauge-track:has(.surf-meter-target, .surf-meter-tick) {
+    overflow: visible;
+  }
+  .surf-meter .surf-gauge-track:has(.surf-meter-tick) {
+    margin-block-end: calc(var(--surf-space-1) + 1px);
+  }
+  /* A target crosses the track in ink, a step past each of its edges, centered on
+     its value. */
+  .surf-meter-target {
+    position: absolute;
+    inset-block: calc(var(--surf-space-1) * -1);
+    inline-size: 2px;
+    translate: -50% 0;
+    border-radius: 1px;
+    background: var(--surf-ink);
+  }
+  /* A tick sits just under the track: a point on the scale, not a line through it. */
+  .surf-meter-tick {
+    position: absolute;
+    inset-block-start: calc(100% + 1px);
+    inline-size: 1px;
+    block-size: var(--surf-space-1);
+    translate: -50% 0;
+    background: var(--surf-ink-muted);
+  }
+  /* Right to left, the marks start from the right, so they center back the other way. */
+  .surf-meter-target:dir(rtl),
+  .surf-meter-tick:dir(rtl) {
+    translate: 50% 0;
+  }
+  @media (forced-colors: active) {
+    .surf-meter-target,
+    .surf-meter-tick {
+      background: CanvasText;
+    }
+  }
+}

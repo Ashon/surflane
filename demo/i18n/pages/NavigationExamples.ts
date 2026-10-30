@@ -97,6 +97,7 @@ const en = {
   deploymentDetails: 'Deployment details',
   staging: 'Staging',
   production: 'Production',
+  strip: ['dgx-001', '24 GiB free', 'checked 5 min ago'],
   inspectPreviewDestination: 'Inspect preview destination',
   baseUIDocumentationOpensInNewTab:
     'Base UI documentation (opens in a new tab)',
@@ -214,6 +215,7 @@ export const text: Record<Locale, typeof en> = {
     deploymentDetails: '배포 세부정보',
     staging: 'Staging',
     production: 'Production',
+    strip: ['dgx-001', '24 GiB 남음', '5분 전 확인'],
     inspectPreviewDestination: '미리보기 대상 검사',
     baseUIDocumentationOpensInNewTab: 'Base UI 문서 (새 탭에서 열림)',
     previewDestinationNativeAnchorsKeepBrowserBehavior:

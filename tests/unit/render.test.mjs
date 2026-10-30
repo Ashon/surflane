@@ -14,9 +14,11 @@ import {
   Kbd,
   KoreanLabels,
   LabelsProvider,
+  Meter,
   Pagination,
   ScrollArea,
   SegmentedControl,
+  Separator,
   Skeleton,
   Stat,
   Table,
@@ -497,4 +499,35 @@ test('a Chart shades a difference, and gap still names one', async () => {
     assert.match(markup, />Ahead of the benchmark</)
     assert.match(markup, />Behind the benchmark</)
   }
+})
+
+test('Meter judges its value by range as the native meter element does', () => {
+  const tone = (value, ranges) =>
+    html(
+      h(
+        Meter.Root,
+        { value, ...ranges },
+        h(Meter.Track, null, h(Meter.Indicator)),
+      ),
+    ).match(/data-tone="([a-z]+)"/)?.[1]
+  // Lower is better: the low range is best, the middle caution, the high danger.
+  const lower = { low: 40, high: 70, optimum: 0 }
+  assert.equal(tone(30, lower), 'optimum')
+  assert.equal(tone(50, lower), 'caution')
+  assert.equal(tone(80, lower), 'danger')
+  // A middle optimum makes both ends caution.
+  const middle = { low: 20, high: 80, optimum: 50 }
+  assert.equal(tone(10, middle), 'caution')
+  assert.equal(tone(90, middle), 'caution')
+  assert.equal(tone(60, middle), 'optimum')
+  // Without ranges the meter has no tone.
+  assert.equal(tone(50, {}), undefined)
+})
+
+test('a dot Separator is a comma drawn as a dot, not a separator role', () => {
+  assert.equal(
+    html(h(Separator, { variant: 'dot' })),
+    '<span data-variant="dot" class="surf-separator">, </span>',
+  )
+  assert.match(html(h(Separator)), /role="separator"/)
 })

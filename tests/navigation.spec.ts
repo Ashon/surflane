@@ -283,6 +283,48 @@ test('Separator exposes orientation and its inset changes only the line extent',
   const inset = await horizontal.boundingBox()
   expect(inset!.width).toBeCloseTo(full!.width - 32, 1)
   expect(inset!.x).toBeCloseTo(full!.x + 16, 1)
+  // A dot between values is a centered point, read and copied as a comma.
+  const strip = page.getByTestId('separator-strip')
+  await expect(strip.locator('[data-variant="dot"]')).toHaveCount(2)
+  await expect(strip.getByRole('separator')).toHaveCount(0)
+  expect(
+    await strip.evaluate((element) => {
+      const range = document.createRange()
+      range.selectNodeContents(element)
+      const selection = getSelection()!
+      selection.removeAllRanges()
+      selection.addRange(range)
+      const copied = selection.toString()
+      selection.removeAllRanges()
+      const line = element.getBoundingClientRect()
+      const dot = element
+        .querySelector('[data-variant="dot"]')!
+        .getBoundingClientRect()
+      return {
+        copied,
+        read: (element as HTMLElement).innerText,
+        // Sized with the text it sits in: a fifth of an em, square.
+        size: [dot.width, dot.height].map((side) =>
+          Number(
+            (side / parseFloat(getComputedStyle(element).fontSize)).toFixed(2),
+          ),
+        ),
+        centered:
+          Math.abs(dot.top + dot.height / 2 - (line.top + line.height / 2)) <=
+          2,
+      }
+    }),
+  ).toEqual({
+    copied: 'dgx-001, 24 GiB free, checked 5 min ago',
+    read: 'dgx-001, 24 GiB free, checked 5 min ago',
+    size: [0.2, 0.2],
+    centered: true,
+  })
+  // The comma is never seen: the dot is ink-muted and its text transparent.
+  await expect(strip.locator('[data-variant="dot"]').first()).toHaveCSS(
+    'color',
+    'rgba(0, 0, 0, 0)',
+  )
 })
 test('Link and Breadcrumbs retain native navigation and ordered current-location semantics', async ({
   page,

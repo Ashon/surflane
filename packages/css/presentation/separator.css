@@ -20,9 +20,31 @@
     min-height: var(--surf-space-6);
     align-self: stretch;
   }
+  /* A dot between values on one line: a point, not a boundary, sized with the text
+     it sits in and with room on each side. Its comma stays in the line, clipped and
+     transparent, so it is read and copied with its space but never seen; a hidden
+     element taken out of the flow would copy as line breaks. */
+  .surf-separator[data-variant='dot'] {
+    display: inline-block;
+    inline-size: 0.2em;
+    block-size: 0.2em;
+    min-height: 0;
+    margin-inline: var(--surf-space-2);
+    overflow: hidden;
+    align-self: center;
+    vertical-align: middle;
+    border-radius: var(--surf-radius-full);
+    background: var(--surf-ink-muted);
+    color: transparent;
+    line-height: 0;
+    white-space: pre;
+  }
   @media (forced-colors: active) {
     .surf-separator {
       background: CanvasText;
+    }
+    .surf-separator[data-variant='dot'] {
+      forced-color-adjust: none;
     }
   }
 }

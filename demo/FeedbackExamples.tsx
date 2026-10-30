@@ -126,10 +126,14 @@ export function FeedbackExample({ id }: { id: string }) {
   if (id === 'meter')
     return (
       <Stack gap={5}>
+        {/* Lower is better: past 40 GiB the fill turns caution, past 56 danger. */}
         <Meter.Root
           value={value ?? 30}
           min={0}
           max={64}
+          low={40}
+          high={56}
+          optimum={0}
           aria-valuetext={t.gibOfTotal(value ?? 30)}
         >
           <Meter.Label>{t.memoryAllocation}</Meter.Label>
@@ -150,6 +154,18 @@ export function FeedbackExample({ id }: { id: string }) {
           </Button>
         </Inline>
         <Text color='secondary'>{t.capacityNote}</Text>
+        {/* A share against its target, with the track marked in quarters. */}
+        <Meter.Root value={34} aria-valuetext={t.bondShareText}>
+          <Meter.Label>{t.bondShare}</Meter.Label>
+          <Meter.Value>{() => t.bondShareValue}</Meter.Value>
+          <Meter.Track>
+            <Meter.Indicator />
+            <Meter.Target value={40} label={t.bondTarget} />
+            {[25, 50, 75].map((tick) => (
+              <Meter.Tick key={tick} value={tick} />
+            ))}
+          </Meter.Track>
+        </Meter.Root>
       </Stack>
     )
   return (

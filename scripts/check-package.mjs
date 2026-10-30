@@ -94,7 +94,7 @@ console.log(
 // Other lengths and durations move to tokens over time. The count may only fall: lower
 // it when values move to tokens, never raise it. 0, 1px hairlines and @media
 // conditions stay literal.
-const literalCeiling = 103
+const literalCeiling = 100
 const literalLengths = typeSheets
   .map((file) => readFileSync(file, 'utf8').replace(/\/\*[\s\S]*?\*\//g, ''))
   .flatMap((css) => css.split('\n'))
@@ -302,7 +302,6 @@ const hookClasses = new Set([
   'surf-code-copy',
   'surf-combobox-section',
   'surf-date-range-picker',
-  'surf-meter',
   'surf-page-header-breadcrumb',
   'surf-preview-trigger',
   'surf-select-group',

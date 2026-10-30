@@ -47,7 +47,7 @@ test('Meter uses capacity range and units, stays bounded, and fills from logical
   await page.getByRole('button', { name: 'Allocate 8 GiB' }).click()
   await page.evaluate(() => (document.documentElement.dir = 'rtl'))
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  const geometry = await page.locator('.surf-gauge-track').evaluate((el) => {
+  const geometry = await meter.locator('.surf-gauge-track').evaluate((el) => {
     const track = el.getBoundingClientRect(),
       fill = el.firstElementChild!.getBoundingClientRect()
     return {
@@ -191,4 +191,87 @@ test('Skeleton lines sit beside a circle, the last one short', async ({
     )
   expect(widths).toHaveLength(2)
   expect(widths[1] / widths[0]).toBeCloseTo(0.6, 2)
+})
+test('Meter turns its fill by range and marks a target and ticks named for assistive technology', async ({
+  page,
+}) => {
+  await page.goto('/components/meter')
+  await waitForCatalogReady(page)
+  const memory = page.getByRole('meter', { name: 'Memory allocation' })
+  const fill = memory.locator('.surf-gauge-indicator')
+  const colorOf = (token: string) =>
+    page.evaluate((name) => {
+      const probe = document.createElement('span')
+      probe.style.color = `var(${name})`
+      document.body.append(probe)
+      const color = getComputedStyle(probe).color
+      probe.remove()
+      return color
+    }, token)
+  // Lower is better: 30 of 64 GiB is in the best range and keeps the plain fill.
+  await expect(memory).toHaveAttribute('data-tone', 'optimum')
+  await expect(fill).toHaveCSS(
+    'background-color',
+    await colorOf('--surf-ink-body'),
+  )
+  const allocate = page.getByRole('button', { name: 'Allocate 8 GiB' })
+  await allocate.click()
+  await allocate.click()
+  await expect(memory).toHaveAttribute('aria-valuenow', '46')
+  await expect(memory).toHaveAttribute('data-tone', 'caution')
+  await expect(fill).toHaveCSS(
+    'background-color',
+    await colorOf('--surf-status-caution-fg'),
+  )
+  await allocate.click()
+  await allocate.click()
+  await expect(memory).toHaveAttribute('aria-valuenow', '62')
+  await expect(memory).toHaveAttribute('data-tone', 'danger')
+  await expect(fill).toHaveCSS(
+    'background-color',
+    await colorOf('--surf-status-danger-fg'),
+  )
+  // A target crosses the track at 40% and is named in the description.
+  const bonds = page.getByRole('meter', { name: 'Bonds in the portfolio' })
+  await expect(bonds).toHaveAccessibleDescription('Target 40%')
+  const marks = await bonds.locator('.surf-gauge-track').evaluate((track) => {
+    const box = track.getBoundingClientRect()
+    const at = (element: Element) => {
+      const mark = element.getBoundingClientRect()
+      return (mark.left + mark.width / 2 - box.left) / box.width
+    }
+    const target = track.querySelector('.surf-meter-target')!
+    const targetBox = target.getBoundingClientRect()
+    return {
+      target: at(target),
+      reaches: targetBox.top < box.top && targetBox.bottom > box.bottom,
+      ticks: [...track.querySelectorAll('.surf-meter-tick')].map((tick) => ({
+        at: at(tick),
+        below: tick.getBoundingClientRect().top >= box.bottom,
+      })),
+    }
+  })
+  expect(marks.target).toBeCloseTo(0.4, 2)
+  expect(marks.reaches).toBe(true)
+  expect(marks.ticks.map((tick) => Number(tick.at.toFixed(2)))).toEqual([
+    0.25, 0.5, 0.75,
+  ])
+  expect(marks.ticks.every((tick) => tick.below)).toBe(true)
+  // Right to left, the marks measure from the logical start too.
+  await page.evaluate(() => (document.documentElement.dir = 'rtl'))
+  const mirrored = await bonds
+    .locator('.surf-gauge-track')
+    .evaluate((track) => {
+      const box = track.getBoundingClientRect()
+      const mark = track
+        .querySelector('.surf-meter-target')!
+        .getBoundingClientRect()
+      return (box.right - (mark.left + mark.width / 2)) / box.width
+    })
+  expect(mirrored).toBeCloseTo(0.4, 2)
+  await page.evaluate(() => (document.documentElement.dir = 'ltr'))
+  expect(
+    (await new AxeBuilder({ page }).include('.surf-meter').analyze())
+      .violations,
+  ).toEqual([])
 })

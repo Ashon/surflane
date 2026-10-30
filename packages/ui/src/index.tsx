@@ -553,8 +553,13 @@ export {
   MeterIndicator,
   MeterLabel,
   MeterRoot,
+  MeterTarget,
+  MeterTick,
   MeterTrack,
   MeterValue,
+  type MeterRootProps,
+  type MeterTargetProps,
+  type MeterTickProps,
 } from './meter.js'
 export {
   Toast,
