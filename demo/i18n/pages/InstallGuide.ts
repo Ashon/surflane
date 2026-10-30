@@ -14,7 +14,8 @@ const en = {
   fonts: 'Brand fonts',
   fontsHint: 'Manrope, Pretendard and JetBrains Mono. Off, system fonts.',
   remember: 'Remember the theme',
-  rememberHint: "Saves the reader's light or dark choice. Off, always light.",
+  rememberHint:
+    "Adds ThemeSwitch: light, dark or the device's setting, remembered. Off, always light.",
   step: (n: number, title: string) => `${n}. ${title}`,
   installTitle: 'Install',
   installIntro:
@@ -58,8 +59,6 @@ const en = {
           : 'Every part ships its own styles.'
     if (kind === 'island')
       return '`client:load` makes the component interactive.'
-    if (kind === 'switch')
-      return '`ThemeSwitch` saves the choice in the `theme` cookie and crossfades with `transitionTheme`.'
     const styles = tailwind
       ? ''
       : "`@surflane/ui/all.css` loads every Surflane stylesheet. Drop the template's own stylesheet: its unlayered rules would override Surflane. "
@@ -69,11 +68,10 @@ const en = {
       (framework === 'vite' ? '' : styles) +
       (!remember
         ? '`data-theme` picks the theme before the first paint; `surf-typography` applies document typography.'
-        : framework === 'react-router'
-          ? 'The root `loader` reads the saved theme, so the server renders it.'
-          : framework === 'next'
-            ? 'A `<head>` script applies the saved theme before the first paint. Reading `cookies()` here instead fails the build under Cache Components.'
-            : 'A `<head>` script applies the saved theme before the first paint.')
+        : 'A `<head>` script applies the theme `ThemeSwitch` saved, under `surflane-theme`, before the first paint; system follows the device.' +
+          (framework === 'vite' || framework === 'astro'
+            ? ''
+            : ' The server renders light, so `<html>` may differ at hydration.'))
     )
   },
   highlightNote:
@@ -85,7 +83,8 @@ const en = {
     button:
       'The button fills with the brand color. Plain text means the styles did not load.',
     tailwind: 'Add `className="px-8"` to the button: the padding grows.',
-    remember: 'Switch the theme and reload: it opens in the saved theme.',
+    remember:
+      'Switch the theme with the button and reload: it opens in the saved theme.',
   },
   appShellTitle: 'With AppShell',
   appShellIntro:
@@ -138,7 +137,7 @@ export const text: Record<Locale, typeof en> = {
       'Manrope, Pretendard, JetBrains Mono. 끄면 시스템 글꼴을 씁니다.',
     remember: '테마 기억',
     rememberHint:
-      '고른 라이트·다크 테마를 저장합니다. 끄면 항상 라이트 테마입니다.',
+      'ThemeSwitch를 더합니다. 라이트, 다크, 기기 설정 중 고른 것을 기억합니다. 끄면 항상 라이트 테마입니다.',
     step: (n: number, title: string) => `${n}. ${title}`,
     installTitle: '설치',
     installIntro:
@@ -182,8 +181,6 @@ export const text: Record<Locale, typeof en> = {
             : '모든 파트가 자체 스타일을 갖고 있습니다.'
       if (kind === 'island')
         return '`client:load`가 컴포넌트를 상호작용하게 만듭니다.'
-      if (kind === 'switch')
-        return '`ThemeSwitch`가 선택을 `theme` 쿠키에 저장하고 `transitionTheme`으로 교차 페이드합니다.'
       const styles = tailwind
         ? ''
         : '`@surflane/ui/all.css`가 모든 Surflane 스타일시트를 불러옵니다. 템플릿의 스타일시트는 빼세요. 레이어 밖의 규칙이라 Surflane을 덮어씁니다. '
@@ -193,11 +190,10 @@ export const text: Record<Locale, typeof en> = {
         (framework === 'vite' ? '' : styles) +
         (!remember
           ? '`data-theme`이 첫 페인트 전에 테마를 정하고, `surf-typography`가 문서 타이포그래피를 적용합니다.'
-          : framework === 'react-router'
-            ? '루트 `loader`가 저장된 테마를 읽으므로 서버가 그 테마로 렌더링합니다.'
-            : framework === 'next'
-              ? '`<head>`의 스크립트가 첫 페인트 전에 저장된 테마를 적용합니다. 여기서 `cookies()`를 읽으면 Cache Components에서 빌드가 실패합니다.'
-              : '`<head>`의 스크립트가 첫 페인트 전에 저장된 테마를 적용합니다.')
+          : '`<head>`의 스크립트가 첫 페인트 전에 `ThemeSwitch`가 `surflane-theme`에 저장한 테마를 적용합니다. 시스템은 기기 설정을 따릅니다.' +
+            (framework === 'vite' || framework === 'astro'
+              ? ''
+              : ' 서버는 라이트로 렌더링하므로 하이드레이션 때 `<html>`이 다를 수 있습니다.'))
       )
     },
     highlightNote:

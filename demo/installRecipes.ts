@@ -16,7 +16,7 @@ export type Setup = {
 }
 /** What a file does in the setup; the guide explains each kind in one line. */
 export type FileKind =
-  'config' | 'styles' | 'entry' | 'document' | 'page' | 'island' | 'switch'
+  'config' | 'styles' | 'entry' | 'document' | 'page' | 'island'
 export type GuideFile = {
   file: string
   kind: FileKind
@@ -114,9 +114,30 @@ export function installCommand(setup: Setup) {
 function lines(...parts: (string | false)[]) {
   return parts.filter((part) => part !== false).join('\n')
 }
-// Reads the saved choice while the HTML parses, before the first paint.
-const themeRead =
-  "document.cookie.match(/(?:^|; )theme=(light|dark)/)?.[1] ?? 'light'"
+// Applies the choice ThemeSwitch saved while the HTML parses, before the first
+// paint: the mode, and the theme it shows, system resolved by the device.
+const themeLines = [
+  "let mode = 'system'",
+  'try {',
+  "  mode = localStorage.getItem('surflane-theme') ?? mode",
+  '} catch {}',
+  "if (!/^(light|dark|system)$/.test(mode)) mode = 'system'",
+  'document.documentElement.dataset.themeMode = mode',
+  'document.documentElement.dataset.theme =',
+  "  mode === 'system'",
+  "    ? matchMedia('(prefers-color-scheme: dark)').matches",
+  "      ? 'dark'",
+  "      : 'light'",
+  '    : mode',
+]
+/** The script as a block, indented for an HTML <head>. */
+const themeBlock = (indent: string) =>
+  [`${indent}<script>`, `${indent}  {`]
+    .concat(themeLines.map((line) => `${indent}    ${line}`))
+    .concat([`${indent}  }`, `${indent}</script>`])
+    .join('\n')
+/** The script as a string, for a <script> a React document renders. */
+const themeString = `const themeScript = \`{\n${themeLines.map((line) => `  ${line}`).join('\n')}\n}\``
 const stylesFile: Record<Framework, string> = {
   next: 'app/globals.css',
   vite: 'src/index.css',
@@ -198,8 +219,7 @@ function documentFile(setup: Setup): GuideFile[] {
           '    <meta charset="UTF-8" />',
           '    <meta name="viewport" content="width=device-width, initial-scale=1.0" />',
           '    <title>My app</title>',
-          remember &&
-            `    <script>\n      document.documentElement.dataset.theme =\n        ${themeRead}\n    </script>`,
+          remember && themeBlock('    '),
           '  </head>',
           '  <body class="surf-typography">',
           '    <div id="root"></div>',
@@ -222,7 +242,7 @@ function documentFile(setup: Setup): GuideFile[] {
           '',
           "export const metadata: Metadata = { title: 'My app' }",
           remember &&
-            `\n// The server renders light; the script applies the saved theme before the\n// first paint, so <html> may differ at hydration.\nconst themeScript = \`document.documentElement.dataset.theme = ${themeRead}\``,
+            `\n// The server renders light; the script applies the saved theme before the\n// first paint, so <html> may differ at hydration.\n${themeString}`,
           '',
           "export default function RootLayout({ children }: LayoutProps<'/'>) {",
           '  return (',
@@ -252,22 +272,21 @@ function documentFile(setup: Setup): GuideFile[] {
           '  Outlet,',
           '  Scripts,',
           '  ScrollRestoration,',
-          remember && '  useRouteLoaderData,',
           "} from 'react-router'",
           highlights(setup) && highlightImport,
           "import type { Route } from './+types/root'",
           ...styleImports(setup, './'),
           remember &&
-            "\nexport function loader({ request }: Route.LoaderArgs) {\n  const theme = request.headers\n    .get('Cookie')\n    ?.match(/(?:^|;\\s*)theme=(light|dark)/)?.[1]\n  return { theme: theme ?? 'light' }\n}",
+            `\n// The server renders light; the script applies the saved theme before the\n// first paint, so <html> may differ at hydration.\n${themeString}`,
           '',
           'export function Layout({ children }: { children: React.ReactNode }) {',
-          remember &&
-            "  // Layout also renders the error boundary, where loader data can be missing.\n  const theme = useRouteLoaderData<typeof loader>('root')?.theme ?? 'light'",
           '  return (',
           remember
-            ? "    <html lang='en' data-theme={theme}>"
+            ? "    <html lang='en' data-theme='light' suppressHydrationWarning>"
             : "    <html lang='en' data-theme='light'>",
           '      <head>',
+          remember &&
+            '        <script dangerouslySetInnerHTML={{ __html: themeScript }} />',
           "        <meta charSet='utf-8' />",
           "        <meta name='viewport' content='width=device-width, initial-scale=1' />",
           '        <Meta />',
@@ -313,7 +332,7 @@ function documentFile(setup: Setup): GuideFile[] {
         '    <meta name="viewport" content="width=device-width" />',
         '    <title>My app</title>',
         remember &&
-          `    <script is:inline>\n      document.documentElement.dataset.theme =\n        ${themeRead}\n    </script>`,
+          themeBlock('    ').replace('<script>', '<script is:inline>'),
         '  </head>',
         '  <body class="surf-typography">',
         '    <slot />',
@@ -340,12 +359,20 @@ function pageFiles(setup: Setup): GuideFile[] {
     kind: 'page',
     language: 'tsx',
     code: lines(
-      highlight
-        ? "import {\n  Button,\n  CodeBlock,\n  Container,\n  Heading,\n  Inline,\n  Stack,\n  Text,\n} from '@surflane/ui'"
-        : "import { Button, Container, Heading, Inline, Stack, Text } from '@surflane/ui'",
+      `import {\n${[
+        'Button',
+        highlight && 'CodeBlock',
+        'Container',
+        'Heading',
+        'Inline',
+        'Stack',
+        'Text',
+        remember && 'ThemeSwitch',
+      ]
+        .filter(Boolean)
+        .map((name) => `  ${name},`)
+        .join('\n')}\n} from '@surflane/ui'`,
       provide && highlightImport,
-      remember &&
-        `import { ThemeSwitch } from '${framework === 'react-router' ? '../' : './'}theme-switch'`,
       '',
       `export ${name}() {`,
       '  return (',
@@ -391,45 +418,9 @@ function pageFiles(setup: Setup): GuideFile[] {
     },
   ]
 }
-function themeSwitch({ framework }: Setup): GuideFile {
-  return {
-    file: `${dir[framework]}/${framework === 'astro' ? 'components/' : ''}theme-switch.tsx`,
-    kind: 'switch',
-    language: 'tsx',
-    code: lines(
-      framework === 'next' && "'use client'",
-      "import { useLayoutEffect } from 'react'",
-      "import { Button } from '@surflane/ui'",
-      "import { transitionTheme } from '@surflane/design-tokens/theme-transition'",
-      '',
-      `const saved = () =>\n  ${themeRead}`,
-      '',
-      'export function ThemeSwitch() {',
-      '  // A development remount can clear the attribute the first render set; restore it.',
-      '  useLayoutEffect(() => {',
-      '    document.documentElement.dataset.theme = saved()',
-      '  }, [])',
-      '  return (',
-      '    <Button',
-      '      onClick={() => {',
-      "        const theme = saved() === 'dark' ? 'light' : 'dark'",
-      '        document.cookie = `theme=${theme}; path=/; max-age=31536000; samesite=lax`',
-      '        transitionTheme(() => {',
-      '          document.documentElement.dataset.theme = theme',
-      '        })',
-      '      }}',
-      '    >',
-      '      Switch theme',
-      '    </Button>',
-      '  )',
-      '}',
-    ),
-  }
-}
-
 /** Every file the setup needs, in the order a reader writes them. */
 export function guideFiles(setup: Setup): GuideFile[] {
-  const { framework, tailwind, remember } = setup
+  const { framework, tailwind } = setup
   return [
     ...(tailwind && framework === 'vite'
       ? [
@@ -444,7 +435,6 @@ export function guideFiles(setup: Setup): GuideFile[] {
     ...(tailwind ? [{ ...stylesheet(), file: stylesFile[framework] }] : []),
     ...documentFile(setup),
     ...pageFiles(setup),
-    ...(remember ? [themeSwitch(setup)] : []),
   ]
 }
 

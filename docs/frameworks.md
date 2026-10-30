@@ -56,9 +56,9 @@ Without `data-theme`, the tokens follow the system setting, and dark when there 
 - Next.js: reading `cookies()` in the root layout renders every page on demand, and fails the build under Cache Components. Render a default theme instead, apply the cookie from an inline `<script>` in `<head>`, and add `suppressHydrationWarning` to `<html>`.
 - Client-only apps and static sites: set the attribute in an inline `<script>` in `<head>`, before the app bundle runs. The catalog's [`demo/index.html`](../demo/index.html) shows a cookie-based script that also supports a `system` mode.
 
-The [install guide](https://surflane.page/install) shows each of these with a theme switch, and `npm run check:install-guide` builds them.
+`ThemeSwitch` from `@surflane/ui` lets people choose light, dark or the device's setting. It sets `data-theme` and `data-theme-mode` with the theme crossfade, remembers the choice in localStorage under `surflane-theme`, and in system follows the device as it changes. A `<head>` script that reads the same key applies it before the first paint. The [install guide](https://surflane.page/install) shows that script for each framework, and `npm run check:install-guide` builds them. A server that renders the theme from your own cookie can drive the switch with `value` and `onValueChange` instead.
 
-Animate later changes with `transitionTheme` from `@surflane/design-tokens/theme-transition`. Persisting the preference belongs to the application.
+Animate changes of your own with `transitionTheme` from `@surflane/design-tokens/theme-transition`.
 
 `data-theme` also works on any element: `<div data-theme="dark">` renders that subtree in the dark theme inside a light page, and the reverse. Every token, including aliases such as `--surf-control-hover-background`, resolves again inside the subtree. Use it for previews and embedded surfaces, not as a second page theme.
 
@@ -236,7 +236,7 @@ Import the CSS file from `app/layout.tsx` and render `<html data-theme>` there. 
 
 ### React Router
 
-Import the CSS file in `app/root.tsx` and set the theme on `<html>` in `Layout`. Use a loader to read the theme cookie on the server.
+Import the CSS file in `app/root.tsx` and set the theme on `<html>` in `Layout`: an inline `<script>` for the choice `ThemeSwitch` saved, or a loader that reads your own theme cookie on the server.
 
 ### Astro
 

@@ -55,11 +55,10 @@ test('the install guide follows the chosen setup and keeps it in the address', a
     "@import '@surflane/ui/all.css' layer(components);",
   )
   await page.getByRole('switch', { name: /Remember the theme/ }).click()
-  await expect(await file(page, 'theme-switch.tsx')).toContainText(
-    'transitionTheme',
-  )
+  // The stock ThemeSwitch, and a head script that applies what it saved.
+  await expect(await file(page, 'App.tsx')).toContainText('<ThemeSwitch />')
   await expect(await file(page, 'index.html')).toContainText(
-    'document.documentElement.dataset.theme',
+    "localStorage.getItem('surflane-theme')",
   )
   // A copied link opens the same setup.
   await page.reload()
@@ -70,9 +69,13 @@ test('the install guide follows the chosen setup and keeps it in the address', a
   await expect(
     page.getByRole('switch', { name: /Remember the theme/ }),
   ).toBeChecked()
-  await expect(
-    page.getByRole('tab', { name: 'theme-switch.tsx' }),
-  ).toBeVisible()
+  await expect(page.getByRole('tab')).toHaveText([
+    'vite.config.ts',
+    'index.css',
+    'main.tsx',
+    'index.html',
+    'App.tsx',
+  ])
 })
 test('extra components add their libraries, imports and the highlighting provider', async ({
   page,
@@ -100,7 +103,7 @@ test('each framework names its own files and theme setup', async ({ page }) => {
   await waitForCatalogReady(page)
   for (const [framework, tab, marker] of [
     ['Next.js', 'layout.tsx', 'suppressHydrationWarning'],
-    ['React Router', 'root.tsx', 'useRouteLoaderData'],
+    ['React Router', 'root.tsx', 'dangerouslySetInnerHTML'],
     ['Astro', 'Layout.astro', 'is:inline'],
   ] as const) {
     await choose(page, framework)

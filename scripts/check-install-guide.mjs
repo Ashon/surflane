@@ -206,8 +206,22 @@ async function check(browser, url, setup) {
     'surflane.sizes',
   ].map((name) => (setup.tailwind ? `components.${name}` : name))
   for (const saved of setup.remember ? [undefined, 'dark'] : [undefined]) {
-    const context = await browser.newContext()
-    if (saved) await context.addCookies([{ name: 'theme', value: saved, url }])
+    // ThemeSwitch saves the choice in localStorage; the head script reads it.
+    const context = await browser.newContext(
+      saved
+        ? {
+            storageState: {
+              cookies: [],
+              origins: [
+                {
+                  origin: new URL(url).origin,
+                  localStorage: [{ name: 'surflane-theme', value: saved }],
+                },
+              ],
+            },
+          }
+        : {},
+    )
     // The theme as parsing ends, before deferred scripts hydrate the page.
     await context.addInitScript(() => {
       document.addEventListener('readystatechange', () => {
@@ -272,18 +286,30 @@ async function check(browser, url, setup) {
     if (setup.fonts && !state.fonts.includes('Manrope Variable'))
       throw new Error(`Fonts loaded: ${state.fonts.join(', ') || 'none'}`)
     if (setup.remember && saved) {
-      // Switching saves the other theme, and a reload opens with it.
-      await page.getByRole('button', { name: 'Switch theme' }).click()
+      // The switch reads the saved mode back and steps to the next: dark, then
+      // system, which the device (light here) resolves. The choice is saved, and
+      // a reload opens with it.
+      await page
+        .getByRole('button', { name: 'Theme: Dark. Switch to System' })
+        .click()
       await page.waitForFunction(
-        () => document.documentElement.dataset.theme === 'light',
+        () =>
+          document.documentElement.dataset.themeMode === 'system' &&
+          document.documentElement.dataset.theme === 'light',
       )
-      const cookie = (await context.cookies()).find((c) => c.name === 'theme')
-      if (cookie?.value !== 'light')
-        throw new Error(`Saved theme cookie ${cookie?.value}`)
+      const stored = await page.evaluate(() =>
+        localStorage.getItem('surflane-theme'),
+      )
+      if (stored !== 'system') throw new Error(`Saved theme ${stored}`)
       await page.reload({ waitUntil: 'networkidle' })
-      const reloaded = await page.evaluate(() => window.parsedTheme)
-      if (reloaded !== 'light')
-        throw new Error(`Reloaded with theme ${reloaded}, expected light`)
+      const reloaded = await page.evaluate(() => [
+        window.parsedTheme,
+        document.documentElement.dataset.themeMode,
+      ])
+      if (reloaded.join() !== 'light,system')
+        throw new Error(
+          `Reloaded with ${reloaded.join(' / ')}, expected light / system`,
+        )
     }
     if (errors.length) throw new Error(`Browser errors:\n${errors.join('\n')}`)
     await context.close()
