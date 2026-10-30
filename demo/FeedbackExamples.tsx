@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import {
   Stack,
   Inline,
+  Card,
+  Grid,
   Text,
   Field,
   Button,
@@ -166,6 +168,59 @@ export function FeedbackExample({ id }: { id: string }) {
             ))}
           </Meter.Track>
         </Meter.Root>
+        {/* Indicators on cards: a half circle in its ranges, with the state in text. */}
+        <Grid columns={2} gap={4}>
+          <Card.Root>
+            <Card.Body>
+              {/* Higher is calmer: below 4.4 defense, up to 5.1 a narrow band
+                  drawn as a dot, above it attack. */}
+              <Meter.Root
+                value={4.8}
+                min={0}
+                max={10}
+                low={4.4}
+                high={5.1}
+                optimum={10}
+                aria-valuetext={t.marketFearText}
+              >
+                <Inline justify='between' gap={4}>
+                  <Stack gap={1}>
+                    <Meter.Label>{t.marketFear}</Meter.Label>
+                    <Meter.Value>
+                      {(_, current) => (
+                        <Text as='span' variant='metric'>
+                          {current.toFixed(1)}
+                        </Text>
+                      )}
+                    </Meter.Value>
+                    <Text variant='caption' color='secondary'>
+                      {t.conditionalDefense}
+                    </Text>
+                  </Stack>
+                  <Meter.Arc />
+                </Inline>
+              </Meter.Root>
+            </Card.Body>
+          </Card.Root>
+          <Card.Root>
+            <Card.Body>
+              {/* Lower is calmer: past 20 caution, past 30 danger. */}
+              <Meter.Root
+                value={17.2}
+                min={10}
+                max={40}
+                low={20}
+                high={30}
+                optimum={10}
+                aria-valuetext={t.vixText}
+              >
+                <Meter.Label>{t.vix}</Meter.Label>
+                <Meter.Value>{(_, current) => current.toFixed(1)}</Meter.Value>
+                <Meter.Arc />
+              </Meter.Root>
+            </Card.Body>
+          </Card.Root>
+        </Grid>
       </Stack>
     )
   return (

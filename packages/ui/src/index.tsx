@@ -556,6 +556,7 @@ export {
 } from './progress.js'
 export {
   Meter,
+  MeterArc,
   MeterIndicator,
   MeterLabel,
   MeterRoot,
@@ -563,6 +564,7 @@ export {
   MeterTick,
   MeterTrack,
   MeterValue,
+  type MeterArcProps,
   type MeterRootProps,
   type MeterTargetProps,
   type MeterTickProps,

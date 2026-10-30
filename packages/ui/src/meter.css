@@ -52,3 +52,54 @@
     }
   }
 }
+@layer surflane.components {
+  /* The arc takes the track's row at a fixed shape; it never stretches past the
+     size a card gives an indicator. */
+  .surf-meter-arc {
+    grid-column: 1 / -1;
+    display: block;
+    inline-size: 100%;
+    max-inline-size: calc(var(--surf-space-12) * 2.5);
+    overflow: visible;
+  }
+  /* Zones take the status marks, which share one lightness: no zone outweighs
+     another, and the needle reads over all of them. */
+  /* Right to left, the minimum sits at the right end, as a fill starts there. */
+  .surf-meter-arc:dir(rtl) {
+    scale: -1 1;
+  }
+  .surf-meter-arc-zone {
+    fill: none;
+    stroke: var(--surf-recessed);
+    stroke-linecap: round;
+  }
+  .surf-meter-arc-zone[data-tone='optimum'] {
+    stroke: var(--surf-status-success-border);
+  }
+  .surf-meter-arc-zone[data-tone='caution'] {
+    stroke: var(--surf-status-caution-border);
+  }
+  .surf-meter-arc-zone[data-tone='danger'] {
+    stroke: var(--surf-status-danger-border);
+  }
+  .surf-meter-arc-needle {
+    stroke: var(--surf-ink);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+  }
+  .surf-meter-arc-hub {
+    fill: var(--surf-ink);
+  }
+  @media (forced-colors: active) {
+    .surf-meter-arc-zone,
+    .surf-meter-arc-zone[data-tone] {
+      stroke: CanvasText;
+    }
+    .surf-meter-arc-needle {
+      stroke: Highlight;
+    }
+    .surf-meter-arc-hub {
+      fill: Highlight;
+    }
+  }
+}

@@ -125,6 +125,7 @@ const markers = {
     'surf-stat-status',
     'surf-sparkline',
     'surf-bar-list',
+    'surf-meter-arc',
     'surf-proportion',
     'surf-diverging',
     'surf-chart',

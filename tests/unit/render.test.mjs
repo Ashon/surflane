@@ -618,3 +618,31 @@ test('a diverging BarList scales by the largest size and keeps signed order', ()
     /data-direction="down" data-tone="down"><span class="surf-diverging-fill" style="inline-size:50\.000%"/,
   )
 })
+
+test('Meter.Arc splits the half circle by the meter ranges and points at the value', () => {
+  const arc = (props) =>
+    html(h(Meter.Root, { value: 5, min: 0, max: 10, ...props }, h(Meter.Arc)))
+  const tones = (markup) =>
+    [
+      ...markup.matchAll(
+        /<path class="surf-meter-arc-zone"(?: data-tone="([a-z]+)")?/g,
+      ),
+    ].map((match) => match[1] ?? 'none')
+  assert.deepEqual(tones(arc({ low: 3, high: 7, optimum: 10 })), [
+    'danger',
+    'caution',
+    'optimum',
+  ])
+  // A low bound alone makes two zones; no ranges, one plain zone.
+  assert.deepEqual(tones(arc({ low: 3, optimum: 0 })), ['optimum', 'caution'])
+  assert.deepEqual(tones(arc({})), ['none'])
+  // The needle stands straight up at the middle of the scale.
+  assert.match(
+    arc({}),
+    /<line class="surf-meter-arc-needle" x1="60" y1="58" x2="60.00" y2="24.00"/,
+  )
+  assert.match(
+    arc({}),
+    /<svg viewBox="0 0 120 66" aria-hidden="true" class="surf-meter-arc">/,
+  )
+})

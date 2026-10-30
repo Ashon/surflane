@@ -275,3 +275,73 @@ test('Meter turns its fill by range and marks a target and ticks named for assis
       .violations,
   ).toEqual([])
 })
+test('Meter.Arc draws the meter as a half circle in its ranges, with a needle at its value', async ({
+  page,
+}) => {
+  await page.goto('/components/meter')
+  await waitForCatalogReady(page)
+  const strokeOf = (token: string) =>
+    page.evaluate((name) => {
+      const probe = document.createElement('span')
+      probe.style.color = `var(${name})`
+      document.body.append(probe)
+      const color = getComputedStyle(probe).color
+      probe.remove()
+      return color
+    }, token)
+  const read = (name: string) =>
+    page
+      .getByRole('meter', { name, exact: true })
+      .locator('svg.surf-meter-arc')
+      .evaluate((svg) => {
+        const needle = svg.querySelector('line')!
+        const [x1, y1, x2, y2] = ['x1', 'y1', 'x2', 'y2'].map((key) =>
+          Number(needle.getAttribute(key)),
+        )
+        return {
+          hidden: svg.getAttribute('aria-hidden'),
+          zones: [...svg.querySelectorAll('path')].map((zone) => ({
+            tone: zone.getAttribute('data-tone'),
+            length: (zone as SVGPathElement).getTotalLength(),
+            stroke: getComputedStyle(zone).stroke,
+          })),
+          // The needle's angle from the left end, as a share of the half circle.
+          at: 1 - Math.atan2(y1 - y2, x2 - x1) / Math.PI,
+        }
+      })
+  const fear = await read('Market fear, 24-hour average')
+  expect(fear.hidden).toBe('true')
+  // Higher is calmer: danger, then caution, then the best range.
+  expect(fear.zones.map((zone) => zone.tone)).toEqual([
+    'danger',
+    'caution',
+    'optimum',
+  ])
+  // 4.4 to 5.1 is too narrow for a band: a dot keeps the thresholds in place.
+  expect(fear.zones[1].length).toBeLessThan(1)
+  expect(fear.zones[0].length).toBeGreaterThan(20)
+  expect(fear.zones.map((zone) => zone.stroke)).toEqual([
+    await strokeOf('--surf-status-danger-border'),
+    await strokeOf('--surf-status-caution-border'),
+    await strokeOf('--surf-status-success-border'),
+  ])
+  expect(fear.at).toBeCloseTo(0.48, 2)
+  await expect(
+    page.getByRole('meter', { name: 'Market fear, 24-hour average' }),
+  ).toHaveAttribute('aria-valuetext', '4.8, conditional defense')
+  // Lower is calmer: the best range comes first.
+  const vix = await read('VIX volatility index')
+  expect(vix.zones.map((zone) => zone.tone)).toEqual([
+    'optimum',
+    'caution',
+    'danger',
+  ])
+  expect(vix.at).toBeCloseTo((17.2 - 10) / 30, 2)
+  // Right to left, the half circle mirrors so the minimum sits at the right.
+  await page.evaluate(() => (document.documentElement.dir = 'rtl'))
+  await expect(
+    page
+      .getByRole('meter', { name: 'VIX volatility index' })
+      .locator('svg.surf-meter-arc'),
+  ).toHaveCSS('scale', '-1 1')
+})

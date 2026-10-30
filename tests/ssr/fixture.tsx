@@ -718,6 +718,19 @@ export function Feedback() {
           <Meter.Indicator />
         </Meter.Track>
       </Meter.Root>
+      <Meter.Root
+        value={22}
+        min={0}
+        max={40}
+        low={18}
+        high={30}
+        optimum={0}
+        aria-valuetext='22 knots, caution'
+      >
+        <Meter.Label>Wind at the quay</Meter.Label>
+        <Meter.Value>{(_, value) => `${value} kn`}</Meter.Value>
+        <Meter.Arc />
+      </Meter.Root>
       <Spinner label='Syncing berths' />
       <Skeleton shape='block' />
       <InlineMessage.Root tone='danger'>

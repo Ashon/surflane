@@ -5,43 +5,48 @@ import { cx, part, skin } from './parts.js'
 
 /** Where the value stands against its ranges, as the native meter element judges it:
  * optimum in the range optimum falls in, caution one range away, danger two. */
-function meterTone(
-  value: number,
-  {
-    min = 0,
-    max = 100,
-    low,
-    high,
-    optimum,
-  }: {
-    min?: number
-    max?: number
-    low?: number
-    high?: number
-    optimum?: number
-  },
-) {
+type MeterRanges = {
+  min?: number
+  max?: number
+  low?: number
+  high?: number
+  optimum?: number
+}
+type MeterTone = 'optimum' | 'caution' | 'danger'
+const clamp = (n: number, from: number, to: number) =>
+  Math.min(Math.max(n, from), to)
+/** The meter's ranges as the native meter element reads them: where the low range
+ * ends, where the high one starts, and the tone a range takes against the best one. */
+function meterRanges({ min = 0, max = 100, low, high, optimum }: MeterRanges) {
   if (low === undefined && high === undefined && optimum === undefined)
     return undefined
-  const clamp = (n: number, from: number, to: number) =>
-    Math.min(Math.max(n, from), to)
   const lowEnd = clamp(low ?? min, min, max)
   const highStart = clamp(high ?? max, lowEnd, max)
   const range = (n: number) => (n < lowEnd ? 0 : n > highStart ? 2 : 1)
   const best = range(clamp(optimum ?? (min + max) / 2, min, max))
-  const away = Math.abs(range(clamp(value, min, max)) - best)
-  return away === 0 ? 'optimum' : away === 1 ? 'caution' : 'danger'
+  const tone = (n: number): MeterTone => {
+    const away = Math.abs(range(clamp(n, min, max)) - best)
+    return away === 0 ? 'optimum' : away === 1 ? 'caution' : 'danger'
+  }
+  return { lowEnd, highStart, best, tone }
+}
+function meterTone(value: number, ranges: MeterRanges) {
+  return meterRanges(ranges)?.tone(value)
 }
 
 type MeterContextValue = {
   min: number
   max: number
+  value: number
+  ranges: MeterRanges
   /** A Target or a labeled Tick adds its text to the meter's description. */
   describe: (id: string) => () => void
 }
 const MeterContext = /* @__PURE__ */ React.createContext<MeterContextValue>({
   min: 0,
   max: 100,
+  value: 0,
+  ranges: {},
   describe: () => () => {},
 })
 /** Where a value sits along the track, as a share of it from the logical start. */
@@ -78,8 +83,14 @@ const Root = function MeterRoot({
     return () => setDescribed((ids) => ids.filter((other) => other !== id))
   }, [])
   const context = React.useMemo(
-    () => ({ min, max, describe }),
-    [min, max, describe],
+    () => ({
+      min,
+      max,
+      value,
+      ranges: { min, max, low, high, optimum },
+      describe,
+    }),
+    [min, max, value, low, high, optimum, describe],
   )
   const tone = meterTone(value, { min, max, low, high, optimum })
   return (
@@ -186,6 +197,102 @@ const Tick = function MeterTick({
   )
 }
 
+// The arc's geometry, in its own units: a half circle under a 120 by 66 box.
+const arc = { x: 60, y: 58, radius: 46, stroke: 8, gap: 3, needle: 34 }
+/** A point on the arc: the minimum at the left end, the maximum at the right. */
+const arcAngle = (value: number, min: number, max: number) =>
+  Math.PI * (1 - (clamp(value, min, max) - min) / (max - min || 1))
+const arcPoint = (angle: number, radius: number) =>
+  [arc.x + radius * Math.cos(angle), arc.y - radius * Math.sin(angle)] as const
+/** A zone's band: the arc between two values, a gap short of each neighbor and with
+ * rounded ends inside the half circle. A zone too narrow for its rounded ends is a
+ * dot at its middle, so a threshold never moves to make a band fit. */
+function arcBand(
+  from: number,
+  to: number,
+  {
+    min,
+    max,
+    first,
+    last,
+  }: { min: number; max: number; first: boolean; last: boolean },
+) {
+  const cap = arc.stroke / 2 / arc.radius
+  const gap = arc.gap / 2 / arc.radius
+  const start = arcAngle(from, min, max) - (first ? 0 : gap)
+  const end = arcAngle(to, min, max) + (last ? 0 : gap)
+  let a = start - cap
+  let b = end + cap
+  if (a <= b) {
+    const middle = (start + end) / 2
+    a = middle + 0.005
+    b = middle - 0.005
+  }
+  const [x1, y1] = arcPoint(a, arc.radius)
+  const [x2, y2] = arcPoint(b, arc.radius)
+  return `M${x1.toFixed(2)} ${y1.toFixed(2)}A${arc.radius} ${arc.radius} 0 0 1 ${x2.toFixed(2)} ${y2.toFixed(2)}`
+}
+
+export type MeterArcProps = Omit<
+  React.ComponentPropsWithoutRef<'svg'>,
+  'children'
+>
+/** The meter drawn as a half circle with a needle at its value, such as a market
+ * indicator on a card. With low, high and optimum, the arc splits into its ranges,
+ * a small gap at each threshold, in the tone each range takes: optimum, caution or
+ * danger. Use it in place of Track. */
+const Arc = function MeterArc({
+  className,
+  ref,
+  ...props
+}: MeterArcProps & { ref?: React.Ref<SVGSVGElement> }) {
+  const { min, max, value, ranges } = React.useContext(MeterContext)
+  const judged = meterRanges(ranges)
+  const bounds = judged
+    ? [min, judged.lowEnd, judged.highStart, max].filter(
+        (bound, index, all) => index === 0 || bound > all[index - 1],
+      )
+    : [min, max]
+  const zones = bounds.slice(1).map((to, index) => ({
+    from: bounds[index],
+    to,
+    tone: judged?.tone((bounds[index] + to) / 2),
+  }))
+  const [x, y] = arcPoint(arcAngle(value, min, max), arc.needle)
+  return (
+    <svg
+      {...props}
+      ref={ref}
+      viewBox='0 0 120 66'
+      aria-hidden='true'
+      className={cx('surf-meter-arc', className)}
+    >
+      {zones.map((zone, index) => (
+        <path
+          key={zone.from}
+          className='surf-meter-arc-zone'
+          data-tone={zone.tone}
+          d={arcBand(zone.from, zone.to, {
+            min,
+            max,
+            first: index === 0,
+            last: index === zones.length - 1,
+          })}
+          strokeWidth={arc.stroke}
+        />
+      ))}
+      <line
+        className='surf-meter-arc-needle'
+        x1={arc.x}
+        y1={arc.y}
+        x2={x.toFixed(2)}
+        y2={y.toFixed(2)}
+      />
+      <circle className='surf-meter-arc-hub' cx={arc.x} cy={arc.y} r={4} />
+    </svg>
+  )
+}
+
 export const Meter = {
   ...BaseMeter,
   Root,
@@ -207,9 +314,11 @@ export const Meter = {
   >(BaseMeter.Indicator, 'surf-gauge-indicator'),
   Target,
   Tick,
+  Arc,
 }
 // Flat names for React Server Components, which cannot dot into client exports.
 export const {
+  Arc: MeterArc,
   Indicator: MeterIndicator,
   Label: MeterLabel,
   Root: MeterRoot,

@@ -432,7 +432,8 @@ console.log(
   `@surflane/ui: ${entries.length} entry points, one per catalog page or utility`,
 )
 // Glyphs come from Icon. Inline SVG stays only for marks that are not glyphs: the
-// checkbox tick, the menu radio dot, the spinner, chart legend swatches and sparklines.
+// checkbox tick, the menu radio dot, the spinner, chart legend swatches, sparklines and
+// the meter's arc.
 const svgModules = sourceFiles.filter((name) =>
   /<svg\b/.test(readFileSync(`packages/ui/src/${name}`, 'utf8')),
 )
@@ -443,6 +444,7 @@ assert.deepEqual(
     'checkbox.tsx',
     'icon.tsx',
     'menu.tsx',
+    'meter.tsx',
     'sparkline.tsx',
     'spinner.tsx',
   ],
