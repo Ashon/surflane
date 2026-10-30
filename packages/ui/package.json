@@ -1,6 +1,6 @@
 {
   "name": "@surflane/ui",
-  "version": "0.17.0",
+  "version": "0.18.0",
   "description": "Surflane React components built on Base UI, with data, chart, code and Markdown components.",
   "keywords": [
     "design-system",
@@ -479,8 +479,8 @@
     "@base-ui/react": "^1.9.0",
     "@headless-tree/core": "^1.8.0",
     "@headless-tree/react": "^1.8.0",
-    "@surflane/css": "^0.17.0",
-    "@surflane/design-tokens": "^0.17.0",
+    "@surflane/css": "^0.18.0",
+    "@surflane/design-tokens": "^0.18.0",
     "@tanstack/react-virtual": "^3.14.21",
     "react": "^19.0.0",
     "react-aria-components": "^1.22.1",

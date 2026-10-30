@@ -2,7 +2,7 @@
 
 `@surflane/design-tokens`, `@surflane/css` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
-## Unreleased
+## 0.18.0
 
 ### Added
 
@@ -30,6 +30,12 @@
 - A sticky Table header of more than one row, such as a group row over the column row, keeps every row, each where it sits; the lower rows used to stick at the top under the first. With `stickyColumn`, a first header cell that spans the header's rows stays in place and the first cell of a lower header row scrolls with the data columns.
 - A DataState's content fills the state's height, so content that fills its container, such as a Chart with `height='fill'` in a stretched Dashboard.Panel, gets the room.
 - In forced colors, a DatePicker's group and an OTPField's inputs draw their focus outline at `--surf-focus-ring-width`, as the other fields do, so a theme's ring width reaches them.
+
+### Migration
+
+- With the Tailwind bridge, `md:` now starts at 761px instead of Tailwind's 768px, where Surflane's phone layout ends. Styles you set for exactly 761 to 767px now get the `md:` ones; use `phone:` for 760px and narrower.
+- A `legendLimit` number now counts references and the difference's sides as well as series. If you set it to the number of series, raise it by the references you want to keep in view.
+- A segment with an icon and a name now has a 4px gap between them. Drop a margin you added for the same.
 
 ## 0.17.0
 
