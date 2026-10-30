@@ -1,7 +1,7 @@
 import type { DocKo } from './types'
 export const doc: DocKo = {
   usage:
-    '한 단위의 숫자 추세를 라인, 바, 에어리어 차트로 비교합니다. 항상 제목, 사실 요약, 단위가 있는 축 이름을 제공하세요. 시리즈는 기본적으로 브랜드와 중립 색상의 채움과 선을 쓰고, 대시와 마커로 구분합니다. 구간처럼 색으로 나눠야 하는 범주에는 palette="categorical"을 주세요. 가격이나 지연 시간처럼 0에서 먼 값에는 includeZero={false}를 주세요. 모니터링에서는 xScale="time"이 data[].time으로 행을 놓고 둥근 시각에 눈금을 두며 수집이 멈춘 곳에서 선을 끊습니다. references는 임계선과 목표 띠, x 축의 사건과 기간을, comparison 시리즈는 벤치마크처럼 조용한 비교선을, difference는 두 선 사이의 차이를, stacked는 합계를, curve="step"은 바뀔 때만 잰 값을, yScale="log"는 자릿수가 다른 값을 보여 줍니다. 대시보드 카드 안에서는 density="compact"가 플롯, 범례, 떠 있는 값만 남깁니다. 호출하는 쪽이 소유한 불변 배열로 data를 전달하세요.',
+    '한 단위의 숫자 추세를 라인, 바, 에어리어 차트로 비교합니다. 항상 제목, 사실 요약, 단위가 있는 축 이름을 제공하세요. 시리즈는 기본적으로 브랜드와 중립 색상의 채움과 선을 쓰고, 대시와 마커로 구분합니다. 구간처럼 색으로 나눠야 하는 범주에는 palette="categorical"을 주세요. 가격이나 지연 시간처럼 0에서 먼 값에는 includeZero={false}를 주세요. 모니터링에서는 xScale="time"이 data[].time으로 행을 놓고 둥근 시각에 눈금을 두며 수집이 멈춘 곳에서 선을 끊습니다. references는 임계선과 목표 띠, x 축의 사건과 기간을, comparison 시리즈는 벤치마크처럼 조용한 비교선을, difference는 두 선 사이의 차이를, stacked는 합계를, curve="step"은 바뀔 때만 잰 값을, yScale="log"는 자릿수가 다른 값을 보여 줍니다. 대시보드 카드 안에서는 density="compact"가 플롯, 범례, 떠 있는 값만 남기고, 카드 위 추세에는 minimal이 표시만 남기며 extremes가 기간의 고점과 저점에 라벨을 붙입니다. 호출하는 쪽이 소유한 불변 배열로 data를 전달하세요.',
   avoid: [
     '한 축에 단위를 섞지 마세요. 대신 별도 차트를 사용하세요.',
     '한 측정값을 다른 측정값에 대어 놓을 때는 여기 말고 ScatterChart를 쓰세요. 항목마다 점 하나입니다.',
@@ -48,6 +48,10 @@ export const doc: DocKo = {
       '읽기 전용 ({y, label, tone?} | {from, to, label, tone?} | {x, label, tone?} | {xFrom, xTo, label, tone?})[]: 값 축이 닿는 임계선과 띠, 데이터 id나 시각에 놓는 사건 선과 기간. neutral, caution, danger로 칠합니다. 범례가 값이나 자리와 함께 이름을 적고, 행을 살피면 그 행의 사건과 기간을 말합니다',
     density:
       'default | compact: compact는 플롯, 범례, 떠 있는 값만 보이고 캡션, 도움말, 값 영역은 보조 기술에만 남깁니다',
+    minimal:
+      '카드 위 추세처럼 표시만 남깁니다. 축, 격자, 범례, 축 이름은 화면에서 빠지고, 값 영역, 키보드, 기준선, 데이터 표는 남으며, 축 이름은 보조 기술에 남습니다',
+    extremes:
+      '처음 보이는 시리즈의 가장 큰 값과 가장 작은 값에 값과 행의 label을 붙입니다. 기간의 고점과 저점 같은 것',
     'legendPosition / legendLimit':
       'top | bottom / 범례에 보일 항목 수. 시리즈, 기준선·이벤트, 차이의 두 쪽 순서이며 나머지는 "+N" 팝오버로 접습니다. auto는 한 줄에 들어가는 만큼 보입니다',
     includeZero: '값 축에 0을 둡니다. 막대는 항상 0에서 시작합니다',
@@ -58,7 +62,7 @@ export const doc: DocKo = {
     'hiddenSeries / defaultHiddenSeries / onHiddenSeriesChange':
       '제어 또는 비제어 숨김 키; 콜백이 다음 키를 요청',
     labels:
-      '차트가 보여 주거나 알리는 텍스트: missing, empty, noSeries, showAll, keyboardHelp, values, viewTable, table, tableCaption, inspectHint, noRows, legend(title), series(label), moreSeries(count), moreEntries(count), total',
+      '차트가 보여 주거나 알리는 텍스트: missing, empty, noSeries, showAll, keyboardHelp, values, viewTable, table, tableCaption, inspectHint, noRows, legend(title), series(label), moreSeries(count), moreEntries(count), total, high, low',
     ChartSeriesMark:
       '{type, index, palette, color}: 범례가 그리는 시리즈 견본. 직접 만든 범례에 씁니다',
     'ref / className / figure props':

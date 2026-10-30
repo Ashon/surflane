@@ -34,6 +34,7 @@ const ready = new Set([
   'toggle',
   'toggle-group',
   'segmented-control',
+  'theme-switch',
   'toolbar',
   'menubar',
   'autocomplete',
@@ -160,6 +161,13 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
     'Segmented control',
     'Selection',
     'Chooses one value from a few, such as a period or a side.',
+    2,
+  ],
+  [
+    'theme-switch',
+    'Theme switch',
+    'Selection',
+    'Chooses light, dark or the device setting, and remembers it.',
     2,
   ],
   [
@@ -579,6 +587,7 @@ const nonBase = new Set([
   'skeleton',
   'empty-state',
   'segmented-control',
+  'theme-switch',
   'data-state',
 ])
 const specialized = new Set([
@@ -602,7 +611,7 @@ export const components: CatalogItem[] = definitions.map(
         ? 'Shiki TextMate composition'
         : id === 'markdown'
           ? 'react-markdown / remark-gfm composition'
-          : id === 'segmented-control'
+          : id === 'segmented-control' || id === 'theme-switch'
             ? 'Base UI ToggleGroup composition'
             : id === 'native-select'
               ? 'Compatibility adapter'

@@ -69,6 +69,9 @@ const specializedCriteria: Record<string, string[]> = {
   chart: [
     'Units, axes, legend, distinctions beyond color, alternative table, empty values, and tooltip accessibility',
   ],
+  'theme-switch': [
+    'A named group of three that says which is chosen, one button that names the theme now and next, the choice applied to the page or a scoped region, remembered, and the device setting followed as it changes',
+  ],
   'scatter-chart': [
     'Units on both axes, groups told apart by marker as well as color, a keyboard readout of each point, quadrant names, and an alternative table',
   ],

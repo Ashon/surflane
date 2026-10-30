@@ -431,6 +431,14 @@ export {
   type SegmentedControlItemProps,
 } from './segmented-control.js'
 export {
+  ThemeSwitch,
+  useThemeMode,
+  type ThemeMode,
+  type UseThemeModeOptions,
+  type ThemeSwitchProps,
+  type ThemeSwitchLabels,
+} from './theme-switch.js'
+export {
   LabelsProvider,
   type LabelOverrides,
   type LabelsProviderProps,

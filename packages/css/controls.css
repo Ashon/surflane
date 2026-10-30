@@ -24,10 +24,12 @@
   .surf-control-group {
     padding: 2px;
   }
+  /* An icon beside a segment's name keeps a step from it. */
   .surf-segment {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: var(--surf-space-1);
     min-width: calc(var(--surf-control-height) - 6px);
     height: calc(var(--surf-control-height) - 6px);
     padding-inline: var(--surf-space-2);

@@ -36,6 +36,8 @@ export const koLabels: SurflaneLabels = {
     moreSeries: (count) => `시리즈 ${count}개 더 보기`,
     moreEntries: (count) => `범례 ${count}개 더 보기`,
     total: '합계',
+    high: '고점',
+    low: '저점',
   },
   scatterChart: {
     missing: '없음',
@@ -144,6 +146,13 @@ export const koLabels: SurflaneLabels = {
   panel: { close: '패널 닫기', focusBoundary: '패널 탐색 계속' },
   select: { all: '전체', none: '없음', count: (count) => `${count}개 선택` },
   syntaxHighlighter: { label: '강조된 소스' },
+  themeSwitch: {
+    label: '테마',
+    light: '라이트',
+    dark: '다크',
+    system: '시스템',
+    next: (current, next) => `테마 ${current}, 누르면 ${next}`,
+  },
   timeRangePicker: {
     range: '시간 범위',
     refresh: '새로 고침 간격',

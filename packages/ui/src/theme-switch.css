@@ -1,0 +1,32 @@
+/* Theme switch, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './button.css';
+@import './segmented-control.css';
+@import './tooltip.css';
+@import './icon.css';
+@import './app-shell.css';
+
+@layer surflane.components {
+  /* The group takes its container's width and shares it among the three. */
+  .surf-theme-switch {
+    display: flex;
+    min-inline-size: 0;
+  }
+  .surf-theme-switch[data-variant='group'] {
+    container: surf-theme-switch / inline-size;
+  }
+  /* Too narrow for three names, as in an expanded sidebar, the icons stay and the
+     names stay for assistive technology. */
+  @container surf-theme-switch (max-width: 17rem) {
+    .surf-theme-switch-name {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
+}

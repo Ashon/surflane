@@ -84,6 +84,7 @@
     "./badge.css": "./dist/css/badge.css",
     "./kbd.css": "./dist/css/kbd.css",
     "./segmented-control.css": "./dist/css/segmented-control.css",
+    "./theme-switch.css": "./dist/css/theme-switch.css",
     "./description-list.css": "./dist/css/description-list.css",
     "./data-state.css": "./dist/css/data-state.css",
     "./timeline.css": "./dist/css/timeline.css",
@@ -307,6 +308,10 @@
     "./segmented-control": {
       "types": "./dist/segmented-control.d.ts",
       "import": "./dist/segmented-control.js"
+    },
+    "./theme-switch": {
+      "types": "./dist/theme-switch.d.ts",
+      "import": "./dist/theme-switch.js"
     },
     "./description-list": {
       "types": "./dist/description-list.d.ts",

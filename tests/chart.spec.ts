@@ -682,3 +682,58 @@ test('a legend limit folds references with the series, and a plan is dashed in i
   expect(growth[1]).toBeNull()
   expect(income[1]).toBeNull()
 })
+
+test('a minimal chart keeps the marks, labels the high and low, and stays inspectable', async ({
+  page,
+}) => {
+  await open(page)
+  await page.getByRole('checkbox', { name: 'Minimal, for a card' }).click()
+  await page.getByRole('checkbox', { name: 'Label the high and low' }).click()
+  const chart = page.locator('figure.surf-chart')
+  await expect(chart).toHaveAttribute('data-minimal', 'true')
+  // No axes, grid, legend or markers on screen; the axis names stay for assistive
+  // technology.
+  await expect(chart.locator('.recharts-xAxis, .recharts-yAxis')).toHaveCount(0)
+  await expect(chart.locator('.recharts-cartesian-grid')).toHaveCount(0)
+  await expect(chart.locator('.surf-chart-legend')).toHaveCount(0)
+  await expect(chart.locator('.recharts-line-dots *')).toHaveCount(0)
+  expect(
+    (await chart.locator('.surf-chart-key').boundingBox())!.width,
+  ).toBeLessThanOrEqual(1)
+  // The first series' highest value is labeled above its point, the lowest below.
+  const labels = await chart
+    .locator('.surf-chart-extreme-text')
+    .evaluateAll((texts) =>
+      texts.map((text) => ({
+        text: text.textContent,
+      })),
+    )
+  expect(labels.map((label) => label.text)).toEqual([
+    expect.stringMatching(/^High [\d,.]+ · .+$/),
+    expect.stringMatching(/^Low [\d,.]+ · .+$/),
+  ])
+  const dots = await chart
+    .locator('.surf-chart-extreme-dot circle')
+    .evaluateAll((marks) =>
+      marks.map((mark) => {
+        const box = mark.getBoundingClientRect()
+        return box.top + box.height / 2
+      }),
+    )
+  const boxes = await chart
+    .locator('.surf-chart-extreme-box')
+    .evaluateAll((rects) =>
+      rects.map((rect) => {
+        const box = rect.getBoundingClientRect()
+        return { top: box.top, bottom: box.bottom }
+      }),
+    )
+  expect(boxes[0].bottom).toBeLessThan(dots[0])
+  expect(boxes[1].top).toBeGreaterThan(dots[1])
+  // The readout still names each row by keyboard.
+  await page.getByRole('application', { name: 'Pipeline activity' }).focus()
+  await page.keyboard.press('ArrowRight')
+  await expect(
+    page.getByRole('status', { name: 'Pipeline activity values' }),
+  ).not.toContainText('Hover, touch')
+})

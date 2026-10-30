@@ -9,14 +9,11 @@ import { commandKey } from './platform.js'
 import { useLabels } from './label-context.js'
 import { SizeScope } from './sizing.js'
 
-type Shell = {
-  collapsed: boolean
-  setCollapsed: (next: boolean) => void
-  sidebarId: string
-  shortcut: boolean
-}
-const ShellContext = /* @__PURE__ */ React.createContext<Shell | null>(null)
-const SidebarContext = /* @__PURE__ */ React.createContext(false)
+import {
+  ShellContext,
+  SidebarContext,
+  type Shell,
+} from './app-shell-context.js'
 /** Whether the window is narrower than a width, as it changes. The server and the
  * hydrating pass say no, so the markup matches. */
 function useNarrowerThan(width: number | undefined) {

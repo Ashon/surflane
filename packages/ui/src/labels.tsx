@@ -13,6 +13,7 @@ import type { KbdLabels } from './kbd.js'
 import type { MarkdownLabels } from './markdown.js'
 import type { PaginationLabels } from './pagination.js'
 import type { SelectMultipleLabels } from './select.js'
+import type { ThemeSwitchLabels } from './theme-switch.js'
 import type { TimeRangePickerLabels } from './time-range-picker.js'
 import type { TreeLabels } from './tree.js'
 
@@ -41,6 +42,7 @@ export type SurflaneLabels = {
   /** Select with multiple. */
   select: SelectMultipleLabels
   syntaxHighlighter: { label: string }
+  themeSwitch: ThemeSwitchLabels
   timeRangePicker: TimeRangePickerLabels
   /** Toaster's region and each toast's dismiss button. */
   toast: { region: string; close: string }

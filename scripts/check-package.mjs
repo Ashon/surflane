@@ -388,6 +388,7 @@ const internalModules = [
   'table-selection',
   'table-container',
   'chart-shared',
+  'app-shell-context',
 ]
 const utilityEntries = [
   'choice-label',

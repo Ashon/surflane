@@ -37,6 +37,7 @@ const markers = {
   controls: [
     'surf-segmented',
     'surf-segment',
+    'surf-theme-switch',
     'surf-button',
     'surf-input',
     'surf-select-trigger',

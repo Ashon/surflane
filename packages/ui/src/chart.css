@@ -343,6 +343,37 @@
     clip-path: inset(50%);
     white-space: nowrap;
   }
+  /* Minimal, for a trend on a card: the marks only. The value axis name, like the
+     x-axis name, stays for assistive technology. */
+  .surf-chart[data-minimal] .surf-chart-key,
+  .surf-chart[data-minimal] .surf-chart-x-label {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  /* A period's high and low: an ink point, its value and place on the recessed
+     step beside it. */
+  .surf-chart-extreme-box {
+    fill: var(--surf-recessed);
+  }
+  .surf-chart-extreme-text {
+    fill: var(--surf-ink);
+    font-size: var(--surf-type-caption-size);
+    font-variant-numeric: tabular-nums;
+  }
+  @media (forced-colors: active) {
+    .surf-chart-extreme-dot circle,
+    .surf-chart-extreme-text {
+      fill: CanvasText;
+    }
+    .surf-chart-extreme-box {
+      fill: Canvas;
+      stroke: CanvasText;
+    }
+  }
   .surf-chart[data-density='compact']
     :is(.surf-chart-legend-button, .surf-chart-legend-reference) {
     min-height: var(--surf-space-6);

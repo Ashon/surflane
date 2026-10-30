@@ -2,7 +2,7 @@ import type { ComponentDoc } from '../componentDocs'
 export const doc: ComponentDoc = {
   usage: [
     'Use the workspace layout to pair main content with a sidebar that holds a brand, a collapse toggle, and an account at the bottom. For documentation sites that need a global top rail, use the default header layout.',
-    'AppShell provides the layout and native link styles; the caller owns routes, account, and theme. The shell keeps the collapsed state itself: SidebarToggle collapses the sidebar, ⌘B (Ctrl+B elsewhere) does too outside text fields, persist remembers the state in localStorage, and on the rail each Link shows its name as a tooltip. Pass collapsed and onCollapsedChange to control the state, or read a cookie into defaultCollapsed so a server-rendered first paint is right.',
+    'AppShell provides the layout and native link styles; the caller owns routes and account. A ThemeSwitch in the sidebar is a row like the links, its name a tooltip on the rail. The shell keeps the collapsed state itself: SidebarToggle collapses the sidebar, ⌘B (Ctrl+B elsewhere) does too outside text fields, persist remembers the state in localStorage, and on the rail each Link shows its name as a tooltip. Pass collapsed and onCollapsedChange to control the state, or read a cookie into defaultCollapsed so a server-rendered first paint is right.',
     "The workspace sidebar collapses from 224px to 72px, and icons keep their positions. Brand is its top row: it centers the product mark, about 24px, on the links' icon column, and SidebarToggle ends the row, as tall as a link and as far from the edge. On the rail the brand hides and the toggle takes its place. In the header it sits on one line.",
     'Brand sets the product name in the subsection role (Manrope 500, 16/24, --surf-ink, default tracking), starting on the link label line. In the sidebar a name with no description takes up to two lines of the brand row before it is cut short; a longer one, or a name in the header, truncates with an ellipsis and keeps its full text in title. Its description is an optional second line in the caption role (12/18, --surf-ink-muted), such as the workspace.',
     "Bar holds a page's own tabs, such as a project's pages as NavigationMenu links, at the top of the page. Make it the Page's first child. It is as tall as the brand row less the shell's inset above and below (B − 2I, 56px), its controls take the small size (32px), and it bleeds a link's padding and edge (X, 13px) past the page's text: each tab's label lines up with the text, its middle stands on the brand row's line, and the tab stands as far from the page's top and start as the page stands from the shell (G = P − X, about 12px). Other controls line up within a few pixels, by their own padding. No line parts it from the page: the space under it does, and the current tab's plane marks the page. In compact density and on a phone the page's padding leaves no room to bleed, so the tabs start at the text; on a phone the bar sits under the mobile header, as tall as its tabs.",
@@ -16,7 +16,7 @@ export const doc: ComponentDoc = {
     "The page pads its content by --surf-app-shell-page-padding: 24px, 12px in compact density and 16px on a phone. Set it on Root to give a denser or roomier product its own room; Bar takes the new value, so its tabs still line up with the page's text.",
     'To show a shell inside a page, as this example does, let the frame round and clip it. Here the frame clips at 22px and sets --surf-app-shell-page-radius to --surf-radius-md (10px), so the frame, the clip and the page stay concentric: 26, 22 and 10px.',
     'The example sits in a fixed-height frame on the page, so its ScrollAreas keep the default scrollChain="auto" and hand the wheel to the page at their edges. Turn on Overflow navigation and Long workspace content to see the separate scrolling.',
-    "Product selection and preview options sit outside the example boundary, and the theme switch sits in the account menu. The example's icon collapse is a product choice, and a real documentation site's sidebar is text-first.",
+    "Product selection and preview options sit outside the example boundary, the sidebar's ThemeSwitch row changes the preview's theme, and the account menu switches the page's. The example's icon collapse is a product choice, and a real documentation site's sidebar is text-first.",
   ],
   avoid: [
     "Don't force an icon sidebar on every product. A documentation sidebar can stay text-first.",
@@ -76,6 +76,7 @@ export const doc: ComponentDoc = {
       </AppShell.Nav>
     </ScrollArea>
     <AppShell.Footer>
+      <ThemeSwitch />
       <Menu.Root>
         <AppShell.Link
           render={<Menu.Trigger />}
@@ -97,7 +98,8 @@ export const doc: ComponentDoc = {
 // MenuTrigger shows at <=760px, where the Sidebar is hidden. Its bottom Sheet
 // holds the same Nav (see Responsive navigation).
 // AppShell.Content is a div: render the application's single main landmark yourself.
-// Route, permission, session, cookie and theme ownership stay with the application.`,
+// Route, permission, session and cookie ownership stay with the application;
+// ThemeSwitch in the sidebar sets and remembers the theme, or drive it with value.`,
   props: [
     [
       'Root style --surf-app-shell-page-radius / --surf-app-shell-inset',

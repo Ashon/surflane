@@ -235,6 +235,8 @@ export function ChartExample() {
   const [hidden, setHidden] = useState<string[]>([])
   const [palette, setPalette] = useState<'neutral' | 'categorical'>('neutral')
   const [includeZero, setIncludeZero] = useState(true)
+  const [minimal, setMinimal] = useState(false)
+  const [extremes, setExtremes] = useState(false)
   const [yScale, setYScale] = useState<'linear' | 'log'>('linear')
   const [curve, setCurve] = useState<'linear' | 'step'>('linear')
   const [stacked, setStacked] = useState(false)
@@ -566,6 +568,25 @@ export function ChartExample() {
         >
           {t.stackSeries}
         </ChoiceLabel>
+        {/* For a trend on a card: the marks alone, and the high and low. */}
+        <ChoiceLabel
+          control={
+            <Checkbox.Root checked={minimal} onCheckedChange={setMinimal}>
+              <Checkbox.Indicator />
+            </Checkbox.Root>
+          }
+        >
+          {t.minimal}
+        </ChoiceLabel>
+        <ChoiceLabel
+          control={
+            <Checkbox.Root checked={extremes} onCheckedChange={setExtremes}>
+              <Checkbox.Indicator />
+            </Checkbox.Root>
+          }
+        >
+          {t.extremes}
+        </ChoiceLabel>
       </div>
       <Chart
         title={t.chartTitle}
@@ -601,6 +622,8 @@ export function ChartExample() {
         series={sample.series ?? series}
         palette={palette}
         includeZero={includeZero}
+        minimal={minimal}
+        extremes={extremes}
         locale={locale}
         formatValue={sample.formatValue}
         hiddenSeries={locked ? hidden : undefined}

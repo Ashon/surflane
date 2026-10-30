@@ -1,7 +1,7 @@
 import type { ComponentDoc } from '../componentDocs'
 export const doc: ComponentDoc = {
   usage:
-    'Compare numeric trends in one unit as a line, bar, or area chart. Always provide a title, a factual summary, and axis names with units. Series default to brand and neutral fills and lines, told apart by dashes and markers; pass palette="categorical" when color must separate categories, such as buckets. For values far from zero, such as prices or latency, set includeZero={false}. For monitoring, xScale="time" places rows by data[].time, ticks on round times and breaks a line where sampling stops; references draw thresholds and target bands, and mark events and periods on the x axis; a comparison series, such as a benchmark, draws quieter, and difference shades the lead between two lines; stacked shows a total; curve="step" holds values sampled on change; yScale="log" spans orders of magnitude. In a dashboard card, density="compact" keeps the plot, legend and floating values. Pass data as an immutable array that the caller owns.',
+    'Compare numeric trends in one unit as a line, bar, or area chart. Always provide a title, a factual summary, and axis names with units. Series default to brand and neutral fills and lines, told apart by dashes and markers; pass palette="categorical" when color must separate categories, such as buckets. For values far from zero, such as prices or latency, set includeZero={false}. For monitoring, xScale="time" places rows by data[].time, ticks on round times and breaks a line where sampling stops; references draw thresholds and target bands, and mark events and periods on the x axis; a comparison series, such as a benchmark, draws quieter, and difference shades the lead between two lines; stacked shows a total; curve="step" holds values sampled on change; yScale="log" spans orders of magnitude. In a dashboard card, density="compact" keeps the plot, legend and floating values; for a trend on a card, minimal leaves the marks alone and extremes labels the period\'s high and low. Pass data as an immutable array that the caller owns.',
   avoid: [
     "Don't mix units on one axis. Use separate charts instead.",
     "Don't plot one measure against another here. Use ScatterChart, one point per item.",
@@ -132,6 +132,16 @@ const data: ChartDatum[] = [
       'default',
     ],
     [
+      'minimal',
+      'the marks alone, for a trend on a card: no axes, grid, legend or axis names on screen; the readout, keyboard, references and data table stay, and the axis names stay for assistive technology',
+      'false',
+    ],
+    [
+      'extremes',
+      "labels the highest and lowest value of the first shown series with its value and its row's label, such as a period's high and low",
+      'false',
+    ],
+    [
       'legendPosition / legendLimit',
       'top | bottom / how many entries the legend shows, series first, then references and the difference\'s sides, before folding the rest behind a "+N" popover; auto shows as many as fit one line',
       'top / every series',
@@ -158,7 +168,7 @@ const data: ChartDatum[] = [
     ],
     [
       'labels',
-      'text the chart shows or announces: missing, empty, noSeries, showAll, keyboardHelp, values, viewTable, table, tableCaption, inspectHint, noRows, legend(title), series(label), moreSeries(count), moreEntries(count), total',
+      'text the chart shows or announces: missing, empty, noSeries, showAll, keyboardHelp, values, viewTable, table, tableCaption, inspectHint, noRows, legend(title), series(label), moreSeries(count), moreEntries(count), total, high, low',
       'English',
     ],
     [

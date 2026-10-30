@@ -132,6 +132,8 @@ export const catalogKo: {
       '부호 있는 값을 가운데 선에서 그려, 오르면 한쪽으로, 내리면 다른 쪽으로 뻗습니다.',
     '/components/tree': '중첩 리소스를 키보드로 탐색합니다.',
     '/components/chart': '단위, 범례, 대체 테이블과 함께 추세를 보여 줍니다.',
+    '/components/theme-switch':
+      '라이트, 다크, 기기 설정 중 하나를 골라 기억합니다.',
     '/components/scatter-chart':
       '항목마다 두 측정값을 점으로 놓고, 기준선으로 사분면을 나눕니다.',
     '/components/scroll-area': '레이아웃 안에 가로·세로 스크롤을 추가합니다.',

@@ -70,6 +70,7 @@ import {
   Switch,
   SyntaxHighlighter,
   SegmentedControl,
+  ThemeSwitch,
   Table,
   Timeline,
   Tabs,
@@ -242,6 +243,8 @@ export function Controls() {
         <SegmentedControl.Item value='flood'>Flood</SegmentedControl.Item>
         <SegmentedControl.Item value='ebb'>Ebb</SegmentedControl.Item>
       </SegmentedControl.Root>
+      <ThemeSwitch persist={false} />
+      <ThemeSwitch variant='group' persist={false} />
       <TooltipProvider>
         <Tooltip label='Recalculate arrival times' shortcut='⌘R'>
           <Button variant='outline'>Refresh ETA</Button>
@@ -1032,6 +1035,7 @@ export function Shell() {
             />
           </AppShell.Nav>
           <AppShell.Footer>
+            <ThemeSwitch persist={false} />
             <AppShell.Link
               render={<button type='button' />}
               label='Harbor master'

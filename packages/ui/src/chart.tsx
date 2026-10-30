@@ -7,6 +7,7 @@ import {
   ComposedChart,
   Line,
   ReferenceArea,
+  ReferenceDot,
   ReferenceLine,
   ResponsiveContainer,
   Tooltip,
@@ -139,6 +140,13 @@ export type ChartProps = Omit<
    * caption, keyboard help and readout stay for assistive technology. Without it the
    * chart follows a SizeProvider density. Its data table takes the same density. */
   density?: 'default' | 'compact'
+  /** Leaves the marks alone, for a trend on a card: no axes, grid, legend or axis
+   * names on screen. The readout, keyboard, references and data table stay, and the
+   * axis names stay for assistive technology. */
+  minimal?: boolean
+  /** Labels the highest and lowest value of the first shown series with its value
+   * and where it falls, such as a period's high and low. */
+  extremes?: boolean
   /** Above the plot, beside the value axis name, or below it. */
   legendPosition?: 'top' | 'bottom'
   /** Shows this many series in the legend; the rest fold behind a "+N" button. auto
@@ -178,6 +186,10 @@ export type ChartLabels = {
   moreEntries: (count: number) => string
   /** The sum of stacked series in the readout. */
   total: string
+  /** Names the highest value's label, with extremes. */
+  high: string
+  /** Names the lowest value's label, with extremes. */
+  low: string
 }
 const chartLabels: ChartLabels = {
   missing: 'Not available',
@@ -198,6 +210,8 @@ const chartLabels: ChartLabels = {
   moreSeries: (count) => `${count} more series`,
   moreEntries: (count) => `${count} more in the legend`,
   total: 'Total',
+  high: 'High',
+  low: 'Low',
 }
 const dashes = [undefined, '7 4', '2 4', '10 3 2 3', '12 5', '4 3']
 // A plan's dash: short and even, as a target line reads.
@@ -617,6 +631,52 @@ function FloatingValues({
   )
 }
 
+/** An extreme's label: above the highest point, below the lowest, turned inward near
+ * either end of the plot so it never runs past it. Recharts passes the dot's box. */
+function ExtremeLabel({
+  viewBox,
+  text,
+  place,
+  at,
+  font,
+}: {
+  viewBox?: { x: number; y: number; width: number; height: number }
+  text: string
+  place: 'above' | 'below'
+  at: number
+  font?: string
+}) {
+  if (!viewBox) return null
+  const x = viewBox.x + viewBox.width / 2
+  const y = viewBox.y + viewBox.height / 2
+  // The --surf-space-2 inset on each side, and the 20px box of a 12px line.
+  const width = (font ? textWidth(text, font) : text.length * 7) + 16
+  const height = 20
+  const left = at < 0.3 ? x - 8 : at > 0.7 ? x - width + 8 : x - width / 2
+  const top = place === 'above' ? y - height - 6 : y + 6
+  return (
+    <g>
+      <rect
+        x={left}
+        y={top}
+        width={width}
+        height={height}
+        rx={4}
+        className='surf-chart-extreme-box'
+      />
+      <text
+        x={left + width / 2}
+        y={top + height / 2}
+        dominantBaseline='central'
+        textAnchor='middle'
+        className='surf-chart-extreme-text'
+      >
+        {text}
+      </text>
+    </g>
+  )
+}
+
 /** Cartesian trends with a persistent, keyboard-readable tooltip region and a
  * full data-table alternative. Missing values are gaps, never fabricated zeros. */
 export const Chart = function Chart({
@@ -639,6 +699,8 @@ export const Chart = function Chart({
   difference,
   gap,
   density: ownDensity,
+  minimal = false,
+  extremes = false,
   legendPosition = 'top',
   legendLimit,
   locale,
@@ -980,6 +1042,28 @@ export const Chart = function Chart({
     }
   }, [rows, timeScale, type, interval, locale, frameWidth, frame, fontsReady])
   const hasValues = values.length > 0
+  // The first shown series' highest and lowest values, where extremes labels them.
+  const extremeRows = (() => {
+    const key = visible[0]?.key
+    if (!extremes || !key) return []
+    let high: { row: Row; value: number; index: number } | undefined
+    let low: typeof high
+    rows.forEach((row, index) => {
+      const value = row.values[key]
+      if (!isNumber(value)) return
+      if (!high || value > high.value) high = { row, value, index }
+      if (!low || value < low.value) low = { row, value, index }
+    })
+    if (!high || !low) return []
+    const share = (index: number) =>
+      rows.length > 1 ? index / (rows.length - 1) : 0.5
+    return [
+      { ...high, kind: 'high' as const, at: share(high.index) },
+      ...(low.row === high.row
+        ? []
+        : [{ ...low, kind: 'low' as const, at: share(low.index) }]),
+    ]
+  })()
   const changeHidden = (next: string[]) => {
     if (hiddenSeries === undefined) setInternalHidden(next)
     onHiddenSeriesChange?.(next)
@@ -1140,6 +1224,7 @@ export const Chart = function Chart({
       ref={ref}
       data-density={density}
       data-height={fill ? 'fill' : undefined}
+      data-minimal={minimal || undefined}
       style={
         fill
           ? ({
@@ -1160,7 +1245,7 @@ export const Chart = function Chart({
           <p className='surf-chart-axis-label'>
             {yLabel} ({unit})
           </p>
-          {legendPosition === 'top' && legend}
+          {legendPosition === 'top' && !minimal && legend}
         </div>
         {hasValues ? (
           <>
@@ -1191,7 +1276,14 @@ export const Chart = function Chart({
                   role='application'
                   aria-label={title}
                   aria-describedby={`${id}-summary ${id}-keys`}
-                  margin={{ top: 16, right: 20, bottom: 8, left: 0 }}
+                  margin={
+                    minimal
+                      ? // Room above and below for the extremes' labels.
+                        extremes
+                        ? { top: 28, right: 4, bottom: 28, left: 4 }
+                        : { top: 4, right: 4, bottom: 4, left: 4 }
+                      : { top: 16, right: 20, bottom: 8, left: 0 }
+                  }
                   baseValue={logScale ? min : undefined}
                 >
                   <defs>
@@ -1204,7 +1296,9 @@ export const Chart = function Chart({
                       />
                     ))}
                   </defs>
-                  <CartesianGrid vertical={false} stroke='var(--surf-line)' />
+                  {!minimal && (
+                    <CartesianGrid vertical={false} stroke='var(--surf-line)' />
+                  )}
                   {references.map((reference, index) =>
                     'from' in reference ? (
                       <ReferenceArea
@@ -1230,6 +1324,7 @@ export const Chart = function Chart({
                   )}
                   {time ? (
                     <XAxis
+                      hide={minimal}
                       dataKey='time'
                       type='number'
                       scale='time'
@@ -1249,6 +1344,7 @@ export const Chart = function Chart({
                     />
                   ) : (
                     <XAxis
+                      hide={minimal}
                       dataKey='id'
                       tickFormatter={(value) => {
                         const label =
@@ -1272,6 +1368,7 @@ export const Chart = function Chart({
                     />
                   )}
                   <YAxis
+                    hide={minimal}
                     width={56}
                     scale={logScale ? 'log' : 'auto'}
                     tickFormatter={(value) =>
@@ -1385,8 +1482,9 @@ export const Chart = function Chart({
                       stroke: colorFor(index),
                       stackId: stacks ? 'total' : undefined,
                     }
+                    // A minimal chart draws the line alone; the readout names each point.
                     const dot =
-                      rows.length > 40
+                      rows.length > 40 || minimal
                         ? false
                         : (dot: Pick<DotProps, 'cx' | 'cy'>) => (
                             <Marker
@@ -1449,6 +1547,30 @@ export const Chart = function Chart({
                       />
                     ) : null,
                   )}
+                  {extremes &&
+                    extremeRows.map(({ row, value, kind, at }) => (
+                      <ReferenceDot
+                        key={kind}
+                        x={timeScale ? row.time : row.id}
+                        y={value}
+                        r={3.5}
+                        fill='var(--surf-ink)'
+                        stroke='none'
+                        className='surf-chart-extreme-dot'
+                        label={
+                          <ExtremeLabel
+                            text={`${kind === 'high' ? text.high : text.low} ${formatNumber(value)} · ${row.label}`}
+                            place={kind === 'high' ? 'above' : 'below'}
+                            at={at}
+                            font={
+                              frame && fontsReady
+                                ? `12px ${getComputedStyle(frame).fontFamily}`
+                                : undefined
+                            }
+                          />
+                        }
+                      />
+                    ))}
                   <FloatingValues
                     host={floatHost}
                     hidden={dismissed}
@@ -1535,7 +1657,7 @@ export const Chart = function Chart({
             )}
           </div>
         )}
-        {legendPosition === 'bottom' && (
+        {legendPosition === 'bottom' && !minimal && (
           <div className='surf-chart-key' data-position='bottom'>
             {legend}
           </div>

@@ -71,6 +71,7 @@ export const exampleGroups = {
   richContent: ['syntax-highlighter', 'markdown'],
   chart: ['chart'],
   scatterChart: ['scatter-chart'],
+  themeSwitch: ['theme-switch'],
   datePicker: ['date-picker'],
   tree: ['tree'],
   commandSearch: ['command-search'],

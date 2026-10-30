@@ -13,6 +13,7 @@ import {
   ScrollArea,
   Sheet,
   ChoiceLabel,
+  ThemeSwitch,
 } from '@surflane/ui'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/AppShellExample'
@@ -118,6 +119,7 @@ export function AppShellExample({
     </AppShell.Nav>
   )
   // The account row is a Link row rendered as the menu's trigger.
+  const shellFrame = useRef<HTMLDivElement>(null)
   const accountMenu = (
     <Menu.Root>
       <AppShell.Link
@@ -223,7 +225,7 @@ export function AppShellExample({
         data-content='workspace'
       >
         {/* The frame rounds and clips the shell; the shell's own edge is square. */}
-        <div className='app-shell-preview-clip'>
+        <div className='app-shell-preview-clip' ref={shellFrame}>
           <AppShell.Root
             layout='workspace'
             persist='surflane-preview-sidebar'
@@ -325,7 +327,11 @@ export function AppShellExample({
               >
                 {links()}
               </ScrollArea>
-              <AppShell.Footer>{accountMenu}</AppShell.Footer>
+              <AppShell.Footer>
+                {/* The theme applies to this preview, not the page. */}
+                <ThemeSwitch target={shellFrame} persist={false} />
+                {accountMenu}
+              </AppShell.Footer>
             </AppShell.Sidebar>
             <AppShell.Content
               id={`${previewId}-workspace`}

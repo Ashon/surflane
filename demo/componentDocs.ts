@@ -17,6 +17,7 @@ import { doc as button } from './docs/button.en'
 import { doc as card } from './docs/card.en'
 import { doc as chart } from './docs/chart.en'
 import { doc as scatterChart } from './docs/scatter-chart.en'
+import { doc as themeSwitch } from './docs/theme-switch.en'
 import { doc as checkbox } from './docs/checkbox.en'
 import { doc as checkboxGroup } from './docs/checkbox-group.en'
 import { doc as code } from './docs/code.en'
@@ -116,6 +117,7 @@ export const componentDocs: Record<string, ComponentDoc> = {
   card,
   chart,
   'scatter-chart': scatterChart,
+  'theme-switch': themeSwitch,
   checkbox,
   'checkbox-group': checkboxGroup,
   code,
