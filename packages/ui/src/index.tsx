@@ -519,6 +519,12 @@ export {
 } from './sparkline.js'
 export { BarList, type BarListProps, type BarListItem } from './bar-list.js'
 export {
+  ProportionBar,
+  type ProportionBarProps,
+  type ProportionSegment,
+} from './proportion-bar.js'
+export { DivergingBar, type DivergingBarProps } from './diverging-bar.js'
+export {
   Dashboard,
   DashboardRoot,
   DashboardPanel,

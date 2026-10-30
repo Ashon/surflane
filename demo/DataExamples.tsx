@@ -19,6 +19,8 @@ import {
   Stat,
   Sparkline,
   BarList,
+  ProportionBar,
+  DivergingBar,
   Banner,
   type BannerTone,
   DescriptionList,
@@ -480,6 +482,164 @@ function BarListPreview() {
           />
         </Card.Body>
       </Card.Root>
+      <Card.Root>
+        <Card.Header>
+          <Card.Title>{t.sectorReturn}</Card.Title>
+        </Card.Header>
+        <Card.Body>
+          {/* Signed gaps, ranked from a center line on one scale. */}
+          <BarList
+            label={t.sectorReturn}
+            diverging
+            items={sectors.map(([id, value]) => ({
+              id,
+              label: t.sectorName[id],
+              value,
+              text: points(value, tag),
+            }))}
+          />
+        </Card.Body>
+      </Card.Root>
+    </Grid>
+  )
+}
+// Gaps against the market, in percentage points.
+const sectors = [
+  ['semiconductors', 4.2],
+  ['banks', 1.1],
+  ['autos', -0.6],
+  ['chemicals', -2.8],
+  ['retail', -3.5],
+] as const
+const points = (value: number, tag: string) =>
+  `${formatNumber(value, { locale: tag, signed: true, precision: 1 })}%p`
+function ProportionBarPreview() {
+  const { locale } = useLocale()
+  const t = text[locale]
+  const tag = locale === 'ko' ? 'ko-KR' : 'en-US'
+  return (
+    <Grid columns={2} gap={4}>
+      <Card.Root>
+        <Card.Header>
+          <Card.Title>{t.newsSentiment}</Card.Title>
+        </Card.Header>
+        <Card.Body>
+          {/* Parts that read as a direction take the trend tones. */}
+          <ProportionBar
+            label={t.newsSentimentLabel}
+            show='both'
+            locale={tag}
+            segments={[
+              { id: 'positive', label: t.positive, value: 12, tone: 'up' },
+              { id: 'negative', label: t.negative, value: 5, tone: 'down' },
+              { id: 'neutral', label: t.neutral, value: 8, tone: 'flat' },
+            ]}
+          />
+        </Card.Body>
+      </Card.Root>
+      <Card.Root>
+        <Card.Header>
+          <Card.Title>{t.portfolioByMarket}</Card.Title>
+        </Card.Header>
+        <Card.Body>
+          <ProportionBar
+            label={t.portfolioByMarket}
+            locale={tag}
+            segments={[
+              { id: 'korea', label: t.korea, value: 58.4 },
+              { id: 'united-states', label: t.unitedStates, value: 41.6 },
+            ]}
+          />
+        </Card.Body>
+      </Card.Root>
+      <Card.Root>
+        <Card.Header>
+          <Card.Title>{t.gpuHoursByTeam}</Card.Title>
+        </Card.Header>
+        <Card.Body>
+          {/* Parts of their own take the chart's category hues in order. */}
+          <ProportionBar
+            label={t.gpuHoursByTeam}
+            show='value'
+            locale={tag}
+            formatValue={t.hours}
+            segments={teamHours.map(([id, value]) => ({
+              id,
+              label: t.teamName[id],
+              value,
+            }))}
+          />
+        </Card.Body>
+      </Card.Root>
+    </Grid>
+  )
+}
+const teamHours = [
+  ['research', 412],
+  ['search', 268],
+  ['ads', 141],
+  ['speech', 96],
+  ['other', 38],
+] as const
+function DivergingBarPreview() {
+  const { locale } = useLocale()
+  const t = text[locale]
+  const tag = locale === 'ko' ? 'ko-KR' : 'en-US'
+  // Bars side by side share one scale: the largest gap fills a half.
+  const largest = Math.max(...sectors.map(([, value]) => Math.abs(value)))
+  const drift = [
+    ['stocks', 2.1],
+    ['bonds', -3.2],
+    ['cash', 1.1],
+  ] as const
+  return (
+    <Grid columns={2} gap={4}>
+      <Card.Root>
+        <Card.Header>
+          <Card.Title>{t.sectorReturn}</Card.Title>
+        </Card.Header>
+        <Card.Body>
+          <Stack gap={4}>
+            {sectors.slice(0, 3).map(([id, value]) => (
+              <Stack key={id} gap={1}>
+                <Inline justify='between'>
+                  <Text>{t.sectorName[id]}</Text>
+                  <Text>{points(value, tag)}</Text>
+                </Inline>
+                <DivergingBar
+                  value={value}
+                  max={largest}
+                  label={t.againstMarket(t.sectorName[id], points(value, tag))}
+                />
+              </Stack>
+            ))}
+          </Stack>
+        </Card.Body>
+      </Card.Root>
+      <Card.Root>
+        <Card.Header>
+          <Card.Title>{t.allocationAgainstTarget}</Card.Title>
+        </Card.Header>
+        <Card.Body>
+          {/* Drift is neither good nor bad: one brand mark, the side says which way. */}
+          <Stack gap={4}>
+            {drift.map(([id, value]) => (
+              <Stack key={id} gap={1}>
+                <Inline justify='between'>
+                  <Text>{t.assetName[id]}</Text>
+                  <Text>{points(value, tag)}</Text>
+                </Inline>
+                <DivergingBar
+                  value={value}
+                  max={4}
+                  trend='neutral'
+                  label={t.againstTarget(t.assetName[id], points(value, tag))}
+                />
+              </Stack>
+            ))}
+          </Stack>
+        </Card.Body>
+      </Card.Root>
     </Grid>
   )
 }
@@ -668,6 +828,8 @@ export function DataExample({ id }: { id: string }) {
   if (id === 'timeline') return <TimelinePreview />
   if (id === 'sparkline') return <SparklinePreview />
   if (id === 'bar-list') return <BarListPreview />
+  if (id === 'proportion-bar') return <ProportionBarPreview />
+  if (id === 'diverging-bar') return <DivergingBarPreview />
   if (id === 'empty-state') return <EmptyPreview />
   if (id === 'inline-message') return <MessagePreview />
   if (id === 'banner') return <BannerPreview />

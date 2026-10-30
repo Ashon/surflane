@@ -74,6 +74,12 @@ const specializedCriteria: Record<string, string[]> = {
   'bar-list': [
     'An ordered list whose names and values are text, decorative bars, and a named scroll region when it is bounded',
   ],
+  'proportion-bar': [
+    'A named group whose legend is the text, a decorative bar whose parts keep apart without color, and parts that keep their tone in both themes',
+  ],
+  'diverging-bar': [
+    'A named image that states the value, one scale for bars side by side, and a fill that grows from the logical start right to left',
+  ],
   banner: [
     'Spans the app shell above everything else, names its state in words, announces changes politely, and moves focus on when dismissed',
   ],

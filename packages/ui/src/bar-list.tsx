@@ -2,6 +2,7 @@ import * as React from 'react'
 import { cx } from './class-names.js'
 import { missingValue } from './format.js'
 import { ScrollArea } from './scroll-area.js'
+import { diverging as divergingFrom, DivergingTrack } from './diverging-bar.js'
 
 export type BarListItem = {
   id: string
@@ -20,8 +21,17 @@ export type BarListProps = Omit<
   /** Names the list, such as "Disk used by directory". */
   label: string
   items: readonly BarListItem[]
-  /** The value a full bar stands for. Defaults to the largest value. */
+  /** The value a full bar stands for. Defaults to the largest value, or the largest
+   * size of a signed value when the list is diverging. */
   max?: number
+  /** Draws signed values from a center line, a rise toward the inline end and a fall
+   * toward the start, such as each sector's gap against the market. */
+  diverging?: boolean
+  /** auto colors a diverging list's rises and falls as Stat does; neutral draws both
+   * in the brand mark. */
+  trend?: 'auto' | 'neutral'
+  /** For measures where a fall is good: a diverging list's colors swap. */
+  lowerIsBetter?: boolean
   /** Orders the rows from the largest value down. Turn it off to keep your order. */
   sorted?: boolean
   /** The rows shown before the list scrolls inside itself. */
@@ -37,6 +47,9 @@ export const BarList = function BarList({
   label,
   items,
   max,
+  diverging = false,
+  trend = 'auto',
+  lowerIsBetter = false,
   sorted = true,
   maxRows,
   formatValue,
@@ -48,7 +61,14 @@ export const BarList = function BarList({
 }: BarListProps & { ref?: React.Ref<HTMLDivElement> }) {
   const rows = sorted ? [...items].sort((a, b) => b.value - a.value) : items
   const top =
-    max ?? rows.reduce((largest, item) => Math.max(largest, item.value), 0)
+    max ??
+    rows.reduce(
+      (largest, item) =>
+        Number.isFinite(item.value)
+          ? Math.max(largest, diverging ? Math.abs(item.value) : item.value)
+          : largest,
+      0,
+    )
   const number = new Intl.NumberFormat(locale)
   // A value that is missing reads as the dash every other number helper writes.
   const write = (value: number) =>
@@ -77,12 +97,19 @@ export const BarList = function BarList({
                 </span>
               )}
             </span>
-            <span className='surf-bar-list-bar' aria-hidden='true'>
-              <span
-                className='surf-bar-list-fill'
-                style={{ inlineSize: `${share}%` }}
+            {diverging ? (
+              <DivergingTrack
+                {...divergingFrom(item.value, top, trend, lowerIsBetter)}
+                aria-hidden='true'
               />
-            </span>
+            ) : (
+              <span className='surf-bar-list-bar' aria-hidden='true'>
+                <span
+                  className='surf-bar-list-fill'
+                  style={{ inlineSize: `${share}%` }}
+                />
+              </span>
+            )}
             <span className='surf-bar-list-value'>
               {item.text ?? write(item.value)}
             </span>

@@ -96,6 +96,8 @@
     "./stat.css": "./dist/css/stat.css",
     "./sparkline.css": "./dist/css/sparkline.css",
     "./bar-list.css": "./dist/css/bar-list.css",
+    "./proportion-bar.css": "./dist/css/proportion-bar.css",
+    "./diverging-bar.css": "./dist/css/diverging-bar.css",
     "./dashboard.css": "./dist/css/dashboard.css",
     "./time-range-picker.css": "./dist/css/time-range-picker.css",
     "./tree.css": "./dist/css/tree.css",
@@ -356,6 +358,14 @@
     "./bar-list": {
       "types": "./dist/bar-list.d.ts",
       "import": "./dist/bar-list.js"
+    },
+    "./proportion-bar": {
+      "types": "./dist/proportion-bar.d.ts",
+      "import": "./dist/proportion-bar.js"
+    },
+    "./diverging-bar": {
+      "types": "./dist/diverging-bar.d.ts",
+      "import": "./dist/diverging-bar.js"
     },
     "./dashboard": {
       "types": "./dist/dashboard.d.ts",

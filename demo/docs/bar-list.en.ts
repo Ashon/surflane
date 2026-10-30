@@ -1,7 +1,7 @@
 import type { ComponentDoc } from '../componentDocs'
 export const doc: ComponentDoc = {
   usage:
-    'Rank named values of one unit, such as disk by directory, tokens by project or calls by tool. Each row reads name, bar and value on one line, with an optional detail such as a path under the name. Bars are in proportion to the largest value, or to max when the values share a limit. Set maxRows to keep a long ranking inside a dashboard card.',
+    "Rank named values of one unit, such as disk by directory, tokens by project or calls by tool. Each row reads name, bar and value on one line, with an optional detail such as a path under the name. Bars are in proportion to the largest value, or to max when the values share a limit. Set maxRows to keep a long ranking inside a dashboard card. With diverging, signed values, such as each sector's gap against the market, grow from a center line on one scale: a rise toward the inline end in the trend's up color and a fall toward the start in its down color.",
   avoid: [
     "Don't mix units in one list. Rank one measure, and put a second one in its own list or a Table.",
     "Don't use BarList for change over time. Use Chart or Sparkline.",
@@ -10,7 +10,7 @@ export const doc: ComponentDoc = {
   keyboard:
     'BarList is an ordered list of text: each row reads its name, its detail and its value. The bars are decoration. A list bounded by maxRows scrolls in a named region that takes focus, so arrow keys scroll it.',
   anatomy:
-    'div → ol(aria-label) → li: name + detail, bar (aria-hidden), value; with maxRows, ScrollArea(region) around the ol',
+    'div → ol(aria-label) → li: name + detail, bar (aria-hidden), value; with maxRows, ScrollArea(region) around the ol; with diverging, the bar is a DivergingBar track (aria-hidden)',
   tokens: [
     '--surf-brand-mark',
     '--surf-recessed',
@@ -36,7 +36,21 @@ export const doc: ComponentDoc = {
       'readonly {id, label, detail?, value, text?}[]; text writes the value, such as "412 GiB"',
       'required',
     ],
-    ['max', 'the value a full bar stands for', 'the largest value'],
+    [
+      'max',
+      'the value a full bar stands for, or a half bar when diverging',
+      'the largest value, or the largest size when diverging',
+    ],
+    [
+      'diverging',
+      'draws signed values from a center line on one scale',
+      'false',
+    ],
+    [
+      'trend / lowerIsBetter',
+      'auto | neutral: a diverging list colors rises and falls, or draws both in the brand mark / swaps the colors where a fall is good',
+      'auto / false',
+    ],
     ['sorted', 'orders rows from the largest value down', 'true'],
     [
       'maxRows',

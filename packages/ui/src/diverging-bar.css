@@ -1,0 +1,70 @@
+/* Diverging bar, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+
+@layer surflane.components {
+  /* The gauge's track with zero at its center: a line across it, a step past each
+     edge, that the fill grows from. */
+  .surf-diverging {
+    position: relative;
+    display: block;
+    block-size: var(--surf-space-2);
+    min-inline-size: var(--surf-space-12);
+    border-radius: var(--surf-radius-full);
+    background: var(--surf-recessed);
+  }
+  .surf-diverging::before {
+    content: '';
+    position: absolute;
+    inset-block: calc(var(--surf-space-1) / -2);
+    inset-inline-start: 50%;
+    inline-size: 1px;
+    translate: -50% 0;
+    background: var(--surf-ink-muted);
+  }
+  .surf-diverging:dir(rtl)::before {
+    translate: 50% 0;
+  }
+  /* A rise grows toward the inline end and a fall toward the start, each rounded
+     only at its outer end. */
+  .surf-diverging-fill {
+    position: absolute;
+    inset-block: 0;
+    background: var(--surf-brand-mark);
+  }
+  .surf-diverging[data-direction='up'] .surf-diverging-fill {
+    inset-inline-start: 50%;
+    border-start-end-radius: var(--surf-radius-full);
+    border-end-end-radius: var(--surf-radius-full);
+  }
+  .surf-diverging[data-direction='down'] .surf-diverging-fill {
+    inset-inline-end: 50%;
+    border-start-start-radius: var(--surf-radius-full);
+    border-end-start-radius: var(--surf-radius-full);
+  }
+  .surf-diverging[data-tone='up'] .surf-diverging-fill {
+    background: var(--surf-trend-up-fg);
+  }
+  .surf-diverging[data-tone='down'] .surf-diverging-fill {
+    background: var(--surf-trend-down-fg);
+  }
+  @media (forced-colors: active) {
+    .surf-diverging {
+      background: Canvas;
+      outline: 1px solid CanvasText;
+    }
+    .surf-diverging::before,
+    .surf-diverging-fill {
+      forced-color-adjust: none;
+      background: CanvasText;
+    }
+  }
+}
+@layer surflane.sizes {
+  /* The bar is as thick as Meter's and Progress's at each size. */
+  :where([data-ui-size], [data-ui-size] *).surf-diverging {
+    block-size: var(--surf-ui-gauge);
+  }
+}

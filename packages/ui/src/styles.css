@@ -71,6 +71,8 @@
 @import './stat.css';
 @import './sparkline.css';
 @import './bar-list.css';
+@import './proportion-bar.css';
+@import './diverging-bar.css';
 @import './dashboard.css';
 @import './inline-message.css';
 @import './syntax-highlighter.css';

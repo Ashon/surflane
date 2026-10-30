@@ -6,9 +6,11 @@ import { createElement as h } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import {
   Banner,
+  BarList,
   Button,
   DataState,
   DescriptionList,
+  DivergingBar,
   FileUpload,
   Icon,
   Kbd,
@@ -16,6 +18,7 @@ import {
   LabelsProvider,
   Meter,
   Pagination,
+  ProportionBar,
   ScrollArea,
   SegmentedControl,
   Separator,
@@ -530,4 +533,88 @@ test('a dot Separator is a comma drawn as a dot, not a separator role', () => {
     '<span data-variant="dot" class="surf-separator">, </span>',
   )
   assert.match(html(h(Separator)), /role="separator"/)
+})
+
+test('ProportionBar writes shares, values or both, and leaves empty parts out of the bar', () => {
+  const segments = [
+    { id: 'a', label: 'Alpha', value: 3 },
+    { id: 'b', label: 'Beta', value: 1, tone: 'down' },
+    { id: 'c', label: 'Gamma', value: 0 },
+  ]
+  const markup = html(
+    h(ProportionBar, { label: 'Split', segments, locale: 'en-US' }),
+  )
+  assert.match(
+    markup,
+    /^<div role="group" aria-label="Split" class="surf-proportion">/,
+  )
+  // Two parts above zero draw; the empty one stays in the legend.
+  assert.equal(markup.match(/surf-proportion-segment/g).length, 2)
+  assert.match(markup, /Alpha<span class="surf-proportion-value">75%/)
+  assert.match(markup, /Gamma<span class="surf-proportion-value">0%/)
+  assert.match(markup, /--surf-proportion-color:var\(--surf-chart-category-1\)/)
+  assert.match(markup, /class="surf-proportion-segment" data-tone="down"/)
+  assert.match(
+    html(
+      h(ProportionBar, {
+        label: 'Split',
+        segments,
+        show: 'both',
+        locale: 'en-US',
+      }),
+    ),
+    /Alpha<span class="surf-proportion-value">3 \(75%\)/,
+  )
+  // Nothing to split: values stay, shares are missing.
+  assert.match(
+    html(
+      h(ProportionBar, {
+        label: 'Empty',
+        segments: [{ id: 'a', label: 'Alpha', value: 0 }],
+      }),
+    ),
+    /surf-proportion-value">—/,
+  )
+  assert.match(
+    html(h(ProportionBar, { label: 'Split', segments, legendHidden: true })),
+    /class="surf-proportion-legend surf-visually-hidden"/,
+  )
+})
+
+test('DivergingBar is a named image whose fill takes its share of a half', () => {
+  const bar = (props) => html(h(DivergingBar, { label: 'Gap', ...props }))
+  assert.equal(
+    bar({ value: -2, max: 4 }),
+    '<span role="img" aria-label="Gap" class="surf-diverging" data-direction="down" data-tone="down"><span class="surf-diverging-fill" style="inline-size:25.000%"></span></span>',
+  )
+  assert.match(
+    bar({ value: 8, max: 4 }),
+    /data-tone="up".*inline-size:50\.000%/,
+  )
+  assert.match(bar({ value: 1, lowerIsBetter: true }), /data-tone="down"/)
+  assert.match(bar({ value: 1, trend: 'neutral' }), /data-tone="neutral"/)
+  // Zero draws no fill.
+  assert.doesNotMatch(bar({ value: 0 }), /surf-diverging-fill/)
+})
+
+test('a diverging BarList scales by the largest size and keeps signed order', () => {
+  const markup = html(
+    h(BarList, {
+      label: 'Gaps',
+      diverging: true,
+      items: [
+        { id: 'a', label: 'A', value: -4 },
+        { id: 'b', label: 'B', value: 2 },
+      ],
+    }),
+  )
+  assert.ok(markup.indexOf('>B<') < markup.indexOf('>A<'))
+  assert.match(
+    markup,
+    /aria-hidden="true" class="surf-diverging" data-direction="up" data-tone="up"><span class="surf-diverging-fill" style="inline-size:25\.000%"/,
+  )
+  assert.match(
+    markup,
+    /data-direction="down" data-tone="down"><span class="surf-diverging-fill" style="inline-size:50\.000%"/,
+  )
 })

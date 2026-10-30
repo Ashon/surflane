@@ -1,0 +1,92 @@
+/* Proportion bar, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './base.css';
+@import './sizing.css';
+
+@layer surflane.components {
+  .surf-proportion {
+    display: grid;
+    gap: var(--surf-space-2);
+    min-inline-size: 0;
+  }
+  /* The gauge's thickness, split into its parts with a step of the card between
+     them, so neighbors read apart without a line. */
+  .surf-proportion-bar {
+    display: flex;
+    gap: calc(var(--surf-space-1) / 2);
+    block-size: var(--surf-space-2);
+    border-radius: var(--surf-radius-full);
+    background: var(--surf-recessed);
+    overflow: hidden;
+  }
+  .surf-proportion-segment {
+    flex-basis: 0;
+    min-inline-size: calc(var(--surf-space-1) / 2);
+    background: var(--surf-proportion-color);
+  }
+  .surf-proportion-segment[data-tone='up'],
+  .surf-proportion-swatch[data-tone='up'] {
+    --surf-proportion-color: var(--surf-trend-up-fg);
+  }
+  .surf-proportion-segment[data-tone='down'],
+  .surf-proportion-swatch[data-tone='down'] {
+    --surf-proportion-color: var(--surf-trend-down-fg);
+  }
+  /* A part with no direction is the quietest, so it never outweighs the ones that
+     have one: the neutral status mark, which still holds 3:1 on the card. */
+  .surf-proportion-segment[data-tone='flat'],
+  .surf-proportion-swatch[data-tone='flat'] {
+    --surf-proportion-color: var(--surf-status-neutral-border);
+  }
+  /* Each part's name and value on one line, wrapping as whole entries. */
+  .surf-proportion-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--surf-space-1) var(--surf-space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--surf-ink-body);
+    font-weight: var(--surf-weight-regular);
+    font-size: var(--surf-type-caption-size);
+    line-height: var(--surf-type-caption-leading);
+    font-family: var(--surf-font-body);
+  }
+  .surf-proportion-entry {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--surf-space-1);
+    white-space: nowrap;
+  }
+  .surf-proportion-swatch {
+    flex: none;
+    inline-size: var(--surf-space-2);
+    block-size: var(--surf-space-2);
+    border-radius: var(--surf-radius-full);
+    background: var(--surf-proportion-color);
+  }
+  .surf-proportion-value {
+    color: var(--surf-ink);
+    font-variant-numeric: tabular-nums;
+  }
+  /* One ink for every part: the wider gap and the legend tell them apart. */
+  @media (forced-colors: active) {
+    .surf-proportion-bar {
+      gap: var(--surf-space-1);
+      background: Canvas;
+      outline: 1px solid CanvasText;
+    }
+    .surf-proportion-segment,
+    .surf-proportion-swatch {
+      forced-color-adjust: none;
+      background: CanvasText;
+    }
+  }
+}
+@layer surflane.sizes {
+  /* The bar is as thick as Meter's and Progress's at each size. */
+  :where([data-ui-size], [data-ui-size] *).surf-proportion-bar {
+    block-size: var(--surf-ui-gauge);
+  }
+}

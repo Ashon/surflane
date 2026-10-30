@@ -67,6 +67,8 @@ import { doc as skeleton } from './docs/skeleton.en'
 import { doc as slider } from './docs/slider.en'
 import { doc as sparkline } from './docs/sparkline.en'
 import { doc as barList } from './docs/bar-list.en'
+import { doc as proportionBar } from './docs/proportion-bar.en'
+import { doc as divergingBar } from './docs/diverging-bar.en'
 import { doc as spinner } from './docs/spinner.en'
 import { doc as stat } from './docs/stat.en'
 import { doc as switchDoc } from './docs/switch.en'
@@ -163,6 +165,8 @@ export const componentDocs: Record<string, ComponentDoc> = {
   slider,
   sparkline,
   'bar-list': barList,
+  'proportion-bar': proportionBar,
+  'diverging-bar': divergingBar,
   spinner,
   stat,
   switch: switchDoc,

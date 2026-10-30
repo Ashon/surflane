@@ -4,6 +4,7 @@
 @import './base.css';
 @import './sizing.css';
 @import './scroll-area.css';
+@import './diverging-bar.css';
 
 @layer surflane.components {
   /* Every row is one height, so a list that scrolls shows whole rows: a name line,
@@ -13,6 +14,9 @@
       var(--surf-type-body-size) * var(--surf-type-body-leading) +
         var(--surf-space-2)
     );
+    min-inline-size: 0;
+  }
+  .surf-bar-list .surf-diverging {
     min-inline-size: 0;
   }
   .surf-bar-list[data-detail] {

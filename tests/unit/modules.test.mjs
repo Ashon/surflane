@@ -23,6 +23,8 @@ const server = [
   'page-header',
   'sparkline',
   'bar-list',
+  'proportion-bar',
+  'diverging-bar',
   'status',
   'spinner',
   'index',

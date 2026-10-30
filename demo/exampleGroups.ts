@@ -35,6 +35,8 @@ export const dataExampleIds = [
   'timeline',
   'sparkline',
   'bar-list',
+  'proportion-bar',
+  'diverging-bar',
   'inline-message',
   'banner',
   'empty-state',

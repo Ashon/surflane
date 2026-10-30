@@ -205,6 +205,8 @@ for (const theme of ['light', 'dark'])
       '/components/stat',
       '/components/sparkline',
       '/components/bar-list',
+      '/components/proportion-bar',
+      '/components/diverging-bar',
     ]) {
       await page.goto(path)
       await waitForCatalogReady(page)
@@ -260,4 +262,169 @@ test('BarList ranks values in shared columns and scrolls a bounded list by whole
   await expect(
     page.getByRole('list', { name: 'Tokens this week by project' }),
   ).toHaveText(/^Harbor\s*18\.4M/)
+})
+
+const colorOf = (page: import('@playwright/test').Page, token: string) =>
+  page.evaluate((name) => {
+    const probe = document.createElement('span')
+    probe.style.backgroundColor = `var(${name})`
+    document.body.append(probe)
+    const color = getComputedStyle(probe).backgroundColor
+    probe.remove()
+    return color
+  }, token)
+
+test('ProportionBar splits one bar into its parts, named in a legend that is the text', async ({
+  page,
+}) => {
+  await page.goto('/components/proportion-bar')
+  await waitForCatalogReady(page)
+  const sentiment = page.getByRole('group', {
+    name: 'News sentiment, 25 articles',
+  })
+  const entries = sentiment.getByRole('listitem')
+  await expect(entries).toHaveText([
+    /Positive\s*12 \(48%\)/,
+    /Negative\s*5 \(20%\)/,
+    /Neutral\s*8 \(32%\)/,
+  ])
+  const bar = sentiment.locator('.surf-proportion-bar')
+  await expect(bar).toHaveAttribute('aria-hidden', 'true')
+  // Each part takes its share of the bar, less the steps between them.
+  const parts = await bar.evaluate((element) => {
+    const box = element.getBoundingClientRect()
+    const segments = [...element.children].map((child) =>
+      child.getBoundingClientRect(),
+    )
+    const gaps = segments
+      .slice(1)
+      .map((segment, index) => segment.left - segments[index].right)
+    const filled = box.width - gaps.reduce((sum, gap) => sum + gap, 0)
+    return {
+      shares: segments.map((segment) => segment.width / filled),
+      gaps,
+      colors: [...element.children].map(
+        (child) => getComputedStyle(child).backgroundColor,
+      ),
+    }
+  })
+  expect(parts.shares[0]).toBeCloseTo(0.48, 2)
+  expect(parts.shares[1]).toBeCloseTo(0.2, 2)
+  expect(parts.shares[2]).toBeCloseTo(0.32, 2)
+  expect(parts.gaps.every((gap) => Math.abs(gap - 2) < 0.5)).toBe(true)
+  // Direction parts take the trend tones; a flat one the quiet neutral mark.
+  expect(parts.colors).toEqual([
+    await colorOf(page, '--surf-trend-up-fg'),
+    await colorOf(page, '--surf-trend-down-fg'),
+    await colorOf(page, '--surf-status-neutral-border'),
+  ])
+  // Parts of their own take the category hues in order; the legend writes values.
+  const teams = page.getByRole('group', { name: 'GPU hours by team' })
+  await expect(teams.getByRole('listitem').first()).toHaveText(
+    /Research\s*412 h/,
+  )
+  expect(
+    await teams
+      .locator('.surf-proportion-segment')
+      .evaluateAll((segments) =>
+        segments.map((segment) => getComputedStyle(segment).backgroundColor),
+      ),
+  ).toEqual(
+    await Promise.all(
+      [1, 2, 3, 4, 5].map((index) =>
+        colorOf(page, `--surf-chart-category-${index}`),
+      ),
+    ),
+  )
+  await expect(
+    page
+      .getByRole('group', { name: 'Portfolio by market' })
+      .getByRole('listitem'),
+  ).toHaveText([/Korea\s*58%/, /United States\s*42%/])
+})
+
+test('DivergingBar grows a signed value from a center line on a shared scale', async ({
+  page,
+}) => {
+  await page.goto('/components/diverging-bar')
+  await waitForCatalogReady(page)
+  const measure = (name: string) =>
+    page.getByRole('img', { name, exact: true }).evaluate((element) => {
+      const box = element.getBoundingClientRect()
+      const fill = element.querySelector('.surf-diverging-fill')!
+      const part = fill.getBoundingClientRect()
+      return {
+        start: (part.left - box.left) / box.width,
+        end: (part.right - box.left) / box.width,
+        color: getComputedStyle(fill).backgroundColor,
+      }
+    })
+  // The largest gap fills a half; a fall grows toward the start.
+  const top = await measure('Semiconductors, +4.2%p against the market')
+  expect(top.start).toBeCloseTo(0.5, 2)
+  expect(top.end).toBeCloseTo(1, 2)
+  expect(top.color).toBe(await colorOf(page, '--surf-trend-up-fg'))
+  const banks = await measure('Banks, +1.1%p against the market')
+  expect(banks.end - banks.start).toBeCloseTo((1.1 / 4.2) * 0.5, 2)
+  const autos = await measure('Autos, -0.6%p against the market')
+  expect(autos.end).toBeCloseTo(0.5, 2)
+  expect(autos.start).toBeCloseTo(0.5 - (0.6 / 4.2) * 0.5, 2)
+  expect(autos.color).toBe(await colorOf(page, '--surf-trend-down-fg'))
+  // A neutral trend draws both ways in the brand mark.
+  const bonds = await measure('Bonds, -3.2%p against target')
+  expect(bonds.color).toBe(await colorOf(page, '--surf-brand-mark'))
+  // Right to left, a rise grows toward the left from the same center.
+  await page.evaluate(() => (document.documentElement.dir = 'rtl'))
+  const mirrored = await measure('Semiconductors, +4.2%p against the market')
+  expect(mirrored.start).toBeCloseTo(0, 2)
+  expect(mirrored.end).toBeCloseTo(0.5, 2)
+})
+
+test('a diverging BarList ranks signed values from one center line', async ({
+  page,
+}) => {
+  await page.goto('/components/bar-list')
+  await waitForCatalogReady(page)
+  const list = page.getByRole('list', {
+    name: 'Sector return against the market, 20 days',
+  })
+  const rows = list.getByRole('listitem')
+  await expect(rows).toHaveText([
+    /Semiconductors\s*\+4\.2%p/,
+    /Banks\s*\+1\.1%p/,
+    /Autos\s*-0\.6%p/,
+    /Chemicals\s*-2\.8%p/,
+    /Retail\s*-3\.5%p/,
+  ])
+  const tracks = await rows.evaluateAll((items) =>
+    items.map((item) => {
+      const track = item.querySelector('.surf-diverging')!
+      const box = track.getBoundingClientRect()
+      const fill = track
+        .querySelector('.surf-diverging-fill')!
+        .getBoundingClientRect()
+      return {
+        center: box.left + box.width / 2,
+        hidden: track.getAttribute('aria-hidden'),
+        grows:
+          Math.abs(fill.left - (box.left + box.width / 2)) < 1
+            ? 'end'
+            : Math.abs(fill.right - (box.left + box.width / 2)) < 1
+              ? 'start'
+              : 'neither',
+        share: fill.width / (box.width / 2),
+      }
+    }),
+  )
+  expect(new Set(tracks.map((track) => Math.round(track.center))).size).toBe(1)
+  expect(tracks.every((track) => track.hidden === 'true')).toBe(true)
+  expect(tracks.map((track) => track.grows)).toEqual([
+    'end',
+    'end',
+    'start',
+    'start',
+    'start',
+  ])
+  expect(tracks[0].share).toBeCloseTo(1, 2)
+  expect(tracks[4].share).toBeCloseTo(3.5 / 4.2, 2)
 })

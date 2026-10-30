@@ -89,6 +89,8 @@ import {
 } from '@surflane/ui'
 import { Chart, type ChartDatum } from '@surflane/ui/chart'
 import { BarList } from '@surflane/ui/bar-list'
+import { DivergingBar } from '@surflane/ui/diverging-bar'
+import { ProportionBar } from '@surflane/ui/proportion-bar'
 import { Dashboard } from '@surflane/ui/dashboard'
 import { Sparkline } from '@surflane/ui/sparkline'
 import { Stat } from '@surflane/ui/stat'
@@ -1124,14 +1126,29 @@ export function Monitoring() {
             />
           </Dashboard.Panel>
           <Dashboard.Panel title='Containers by berth'>
-            <BarList
-              label='Containers by berth'
-              items={[
-                { id: 'north', label: 'North pier', value: 42, text: '42' },
-                { id: 'east', label: 'East quay', value: 24, text: '24' },
-                { id: 'south', label: 'South dock', value: 9, text: '9' },
-              ]}
-            />
+            <Stack gap={4}>
+              <BarList
+                label='Containers by berth'
+                items={[
+                  { id: 'north', label: 'North pier', value: 42, text: '42' },
+                  { id: 'east', label: 'East quay', value: 24, text: '24' },
+                  { id: 'south', label: 'South dock', value: 9, text: '9' },
+                ]}
+              />
+              <ProportionBar
+                label='Containers by state'
+                segments={[
+                  { id: 'loaded', label: 'Loaded', value: 51, tone: 'up' },
+                  { id: 'held', label: 'Held', value: 6, tone: 'down' },
+                  { id: 'empty', label: 'Empty', value: 18, tone: 'flat' },
+                ]}
+              />
+              <DivergingBar
+                value={-4}
+                max={12}
+                label='Berths, 4 containers under plan'
+              />
+            </Stack>
           </Dashboard.Panel>
           <Dashboard.Panel
             title='Fuel on hand'
