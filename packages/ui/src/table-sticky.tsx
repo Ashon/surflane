@@ -8,9 +8,10 @@ import * as React from 'react'
 export function StickyHeadRows() {
   const marker = React.useRef<HTMLSpanElement>(null)
   React.useEffect(() => {
-    const table = marker.current?.parentElement?.querySelector<HTMLTableElement>(
-      'table[data-sticky-header]',
-    )
+    const table =
+      marker.current?.parentElement?.querySelector<HTMLTableElement>(
+        'table[data-sticky-header]',
+      )
     const head = table?.tHead
     if (!head || head.rows.length < 2) return
     const place = () => {
