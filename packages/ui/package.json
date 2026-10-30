@@ -102,6 +102,7 @@
     "./time-range-picker.css": "./dist/css/time-range-picker.css",
     "./tree.css": "./dist/css/tree.css",
     "./chart.css": "./dist/css/chart.css",
+    "./scatter-chart.css": "./dist/css/scatter-chart.css",
     "./scroll-area.css": "./dist/css/scroll-area.css",
     "./separator.css": "./dist/css/separator.css",
     "./progress.css": "./dist/css/progress.css",
@@ -382,6 +383,10 @@
     "./chart": {
       "types": "./dist/chart.d.ts",
       "import": "./dist/chart.js"
+    },
+    "./scatter-chart": {
+      "types": "./dist/scatter-chart.d.ts",
+      "import": "./dist/scatter-chart.js"
     },
     "./scroll-area": {
       "types": "./dist/scroll-area.d.ts",

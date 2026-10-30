@@ -21,6 +21,7 @@ const ready = new Set([
   'syntax-highlighter',
   'markdown',
   'chart',
+  'scatter-chart',
   'date-picker',
   'time-range-picker',
   'tree',
@@ -423,34 +424,6 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
     2,
   ],
   [
-    'sparkline',
-    'Sparkline',
-    'Data display',
-    'Draws a small trend line inside a card or a table cell.',
-    2,
-  ],
-  [
-    'bar-list',
-    'Bar list',
-    'Data display',
-    'Ranks named values with bars in proportion to the largest.',
-    2,
-  ],
-  [
-    'proportion-bar',
-    'Proportion bar',
-    'Data display',
-    'Splits one bar into the parts of a whole, with a legend of their shares.',
-    2,
-  ],
-  [
-    'diverging-bar',
-    'Diverging bar',
-    'Data display',
-    'Draws a signed value from a center line, a rise one way and a fall the other.',
-    2,
-  ],
-  [
     'tree',
     'Tree view',
     'Data display',
@@ -460,9 +433,44 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
   [
     'chart',
     'Chart',
-    'Data display',
+    'Charts',
     'Shows trends with units, a legend, and an alternative table.',
     3,
+  ],
+  [
+    'scatter-chart',
+    'Scatter chart',
+    'Charts',
+    'Plots two measures per item, with reference lines that split it into quadrants.',
+    3,
+  ],
+  [
+    'sparkline',
+    'Sparkline',
+    'Charts',
+    'Draws a small trend line inside a card or a table cell.',
+    2,
+  ],
+  [
+    'bar-list',
+    'Bar list',
+    'Charts',
+    'Ranks named values with bars in proportion to the largest.',
+    2,
+  ],
+  [
+    'proportion-bar',
+    'Proportion bar',
+    'Charts',
+    'Splits one bar into the parts of a whole, with a legend of their shares.',
+    2,
+  ],
+  [
+    'diverging-bar',
+    'Diverging bar',
+    'Charts',
+    'Draws a signed value from a center line, a rise one way and a fall the other.',
+    2,
   ],
   [
     'scroll-area',
@@ -564,6 +572,7 @@ const nonBase = new Set([
   'diverging-bar',
   'tree',
   'chart',
+  'scatter-chart',
   'inline-message',
   'banner',
   'spinner',
@@ -572,7 +581,13 @@ const nonBase = new Set([
   'segmented-control',
   'data-state',
 ])
-const specialized = new Set(['date-picker', 'file-upload', 'tree', 'chart'])
+const specialized = new Set([
+  'date-picker',
+  'file-upload',
+  'tree',
+  'chart',
+  'scatter-chart',
+])
 export const components: CatalogItem[] = definitions.map(
   ([id, name, group, summary, phase]) => ({
     id,
@@ -595,7 +610,7 @@ export const components: CatalogItem[] = definitions.map(
                 ? 'Base UI Dialog composition'
                 : id === 'date-picker'
                   ? 'React Aria / internationalized date composition'
-                  : id === 'chart'
+                  : id === 'chart' || id === 'scatter-chart'
                     ? 'Recharts composition'
                     : id === 'tree'
                       ? 'Headless Tree / TanStack Virtual composition'

@@ -88,6 +88,7 @@ import {
   LinkButton,
 } from '@surflane/ui'
 import { Chart, type ChartDatum } from '@surflane/ui/chart'
+import { ScatterChart } from '@surflane/ui/scatter-chart'
 import { BarList } from '@surflane/ui/bar-list'
 import { DivergingBar } from '@surflane/ui/diverging-bar'
 import { ProportionBar } from '@surflane/ui/proportion-bar'
@@ -919,6 +920,30 @@ export function Data() {
         selectionMode='multiple'
       />
       <Tree nodes={manifest} label='Manifest (static)' virtualized={false} />
+      <ScatterChart
+        title='Berths by load and wait'
+        description='Each berth by how full it is and how long ships wait; the lines mark the targets.'
+        data={[
+          { id: 'north', label: 'North pier', x: 82, y: 3.5, group: 'busy' },
+          { id: 'east', label: 'East quay', x: 46, y: 1.2, group: 'calm' },
+          { id: 'south', label: 'South dock', x: 64, y: 5.1, group: 'busy' },
+          { id: 'west', label: 'West jetty', x: null, y: 0.4 },
+        ]}
+        groups={[
+          { key: 'busy', label: 'Busy' },
+          { key: 'calm', label: 'Calm' },
+        ]}
+        xLabel='Load'
+        xUnit='%'
+        yLabel='Wait'
+        yUnit='h'
+        xDomain={[0, 100]}
+        references={[
+          { x: 70, label: 'Load target' },
+          { y: 4, label: 'Wait target', tone: 'caution' },
+        ]}
+        quadrants={{ topRight: 'Full and slow', bottomLeft: 'Room to spare' }}
+      />
       <Chart
         title='Containers moved'
         description='North pier moved 42, 47 and 39 containers; East quay did not report on Tuesday.'

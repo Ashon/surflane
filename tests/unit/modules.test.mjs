@@ -38,6 +38,7 @@ const client = [
   'sizing',
   'dashboard',
   'time-range-picker',
+  'scatter-chart',
 ]
 
 for (const module of server)

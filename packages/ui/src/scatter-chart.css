@@ -1,0 +1,40 @@
+/* Scatter chart, with the styles of what it renders. */
+@layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
+  surflane.sizes;
+@import './chart.css';
+
+@layer surflane.components {
+  /* The plot itself takes focus: the arrow keys step through the points. */
+  .surf-scatter-plot:focus-visible {
+    outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+    outline-offset: var(--surf-focus-ring-offset);
+    border-radius: var(--surf-radius-sm);
+  }
+  .surf-scatter-plot:focus:not(:focus-visible),
+  .surf-scatter-plot .recharts-surface:focus {
+    outline: none;
+  }
+  .surf-scatter-point {
+    cursor: pointer;
+  }
+  /* The inspected point takes a ring in ink, a step out from its marker. */
+  .surf-scatter-active {
+    fill: none;
+    stroke: var(--surf-ink);
+    stroke-width: 1.5;
+  }
+  /* A quadrant's name sits quietly in its corner, under the points. */
+  .surf-scatter-quadrant {
+    fill: var(--surf-ink-muted);
+    font-size: var(--surf-type-caption-size);
+    font-family: var(--surf-font-body);
+  }
+  @media (forced-colors: active) {
+    .surf-scatter-quadrant {
+      fill: CanvasText;
+    }
+    .surf-scatter-active {
+      stroke: Highlight;
+    }
+  }
+}

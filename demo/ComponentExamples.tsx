@@ -16,6 +16,11 @@ const views: Record<ExampleGroup, ComponentType<ExampleProps>> = {
       default: module.ChartExample,
     })),
   ),
+  scatterChart: lazy(() =>
+    import('./ScatterChartExample').then((module) => ({
+      default: module.ScatterChartExample,
+    })),
+  ),
   datePicker: lazy(() =>
     import('./DatePickerExample').then((module) => ({
       default: module.DatePickerExample,

@@ -37,6 +37,22 @@ export const koLabels: SurflaneLabels = {
     moreEntries: (count) => `범례 ${count}개 더 보기`,
     total: '합계',
   },
+  scatterChart: {
+    missing: '없음',
+    empty: '표시할 점이 없습니다.',
+    keyboardHelp:
+      '차트에 포커스를 두고 왼쪽/오른쪽 화살표로 점을 왼쪽부터 차례로 살펴보세요. Home과 End는 처음과 마지막 점입니다. Escape는 자세히 보기를 지웁니다. 데이터 표에는 모든 점이 있습니다.',
+    values: (title) => `${title} 값`,
+    viewTable: '데이터 표로 보기',
+    table: (title) => `${title} 데이터 표`,
+    tableCaption: '두 값이 다 없는 점까지 모든 점입니다.',
+    inspectHint:
+      '마우스를 올리거나 터치하거나 차트 화살표 키로 점을 살펴보세요.',
+    noRows: '행이 없습니다.',
+    legend: (title) => `${title} 범례`,
+    group: '그룹',
+    quadrant: '사분면',
+  },
   codeBlock: {
     label: '코드',
     copy: '코드 복사',

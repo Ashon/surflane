@@ -29,6 +29,14 @@ import { Popover } from './popover.js'
 import { cx } from './parts.js'
 import { useComponentDensity } from './sizing.js'
 import { useLabels } from './label-context.js'
+import {
+  axisStep,
+  isNumber,
+  Marker,
+  roundStep,
+  seriesColor,
+  useFontReady,
+} from './chart-shared.js'
 
 export type ChartDatum = {
   id: string
@@ -191,36 +199,9 @@ const chartLabels: ChartLabels = {
   moreEntries: (count) => `${count} more in the legend`,
   total: 'Total',
 }
-/** The round step at or above a raw step: 1, 2, 2.5 or 5 times a power of ten. */
-function roundStep(raw: number) {
-  if (!(raw > 0)) return 0
-  const power = 10 ** Math.floor(Math.log10(raw))
-  return power * ([1, 2, 2.5, 5, 10].find((f) => f * power >= raw) ?? 10)
-}
-/** The smallest round step that spans low to high in at most five intervals, so the
- * top tick is the round value just above the highest one. */
-function axisStep(low: number, high: number) {
-  let step = roundStep((high - low) / 5)
-  while (step && Math.ceil(high / step) - Math.floor(low / step) > 5)
-    step = roundStep(step * 1.01)
-  return step
-}
 const dashes = [undefined, '7 4', '2 4', '10 3 2 3', '12 5', '4 3']
 // A plan's dash: short and even, as a target line reads.
 const planDash = '5 4'
-/** A series' color: the caller's, or the palette's for its place. */
-function seriesColor(
-  index: number,
-  palette: 'neutral' | 'categorical',
-  color?: string,
-) {
-  return (
-    color ??
-    (palette === 'categorical'
-      ? `var(--surf-chart-category-${(index % 12) + 1})`
-      : `var(--surf-chart-series-${(index % 3) + 1})`)
-  )
-}
 const trendColors = {
   above: 'var(--surf-trend-up-fg)',
   below: 'var(--surf-trend-down-fg)',
@@ -295,8 +276,6 @@ function logTicks(low: number, high: number) {
         ticks.push(Number((factor * 10 ** power).toPrecision(12)))
   return ticks
 }
-const isNumber = (value: unknown): value is number =>
-  typeof value === 'number' && Number.isFinite(value)
 /** An element's content width, kept current as it resizes; 0 before it is measured. */
 function useWidth<Element extends HTMLElement>() {
   const [element, setElement] = React.useState<Element | null>(null)
@@ -326,51 +305,6 @@ function textWidth(text: string, font: string) {
 const TICK_GAP = 24
 /** The value axis and the plot's right margin: what the plot gives up of the frame. */
 const PLOT_INSET = 56 + 20
-/** True once the font of the tick labels has loaded. Recharts measures a label to keep
- * it inside the chart and caches that width; measured in the fallback font, the last
- * label overflows by a few pixels once the real font arrives. */
-function useFontReady(element: Element | null, text: string) {
-  const [ready, setReady] = React.useState(false)
-  React.useEffect(() => {
-    if (!element) return
-    if (!document.fonts) return setReady(true)
-    let live = true
-    const family = getComputedStyle(element).fontFamily
-    // load() starts the download of the faces that draw this text and waits for them.
-    void document.fonts
-      .load(`12px ${family}`, text || ' ')
-      .catch(() => [])
-      .then(() => {
-        if (live) setReady(true)
-      })
-    return () => {
-      live = false
-    }
-  }, [element, text])
-  return ready
-}
-function Marker({
-  cx,
-  cy,
-  color,
-  index,
-}: Pick<DotProps, 'cx' | 'cy'> & { color: string; index: number }) {
-  if (
-    typeof cx !== 'number' ||
-    typeof cy !== 'number' ||
-    !Number.isFinite(cx) ||
-    !Number.isFinite(cy)
-  )
-    return null
-  const props = { fill: 'var(--surf-canvas)', stroke: color, strokeWidth: 1.8 }
-  return index % 3 === 0 ? (
-    <circle cx={cx} cy={cy} r={3.5} {...props} />
-  ) : index % 3 === 1 ? (
-    <rect x={cx - 3.5} y={cy - 3.5} width={7} height={7} {...props} />
-  ) : (
-    <path d={`M${cx},${cy - 4.5}l4.5,8h-9Z`} {...props} />
-  )
-}
 function Pattern({
   id,
   index,

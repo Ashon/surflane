@@ -103,6 +103,7 @@ const markers = {
     'surf-tree-scroll',
     'surf-chart',
     'surf-chart-table',
+    'surf-scatter-plot',
   ],
   content: ['surf-code-block', 'surf-syntax', 'surf-markdown'],
   highlighted: ['ssr-highlighted'],

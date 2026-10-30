@@ -132,6 +132,8 @@ export const catalogKo: {
       '부호 있는 값을 가운데 선에서 그려, 오르면 한쪽으로, 내리면 다른 쪽으로 뻗습니다.',
     '/components/tree': '중첩 리소스를 키보드로 탐색합니다.',
     '/components/chart': '단위, 범례, 대체 테이블과 함께 추세를 보여 줍니다.',
+    '/components/scatter-chart':
+      '항목마다 두 측정값을 점으로 놓고, 기준선으로 사분면을 나눕니다.',
     '/components/scroll-area': '레이아웃 안에 가로·세로 스크롤을 추가합니다.',
     '/components/separator': '전체 너비 또는 안쪽 경계를 그립니다.',
     '/components/progress': '작업 완료 정도나 실행 중임을 보여 줍니다.',
@@ -179,6 +181,7 @@ export const catalogKo: {
     Overlays: '오버레이',
     Navigation: '내비게이션',
     'Data display': '데이터 표시',
+    Charts: '차트',
     Structure: '구조',
     Feedback: '피드백',
     Patterns: '패턴',

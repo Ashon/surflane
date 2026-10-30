@@ -64,11 +64,12 @@ Animate later changes with `transitionTheme` from `@surflane/design-tokens/theme
 
 ## Optional components
 
-Chart, DatePicker, Markdown, Tree and syntax highlighting build on larger libraries. Each has its own entry point, and its library is an optional peer dependency: install it only when you use the component. The root `@surflane/ui` entry never imports them.
+Chart, ScatterChart, DatePicker, Markdown, Tree and syntax highlighting build on larger libraries. Each has its own entry point, and its library is an optional peer dependency: install it only when you use the component. The root `@surflane/ui` entry never imports them.
 
 | Import                                                                                             | Install                                                            |
 | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
 | `Chart` from `@surflane/ui/chart`                                                                  | `recharts`                                                         |
+| `ScatterChart` from `@surflane/ui/scatter-chart`                                                   | `recharts`                                                         |
 | `DatePicker`, `DateRangePicker`, `TimeField`, `DateLocaleProvider` from `@surflane/ui/date-picker` | `react-aria-components`                                            |
 | `Markdown` from `@surflane/ui/markdown`                                                            | `react-markdown remark-gfm`                                        |
 | `Tree` from `@surflane/ui/tree`                                                                    | `@headless-tree/core @headless-tree/react @tanstack/react-virtual` |
@@ -216,7 +217,7 @@ Stateless modules render on the server: Breadcrumbs, Card, Table, List, Stat, Sp
 - Event handlers, render functions, `className` callbacks and label functions, such as Select's `labels.count` or Chart's `labels.values`, are functions. Pass them to a client module from a Client Component.
 - Non-component values such as `iconNames` and `syntaxLanguages` arrive in Server Components as client references. Read them in Client Components.
 
-- Some `labels` take functions, because their text holds a value: Chart, FileUpload, Tree, Pagination, Select, BarList and Dashboard.Panel. A Server Component can't pass a function, so set those labels in a small Client Component that wraps the part, as the catalog's own `CatalogCodeBlock` does for CodeBlock's text:
+- Some `labels` take functions, because their text holds a value: Chart, ScatterChart, FileUpload, Tree, Pagination, Select, BarList and Dashboard.Panel. A Server Component can't pass a function, so set those labels in a small Client Component that wraps the part, as the catalog's own `CatalogCodeBlock` does for CodeBlock's text:
 
   ```tsx
   'use client'

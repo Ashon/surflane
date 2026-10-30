@@ -1,0 +1,73 @@
+import type { Locale } from '../../i18n'
+
+const en = {
+  qualityTitle: 'Quality against news sentiment',
+  qualityDescription:
+    'Each holding by its quality score and its news sentiment, both out of 10. Above 5 on both, or below on both, the two agree.',
+  quality: 'Quality score',
+  sentiment: 'News sentiment',
+  aligned: 'Aligned',
+  diverged: 'Diverged',
+  qualityMidpoint: 'Quality midpoint',
+  sentimentMidpoint: 'Sentiment midpoint',
+  strongLiked: 'Strong and liked',
+  weakLiked: 'Weak but liked',
+  weakDisliked: 'Weak and disliked',
+  strongDisliked: 'Strong but disliked',
+  holding: {
+    northwind: 'Northwind Chips',
+    vertex: 'Vertex Software',
+    pioneer: 'Pioneer Steel',
+    atlas: 'Atlas Telecom',
+    meridian: 'Meridian Bio',
+    lumen: 'Lumen Retail',
+    tidal: 'Tidal Bank',
+    summit: 'Summit Foods',
+    beacon: 'Beacon Motors',
+    cobalt: 'Cobalt Chemical',
+  },
+  servingTitle: 'Latency against throughput by model',
+  servingDescription:
+    'Each served model by its throughput and its 95th-percentile latency over the last hour. Models above the line miss the latency target.',
+  throughput: 'Throughput',
+  tokensPerSecond: 'tokens/s',
+  latency: 'p95 latency',
+  latencyTarget: 'Latency target',
+}
+export const text: Record<Locale, typeof en> = {
+  en,
+  ko: {
+    qualityTitle: '품질과 뉴스 감성',
+    qualityDescription:
+      '종목마다 품질 점수와 뉴스 감성을 10점 만점으로 놓았습니다. 둘 다 5를 넘거나 둘 다 5 아래면 둘이 같은 쪽을 가리킵니다.',
+    quality: '품질 점수',
+    sentiment: '뉴스 감성',
+    aligned: '정렬',
+    diverged: '괴리',
+    qualityMidpoint: '품질 중간',
+    sentimentMidpoint: '감성 중간',
+    strongLiked: '강하고 호평',
+    weakLiked: '약하지만 호평',
+    weakDisliked: '약하고 혹평',
+    strongDisliked: '강하지만 혹평',
+    holding: {
+      northwind: '노스윈드 칩스',
+      vertex: '버텍스 소프트웨어',
+      pioneer: '파이오니어 철강',
+      atlas: '아틀라스 텔레콤',
+      meridian: '메리디안 바이오',
+      lumen: '루멘 리테일',
+      tidal: '타이달 은행',
+      summit: '서밋 푸드',
+      beacon: '비컨 모터스',
+      cobalt: '코발트 화학',
+    },
+    servingTitle: '모델별 처리량과 지연',
+    servingDescription:
+      '서빙 중인 모델마다 지난 한 시간의 처리량과 95번째 백분위 지연을 놓았습니다. 선 위의 모델은 지연 목표를 넘습니다.',
+    throughput: '처리량',
+    tokensPerSecond: '토큰/초',
+    latency: 'p95 지연',
+    latencyTarget: '지연 목표',
+  },
+}

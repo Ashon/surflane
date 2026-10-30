@@ -45,11 +45,12 @@ Compound components are available both as namespaces (`Dialog.Root`) and as flat
 
 ## Optional components
 
-Chart, DatePicker, Markdown, Tree and syntax highlighting have their own entry points, and their libraries are optional peer dependencies. Install a library only when you use its component:
+Chart, ScatterChart, DatePicker, Markdown, Tree and syntax highlighting have their own entry points, and their libraries are optional peer dependencies. Install a library only when you use its component:
 
 | Import                                                                                             | Install                                                            |
 | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
 | `Chart` from `@surflane/ui/chart`                                                                  | `recharts`                                                         |
+| `ScatterChart` from `@surflane/ui/scatter-chart`                                                   | `recharts`                                                         |
 | `DatePicker`, `DateRangePicker`, `TimeField`, `DateLocaleProvider` from `@surflane/ui/date-picker` | `react-aria-components`                                            |
 | `Markdown` from `@surflane/ui/markdown`                                                            | `react-markdown remark-gfm`                                        |
 | `Tree` from `@surflane/ui/tree`                                                                    | `@headless-tree/core @headless-tree/react @tanstack/react-virtual` |

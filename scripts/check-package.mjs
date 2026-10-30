@@ -387,6 +387,7 @@ const internalModules = [
   'tone-transition',
   'table-selection',
   'table-container',
+  'chart-shared',
 ]
 const utilityEntries = [
   'choice-label',
@@ -445,6 +446,7 @@ assert.deepEqual(
     'icon.tsx',
     'menu.tsx',
     'meter.tsx',
+    'scatter-chart.tsx',
     'sparkline.tsx',
     'spinner.tsx',
   ],

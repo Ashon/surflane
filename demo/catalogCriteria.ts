@@ -27,6 +27,10 @@ const criteriaByGroup: Record<string, string[]> = {
     'Long Korean and English text, identifiers, empty values, and large data sets',
     'Responsive layout, semantic HTML, and text alternatives',
   ],
+  Charts: [
+    'Units, axis names and a summary, values in text beside or under every mark, and an alternative where a mark is the only carrier',
+    'Distinctions beyond color, both themes, forced colors, and right to left',
+  ],
   Structure: [
     'Full width, inset, nesting, and overflow',
     'Keyboard scrolling and reflow when zoomed',
@@ -64,6 +68,9 @@ const specializedCriteria: Record<string, string[]> = {
   ],
   chart: [
     'Units, axes, legend, distinctions beyond color, alternative table, empty values, and tooltip accessibility',
+  ],
+  'scatter-chart': [
+    'Units on both axes, groups told apart by marker as well as color, a keyboard readout of each point, quadrant names, and an alternative table',
   ],
   stat: [
     'Label, value and change read as one description list; the change shows its direction by sign and arrow, not color alone',

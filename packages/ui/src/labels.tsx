@@ -2,6 +2,7 @@
 import * as React from 'react'
 import { LabelsContext, type LabelGroups } from './label-context.js'
 import type { ChartLabels } from './chart.js'
+import type { ScatterChartLabels } from './scatter-chart.js'
 import type { CodeBlockLabels } from './code.js'
 import type { CopyButtonLabels } from './copy-button.js'
 import type { DashboardPanelLabels } from './dashboard.js'
@@ -36,6 +37,7 @@ export type SurflaneLabels = {
   pagination: PaginationLabels & { label: string }
   /** Sheet and Drawer. */
   panel: { close: string; focusBoundary: string }
+  scatterChart: ScatterChartLabels
   /** Select with multiple. */
   select: SelectMultipleLabels
   syntaxHighlighter: { label: string }

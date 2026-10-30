@@ -35,7 +35,7 @@ for (const theme of ['light', 'dark'])
       await expect(page.locator(`[data-ssr='${section}']`)).toBeVisible()
       await page.evaluate(() => document.fonts.ready)
       if (section === 'data') {
-        await expect(page.locator('.recharts-surface')).toHaveCount(2)
+        await expect(page.locator('.recharts-surface')).toHaveCount(3)
         await expect(page.getByRole('treeitem').first()).toBeVisible()
       }
       if (section === 'highlighted')
