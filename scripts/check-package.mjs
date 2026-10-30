@@ -387,6 +387,7 @@ const internalModules = [
   'tone-transition',
   'table-selection',
   'table-container',
+  'table-sticky',
   'chart-shared',
   'app-shell-context',
 ]
