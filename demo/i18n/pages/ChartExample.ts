@@ -39,6 +39,8 @@ const en = {
     disk: 'Disk used by one directory, measured every hour. The value holds until the next measurement, so a step line shows it. A line marks the 05:00 model sync and a band the cleanup window from 11:00 to 13:00.',
     projects:
       'Tokens a day for twelve projects. Twelve categorical colors stay apart, and the legend shows four and folds the rest.',
+    services:
+      'Tokens a day for sixteen services, which is more series than the categorical twelve. The extended palette adds a second dozen hues, the same twelve a step along the ramp, and the legend folds to one line.',
     closes:
       'Daily closes of the won against the dollar over nine weeks, on trading days only. Weekends have no rows, and the line runs on through them.',
     portfolio:
@@ -65,6 +67,7 @@ const en = {
     throughput: 'Prefill and decode, log scale',
     disk: 'Disk used, hourly steps',
     projects: 'Twelve projects',
+    services: 'Sixteen services on one plot',
     closes: 'Daily closes on trading days',
     portfolio: 'A basket against its benchmark',
     allocation: 'Allocation against its targets',
@@ -88,6 +91,8 @@ const en = {
   palette: 'Palette',
   neutral: 'Neutral',
   categorical: 'Categorical',
+  extended: 'Extended, 24 hues',
+  solidLines: 'Solid lines only',
   english: 'English',
   korean: 'Korean',
   keepZero: 'Keep zero on the value axis',
@@ -167,6 +172,8 @@ export const text: Record<Locale, typeof en> = {
       disk: '디렉토리 하나의 디스크 사용량을 한 시간마다 잰 값입니다. 다음 측정까지 값이 그대로이므로 계단선으로 보여 줍니다. 05:00 모델 동기화를 선으로, 11:00부터 13:00까지의 정리 시간을 띠로 표시합니다.',
       projects:
         '프로젝트 12개의 하루 토큰 수입니다. 범주형 12색이 서로 구분되고, 범례는 4개만 보이고 나머지는 접습니다.',
+      services:
+        '서비스 16개의 하루 토큰 수로, 범주형 열둘을 넘는 시리즈 수입니다. 확장 팔레트가 같은 열두 색조를 한 단계 다른 열둘을 더하고, 범례는 한 줄로 접힙니다.',
       closes:
         '9주 동안 달러 대비 원화의 일별 종가로, 영업일에만 있습니다. 주말에는 행이 없고, 선은 주말을 건너 이어집니다.',
       portfolio:
@@ -193,6 +200,7 @@ export const text: Record<Locale, typeof en> = {
       throughput: 'prefill과 decode, 로그 축',
       disk: '시간마다 잰 디스크 사용량',
       projects: '프로젝트 12개',
+      services: '플롯 위 서비스 16개',
       closes: '영업일 일별 종가',
       portfolio: '벤치마크와 비교한 바스켓',
       allocation: '목표 대비 배분',
@@ -216,6 +224,8 @@ export const text: Record<Locale, typeof en> = {
     palette: '팔레트',
     neutral: '중립',
     categorical: '범주형',
+    extended: '확장, 24색조',
+    solidLines: '실선만',
     english: '영어',
     korean: '한국어',
     keepZero: '값 축에 0 두기',

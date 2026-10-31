@@ -9,12 +9,29 @@
 
 @layer surflane.components {
   .surf-chart {
+    /* A series line's weight, and what a comparison or a plan draws against it.
+       Set --surf-chart-line-quiet-ratio: 1 and every line on the plot weighs the
+       same; set --surf-chart-line-width for a heavier or lighter plot. */
+    --surf-chart-line-width: 2;
+    --surf-chart-line-quiet-ratio: 0.75;
     min-width: 0;
     max-width: 100%;
     margin: 0;
     display: flex;
     flex-direction: column;
     gap: var(--surf-space-3);
+  }
+  /* The weight is CSS's, not the component's: Recharts hands a number to the path as
+     an attribute, which any rule that reaches the path outvotes. */
+  .surf-chart-series .recharts-line-curve,
+  .surf-chart-series .recharts-area-curve {
+    stroke-width: var(--surf-chart-line-width);
+  }
+  .surf-chart-series-quiet .recharts-line-curve,
+  .surf-chart-series-quiet .recharts-area-curve {
+    stroke-width: calc(
+      var(--surf-chart-line-width) * var(--surf-chart-line-quiet-ratio)
+    );
   }
   .surf-chart-caption strong {
     font-weight: var(--surf-weight-medium);
@@ -426,6 +443,18 @@
       --surf-chart-category-10: CanvasText;
       --surf-chart-category-11: CanvasText;
       --surf-chart-category-12: CanvasText;
+      --surf-chart-category-13: CanvasText;
+      --surf-chart-category-14: CanvasText;
+      --surf-chart-category-15: CanvasText;
+      --surf-chart-category-16: CanvasText;
+      --surf-chart-category-17: CanvasText;
+      --surf-chart-category-18: CanvasText;
+      --surf-chart-category-19: CanvasText;
+      --surf-chart-category-20: CanvasText;
+      --surf-chart-category-21: CanvasText;
+      --surf-chart-category-22: CanvasText;
+      --surf-chart-category-23: CanvasText;
+      --surf-chart-category-24: CanvasText;
       /* References and the gap between series: the legend and the readout name
          their tone and side in words, so the text color draws them all. */
       --surf-status-caution-fg: CanvasText;

@@ -1,11 +1,12 @@
 import type { ComponentDoc } from '../componentDocs'
 export const doc: ComponentDoc = {
   usage:
-    'Compare numeric trends in one unit as a line, bar, or area chart. Always provide a title, a factual summary, and axis names with units. Series default to brand and neutral fills and lines, told apart by dashes and markers; pass palette="categorical" when color must separate categories, such as buckets. For values far from zero, such as prices or latency, set includeZero={false}. For monitoring, xScale="time" places rows by data[].time, ticks on round times and breaks a line where sampling stops, or past breakAfter, such as 4 days for closes on trading days; references draw thresholds and target bands, and mark events and periods on the x axis; a comparison series, such as a benchmark, draws quieter, and difference shades the lead between two lines; stacked shows a total; curve="step" holds values sampled on change; yScale="log" spans orders of magnitude. In a dashboard card, density="compact" keeps the plot, legend and floating values; for a trend on a card, minimal leaves the marks alone and extremes labels the period\'s high and low. Pass data as an immutable array that the caller owns.',
+    'Compare numeric trends in one unit as a line, bar, or area chart. Always provide a title, a factual summary, and axis names with units. Series default to brand and neutral fills and lines, told apart by dashes and markers; pass palette="categorical" when color must separate categories, such as buckets, or palette="extended" for a chart with more series than twelve, which adds a second dozen hues, the same twelve a step along the ramp; dashes={false} draws every line solid and leaves the markers to tell the series apart. For values far from zero, such as prices or latency, set includeZero={false}. For monitoring, xScale="time" places rows by data[].time, ticks on round times and breaks a line where sampling stops, or past breakAfter, such as 4 days for closes on trading days; references draw thresholds and target bands, and mark events and periods on the x axis; a comparison series, such as a benchmark, draws quieter, and difference shades the lead between two lines; stacked shows a total; curve="step" holds values sampled on change; yScale="log" spans orders of magnitude. In a dashboard card, density="compact" keeps the plot, legend and floating values; for a trend on a card, minimal leaves the marks alone and extremes labels the period\'s high and low. Pass data as an immutable array that the caller owns.',
   avoid: [
     "Don't mix units on one axis. Use separate charts instead.",
     "Don't plot one measure against another here. Use ScatterChart, one point per item.",
-    "Don't put more than seven series on one chart where you can choose: keep the largest, sum the rest as Other, or split the chart. A monitoring view that must compare more, such as tokens per project, keeps every line on the plot, takes the twelve categorical colors and folds the legend with legendLimit.",
+    'Don\'t put more than seven series on one chart where you can choose: keep the largest, sum the rest as Other, or split the chart. A monitoring view that must compare more, such as tokens per project, keeps every line on the plot, takes the twelve categorical colors, or the twenty-four of palette="extended" when there are more than twelve, and folds the legend with legendLimit.',
+    "Don't turn dashes off to unclutter a crowded plot: past 40 points the plot already drops its markers to do that, and a chart drawn solid keeps them, which adds ink. Turn them off for a line style; split the chart when the plot is crowded.",
     "Don't replace missing values with 0. Pass null instead: the chart treats null, undefined, NaN, and Infinity as missing and doesn't connect lines across them.",
     'Don\'t expect a second value axis. Put a second unit on a second chart, and values orders of magnitude apart on yScale="log".',
     "Don't expect smoothed curves. Lines are linear or steps, so the chart doesn't invent extremes that weren't measured.",
@@ -20,6 +21,7 @@ export const doc: ComponentDoc = {
     'Escape clears the details, and an arrow key shows them again.',
     "Pointer, touch and the arrow keys show the point's values in a box beside it, which turns to whichever side has more room and stays inside the plot. The same values fill the details region below the plot, a polite live region that never covers the marks; the box itself stays out of the accessibility tree.",
     'Circle, square, and triangle markers, line patterns, and bar fill patterns distinguish series beyond color. They remain in high contrast mode.',
+    'With dashes off the markers carry that difference alone, so a chart drawn solid keeps its markers even past 40 points, where a chart drawn with dashes drops them.',
     'Above 40 points, the plot omits markers to reduce overlap. Legend markers, line patterns, details, and the table remain.',
     'Animation is off by default.',
     'Test real assistive technology usability separately after product integration.',
@@ -30,6 +32,7 @@ export const doc: ComponentDoc = {
     '--surf-chart-series-1',
     '--surf-chart-series-2',
     '--surf-chart-series-3',
+    '--surf-chart-category-1',
     '--surf-ink-muted',
     '--surf-line',
     '--surf-canvas',
@@ -158,8 +161,13 @@ const data: ChartDatum[] = [
     ],
     [
       'palette',
-      'neutral | categorical: ink with dashes and markers, or twelve hues for categories',
+      'neutral | categorical | extended: ink with dashes and markers, twelve hues for categories, or twenty-four, the same twelve a step along the ramp, for more series than twelve; the dashes and markers step once past every twelve, so two series a dozen apart never share their color, dash and shape at once',
       'neutral',
+    ],
+    [
+      'dashes',
+      'false draws every line solid and leaves the markers to tell the series apart; a plan keeps its dash, which is what makes it a plan; --surf-chart-line-width sets the weight, and --surf-chart-line-quiet-ratio: 1 gives a comparison or plan the same weight as the rest',
+      'true',
     ],
     [
       'locale / formatValue',

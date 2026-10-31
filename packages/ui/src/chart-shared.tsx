@@ -21,15 +21,26 @@ export function axisStep(low: number, high: number) {
 /** A series' color: the caller's, or the palette's for its place. */
 export function seriesColor(
   index: number,
-  palette: 'neutral' | 'categorical',
+  palette: 'neutral' | 'categorical' | 'extended',
   color?: string,
 ) {
-  return (
-    color ??
-    (palette === 'categorical'
-      ? `var(--surf-chart-category-${(index % 12) + 1})`
-      : `var(--surf-chart-series-${(index % 3) + 1})`)
-  )
+  if (color) return color
+  if (palette === 'neutral')
+    return `var(--surf-chart-series-${(index % 3) + 1})`
+  // Twenty-four hold; the second dozen are the same twelve hues a step deeper, so a
+  // thirteenth series is the first color's own family, deeper.
+  const hues = palette === 'extended' ? 24 : 12
+  return `var(--surf-chart-category-${(index % hues) + 1})`
+}
+/** Which dash, marker and fill pattern a place draws with.
+ *
+ * The palette repeats its twelve hues every twelve series, and twelve is a multiple
+ * of both the six dashes and the three markers, so the thirteenth series would
+ * otherwise repeat a color family, a dash and a shape together. Stepping one past
+ * every dozen keeps two series a dozen apart different in at least one cue besides
+ * their color, and leaves the first twelve exactly as they draw today. */
+export function cueAt(index: number) {
+  return index + Math.floor(index / 12)
 }
 export const isNumber = (value: unknown): value is number =>
   typeof value === 'number' && Number.isFinite(value)

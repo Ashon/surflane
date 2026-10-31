@@ -2,7 +2,15 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readdirSync, readFileSync } from 'node:fs'
+import { differenceEuclidean } from 'culori'
 import { contrast, resolve } from './token-colors.mjs'
+
+// How far two colors sit apart, and every pair of a list's places.
+const separate = differenceEuclidean('oklab')
+function* combinations(length) {
+  for (let a = 0; a < length; a++)
+    for (let b = a + 1; b < length; b++) yield [a, b]
+}
 
 const tokensDir = new URL('../../packages/tokens/', import.meta.url)
 const read = (file) => readFileSync(new URL(file, tokensDir), 'utf8')
@@ -50,7 +58,7 @@ const pairs = [
     ],
   ),
   // Every categorical chart color reads as a mark on the sheet and on a card.
-  ...Array.from({ length: 12 }, (_, index) => [
+  ...Array.from({ length: 24 }, (_, index) => [
     [`--surf-chart-category-${index + 1}`, '--surf-canvas', 3],
     [`--surf-chart-category-${index + 1}`, '--surf-surface', 3],
   ]).flat(),
@@ -62,6 +70,25 @@ for (const theme of ['dark', 'light'])
       assert.ok(ratio >= minimum, `${ratio.toFixed(2)}:1`)
     })
 
+// Contrast says a mark is visible; it does not say two marks differ. The categorical
+// ramp must also keep its colors apart, or a twenty-four series chart reads as a
+// repeat. 0.05 in OKLab is what a set that large can be: the twenty hues designers
+// reach for, Tableau's, sit at 0.054 at its closest pair. The twelve reach 0.092
+// dark and 0.087 light; the second dozen hold the floor.
+test('the categorical ramp keeps every pair of its colors apart', () => {
+  for (const theme of ['dark', 'light']) {
+    const colors = Array.from({ length: 24 }, (_, index) =>
+      resolve(`--surf-chart-category-${index + 1}`, theme),
+    )
+    for (const [a, b] of combinations(colors.length)) {
+      const away = separate(colors[a], colors[b])
+      assert.ok(
+        away >= 0.05,
+        `category-${a + 1} and category-${b + 1} in ${theme}: ${away.toFixed(3)}`,
+      )
+    }
+  }
+})
 test('brand as a mark reads at 3:1 on the light canvas', () => {
   assert.ok(contrast('--surf-brand-mark', '--surf-canvas', 'light') >= 3)
 })

@@ -2,6 +2,14 @@
 
 `@surflane/design-tokens`, `@surflane/css` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## 0.21.0
+
+### Added
+
+- `Chart palette="extended"` carries twenty-four categorical colors instead of twelve, for a chart with more series than the twelve can name, such as a fleet of services on one plot. The second dozen are the same twelve hues a step along the ramp, so a thirteenth series is the first one's own family one step away rather than an unrelated hue, and they start one step into the dashes and markers, so two series twelve apart never share their color, dash and shape at once. All twenty-four read 3:1 on the sheet and on a card in both themes and stay as far apart as a set that size can be read: its closest pair, like that of the twenty hues designers reach for, is near 0.05 in OKLab.
+- `Chart dashes={false}` draws every line solid and leaves the markers to tell the series apart, for a house style that reads lines without dashes. A plan keeps its dash, which is what marks it a plan, and the bars' fill patterns stay either way. A chart drawn solid keeps its markers past 40 points as well, where a dashed one drops them: with the dashes off they are the only thing left telling a series apart without color.
+- `--surf-chart-line-width` sets a series line's weight (2), and `--surf-chart-line-quiet-ratio` what a comparison or a plan draws against it (0.75). Set the ratio to 1 and every line on the plot weighs the same, which is how a product with one line style says so.
+
 ## 0.20.0
 
 ### Added

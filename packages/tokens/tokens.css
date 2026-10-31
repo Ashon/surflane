@@ -793,7 +793,10 @@
   }
   /* Categories that color must tell apart, such as buckets or sectors. Six hues at one
    * lightness, then six more halfway between them at another, each 3:1 against the
-   * sheet; charts still add marks and dashes. */
+   * sheet; charts still add marks and dashes. Twenty-four hold the same twelve hues a
+   * step along the ramp, deeper on this sheet and lighter on the light one, for a
+   * chart with more series than twelve: as far apart as a set that size can be read,
+   * and 3:1 on the sheet and a card like the twelve. */
   :root,
   [data-theme='dark'],
   [data-theme='light'] {
@@ -809,6 +812,18 @@
     --surf-chart-category-10: oklch(0.9 0.105 108);
     --surf-chart-category-11: oklch(0.87 0.065 52);
     --surf-chart-category-12: oklch(0.86 0.095 345);
+    --surf-chart-category-13: oklch(0.56 0.12 250);
+    --surf-chart-category-14: oklch(0.63 0.11 185);
+    --surf-chart-category-15: oklch(0.55 0.14 135);
+    --surf-chart-category-16: oklch(0.64 0.13 80);
+    --surf-chart-category-17: oklch(0.58 0.14 25);
+    --surf-chart-category-18: oklch(0.61 0.12 310);
+    --surf-chart-category-19: oklch(0.67 0.065 280);
+    --surf-chart-category-20: oklch(0.7 0.085 215);
+    --surf-chart-category-21: oklch(0.71 0.1 160);
+    --surf-chart-category-22: oklch(0.73 0.105 108);
+    --surf-chart-category-23: oklch(0.69 0.065 52);
+    --surf-chart-category-24: oklch(0.68 0.095 345);
   }
   :root[data-theme='light'],
   [data-theme='light'] {
@@ -824,6 +839,18 @@
     --surf-chart-category-10: oklch(0.45 0.09 108);
     --surf-chart-category-11: oklch(0.42 0.105 52);
     --surf-chart-category-12: oklch(0.4 0.12 345);
+    --surf-chart-category-13: oklch(0.64 0.14 255);
+    --surf-chart-category-14: oklch(0.63 0.085 190);
+    --surf-chart-category-15: oklch(0.62 0.13 140);
+    --surf-chart-category-16: oklch(0.64 0.12 70);
+    --surf-chart-category-17: oklch(0.64 0.17 25);
+    --surf-chart-category-18: oklch(0.64 0.15 310);
+    --surf-chart-category-19: oklch(0.58 0.12 280);
+    --surf-chart-category-20: oklch(0.58 0.075 215);
+    --surf-chart-category-21: oklch(0.58 0.09 160);
+    --surf-chart-category-22: oklch(0.59 0.09 108);
+    --surf-chart-category-23: oklch(0.6 0.105 52);
+    --surf-chart-category-24: oklch(0.58 0.12 345);
   }
   @media (prefers-color-scheme: light) {
     :root:not([data-theme='dark']):not([data-theme='light']) {
@@ -839,6 +866,18 @@
       --surf-chart-category-10: oklch(0.45 0.09 108);
       --surf-chart-category-11: oklch(0.42 0.105 52);
       --surf-chart-category-12: oklch(0.4 0.12 345);
+      --surf-chart-category-13: oklch(0.64 0.14 255);
+      --surf-chart-category-14: oklch(0.63 0.085 190);
+      --surf-chart-category-15: oklch(0.62 0.13 140);
+      --surf-chart-category-16: oklch(0.64 0.12 70);
+      --surf-chart-category-17: oklch(0.64 0.17 25);
+      --surf-chart-category-18: oklch(0.64 0.15 310);
+      --surf-chart-category-19: oklch(0.58 0.12 280);
+      --surf-chart-category-20: oklch(0.58 0.075 215);
+      --surf-chart-category-21: oklch(0.58 0.09 160);
+      --surf-chart-category-22: oklch(0.59 0.09 108);
+      --surf-chart-category-23: oklch(0.6 0.105 52);
+      --surf-chart-category-24: oklch(0.58 0.12 345);
     }
   }
 

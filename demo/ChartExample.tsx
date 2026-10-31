@@ -186,6 +186,24 @@ const projects: ChartDatum[] = Array.from({ length: 7 }, (_, day) => ({
     ]),
   ),
 }))
+// More series than the categorical twelve, which is what the extended ramp is for:
+// its second dozen are the same twelve hues a step deeper, so a fleet on one plot
+// still has a color each.
+const serviceSeries = Array.from({ length: 16 }, (_, index) => ({
+  key: `service-${index + 1}`,
+  label: `Service ${String(index + 1).padStart(2, '0')}`,
+}))
+const services: ChartDatum[] = Array.from({ length: 7 }, (_, day) => ({
+  id: `services-${day}`,
+  label: `October ${day + 11}, 2026`,
+  time: at(day + 11, 0),
+  values: Object.fromEntries(
+    serviceSeries.map((s, index) => [
+      s.key,
+      Math.round(4 + (index % 4) * 2 + ((day * (index + 2)) % 9)),
+    ]),
+  ),
+}))
 // Daily closes on trading days only: no rows on Saturdays and Sundays.
 const closes: ChartDatum[] = (() => {
   const rows: ChartDatum[] = []
@@ -236,7 +254,13 @@ const allocation: ChartDatum[] = Array.from({ length: 12 }, (_, index) => ({
 type Preset = Partial<
   Pick<
     ChartProps,
-    'type' | 'yScale' | 'curve' | 'stacked' | 'palette' | 'includeZero'
+    | 'type'
+    | 'yScale'
+    | 'curve'
+    | 'stacked'
+    | 'palette'
+    | 'includeZero'
+    | 'dashes'
   >
 > & { legendLimit?: number | 'auto' }
 // What each sample is best read with; picking a sample applies it.
@@ -246,6 +270,8 @@ const presets: Record<string, Preset> = {
   throughput: { type: 'line', yScale: 'log' },
   disk: { type: 'area', curve: 'step' },
   projects: { type: 'line', palette: 'categorical', legendLimit: 4 },
+  // Sixteen series: past the twelve the plot takes the extended ramp.
+  services: { type: 'line', palette: 'extended', legendLimit: 'auto' },
   portfolio: { type: 'line', includeZero: false },
   allocation: { type: 'line', palette: 'categorical' },
 }
@@ -258,7 +284,10 @@ export function ChartExample() {
   const [locale, setLocale] = useState(pageLocale === 'ko' ? 'ko-KR' : 'en-US')
   const [locked, setLocked] = useState(false)
   const [hidden, setHidden] = useState<string[]>([])
-  const [palette, setPalette] = useState<'neutral' | 'categorical'>('neutral')
+  const [palette, setPalette] = useState<
+    'neutral' | 'categorical' | 'extended'
+  >('neutral')
+  const [dashes, setDashes] = useState(true)
   const [includeZero, setIncludeZero] = useState(true)
   const [minimal, setMinimal] = useState(false)
   const [extremes, setExtremes] = useState(false)
@@ -276,6 +305,7 @@ export function ChartExample() {
     setCurve(preset.curve ?? 'linear')
     setStacked(preset.stacked ?? false)
     setPalette(preset.palette ?? 'neutral')
+    setDashes(preset.dashes ?? true)
     setLegendLimit(preset.legendLimit)
     setIncludeZero(preset.includeZero ?? true)
   }
@@ -351,6 +381,15 @@ export function ChartExample() {
       unit: t.units.kTokens,
       description: t.descriptions.projects,
       series: projectSeries,
+      xScale: 'time',
+      xLabel: t.day,
+      yLabel: t.tokens,
+    },
+    services: {
+      data: services,
+      unit: t.units.kTokens,
+      description: t.descriptions.services,
+      series: serviceSeries,
       xScale: 'time',
       xLabel: t.day,
       yLabel: t.tokens,
@@ -485,6 +524,7 @@ export function ChartExample() {
             <option value='throughput'>{t.options.throughput}</option>
             <option value='disk'>{t.options.disk}</option>
             <option value='projects'>{t.options.projects}</option>
+            <option value='services'>{t.options.services}</option>
             <option value='closes'>{t.options.closes}</option>
             <option value='portfolio'>{t.options.portfolio}</option>
             <option value='allocation'>{t.options.allocation}</option>
@@ -564,6 +604,7 @@ export function ChartExample() {
           >
             <option value='neutral'>{t.neutral}</option>
             <option value='categorical'>{t.categorical}</option>
+            <option value='extended'>{t.extended}</option>
           </NativeSelect>
         </Field.Root>
         <Field.Root>
@@ -625,6 +666,19 @@ export function ChartExample() {
         >
           {t.extremes}
         </ChoiceLabel>
+        {/* The markers keep telling the series apart once the dashes are off. */}
+        <ChoiceLabel
+          control={
+            <Checkbox.Root
+              checked={!dashes}
+              onCheckedChange={(solid) => setDashes(!solid)}
+            >
+              <Checkbox.Indicator />
+            </Checkbox.Root>
+          }
+        >
+          {t.solidLines}
+        </ChoiceLabel>
       </div>
       <Chart
         title={t.chartTitle}
@@ -660,6 +714,7 @@ export function ChartExample() {
         data={sample.data}
         series={sample.series ?? series}
         palette={palette}
+        dashes={dashes}
         includeZero={includeZero}
         minimal={minimal}
         extremes={extremes}

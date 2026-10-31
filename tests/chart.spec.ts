@@ -14,6 +14,25 @@ async function choose(page: Page, name: string, value: string) {
   await page.getByRole('combobox', { name, exact: true }).click()
   await page.getByRole('option', { name: value, exact: true }).click()
 }
+/** Every plotted line's weight in px, in the order the plot draws them. A quiet
+ * line's weight multiplies two tokens, and Chromium leaves such a computed length
+ * as calc(…), so measure it rather than parse the string. */
+async function lineWidths(page: Page) {
+  return page
+    .locator('.surf-chart-plot .recharts-line-curve')
+    .evaluateAll((paths) =>
+      paths.map((path) => {
+        const weight = getComputedStyle(path).strokeWidth
+        if (!weight.includes('calc')) return Number.parseFloat(weight)
+        const probe = document.createElement('div')
+        probe.style.cssText = `position:absolute;visibility:hidden;width:${weight}`
+        document.body.append(probe)
+        const px = probe.getBoundingClientRect().width
+        probe.remove()
+        return px
+      }),
+    )
+}
 test('keyboard values retain missing data, escape clears the readout and the complete table keeps hidden series', async ({
   page,
 }) => {
@@ -467,22 +486,22 @@ test('a gap shades which series leads, and a comparison series draws quieter and
   expect(Math.abs(ends[0][1] - ends[1][0])).toBeLessThan(0.01)
   expect(Math.abs(ends[1][1] - ends[2][0])).toBeLessThan(0.01)
   // The benchmark is thinner, in muted ink, drawn first; the gap is under both.
+  // The weight is the stylesheet's, from --surf-chart-line-width and its quiet
+  // ratio, so it is read where it computes to, not from an attribute.
+  const weights = await lineWidths(page)
   const order = await plot.evaluate((element) => {
     const lines = [...element.querySelectorAll('.recharts-line-curve')]
     const gap = element.querySelector('.surf-chart-gap')!
     return {
-      lines: lines.map((line) => [
-        line.getAttribute('stroke-width'),
-        line.getAttribute('stroke'),
-      ]),
+      strokes: lines.map((line) => line.getAttribute('stroke')),
       gapFirst: Boolean(
         gap.compareDocumentPosition(lines[0]) &
         Node.DOCUMENT_POSITION_FOLLOWING,
       ),
     }
   })
-  expect(order.lines[0]).toEqual(['1.5', 'var(--surf-ink-muted)'])
-  expect(order.lines[1][0]).toBe('2')
+  expect(weights).toEqual([1.5, 2])
+  expect(order.strokes[0]).toBe('var(--surf-ink-muted)')
   expect(order.gapFirst).toBe(true)
   // Inspecting a row says which side it is on and by how much.
   const chart = page.getByRole('application', { name: 'Pipeline activity' })
@@ -681,6 +700,90 @@ test('a legend limit folds references with the series, and a plan is dashed in i
   expect(incomePlan).toEqual([income[0], '5 4'])
   expect(growth[1]).toBeNull()
   expect(income[1]).toBeNull()
+})
+
+test('more series than the categorical twelve take the extended ramp, and dashes off leaves the markers to tell them apart', async ({
+  page,
+}) => {
+  await open(page)
+  await choose(page, 'Chart data', 'Sixteen services on one plot')
+  const plot = page.locator('.surf-chart-plot')
+  const strokes = await plot
+    .locator('.recharts-line-curve')
+    .evaluateAll((paths) => paths.map((path) => path.getAttribute('stroke')))
+  // Sixteen lines, and the thirteenth is the second dozen's own hue: the first
+  // color a step deeper, not a repeat of the twelve.
+  expect(strokes).toHaveLength(16)
+  expect(strokes[0]).toBe('var(--surf-chart-category-1)')
+  expect(strokes[11]).toBe('var(--surf-chart-category-12)')
+  expect(strokes[12]).toBe('var(--surf-chart-category-13)')
+  expect(strokes[15]).toBe('var(--surf-chart-category-16)')
+  // Dashed by default, so the places apart never rest on color alone. The six
+  // dashes cycle, so every sixth line is the solid one of the round.
+  const dashed = await plot
+    .locator('.recharts-line-curve')
+    .evaluateAll((paths) =>
+      paths.map((path) => path.getAttribute('stroke-dasharray')),
+    )
+  expect(new Set(dashed)).toEqual(
+    new Set([null, '7 4', '2 4', '10 3 2 3', '12 5', '4 3']),
+  )
+  // The second dozen step once into the dashes and markers, so the thirteenth line
+  // never shares all its cues with the first, whose hue family it repeats.
+  const cues = await plot.evaluate((element) => {
+    const dashes = [...element.querySelectorAll('.recharts-line-curve')].map(
+      (curve) => curve.getAttribute('stroke-dasharray'),
+    )
+    // Recharts draws the markers in a layer of their own, above the lines, in the
+    // order the series are drawn.
+    const shapes = [...element.querySelectorAll('.recharts-line-dots')].map(
+      (dots) => dots.firstElementChild?.tagName ?? null,
+    )
+    return dashes.map((dash, index) => [dash, shapes[index]])
+  })
+  expect(cues[12][0]).not.toEqual(cues[0][0])
+  expect(cues[12][1]).not.toEqual(cues[0][1])
+  await page.getByRole('checkbox', { name: 'Solid lines only' }).click()
+  const solid = await plot
+    .locator('.recharts-line-curve')
+    .evaluateAll((paths) =>
+      paths.map((path) => path.getAttribute('stroke-dasharray')),
+    )
+  expect(solid).toEqual(solid.map(() => null))
+  // Every line keeps its markers, which is what tells sixteen of them apart
+  // without color: seven rows each, in the three shapes.
+  await expect(plot.locator('.recharts-line-dots *')).toHaveCount(16 * 7)
+})
+
+test('a chart drawn solid keeps its markers past 40 points, where a dashed one drops them', async ({
+  page,
+}) => {
+  await open(page)
+  await choose(page, 'Chart data', 'Daily closes on trading days')
+  const plot = page.locator('.surf-chart-plot')
+  // 44 rows: the markers would crowd the line, so a dashed chart leaves them out.
+  await expect(plot.locator('.recharts-line-dots *')).toHaveCount(0)
+  await page.getByRole('checkbox', { name: 'Solid lines only' }).click()
+  // Solid, the markers are the only thing left telling series apart, so they stay.
+  await expect(plot.locator('.recharts-line-dots *')).toHaveCount(44)
+})
+
+test('the line weight is a token, and a quiet ratio of 1 draws the benchmark as thick as its series', async ({
+  page,
+}) => {
+  await open(page)
+  await choose(page, 'Chart data', 'A basket against its benchmark')
+  // The benchmark is the quieter line, at three quarters of the weight.
+  expect(await lineWidths(page)).toEqual([1.5, 2])
+  await page.addStyleTag({
+    content: '.surf-chart { --surf-chart-line-quiet-ratio: 1 }',
+  })
+  expect(await lineWidths(page)).toEqual([2, 2])
+  // One property sets the whole plot's weight, and the quiet line follows it.
+  await page.addStyleTag({
+    content: '.surf-chart { --surf-chart-line-width: 3 }',
+  })
+  expect(await lineWidths(page)).toEqual([3, 3])
 })
 
 test('a minimal chart keeps the marks, labels the high and low, and stays inspectable', async ({

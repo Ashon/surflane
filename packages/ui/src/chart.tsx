@@ -32,6 +32,7 @@ import { useComponentDensity } from './sizing.js'
 import { useLabels } from './label-context.js'
 import {
   axisStep,
+  cueAt,
   isNumber,
   Marker,
   roundStep,
@@ -114,8 +115,17 @@ export type ChartProps = Omit<
    * prices, so the line uses the height; bars always start at zero. */
   includeZero?: boolean
   /** neutral tells series apart by ink, dashes and markers. categorical adds twelve
-   * hues, for categories that color must separate, such as buckets or sectors. */
-  palette?: 'neutral' | 'categorical'
+   * hues, for categories that color must separate, such as buckets or sectors.
+   * extended adds a second dozen, the same twelve hues a step deeper, for a chart
+   * with more series than twelve, such as a fleet of services on one plot. */
+  palette?: 'neutral' | 'categorical' | 'extended'
+  /** false draws every line solid and leaves the markers to tell the series apart,
+   * for a house style that reads lines without dashes. A plan keeps its dash, which
+   * is what makes it a plan, and the bars' fill patterns stay either way. Set
+   * --surf-chart-line-width for the lines' weight, and
+   * --surf-chart-line-quiet-ratio: 1 to give a comparison or plan the same weight
+   * as the rest. */
+  dashes?: boolean
   /** category spaces the rows evenly and names them by label. time places them by
    * data[].time, puts ticks on round times and breaks a line where sampling stops. */
   xScale?: 'category' | 'time'
@@ -218,7 +228,7 @@ const chartLabels: ChartLabels = {
   high: 'High',
   low: 'Low',
 }
-const dashes = [undefined, '7 4', '2 4', '10 3 2 3', '12 5', '4 3']
+const lineDashes = [undefined, '7 4', '2 4', '10 3 2 3', '12 5', '4 3']
 // A plan's dash: short and even, as a target line reads.
 const planDash = '5 4'
 const trendColors = {
@@ -393,7 +403,7 @@ function SeriesMark({
             strokeWidth='2'
             strokeDasharray={
               dash === undefined
-                ? dashes[index % dashes.length]
+                ? lineDashes[index % lineDashes.length]
                 : (dash ?? undefined)
             }
           />
@@ -564,10 +574,12 @@ export type ChartSeriesMarkProps = {
   type?: 'line' | 'bar' | 'area'
   /** The series' place in the chart's series, which sets its dash, marker and color. */
   index: number
-  palette?: 'neutral' | 'categorical'
+  palette?: 'neutral' | 'categorical' | 'extended'
   color?: string
   /** The swatch of a plan (ChartSeries.planOf): index is the planned series'. */
   plan?: boolean
+  /** false for a key beside a chart drawn with dashes={false}: a solid line. */
+  dashes?: boolean
 }
 /** A series' swatch as Chart's legend draws it, for a legend or key of your own. */
 export function ChartSeriesMark({
@@ -576,15 +588,16 @@ export function ChartSeriesMark({
   palette = 'neutral',
   color,
   plan,
+  dashes = true,
 }: ChartSeriesMarkProps) {
   const id = React.useId().replace(/[^a-zA-Z0-9_-]/g, '_')
   return (
     <SeriesMark
       type={type}
-      index={index}
+      index={cueAt(index)}
       color={seriesColor(index, palette, color)}
       pattern={`${id}-mark`}
-      dash={plan ? planDash : undefined}
+      dash={plan ? planDash : dashes ? undefined : null}
     />
   )
 }
@@ -696,6 +709,7 @@ export const Chart = function Chart({
   height,
   includeZero = true,
   palette = 'neutral',
+  dashes = true,
   xScale = 'category',
   breakAfter,
   yScale = 'linear',
@@ -730,12 +744,18 @@ export const Chart = function Chart({
     return planned >= 0 && planned !== index ? planned : index
   }
   const isPlan = (index: number) => plannedIndex(index) !== index
+  // Where a place draws its dash, marker and fill pattern from: a palette repeats
+  // its twelve hues every twelve series, and the cue steps once past each dozen so a
+  // series never shares all its cues with the one a dozen before it.
+  const cue = (index: number) => cueAt(index)
+  // A plan keeps its dash even with dashes={false}: it marks what the line is (a
+  // target beside its actual), while the cycled dashes only tell two series apart.
   const dashFor = (index: number): string | null =>
     isPlan(index)
       ? planDash
-      : series.some((s) => s.planOf === series[index]?.key)
+      : series.some((s) => s.planOf === series[index]?.key) || !dashes
         ? null
-        : (dashes[index % dashes.length] ?? null)
+        : (lineDashes[cue(index) % lineDashes.length] ?? null)
   const colorFor = (index: number): string =>
     isPlan(index) && !series[index]?.color
       ? colorFor(plannedIndex(index))
@@ -1135,7 +1155,7 @@ export const Chart = function Chart({
     >
       <SeriesMark
         type={type}
-        index={plannedIndex(index)}
+        index={cue(plannedIndex(index))}
         color={colorFor(index)}
         pattern={`${id}-legend-${index}`}
         dash={dashFor(index)}
@@ -1298,7 +1318,7 @@ export const Chart = function Chart({
                       <Pattern
                         key={s.key}
                         id={`${id}-pattern-${index}`}
-                        index={index}
+                        index={cue(index)}
                         color={colorFor(index)}
                       />
                     ))}
@@ -1481,6 +1501,14 @@ export const Chart = function Chart({
                           .filter(([s, i]) => !s.comparison && !isPlan(i)),
                       ]
                   ).map(([s, index]) => {
+                    const quiet = Boolean(s.comparison) || isPlan(index)
+                    // The weight is the stylesheet's, from --surf-chart-line-width and
+                    // --surf-chart-line-quiet-ratio, so an app can set every line the
+                    // same weight with one declaration.
+                    const seriesClass = cx(
+                      'surf-chart-series',
+                      quiet && 'surf-chart-series-quiet',
+                    )
                     const common = {
                       name: s.label,
                       dataKey: (row: Row) => valueOf(row, s.key),
@@ -1489,16 +1517,19 @@ export const Chart = function Chart({
                       stroke: colorFor(index),
                       stackId: stacks ? 'total' : undefined,
                     }
-                    // A minimal chart draws the line alone; the readout names each point.
+                    // A minimal chart draws the line alone; the readout names each
+                    // point. Past 40 points the markers go too, so they don't crowd.
+                    // With the dashes off they are the only thing left telling two
+                    // series apart without color, so a solid chart keeps them.
                     const dot =
-                      rows.length > 40 || minimal
+                      (rows.length > 40 && dashes) || minimal
                         ? false
                         : (dot: Pick<DotProps, 'cx' | 'cy'>) => (
                             <Marker
                               cx={dot.cx}
                               cy={dot.cy}
                               color={colorFor(index)}
-                              index={plannedIndex(index)}
+                              index={cue(plannedIndex(index))}
                             />
                           )
                     const shape = curve === 'step' ? 'stepAfter' : 'linear'
@@ -1513,8 +1544,8 @@ export const Chart = function Chart({
                       <Area
                         key={s.key}
                         {...common}
+                        className={seriesClass}
                         type={shape}
-                        strokeWidth={s.comparison || isPlan(index) ? 1.5 : 2}
                         strokeDasharray={dashFor(index) ?? undefined}
                         fill={`url(#${id}-pattern-${index})`}
                         fillOpacity={stacks ? 0.32 : 0.12}
@@ -1526,8 +1557,8 @@ export const Chart = function Chart({
                       <Line
                         key={s.key}
                         {...common}
+                        className={seriesClass}
                         type={shape}
-                        strokeWidth={s.comparison || isPlan(index) ? 1.5 : 2}
                         strokeDasharray={dashFor(index) ?? undefined}
                         connectNulls={false}
                         dot={dot}
@@ -1593,7 +1624,7 @@ export const Chart = function Chart({
                                 <li key={s.key}>
                                   <SeriesMark
                                     type={type}
-                                    index={plannedIndex(index)}
+                                    index={cue(plannedIndex(index))}
                                     color={colorFor(index)}
                                     pattern={`${id}-float-${index}`}
                                     dash={dashFor(index)}
