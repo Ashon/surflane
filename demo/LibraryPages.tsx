@@ -1,7 +1,8 @@
 import React, { useRef, useState } from 'react'
 import { Grid, Input, Select, Button, FilterBar } from '@surflane/ui'
 import {
-  components,
+  charts,
+  componentPages,
   foundations,
   patterns,
   itemHref,
@@ -77,7 +78,7 @@ export function ItemList({
 export function LibraryIndex({
   kind = 'component',
 }: {
-  kind?: 'component' | 'pattern'
+  kind?: 'component' | 'chart' | 'pattern'
 }) {
   const [search, setSearch] = useState(''),
     [group, setGroup] = useState('all'),
@@ -91,7 +92,8 @@ export function LibraryIndex({
     setStage('all')
     searchInput.current?.focus()
   }
-  const items = kind === 'component' ? components : patterns
+  const items =
+    kind === 'component' ? componentPages : kind === 'chart' ? charts : patterns
   const categories = [...new Set(items.map((item) => item.group))]
   const text = useCatalogText()
   const visible = items.filter(

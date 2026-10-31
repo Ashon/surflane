@@ -1,5 +1,5 @@
 import { test, expect, type Locator, type Page } from '@playwright/test'
-import { components, patterns } from '../demo/catalog'
+import { components, itemHref, patterns } from '../demo/catalog'
 import { waitForCatalogReady } from './catalog-ready'
 
 // Buttons and choices draw the shared 2px ring for keyboard focus only; a select
@@ -61,7 +61,7 @@ const targets: [string, Target][] = [
     { find: (p) => p.locator('main .surf-pagination-control[href]') },
   ],
   [
-    '/components/chart',
+    '/charts/chart',
     { find: (p) => p.locator('main .surf-chart-legend-button') },
   ],
   ['/', { find: (p) => p.getByRole('link', { name: 'Browse components' }) }],
@@ -223,10 +223,8 @@ for (const [route, width, find] of clipped)
 // element or on the part that draws it for it (a field group, a thumb, a
 // scroller's root), up to three levels out.
 const pages = [
-  ...components
-    .filter((item) => item.stage !== 'planned')
-    .map((item) => `/components/${item.id}`),
-  ...patterns.map((item) => `/patterns/${item.id}`),
+  ...components.filter((item) => item.stage !== 'planned').map(itemHref),
+  ...patterns.map(itemHref),
 ]
 for (const route of pages)
   test(`${route}: every keyboard stop in the preview shows focus`, async ({

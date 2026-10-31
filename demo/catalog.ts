@@ -1,10 +1,15 @@
 export type Stage = 'available' | 'primitive' | 'planned'
 export type Kind = 'component' | 'pattern' | 'foundation'
+// A top-level shelf of the catalog. A component sits under /components unless the
+// registry gives it a section of its own; charts read as components and earn /charts.
+export type Section = 'charts'
 export type CatalogItem = {
   id: string
   name: string
   group: string
   kind: Kind
+  /** The section holding the page, when it is not the one its kind defaults to. */
+  section?: Section
   stage: Stage
   phase: 0 | 1 | 2 | 3
   summary: string
@@ -597,6 +602,9 @@ const specialized = new Set([
   'chart',
   'scatter-chart',
 ])
+// The registry's Charts group is the one component group with its own section: the
+// six chart pages read at /charts, so the group name is what puts them there.
+const chartGroup = 'Charts'
 export const components: CatalogItem[] = definitions.map(
   ([id, name, group, summary, phase]) => ({
     id,
@@ -605,6 +613,7 @@ export const components: CatalogItem[] = definitions.map(
     summary,
     phase,
     kind: 'component',
+    section: group === chartGroup ? 'charts' : undefined,
     stage: ready.has(id) ? 'available' : raw.has(id) ? 'primitive' : 'planned',
     basis:
       id === 'syntax-highlighter'
@@ -632,6 +641,14 @@ export const components: CatalogItem[] = definitions.map(
                             : 'Base UI',
     upstream: nonBase.has(id) ? undefined : base + id,
   }),
+)
+/** Components the catalog lists on their own shelf; every one is kind 'component'. */
+export const charts: CatalogItem[] = components.filter(
+  (item) => item.section === 'charts',
+)
+/** The pages listed under /components. The charts are listed under /charts. */
+export const componentPages: CatalogItem[] = components.filter(
+  (item) => !item.section,
 )
 const patternDefinitions: [string, string, string, 1 | 2 | 3][] = [
   [
@@ -829,11 +846,16 @@ export const foundations: CatalogItem[] = [
 }))
 export const catalog = [...foundations, ...components, ...patterns]
 export function itemHref(item: CatalogItem) {
-  return item.kind === 'foundation'
-    ? item.id === 'tokens'
-      ? '/tokens'
-      : `/foundations/${item.id}`
-    : `/${item.kind === 'component' ? 'components' : 'patterns'}/${item.id}`
+  if (item.kind === 'foundation')
+    return item.id === 'tokens' ? '/tokens' : `/foundations/${item.id}`
+  if (item.section) return `/${item.section}/${item.id}`
+  return `/${item.kind === 'component' ? 'components' : 'patterns'}/${item.id}`
+}
+/** The page for a component id, wherever its section puts it. */
+export function componentHref(id: string) {
+  const item = components.find((i) => i.id === id)
+  if (!item) throw new Error(`No component page for ${id}`)
+  return itemHref(item)
 }
 /** Every page the catalog routes to; the build writes each one as HTML in both languages. */
 export const pageRoutes = [
@@ -842,6 +864,7 @@ export const pageRoutes = [
     '/install',
     '/foundations',
     '/components',
+    '/charts',
     '/patterns',
     '/coverage',
     '/foundations/lab',

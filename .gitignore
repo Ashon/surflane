@@ -11,6 +11,7 @@ demo/public/tokens.md
 demo/public/design-tokens.json
 demo/public/docs/
 demo/public/components/
+demo/public/charts/
 demo/public/patterns/
 demo/public/foundations/
 playwright-report/

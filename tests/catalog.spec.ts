@@ -4,7 +4,13 @@ import AxeBuilder from '@axe-core/playwright'
 import { readFileSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { catalog, components, patterns, itemHref } from '../demo/catalog'
+import {
+  catalog,
+  components,
+  pageRoutes,
+  patterns,
+  itemHref,
+} from '../demo/catalog'
 import { componentDocs } from '../demo/componentDocs'
 import tokens from '../packages/tokens/catalog.json' with { type: 'json' }
 test.use({ reducedMotion: 'reduce' })
@@ -235,19 +241,9 @@ test('all catalog routes render independently without console errors', async ({
   }
   expect(errors).toEqual([])
 })
-const accessibleRoutes = [
-  ...new Set([
-    '/',
-    '/install',
-    '/foundations',
-    '/components',
-    '/patterns',
-    '/coverage',
-    ...catalog.map(itemHref),
-    '/patterns/interaction-lab',
-    '/foundations/lab',
-  ]),
-]
+// The build's own page list, so a new section is swept for accessibility the
+// moment it joins the registry.
+const accessibleRoutes = pageRoutes
 for (const width of [1440, 320])
   for (const theme of ['light', 'dark'] as const) {
     test(`all catalog, index and lab pages remain accessible at ${width}px in ${theme}`, async ({

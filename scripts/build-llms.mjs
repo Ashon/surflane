@@ -17,6 +17,7 @@ const generated = [
   'design-tokens.json',
   'docs',
   'components',
+  'charts',
   'patterns',
   'foundations',
 ]
@@ -27,8 +28,15 @@ const vite = await createServer({
   appType: 'custom',
   server: { middlewareMode: true },
 })
-const { catalog, components, patterns, foundations, itemHref, stageLabels } =
-  await vite.ssrLoadModule('/catalog.ts')
+const {
+  catalog,
+  charts,
+  componentPages,
+  patterns,
+  foundations,
+  itemHref,
+  stageLabels,
+} = await vite.ssrLoadModule('/catalog.ts')
 const { componentDocs } = await vite.ssrLoadModule('/componentDocs.ts')
 await vite.close()
 const tokens = JSON.parse(
@@ -49,7 +57,7 @@ const available = (items) => items.filter((item) => item.stage === 'available')
 
 // The README and the coverage doc state the catalog's size. Write it from the registry,
 // so the numbers cannot drift; CI fails when the committed text is stale.
-const counts = `${available(foundations).length} foundations, ${available(components).length} components and ${available(patterns).length} patterns`
+const counts = `${available(foundations).length} foundations, ${available(componentPages).length} components, ${available(charts).length} charts and ${available(patterns).length} patterns`
 for (const file of ['README.md', 'docs/catalog-coverage.md']) {
   const path = join(root, file)
   const source = readFileSync(path, 'utf8')
@@ -183,7 +191,11 @@ const index = [
   '',
   '## Components',
   '',
-  ...links(components),
+  ...links(componentPages),
+  '',
+  '## Charts',
+  '',
+  ...links(charts),
   '',
   '## Patterns',
   '',

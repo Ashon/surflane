@@ -124,7 +124,7 @@ test('Stat names its value and shows direction by sign, arrow and color', async 
 test('Sparkline is a named image with sizes, a baseline, a marker and gaps', async ({
   page,
 }) => {
-  await page.goto('/components/sparkline')
+  await page.goto('/charts/sparkline')
   await waitForCatalogReady(page)
   const lines = page.locator('[data-preview-size] svg.surf-sparkline')
   await expect(lines).toHaveCount(4)
@@ -151,7 +151,7 @@ test('Sparkline is a named image with sizes, a baseline, a marker and gaps', asy
 test('Chart can leave zero off its axis and color categories', async ({
   page,
 }) => {
-  await page.goto('/components/chart')
+  await page.goto('/charts/chart')
   await waitForCatalogReady(page)
   const pick = async (name: string, option: string) => {
     await page.getByRole('combobox', { name }).click()
@@ -203,10 +203,10 @@ for (const theme of ['light', 'dark'])
   }) => {
     for (const path of [
       '/components/stat',
-      '/components/sparkline',
-      '/components/bar-list',
-      '/components/proportion-bar',
-      '/components/diverging-bar',
+      '/charts/sparkline',
+      '/charts/bar-list',
+      '/charts/proportion-bar',
+      '/charts/diverging-bar',
     ]) {
       await page.goto(path)
       await waitForCatalogReady(page)
@@ -222,7 +222,7 @@ for (const theme of ['light', 'dark'])
 test('BarList ranks values in shared columns and scrolls a bounded list by whole rows', async ({
   page,
 }) => {
-  await page.goto('/components/bar-list')
+  await page.goto('/charts/bar-list')
   await waitForCatalogReady(page)
   const disk = page.getByRole('list', { name: 'Disk used by directory' })
   const rows = disk.getByRole('listitem')
@@ -277,7 +277,7 @@ const colorOf = (page: import('@playwright/test').Page, token: string) =>
 test('ProportionBar splits one bar into its parts, named in a legend that is the text', async ({
   page,
 }) => {
-  await page.goto('/components/proportion-bar')
+  await page.goto('/charts/proportion-bar')
   await waitForCatalogReady(page)
   const sentiment = page.getByRole('group', {
     name: 'News sentiment, 25 articles',
@@ -346,7 +346,7 @@ test('ProportionBar splits one bar into its parts, named in a legend that is the
 test('DivergingBar grows a signed value from a center line on a shared scale', async ({
   page,
 }) => {
-  await page.goto('/components/diverging-bar')
+  await page.goto('/charts/diverging-bar')
   await waitForCatalogReady(page)
   const measure = (name: string) =>
     page.getByRole('img', { name, exact: true }).evaluate((element) => {
@@ -383,7 +383,7 @@ test('DivergingBar grows a signed value from a center line on a shared scale', a
 test('a diverging BarList ranks signed values from one center line', async ({
   page,
 }) => {
-  await page.goto('/components/bar-list')
+  await page.goto('/charts/bar-list')
   await waitForCatalogReady(page)
   const list = page.getByRole('list', {
     name: 'Sector return against the market, 20 days',

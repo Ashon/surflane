@@ -155,7 +155,7 @@ test('Korean pages write component labels in Korean', async ({ page }) => {
     '/ko/components/code',
     '/ko/components/autocomplete',
     '/ko/components/combobox',
-    '/ko/components/chart',
+    '/ko/charts/chart',
     '/ko/components/file-upload',
     '/ko/components/toast',
     '/ko/foundations/color',

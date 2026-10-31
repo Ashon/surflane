@@ -4,7 +4,7 @@ import { waitForCatalogReady } from './catalog-ready'
 
 test.use({ reducedMotion: 'reduce' })
 async function open(page: Page) {
-  await page.goto('/components/chart')
+  await page.goto('/charts/chart')
   await waitForCatalogReady(page)
   await expect(
     page.getByRole('application', { name: 'Pipeline activity' }),
@@ -633,7 +633,7 @@ test('right to left, the legend moves to the inline end of the key', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 1000 })
-  await page.goto('/components/chart')
+  await page.goto('/charts/chart')
   await waitForCatalogReady(page)
   const chart = page.locator('main .surf-chart').first()
   const edges = () =>

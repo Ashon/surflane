@@ -28,6 +28,7 @@ export const en = {
     Install: 'Install',
     Foundations: 'Foundations',
     Components: 'Components',
+    Charts: 'Charts',
     Patterns: 'Patterns',
     Coverage: 'Coverage',
   },
@@ -59,6 +60,7 @@ export const en = {
   allFoundations: 'All foundations',
   foundationPage: { principles: 'Principles', related: 'Related' },
   allComponents: 'All components',
+  allCharts: 'All charts',
   allPatterns: 'All patterns',
   interactionLab: 'Interaction lab',
   pages: {
@@ -74,6 +76,10 @@ export const en = {
     '/components': [
       'Components',
       'Find a component, then review its examples and usage guidance.',
+    ],
+    '/charts': [
+      'Charts',
+      'Draw a measure as a line, a bar or a point, with its legend and the table behind it.',
     ],
     '/patterns': [
       'Patterns',

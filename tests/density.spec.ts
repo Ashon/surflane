@@ -1,5 +1,5 @@
 import { test, expect, type Page } from '@playwright/test'
-import { components, patterns } from '../demo/catalog'
+import { components, itemHref, patterns } from '../demo/catalog'
 import { waitForCatalogReady } from './catalog-ready'
 
 // Compact density packs a screen: it may keep a part as it is, never make it
@@ -91,11 +91,9 @@ function larger(
 // Components switch density through the preview, as a reader does: SizeProvider
 // density, which tables, charts and layout parts follow.
 for (const item of components.filter((item) => item.stage !== 'planned'))
-  test(`/components/${item.id}: compact makes nothing larger`, async ({
-    page,
-  }) => {
+  test(`${itemHref(item)}: compact makes nothing larger`, async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 1000 })
-    await page.goto(`/components/${item.id}`)
+    await page.goto(itemHref(item))
     await waitForCatalogReady(page)
     // A web font that swaps in after the first paint changes line heights, so
     // measure only once every font is in.

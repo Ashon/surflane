@@ -208,7 +208,7 @@ for (const theme of ['light', 'dark']) {
       ['/components/tree', '.surf-tree-toggle', false],
       ['/components/accordion', '.surf-disclosure-trigger', false],
       ['/components/collapsible', '.surf-disclosure-trigger', false],
-      ['/components/chart', '.surf-chart-legend-button', false],
+      ['/charts/chart', '.surf-chart-legend-button', false],
     ] as const) {
       await page.goto(route)
       await waitForCatalogReady(page)

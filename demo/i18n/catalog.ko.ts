@@ -123,18 +123,18 @@ export const catalogKo: {
     '/components/markdown': '문서, 코드, 표를 공유 읽기 스타일로 렌더링합니다.',
     '/components/list': '반복 콘텐츠와 작업을 정렬합니다.',
     '/components/stat': '핵심 수치를 변화와 기준 설명과 함께 보여 줍니다.',
-    '/components/sparkline': '카드나 표 셀 안에 작은 추이선을 그립니다.',
-    '/components/bar-list':
+    '/charts/sparkline': '카드나 표 셀 안에 작은 추이선을 그립니다.',
+    '/charts/bar-list':
       '이름 붙은 값을 가장 큰 값에 비례한 막대와 함께 순위대로 늘어놓습니다.',
-    '/components/proportion-bar':
+    '/charts/proportion-bar':
       '막대 하나를 전체의 부분으로 나누고, 범례에 각 부분의 비율을 씁니다.',
-    '/components/diverging-bar':
+    '/charts/diverging-bar':
       '부호 있는 값을 가운데 선에서 그려, 오르면 한쪽으로, 내리면 다른 쪽으로 뻗습니다.',
     '/components/tree': '중첩 리소스를 키보드로 탐색합니다.',
-    '/components/chart': '단위, 범례, 대체 테이블과 함께 추세를 보여 줍니다.',
+    '/charts/chart': '단위, 범례, 대체 테이블과 함께 추세를 보여 줍니다.',
     '/components/theme-switch':
       '라이트, 다크, 기기 설정 중 하나를 골라 기억합니다.',
-    '/components/scatter-chart':
+    '/charts/scatter-chart':
       '항목마다 두 측정값을 점으로 놓고, 기준선으로 사분면을 나눕니다.',
     '/components/scroll-area': '레이아웃 안에 가로·세로 스크롤을 추가합니다.',
     '/components/separator': '전체 너비 또는 안쪽 경계를 그립니다.',

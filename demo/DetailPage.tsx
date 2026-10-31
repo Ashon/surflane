@@ -3,7 +3,8 @@ import { lazy, lazyModule } from './lazy'
 import { Table, CodeBlock as SharedCodeBlock } from '@surflane/ui'
 import {
   catalog,
-  components,
+  charts,
+  componentPages,
   foundations,
   patterns,
   itemHref,
@@ -93,12 +94,16 @@ export function DetailPage({
   const doc = docs[item.id]?.read().doc
   const ko = locale === 'ko' ? docsKo[item.id]?.read().doc : undefined
   const Guidelines = guidelines[item.id]
+  // Previous and next walk the pages of the reader's own section: a chart page
+  // stays among the six charts, not in the middle of the component list.
   const peers =
-    item.kind === 'component'
-      ? components
-      : item.kind === 'pattern'
-        ? patterns
-        : foundations
+    item.section === 'charts'
+      ? charts
+      : item.kind === 'component'
+        ? componentPages
+        : item.kind === 'pattern'
+          ? patterns
+          : foundations
   const current = peers.findIndex((i) => i.id === item.id),
     prev = peers[current - 1],
     next = peers[current + 1]

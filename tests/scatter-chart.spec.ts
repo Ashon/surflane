@@ -8,7 +8,7 @@ const quality = 'Quality against news sentiment'
 test('ScatterChart steps through points by keyboard and names each point, its group and quadrant', async ({
   page,
 }) => {
-  await page.goto('/components/scatter-chart')
+  await page.goto('/charts/scatter-chart')
   await waitForCatalogReady(page)
   const chart = page.getByRole('figure', { name: quality })
   const plot = chart.getByRole('application', { name: quality })
@@ -65,7 +65,7 @@ test('ScatterChart steps through points by keyboard and names each point, its gr
 test('ScatterChart follows the pointer and its table lists every point', async ({
   page,
 }) => {
-  await page.goto('/components/scatter-chart')
+  await page.goto('/charts/scatter-chart')
   await waitForCatalogReady(page)
   const chart = page.getByRole('figure', { name: quality })
   const readout = chart.getByRole('status', { name: `${quality} values` })
@@ -95,7 +95,7 @@ for (const theme of ['light', 'dark'])
   test(`ScatterChart passes automated accessibility in ${theme}`, async ({
     page,
   }) => {
-    await page.goto('/components/scatter-chart')
+    await page.goto('/charts/scatter-chart')
     await waitForCatalogReady(page)
     if (theme === 'dark')
       await page.getByRole('button', { name: 'Toggle theme' }).click()

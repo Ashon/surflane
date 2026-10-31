@@ -305,7 +305,7 @@ test('chart references, the gap between series and a sticky column edge keep the
 }) => {
   await page.emulateMedia({ forcedColors: 'active' })
   await page.setViewportSize({ width: 1280, height: 1000 })
-  await page.goto('/components/chart')
+  await page.goto('/charts/chart')
   await waitForCatalogReady(page)
   const canvasText = await page.evaluate(() => {
     const probe = document.createElement('span')

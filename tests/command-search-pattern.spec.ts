@@ -71,7 +71,7 @@ test('empty results, description matching and current destination availability r
       dialog(page).getByRole('option', { name: /^Chart / }),
     ).not.toHaveAttribute('aria-disabled', 'true')
     await search(page).press('Enter')
-    await expect(page).toHaveURL(/\/components\/chart$/)
+    await expect(page).toHaveURL(/\/charts\/chart$/)
     await waitForCatalogReady(page)
     await expect(page.locator('#page-title')).toBeFocused()
     await open(page)

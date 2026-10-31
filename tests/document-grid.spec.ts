@@ -1,4 +1,4 @@
-import { components } from '../demo/catalog'
+import { componentPages } from '../demo/catalog'
 import { test, expect } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 import { waitForCatalogReady } from './catalog-ready'
@@ -167,7 +167,7 @@ for (const [width, columns, tracks, gutter] of [
     await page.getByRole('searchbox', { name: 'Search catalog' }).fill('button')
     await expect(page.locator('.catalog-item')).toHaveCount(1)
     await expect(page.getByRole('status')).toHaveText(
-      `1 / ${components.length} items`,
+      `1 / ${componentPages.length} items`,
     )
     await page.locator('.catalog-item').press('Enter')
     await expect(page.locator('#page-title')).toHaveText('Button')

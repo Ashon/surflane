@@ -18,7 +18,7 @@ import {
   Switch,
   Icon,
 } from '../packages/ui/dist/index.js'
-import { components } from '../demo/catalog'
+import { componentHref, components } from '../demo/catalog'
 import { waitForCatalogReady } from './catalog-ready'
 test.use({ reducedMotion: 'reduce' })
 const values = ['small', 'default', 'large'] as const
@@ -32,8 +32,9 @@ async function choose(page: Page, size: (typeof values)[number]) {
     size,
   )
 }
+// The route comes from the registry, not the id: the chart pages sit under /charts.
 async function open(page: Page, id: string) {
-  await page.goto(`/components/${id}`)
+  await page.goto(componentHref(id))
   await waitForCatalogReady(page)
 }
 

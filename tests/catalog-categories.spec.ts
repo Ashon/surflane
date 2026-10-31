@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
-import { components, itemHref } from '../demo/catalog'
+import { charts, componentPages, itemHref } from '../demo/catalog'
 import { waitForCatalogReady } from './catalog-ready'
 test.use({ reducedMotion: 'reduce' })
-const categories = [...new Set(components.map((item) => item.group))]
+const categories = [...new Set(componentPages.map((item) => item.group))]
 
 test('component index groups every destination exactly once under its registry category', async ({
   page,
@@ -22,7 +22,7 @@ test('component index groups every destination exactly once under its registry c
     await expect(
       section.getByRole('heading', { name: category, level: 2, exact: true }),
     ).toBeVisible()
-    const expected = components
+    const expected = componentPages
       .filter((item) => item.group === category)
       .map(itemHref)
     expect(
@@ -36,7 +36,35 @@ test('component index groups every destination exactly once under its registry c
       `${expected.length} ${expected.length === 1 ? 'component' : 'components'}`,
     )
   }
-  await expect(page.locator('.catalog-item')).toHaveCount(components.length)
+  await expect(page.locator('.catalog-item')).toHaveCount(componentPages.length)
+})
+
+test('the charts index holds every chart page and the component index holds none', async ({
+  page,
+}) => {
+  await page.goto('/charts')
+  await waitForCatalogReady(page)
+  const items = page.locator('.catalog-item')
+  await expect(items).toHaveCount(charts.length)
+  expect(
+    await items.evaluateAll((elements) =>
+      elements.map((el) => el.getAttribute('href')),
+    ),
+  ).toEqual(charts.map(itemHref))
+  await page.goto('/components')
+  await waitForCatalogReady(page)
+  for (const item of charts)
+    await expect(
+      page.locator(`.catalog-item[href="${itemHref(item)}"]`),
+    ).toHaveCount(0)
+  // A chart page walks the six charts, not the component list they left.
+  await page.goto('/charts/chart')
+  await waitForCatalogReady(page)
+  const paging = page.getByRole('navigation', { name: 'Related pages' })
+  await expect(
+    paging.getByRole('link', { name: 'Next: Scatter chart' }),
+  ).toHaveAttribute('href', '/charts/scatter-chart')
+  await expect(paging.getByRole('link', { name: /^Previous:/ })).toHaveCount(0)
 })
 
 test('search and category/readiness filters retain grouping, omit empty sections and reset with focus', async ({
@@ -56,7 +84,7 @@ test('search and category/readiness filters retain grouping, omit empty sections
   ).toHaveCount(1)
   await expect(
     page.getByRole('search', { name: 'Filter catalog' }).getByRole('status'),
-  ).toContainText(`1 / ${components.length}`)
+  ).toContainText(`1 / ${componentPages.length}`)
   await page.getByRole('combobox', { name: 'Component readiness' }).click()
   await page
     .getByRole('option', { name: 'Primitive only', exact: true })

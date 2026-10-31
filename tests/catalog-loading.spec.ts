@@ -335,7 +335,7 @@ test('Chart composition is deferred until its own route and renders keyboard-rea
   await page.goto('/')
   await waitForCatalogReady(page)
   expect(requests.some((url) => isModule(url, 'ChartExample'))).toBe(false)
-  await page.goto('/components/chart')
+  await page.goto('/charts/chart')
   await waitForCatalogReady(page)
   expect(
     modules.filter((name) => requests.some((url) => isModule(url, name))),

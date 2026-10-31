@@ -1,4 +1,4 @@
-import { components } from '../demo/catalog'
+import { componentPages } from '../demo/catalog'
 import { test, expect } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 import { waitForCatalogReady } from './catalog-ready'
@@ -52,7 +52,7 @@ test('real catalog shares filter controls, reset and native form keyboard behavi
   await form.getByRole('button', { name: 'Clear filters' }).click()
   await expect(input).toBeFocused()
   await expect(input).toHaveValue('')
-  await expect(page.locator('.catalog-item')).toHaveCount(components.length)
+  await expect(page.locator('.catalog-item')).toHaveCount(componentPages.length)
 })
 for (const theme of ['light', 'dark'])
   test(`filter bar wraps long values and remains accessible in ${theme}`, async ({

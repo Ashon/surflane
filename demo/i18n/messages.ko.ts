@@ -27,6 +27,7 @@ export const ko: Messages = {
     Install: '설치',
     Foundations: '파운데이션',
     Components: '컴포넌트',
+    Charts: '차트',
     Patterns: '패턴',
     Coverage: '커버리지',
   },
@@ -58,6 +59,7 @@ export const ko: Messages = {
   allFoundations: '모든 파운데이션',
   foundationPage: { principles: '원칙', related: '관련 문서' },
   allComponents: '모든 컴포넌트',
+  allCharts: '모든 차트',
   allPatterns: '모든 패턴',
   interactionLab: '인터랙션 랩',
   pages: {
@@ -73,6 +75,10 @@ export const ko: Messages = {
     '/components': [
       '컴포넌트',
       '컴포넌트를 찾은 뒤 예시와 사용법을 살펴봅니다.',
+    ],
+    '/charts': [
+      '차트',
+      '측정값을 선, 막대, 점으로 그리고 범례와 그 뒤의 테이블까지 함께 보여 줍니다.',
     ],
     '/patterns': ['패턴', '공유 컴포넌트를 제품 워크플로로 구성합니다.'],
     '/coverage': ['커버리지', '전체 웹 UI 범위와 구현 상태를 검토합니다.'],

@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { components, patterns } from '../demo/catalog'
+import { components, itemHref, patterns } from '../demo/catalog'
 import { waitForCatalogReady } from './catalog-ready'
 
 // Under prefers-reduced-motion every component transition and animation is off
@@ -7,10 +7,8 @@ import { waitForCatalogReady } from './catalog-ready'
 test.use({ reducedMotion: 'reduce' })
 
 const routes = [
-  ...components
-    .filter((item) => item.stage !== 'planned')
-    .map((item) => `/components/${item.id}`),
-  ...patterns.map((item) => `/patterns/${item.id}`),
+  ...components.filter((item) => item.stage !== 'planned').map(itemHref),
+  ...patterns.map(itemHref),
 ]
 for (const route of routes)
   test(`${route}: nothing moves under reduced motion`, async ({ page }) => {

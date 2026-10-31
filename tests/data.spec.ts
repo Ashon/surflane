@@ -2,6 +2,7 @@ import { waitForCatalogReady } from './catalog-ready'
 import { test, expect } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 import { dataExampleIds } from '../demo/DataExamples'
+import { componentHref } from '../demo/catalog'
 test('Table preserves headers and caption, sorts with keyboard, and selects through named checkboxes', async ({
   page,
 }) => {
@@ -203,10 +204,10 @@ test('Empty state distinguishes first use, no results and missing permissions wi
 })
 // One test per page, so each stays within the timeout and a failure names its page.
 for (const id of dataExampleIds)
-  test(`/components/${id}: passes light/dark accessibility, narrow reflow and enlarged RTL text`, async ({
+  test(`${componentHref(id)}: passes light/dark accessibility, narrow reflow and enlarged RTL text`, async ({
     page,
   }) => {
-    await page.goto(`/components/${id}`)
+    await page.goto(componentHref(id))
     await waitForCatalogReady(page)
     for (const theme of ['light', 'dark']) {
       await page.evaluate(

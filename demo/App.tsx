@@ -112,7 +112,14 @@ const CoveragePage = lazy(() =>
   import('./CoveragePage').then((module) => ({ default: module.CoveragePage })),
 )
 const InstallGuide = lazy(() => import('./InstallGuide'))
-import { catalog, components, foundations, patterns, itemHref } from './catalog'
+import {
+  catalog,
+  charts,
+  componentPages,
+  foundations,
+  patterns,
+  itemHref,
+} from './catalog'
 import {
   Link,
   normalizeRoute,
@@ -280,10 +287,19 @@ function App() {
     '/install': 'Install',
     '/foundations': 'Foundations',
     '/components': 'Components',
+    '/charts': 'Charts',
     '/patterns': 'Patterns',
     '/coverage': 'Coverage',
     '/patterns/interaction-lab': 'Patterns',
     '/foundations/lab': 'Foundations',
+  }
+  // Where each area's index page lives, for the sidebar and the breadcrumb.
+  const areaIndex: Record<string, string> = {
+    Foundations: '/foundations',
+    Components: '/components',
+    Charts: '/charts',
+    Patterns: '/patterns',
+    Coverage: '/coverage',
   }
   const [title, description, area] =
     messages.pages[route] && pageAreas[route]
@@ -292,11 +308,13 @@ function App() {
         ? [
             text.name(item),
             text.summary(item),
-            item.kind === 'component'
-              ? 'Components'
-              : item.kind === 'pattern'
-                ? 'Patterns'
-                : 'Foundations',
+            item.section === 'charts'
+              ? 'Charts'
+              : item.kind === 'component'
+                ? 'Components'
+                : item.kind === 'pattern'
+                  ? 'Patterns'
+                  : 'Foundations',
           ]
         : [messages.notFound[0], messages.notFound[1], 'Overview']
   const areaName = messages.areas[area as keyof typeof messages.areas]
@@ -377,6 +395,7 @@ function App() {
     )
   else if (route === '/tokens') content = <TokenPage />
   else if (route === '/components') content = <LibraryIndex />
+  else if (route === '/charts') content = <LibraryIndex kind='chart' />
   else if (route === '/patterns') content = <LibraryIndex kind='pattern' />
   else if (route === '/coverage') content = <CoveragePage />
   else if (route === '/install') content = <InstallGuide />
@@ -454,15 +473,20 @@ function App() {
             <div className='catalog-nav-group'>
               {navLink('/components', messages.allComponents)}
             </div>
-            {[...new Set(components.map((c) => c.group))].map((group) => (
+            {[...new Set(componentPages.map((c) => c.group))].map((group) => (
               <div className='catalog-nav-group' key={group}>
                 <span className='catalog-nav-label'>{text.group(group)}</span>
-                {components
+                {componentPages
                   .filter((c) => c.group === group)
                   .map((c) => navLink(itemHref(c), text.name(c)))}
               </div>
             ))}
           </>
+        ) : area === 'Charts' ? (
+          <div className='catalog-nav-group'>
+            {navLink('/charts', messages.allCharts)}
+            {charts.map((c) => navLink(itemHref(c), text.name(c)))}
+          </div>
         ) : (
           <div className='catalog-nav-group'>
             {navLink('/patterns', messages.allPatterns)}
@@ -515,6 +539,7 @@ function App() {
                   ['/install', 'Install'],
                   ['/foundations', 'Foundations'],
                   ['/components', 'Components'],
+                  ['/charts', 'Charts'],
                   ['/patterns', 'Patterns'],
                   ['/coverage', 'Coverage'],
                 ].map(([href, label]) => (
@@ -642,17 +667,7 @@ function App() {
                               <Breadcrumbs.Separator />
                               <TextLink
                                 render={
-                                  <Link
-                                    href={
-                                      area === 'Foundations'
-                                        ? '/foundations'
-                                        : area === 'Components'
-                                          ? '/components'
-                                          : area === 'Patterns'
-                                            ? '/patterns'
-                                            : '/coverage'
-                                    }
-                                  />
+                                  <Link href={areaIndex[area] ?? '/coverage'} />
                                 }
                               >
                                 {areaName}

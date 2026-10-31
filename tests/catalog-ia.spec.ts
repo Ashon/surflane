@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
-import { components, patterns } from '../demo/catalog'
+import { charts, componentPages, patterns } from '../demo/catalog'
 import { waitForCatalogReady } from './catalog-ready'
 test.use({ reducedMotion: 'reduce' })
 test('global areas and contextual destinations remain separate and registry complete', async ({
@@ -13,16 +13,31 @@ test('global areas and contextual destinations remain separate and registry comp
     name: 'Catalog navigation',
     exact: true,
   })
-  await expect(primary.getByRole('link')).toHaveCount(6)
+  await expect(primary.getByRole('link')).toHaveCount(7)
   await expect(
     primary.getByRole('link', { name: 'Components', exact: true }),
   ).toHaveAttribute('aria-current', 'location')
-  await expect(local.getByRole('link')).toHaveCount(components.length + 1)
+  await expect(local.getByRole('link')).toHaveCount(componentPages.length + 1)
   await expect(
     local.getByRole('link', { name: 'Toast', exact: true }),
   ).toHaveAttribute('aria-current', 'page')
   await expect(
     local.getByRole('link', { name: 'Overview', exact: true }),
+  ).toHaveCount(0)
+  // The charts read as components and live on their own shelf: the six of them,
+  // never mixed into the component list, and their index above them.
+  await primary.getByRole('link', { name: 'Charts', exact: true }).click()
+  await waitForCatalogReady(page)
+  await expect(page).toHaveURL(/\/charts$/)
+  await expect(local.getByRole('link')).toHaveCount(charts.length + 1)
+  await local.getByRole('link', { name: 'Chart', exact: true }).click()
+  await waitForCatalogReady(page)
+  await expect(page).toHaveURL(/\/charts\/chart$/)
+  await expect(
+    local.getByRole('link', { name: 'Chart', exact: true }),
+  ).toHaveAttribute('aria-current', 'page')
+  await expect(
+    local.getByRole('link', { name: 'Button', exact: true }),
   ).toHaveCount(0)
   await primary.getByRole('link', { name: 'Patterns', exact: true }).click()
   await waitForCatalogReady(page)

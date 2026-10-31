@@ -1,6 +1,6 @@
 # Catalog coverage
 
-The canonical registry is demo/catalog.ts. The current scope contains <!-- catalog-counts -->12 foundations, 73 components and 13 patterns<!-- /catalog-counts -->. Availability means that an implementation, example and documentation exist; it does not imply certification or adoption by any external application.
+The canonical registry is demo/catalog.ts. The current scope contains <!-- catalog-counts -->12 foundations, 67 components, 6 charts and 13 patterns<!-- /catalog-counts -->. Availability means that an implementation, example and documentation exist; it does not imply certification or adoption by any external application.
 
 ## Foundations
 
@@ -8,7 +8,7 @@ Layout and spacing, typography, design tokens, color and contrast, iconography, 
 
 ## Components
 
-Actions, forms, selection, overlays, navigation, data display, structure and feedback are grouped by the registry. The catalog includes shared sizing, Button visual priorities, chart summaries and table alternatives, code highlighting and safe Markdown rendering. Search and readiness filters retain category grouping and accessible counts.
+Actions, forms, selection, overlays, navigation, data display, structure and feedback are grouped by the registry. The six chart components form their own section, `/charts`, with the same search and readiness filters; they remain components in the registry, and their import paths are unchanged. The catalog includes shared sizing, Button visual priorities, chart summaries and table alternatives, code highlighting and safe Markdown rendering. Search and readiness filters retain category grouping and accessible counts.
 
 Base UI owns primitive keyboard and focus behavior. Adapters preserve native form values, cancellation, controlled state, reset and external form ownership. Specialized chart, date, tree, highlighting and Markdown behavior uses the dependencies declared in the UI package manifest. Documentation must describe actual implemented behavior rather than inventing an unavailable primitive.
 

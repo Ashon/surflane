@@ -81,7 +81,7 @@ test('NumberField: arrows step within min and max; read-only keeps the value', a
 test('Chart: Enter and Space on a legend button flip its series and keep focus; the data table opens by keyboard', async ({
   page,
 }) => {
-  await page.goto('/components/chart')
+  await page.goto('/charts/chart')
   await waitForCatalogReady(page)
   const legend = page.locator('main .surf-chart-legend-button').first()
   await legend.focus()

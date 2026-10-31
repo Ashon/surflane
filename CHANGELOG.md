@@ -11,6 +11,7 @@
 ### Changed
 
 - A `minimal` Chart keeps its data table's disclosure off the card until keyboard focus reaches it, as a skip link does. Assistive technology always has it, and an open table shows.
+- The catalog gives its six chart pages a section of their own. `/components/chart` is now `/charts/chart`, and likewise `scatter-chart`, `sparkline`, `bar-list`, `proportion-bar` and `diverging-bar`; the top rail gains Charts, its sidebar lists the six under "All charts", and a chart page's previous and next stay among them. They remain components, so every `@surflane/ui/chart` style import, their docs and their API are unchanged, `/components` lists 67 of them and Coverage still files these under the `component` layer. Nothing redirects the old addresses.
 
 ### Fixed
 

@@ -30,10 +30,7 @@ const hosts: Host[] = [
     (p) => p.getByRole('checkbox', { name: 'Select DEMO main' }).first(),
   ],
   ['/components/tree', (p) => p.locator('main .surf-tree-toggle').first()],
-  [
-    '/components/chart',
-    (p) => p.locator('main .surf-chart-legend-button').first(),
-  ],
+  ['/charts/chart', (p) => p.locator('main .surf-chart-legend-button').first()],
   [
     '/components/toolbar',
     (p) =>
