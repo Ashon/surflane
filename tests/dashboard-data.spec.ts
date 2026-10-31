@@ -121,13 +121,13 @@ test('Stat names its value and shows direction by sign, arrow and color', async 
   await expect(stats.nth(2).locator('.surf-stat-value')).toHaveText('₩4.9M')
 })
 
-test('Sparkline is a named image with sizes, a baseline, a marker and gaps', async ({
+test('Sparkline is a named image with sizes, a baseline, a marker, gaps and an opt-in fade', async ({
   page,
 }) => {
   await page.goto('/charts/sparkline')
   await waitForCatalogReady(page)
   const lines = page.locator('[data-preview-size] svg.surf-sparkline')
-  await expect(lines).toHaveCount(4)
+  await expect(lines).toHaveCount(5)
   for (const [index, height] of [24, 32, 48].entries()) {
     const line = lines.nth(index)
     await expect(line).toHaveAttribute('role', 'img')
@@ -146,6 +146,27 @@ test('Sparkline is a named image with sizes, a baseline, a marker and gaps', asy
     .getAttribute('d')
   expect(gap?.match(/M/g)).toHaveLength(2)
   await expect(lines.nth(3).locator('.surf-sparkline-baseline')).toHaveCount(0)
+  // The wash is opt-in: only the row that asks for it draws one, and it closes
+  // itself at the bottom of the frame in the line's own color, under the line.
+  await expect(lines.nth(3).locator('.surf-sparkline-fill')).toHaveCount(0)
+  const filled = lines.nth(4)
+  const wash = filled.locator('.surf-sparkline-fill')
+  await expect(wash).toHaveCount(1)
+  await expect(wash).toHaveAttribute('fill', /^url\(#[\w-]+\)$/)
+  expect((await wash.getAttribute('d'))?.endsWith('Z')).toBe(true)
+  await expect(filled.locator('linearGradient stop')).toHaveCount(2)
+  const [washTop, lineColor, order] = await filled.evaluate((svg) => [
+    getComputedStyle(
+      svg.querySelector<HTMLElement>('.surf-sparkline-fill-top')!,
+    ).stopColor,
+    getComputedStyle(svg.querySelector<HTMLElement>('.surf-sparkline-line')!)
+      .color,
+    Array.from(svg.querySelectorAll('path')).findIndex((path) =>
+      path.classList.contains('surf-sparkline-fill'),
+    ),
+  ])
+  expect(washTop).toBe(lineColor)
+  expect(order).toBe(0)
 })
 
 test('Chart can leave zero off its axis and color categories', async ({

@@ -8,6 +8,7 @@
   /* The line fills the width it is given; its height comes from the size. */
   .surf-sparkline {
     --surf-sparkline-height: var(--surf-space-8);
+    --surf-sparkline-fill-opacity: 0.18;
     display: block;
     inline-size: 100%;
     block-size: var(--surf-sparkline-height);
@@ -45,6 +46,20 @@
     stroke: currentColor;
     stroke-width: calc(var(--surf-icon-stroke-width) * 3);
     stroke-linecap: round;
+  }
+  /* The wash fill draws under the line, in the line's own color, thinning to nothing
+   * at the bottom of the frame. One color, so it never competes with the figure the
+   * line sits beside; --surf-sparkline-fill-opacity sets how strong it starts. */
+  .surf-sparkline-fill {
+    stroke: none;
+  }
+  .surf-sparkline-fill-top {
+    stop-color: currentColor;
+    stop-opacity: var(--surf-sparkline-fill-opacity);
+  }
+  .surf-sparkline-fill-bottom {
+    stop-color: currentColor;
+    stop-opacity: 0;
   }
   @media (forced-colors: active) {
     .surf-sparkline {

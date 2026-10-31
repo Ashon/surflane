@@ -6,6 +6,7 @@
 
 ### Added
 
+- `Sparkline fill` washes the area under the line in the line's own color, thinning to nothing at the bottom of the frame, so a shape reads at a glance in a card grid. It breaks at a missing value as the line does, paints under it, and starts as strong as `--surf-sparkline-fill-opacity` (0.18) says.
 - `Chart breakAfter` sets, on a time axis, the longest wait between rows a line runs across, in ms. Past it the line breaks as where sampling stopped; by default that is twice the usual interval. Closes on trading days take 4 days, so their line runs over weekends and a holiday instead of breaking every week. A missing value still breaks it.
 
 ### Changed

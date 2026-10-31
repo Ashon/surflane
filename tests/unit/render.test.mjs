@@ -23,6 +23,7 @@ import {
   SegmentedControl,
   Separator,
   Skeleton,
+  Sparkline,
   Stat,
   Table,
   Textarea,
@@ -644,5 +645,45 @@ test('Meter.Arc splits the half circle by the meter ranges and points at the val
   assert.match(
     arc({}),
     /<svg viewBox="0 0 120 66" aria-hidden="true" class="surf-meter-arc">/,
+  )
+})
+
+const spark = (props) =>
+  html(h(Sparkline, { label: 'Cranes in use', ...props }))
+
+// The wash under a filled sparkline is drawn on the server, with its gradient named
+// once per instance: several sparklines in one card grid keep their own fade.
+test('a filled Sparkline draws its fade, and a gap breaks it in two', () => {
+  const filled = spark({ data: [3, 4, null, 2], fill: true })
+  assert.match(
+    filled,
+    /<linearGradient id="[^"]+" x1="0" y1="0" x2="0" y2="1">/,
+  )
+  assert.match(filled, /<stop class="surf-sparkline-fill-top" offset="0"/)
+  assert.match(filled, /<stop class="surf-sparkline-fill-bottom" offset="1"/)
+  const gradient = filled.match(/<linearGradient id="([^"]+)"/)
+  assert(gradient, `no gradient in ${filled}`)
+  const wash = filled.match(
+    /<path class="surf-sparkline-fill" d="([^"]+)" fill="url\(#([^"]+)\)"/,
+  )
+  assert(wash, `no fade path in ${filled}`)
+  assert.equal(
+    wash[2],
+    gradient[1],
+    "the wash paints with this sparkline's own",
+  )
+  // Two runs, each closed at the bottom of the frame, so the wash never spans the
+  // week that is missing.
+  assert.equal((wash[1].match(/M/g) ?? []).length, 2)
+  assert.ok(wash[1].endsWith('Z'))
+  // Under the line, which keeps its edge.
+  assert.ok(
+    filled.indexOf('"surf-sparkline-fill"') <
+      filled.indexOf('"surf-sparkline-line"'),
+  )
+  // Asked for nothing, it draws no gradient and no wash.
+  assert.doesNotMatch(
+    spark({ data: [3, 4] }),
+    /surf-sparkline-fill|linearGradient/,
   )
 })

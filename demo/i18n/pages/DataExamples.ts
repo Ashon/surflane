@@ -116,6 +116,7 @@ const en = {
       size
     ],
   withGap: 'With a missing week',
+  withFill: 'Filled under the line',
   oneWeekMissing: 'one week missing',
   dlLayout: 'Layout',
   dlInline: 'Inline',
@@ -285,6 +286,7 @@ export const text: Record<Locale, typeof en> = {
         size
       ],
     withGap: '한 주가 빠진 계열',
+    withFill: '선 아래를 채운 계열',
     oneWeekMissing: '한 주 데이터 없음',
     dlLayout: '배치',
     dlInline: '옆에',

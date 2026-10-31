@@ -5,7 +5,7 @@ import type { ComponentSize } from './size.js'
 export type SparklineTrend = 'auto' | 'up' | 'down' | 'flat' | 'neutral'
 export type SparklineProps = Omit<
   React.ComponentPropsWithoutRef<'svg'>,
-  'children' | 'role' | 'aria-label'
+  'children' | 'role' | 'aria-label' | 'fill'
 > & {
   /** Values in order. A missing value leaves a gap. */
   data: readonly (number | null | undefined)[]
@@ -18,6 +18,11 @@ export type SparklineProps = Omit<
   baseline?: number | 'first' | 'none'
   /** Marks the last value with a dot. */
   marker?: boolean
+  /** Washes the area under the line in the line's own color, thinning to nothing at
+   * the bottom of the box, so the shape reads at a glance in a card grid. It breaks
+   * at a missing value as the line does. Set --surf-sparkline-fill-opacity for a
+   * heavier or lighter wash. */
+  fill?: boolean
   /** The line's color. auto compares the last value with the baseline, or with the
    * first value when there is none. */
   trend?: SparklineTrend
@@ -36,12 +41,17 @@ export const Sparkline = function Sparkline({
   size,
   baseline = 'none',
   marker = true,
+  fill = false,
   trend = 'auto',
   lowerIsBetter = false,
   className,
   ref,
   ...props
 }: SparklineProps & { ref?: React.Ref<SVGSVGElement> }) {
+  // The wash names its own gradient, so several sparklines in one card grid each
+  // fade in their own color. Chart sanitizes its useId the same way: url(#…) reads
+  // better with the characters React puts there stripped out.
+  const fade = React.useId().replace(/[^a-zA-Z0-9_-]/g, '_')
   const values = data.filter(finite)
   const first = values[0]
   const last = values[values.length - 1]
@@ -55,13 +65,37 @@ export const Sparkline = function Sparkline({
   const y = (value: number) => 95 - ((value - min) / span) * 90
   const x = (index: number) =>
     data.length > 1 ? (index / (data.length - 1)) * 100 : 50
-  let path = ''
-  let pen = false
+  // One run per stretch of present values. A missing value breaks the line, and the
+  // wash under it breaks with it instead of spanning the gap.
+  const runs: { x: number; y: number }[][] = []
+  let run: { x: number; y: number }[] = []
   data.forEach((value, index) => {
-    if (!finite(value)) return void (pen = false)
-    path += `${pen ? 'L' : 'M'}${x(index)} ${y(value)}`
-    pen = true
+    if (!finite(value)) {
+      if (run.length) runs.push(run)
+      run = []
+      return
+    }
+    run.push({ x: x(index), y: y(value) })
   })
+  if (run.length) runs.push(run)
+  const path = runs
+    .map((points) =>
+      points
+        .map((point, i) => `${i ? 'L' : 'M'}${point.x} ${point.y}`)
+        .join(''),
+    )
+    .join('')
+  // Each run closes against the bottom of the box, so every stretch of the line
+  // keeps its own island of color.
+  const area = runs
+    .map((points) => {
+      const head = points[0],
+        tail = points[points.length - 1]
+      return `M${head.x} 100${points
+        .map((point) => `L${point.x} ${point.y}`)
+        .join('')}L${tail.x} 100Z`
+    })
+    .join('')
   const from = finite(reference) ? reference : first
   const way =
     trend !== 'auto'
@@ -94,6 +128,23 @@ export const Sparkline = function Sparkline({
       preserveAspectRatio='none'
       focusable='false'
     >
+      {fill && (
+        // The gradient spans the wash's own box: full strength at the top of the
+        // series, nothing at the bottom of the frame, so the line keeps its edge.
+        <>
+          <defs>
+            <linearGradient id={fade} x1='0' y1='0' x2='0' y2='1'>
+              <stop className='surf-sparkline-fill-top' offset='0' />
+              <stop className='surf-sparkline-fill-bottom' offset='1' />
+            </linearGradient>
+          </defs>
+          <path
+            className='surf-sparkline-fill'
+            d={area}
+            fill={`url(#${fade})`}
+          />
+        </>
+      )}
       {finite(reference) && (
         <path
           className='surf-sparkline-baseline'

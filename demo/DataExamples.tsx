@@ -672,6 +672,17 @@ function SparklinePreview() {
           label={t.trendLabel(t.deploySuccess, t.oneWeekMissing)}
         />
       </div>
+      <div className='sparkline-row'>
+        <span>{t.withFill}</span>
+        <Sparkline
+          data={close}
+          baseline={previous}
+          fill
+          label={t.indexLabel(
+            formatPercent(change, { locale: tag, signed: true }),
+          )}
+        />
+      </div>
     </Stack>
   )
 }
