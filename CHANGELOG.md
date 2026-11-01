@@ -2,6 +2,23 @@
 
 `@surflane/design-tokens`, `@surflane/css` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## Unreleased
+
+### Added
+
+- `ChartSeriesMark` takes `comparison`, the quiet swatch of a series the others are read against, so a key of your own takes the same flags as the series it keys.
+
+### Changed
+
+- `--surf-chart-line-width` and `--surf-chart-line-quiet-ratio` are tokens of `@surflane/design-tokens`, beside `--surf-icon-stroke-width`. A house line style set once on `:root` or in a theme reaches every chart and every `ChartSeriesMark`, which a value declared on the chart could not; set on one chart, they still apply to it alone.
+- A plan is a level to reach, not an amount: on a bar chart it is an unfilled dashed bar beside its series, and on an area chart its dashed line alone. It took a fill pattern of its own before, which its legend swatch didn't show. Bars keep the legend's order; lines and areas still draw comparisons and plans under the rest.
+- In a stacked chart, a comparison or a plan draws on its own and stays out of the total, which it used to add to.
+- The zero line draws where values cross zero. At the plot's edge the x axis is the baseline already, and a minimal chart drew it as a stray rule under its trend.
+
+### Fixed
+
+- A Chart's legend and floating values draw each swatch at the weight of what it keys: a line at `--surf-chart-line-width`, a comparison or a plan at its quiet share, and a threshold or an event at the plot's 1.5px. Every swatch was 2px.
+
 ## 0.21.0
 
 ### Added

@@ -9,11 +9,6 @@
 
 @layer surflane.components {
   .surf-chart {
-    /* A series line's weight, and what a comparison or a plan draws against it.
-       Set --surf-chart-line-quiet-ratio: 1 and every line on the plot weighs the
-       same; set --surf-chart-line-width for a heavier or lighter plot. */
-    --surf-chart-line-width: 2;
-    --surf-chart-line-quiet-ratio: 0.75;
     min-width: 0;
     max-width: 100%;
     margin: 0;
@@ -21,14 +16,18 @@
     flex-direction: column;
     gap: var(--surf-space-3);
   }
-  /* The weight is CSS's, not the component's: Recharts hands a number to the path as
-     an attribute, which any rule that reaches the path outvotes. */
-  .surf-chart-series .recharts-line-curve,
-  .surf-chart-series .recharts-area-curve {
+  /* A series line weighs --surf-chart-line-width, and a comparison or a plan its
+     quiet share, on the plot and in every swatch that keys it. The weight is CSS's,
+     not the component's: Recharts hands a number to the path as an attribute, which
+     any rule that reaches the path outvotes. */
+  .surf-chart-series :is(.recharts-line-curve, .recharts-area-curve),
+  .surf-chart-mark-line {
     stroke-width: var(--surf-chart-line-width);
   }
-  .surf-chart-series-quiet .recharts-line-curve,
-  .surf-chart-series-quiet .recharts-area-curve {
+  .surf-chart-series-quiet :is(.recharts-line-curve, .recharts-area-curve),
+  .surf-chart-series-plan .recharts-rectangle,
+  .surf-chart-mark-line[data-quiet],
+  .surf-chart-mark-plan {
     stroke-width: calc(
       var(--surf-chart-line-width) * var(--surf-chart-line-quiet-ratio)
     );

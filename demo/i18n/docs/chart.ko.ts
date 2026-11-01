@@ -41,11 +41,12 @@ export const doc: DocKo = {
     yScale:
       'linear | log: log는 자릿수가 다른 값을 함께 보여 줍니다. 0과 음수는 플롯에서 빠지고 표에 남습니다',
     curve: 'linear | step: step은 다음 값까지 값을 유지합니다',
-    stacked: '막대와 에어리어 시리즈를 쌓고, 값 영역에 합계를 더합니다',
+    stacked:
+      '막대와 에어리어 시리즈를 쌓고, 값 영역에 합계를 더합니다. 비교나 plan 시리즈는 쌓인 값과 견주는 선이지 더할 몫이 아니므로 따로 그리고 합계에서 뺍니다',
     'series[].comparison':
-      '다른 시리즈를 견주는 기준, 벤치마크 같은 것. 더 가늘고 흐린 잉크로 다른 시리즈 아래에 그립니다',
+      '다른 시리즈를 견주는 기준, 벤치마크 같은 것. 흐린 잉크에 조용한 선 굵기로 다른 시리즈 아래에 그립니다',
     'series[].planOf':
-      '실제 값 옆의 목표처럼 이 시리즈가 계획하는 시리즈의 key. 그 시리즈의 색과 표식에 점선으로, 더 가늘게 그 아래에 그리고, 계획되는 시리즈는 실선으로 둡니다',
+      '실제 값 옆의 목표처럼 이 시리즈가 계획하는 시리즈의 key. 그 시리즈의 색과 표식에 점선으로, 조용한 선 굵기로 그 아래에 그리고, 계획되는 시리즈는 실선으로 둡니다. plan은 채울 양이 아니라 닿을 수준이므로, 막대 차트에서는 시리즈 옆의 채우지 않은 점선 막대로, 에어리어 차트에서는 점선만 그립니다',
     difference:
       '{series, against, above, below}: 라인 차트에서 두 시리즈 사이를 series가 위면 trend-up 색, 아래면 trend-down 색으로 칠합니다. 범례가 두 쪽의 이름을 적고, 행을 살피면 어느 쪽인지와 차이를 말합니다. gap은 예전 이름이며 더는 권하지 않습니다',
     references:
@@ -62,7 +63,11 @@ export const doc: DocKo = {
     palette:
       'neutral | categorical | extended: 잉크에 대시와 마커로 구분하거나, 범주에는 열두 색상, 시리즈가 열둘을 넘으면 같은 열두 색조를 한 단계 다른 스물넷을 씁니다. 두 번째 열둘은 대시와 마커도 한 단계 어긋나게 시작하므로, 12개씩 떨어진 시리즈가 색과 대시와 모양을 동시에 공유하지는 않습니다',
     dashes:
-      'false면 모든 선을 실선으로 긋고 시리즈는 마커로 구분합니다. plan은 대시를 지킵니다. 그 대시가 plan을 plan답게 만들기 때문입니다. 굵기는 --surf-chart-line-width로 정하고, --surf-chart-line-quiet-ratio: 1을 주면 비교나 plan 선도 나머지 선과 같은 굵기가 됩니다',
+      'false면 모든 선을 실선으로 긋고 시리즈는 마커로 구분합니다. plan은 대시를 지킵니다. 그 대시가 plan을 plan답게 만들기 때문입니다',
+    '--surf-chart-line-width':
+      '토큰: 시리즈 선의 굵기. 범례 견본도 이 굵기를 따릅니다. :root에 주면 모든 차트에, 차트 하나에 주면 그 차트에만 적용됩니다',
+    '--surf-chart-line-quiet-ratio':
+      '토큰: 비교나 plan 선이 그 굵기에서 차지하는 몫. 1이면 플롯의 모든 선이 같은 굵기가 됩니다',
     'locale / formatValue':
       'Intl 숫자·날짜 locale. 숫자 도우미처럼 받습니다. 서버가 차트를 그리면 넘겨서 브라우저와 글자가 같게 하세요 / 선택적 유한 값 포맷터(단위 추가)',
     'hiddenSeries / defaultHiddenSeries / onHiddenSeriesChange':
@@ -70,7 +75,7 @@ export const doc: DocKo = {
     labels:
       '차트가 보여 주거나 알리는 텍스트: missing, empty, noSeries, showAll, keyboardHelp, values, viewTable, table, tableCaption, inspectHint, noRows, legend(title), series(label), moreSeries(count), moreEntries(count), total, high, low',
     ChartSeriesMark:
-      '{type, index, palette, color}: 범례가 그리는 시리즈 견본. 직접 만든 범례에 씁니다',
+      '{type, index, palette, color, comparison, plan, dashes}: 범례가 그리는 시리즈 견본. 직접 만든 범례에 쓰며, 견본이 가리키는 시리즈의 플래그를 그대로 넘깁니다',
     'ref / className / figure props':
       '루트 HTMLElement ref와 네이티브 figure 속성',
   },

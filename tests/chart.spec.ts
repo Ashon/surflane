@@ -14,24 +14,26 @@ async function choose(page: Page, name: string, value: string) {
   await page.getByRole('combobox', { name, exact: true }).click()
   await page.getByRole('option', { name: value, exact: true }).click()
 }
-/** Every plotted line's weight in px, in the order the plot draws them. A quiet
- * line's weight multiplies two tokens, and Chromium leaves such a computed length
- * as calc(…), so measure it rather than parse the string. */
-async function lineWidths(page: Page) {
-  return page
-    .locator('.surf-chart-plot .recharts-line-curve')
-    .evaluateAll((paths) =>
-      paths.map((path) => {
-        const weight = getComputedStyle(path).strokeWidth
-        if (!weight.includes('calc')) return Number.parseFloat(weight)
-        const probe = document.createElement('div')
-        probe.style.cssText = `position:absolute;visibility:hidden;width:${weight}`
-        document.body.append(probe)
-        const px = probe.getBoundingClientRect().width
-        probe.remove()
-        return px
-      }),
-    )
+/** Every plotted line's weight in px, in the order the plot draws them, or every
+ * line swatch's in the legend's order. A quiet line's weight multiplies two tokens,
+ * and Chromium leaves such a computed length as calc(…), so measure it rather than
+ * parse the string. */
+async function lineWidths(
+  page: Page,
+  selector = '.surf-chart-plot .recharts-line-curve',
+) {
+  return page.locator(selector).evaluateAll((paths) =>
+    paths.map((path) => {
+      const weight = getComputedStyle(path).strokeWidth
+      if (!weight.includes('calc')) return Number.parseFloat(weight)
+      const probe = document.createElement('div')
+      probe.style.cssText = `position:absolute;visibility:hidden;width:${weight}`
+      document.body.append(probe)
+      const px = probe.getBoundingClientRect().width
+      probe.remove()
+      return px
+    }),
+  )
 }
 test('keyboard values retain missing data, escape clears the readout and the complete table keeps hidden series', async ({
   page,
@@ -356,8 +358,9 @@ test('a time axis ticks on round times and breaks lines where sampling stopped',
     .locator('.recharts-line-curve')
     .evaluateAll((elements) => elements.map((el) => el.getAttribute('d') ?? ''))
   expect(paths.map((d) => d.match(/M/g)?.length)).toEqual([2, 2])
-  // Thresholds draw over the plot and the legend names them with their values.
-  await expect(plot.locator('.recharts-reference-line')).toHaveCount(3)
+  // Thresholds draw over the plot and the legend names them with their values. Zero
+  // is the plot's edge, where the x axis is the baseline, so it draws no line.
+  await expect(plot.locator('.recharts-reference-line')).toHaveCount(2)
   const legend = page.getByRole('list', { name: 'Pipeline activity series' })
   await expect(legend.locator('.surf-chart-legend-reference')).toHaveText([
     'Warning 70 °C',
@@ -385,7 +388,7 @@ test('x references mark events and periods where they happened, and inspecting a
   await expect(legend.locator('.surf-chart-legend-reference')).toHaveText([
     'Cache on October 4, 2026',
   ])
-  await expect(plot.locator('.recharts-reference-line')).toHaveCount(2)
+  await expect(plot.locator('.recharts-reference-line')).toHaveCount(1)
   await chart.focus()
   for (let step = 0; step < 3; step++) await chart.press('ArrowRight')
   await expect(readout).toContainText('October 4, 2026')
@@ -396,17 +399,17 @@ test('x references mark events and periods where they happened, and inspecting a
     'Model sync 5:00 AM',
     'Cleanup window 11:00 AM–1:00 PM',
   ])
-  // The zero line and the event; the period is a band under the series.
-  await expect(plot.locator('.recharts-reference-line')).toHaveCount(2)
+  // The event is a line; the period is a band under the series.
+  await expect(plot.locator('.recharts-reference-line')).toHaveCount(1)
   await expect(plot.locator('.recharts-reference-area')).toHaveCount(1)
   // Both sit at their times: 05:00 is five sixths of the way from midnight to 06:00.
   const geometry = await plot.evaluate((element) => {
     const ticks = [
       ...element.querySelectorAll('.recharts-xAxis-tick-labels text'),
     ].map((text) => Number(text.getAttribute('x')))
-    const line = element.querySelectorAll<SVGLineElement>(
+    const line = element.querySelector<SVGLineElement>(
       '.recharts-reference-line-line',
-    )[1]
+    )!
     const band = (
       element.querySelector(
         '.recharts-reference-area path',
@@ -702,6 +705,53 @@ test('a legend limit folds references with the series, and a plan is dashed in i
   expect(income[1]).toBeNull()
 })
 
+test("a plan is a level, not an amount: an unfilled dashed bar in the legend's order, outside the stack and its total", async ({
+  page,
+}) => {
+  await open(page)
+  await choose(page, 'Chart data', 'Allocation against its targets')
+  await choose(page, 'Chart type', 'Bar')
+  const plot = page.locator('.surf-chart-plot')
+  // Bars stand side by side in the legend's order: each target beside its bucket,
+  // an outline in the bucket's color, dashed and unfilled.
+  const bars = await plot.locator('.recharts-bar').evaluateAll((layers) =>
+    layers.map((layer) => {
+      const bar = layer.querySelector('.recharts-rectangle')!
+      return [
+        bar.getAttribute('fill'),
+        bar.getAttribute('stroke'),
+        bar.getAttribute('stroke-dasharray'),
+      ]
+    }),
+  )
+  const [growth, growthPlan, income, incomePlan] = bars
+  expect(growth[0]).toMatch(/^url\(#/)
+  expect(income[0]).toMatch(/^url\(#/)
+  expect(growthPlan).toEqual(['none', growth[1], '5 4'])
+  expect(incomePlan).toEqual(['none', income[1], '5 4'])
+  // Their swatches are the same outlines, at the quiet weight.
+  const legend = page.getByRole('list', { name: 'Pipeline activity series' })
+  await expect(legend.locator('.surf-chart-mark-plan')).toHaveCount(2)
+  expect(
+    await lineWidths(page, '.surf-chart-legend .surf-chart-mark-plan'),
+  ).toEqual([1.5, 1.5])
+  // An area's plan is its dashed line alone.
+  await choose(page, 'Chart type', 'Area')
+  const fills = await plot
+    .locator('.recharts-area-area')
+    .evaluateAll((areas) => areas.map((area) => area.getAttribute('fill')))
+  expect(fills.filter((fill) => fill === 'none')).toHaveLength(2)
+  // Stacked, the buckets add up and their targets stay out of the total: focus reads
+  // week 1, 52 % and 34 % against targets of 55 % and 30 %.
+  await page
+    .getByRole('checkbox', { name: 'Stack bar and area series' })
+    .click()
+  await page.getByRole('application', { name: 'Pipeline activity' }).focus()
+  const readout = page.locator('.surf-chart-readout')
+  await expect(readout).toContainText('Week 1')
+  await expect(readout).toContainText('Total: 86 %')
+})
+
 test('more series than the categorical twelve take the extended ramp, and dashes off leaves the markers to tell them apart', async ({
   page,
 }) => {
@@ -768,22 +818,28 @@ test('a chart drawn solid keeps its markers past 40 points, where a dashed one d
   await expect(plot.locator('.recharts-line-dots *')).toHaveCount(44)
 })
 
-test('the line weight is a token, and a quiet ratio of 1 draws the benchmark as thick as its series', async ({
+test("the line weight is a token the legend's swatches follow, and a quiet ratio of 1 draws the benchmark as thick as its series", async ({
   page,
 }) => {
   await open(page)
   await choose(page, 'Chart data', 'A basket against its benchmark')
-  // The benchmark is the quieter line, at three quarters of the weight.
+  const swatches = '.surf-chart-legend .surf-chart-mark-line'
+  // The benchmark is the quieter line, at three quarters of the weight, and its
+  // swatch with it. The plot draws it first; the legend keeps the series' order.
   expect(await lineWidths(page)).toEqual([1.5, 2])
+  expect(await lineWidths(page, swatches)).toEqual([2, 1.5])
+  // A house style sets the tokens once, on the root, for every chart.
   await page.addStyleTag({
-    content: '.surf-chart { --surf-chart-line-quiet-ratio: 1 }',
+    content: ':root { --surf-chart-line-quiet-ratio: 1 }',
   })
   expect(await lineWidths(page)).toEqual([2, 2])
-  // One property sets the whole plot's weight, and the quiet line follows it.
+  expect(await lineWidths(page, swatches)).toEqual([2, 2])
+  // One chart takes a weight of its own, and the quiet line follows it.
   await page.addStyleTag({
     content: '.surf-chart { --surf-chart-line-width: 3 }',
   })
   expect(await lineWidths(page)).toEqual([3, 3])
+  expect(await lineWidths(page, swatches)).toEqual([3, 3])
 })
 
 test('a minimal chart keeps the marks, labels the high and low, and stays inspectable', async ({
@@ -800,6 +856,8 @@ test('a minimal chart keeps the marks, labels the high and low, and stays inspec
   await expect(chart.locator('.recharts-cartesian-grid')).toHaveCount(0)
   await expect(chart.locator('.surf-chart-legend')).toHaveCount(0)
   await expect(chart.locator('.recharts-line-dots *')).toHaveCount(0)
+  // Zero is the plot's edge, and with no axis to show there is no line for it.
+  await expect(chart.locator('.recharts-reference-line')).toHaveCount(0)
   expect(
     (await chart.locator('.surf-chart-key').boundingBox())!.width,
   ).toBeLessThanOrEqual(1)

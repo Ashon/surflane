@@ -29,6 +29,8 @@ export const doc: ComponentDoc = {
   anatomy:
     'figure → figcaption(title + summary) + legend toggle buttons + named axes + responsive Recharts ComposedChart + persistent inline value readout + details → Table.Container → full data table',
   tokens: [
+    '--surf-chart-line-width',
+    '--surf-chart-line-quiet-ratio',
     '--surf-chart-series-1',
     '--surf-chart-series-2',
     '--surf-chart-series-3',
@@ -111,17 +113,17 @@ const data: ChartDatum[] = [
     ['curve', 'linear | step: step holds each value until the next', 'linear'],
     [
       'stacked',
-      'stacks bar and area series; the readout adds their total',
+      'stacks bar and area series; the readout adds their total. A comparison or a plan is read against the stack, not added to it, so it draws on its own and stays out of the total',
       'false',
     ],
     [
       'series[].comparison',
-      'a series the others are read against, such as a benchmark: thinner, muted ink, drawn under the others',
+      'a series the others are read against, such as a benchmark: muted ink at the quiet line weight, drawn under the others',
       'false',
     ],
     [
       'series[].planOf',
-      'the key of the series this one plans, such as a target beside its actual: its color and marker, dashed, thinner and under it, while the series it plans stays solid',
+      'the key of the series this one plans, such as a target beside its actual: its color and marker, dashed, at the quiet line weight and under it, while the series it plans stays solid. A plan is a level to reach, not an amount: on a bar chart it is an unfilled dashed bar beside its series, on an area chart its dashed line alone',
       '—',
     ],
     [
@@ -166,8 +168,18 @@ const data: ChartDatum[] = [
     ],
     [
       'dashes',
-      'false draws every line solid and leaves the markers to tell the series apart; a plan keeps its dash, which is what makes it a plan; --surf-chart-line-width sets the weight, and --surf-chart-line-quiet-ratio: 1 gives a comparison or plan the same weight as the rest',
+      'false draws every line solid and leaves the markers to tell the series apart; a plan keeps its dash, which is what makes it a plan',
       'true',
+    ],
+    [
+      '--surf-chart-line-width',
+      "token: a series line's weight, which the legend's swatches follow; set it on :root for every chart, or on one chart",
+      '2',
+    ],
+    [
+      '--surf-chart-line-quiet-ratio',
+      'token: the share of that weight a comparison or a plan draws at; 1 gives every line on the plot the same weight',
+      '0.75',
     ],
     [
       'locale / formatValue',
@@ -186,8 +198,8 @@ const data: ChartDatum[] = [
     ],
     [
       'ChartSeriesMark',
-      "{type, index, palette, color}: a series' swatch as the legend draws it, for a key of your own",
-      'line / neutral',
+      "{type, index, palette, color, comparison, plan, dashes}: a series' swatch as the legend draws it, for a key of your own; give it the flags of the series it keys",
+      'line / neutral / dashed',
     ],
     [
       'ref / className / figure props',

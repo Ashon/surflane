@@ -272,6 +272,8 @@ const presets: Record<string, Preset> = {
   projects: { type: 'line', palette: 'categorical', legendLimit: 4 },
   // Sixteen series: past the twelve the plot takes the extended ramp.
   services: { type: 'line', palette: 'extended', legendLimit: 'auto' },
+  // A price, far from zero: the line takes the height.
+  closes: { type: 'line', includeZero: false },
   portfolio: { type: 'line', includeZero: false },
   allocation: { type: 'line', palette: 'categorical' },
 }

@@ -102,6 +102,10 @@
   [data-theme='dark'],
   [data-theme='light'] {
     --surf-icon-stroke-width: 1.7;
+    /* A chart series line's weight, and the share of it a comparison or a plan
+     * draws at. A product with one line style sets the ratio to 1 here. */
+    --surf-chart-line-width: 2;
+    --surf-chart-line-quiet-ratio: 0.75;
   }
 
   /* Three component size schemes; default preserves the existing visual scale. */

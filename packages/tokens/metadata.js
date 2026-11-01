@@ -16,7 +16,8 @@ export function category(prefixed) {
   const name = bare(prefixed)
   if (/^--(font|type|weight|tracking)/.test(name)) return 'Typography'
   if (/^--space-/.test(name)) return 'Spacing'
-  if (/^--(radius|logo-size|avatar-size|icon-)/.test(name)) return 'Shape'
+  if (/^--(radius|logo-size|avatar-size|icon-|chart-line-)/.test(name))
+    return 'Shape'
   if (/^--(status|badge)-/.test(name)) return 'Status'
   if (/^--(duration|ease|motion|dialog-|toast-|theme-transition)/.test(name))
     return 'Motion'
@@ -94,6 +95,10 @@ export const descriptions = {
   '--surf-control-choice-selected-border':
     'State border that matches the selected surface',
   '--surf-icon-stroke-width': 'Shared stroke width within a 24×24 viewBox',
+  '--surf-chart-line-width':
+    "A chart series line's weight, which the legend's swatches follow",
+  '--surf-chart-line-quiet-ratio':
+    'The share of the line weight a comparison or a plan draws at; 1 gives every line the same weight',
   '--surf-radius-pill':
     'Buttons, badges, chips, switches and segments: half the tallest control, so pills; scales with the radius',
   '--surf-selected-edge':
