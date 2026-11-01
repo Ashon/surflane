@@ -64,11 +64,11 @@ Animate changes of your own with `transitionTheme` from `@surflane/design-tokens
 
 ## Optional components
 
-Chart, ScatterChart, DatePicker, Markdown, Tree and syntax highlighting build on larger libraries. Each has its own entry point, and its library is an optional peer dependency: install it only when you use the component. The root `@surflane/ui` entry never imports them.
+LineChart, AreaChart, BarChart, ScatterChart, DatePicker, Markdown, Tree and syntax highlighting build on larger libraries. They live on entry points of their own, the three charts on one, and each library is an optional peer dependency: install it only when you use its component. The root `@surflane/ui` entry never imports them.
 
 | Import                                                                                             | Install                                                            |
 | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| `Chart` from `@surflane/ui/chart`                                                                  | `recharts`                                                         |
+| `LineChart`, `AreaChart`, `BarChart` from `@surflane/ui/chart`                                     | `recharts`                                                         |
 | `ScatterChart` from `@surflane/ui/scatter-chart`                                                   | `recharts`                                                         |
 | `DatePicker`, `DateRangePicker`, `TimeField`, `DateLocaleProvider` from `@surflane/ui/date-picker` | `react-aria-components`                                            |
 | `Markdown` from `@surflane/ui/markdown`                                                            | `react-markdown remark-gfm`                                        |
@@ -214,10 +214,10 @@ shadcn derives `--radius-sm` to `--radius-xl` from `--radius` (10px here), while
 Stateless modules render on the server: Breadcrumbs, Card, Table, List, Stat, Sparkline, BarList, ProportionBar, DivergingBar, Spinner, Skeleton, EmptyState, the layout and typography parts, Icon, PageHeader and FilterBar. Every other module is a client module (`"use client"`). Server Components can import and render both, and pass serializable props, including React elements such as `render={<Button />}`.
 
 - Use flat part names in Server Components: `DialogRoot`, `DialogTrigger`, `TabsList`, `FieldLabel`. A Server Component cannot dot into a client export, so `<Dialog.Root>` renders as an invalid element there. The namespace form works in Client Components, and both forms refer to the same component.
-- Event handlers, render functions, `className` callbacks and label functions, such as Select's `labels.count` or Chart's `labels.values`, are functions. Pass them to a client module from a Client Component.
+- Event handlers, render functions, `className` callbacks and label functions, such as Select's `labels.count` or a chart's `labels.values`, are functions. Pass them to a client module from a Client Component.
 - Non-component values such as `iconNames` and `syntaxLanguages` arrive in Server Components as client references. Read them in Client Components.
 
-- Some `labels` take functions, because their text holds a value: Chart, ScatterChart, ThemeSwitch, FileUpload, Tree, Pagination, Select, BarList and Dashboard.Panel. A Server Component can't pass a function, so set those labels in a small Client Component that wraps the part, as the catalog's own `CatalogCodeBlock` does for CodeBlock's text:
+- Some `labels` take functions, because their text holds a value: LineChart, AreaChart, BarChart, ScatterChart, ThemeSwitch, FileUpload, Tree, Pagination, Select, BarList and Dashboard.Panel. A Server Component can't pass a function, so set those labels in a small Client Component that wraps the part, as the catalog's own `CatalogCodeBlock` does for CodeBlock's text:
 
   ```tsx
   'use client'

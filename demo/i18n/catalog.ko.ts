@@ -131,7 +131,12 @@ export const catalogKo: {
     '/charts/diverging-bar':
       '부호 있는 값을 가운데 선에서 그려, 오르면 한쪽으로, 내리면 다른 쪽으로 뻗습니다.',
     '/components/tree': '중첩 리소스를 키보드로 탐색합니다.',
-    '/charts/chart': '단위, 범례, 대체 테이블과 함께 추세를 보여 줍니다.',
+    '/charts/line-chart':
+      '시간에 따라 바뀌는 값을 선으로 그리고, 단위, 범례, 대체 테이블을 함께 둡니다.',
+    '/charts/area-chart':
+      '시간에 따른 양을 0부터 채우고, 쌓아서 합계를 보여 줍니다.',
+    '/charts/bar-chart':
+      '기간이나 범주마다 양을 0에서 시작하는 막대로 견주고, 쌓아서 합계를 보여 줍니다.',
     '/components/theme-switch':
       '라이트, 다크, 기기 설정 중 하나를 골라 기억합니다.',
     '/charts/scatter-chart':

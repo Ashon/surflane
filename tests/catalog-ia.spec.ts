@@ -24,17 +24,17 @@ test('global areas and contextual destinations remain separate and registry comp
   await expect(
     local.getByRole('link', { name: 'Overview', exact: true }),
   ).toHaveCount(0)
-  // The charts read as components and live on their own shelf: the six of them,
+  // The charts read as components and live on their own shelf: all of them,
   // never mixed into the component list, and their index above them.
   await primary.getByRole('link', { name: 'Charts', exact: true }).click()
   await waitForCatalogReady(page)
   await expect(page).toHaveURL(/\/charts$/)
   await expect(local.getByRole('link')).toHaveCount(charts.length + 1)
-  await local.getByRole('link', { name: 'Chart', exact: true }).click()
+  await local.getByRole('link', { name: 'Line chart', exact: true }).click()
   await waitForCatalogReady(page)
-  await expect(page).toHaveURL(/\/charts\/chart$/)
+  await expect(page).toHaveURL(/\/charts\/line-chart$/)
   await expect(
-    local.getByRole('link', { name: 'Chart', exact: true }),
+    local.getByRole('link', { name: 'Line chart', exact: true }),
   ).toHaveAttribute('aria-current', 'page')
   await expect(
     local.getByRole('link', { name: 'Button', exact: true }),

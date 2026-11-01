@@ -2,8 +2,8 @@
 import * as React from 'react'
 import type { DotProps } from 'recharts'
 
-// What Chart and ScatterChart share: round axis steps, the palette, point markers
-// and the wait for the tick font.
+// What LineChart, AreaChart, BarChart and ScatterChart share: round axis steps, the
+// palette, point markers and the wait for the tick font.
 /** The round step at or above a raw step: 1, 2, 2.5 or 5 times a power of ten. */
 export function roundStep(raw: number) {
   if (!(raw > 0)) return 0

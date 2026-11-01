@@ -25,7 +25,13 @@ import {
 } from '@surflane/ui'
 import type { TreeLabels } from '@surflane/ui/tree'
 import type { MarkdownLabels } from '@surflane/ui/markdown'
-import type { ChartLabels } from '@surflane/ui/chart'
+import {
+  AreaChart,
+  BarChart,
+  LineChart,
+  type ChartBaseProps,
+  type ChartLabels,
+} from '@surflane/ui/chart'
 import { Button as DirectButton } from '@surflane/ui/button'
 import { Input as DirectInput } from '@surflane/ui/input'
 import { Select as DirectSelect } from '@surflane/ui/select'
@@ -69,6 +75,27 @@ const labels:
     ]
   | undefined = undefined
 void labels
+// Each chart takes only the props its marks read.
+const chart: ChartBaseProps = {
+  title: 'Runs',
+  description: 'Runs a day.',
+  data: [],
+  series: [{ key: 'runs', label: 'Runs' }],
+  unit: 'runs',
+  xLabel: 'Day',
+  yLabel: 'Runs',
+}
+;<LineChart {...chart} includeZero={false} yScale='log' curve='step' />
+;<AreaChart {...chart} stacked curve='step' dashes={false} />
+;<BarChart {...chart} stacked />
+// @ts-expect-error A line doesn't stack.
+;<LineChart {...chart} stacked />
+// @ts-expect-error An area's fill is an amount: it rises from zero.
+;<AreaChart {...chart} includeZero={false} />
+// @ts-expect-error A bar's length is an amount, and a log axis has no zero.
+;<BarChart {...chart} yScale='log' />
+// @ts-expect-error A bar has no line to step or dash.
+;<BarChart {...chart} curve='step' />
 // @ts-expect-error Unsupported visual priority must fail for root imports.
 const typo = <Button variant='primray' />
 // @ts-expect-error Subpath imports expose the same contract.

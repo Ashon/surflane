@@ -25,7 +25,9 @@ const base = 'https://base-ui.com/react/components/'
 const ready = new Set([
   'syntax-highlighter',
   'markdown',
-  'chart',
+  'line-chart',
+  'area-chart',
+  'bar-chart',
   'scatter-chart',
   'date-picker',
   'time-range-picker',
@@ -444,10 +446,24 @@ const definitions: [string, string, string, string, 0 | 1 | 2 | 3][] = [
     3,
   ],
   [
-    'chart',
-    'Chart',
+    'line-chart',
+    'Line chart',
     'Charts',
-    'Shows trends with units, a legend, and an alternative table.',
+    'Draws values over time as lines, with units, a legend, and an alternative table.',
+    3,
+  ],
+  [
+    'area-chart',
+    'Area chart',
+    'Charts',
+    'Fills amounts over time from zero, stacked into their total.',
+    3,
+  ],
+  [
+    'bar-chart',
+    'Bar chart',
+    'Charts',
+    'Compares amounts per period or category as bars from zero, stacked into their total.',
     3,
   ],
   [
@@ -584,7 +600,9 @@ const nonBase = new Set([
   'proportion-bar',
   'diverging-bar',
   'tree',
-  'chart',
+  'line-chart',
+  'area-chart',
+  'bar-chart',
   'scatter-chart',
   'inline-message',
   'banner',
@@ -599,11 +617,13 @@ const specialized = new Set([
   'date-picker',
   'file-upload',
   'tree',
-  'chart',
+  'line-chart',
+  'area-chart',
+  'bar-chart',
   'scatter-chart',
 ])
 // The registry's Charts group is the one component group with its own section: the
-// six chart pages read at /charts, so the group name is what puts them there.
+// eight chart pages read at /charts, so the group name is what puts them there.
 const chartGroup = 'Charts'
 export const components: CatalogItem[] = definitions.map(
   ([id, name, group, summary, phase]) => ({
@@ -628,7 +648,7 @@ export const components: CatalogItem[] = definitions.map(
                 ? 'Base UI Dialog composition'
                 : id === 'date-picker'
                   ? 'React Aria / internationalized date composition'
-                  : id === 'chart' || id === 'scatter-chart'
+                  : id.endsWith('-chart')
                     ? 'Recharts composition'
                     : id === 'tree'
                       ? 'Headless Tree / TanStack Virtual composition'

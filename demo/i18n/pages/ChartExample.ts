@@ -1,10 +1,6 @@
 import type { Locale } from '../../i18n'
 
 const en = {
-  chartType: 'Chart type',
-  lineType: 'Line',
-  barType: 'Bar',
-  areaType: 'Area',
   chartData: 'Chart data',
   trendOption: 'Trend with a missing value',
   mixedOption: 'Negative and zero values',
@@ -16,9 +12,9 @@ const en = {
   chartTitle: 'Pipeline activity',
   descriptions: {
     trend:
-      'Six sample days. Workspace rises from 12 to 27 runs. Inventory has no measurement on October 3, so its line keeps a gap.',
+      'Six sample days. Workspace rises from 12 to 27 runs. Inventory has no measurement on October 3, so the chart leaves a gap there.',
     mixed:
-      'Sample changes include negative, zero, and positive resource counts. Every bar starts at the zero baseline. Missing values stay unavailable.',
+      'Sample changes include negative, zero, and positive resource counts, so a zero line marks where they cross. Missing values stay unavailable.',
     dense:
       '120 sample resources with long Korean and English labels. Only axis labels are abbreviated. The data table keeps every label and measurement.',
     missing:
@@ -36,7 +32,7 @@ const en = {
       'Tokens a day by kind over a week, stacked so the top of each bar is the day’s total.',
     throughput:
       'Prefill runs at thousands of tokens a second and decode at tens. A log value axis keeps both readable on one chart.',
-    disk: 'Disk used by one directory, measured every hour. The value holds until the next measurement, so a step line shows it. A line marks the 05:00 model sync and a band the cleanup window from 11:00 to 13:00.',
+    disk: 'Disk used by one directory, measured every hour. The value holds until the next measurement, so steps show it. A line marks the 05:00 model sync and a band the cleanup window from 11:00 to 13:00.',
     projects:
       'Tokens a day for twelve projects. Twelve categorical colors stay apart, and the legend shows four and folds the rest.',
     services:
@@ -46,7 +42,7 @@ const en = {
     portfolio:
       'A basket against its benchmark over 20 days, both indexed to 100 on October 1. The benchmark is a comparison series, drawn quieter, and the gap between them is shaded by which one leads.',
     allocation:
-      "Two buckets' share of a portfolio over twelve weeks, each beside its target. A target is its bucket's plan: the same color and marker, dashed, so solid reads as actual and dashed as plan.",
+      "Two buckets' share of a portfolio over twelve weeks, each beside its target. A target is its bucket's plan: the same color, dashed and unfilled, so it reads as a level to reach beside the actual.",
   },
   reportingDay: 'Reporting day',
   resource: 'Resource',
@@ -98,7 +94,7 @@ const en = {
   keepZero: 'Keep zero on the value axis',
   minimal: 'Minimal, for a card',
   extremes: 'Label the high and low',
-  stackSeries: 'Stack bar and area series',
+  stackSeries: 'Stack the series',
   p95Latency: 'P95 latency',
   memoryInUse: 'Memory in use',
   time: 'Time',
@@ -134,10 +130,6 @@ const en = {
 export const text: Record<Locale, typeof en> = {
   en,
   ko: {
-    chartType: '차트 유형',
-    lineType: '라인',
-    barType: '바',
-    areaType: '에어리어',
     chartData: '차트 데이터',
     trendOption: '누락 값이 있는 추세',
     mixedOption: '음수 및 0 값',
@@ -149,9 +141,9 @@ export const text: Record<Locale, typeof en> = {
     chartTitle: '파이프라인 활동',
     descriptions: {
       trend:
-        '샘플 6일간의 데이터입니다. Workspace는 12에서 27 runs로 상승합니다. Inventory는 10월 3일에 측정값이 없어 선에 갭이 남습니다.',
+        '샘플 6일간의 데이터입니다. Workspace는 12에서 27 runs로 상승합니다. Inventory는 10월 3일에 측정값이 없어 그 자리를 비워 둡니다.',
       mixed:
-        '샘플 변경값에는 음수, 0, 양수 리소스 개수가 포함됩니다. 모든 바는 0 기준선에서 시작합니다. 누락 값은 계속 사용 불가로 유지됩니다.',
+        '샘플 변경값에는 음수, 0, 양수 리소스 개수가 포함되어, 0 선이 그 경계를 표시합니다. 누락 값은 계속 사용 불가로 유지됩니다.',
       dense:
         '긴 한국어와 영어 라벨을 가진 샘플 리소스 120개입니다. 축 라벨만 축약됩니다. 데이터 테이블은 모든 라벨과 측정값을 유지합니다.',
       missing:
@@ -169,7 +161,7 @@ export const text: Record<Locale, typeof en> = {
         '한 주 동안 종류별로 쓴 하루 토큰 수입니다. 쌓아서 막대 꼭대기가 그날의 합계가 됩니다.',
       throughput:
         'prefill은 초당 수천 토큰, decode는 초당 수십 토큰입니다. 로그 값 축이면 한 차트에서 둘 다 읽힙니다.',
-      disk: '디렉토리 하나의 디스크 사용량을 한 시간마다 잰 값입니다. 다음 측정까지 값이 그대로이므로 계단선으로 보여 줍니다. 05:00 모델 동기화를 선으로, 11:00부터 13:00까지의 정리 시간을 띠로 표시합니다.',
+      disk: '디렉토리 하나의 디스크 사용량을 한 시간마다 잰 값입니다. 다음 측정까지 값이 그대로이므로 계단으로 보여 줍니다. 05:00 모델 동기화를 선으로, 11:00부터 13:00까지의 정리 시간을 띠로 표시합니다.',
       projects:
         '프로젝트 12개의 하루 토큰 수입니다. 범주형 12색이 서로 구분되고, 범례는 4개만 보이고 나머지는 접습니다.',
       services:
@@ -179,7 +171,7 @@ export const text: Record<Locale, typeof en> = {
       portfolio:
         '20일 동안 바스켓과 벤치마크를 10월 1일을 100으로 놓고 비교합니다. 벤치마크는 비교 시리즈라 조용하게 그리고, 둘 사이의 차이는 어느 쪽이 앞서는지에 따라 칠합니다.',
       allocation:
-        '12주 동안 포트폴리오에서 두 버킷이 차지한 비중과 각각의 목표입니다. 목표는 그 버킷의 계획선이라 같은 색과 표식에 점선으로 그려, 실선은 실제, 점선은 계획으로 읽힙니다.',
+        '12주 동안 포트폴리오에서 두 버킷이 차지한 비중과 각각의 목표입니다. 목표는 그 버킷의 계획이라 같은 색에 채우지 않은 점선으로 그려, 실제 옆에서 닿을 수준으로 읽힙니다.',
     },
     reportingDay: '보고일',
     resource: '리소스',
@@ -231,7 +223,7 @@ export const text: Record<Locale, typeof en> = {
     keepZero: '값 축에 0 두기',
     minimal: '카드용 최소 표시',
     extremes: '고점과 저점 표시',
-    stackSeries: '막대와 영역 시리즈 쌓기',
+    stackSeries: '시리즈 쌓기',
     p95Latency: 'P95 지연 시간',
     memoryInUse: '사용 중인 메모리',
     time: '시간',

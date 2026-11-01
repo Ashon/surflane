@@ -32,7 +32,7 @@ import { SizeProvider, Stat } from '@surflane/ui'
       refreshing={query.isFetching}
       onRetry={() => query.refetch()}
     >
-      <Chart density='compact' xScale='time' {...gpuChart} />
+      <LineChart density='compact' xScale='time' {...gpuChart} />
     </Dashboard.Panel>
   </Dashboard.Root>
 </SizeProvider>`,

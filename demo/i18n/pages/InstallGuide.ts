@@ -25,7 +25,7 @@ const en = {
   extrasHint:
     'Each brings its own library. Pick only what you use; the rest stays out of your install.',
   extraNames: {
-    chart: 'Chart',
+    chart: 'Charts',
     'date-picker': 'DatePicker',
     markdown: 'Markdown',
     tree: 'Tree',
@@ -147,7 +147,7 @@ export const text: Record<Locale, typeof en> = {
     extrasHint:
       '각자 라이브러리를 함께 설치합니다. 쓰는 것만 고르면 나머지는 설치되지 않습니다.',
     extraNames: {
-      chart: 'Chart',
+      chart: '차트',
       'date-picker': 'DatePicker',
       markdown: 'Markdown',
       tree: 'Tree',

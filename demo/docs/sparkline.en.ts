@@ -3,7 +3,7 @@ export const doc: ComponentDoc = {
   usage:
     'Show the shape of a series inside a card or a table cell, next to the figure it explains. It has no axes, legend or tooltip: label states what the line shows and how it moved. Set baseline to a reference value, such as the previous close. Set fill where the shape carries the message, such as a trend card: the wash takes the same color as the line, so it adds weight without a second color.',
   avoid: [
-    "Don't use Sparkline when people need to read values. Use Chart, which has axes, a readout and a table.",
+    "Don't use Sparkline when people need to read values. Use LineChart, which has axes, a readout and a table.",
     "Don't leave out label. The line is an image, and the label is all a screen reader hears.",
     "Don't fill a line that sits under a colored figure it would compete with. fill adds weight to a shape; it is not a status cue.",
   ],

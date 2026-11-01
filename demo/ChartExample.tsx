@@ -8,12 +8,14 @@ import {
   ChoiceLabel,
 } from '@surflane/ui'
 import {
-  Chart,
+  AreaChart,
+  BarChart,
+  LineChart,
   type ChartDatum,
-  type ChartProps,
   type ChartDifference,
   type ChartReference,
   type ChartSeries,
+  type LineChartProps,
 } from '@surflane/ui/chart'
 import { useLocale } from './i18n'
 import { text } from './i18n/pages/ChartExample'
@@ -251,36 +253,84 @@ const allocation: ChartDatum[] = Array.from({ length: 12 }, (_, index) => ({
     incomeTarget: index < 6 ? 30 : 35,
   },
 }))
+type Kind = 'line' | 'area' | 'bar'
 type Preset = Partial<
   Pick<
-    ChartProps,
-    | 'type'
-    | 'yScale'
-    | 'curve'
-    | 'stacked'
-    | 'palette'
-    | 'includeZero'
-    | 'dashes'
+    LineChartProps,
+    'yScale' | 'curve' | 'palette' | 'includeZero' | 'dashes' | 'legendLimit'
   >
-> & { legendLimit?: number | 'auto' }
-// What each sample is best read with; picking a sample applies it.
+> & { stacked?: boolean }
+// What each sample is best read with; picking a sample applies what its page's
+// chart takes.
 const presets: Record<string, Preset> = {
-  gpu: { type: 'line' },
-  tokens: { type: 'bar', stacked: true, palette: 'categorical' },
-  throughput: { type: 'line', yScale: 'log' },
-  disk: { type: 'area', curve: 'step' },
-  projects: { type: 'line', palette: 'categorical', legendLimit: 4 },
+  tokens: { stacked: true, palette: 'categorical' },
+  throughput: { yScale: 'log' },
+  disk: { curve: 'step' },
+  projects: { palette: 'categorical', legendLimit: 4 },
   // Sixteen series: past the twelve the plot takes the extended ramp.
-  services: { type: 'line', palette: 'extended', legendLimit: 'auto' },
+  services: { palette: 'extended', legendLimit: 'auto' },
   // A price, far from zero: the line takes the height.
-  closes: { type: 'line', includeZero: false },
-  portfolio: { type: 'line', includeZero: false },
-  allocation: { type: 'line', palette: 'categorical' },
+  closes: { includeZero: false },
+  portfolio: { includeZero: false },
+  allocation: { palette: 'categorical' },
 }
-export function ChartExample() {
+// The samples each chart reads well: a line takes them all; an area and a bar are
+// amounts, so they leave out what only a line says, such as a price far from zero,
+// a log scale or a lead over a benchmark.
+const samples: Record<Kind, string[]> = {
+  line: [
+    'trend',
+    'mixed',
+    'dense',
+    'missing',
+    'empty',
+    'latency',
+    'buckets',
+    'memory',
+    'gpu',
+    'tokens',
+    'throughput',
+    'disk',
+    'projects',
+    'services',
+    'closes',
+    'portfolio',
+    'allocation',
+  ],
+  area: [
+    'trend',
+    'mixed',
+    'dense',
+    'missing',
+    'empty',
+    'buckets',
+    'memory',
+    'tokens',
+    'disk',
+    'projects',
+    'allocation',
+  ],
+  bar: [
+    'trend',
+    'mixed',
+    'missing',
+    'empty',
+    'buckets',
+    'memory',
+    'tokens',
+    'allocation',
+  ],
+}
+const kinds: Record<string, Kind> = {
+  'line-chart': 'line',
+  'area-chart': 'area',
+  'bar-chart': 'bar',
+}
+export function ChartExample({ id }: { id: string }) {
   const { locale: pageLocale } = useLocale()
   const t = text[pageLocale]
-  const [type, setType] = useState<'line' | 'bar' | 'area'>('line')
+  const kind = kinds[id] ?? 'line'
+  const line = kind !== 'bar'
   const [scenario, setScenario] = useState('trend')
   // Numbers start in the page's language; the select tries the other.
   const [locale, setLocale] = useState(pageLocale === 'ko' ? 'ko-KR' : 'en-US')
@@ -302,7 +352,6 @@ export function ChartExample() {
   const choose = (next: string) => {
     const preset = presets[next] ?? {}
     setScenario(next)
-    setType(preset.type ?? 'line')
     setYScale(preset.yScale ?? 'linear')
     setCurve(preset.curve ?? 'linear')
     setStacked(preset.stacked ?? false)
@@ -493,65 +542,97 @@ export function ChartExample() {
     },
   }
   const sample = scenarios[scenario]
+  const chart = {
+    title: t.chartTitle,
+    description: sample.description,
+    xLabel:
+      sample.xLabel ??
+      (['trend', 'latency', 'buckets', 'memory'].includes(scenario)
+        ? t.reportingDay
+        : t.resource),
+    yLabel:
+      sample.yLabel ??
+      (scenario === 'mixed'
+        ? t.resourceChange
+        : scenario === 'latency'
+          ? t.p95Latency
+          : scenario === 'memory'
+            ? t.memoryInUse
+            : t.pipelineRunCount),
+    xScale: sample.xScale,
+    references: sample.references,
+    density,
+    legendPosition,
+    legendLimit,
+    unit: sample.unit,
+    data: sample.data,
+    series: sample.series ?? series,
+    palette,
+    minimal,
+    extremes,
+    locale,
+    formatValue: sample.formatValue,
+    hiddenSeries: locked ? hidden : undefined,
+    onHiddenSeriesChange: (next: string[]) => {
+      if (locked) setNotice(t.rejectedChange)
+      else {
+        setHidden(next)
+        setNotice(
+          next.length ? t.hiddenSeries(next.length) : t.allSeriesVisible,
+        )
+      }
+    },
+  }
+  const options: Record<string, string> = {
+    trend: t.trendOption,
+    mixed: t.mixedOption,
+    dense: t.denseOption,
+    missing: t.missingOption,
+    empty: t.emptyOption,
+    ...t.options,
+  }
   return (
     <Stack gap={5}>
       <div className='foundation-controls'>
-        <Field.Root>
-          <Field.Label>{t.chartType}</Field.Label>
-          <NativeSelect
-            value={type}
-            onChange={(event) => setType(event.target.value as typeof type)}
-          >
-            <option value='line'>{t.lineType}</option>
-            <option value='bar'>{t.barType}</option>
-            <option value='area'>{t.areaType}</option>
-          </NativeSelect>
-        </Field.Root>
         <Field.Root>
           <Field.Label>{t.chartData}</Field.Label>
           <NativeSelect
             value={scenario}
             onChange={(event) => choose(event.target.value)}
           >
-            <option value='trend'>{t.trendOption}</option>
-            <option value='mixed'>{t.mixedOption}</option>
-            <option value='dense'>{t.denseOption}</option>
-            <option value='missing'>{t.missingOption}</option>
-            <option value='empty'>{t.emptyOption}</option>
-            <option value='latency'>{t.options.latency}</option>
-            <option value='buckets'>{t.options.buckets}</option>
-            <option value='memory'>{t.options.memory}</option>
-            <option value='gpu'>{t.options.gpu}</option>
-            <option value='tokens'>{t.options.tokens}</option>
-            <option value='throughput'>{t.options.throughput}</option>
-            <option value='disk'>{t.options.disk}</option>
-            <option value='projects'>{t.options.projects}</option>
-            <option value='services'>{t.options.services}</option>
-            <option value='closes'>{t.options.closes}</option>
-            <option value='portfolio'>{t.options.portfolio}</option>
-            <option value='allocation'>{t.options.allocation}</option>
+            {samples[kind].map((key) => (
+              <option key={key} value={key}>
+                {options[key]}
+              </option>
+            ))}
           </NativeSelect>
         </Field.Root>
-        <Field.Root>
-          <Field.Label>{t.valueScale}</Field.Label>
-          <NativeSelect
-            value={yScale}
-            onChange={(event) => setYScale(event.target.value as typeof yScale)}
-          >
-            <option value='linear'>{t.linear}</option>
-            <option value='log'>{t.log}</option>
-          </NativeSelect>
-        </Field.Root>
-        <Field.Root>
-          <Field.Label>{t.curve}</Field.Label>
-          <NativeSelect
-            value={curve}
-            onChange={(event) => setCurve(event.target.value as typeof curve)}
-          >
-            <option value='linear'>{t.linear}</option>
-            <option value='step'>{t.step}</option>
-          </NativeSelect>
-        </Field.Root>
+        {kind === 'line' && (
+          <Field.Root>
+            <Field.Label>{t.valueScale}</Field.Label>
+            <NativeSelect
+              value={yScale}
+              onChange={(event) =>
+                setYScale(event.target.value as typeof yScale)
+              }
+            >
+              <option value='linear'>{t.linear}</option>
+              <option value='log'>{t.log}</option>
+            </NativeSelect>
+          </Field.Root>
+        )}
+        {line && (
+          <Field.Root>
+            <Field.Label>{t.curve}</Field.Label>
+            <NativeSelect
+              value={curve}
+              onChange={(event) => setCurve(event.target.value as typeof curve)}
+            >
+              <option value='linear'>{t.linear}</option>
+              <option value='step'>{t.step}</option>
+            </NativeSelect>
+          </Field.Root>
+        )}
         <Field.Root>
           <Field.Label>{t.density}</Field.Label>
           <NativeSelect
@@ -628,27 +709,30 @@ export function ChartExample() {
         >
           {t.lockSeriesSelection}
         </ChoiceLabel>
-        <ChoiceLabel
-          control={
-            <Checkbox.Root
-              checked={includeZero}
-              onCheckedChange={setIncludeZero}
-            >
-              <Checkbox.Indicator />
-            </Checkbox.Root>
-          }
-        >
-          {t.keepZero}
-        </ChoiceLabel>
-        <ChoiceLabel
-          control={
-            <Checkbox.Root checked={stacked} onCheckedChange={setStacked}>
-              <Checkbox.Indicator />
-            </Checkbox.Root>
-          }
-        >
-          {t.stackSeries}
-        </ChoiceLabel>
+        {kind === 'line' ? (
+          <ChoiceLabel
+            control={
+              <Checkbox.Root
+                checked={includeZero}
+                onCheckedChange={setIncludeZero}
+              >
+                <Checkbox.Indicator />
+              </Checkbox.Root>
+            }
+          >
+            {t.keepZero}
+          </ChoiceLabel>
+        ) : (
+          <ChoiceLabel
+            control={
+              <Checkbox.Root checked={stacked} onCheckedChange={setStacked}>
+                <Checkbox.Indicator />
+              </Checkbox.Root>
+            }
+          >
+            {t.stackSeries}
+          </ChoiceLabel>
+        )}
         {/* For a trend on a card: the marks alone, and the high and low. */}
         <ChoiceLabel
           control={
@@ -669,70 +753,42 @@ export function ChartExample() {
           {t.extremes}
         </ChoiceLabel>
         {/* The markers keep telling the series apart once the dashes are off. */}
-        <ChoiceLabel
-          control={
-            <Checkbox.Root
-              checked={!dashes}
-              onCheckedChange={(solid) => setDashes(!solid)}
-            >
-              <Checkbox.Indicator />
-            </Checkbox.Root>
-          }
-        >
-          {t.solidLines}
-        </ChoiceLabel>
+        {line && (
+          <ChoiceLabel
+            control={
+              <Checkbox.Root
+                checked={!dashes}
+                onCheckedChange={(solid) => setDashes(!solid)}
+              >
+                <Checkbox.Indicator />
+              </Checkbox.Root>
+            }
+          >
+            {t.solidLines}
+          </ChoiceLabel>
+        )}
       </div>
-      <Chart
-        title={t.chartTitle}
-        description={sample.description}
-        xLabel={
-          sample.xLabel ??
-          (['trend', 'latency', 'buckets', 'memory'].includes(scenario)
-            ? t.reportingDay
-            : t.resource)
-        }
-        yLabel={
-          sample.yLabel ??
-          (scenario === 'mixed'
-            ? t.resourceChange
-            : scenario === 'latency'
-              ? t.p95Latency
-              : scenario === 'memory'
-                ? t.memoryInUse
-                : t.pipelineRunCount)
-        }
-        xScale={sample.xScale}
-        breakAfter={sample.breakAfter}
-        references={sample.references}
-        difference={sample.difference}
-        yScale={yScale}
-        curve={curve}
-        stacked={stacked}
-        density={density}
-        legendPosition={legendPosition}
-        legendLimit={legendLimit}
-        unit={sample.unit}
-        type={type}
-        data={sample.data}
-        series={sample.series ?? series}
-        palette={palette}
-        dashes={dashes}
-        includeZero={includeZero}
-        minimal={minimal}
-        extremes={extremes}
-        locale={locale}
-        formatValue={sample.formatValue}
-        hiddenSeries={locked ? hidden : undefined}
-        onHiddenSeriesChange={(next) => {
-          if (locked) setNotice(t.rejectedChange)
-          else {
-            setHidden(next)
-            setNotice(
-              next.length ? t.hiddenSeries(next.length) : t.allSeriesVisible,
-            )
-          }
-        }}
-      />
+      {kind === 'line' ? (
+        <LineChart
+          {...chart}
+          yScale={yScale}
+          curve={curve}
+          dashes={dashes}
+          includeZero={includeZero}
+          breakAfter={sample.breakAfter}
+          difference={sample.difference}
+        />
+      ) : kind === 'area' ? (
+        <AreaChart
+          {...chart}
+          curve={curve}
+          dashes={dashes}
+          stacked={stacked}
+          breakAfter={sample.breakAfter}
+        />
+      ) : (
+        <BarChart {...chart} stacked={stacked} />
+      )}
       <Text color='secondary' role='status' aria-label={t.selectionResultLabel}>
         {notice}
       </Text>

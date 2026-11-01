@@ -4,7 +4,7 @@ export const doc: ComponentDoc = {
     "Rank named values of one unit, such as disk by directory, tokens by project or calls by tool. Each row reads name, bar and value on one line, with an optional detail such as a path under the name. Bars are in proportion to the largest value, or to max when the values share a limit. Set maxRows to keep a long ranking inside a dashboard card. With diverging, signed values, such as each sector's gap against the market, grow from a center line on one scale: a rise toward the inline end in the trend's up color and a fall toward the start in its down color.",
   avoid: [
     "Don't mix units in one list. Rank one measure, and put a second one in its own list or a Table.",
-    "Don't use BarList for change over time. Use Chart or Sparkline.",
+    "Don't use BarList for change over time. Use LineChart or Sparkline.",
     "Don't use BarList for one measurement against its limit. Use Meter.",
   ],
   keyboard:

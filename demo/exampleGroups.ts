@@ -69,7 +69,7 @@ export const basicExampleIds = [
 ]
 export const exampleGroups = {
   richContent: ['syntax-highlighter', 'markdown'],
-  chart: ['chart'],
+  chart: ['line-chart', 'area-chart', 'bar-chart'],
   scatterChart: ['scatter-chart'],
   themeSwitch: ['theme-switch'],
   datePicker: ['date-picker'],

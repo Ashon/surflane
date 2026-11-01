@@ -3,7 +3,7 @@ export const doc: ComponentDoc = {
   usage:
     "Plot two measures per item, one point each, such as holdings by quality and news sentiment or models by throughput and latency. Give a title, a factual summary, and both axis names, with units where the values have them. groups tell points apart by the chart's category hues and by marker, such as aligned and diverged; a group's color can be one of your own. Without groups every point is one ink. references draw a line at x or at y, such as a midpoint or a target; one on each axis splits the plot, and quadrants names the four parts in their corners. xDomain and yDomain fix a known scale, such as 0 to 10 for a score; without them the axes take round values around the points and the lines.",
   avoid: [
-    "Don't use ScatterChart for a measure over time. Use Chart.",
+    "Don't use ScatterChart for a measure over time. Use LineChart.",
     "Don't color a point by its quadrant alone. Give it a group, so the marker says it too, or let the quadrant names say where it is.",
     "Don't expect the description prop to be an automatically inferred analysis. It holds the caller's factual summary.",
   ],

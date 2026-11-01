@@ -95,7 +95,9 @@ export type ChartReference =
       label: string
       tone?: ChartTone
     }
-export type ChartProps = Omit<
+/** What every chart takes: its words, its rows and series, the legend, the readout
+ * and the data table. */
+export type ChartBaseProps = Omit<
   React.ComponentPropsWithoutRef<'figure'>,
   'children' | 'title'
 > & {
@@ -106,48 +108,18 @@ export type ChartProps = Omit<
   unit: string
   xLabel: string
   yLabel: string
-  type?: 'line' | 'bar' | 'area'
   /** Plot height in px: 280 by default, 180 when compact. fill makes the chart take
    * its container's height, as in a stretched dashboard row, and the plot the room
    * its caption and legend leave, never less than the default. */
   height?: number | 'fill'
-  /** Keeps 0 on the value axis. Turn it off for values far from zero, such as
-   * prices, so the line uses the height; bars always start at zero. */
-  includeZero?: boolean
-  /** neutral tells series apart by ink, dashes and markers. categorical adds twelve
-   * hues, for categories that color must separate, such as buckets or sectors.
-   * extended adds a second dozen, the same twelve hues a step deeper, for a chart
-   * with more series than twelve, such as a fleet of services on one plot. */
+  /** neutral tells series apart by ink, dashes or fill patterns, and markers.
+   * categorical adds twelve hues, for categories that color must separate, such as
+   * buckets or sectors. extended adds a second dozen, the same twelve hues a step
+   * deeper, for a chart with more series than twelve, such as a fleet of services. */
   palette?: 'neutral' | 'categorical' | 'extended'
-  /** false draws every line solid and leaves the markers to tell the series apart,
-   * for a house style that reads lines without dashes. A plan keeps its dash, which
-   * is what makes it a plan, and the bars' fill patterns stay either way. Set
-   * --surf-chart-line-width for the lines' weight, and
-   * --surf-chart-line-quiet-ratio: 1 to give a comparison or plan the same weight
-   * as the rest. */
-  dashes?: boolean
   /** category spaces the rows evenly and names them by label. time places them by
-   * data[].time, puts ticks on round times and breaks a line where sampling stops. */
+   * data[].time and puts ticks on round times. */
   xScale?: 'category' | 'time'
-  /** On a time axis, the longest wait between rows a line runs across, in ms;
-   * past it the line breaks, as where sampling stopped. Twice the usual interval by
-   * default. For closes on trading days, four days carries a line over weekends
-   * and a holiday. A missing value still breaks it. */
-  breakAfter?: number
-  /** log suits values across orders of magnitude, such as prefill and decode
-   * throughput. Zero and negative values stay off the plot and in the table. */
-  yScale?: 'linear' | 'log'
-  /** step holds each value until the next, for values sampled when they change. */
-  curve?: 'linear' | 'step'
-  /** Stacks bar and area series, so the top of the stack is their total. */
-  stacked?: boolean
-  /** Shades the difference between two series of a line chart, in the trend-up
-   * color where the first is above and trend-down where it is below, such as a
-   * portfolio's lead over its benchmark. The legend names both sides; inspecting a
-   * row says which side it is on and by how much. */
-  difference?: ChartDifference
-  /** @deprecated The earlier name for difference. */
-  gap?: ChartDifference
   /** Thresholds and target bands over the plot, which the value axis reaches, and
    * events and periods across it, which inspecting a row names. */
   references?: readonly ChartReference[]
@@ -177,6 +149,56 @@ export type ChartProps = Omit<
   defaultHiddenSeries?: readonly string[]
   onHiddenSeriesChange?: (keys: string[]) => void
 }
+/** How a line runs from row to row, on a line chart and along an area's top. */
+type ChartLineProps = {
+  /** false draws every line solid and leaves the markers to tell the series apart,
+   * for a house style that reads lines without dashes. A plan keeps its dash, which
+   * is what makes it a plan. Set --surf-chart-line-width for the lines' weight, and
+   * --surf-chart-line-quiet-ratio: 1 to give a comparison or plan the same weight
+   * as the rest. */
+  dashes?: boolean
+  /** On a time axis, the longest wait between rows a line runs across, in ms;
+   * past it the line breaks, as where sampling stopped. Twice the usual interval by
+   * default. For closes on trading days, four days carries a line over weekends
+   * and a holiday. A missing value still breaks it. */
+  breakAfter?: number
+  /** step holds each value until the next, for values sampled when they change. */
+  curve?: 'linear' | 'step'
+}
+export type LineChartProps = ChartBaseProps &
+  ChartLineProps & {
+    /** Keeps 0 on the value axis. Turn it off for values far from zero, such as
+     * prices, so the line uses the height. */
+    includeZero?: boolean
+    /** log suits values across orders of magnitude, such as prefill and decode
+     * throughput. Zero and negative values stay off the plot and in the table. */
+    yScale?: 'linear' | 'log'
+    /** Shades the difference between two series, in the trend-up color where the
+     * first is above and trend-down where it is below, such as a portfolio's lead
+     * over its benchmark. The legend names both sides; inspecting a row says which
+     * side it is on and by how much. */
+    difference?: ChartDifference
+  }
+export type AreaChartProps = ChartBaseProps &
+  ChartLineProps & {
+    /** Stacks the series, so the top of the stack is their total. A comparison or
+     * a plan is read against the stack: it draws on its own, out of the total. */
+    stacked?: boolean
+  }
+export type BarChartProps = ChartBaseProps & {
+  /** Stacks the series, so the top of a bar is their total. A comparison or a plan
+   * is read against the stack: it draws on its own, out of the total. */
+  stacked?: boolean
+}
+/** @deprecated Chart's props, every chart's at once; use LineChartProps,
+ * AreaChartProps or BarChartProps. */
+export type ChartProps = LineChartProps &
+  Pick<AreaChartProps, 'stacked'> & {
+    /** @deprecated Use LineChart, AreaChart or BarChart. */
+    type?: 'line' | 'bar' | 'area'
+    /** @deprecated The earlier name for difference. */
+    gap?: ChartDifference
+  }
 export type ChartLabels = {
   missing: string
   empty: string
@@ -732,8 +754,9 @@ function ExtremeLabel({
 }
 
 /** Cartesian trends with a persistent, keyboard-readable tooltip region and a
- * full data-table alternative. Missing values are gaps, never fabricated zeros. */
-export const Chart = function Chart({
+ * full data-table alternative. Missing values are gaps, never fabricated zeros.
+ * LineChart, AreaChart and BarChart each give it the props their marks read. */
+function ChartCore({
   title,
   description,
   data,
@@ -1335,8 +1358,20 @@ export const Chart = function Chart({
                 else if (
                   event.key === 'ArrowLeft' ||
                   event.key === 'ArrowRight'
-                )
+                ) {
                   setDismissed(false)
+                  // A key takes over from the pointer. Recharts shows a hover over
+                  // the keyboard's point, so a chart clicked to focus it stayed on
+                  // the clicked row: end the hover as the pointer leaving would.
+                  event.currentTarget
+                    .querySelector('.recharts-wrapper')
+                    ?.dispatchEvent(
+                      new MouseEvent('mouseout', {
+                        bubbles: true,
+                        relatedTarget: event.currentTarget,
+                      }),
+                    )
+                }
               }}
               onMouseMoveCapture={() => setDismissed(false)}
               onTouchStartCapture={() => setDismissed(false)}
@@ -1827,3 +1862,25 @@ export const Chart = function Chart({
     </figure>
   )
 }
+
+type ChartRef = { ref?: React.Ref<HTMLElement> }
+/** Values along an ordered axis as lines, such as a temperature, a price or a
+ * portfolio against its benchmark: the line's slope is what it says. */
+export function LineChart(props: LineChartProps & ChartRef) {
+  return <ChartCore {...props} type='line' />
+}
+/** Amounts along an ordered axis as filled areas, such as disk used or tokens by
+ * project, stacked into their total. The fill is an amount, so it rises from zero
+ * on a linear axis. */
+export function AreaChart(props: AreaChartProps & ChartRef) {
+  return <ChartCore {...props} type='area' includeZero yScale='linear' />
+}
+/** Amounts per row as bars, such as runs per day or tokens per bucket, stacked
+ * into their total. A bar's length is its amount, so it starts at zero on a linear
+ * axis. */
+export function BarChart(props: BarChartProps & ChartRef) {
+  return <ChartCore {...props} type='bar' includeZero yScale='linear' />
+}
+/** @deprecated Use LineChart, AreaChart or BarChart, which take only the props
+ * their marks read; type picks one of them here. */
+export const Chart = ChartCore

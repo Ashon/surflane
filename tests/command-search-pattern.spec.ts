@@ -64,14 +64,15 @@ test('empty results, description matching and current destination availability r
     await expect(page).toHaveURL(new RegExp(route + '$'))
     await expect(dialog(page)).toBeVisible()
   } else {
-    // Every page is now Available, including Chart; an old Planned assertion
-    // would contradict the authoritative catalog and conceal real navigation.
-    await search(page).fill('chart')
+    // Every page is now Available, including the charts; an old Planned
+    // assertion would contradict the authoritative catalog and conceal real
+    // navigation.
+    await search(page).fill('line chart')
     await expect(
-      dialog(page).getByRole('option', { name: /^Chart / }),
+      dialog(page).getByRole('option', { name: /^Line chart / }),
     ).not.toHaveAttribute('aria-disabled', 'true')
     await search(page).press('Enter')
-    await expect(page).toHaveURL(/\/charts\/chart$/)
+    await expect(page).toHaveURL(/\/charts\/line-chart$/)
     await waitForCatalogReady(page)
     await expect(page.locator('#page-title')).toBeFocused()
     await open(page)

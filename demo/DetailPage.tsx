@@ -95,7 +95,7 @@ export function DetailPage({
   const ko = locale === 'ko' ? docsKo[item.id]?.read().doc : undefined
   const Guidelines = guidelines[item.id]
   // Previous and next walk the pages of the reader's own section: a chart page
-  // stays among the six charts, not in the middle of the component list.
+  // stays among the charts, not in the middle of the component list.
   const peers =
     item.section === 'charts'
       ? charts

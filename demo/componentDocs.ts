@@ -15,7 +15,9 @@ import { doc as bottomNavigation } from './docs/bottom-navigation.en'
 import { doc as breadcrumbs } from './docs/breadcrumbs.en'
 import { doc as button } from './docs/button.en'
 import { doc as card } from './docs/card.en'
-import { doc as chart } from './docs/chart.en'
+import { doc as lineChart } from './docs/line-chart.en'
+import { doc as areaChart } from './docs/area-chart.en'
+import { doc as barChart } from './docs/bar-chart.en'
 import { doc as scatterChart } from './docs/scatter-chart.en'
 import { doc as themeSwitch } from './docs/theme-switch.en'
 import { doc as checkbox } from './docs/checkbox.en'
@@ -115,7 +117,9 @@ export const componentDocs: Record<string, ComponentDoc> = {
   breadcrumbs,
   button,
   card,
-  chart,
+  'line-chart': lineChart,
+  'area-chart': areaChart,
+  'bar-chart': barChart,
   'scatter-chart': scatterChart,
   'theme-switch': themeSwitch,
   checkbox,

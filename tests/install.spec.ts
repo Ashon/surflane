@@ -83,18 +83,18 @@ test('extra components add their libraries, imports and the highlighting provide
   await page.goto('/install')
   await waitForCatalogReady(page)
   await expect(code(page, 'Imports')).toHaveCount(0)
-  await choose(page, 'Chart')
+  await choose(page, 'Charts')
   await choose(page, 'Code highlighting')
   await expect(page).toHaveURL(/\/install\?extras=chart%2Chighlighting$/)
   await expect(code(page, 'Packages')).toContainText('recharts shiki')
   await expect(code(page, 'Imports')).toHaveText(
-    /import \{ Chart \} from '@surflane\/ui\/chart'/,
+    /import \{ AreaChart, BarChart, LineChart \} from '@surflane\/ui\/chart'/,
   )
   await expect(await file(page, 'layout.tsx')).toContainText(
     '<SyntaxHighlighting>{children}</SyntaxHighlighting>',
   )
   await expect(await file(page, 'page.tsx')).toContainText('<CodeBlock')
-  await choose(page, 'Chart')
+  await choose(page, 'Charts')
   await expect(code(page, 'Imports')).toHaveCount(0)
   await expect(code(page, 'Packages')).not.toContainText('recharts')
 })

@@ -1,7 +1,8 @@
 // One entry per catalog page: each module is also its own entry point, such as
-// @surflane/ui/checkbox. Chart, ScatterChart, DatePicker, Markdown, Tree and syntax highlighting
-// need optional packages, so they live only on their own entry points:
-// @surflane/ui/chart, /scatter-chart, /date-picker, /markdown, /tree and /syntax-highlighting.
+// @surflane/ui/checkbox. LineChart, AreaChart, BarChart, ScatterChart, DatePicker,
+// Markdown, Tree and syntax highlighting need optional packages, so they live only on
+// their own entry points: @surflane/ui/chart for the first three, /scatter-chart,
+// /date-picker, /markdown, /tree and /syntax-highlighting.
 
 // Actions
 export {

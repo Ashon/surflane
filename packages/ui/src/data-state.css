@@ -24,7 +24,7 @@
     min-inline-size: 0;
   }
   /* Content fills the state's height, so content that fills its container, such
-     as a Chart with height='fill' in a stretched dashboard panel, gets the room.
+     as a LineChart with height='fill' in a stretched dashboard panel, gets the room.
      A state sized by its content is unchanged. */
   .surf-data-state:not([data-layout='inline'], [data-state='stale']):has(
       > .surf-data-state-content

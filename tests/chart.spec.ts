@@ -3,8 +3,8 @@ import AxeBuilder from '@axe-core/playwright'
 import { waitForCatalogReady } from './catalog-ready'
 
 test.use({ reducedMotion: 'reduce' })
-async function open(page: Page) {
-  await page.goto('/charts/chart')
+async function open(page: Page, chart: 'line' | 'area' | 'bar' = 'line') {
+  await page.goto(`/charts/${chart}-chart`)
   await waitForCatalogReady(page)
   await expect(
     page.getByRole('application', { name: 'Pipeline activity' }),
@@ -13,6 +13,9 @@ async function open(page: Page) {
 async function choose(page: Page, name: string, value: string) {
   await page.getByRole('combobox', { name, exact: true }).click()
   await page.getByRole('option', { name: value, exact: true }).click()
+  // The option list can open over the plot: move the pointer off it, so the chart
+  // isn't left hovering the row under the option picked.
+  await page.mouse.move(0, 0)
 }
 /** Every plotted line's weight in px, in the order the plot draws them, or every
  * line swatch's in the legend's order. A quiet line's weight multiplies two tokens,
@@ -118,9 +121,8 @@ test('legend supports all-hidden recovery and calling-owner rejection without mo
 test('bar and area modes preserve zero, negatives, non-color patterns and data changes', async ({
   page,
 }) => {
-  await open(page)
+  await open(page, 'bar')
   await choose(page, 'Chart data', 'Negative and zero values')
-  await choose(page, 'Chart type', 'Bar')
   await expect(page.locator('.recharts-bar')).toHaveCount(3)
   const geometry = await page.locator('.surf-chart-plot').evaluate((plot) => {
     const zero = plot.querySelector(
@@ -147,7 +149,8 @@ test('bar and area modes preserve zero, negatives, non-color patterns and data c
       .first()
       .getByRole('cell', { name: '0', exact: true }),
   ).toHaveCount(3)
-  await choose(page, 'Chart type', 'Area')
+  await open(page, 'area')
+  await choose(page, 'Chart data', 'Negative and zero values')
   await expect(page.locator('.recharts-area-area')).toHaveCount(3)
   const app = page.getByRole('application')
   await app.focus()
@@ -234,7 +237,7 @@ test('pointer readout, responsive themes, high contrast and reduced motion keep 
         .screenshot({ path: `.data/chart-${width}-${theme}.png` })
     }
   await page.emulateMedia({ forcedColors: 'active' })
-  await choose(page, 'Chart type', 'Bar')
+  await open(page, 'bar')
   expect(
     await page
       .locator('.surf-chart')
@@ -290,6 +293,23 @@ test('touch exposes the same complete values without relying on hover', async ({
   await context.close()
 })
 
+test('a key takes over from the pointer, so a chart clicked to focus it steps with the arrows', async ({
+  page,
+}) => {
+  await open(page)
+  const chart = page.getByRole('application', { name: 'Pipeline activity' })
+  const readout = page.locator('.surf-chart-readout')
+  await page.locator('.surf-chart-plot').scrollIntoViewIfNeeded()
+  const plot = (await page.locator('.surf-chart-plot').boundingBox())!
+  // Clicking the second row hovers it and focuses the plot.
+  await page.mouse.click(plot.x + plot.width * 0.155, plot.y + plot.height / 2)
+  await expect(chart).toBeFocused()
+  await expect(readout).toContainText('October 2, 2026')
+  // The pointer stays on the plot, and the arrows still move the readout.
+  for (let step = 0; step < 3; step++) await chart.press('ArrowRight')
+  await expect(readout).not.toContainText('October 2, 2026')
+  await expect(readout).toContainText('October 4, 2026')
+})
 test('the plot rings for keyboard focus only', async ({ page }) => {
   await open(page)
   const surface = page.locator('.surf-chart-plot .recharts-surface')
@@ -534,7 +554,7 @@ test('a gap shades which series leads, and a comparison series draws quieter and
 test('stacked bars read their total, a log axis spans decades and a step line holds its value', async ({
   page,
 }) => {
-  await open(page)
+  await open(page, 'bar')
   await choose(page, 'Chart data', 'Tokens by kind, stacked')
   const chart = page.getByRole('application', { name: 'Pipeline activity' })
   await chart.focus()
@@ -542,10 +562,12 @@ test('stacked bars read their total, a log axis spans decades and a step line ho
   await expect(page.locator('.surf-chart-readout')).toContainText(
     'Total: 9.4 M tokens',
   )
+  await open(page)
   await choose(page, 'Chart data', 'Prefill and decode, log scale')
   await expect(
     page.locator('.surf-chart-plot .recharts-yAxis-tick-labels text'),
   ).toHaveText(['10', '100', '1K', '10K'])
+  await open(page, 'area')
   await choose(page, 'Chart data', 'Disk used, hourly steps')
   const points = await page
     .locator('.surf-chart-plot .recharts-area-curve')
@@ -655,7 +677,7 @@ test('right to left, the legend moves to the inline end of the key', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 1000 })
-  await page.goto('/charts/chart')
+  await page.goto('/charts/line-chart')
   await waitForCatalogReady(page)
   const chart = page.locator('main .surf-chart').first()
   const edges = () =>
@@ -708,9 +730,8 @@ test('a legend limit folds references with the series, and a plan is dashed in i
 test("a plan is a level, not an amount: an unfilled dashed bar in the legend's order, outside the stack and its total", async ({
   page,
 }) => {
-  await open(page)
+  await open(page, 'bar')
   await choose(page, 'Chart data', 'Allocation against its targets')
-  await choose(page, 'Chart type', 'Bar')
   const plot = page.locator('.surf-chart-plot')
   // Bars stand side by side in the legend's order: each target beside its bucket,
   // an outline in the bucket's color, dashed and unfilled.
@@ -736,16 +757,15 @@ test("a plan is a level, not an amount: an unfilled dashed bar in the legend's o
     await lineWidths(page, '.surf-chart-legend .surf-chart-mark-plan'),
   ).toEqual([1.5, 1.5])
   // An area's plan is its dashed line alone.
-  await choose(page, 'Chart type', 'Area')
+  await open(page, 'area')
+  await choose(page, 'Chart data', 'Allocation against its targets')
   const fills = await plot
     .locator('.recharts-area-area')
     .evaluateAll((areas) => areas.map((area) => area.getAttribute('fill')))
   expect(fills.filter((fill) => fill === 'none')).toHaveLength(2)
   // Stacked, the buckets add up and their targets stay out of the total: focus reads
   // week 1, 52 % and 34 % against targets of 55 % and 30 %.
-  await page
-    .getByRole('checkbox', { name: 'Stack bar and area series' })
-    .click()
+  await page.getByRole('checkbox', { name: 'Stack the series' }).click()
   await page.getByRole('application', { name: 'Pipeline activity' }).focus()
   const readout = page.locator('.surf-chart-readout')
   await expect(readout).toContainText('Week 1')

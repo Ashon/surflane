@@ -57,13 +57,13 @@ test('the charts index holds every chart page and the component index holds none
     await expect(
       page.locator(`.catalog-item[href="${itemHref(item)}"]`),
     ).toHaveCount(0)
-  // A chart page walks the six charts, not the component list they left.
-  await page.goto('/charts/chart')
+  // A chart page walks the eight charts, not the component list they left.
+  await page.goto('/charts/line-chart')
   await waitForCatalogReady(page)
   const paging = page.getByRole('navigation', { name: 'Related pages' })
   await expect(
-    paging.getByRole('link', { name: 'Next: Scatter chart' }),
-  ).toHaveAttribute('href', '/charts/scatter-chart')
+    paging.getByRole('link', { name: 'Next: Area chart' }),
+  ).toHaveAttribute('href', '/charts/area-chart')
   await expect(paging.getByRole('link', { name: /^Previous:/ })).toHaveCount(0)
 })
 

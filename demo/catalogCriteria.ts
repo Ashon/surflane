@@ -66,8 +66,17 @@ const specializedCriteria: Record<string, string[]> = {
     'ARIA tree hierarchy, expansion, selection, arrow-key navigation, virtualization, and large data sets',
     'Headless Tree / TanStack Virtual, controlled state, focus recovery, RTL, and disabled nodes',
   ],
-  chart: [
+  'line-chart': [
     'Units, axes, legend, distinctions beyond color, alternative table, empty values, and tooltip accessibility',
+    'Values far from zero, a log scale, a lead over a benchmark shaded by side, and a line that breaks where sampling stops',
+  ],
+  'area-chart': [
+    'Units, axes, legend, distinctions beyond color, alternative table, empty values, and tooltip accessibility',
+    'Fills that rise from zero, a stack whose top is the total, and comparisons and plans kept out of it',
+  ],
+  'bar-chart': [
+    'Units, axes, legend, distinctions beyond color, alternative table, empty values, and tooltip accessibility',
+    'Bars that start at zero, a stack whose top is the total, and a plan drawn as an unfilled outline beside its bar',
   ],
   'theme-switch': [
     'A named group of three that says which is chosen, one button that names the theme now and next, the choice applied to the page or a scoped region, remembered, and the device setting followed as it changes',

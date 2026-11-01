@@ -61,7 +61,7 @@ const targets: [string, Target][] = [
     { find: (p) => p.locator('main .surf-pagination-control[href]') },
   ],
   [
-    '/charts/chart',
+    '/charts/line-chart',
     { find: (p) => p.locator('main .surf-chart-legend-button') },
   ],
   ['/', { find: (p) => p.getByRole('link', { name: 'Browse components' }) }],

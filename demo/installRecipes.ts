@@ -43,7 +43,8 @@ export const extras: { id: Extra; packages: string[]; imports?: string }[] = [
   {
     id: 'chart',
     packages: ['recharts'],
-    imports: "import { Chart } from '@surflane/ui/chart'",
+    imports:
+      "import { AreaChart, BarChart, LineChart } from '@surflane/ui/chart'",
   },
   {
     id: 'date-picker',

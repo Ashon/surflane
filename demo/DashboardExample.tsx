@@ -8,7 +8,7 @@ import {
   Toggle,
 } from '@surflane/ui'
 import { Dashboard } from '@surflane/ui/dashboard'
-import { Chart, type ChartDatum } from '@surflane/ui/chart'
+import { LineChart, type ChartDatum } from '@surflane/ui/chart'
 import {
   TimeRangePicker,
   timeRangeOptions,
@@ -87,7 +87,7 @@ export function DashboardExample() {
             {...panel}
             message={demo === 'error' ? t.offline : undefined}
           >
-            <Chart
+            <LineChart
               title={t.gpu}
               description={t.gpuDescription}
               data={gpu}

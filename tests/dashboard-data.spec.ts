@@ -172,7 +172,7 @@ test('Sparkline is a named image with sizes, a baseline, a marker, gaps and an o
 test('Chart can leave zero off its axis and color categories', async ({
   page,
 }) => {
-  await page.goto('/charts/chart')
+  await page.goto('/charts/line-chart')
   await waitForCatalogReady(page)
   const pick = async (name: string, option: string) => {
     await page.getByRole('combobox', { name }).click()
@@ -188,12 +188,14 @@ test('Chart can leave zero off its axis and color categories', async ({
   await expect.poll(ticks).toEqual(['0', '50', '100', '150', '200', '250'])
   await page.getByText('Keep zero on the value axis').click()
   await expect.poll(ticks).toEqual(['140', '160', '180', '200', '220', '240'])
-  // Bars start at zero whatever the switch says.
-  await pick('Chart type', 'Bar')
+  // Bars start at zero: the bar chart has no switch for it.
+  await page.goto('/charts/bar-chart')
+  await waitForCatalogReady(page)
+  await expect(page.getByText('Keep zero on the value axis')).toHaveCount(0)
   await expect.poll(ticks).toContain('0')
-  await pick('Chart type', 'Line')
+  await page.goto('/charts/line-chart')
+  await waitForCatalogReady(page)
   // The value axis reads in the chart's own notation: raw bytes as GB, never 2B.
-  await page.getByText('Keep zero on the value axis').click()
   await pick('Chart data', 'Memory in bytes')
   await expect.poll(ticks).toEqual(['0', '2', '4', '6'])
   await pick('Chart data', 'Five duration buckets')

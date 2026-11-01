@@ -88,7 +88,7 @@ import {
   ChoiceLabel,
   LinkButton,
 } from '@surflane/ui'
-import { Chart, type ChartDatum } from '@surflane/ui/chart'
+import { BarChart, LineChart, type ChartDatum } from '@surflane/ui/chart'
 import { ScatterChart } from '@surflane/ui/scatter-chart'
 import { BarList } from '@surflane/ui/bar-list'
 import { DivergingBar } from '@surflane/ui/diverging-bar'
@@ -947,7 +947,7 @@ export function Data() {
         ]}
         quadrants={{ topRight: 'Full and slow', bottomLeft: 'Room to spare' }}
       />
-      <Chart
+      <LineChart
         title='Containers moved'
         description='North pier moved 42, 47 and 39 containers; East quay did not report on Tuesday.'
         xLabel='Day'
@@ -958,9 +958,8 @@ export function Data() {
           { key: 'north', label: 'North pier' },
           { key: 'east', label: 'East quay' },
         ]}
-        type='line'
       />
-      <Chart
+      <BarChart
         title='Containers by berth'
         description='Bar view of the same week.'
         xLabel='Day'
@@ -968,7 +967,6 @@ export function Data() {
         unit='containers'
         data={throughput}
         series={[{ key: 'north', label: 'North pier' }]}
-        type='bar'
       />
     </section>
   )
@@ -1204,7 +1202,7 @@ export function Monitoring() {
             </Stat.Root>
           </Dashboard.Panel>
           <Dashboard.Panel title='Containers moved' span='full'>
-            <Chart
+            <LineChart
               title='Containers moved'
               description='North pier against its plan over two weeks, with the crane change and the storm.'
               xLabel='Day'

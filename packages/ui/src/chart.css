@@ -1,4 +1,4 @@
-/* Chart, with the styles of what it renders. */
+/* LineChart, AreaChart and BarChart, with the styles of what they render. */
 @layer surflane.tokens, surflane.themes, surflane.base, surflane.components,
   surflane.sizes;
 @import './base.css';

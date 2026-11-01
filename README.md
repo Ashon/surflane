@@ -56,7 +56,7 @@ import { Input } from '@surflane/ui/input'
 The [install guide](https://surflane.page/install) writes the setup for your framework, package manager and Tailwind CSS. [Framework integration](docs/frameworks.md) covers Next.js, React Router, Astro, Vite and the cascade layers. [Examples](examples) has a tested app for each framework.
 
 - In server components, use flat part names: `DialogRoot`, not `Dialog.Root`.
-- Chart, DatePicker, Markdown, Tree and syntax highlighting have their own entry points. Install their libraries only when you use them; see [optional components](docs/frameworks.md#optional-components).
+- LineChart, AreaChart, BarChart, DatePicker, Markdown, Tree and syntax highlighting have their own entry points. Install their libraries only when you use them; see [optional components](docs/frameworks.md#optional-components).
 - Load the fonts once in your app. The catalog uses Manrope, Pretendard, JetBrains Mono and Noto Sans JP from their font packages.
 - Your app owns theme persistence, authentication, routing and data.
 
@@ -72,7 +72,7 @@ The three packages ship together with one version. Each component has its own en
 
 ## Catalog
 
-The catalog holds <!-- catalog-counts -->12 foundations, 67 components, 6 charts and 13 patterns<!-- /catalog-counts -->, in English and Korean. Each page shows live examples, the API and keyboard behavior. "Available" means an implementation, example and docs exist. It is not an accessibility certification. Names and data in examples are fictional.
+The catalog holds <!-- catalog-counts -->12 foundations, 67 components, 8 charts and 13 patterns<!-- /catalog-counts -->, in English and Korean. Each page shows live examples, the API and keyboard behavior. "Available" means an implementation, example and docs exist. It is not an accessibility certification. Names and data in examples are fictional.
 
 ## Contributing
 

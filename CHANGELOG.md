@@ -6,6 +6,8 @@
 
 ### Added
 
+- `LineChart`, `AreaChart` and `BarChart` from `@surflane/ui/chart`, each taking only the props its marks read, on one engine with Chart's keyboard, readout and data table. A line takes `includeZero`, `yScale`, `curve`, `breakAfter`, `dashes` and `difference`. An area takes `stacked`, `curve`, `breakAfter` and `dashes`, and rises from zero on a linear axis, since its fill is an amount. A bar takes `stacked` and starts at zero on a linear axis, since its length is one. A prop the marks would have ignored, such as `stacked` on a line or `curve` on bars, is a type error instead of doing nothing. `ChartBaseProps` is what the three share.
+- The catalog gives each its own page, `/charts/line-chart`, `/charts/area-chart` and `/charts/bar-chart`, with the samples and controls that chart reads, in place of `/charts/chart`. Nothing redirects the old address.
 - `ChartSeriesMark` takes `comparison`, the quiet swatch of a series the others are read against, so a key of your own takes the same flags as the series it keys.
 
 ### Changed
@@ -15,9 +17,18 @@
 - In a stacked chart, a comparison or a plan draws on its own and stays out of the total, which it used to add to.
 - The zero line draws where values cross zero. At the plot's edge the x axis is the baseline already, and a minimal chart drew it as a stray rule under its trend.
 
+### Deprecated
+
+- `Chart` and `ChartProps`. `Chart type='line'`, the default, is `LineChart`, `type='area'` is `AreaChart` and `type='bar'` is `BarChart`. Chart still takes every prop and draws as before, including an area with `includeZero={false}` or on a log axis, which AreaChart doesn't draw.
+
 ### Fixed
 
+- A chart's arrow keys move its readout while the pointer rests on the plot, as after clicking it to focus it. The pointer's hover held the readout on the clicked row; a key now takes over from it.
 - A Chart's legend and floating values draw each swatch at the weight of what it keys: a line at `--surf-chart-line-width`, a comparison or a plan at its quiet share, and a threshold or an event at the plot's 1.5px. Every swatch was 2px.
+
+### Migration
+
+- Replace `<Chart …>` with `<LineChart …>`, `<Chart type='area' …>` with `<AreaChart …>` and `<Chart type='bar' …>` with `<BarChart …>`, and drop `type`. Drop `includeZero` and `yScale` from an area or bars, `stacked` from a line, and `curve`, `breakAfter` and `dashes` from bars: TypeScript names each one. An area that left zero off its axis or drew on a log one says a line's things; make it a LineChart.
 
 ## 0.21.0
 

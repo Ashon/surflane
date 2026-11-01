@@ -419,12 +419,21 @@ const { components, patterns, foundations } = await import('../demo/catalog.ts')
 const pages = new Set(
   [...components, ...patterns, ...foundations].map(({ id }) => id),
 )
+// An entry several pages share: @surflane/ui/chart holds LineChart, AreaChart and
+// BarChart, one engine with a page each.
+const sharedEntries = { chart: ['line-chart', 'area-chart', 'bar-chart'] }
 const unnamed = entries.filter(
-  (entry) => !pages.has(entry) && !utilityEntries.includes(entry),
+  (entry) =>
+    !(sharedEntries[entry] ?? [entry]).every((page) => pages.has(page)) &&
+    !utilityEntries.includes(entry),
 )
 assert.deepEqual(unnamed, [], `Entry points without a catalog page: ${unnamed}`)
+const sharedPages = Object.values(sharedEntries).flat()
 const unexported = components
-  .filter(({ id, stage }) => stage !== 'planned' && !entries.includes(id))
+  .filter(
+    ({ id, stage }) =>
+      stage !== 'planned' && !entries.includes(id) && !sharedPages.includes(id),
+  )
   .map(({ id }) => id)
 assert.deepEqual(
   unexported,

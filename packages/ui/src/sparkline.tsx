@@ -33,8 +33,8 @@ export type SparklineProps = Omit<
 const finite = (value: number | null | undefined): value is number =>
   typeof value === 'number' && Number.isFinite(value)
 
-/** A small trend line for cards and table cells: no axes, legend or tooltip. Use Chart
- * when people need to read values. */
+/** A small trend line for cards and table cells: no axes, legend or tooltip. Use
+ * LineChart when people need to read values. */
 export const Sparkline = function Sparkline({
   data,
   label,
@@ -49,7 +49,7 @@ export const Sparkline = function Sparkline({
   ...props
 }: SparklineProps & { ref?: React.Ref<SVGSVGElement> }) {
   // The wash names its own gradient, so several sparklines in one card grid each
-  // fade in their own color. Chart sanitizes its useId the same way: url(#…) reads
+  // fade in their own color. The charts sanitize their useId the same way: url(#…) reads
   // better with the characters React puts there stripped out.
   const fade = React.useId().replace(/[^a-zA-Z0-9_-]/g, '_')
   const values = data.filter(finite)
