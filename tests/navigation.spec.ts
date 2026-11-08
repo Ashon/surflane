@@ -277,7 +277,7 @@ test('a status dot takes its tone beside the words that name it; live pulses, at
       els.map((el) => {
         const probe = document.createElement('span')
         const tone = el.getAttribute('data-tone')!
-        probe.style.color = `var(--surf-status-${tone}-fg)`
+        probe.style.color = `var(--surf-status-${tone}-mark)`
         el.parentElement!.append(probe)
         const expected = getComputedStyle(probe).color
         probe.remove()

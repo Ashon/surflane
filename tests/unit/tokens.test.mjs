@@ -103,6 +103,31 @@ test('a brand mark reads 3:1 on either recessed track, and beside a selected fil
   }
 })
 
+test('a status mark without words reads 3:1 on the sheet, on a card and beside a selected fill', () => {
+  // A dot or an avatar's marker has no words to carry its tone: it is a graphic,
+  // held to the non-text contrast of 3:1 on every plane it sits on.
+  for (const theme of ['dark', 'light'])
+    for (const tone of [
+      'success',
+      'danger',
+      'caution',
+      'info',
+      'progress',
+      'neutral',
+    ])
+      for (const plane of [
+        '--surf-canvas',
+        '--surf-surface',
+        '--surf-selected',
+      ]) {
+        const ratio = contrast(`--surf-status-${tone}-mark`, plane, theme)
+        assert.ok(
+          ratio >= 3,
+          `${theme} ${tone} on ${plane}: ${ratio.toFixed(2)}`,
+        )
+      }
+})
+
 test("a selected row's edge reads 3:1 against its fill and the sheet", () => {
   for (const theme of ['dark', 'light']) {
     assert.ok(contrast('--surf-selected-edge', '--surf-selected', theme) >= 3)

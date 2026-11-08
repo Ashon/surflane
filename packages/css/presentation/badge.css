@@ -60,22 +60,22 @@
     inline-size: var(--surf-status-dot-size);
     block-size: var(--surf-status-dot-size);
     border-radius: var(--surf-radius-full);
-    background: var(--surf-status-neutral-fg);
+    background: var(--surf-status-neutral-mark);
   }
   .surf-status-dot[data-tone='info'] {
-    background: var(--surf-status-info-fg);
+    background: var(--surf-status-info-mark);
   }
   .surf-status-dot[data-tone='success'] {
-    background: var(--surf-status-success-fg);
+    background: var(--surf-status-success-mark);
   }
   .surf-status-dot[data-tone='danger'] {
-    background: var(--surf-status-danger-fg);
+    background: var(--surf-status-danger-mark);
   }
   .surf-status-dot[data-tone='caution'] {
-    background: var(--surf-status-caution-fg);
+    background: var(--surf-status-caution-mark);
   }
   .surf-status-dot[data-tone='progress'] {
-    background: var(--surf-status-progress-fg);
+    background: var(--surf-status-progress-mark);
   }
   /* Live pulses while the state is under way, as an avatar's marker does. */
   .surf-status-dot[data-live] {

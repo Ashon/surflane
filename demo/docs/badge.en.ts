@@ -1,7 +1,7 @@
 import type { ComponentDoc } from '../componentDocs'
 export const doc: ComponentDoc = {
   usage:
-    "Show a short status with StatusBadge, which adds a semantic SVG for each tone. Use Badge for general labels or counts, on a neutral surface. Badges are borderless: status badges pair text and icon with a light tone surface from badge background tokens, separate from InlineMessage. Small status labels use 12px at medium (500) weight to stay legible. StatusDot is a status without words, for a state that text beside it names, such as a group's count: a flat dot in the tone's color, as an avatar's status marker is. live pulses it while the state is under way; attention blinks it three times as the state arrives, such as waiting for an answer, then holds it still.",
+    "Show a short status with StatusBadge, which adds a semantic SVG for each tone. Use Badge for general labels or counts, on a neutral surface. Badges are borderless: status badges pair text and icon with a light tone surface from badge background tokens, separate from InlineMessage. Small status labels use 12px at medium (500) weight to stay legible. StatusDot is a status without words, for a state that text beside it names, such as a group's count: a flat dot in the tone's mark color, as an avatar's status marker is: the tone's hue, light enough on a dark plane and dark enough on a light one to keep 3:1 beside the words, where a badge's text color would be ink-dark. live pulses it while the state is under way; attention blinks it three times as the state arrives, such as waiting for an answer, then holds it still.",
   avoid:
     "Don't convey status with color or an icon alone. Always include a text label: beside a StatusDot, or its label where no text says the state. Don't blink a dot to keep asking; attention blinks only as the state arrives. Use Button for actions instead of styling badges like buttons. Announce changes from one role=status sentence, not a live role on every badge.",
   keyboard:
@@ -22,6 +22,10 @@ export const doc: ComponentDoc = {
     '--surf-status-progress-bg',
     '--surf-status-info-fg',
     '--surf-status-badge-gap',
+    '--surf-status-success-mark',
+    '--surf-status-caution-mark',
+    '--surf-status-progress-mark',
+    '--surf-status-neutral-mark',
     '--surf-status-dot-size',
     '--surf-motion-pulse',
   ],

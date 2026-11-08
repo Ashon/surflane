@@ -21,7 +21,9 @@ export const doc: ComponentDoc = {
     '--surf-line',
     '--surf-recessed',
     '--surf-chart-category-1',
-    '--surf-status-success-fg',
+    '--surf-status-success-mark',
+    '--surf-status-progress-mark',
+    '--surf-status-dot-size',
   ],
   code: `import { Avatar, categoryFor } from '@surflane/ui'
 

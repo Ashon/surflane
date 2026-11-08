@@ -39,7 +39,7 @@ export function type(prefixed) {
     /^(--chrome|--canvas|--surface|--plane|--recessed|--code-bg|--hover|--selected|--selected-edge|--slider-track|--line|--ink.*|--syntax-.+|--brand.*|--on-brand|--success|--caution|--danger|--info|--trend-(up|down)|--grid-minor|--grid-major|--guide|--skeleton.*)$/.test(
       name,
     ) ||
-    /--(status-.+-(fg|bg|border)|badge-.+-bg|menu-.+|tooltip-.+|chart-series-\d+|chart-category-\d+|trend-(up|down)-(fg|bg)|trend-flat-fg|selection-(background|foreground)|interaction-.+|control-(border|background|hover-.+|focus(-ring|-background)?|placeholder|disabled-background|choice-(border|hover-border|selected-.+))|scrollbar-(track|thumb.*))$/.test(
+    /--(status-.+-(fg|bg|border|mark)|badge-.+-bg|menu-.+|tooltip-.+|chart-series-\d+|chart-category-\d+|trend-(up|down)-(fg|bg)|trend-flat-fg|selection-(background|foreground)|interaction-.+|control-(border|background|hover-.+|focus(-ring|-background)?|placeholder|disabled-background|choice-(border|hover-border|selected-.+))|scrollbar-(track|thumb.*))$/.test(
       name,
     )
   )
@@ -95,6 +95,18 @@ export const descriptions = {
   '--surf-control-choice-selected-border':
     'State border that matches the selected surface',
   '--surf-icon-stroke-width': 'Shared stroke width within a 24×24 viewBox',
+  '--surf-status-success-mark':
+    'A success mark without words, such as a dot: 3:1 on every plane',
+  '--surf-status-danger-mark':
+    'A danger mark without words, such as a dot: 3:1 on every plane',
+  '--surf-status-caution-mark':
+    'A caution mark without words, such as a dot: 3:1 on every plane',
+  '--surf-status-info-mark':
+    'An info mark without words, such as a dot: 3:1 on every plane',
+  '--surf-status-progress-mark':
+    'A mark for what is under way, such as a working dot: the brand mark',
+  '--surf-status-neutral-mark':
+    'A mark for a resting state, such as an idle dot: muted ink',
   '--surf-status-dot-size':
     "A status dot's diameter, and the smallest an avatar's status marker gets",
   '--surf-chart-line-width':

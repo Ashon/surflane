@@ -95,22 +95,22 @@
     box-sizing: border-box;
     border: 2px solid var(--surf-plane);
     border-radius: var(--surf-radius-full);
-    background: var(--surf-status-success-fg);
+    background: var(--surf-status-success-mark);
   }
   .surf-avatar-status[data-tone='neutral'] {
-    background: var(--surf-status-neutral-fg);
+    background: var(--surf-status-neutral-mark);
   }
   .surf-avatar-status[data-tone='info'] {
-    background: var(--surf-status-info-fg);
+    background: var(--surf-status-info-mark);
   }
   .surf-avatar-status[data-tone='danger'] {
-    background: var(--surf-status-danger-fg);
+    background: var(--surf-status-danger-mark);
   }
   .surf-avatar-status[data-tone='caution'] {
-    background: var(--surf-status-caution-fg);
+    background: var(--surf-status-caution-mark);
   }
   .surf-avatar-status[data-tone='progress'] {
-    background: var(--surf-status-progress-fg);
+    background: var(--surf-status-progress-mark);
   }
   .surf-avatar-status[data-live] {
     animation: surf-progress-pulse var(--surf-motion-pulse) ease-in-out infinite;

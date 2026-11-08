@@ -423,7 +423,7 @@ test.describe('avatar categories and status', () => {
         els.map((el) => {
           const probe = document.createElement('span')
           const tone = el.getAttribute('data-tone')!
-          probe.style.color = `var(--surf-status-${tone}-fg)`
+          probe.style.color = `var(--surf-status-${tone}-mark)`
           el.parentElement!.append(probe)
           const expected = getComputedStyle(probe).color
           probe.remove()

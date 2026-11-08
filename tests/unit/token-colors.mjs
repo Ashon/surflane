@@ -1,6 +1,6 @@
 // Resolves a token's color the way the browser does, from the generated token catalog:
 // var() aliases, color-mix(in srgb | oklch, …) and oklch(from … l c h) with an optional
-// min(l, n) or min(c, n). The color foundation measures the same pairs in a browser; this runs without one.
+// min(l, n), max(l, n) or min(c, n). The color foundation measures the same pairs in a browser; this runs without one.
 import { readFileSync } from 'node:fs'
 import { converter, parse, wcagContrast } from 'culori'
 
@@ -69,8 +69,8 @@ export function resolve(expression, theme) {
     const color = { ...resolve(source, theme) }
     const channel = (expression, current) => {
       if (/^[lch]$/.test(expression)) return current
-      const clamp = /^min\([lch],\s*([\d.]+)\)$/.exec(expression)
-      if (clamp) return Math.min(current, Number(clamp[1]))
+      const clamp = /^(min|max)\([lch],\s*([\d.]+)\)$/.exec(expression)
+      if (clamp) return Math[clamp[1]](current, Number(clamp[2]))
       if (/^[\d.]+$/.test(expression)) return Number(expression)
       throw new Error(`Unsupported relative color: ${value}`)
     }

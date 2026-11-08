@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceHash": "31ffaa8194ecb82fd93cb2ebabc122ac8fa50a9dec9c21dc6a17b46625bcc578",
+  "sourceHash": "916b19ccab8a6391587e6fa1918d0bcfe7da34039e14d7353e73d9e804bbc535",
   "sources": [
     "tokens.css",
     "foundation-tokens.css",
@@ -28,7 +28,7 @@
           "context": ":root",
           "value": "oklch(from color-mix(in srgb, var(--surf-status-caution-fg) 3%, var(--surf-status-caution-bg)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 766
+          "line": 795
         }
       ],
       "aliases": [
@@ -46,7 +46,7 @@
           "context": ":root",
           "value": "oklch(from color-mix(in srgb, var(--surf-status-danger-fg) 3%, var(--surf-status-danger-bg)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 757
+          "line": 786
         }
       ],
       "aliases": [
@@ -64,7 +64,7 @@
           "context": ":root",
           "value": "oklch(from color-mix(in srgb, var(--surf-status-info-fg) 3%, var(--surf-status-info-bg)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 776
+          "line": 805
         }
       ],
       "aliases": [
@@ -82,7 +82,7 @@
           "context": ":root",
           "value": "var(--surf-status-neutral-bg)",
           "file": "tokens.css",
-          "line": 747
+          "line": 776
         }
       ],
       "aliases": [
@@ -99,7 +99,7 @@
           "context": ":root",
           "value": "var(--surf-status-progress-bg)",
           "file": "tokens.css",
-          "line": 775
+          "line": 804
         }
       ],
       "aliases": [
@@ -116,7 +116,7 @@
           "context": ":root",
           "value": "oklch(from color-mix(in srgb, var(--surf-status-success-fg) 3%, var(--surf-status-success-bg)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 748
+          "line": 777
         }
       ],
       "aliases": [
@@ -146,7 +146,7 @@
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.82 0.12 210)",
           "file": "tokens.css",
-          "line": 540
+          "line": 560
         }
       ],
       "aliases": []
@@ -173,7 +173,7 @@
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.2368845 0.00973297 248.23792711)",
           "file": "tokens.css",
-          "line": 541
+          "line": 561
         }
       ],
       "aliases": []
@@ -188,19 +188,19 @@
           "context": ":root",
           "value": "var(--surf-brand)",
           "file": "tokens.css",
-          "line": 362
+          "line": 377
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(from var(--surf-brand) min(l, 0.6) min(c, 0.12) h)",
           "file": "tokens.css",
-          "line": 368
+          "line": 383
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(from var(--surf-brand) min(l, 0.6) min(c, 0.12) h)",
           "file": "tokens.css",
-          "line": 523
+          "line": 543
         }
       ],
       "aliases": [
@@ -229,7 +229,7 @@
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.82 0.12 210 / 0.30196078)",
           "file": "tokens.css",
-          "line": 545
+          "line": 565
         }
       ],
       "aliases": []
@@ -256,7 +256,7 @@
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(1 0 0)",
           "file": "tokens.css",
-          "line": 529
+          "line": 549
         }
       ],
       "aliases": []
@@ -283,7 +283,7 @@
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.88362398 0.17366333 93.66977695)",
           "file": "tokens.css",
-          "line": 553
+          "line": 573
         }
       ],
       "aliases": []
@@ -298,19 +298,19 @@
           "context": ":root",
           "value": "oklch(0.76 0.12 250)",
           "file": "tokens.css",
-          "line": 804
+          "line": 833
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.5 0.14 255)",
           "file": "tokens.css",
-          "line": 831
+          "line": 860
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.5 0.14 255)",
           "file": "tokens.css",
-          "line": 858
+          "line": 887
         }
       ],
       "aliases": []
@@ -325,19 +325,19 @@
           "context": ":root",
           "value": "oklch(0.9 0.105 108)",
           "file": "tokens.css",
-          "line": 813
+          "line": 842
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.45 0.09 108)",
           "file": "tokens.css",
-          "line": 840
+          "line": 869
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.45 0.09 108)",
           "file": "tokens.css",
-          "line": 867
+          "line": 896
         }
       ],
       "aliases": []
@@ -352,19 +352,19 @@
           "context": ":root",
           "value": "oklch(0.87 0.065 52)",
           "file": "tokens.css",
-          "line": 814
+          "line": 843
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.42 0.105 52)",
           "file": "tokens.css",
-          "line": 841
+          "line": 870
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.42 0.105 52)",
           "file": "tokens.css",
-          "line": 868
+          "line": 897
         }
       ],
       "aliases": []
@@ -379,19 +379,19 @@
           "context": ":root",
           "value": "oklch(0.86 0.095 345)",
           "file": "tokens.css",
-          "line": 815
+          "line": 844
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.4 0.12 345)",
           "file": "tokens.css",
-          "line": 842
+          "line": 871
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.4 0.12 345)",
           "file": "tokens.css",
-          "line": 869
+          "line": 898
         }
       ],
       "aliases": []
@@ -406,19 +406,19 @@
           "context": ":root",
           "value": "oklch(0.56 0.12 250)",
           "file": "tokens.css",
-          "line": 816
+          "line": 845
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.64 0.14 255)",
           "file": "tokens.css",
-          "line": 843
+          "line": 872
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.64 0.14 255)",
           "file": "tokens.css",
-          "line": 870
+          "line": 899
         }
       ],
       "aliases": []
@@ -433,19 +433,19 @@
           "context": ":root",
           "value": "oklch(0.63 0.11 185)",
           "file": "tokens.css",
-          "line": 817
+          "line": 846
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.63 0.085 190)",
           "file": "tokens.css",
-          "line": 844
+          "line": 873
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.63 0.085 190)",
           "file": "tokens.css",
-          "line": 871
+          "line": 900
         }
       ],
       "aliases": []
@@ -460,19 +460,19 @@
           "context": ":root",
           "value": "oklch(0.55 0.14 135)",
           "file": "tokens.css",
-          "line": 818
+          "line": 847
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.62 0.13 140)",
           "file": "tokens.css",
-          "line": 845
+          "line": 874
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.62 0.13 140)",
           "file": "tokens.css",
-          "line": 872
+          "line": 901
         }
       ],
       "aliases": []
@@ -487,19 +487,19 @@
           "context": ":root",
           "value": "oklch(0.64 0.13 80)",
           "file": "tokens.css",
-          "line": 819
+          "line": 848
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.64 0.12 70)",
           "file": "tokens.css",
-          "line": 846
+          "line": 875
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.64 0.12 70)",
           "file": "tokens.css",
-          "line": 873
+          "line": 902
         }
       ],
       "aliases": []
@@ -514,19 +514,19 @@
           "context": ":root",
           "value": "oklch(0.58 0.14 25)",
           "file": "tokens.css",
-          "line": 820
+          "line": 849
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.64 0.17 25)",
           "file": "tokens.css",
-          "line": 847
+          "line": 876
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.64 0.17 25)",
           "file": "tokens.css",
-          "line": 874
+          "line": 903
         }
       ],
       "aliases": []
@@ -541,19 +541,19 @@
           "context": ":root",
           "value": "oklch(0.61 0.12 310)",
           "file": "tokens.css",
-          "line": 821
+          "line": 850
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.64 0.15 310)",
           "file": "tokens.css",
-          "line": 848
+          "line": 877
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.64 0.15 310)",
           "file": "tokens.css",
-          "line": 875
+          "line": 904
         }
       ],
       "aliases": []
@@ -568,19 +568,19 @@
           "context": ":root",
           "value": "oklch(0.67 0.065 280)",
           "file": "tokens.css",
-          "line": 822
+          "line": 851
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.58 0.12 280)",
           "file": "tokens.css",
-          "line": 849
+          "line": 878
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.58 0.12 280)",
           "file": "tokens.css",
-          "line": 876
+          "line": 905
         }
       ],
       "aliases": []
@@ -595,19 +595,19 @@
           "context": ":root",
           "value": "oklch(0.78 0.11 185)",
           "file": "tokens.css",
-          "line": 805
+          "line": 834
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.52 0.09 190)",
           "file": "tokens.css",
-          "line": 832
+          "line": 861
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.52 0.09 190)",
           "file": "tokens.css",
-          "line": 859
+          "line": 888
         }
       ],
       "aliases": []
@@ -622,19 +622,19 @@
           "context": ":root",
           "value": "oklch(0.7 0.085 215)",
           "file": "tokens.css",
-          "line": 823
+          "line": 852
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.58 0.075 215)",
           "file": "tokens.css",
-          "line": 850
+          "line": 879
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.58 0.075 215)",
           "file": "tokens.css",
-          "line": 877
+          "line": 906
         }
       ],
       "aliases": []
@@ -649,19 +649,19 @@
           "context": ":root",
           "value": "oklch(0.71 0.1 160)",
           "file": "tokens.css",
-          "line": 824
+          "line": 853
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.58 0.09 160)",
           "file": "tokens.css",
-          "line": 851
+          "line": 880
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.58 0.09 160)",
           "file": "tokens.css",
-          "line": 878
+          "line": 907
         }
       ],
       "aliases": []
@@ -676,19 +676,19 @@
           "context": ":root",
           "value": "oklch(0.73 0.105 108)",
           "file": "tokens.css",
-          "line": 825
+          "line": 854
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.59 0.09 108)",
           "file": "tokens.css",
-          "line": 852
+          "line": 881
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.59 0.09 108)",
           "file": "tokens.css",
-          "line": 879
+          "line": 908
         }
       ],
       "aliases": []
@@ -703,19 +703,19 @@
           "context": ":root",
           "value": "oklch(0.69 0.065 52)",
           "file": "tokens.css",
-          "line": 826
+          "line": 855
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.6 0.105 52)",
           "file": "tokens.css",
-          "line": 853
+          "line": 882
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.6 0.105 52)",
           "file": "tokens.css",
-          "line": 880
+          "line": 909
         }
       ],
       "aliases": []
@@ -730,19 +730,19 @@
           "context": ":root",
           "value": "oklch(0.68 0.095 345)",
           "file": "tokens.css",
-          "line": 827
+          "line": 856
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.58 0.12 345)",
           "file": "tokens.css",
-          "line": 854
+          "line": 883
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.58 0.12 345)",
           "file": "tokens.css",
-          "line": 881
+          "line": 910
         }
       ],
       "aliases": []
@@ -757,19 +757,19 @@
           "context": ":root",
           "value": "oklch(0.8 0.14 135)",
           "file": "tokens.css",
-          "line": 806
+          "line": 835
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.52 0.12 140)",
           "file": "tokens.css",
-          "line": 833
+          "line": 862
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.52 0.12 140)",
           "file": "tokens.css",
-          "line": 860
+          "line": 889
         }
       ],
       "aliases": []
@@ -784,19 +784,19 @@
           "context": ":root",
           "value": "oklch(0.82 0.13 80)",
           "file": "tokens.css",
-          "line": 807
+          "line": 836
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.56 0.12 70)",
           "file": "tokens.css",
-          "line": 834
+          "line": 863
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.56 0.12 70)",
           "file": "tokens.css",
-          "line": 861
+          "line": 890
         }
       ],
       "aliases": []
@@ -811,19 +811,19 @@
           "context": ":root",
           "value": "oklch(0.74 0.14 25)",
           "file": "tokens.css",
-          "line": 808
+          "line": 837
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.54 0.17 25)",
           "file": "tokens.css",
-          "line": 835
+          "line": 864
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.54 0.17 25)",
           "file": "tokens.css",
-          "line": 862
+          "line": 891
         }
       ],
       "aliases": []
@@ -838,19 +838,19 @@
           "context": ":root",
           "value": "oklch(0.74 0.12 310)",
           "file": "tokens.css",
-          "line": 809
+          "line": 838
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.5 0.15 310)",
           "file": "tokens.css",
-          "line": 836
+          "line": 865
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.5 0.15 310)",
           "file": "tokens.css",
-          "line": 863
+          "line": 892
         }
       ],
       "aliases": []
@@ -865,19 +865,19 @@
           "context": ":root",
           "value": "oklch(0.84 0.065 280)",
           "file": "tokens.css",
-          "line": 810
+          "line": 839
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.38 0.12 280)",
           "file": "tokens.css",
-          "line": 837
+          "line": 866
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.38 0.12 280)",
           "file": "tokens.css",
-          "line": 864
+          "line": 893
         }
       ],
       "aliases": []
@@ -892,19 +892,19 @@
           "context": ":root",
           "value": "oklch(0.88 0.085 215)",
           "file": "tokens.css",
-          "line": 811
+          "line": 840
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.44 0.075 215)",
           "file": "tokens.css",
-          "line": 838
+          "line": 867
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.44 0.075 215)",
           "file": "tokens.css",
-          "line": 865
+          "line": 894
         }
       ],
       "aliases": []
@@ -919,19 +919,19 @@
           "context": ":root",
           "value": "oklch(0.92 0.1 160)",
           "file": "tokens.css",
-          "line": 812
+          "line": 841
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.4 0.09 160)",
           "file": "tokens.css",
-          "line": 839
+          "line": 868
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.4 0.09 160)",
           "file": "tokens.css",
-          "line": 866
+          "line": 895
         }
       ],
       "aliases": []
@@ -976,7 +976,7 @@
           "context": ":root",
           "value": "var(--surf-brand-ink)",
           "file": "tokens.css",
-          "line": 791
+          "line": 820
         }
       ],
       "aliases": [
@@ -993,7 +993,7 @@
           "context": ":root",
           "value": "var(--surf-ink-body)",
           "file": "tokens.css",
-          "line": 792
+          "line": 821
         }
       ],
       "aliases": [
@@ -1010,7 +1010,7 @@
           "context": ":root",
           "value": "var(--surf-ink-muted)",
           "file": "tokens.css",
-          "line": 793
+          "line": 822
         }
       ],
       "aliases": [
@@ -1039,7 +1039,7 @@
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.9781762 0.0034179 247.8580546)",
           "file": "tokens.css",
-          "line": 528
+          "line": 548
         }
       ],
       "aliases": []
@@ -1066,7 +1066,7 @@
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.95972296 0.00515149 247.87778139)",
           "file": "tokens.css",
-          "line": 531
+          "line": 551
         }
       ],
       "aliases": []
@@ -1087,7 +1087,7 @@
           "context": "@media (max-width: 760px) / :root",
           "value": "var(--surf-space-3)",
           "file": "tokens.css",
-          "line": 517
+          "line": 537
         }
       ],
       "aliases": [
@@ -1111,13 +1111,13 @@
           "context": ":root[data-theme=\"light\"]",
           "value": "var(--surf-canvas)",
           "file": "tokens.css",
-          "line": 453
+          "line": 473
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "var(--surf-canvas)",
           "file": "tokens.css",
-          "line": 638
+          "line": 667
         }
       ],
       "aliases": [
@@ -1152,7 +1152,7 @@
           "context": ":root",
           "value": "oklch(from color-mix(in srgb, var(--surf-ink-muted) 60%, var(--surf-line)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 677
+          "line": 706
         }
       ],
       "aliases": [
@@ -1170,7 +1170,7 @@
           "context": ":root",
           "value": "oklch(from color-mix(in srgb, var(--surf-ink-muted) 75%, var(--surf-line)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 681
+          "line": 710
         }
       ],
       "aliases": [
@@ -1188,7 +1188,7 @@
           "context": ":root",
           "value": "var(--surf-radius-sm)",
           "file": "tokens.css",
-          "line": 676
+          "line": 705
         }
       ],
       "aliases": [
@@ -1205,7 +1205,7 @@
           "context": ":root",
           "value": "var(--surf-brand)",
           "file": "tokens.css",
-          "line": 685
+          "line": 714
         }
       ],
       "aliases": [
@@ -1222,7 +1222,7 @@
           "context": ":root",
           "value": "oklch(from color-mix(in srgb, var(--surf-control-choice-selected-bg) 54%, var(--surf-control-choice-selected-fg)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 691
+          "line": 720
         }
       ],
       "aliases": [
@@ -1240,7 +1240,7 @@
           "context": ":root",
           "value": "var(--surf-on-brand)",
           "file": "tokens.css",
-          "line": 700
+          "line": 729
         }
       ],
       "aliases": [
@@ -1257,7 +1257,7 @@
           "context": ":root",
           "value": "color-mix(in oklch, var(--surf-brand) 90%, var(--surf-on-brand))",
           "file": "tokens.css",
-          "line": 686
+          "line": 715
         }
       ],
       "aliases": [
@@ -1275,7 +1275,7 @@
           "context": ":root",
           "value": "20px",
           "file": "tokens.css",
-          "line": 674
+          "line": 703
         }
       ],
       "aliases": []
@@ -1356,7 +1356,7 @@
           "context": ":root",
           "value": "oklch(from color-mix(in srgb, var(--surf-control-focus) 20%, var(--surf-canvas)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 445
+          "line": 465
         }
       ],
       "aliases": [
@@ -1395,7 +1395,7 @@
           "context": "@media (max-width: 760px), (pointer: coarse) / :root",
           "value": "var(--surf-control-target-size)",
           "file": "tokens.css",
-          "line": 459
+          "line": 479
         }
       ],
       "aliases": [
@@ -1525,7 +1525,7 @@
           "context": ":root",
           "value": "22px",
           "file": "tokens.css",
-          "line": 702
+          "line": 731
         }
       ],
       "aliases": []
@@ -1540,7 +1540,7 @@
           "context": ":root",
           "value": "14px",
           "file": "tokens.css",
-          "line": 703
+          "line": 732
         }
       ],
       "aliases": []
@@ -1555,7 +1555,7 @@
           "context": ":root",
           "value": "36px",
           "file": "tokens.css",
-          "line": 701
+          "line": 730
         }
       ],
       "aliases": []
@@ -1606,7 +1606,7 @@
           "context": "@media (max-width: 760px), (pointer: coarse) / :root",
           "value": "16px",
           "file": "tokens.css",
-          "line": 460
+          "line": 480
         }
       ],
       "aliases": []
@@ -1633,7 +1633,7 @@
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.64886666 0.23697091 26.97276512)",
           "file": "tokens.css",
-          "line": 554
+          "line": 574
         }
       ],
       "aliases": []
@@ -1648,7 +1648,7 @@
           "context": ":root",
           "value": "var(--surf-motion-enter)",
           "file": "tokens.css",
-          "line": 663
+          "line": 692
         }
       ],
       "aliases": [
@@ -1665,7 +1665,7 @@
           "context": ":root",
           "value": "8px",
           "file": "tokens.css",
-          "line": 664
+          "line": 693
         }
       ],
       "aliases": []
@@ -1680,7 +1680,7 @@
           "context": ":root",
           "value": "0ms",
           "file": "tokens.css",
-          "line": 665
+          "line": 694
         }
       ],
       "aliases": []
@@ -1898,7 +1898,7 @@
           "context": ":root",
           "value": "var(--surf-font-code)",
           "file": "tokens.css",
-          "line": 645
+          "line": 674
         }
       ],
       "aliases": [
@@ -1972,7 +1972,7 @@
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.93531009 0.01353396 240.96010253)",
           "file": "tokens.css",
-          "line": 562
+          "line": 582
         }
       ],
       "aliases": []
@@ -2014,7 +2014,7 @@
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.95972296 0.00515149 247.87778139)",
           "file": "tokens.css",
-          "line": 559
+          "line": 579
         }
       ],
       "aliases": []
@@ -2041,7 +2041,7 @@
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.91321146 0.017061 242.44074644)",
           "file": "tokens.css",
-          "line": 565
+          "line": 585
         }
       ],
       "aliases": []
@@ -2068,7 +2068,7 @@
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.95972296 0.00515149 247.87778139)",
           "file": "tokens.css",
-          "line": 532
+          "line": 552
         }
       ],
       "aliases": []
@@ -2110,7 +2110,7 @@
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.72 0.13 255)",
           "file": "tokens.css",
-          "line": 555
+          "line": 575
         }
       ],
       "aliases": []
@@ -2137,7 +2137,7 @@
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.2368845 0.00973297 248.23792711)",
           "file": "tokens.css",
-          "line": 538
+          "line": 558
         }
       ],
       "aliases": []
@@ -2164,7 +2164,7 @@
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.27850211 0.01320057 253.03643104)",
           "file": "tokens.css",
-          "line": 537
+          "line": 557
         }
       ],
       "aliases": []
@@ -2191,7 +2191,7 @@
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.37866351 0.01730498 248.2836448)",
           "file": "tokens.css",
-          "line": 536
+          "line": 556
         }
       ],
       "aliases": []
@@ -2206,7 +2206,7 @@
           "context": ":root",
           "value": "oklch(from var(--surf-ink) l c h / 0.14)",
           "file": "tokens.css",
-          "line": 349
+          "line": 364
         }
       ],
       "aliases": [
@@ -2223,7 +2223,7 @@
           "context": ":root",
           "value": "var(--surf-brand-ink)",
           "file": "tokens.css",
-          "line": 350
+          "line": 365
         }
       ],
       "aliases": [
@@ -2240,7 +2240,7 @@
           "context": ":root",
           "value": "oklch(from var(--surf-ink) l c h / 0.08)",
           "file": "tokens.css",
-          "line": 347
+          "line": 362
         }
       ],
       "aliases": [
@@ -2257,7 +2257,7 @@
           "context": ":root",
           "value": "1090",
           "file": "tokens.css",
-          "line": 652
+          "line": 681
         }
       ],
       "aliases": []
@@ -2272,7 +2272,7 @@
           "context": ":root",
           "value": "1000",
           "file": "tokens.css",
-          "line": 651
+          "line": 680
         }
       ],
       "aliases": []
@@ -2287,7 +2287,7 @@
           "context": ":root",
           "value": "1100",
           "file": "tokens.css",
-          "line": 653
+          "line": 682
         }
       ],
       "aliases": []
@@ -2302,7 +2302,7 @@
           "context": ":root",
           "value": "1200",
           "file": "tokens.css",
-          "line": 654
+          "line": 683
         }
       ],
       "aliases": []
@@ -2317,7 +2317,7 @@
           "context": ":root",
           "value": "1300",
           "file": "tokens.css",
-          "line": 655
+          "line": 684
         }
       ],
       "aliases": []
@@ -2625,7 +2625,7 @@
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.93531009 0.01353396 240.96010253)",
           "file": "tokens.css",
-          "line": 534
+          "line": 554
         }
       ],
       "aliases": []
@@ -2655,7 +2655,7 @@
           "context": ":root",
           "value": "var(--surf-canvas)",
           "file": "tokens.css",
-          "line": 439
+          "line": 459
         }
       ],
       "aliases": [
@@ -2672,7 +2672,7 @@
           "context": ":root",
           "value": "var(--surf-line)",
           "file": "tokens.css",
-          "line": 440
+          "line": 460
         }
       ],
       "aliases": [
@@ -2689,7 +2689,7 @@
           "context": ":root",
           "value": "var(--surf-surface)",
           "file": "tokens.css",
-          "line": 442
+          "line": 462
         }
       ],
       "aliases": [
@@ -2706,7 +2706,7 @@
           "context": ":root",
           "value": "var(--surf-selected)",
           "file": "tokens.css",
-          "line": 444
+          "line": 464
         }
       ],
       "aliases": [
@@ -2723,7 +2723,7 @@
           "context": ":root",
           "value": "var(--surf-ease-out)",
           "file": "tokens.css",
-          "line": 473
+          "line": 493
         }
       ],
       "aliases": [
@@ -2740,7 +2740,7 @@
           "context": ":root",
           "value": "var(--surf-duration-base)",
           "file": "tokens.css",
-          "line": 470
+          "line": 490
         }
       ],
       "aliases": [
@@ -2757,7 +2757,7 @@
           "context": ":root",
           "value": "100ms",
           "file": "tokens.css",
-          "line": 472
+          "line": 492
         }
       ],
       "aliases": []
@@ -2772,7 +2772,7 @@
           "context": ":root",
           "value": "var(--surf-duration-fast)",
           "file": "tokens.css",
-          "line": 468
+          "line": 488
         }
       ],
       "aliases": [
@@ -2789,7 +2789,7 @@
           "context": ":root",
           "value": "4px",
           "file": "tokens.css",
-          "line": 476
+          "line": 496
         }
       ],
       "aliases": []
@@ -2804,7 +2804,7 @@
           "context": ":root",
           "value": "1.4s",
           "file": "tokens.css",
-          "line": 479
+          "line": 499
         }
       ],
       "aliases": []
@@ -2819,7 +2819,7 @@
           "context": ":root",
           "value": "160ms",
           "file": "tokens.css",
-          "line": 469
+          "line": 489
         }
       ],
       "aliases": []
@@ -2834,7 +2834,7 @@
           "context": ":root",
           "value": "cubic-bezier(0.16, 1, 0.3, 1)",
           "file": "tokens.css",
-          "line": 474
+          "line": 494
         }
       ],
       "aliases": []
@@ -2849,7 +2849,7 @@
           "context": ":root",
           "value": "1s",
           "file": "tokens.css",
-          "line": 478
+          "line": 498
         }
       ],
       "aliases": []
@@ -2876,7 +2876,7 @@
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.2368845 0.00973297 248.23792711)",
           "file": "tokens.css",
-          "line": 544
+          "line": 564
         }
       ],
       "aliases": []
@@ -3049,13 +3049,13 @@
           "context": ":root",
           "value": "6px",
           "file": "tokens.css",
-          "line": 496
+          "line": 516
         },
         {
           "context": "@media (hover: none) and (pointer: coarse) / :root",
           "value": "3px",
           "file": "tokens.css",
-          "line": 509
+          "line": 529
         }
       ],
       "aliases": []
@@ -3070,7 +3070,7 @@
           "context": ":root",
           "value": "var(--surf-radius-full)",
           "file": "tokens.css",
-          "line": 497
+          "line": 517
         }
       ],
       "aliases": [
@@ -3087,7 +3087,7 @@
           "context": ":root",
           "value": "8px",
           "file": "tokens.css",
-          "line": 493
+          "line": 513
         }
       ],
       "aliases": []
@@ -3102,7 +3102,7 @@
           "context": ":root",
           "value": "oklch(from color-mix(in srgb, var(--surf-ink-muted) 60%, var(--surf-canvas)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 499
+          "line": 519
         }
       ],
       "aliases": [
@@ -3120,7 +3120,7 @@
           "context": ":root",
           "value": "var(--surf-ink-muted)",
           "file": "tokens.css",
-          "line": 503
+          "line": 523
         }
       ],
       "aliases": [
@@ -3137,7 +3137,7 @@
           "context": ":root",
           "value": "oklch(0 0 0 / 0)",
           "file": "tokens.css",
-          "line": 498
+          "line": 518
         }
       ],
       "aliases": []
@@ -3164,7 +3164,7 @@
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.93531009 0.01353396 240.96010253)",
           "file": "tokens.css",
-          "line": 533
+          "line": 553
         }
       ],
       "aliases": []
@@ -3179,7 +3179,7 @@
           "context": ":root",
           "value": "color-mix(in oklch, var(--surf-interaction-focus) 65%, var(--surf-selected))",
           "file": "tokens.css",
-          "line": 354
+          "line": 369
         }
       ],
       "aliases": [
@@ -3197,19 +3197,19 @@
           "context": ":root",
           "value": "oklch(from var(--surf-selected) 0.48 c h)",
           "file": "tokens.css",
-          "line": 719
+          "line": 748
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(from var(--surf-selected) 0.8 c h)",
           "file": "tokens.css",
-          "line": 724
+          "line": 753
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(from var(--surf-selected) 0.8 c h)",
           "file": "tokens.css",
-          "line": 728
+          "line": 757
         }
       ],
       "aliases": [
@@ -3226,7 +3226,7 @@
           "context": ":root",
           "value": "var(--surf-ink)",
           "file": "tokens.css",
-          "line": 720
+          "line": 749
         }
       ],
       "aliases": [
@@ -3255,7 +3255,7 @@
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "0 12px 32px -8px oklch(0.2368845 0.00973297 248.23792711 / 0.18)",
           "file": "tokens.css",
-          "line": 570
+          "line": 590
         }
       ],
       "aliases": []
@@ -3282,7 +3282,7 @@
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "0 1px 2px oklch(0.2368845 0.00973297 248.23792711 / 0.05), 0 10px 28px -14px oklch(0.2368845 0.00973297 248.23792711 / 0.14)",
           "file": "tokens.css",
-          "line": 567
+          "line": 587
         }
       ],
       "aliases": []
@@ -4902,7 +4902,7 @@
           "context": ":root",
           "value": "oklch(from color-mix(in srgb, var(--surf-ink-muted) 14%, var(--surf-canvas)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 480
+          "line": 500
         }
       ],
       "aliases": [
@@ -4920,7 +4920,7 @@
           "context": ":root",
           "value": "oklch(from color-mix(in srgb, var(--surf-ink-muted) 24%, var(--surf-canvas)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 484
+          "line": 504
         }
       ],
       "aliases": [
@@ -4938,19 +4938,19 @@
           "context": ":root",
           "value": "var(--surf-surface)",
           "file": "tokens.css",
-          "line": 364
+          "line": 379
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "var(--surf-surface)",
           "file": "tokens.css",
-          "line": 369
+          "line": 384
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "var(--surf-surface)",
           "file": "tokens.css",
-          "line": 526
+          "line": 546
         }
       ],
       "aliases": [
@@ -5147,7 +5147,7 @@
           "context": ":root",
           "value": "var(--surf-space-1)",
           "file": "tokens.css",
-          "line": 709
+          "line": 738
         }
       ],
       "aliases": [
@@ -5170,13 +5170,13 @@
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(from color-mix(in srgb, var(--surf-caution) 12%, var(--surf-canvas)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 398
+          "line": 413
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(from color-mix(in srgb, var(--surf-caution) 12%, var(--surf-canvas)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 601
+          "line": 621
         }
       ],
       "aliases": [
@@ -5200,13 +5200,13 @@
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(from color-mix(in srgb, var(--surf-caution) 45%, var(--surf-line)) 0.64 c h / alpha)",
           "file": "tokens.css",
-          "line": 402
+          "line": 417
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(from color-mix(in srgb, var(--surf-caution) 45%, var(--surf-line)) 0.64 c h / alpha)",
           "file": "tokens.css",
-          "line": 605
+          "line": 625
         }
       ],
       "aliases": [
@@ -5231,18 +5231,47 @@
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(from color-mix(in srgb, var(--surf-caution) 25%, var(--surf-ink)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 394
+          "line": 409
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(from color-mix(in srgb, var(--surf-caution) 25%, var(--surf-ink)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 597
+          "line": 617
         }
       ],
       "aliases": [
         "--surf-caution",
         "--surf-ink"
+      ]
+    },
+    {
+      "name": "--surf-status-caution-mark",
+      "category": "Status",
+      "type": "color",
+      "description": "A caution mark without words, such as a dot: 3:1 on every plane",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(from var(--surf-caution) max(l, 0.72) c h)",
+          "file": "tokens.css",
+          "line": 338
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(from var(--surf-caution) min(l, 0.6) c h)",
+          "file": "tokens.css",
+          "line": 435
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
+          "value": "oklch(from var(--surf-caution) min(l, 0.6) c h)",
+          "file": "tokens.css",
+          "line": 645
+        }
+      ],
+      "aliases": [
+        "--surf-caution"
       ]
     },
     {
@@ -5261,13 +5290,13 @@
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(from color-mix(in srgb, var(--surf-danger) 5%, var(--surf-canvas)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 386
+          "line": 401
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(from color-mix(in srgb, var(--surf-danger) 5%, var(--surf-canvas)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 589
+          "line": 609
         }
       ],
       "aliases": [
@@ -5291,13 +5320,13 @@
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(from color-mix(in srgb, var(--surf-danger) 30%, var(--surf-line)) 0.64 c h / alpha)",
           "file": "tokens.css",
-          "line": 390
+          "line": 405
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(from color-mix(in srgb, var(--surf-danger) 30%, var(--surf-line)) 0.64 c h / alpha)",
           "file": "tokens.css",
-          "line": 593
+          "line": 613
         }
       ],
       "aliases": [
@@ -5322,18 +5351,47 @@
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(from color-mix(in srgb, var(--surf-danger) 65%, var(--surf-ink)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 382
+          "line": 397
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(from color-mix(in srgb, var(--surf-danger) 65%, var(--surf-ink)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 585
+          "line": 605
         }
       ],
       "aliases": [
         "--surf-danger",
         "--surf-ink"
+      ]
+    },
+    {
+      "name": "--surf-status-danger-mark",
+      "category": "Status",
+      "type": "color",
+      "description": "A danger mark without words, such as a dot: 3:1 on every plane",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(from var(--surf-danger) max(l, 0.72) c h)",
+          "file": "tokens.css",
+          "line": 337
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(from var(--surf-danger) min(l, 0.6) c h)",
+          "file": "tokens.css",
+          "line": 434
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
+          "value": "oklch(from var(--surf-danger) min(l, 0.6) c h)",
+          "file": "tokens.css",
+          "line": 644
+        }
+      ],
+      "aliases": [
+        "--surf-danger"
       ]
     },
     {
@@ -5346,7 +5404,7 @@
           "context": ":root",
           "value": "8px",
           "file": "tokens.css",
-          "line": 710
+          "line": 739
         }
       ],
       "aliases": []
@@ -5367,13 +5425,13 @@
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(from color-mix(in srgb, var(--surf-info) 8%, var(--surf-canvas)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 410
+          "line": 425
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(from color-mix(in srgb, var(--surf-info) 8%, var(--surf-canvas)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 613
+          "line": 633
         }
       ],
       "aliases": [
@@ -5397,13 +5455,13 @@
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(from color-mix(in srgb, var(--surf-info) 30%, var(--surf-line)) 0.64 c h / alpha)",
           "file": "tokens.css",
-          "line": 414
+          "line": 429
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(from color-mix(in srgb, var(--surf-info) 30%, var(--surf-line)) 0.64 c h / alpha)",
           "file": "tokens.css",
-          "line": 617
+          "line": 637
         }
       ],
       "aliases": [
@@ -5428,18 +5486,47 @@
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(from color-mix(in srgb, var(--surf-info) 45%, var(--surf-ink)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 406
+          "line": 421
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(from color-mix(in srgb, var(--surf-info) 45%, var(--surf-ink)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 609
+          "line": 629
         }
       ],
       "aliases": [
         "--surf-info",
         "--surf-ink"
+      ]
+    },
+    {
+      "name": "--surf-status-info-mark",
+      "category": "Status",
+      "type": "color",
+      "description": "An info mark without words, such as a dot: 3:1 on every plane",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(from var(--surf-info) max(l, 0.72) c h)",
+          "file": "tokens.css",
+          "line": 341
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(from var(--surf-info) min(l, 0.6) c h)",
+          "file": "tokens.css",
+          "line": 436
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
+          "value": "oklch(from var(--surf-info) min(l, 0.6) c h)",
+          "file": "tokens.css",
+          "line": 648
+        }
+      ],
+      "aliases": [
+        "--surf-info"
       ]
     },
     {
@@ -5487,6 +5574,35 @@
           "value": "var(--surf-ink-muted)",
           "file": "tokens.css",
           "line": 314
+        }
+      ],
+      "aliases": [
+        "--surf-ink-muted"
+      ]
+    },
+    {
+      "name": "--surf-status-neutral-mark",
+      "category": "Status",
+      "type": "color",
+      "description": "A mark for a resting state, such as an idle dot: muted ink",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(from var(--surf-ink-muted) 0.72 c h)",
+          "file": "tokens.css",
+          "line": 343
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(from var(--surf-ink-muted) 0.6 c h)",
+          "file": "tokens.css",
+          "line": 437
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
+          "value": "oklch(from var(--surf-ink-muted) 0.6 c h)",
+          "file": "tokens.css",
+          "line": 649
         }
       ],
       "aliases": [
@@ -5545,6 +5661,23 @@
       ]
     },
     {
+      "name": "--surf-status-progress-mark",
+      "category": "Status",
+      "type": "color",
+      "description": "A mark for what is under way, such as a working dot: the brand mark",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "var(--surf-brand-mark)",
+          "file": "tokens.css",
+          "line": 342
+        }
+      ],
+      "aliases": [
+        "--surf-brand-mark"
+      ]
+    },
+    {
       "name": "--surf-status-success-bg",
       "category": "Status",
       "type": "color",
@@ -5560,13 +5693,13 @@
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(from color-mix(in srgb, var(--surf-success) 9%, var(--surf-canvas)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 374
+          "line": 389
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(from color-mix(in srgb, var(--surf-success) 9%, var(--surf-canvas)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 577
+          "line": 597
         }
       ],
       "aliases": [
@@ -5590,13 +5723,13 @@
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(from color-mix(in srgb, var(--surf-success) 25%, var(--surf-line)) 0.64 c h / alpha)",
           "file": "tokens.css",
-          "line": 378
+          "line": 393
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(from color-mix(in srgb, var(--surf-success) 25%, var(--surf-line)) 0.64 c h / alpha)",
           "file": "tokens.css",
-          "line": 581
+          "line": 601
         }
       ],
       "aliases": [
@@ -5621,18 +5754,47 @@
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(from color-mix(in srgb, var(--surf-success) 25%, var(--surf-ink)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 370
+          "line": 385
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(from color-mix(in srgb, var(--surf-success) 25%, var(--surf-ink)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 573
+          "line": 593
         }
       ],
       "aliases": [
         "--surf-success",
         "--surf-ink"
+      ]
+    },
+    {
+      "name": "--surf-status-success-mark",
+      "category": "Status",
+      "type": "color",
+      "description": "A success mark without words, such as a dot: 3:1 on every plane",
+      "variants": [
+        {
+          "context": ":root",
+          "value": "oklch(from var(--surf-success) max(l, 0.72) c h)",
+          "file": "tokens.css",
+          "line": 334
+        },
+        {
+          "context": ":root[data-theme=\"light\"]",
+          "value": "oklch(from var(--surf-success) min(l, 0.6) c h)",
+          "file": "tokens.css",
+          "line": 433
+        },
+        {
+          "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
+          "value": "oklch(from var(--surf-success) min(l, 0.6) c h)",
+          "file": "tokens.css",
+          "line": 641
+        }
+      ],
+      "aliases": [
+        "--surf-success"
       ]
     },
     {
@@ -5657,7 +5819,7 @@
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.74 0.15 155)",
           "file": "tokens.css",
-          "line": 549
+          "line": 569
         }
       ],
       "aliases": []
@@ -5684,7 +5846,7 @@
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.9781762 0.0034179 247.8580546)",
           "file": "tokens.css",
-          "line": 530
+          "line": 550
         }
       ],
       "aliases": []
@@ -5699,7 +5861,7 @@
           "context": ":root",
           "value": "var(--surf-syntax-plain)",
           "file": "tokens.css",
-          "line": 897
+          "line": 926
         }
       ],
       "aliases": [
@@ -5716,19 +5878,19 @@
           "context": ":root",
           "value": "oklch(0.7 0.012 250)",
           "file": "tokens.css",
-          "line": 891
+          "line": 920
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.47 0.012 250)",
           "file": "tokens.css",
-          "line": 902
+          "line": 931
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.47 0.012 250)",
           "file": "tokens.css",
-          "line": 910
+          "line": 939
         }
       ],
       "aliases": []
@@ -5743,19 +5905,19 @@
           "context": ":root",
           "value": "oklch(0.81 0.075 245)",
           "file": "tokens.css",
-          "line": 895
+          "line": 924
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.44 0.075 245)",
           "file": "tokens.css",
-          "line": 906
+          "line": 935
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.44 0.075 245)",
           "file": "tokens.css",
-          "line": 914
+          "line": 943
         }
       ],
       "aliases": []
@@ -5770,19 +5932,19 @@
           "context": ":root",
           "value": "oklch(0.78 0.08 295)",
           "file": "tokens.css",
-          "line": 892
+          "line": 921
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.43 0.08 295)",
           "file": "tokens.css",
-          "line": 903
+          "line": 932
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.43 0.08 295)",
           "file": "tokens.css",
-          "line": 911
+          "line": 940
         }
       ],
       "aliases": []
@@ -5797,19 +5959,19 @@
           "context": ":root",
           "value": "oklch(0.82 0.075 80)",
           "file": "tokens.css",
-          "line": 894
+          "line": 923
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.43 0.075 80)",
           "file": "tokens.css",
-          "line": 905
+          "line": 934
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.43 0.075 80)",
           "file": "tokens.css",
-          "line": 913
+          "line": 942
         }
       ],
       "aliases": []
@@ -5824,7 +5986,7 @@
           "context": ":root",
           "value": "var(--surf-ink-body)",
           "file": "tokens.css",
-          "line": 890
+          "line": 919
         }
       ],
       "aliases": [
@@ -5841,7 +6003,7 @@
           "context": ":root",
           "value": "var(--surf-syntax-comment)",
           "file": "tokens.css",
-          "line": 898
+          "line": 927
         }
       ],
       "aliases": [
@@ -5858,19 +6020,19 @@
           "context": ":root",
           "value": "oklch(0.8 0.065 150)",
           "file": "tokens.css",
-          "line": 893
+          "line": 922
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(0.43 0.065 150)",
           "file": "tokens.css",
-          "line": 904
+          "line": 933
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.43 0.065 150)",
           "file": "tokens.css",
-          "line": 912
+          "line": 941
         }
       ],
       "aliases": []
@@ -5885,7 +6047,7 @@
           "context": ":root",
           "value": "var(--surf-syntax-function)",
           "file": "tokens.css",
-          "line": 896
+          "line": 925
         }
       ],
       "aliases": [
@@ -5936,7 +6098,7 @@
           "context": ":root",
           "value": "320ms",
           "file": "tokens.css",
-          "line": 666
+          "line": 695
         }
       ],
       "aliases": []
@@ -5951,7 +6113,7 @@
           "context": ":root",
           "value": "var(--surf-duration-slow)",
           "file": "tokens.css",
-          "line": 667
+          "line": 696
         }
       ],
       "aliases": [
@@ -5968,7 +6130,7 @@
           "context": ":root",
           "value": "cubic-bezier(0.22, 0.61, 0.36, 1)",
           "file": "tokens.css",
-          "line": 668
+          "line": 697
         }
       ],
       "aliases": []
@@ -5983,7 +6145,7 @@
           "context": ":root",
           "value": "var(--surf-ink)",
           "file": "tokens.css",
-          "line": 656
+          "line": 685
         }
       ],
       "aliases": [
@@ -6000,7 +6162,7 @@
           "context": ":root",
           "value": "var(--surf-canvas)",
           "file": "tokens.css",
-          "line": 657
+          "line": 686
         }
       ],
       "aliases": [
@@ -6059,7 +6221,7 @@
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "var(--surf-danger)",
           "file": "tokens.css",
-          "line": 557
+          "line": 577
         }
       ],
       "aliases": [
@@ -6076,19 +6238,19 @@
           "context": ":root",
           "value": "oklch(from color-mix(in srgb, var(--surf-trend-down) 10%, var(--surf-canvas)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 338
+          "line": 353
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(from color-mix(in srgb, var(--surf-trend-down) 5%, var(--surf-canvas)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 430
+          "line": 450
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(from color-mix(in srgb, var(--surf-trend-down) 5%, var(--surf-canvas)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 633
+          "line": 662
         }
       ],
       "aliases": [
@@ -6106,19 +6268,19 @@
           "context": ":root",
           "value": "oklch(from color-mix(in srgb, var(--surf-trend-down) 48%, var(--surf-ink)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 334
+          "line": 349
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(from color-mix(in srgb, var(--surf-trend-down) 65%, var(--surf-ink)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 426
+          "line": 446
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(from color-mix(in srgb, var(--surf-trend-down) 65%, var(--surf-ink)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 629
+          "line": 658
         }
       ],
       "aliases": [
@@ -6136,7 +6298,7 @@
           "context": ":root",
           "value": "var(--surf-ink-muted)",
           "file": "tokens.css",
-          "line": 342
+          "line": 357
         }
       ],
       "aliases": [
@@ -6165,7 +6327,7 @@
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(0.74 0.15 155)",
           "file": "tokens.css",
-          "line": 556
+          "line": 576
         }
       ],
       "aliases": []
@@ -6180,19 +6342,19 @@
           "context": ":root",
           "value": "oklch(from color-mix(in srgb, var(--surf-trend-up) 10%, var(--surf-canvas)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 330
+          "line": 345
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(from color-mix(in srgb, var(--surf-trend-up) 8%, var(--surf-canvas)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 422
+          "line": 442
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(from color-mix(in srgb, var(--surf-trend-up) 8%, var(--surf-canvas)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 625
+          "line": 654
         }
       ],
       "aliases": [
@@ -6210,19 +6372,19 @@
           "context": ":root",
           "value": "var(--surf-trend-up)",
           "file": "tokens.css",
-          "line": 329
+          "line": 344
         },
         {
           "context": ":root[data-theme=\"light\"]",
           "value": "oklch(from color-mix(in srgb, var(--surf-trend-up) 55%, var(--surf-ink)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 418
+          "line": 438
         },
         {
           "context": "@media (prefers-color-scheme: light) / :root:not([data-theme=\"dark\"]):not([data-theme=\"light\"])",
           "value": "oklch(from color-mix(in srgb, var(--surf-trend-up) 55%, var(--surf-ink)) l c h / alpha)",
           "file": "tokens.css",
-          "line": 621
+          "line": 650
         }
       ],
       "aliases": [

@@ -326,6 +326,21 @@
       from color-mix(in srgb, var(--surf-info) 35%, var(--surf-canvas)) 0.61 c
         h / alpha
     );
+    /* A status mark without words, such as a dot or an avatar's marker: the tone's
+       base, at least 0.72 light on a dark plane and at most 0.6 on a light one, so
+       it keeps 3:1 on the sheet, on a card and beside a selected fill, and its hue
+       carries the tone. Progress takes the brand mark, the accent for what is under
+       way; neutral is muted ink at the floor's lightness, the quietest of them. */
+    --surf-status-success-mark: oklch(
+      from var(--surf-success) max(l, 0.72) c h
+    );
+    --surf-status-danger-mark: oklch(from var(--surf-danger) max(l, 0.72) c h);
+    --surf-status-caution-mark: oklch(
+      from var(--surf-caution) max(l, 0.72) c h
+    );
+    --surf-status-info-mark: oklch(from var(--surf-info) max(l, 0.72) c h);
+    --surf-status-progress-mark: var(--surf-brand-mark);
+    --surf-status-neutral-mark: oklch(from var(--surf-ink-muted) 0.72 c h);
     --surf-trend-up-fg: var(--surf-trend-up);
     --surf-trend-up-bg: oklch(
       from color-mix(in srgb, var(--surf-trend-up) 10%, var(--surf-canvas)) l c
@@ -415,6 +430,11 @@
       from color-mix(in srgb, var(--surf-info) 30%, var(--surf-line)) 0.64 c h /
         alpha
     );
+    --surf-status-success-mark: oklch(from var(--surf-success) min(l, 0.6) c h);
+    --surf-status-danger-mark: oklch(from var(--surf-danger) min(l, 0.6) c h);
+    --surf-status-caution-mark: oklch(from var(--surf-caution) min(l, 0.6) c h);
+    --surf-status-info-mark: oklch(from var(--surf-info) min(l, 0.6) c h);
+    --surf-status-neutral-mark: oklch(from var(--surf-ink-muted) 0.6 c h);
     --surf-trend-up-fg: oklch(
       from color-mix(in srgb, var(--surf-trend-up) 55%, var(--surf-ink)) l c h /
         alpha
@@ -618,6 +638,15 @@
         from color-mix(in srgb, var(--surf-info) 30%, var(--surf-line)) 0.64 c
           h / alpha
       );
+      --surf-status-success-mark: oklch(
+        from var(--surf-success) min(l, 0.6) c h
+      );
+      --surf-status-danger-mark: oklch(from var(--surf-danger) min(l, 0.6) c h);
+      --surf-status-caution-mark: oklch(
+        from var(--surf-caution) min(l, 0.6) c h
+      );
+      --surf-status-info-mark: oklch(from var(--surf-info) min(l, 0.6) c h);
+      --surf-status-neutral-mark: oklch(from var(--surf-ink-muted) 0.6 c h);
       --surf-trend-up-fg: oklch(
         from color-mix(in srgb, var(--surf-trend-up) 55%, var(--surf-ink)) l c
           h / alpha
