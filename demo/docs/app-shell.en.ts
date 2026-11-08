@@ -3,10 +3,10 @@ export const doc: ComponentDoc = {
   usage: [
     'Use the workspace layout to pair main content with a sidebar that holds a brand, a collapse toggle, and an account at the bottom. For documentation sites that need a global top rail, use the default header layout.',
     'AppShell provides the layout and native link styles; the caller owns routes and account. A ThemeSwitch in the sidebar is a row like the links, its name a tooltip on the rail. The shell keeps the collapsed state itself: SidebarToggle collapses the sidebar, ⌘B (Ctrl+B elsewhere) does too outside text fields, persist remembers the state in localStorage, and on the rail each Link shows its name as a tooltip. Pass collapsed and onCollapsedChange to control the state, or read a cookie into defaultCollapsed so a server-rendered first paint is right.',
-    "The workspace sidebar collapses from 224px to 72px, and icons keep their positions. Brand is its top row: it centers the product mark, about 24px, on the links' icon column, and SidebarToggle ends the row, as tall as a link and as far from the edge. On the rail the brand hides and the toggle takes its place. In the header it sits on one line.",
+    "The workspace sidebar collapses from 224px to a 72px rail, and icons keep their positions. On the rail each link is a square of the icon column, with the sidebar's padding on either side. Brand is its top row: it centers the product mark, about 24px, on the links' icon column, and SidebarToggle ends the row, as tall as a link and as far from the edge. On the rail the brand hides and the toggle takes its place. In the header it sits on one line.",
     'Brand sets the product name in the subsection role (Manrope 500, 16/24, --surf-ink, default tracking), starting on the link label line. In the sidebar a name with no description takes up to two lines of the brand row before it is cut short; a longer one, or a name in the header, truncates with an ellipsis and keeps its full text in title. Its description is an optional second line in the caption role (12/18, --surf-ink-muted), such as the workspace.',
     "Bar holds a page's own tabs, such as a project's pages as NavigationMenu links, at the top of the page. Make it the Page's first child. It is as tall as the brand row less the shell's inset above and below (B − 2I, 56px), its controls take the small size (32px), and it bleeds a link's padding and edge (X, 13px) past the page's text: each tab's label lines up with the text, its middle stands on the brand row's line, and the tab stands as far from the page's top and start as the page stands from the shell (G = P − X, about 12px). Other controls line up within a few pixels, by their own padding. No line parts it from the page: the space under it does, and the current tab's plane marks the page. In compact density and on a phone the page's padding leaves no room to bleed, so the tabs start at the text; on a phone the bar sits under the mobile header, as tall as its tabs.",
-    'In compact density (SizeProvider density="compact" around the shell) the sidebar\'s rows and its toggle are 32px. The brand row and the rail keep their size, so the icon column and the brand row\'s line stay. On touch a row grows to the target size and never shrinks below its own.',
+    'In compact density (SizeProvider density="compact" around the shell) the icon column is 32px, so the sidebar\'s rows, its toggle and each link on the rail are 32px, and the sidebar keeps the 12px the page keeps beside its rows: the rail is 56px. The brand row keeps its 80px, so its line stays where a compact page\'s first line is. On touch a row grows to the target size and never shrinks below its own, and so does the icon column, so a link on the rail stays square.',
     'Nav stacks Links with even gaps and, in the workspace sidebar, insets them so their icons sit on the rail. Its label shows over the links, keeps its row on the rail, and names the navigation; without one, give Nav an aria-label.',
     "Link takes render. Pass a router's link to keep client navigation, such as render={<NextLink href='/resources' />}. The account row is a Link rendered as the menu's trigger, render={<Menu.Trigger />}, with a 24px Avatar as its icon, so it lines up with the links.",
     "The brand and account stay fixed while the menu and main content scroll in separate ScrollAreas. The content surface spans the full scrolling content, so its bottom rounded corners appear only at the end. The content's ScrollArea is the page's own scroller: set fade=\"none\" so the page's top and bottom stay sharp, while the menu's edges fade to show more links.",
@@ -143,17 +143,22 @@ export const doc: ComponentDoc = {
     ],
     [
       'Root style --surf-app-shell-rail-width',
-      'the collapsed rail width',
-      'header 64px / workspace 72px',
+      "the collapsed rail width: the icon column with the sidebar's padding on either side",
+      'header 64px / workspace 72px; 56px in compact density',
+    ],
+    [
+      'Root style --surf-app-shell-sidebar-padding',
+      "the room beside the sidebar's rows, the brand and the toggle",
+      'header 12px / workspace 16px; 12px in compact density',
     ],
     [
       'Root style --surf-app-shell-icon-column / --surf-app-shell-brand-height / --surf-app-shell-mark-size',
-      "the links' icon column, which the brand's mark and the account line up on; the brand row's height; the mark's size",
-      '40px / 80px / 24px',
+      "the links' icon column, which the brand's mark and the account line up on, and a link's size on the rail; the brand row's height; the mark's size",
+      '40px, 32px in compact density / 80px / 24px',
     ],
     [
       'style --surf-app-shell-row-height',
-      "a sidebar row's and the toggle's height, on any element above them; compact density sets 32px",
+      "a sidebar row's and the toggle's height where it differs from the icon column, on any element above them; a link on the rail is then no longer square",
       'the icon column',
     ],
     [

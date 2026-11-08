@@ -94,8 +94,12 @@ const en = {
   densityCompactHeader: 'Compact',
   densityRows: [
     [
-      'Gaps between Dashboard panels and Grid columns, card padding, the AppShell page inset',
+      "Gaps between Dashboard panels and Grid columns, card padding, the AppShell page inset and the sidebar's padding",
       '12px, --surf-ui-density-gap',
+    ],
+    [
+      'AppShell sidebar rows, its toggle and links on the rail',
+      '32px, square on a 56px rail',
     ],
     [
       'Gaps inside a card or panel, FilterBar, PageHeader and Stat.Group gaps',
@@ -237,8 +241,12 @@ export const text: Record<Locale, typeof en> = {
     densityCompactHeader: 'compact',
     densityRows: [
       [
-        'Dashboard 패널과 Grid 열 사이 간격, 카드 패딩, AppShell 페이지 여백',
+        'Dashboard 패널과 Grid 열 사이 간격, 카드 패딩, AppShell 페이지 여백과 사이드바 여백',
         '12px, --surf-ui-density-gap',
+      ],
+      [
+        'AppShell 사이드바 줄, 접기 단추, 레일의 링크',
+        '32px, 56px 레일 위의 정사각형',
       ],
       [
         '카드나 패널 안쪽 간격, FilterBar, PageHeader, Stat.Group 간격',

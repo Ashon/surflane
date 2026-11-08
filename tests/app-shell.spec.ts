@@ -915,6 +915,110 @@ test('compact density makes the sidebar rows and toggle 32px, and touch never ma
   expect(await rows(true)).toEqual([32, 32, 32])
 })
 
+test('a link on the rail is a square with the sidebar padding beside it, the page padding in compact density', async ({
+  browser,
+}) => {
+  const React = await import('react')
+  const { renderToStaticMarkup } = await import('react-dom/server')
+  const { AppShell, Icon } = await import('@surflane/ui')
+  const h = React.createElement
+  const markup = (compact: boolean) =>
+    renderToStaticMarkup(
+      h(
+        'div',
+        {
+          'data-ui-density': compact ? 'compact' : undefined,
+          style: { height: '100%' },
+        },
+        h(
+          AppShell.Root,
+          { layout: 'workspace', shortcut: false, defaultCollapsed: true },
+          h(
+            AppShell.Sidebar,
+            { 'aria-label': 'Harbor' },
+            h(AppShell.Brand, { name: 'Harbor' }),
+            h(AppShell.SidebarToggle),
+            h(
+              AppShell.Nav,
+              { 'aria-label': 'Berths' },
+              h(AppShell.Link, {
+                href: '#',
+                label: 'Berths',
+                icon: h(Icon, { name: 'menu', decorative: true }),
+              }),
+            ),
+          ),
+          h(AppShell.Content, null, h(AppShell.Page, null, 'Arrivals')),
+        ),
+      ),
+    )
+  const measure = async (compact: boolean, touch: boolean) => {
+    const context = await browser.newContext({
+      viewport: { width: 1280, height: 800 },
+      hasTouch: touch,
+      isMobile: touch,
+      reducedMotion: 'reduce',
+    })
+    const page = await context.newPage()
+    await page.goto('/install')
+    await waitForCatalogReady(page)
+    await page.evaluate((html) => {
+      const host = document.createElement('div')
+      host.id = 'harbor'
+      host.style.cssText = 'position: fixed; inset: 0; z-index: 2000'
+      host.innerHTML = html
+      document.body.append(host)
+    }, markup(compact))
+    const geometry = await page.evaluate(() => {
+      const box = (selector: string) =>
+        document.querySelector(`#harbor ${selector}`)!.getBoundingClientRect()
+      const rail = box('.surf-app-shell-sidebar')
+      const link = box('.surf-app-shell-nav > a')
+      const toggle = box('.surf-app-shell-toggle')
+      const sheet = document.querySelector('#harbor .surf-app-shell-page')!
+      const round = Math.round
+      return {
+        rail: round(rail.width),
+        link: [round(link.width), round(link.height)],
+        beside: [round(link.left - rail.left), round(rail.right - link.right)],
+        centers: [
+          round(link.left + link.width / 2 - rail.left),
+          round(toggle.left + toggle.width / 2 - rail.left),
+        ],
+        page: parseFloat(getComputedStyle(sheet).paddingInlineStart),
+      }
+    })
+    await context.close()
+    return geometry
+  }
+  // The rail is the icon column with the sidebar's padding on either side, and the
+  // toggle takes the brand's place on the links' center line.
+  expect(await measure(false, false)).toEqual({
+    rail: 72,
+    link: [40, 40],
+    beside: [16, 16],
+    centers: [36, 36],
+    page: 24,
+  })
+  // On touch the column grows with the row, so the link stays square.
+  expect(await measure(false, true)).toEqual({
+    rail: 76,
+    link: [44, 44],
+    beside: [16, 16],
+    centers: [38, 38],
+    page: 24,
+  })
+  // Compact: 32px squares, and the sidebar keeps the page's 12px beside them.
+  for (const touch of [false, true])
+    expect(await measure(true, touch)).toEqual({
+      rail: 56,
+      link: [32, 32],
+      beside: [12, 12],
+      centers: [28, 28],
+      page: 12,
+    })
+})
+
 test('the page padding is set on the shell, and the bar bleeds from what is set', async ({
   page,
 }) => {

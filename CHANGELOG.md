@@ -26,6 +26,7 @@
 - A card is a column of its parts: stretched to a taller neighbor in a row, it keeps its parts at the top and its footer at the bottom, so the footers of a row line up. A bar, such as a Meter, takes a line of its own in a card's footer.
 - Under compact density, a Grid's columns sit `--surf-ui-density-gap` apart, as Dashboard panels do; an explicit `gap` still wins.
 - A Dashboard's panel minimum is `--surf-layout-column-card`, the same 20rem as before.
+- A link on AppShell's rail is a square of the icon column, with the sidebar's padding on either side: the rail is the icon column plus that padding twice. Under compact density the icon column is 32px and the sidebar keeps the page's 12px, so the rail is 56px. It stayed 72px before, and its links were 40px wide and 32px tall, with 16px beside them against the page's 12px. On touch the icon column grows with the row to the target size. `--surf-app-shell-sidebar-padding` sets the padding, 12px in the header layout and 16px in the workspace one; compact density sets the icon column instead of `--surf-app-shell-row-height`, which now only makes the rows taller than the column.
 - Avatar's status ring is drawn in the plane it sits on, so it reads on a card as it does on the canvas.
 - The Dialog docs send an item's details from a list or card grid to a Sheet, and a long history with tabs to a page, and drop the Close button from the footer of a dialog without a task.
 
