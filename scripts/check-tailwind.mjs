@@ -136,9 +136,20 @@ const violet = createTheme({ accent: accentPresets.violet }).light[
   '--surf-brand'
 ]
 // Each stylesheet arrives once: Tailwind keeps duplicate imports, so a nested import
-// graph would multiply the output.
+// graph would repeat their rules and multiply the output. A shared base rule and a
+// component rule appear once, and the whole stays under a bound that a second copy of
+// the components would pass.
+for (const selector of [
+  '@keyframes surf-progress-pulse',
+  '.surf-card-footer {',
+])
+  assert.equal(
+    css.split(selector).length - 1,
+    1,
+    `Tailwind output should hold ${selector} once`,
+  )
 assert(
-  css.length < 400 * 1024,
+  css.length < 480 * 1024,
   `Tailwind output is ${Math.round(css.length / 1024)} KB; Surflane stylesheets repeat`,
 )
 

@@ -390,6 +390,7 @@ const internalModules = [
   'table-sticky',
   'chart-shared',
   'app-shell-context',
+  'category',
 ]
 const utilityEntries = [
   'choice-label',

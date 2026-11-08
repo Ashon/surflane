@@ -47,37 +47,42 @@
     block-size: 1lh;
     color: var(--surf-status-neutral-fg);
   }
+  /* The title and its time share the first line; the status and description share
+     one under it. Anything else the event holds, such as a reply it quotes or the
+     tools a step ran, takes a line of its own across the event, in source order. */
   .surf-timeline-body {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
-    grid-template-areas:
-      'title title time'
-      'status description description'
-      'detail detail detail';
+    min-inline-size: 0;
+  }
+  :where(.surf-timeline-body) > * {
+    grid-column: 1 / -1;
     min-inline-size: 0;
   }
   .surf-timeline-title {
-    grid-area: title;
+    grid-row: 1;
+    grid-column: 1 / 3;
     min-inline-size: 0;
     color: var(--surf-ink);
     font-weight: var(--surf-weight-medium);
     overflow-wrap: anywhere;
   }
   .surf-timeline-time {
-    grid-area: time;
+    grid-row: 1;
+    grid-column: 3;
     margin-inline-start: var(--surf-space-3);
     color: var(--surf-ink-muted);
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
   }
   .surf-timeline-status {
-    grid-area: status;
+    grid-column: 1;
     margin-inline-end: var(--surf-space-2);
     color: var(--surf-status-neutral-fg);
     font-weight: var(--surf-weight-medium);
   }
   .surf-timeline-description {
-    grid-area: description;
+    grid-column: 2 / -1;
     min-inline-size: 0;
     color: var(--surf-ink-muted);
     overflow-wrap: anywhere;
@@ -85,7 +90,6 @@
   /* The disclosure's label lines up with the title; open, its plane reaches out
      into the item's padding. */
   .surf-timeline-detail {
-    grid-area: detail;
     margin-block-start: var(--surf-space-1);
     margin-inline-start: calc(-1 * var(--surf-space-4));
   }

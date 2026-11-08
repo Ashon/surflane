@@ -7,7 +7,7 @@ const overlays = [
 ]
 export const doc: ComponentDoc = {
   usage:
-    'Inspect resource details or settings without leaving the current list. Put long content in Body, which scrolls independently.',
+    'Inspect resource details or settings without leaving the current list, such as the item a card or a row opens. Put long content, tabs included, in Body, which scrolls independently.',
   avoid:
     "Don't repeat the same content across stacked panels. Keep each detail in one panel.",
   keyboard:

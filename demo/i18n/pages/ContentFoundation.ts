@@ -77,7 +77,7 @@ const en = {
   untitledPreview: 'Untitled preview',
   previewResourceId: 'Resource ID:',
   truncationNote:
-    "Wrap text instead of truncating it, and use start and end spacing. Don't hide names, amounts, or identifiers behind an ellipsis in errors and confirmations.",
+    "Wrap text instead of truncating it, and use start and end spacing. Where like items keep one height, such as the last message on each card of a collection, Text lines={2} clamps it, and the whole text shows where the item opens. Don't hide names, amounts, or identifiers behind an ellipsis in errors and confirmations.",
   ecma402: 'ECMA-402 — Intl formatting',
   w3cLanguage: 'W3C — Language declarations',
   w3cDirection: 'W3C — Text direction',
@@ -161,7 +161,7 @@ export const text: Record<Locale, typeof en> = {
     untitledPreview: '제목 없는 미리보기',
     previewResourceId: '리소스 ID:',
     truncationNote:
-      '텍스트는 자르지 말고 줄을 바꾸고, 여백은 start와 end 방향으로 주세요. 오류와 확인 문구에서 이름, 금액, 식별자를 말줄임표로 숨기지 마세요.',
+      '텍스트는 자르지 말고 줄을 바꾸고, 여백은 start와 end 방향으로 주세요. 컬렉션 카드마다 놓인 마지막 메시지처럼 비슷한 항목이 같은 높이를 지켜야 하면 Text lines={2}로 줄 수를 제한하고, 전체 글은 항목을 여는 곳에서 보여 주세요. 오류와 확인 문구에서 이름, 금액, 식별자를 말줄임표로 숨기지 마세요.',
     ecma402: 'ECMA-402 — Intl 형식',
     w3cLanguage: 'W3C — 언어 선언',
     w3cDirection: 'W3C — 텍스트 방향',

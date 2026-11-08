@@ -4,3 +4,10 @@
 @import './base.css';
 @import './sizing.css';
 @import '@surflane/css/foundations/layout.css';
+
+@layer surflane.sizes {
+  /* Compact density: a grid's columns sit 12px apart, as Dashboard panels do. */
+  :where([data-ui-density='compact'], [data-ui-density='compact'] *).surf-grid {
+    gap: var(--surf-layout-gap, var(--surf-ui-density-gap));
+  }
+}

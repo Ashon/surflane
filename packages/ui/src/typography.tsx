@@ -33,7 +33,9 @@ export function Text({
   variant = 'body',
   color = 'primary',
   weight = 'regular',
+  lines,
   className,
+  style,
   ...props
 }: React.HTMLAttributes<HTMLElement> & {
   as?: 'p' | 'span' | 'div'
@@ -49,6 +51,10 @@ export function Text({
     | 'metric'
   color?: 'primary' | 'secondary' | 'muted'
   weight?: 'regular' | 'medium'
+  /** Shows at most this many lines and ends the last with an ellipsis, so text of
+   * any length takes the same height, such as an item's last message on a card.
+   * Keep the whole text where the item opens. */
+  lines?: number
 }) {
   return (
     <Tag
@@ -57,6 +63,12 @@ export function Text({
       data-variant={variant === 'table' ? 'compact' : variant}
       data-color={color}
       data-weight={weight}
+      data-lines={lines}
+      style={
+        lines === undefined
+          ? style
+          : ({ '--surf-text-lines': lines, ...style } as React.CSSProperties)
+      }
     />
   )
 }

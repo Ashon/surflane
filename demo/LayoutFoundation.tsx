@@ -19,6 +19,7 @@ import {
   Toggle,
 } from '@surflane/ui'
 import { GridBlueprint } from './BlueprintCanvas'
+import { CollectionGuide } from './CollectionGuide'
 import { ComponentSizeGuide } from './ComponentSizeGuide'
 import { FoundationPage, FoundationSection } from './FoundationPage'
 import { LayoutGridGuide } from './LayoutGridGuide'
@@ -317,6 +318,9 @@ export function LayoutFoundation() {
         />
         <p>{t.densityUse}</p>
         <p>{t.densityFloor}</p>
+      </FoundationSection>
+      <FoundationSection id='collections'>
+        <CollectionGuide />
       </FoundationSection>
       <FoundationSection id='direction'>
         <p>{t.directionIntro}</p>

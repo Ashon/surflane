@@ -5,6 +5,7 @@ export const doc: ComponentDoc = {
     "In an Item, Title says what happened and Time when, in a time element with dateTime; Status names its state in words, in the tone's ink, and Description adds who or how long. Write them in that order, so a screen reader hears what, when and how it ended.",
     'There is no connecting line: the icon column carries the sequence. current puts the step where a sequence is now on the recessed plane and announces it as the current step.',
     'Detail holds logs, a diff or a list of changes behind a disclosure; open, it sits on the recessed plane, with its label in line with the title.',
+    'Anything else an event holds, such as the reply a step gave or the tools it ran, takes a line of its own under the parts, across the event and in source order. Wrap it in an element of your own; it needs no part.',
   ],
   avoid: [
     "Don't use a timeline for records the reader sorts or filters; use a Table.",
@@ -16,7 +17,7 @@ export const doc: ComponentDoc = {
     'Enter or Space opens and closes a Detail.',
   ],
   anatomy:
-    'Root(ol) → Item(li: mark + body) → Title, Time(time), Status, Description, Detail(Collapsible)',
+    'Root(ol) → Item(li: mark + body) → Title, Time(time), Status, Description, Detail(Collapsible), then any other block on a line of its own',
   tokens: [
     '--surf-recessed',
     '--surf-ink',

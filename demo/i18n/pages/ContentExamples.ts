@@ -26,6 +26,12 @@ const en = {
   configured: 'Configured',
   environmentPreviewOpened: 'Environment preview opened. No remote action ran.',
   inspectEnvironment: 'Inspect environment',
+  stagingOpened: 'DEMO staging opened. No remote action ran.',
+  stagingDescription:
+    'The whole card opens the environment; Sync keeps its own action.',
+  outOfSync: 'Out of sync',
+  syncEnvironment: 'Sync',
+  syncStarted: 'Sync started for DEMO staging. No remote action ran.',
   cardFooterText:
     'A single surface groups related information. Use a plain section for page structure, or List for repeated resources.',
   keepSourceLineBreaks: 'Keep source line breaks',
@@ -66,6 +72,14 @@ export const text: Record<Locale, typeof en> = {
     environmentPreviewOpened:
       '환경 미리보기가 열렸습니다. 원격 작업은 실행되지 않았습니다.',
     inspectEnvironment: '환경 검사',
+    stagingOpened:
+      'DEMO staging을 열었습니다. 원격 작업은 실행되지 않았습니다.',
+    stagingDescription:
+      '카드 전체가 환경을 엽니다. 동기화 버튼은 제 동작을 그대로 합니다.',
+    outOfSync: '동기화 필요',
+    syncEnvironment: '동기화',
+    syncStarted:
+      'DEMO staging 동기화를 시작했습니다. 원격 작업은 실행되지 않았습니다.',
     cardFooterText:
       '하나의 표면이 관련 정보를 그룹화합니다. 페이지 구조에는 일반 섹션을, 반복 리소스에는 List를 사용하세요.',
     keepSourceLineBreaks: '소스 줄 바꿈 유지',

@@ -6,10 +6,15 @@ const overlays = [
   '--surf-dialog-enter-duration',
 ]
 export const doc: ComponentDoc = {
-  usage:
-    "Run a task that needs the user's full attention. Include a Title, a Description, and an explicit way to close.",
-  avoid:
-    "Don't repeatedly block the flow for simple notices. Use a Toast instead. Don't confirm data loss in a Dialog. Use a separate AlertDialog.",
+  usage: [
+    "Run a task that needs the user's full attention, such as editing a resource or confirming a plan. Include a Title and a Description; every dialog shows the close (X) button, and Footer holds the task's actions.",
+    'To read the details of an item from a list or a card grid, such as a session or a deployment, open a Sheet beside them instead, so the list stays in view. A long history with tabs belongs on a page of its own.',
+  ],
+  avoid: [
+    "Don't repeatedly block the flow for simple notices. Use a Toast instead.",
+    "Don't confirm data loss in a Dialog. Use a separate AlertDialog.",
+    "Don't add a Close button to the footer of a dialog that has no task: the close (X) button already does it. A footer holds actions, such as Save and Cancel.",
+  ],
   keyboard:
     'Tab keeps focus inside the dialog. Escape or the close button closes it. A nested Select closes first, then the parent Dialog.',
   anatomy:

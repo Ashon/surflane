@@ -175,3 +175,46 @@ test('right to left the time is on the left; a phone keeps it all inside; compac
       }),
   ).toEqual(['solid', '1px'])
 })
+
+test('anything else an event holds takes a line of its own across the event, in source order', async ({
+  page,
+}) => {
+  const list = await open(page)
+  // Two blocks of the caller's own after the parts, as a session log adds the
+  // reply a turn gave and the tools it ran.
+  const boxes = await list
+    .locator(':scope > li')
+    .nth(1)
+    .locator('.surf-timeline-body')
+    .evaluate((body) => {
+      const reply = document.createElement('div')
+      reply.textContent =
+        'The commit message is drafted, and the checks for step five are running.'
+      const tools = document.createElement('p')
+      tools.textContent = 'Bash 8 · update_plan 1 · Write 3 · Read 12'
+      body.append(reply, tools)
+      const box = (element: Element) => {
+        const { left, right, top, bottom } = element.getBoundingClientRect()
+        return { left, right, top, bottom }
+      }
+      return {
+        body: box(body),
+        title: box(body.querySelector('.surf-timeline-title')!),
+        last: box(
+          body.lastElementChild!.previousElementSibling!
+            .previousElementSibling!,
+        ),
+        reply: box(reply),
+        tools: box(tools),
+        line: parseFloat(getComputedStyle(tools).lineHeight),
+      }
+    })
+  for (const part of [boxes.reply, boxes.tools]) {
+    expect(part.left).toBeCloseTo(boxes.title.left, 0)
+    expect(part.right).toBeCloseTo(boxes.body.right, 0)
+  }
+  expect(boxes.reply.top).toBeGreaterThanOrEqual(boxes.last.bottom - 0.5)
+  expect(boxes.tools.top).toBeGreaterThanOrEqual(boxes.reply.bottom - 0.5)
+  // One line, not a column of single letters.
+  expect(boxes.tools.bottom - boxes.tools.top).toBeLessThan(boxes.line * 1.5)
+})

@@ -116,6 +116,36 @@
   .surf-stat-group-items .surf-stat-label {
     color: var(--surf-ink-body);
   }
+  /* Small: a figure beside other content, such as a card's counts. The value takes
+     the subsection role and the words around it the caption role. */
+  :is(
+      .surf-stat[data-ui-size='small'],
+      .surf-stat-group[data-ui-size='small'] .surf-stat
+    )
+    > .surf-stat-value {
+    font-family: var(--surf-font-body);
+    font-size: var(--surf-type-subsection-size);
+    line-height: var(--surf-type-subsection-leading);
+    letter-spacing: var(--surf-type-subsection-tracking);
+  }
+  :is(
+      .surf-stat[data-ui-size='small'],
+      .surf-stat-group[data-ui-size='small'] .surf-stat
+    )
+    > :is(
+      .surf-stat-label,
+      .surf-stat-change,
+      .surf-stat-status,
+      .surf-stat-caption
+    ),
+  .surf-stat-group[data-ui-size='small'] > .surf-stat-group-label {
+    font-size: var(--surf-type-caption-size);
+    line-height: var(--surf-type-caption-leading);
+    letter-spacing: var(--surf-type-caption-tracking);
+  }
+  .surf-stat-group[data-ui-size='small'] > .surf-stat-group-items {
+    gap: var(--surf-space-2) var(--surf-space-4);
+  }
 }
 @layer surflane.sizes {
   /* Compact density: values of a group sit 8px apart in a row and 12px across. */

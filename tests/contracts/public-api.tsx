@@ -22,6 +22,11 @@ import {
   type StatGroupProps,
   BottomNavigation,
   type FileUploadLabels,
+  Avatar,
+  Card,
+  Grid,
+  categoryFor,
+  type AvatarCategory,
 } from '@surflane/ui'
 import type { TreeLabels } from '@surflane/ui/tree'
 import type { MarkdownLabels } from '@surflane/ui/markdown'
@@ -179,3 +184,44 @@ void tonelessStatus
 // @ts-expect-error A brand needs its name.
 const namelessBrand = <AppShell.Brand mark={<svg />} />
 void namelessBrand
+// A collection: an auto grid of cards that open their item, each with an
+// identity, a live state and its counts.
+const category: AvatarCategory = categoryFor('surflane')
+const collection = (
+  <Grid columns='auto' min='card'>
+    <Card.Root>
+      <Card.Header>
+        <Avatar.Root category={category}>
+          <Avatar.Fallback>S</Avatar.Fallback>
+          <Avatar.Status tone='progress' live />
+        </Avatar.Root>
+        <Card.Title>
+          <Card.Action onClick={() => {}}>Surflane</Card.Action>
+        </Card.Title>
+      </Card.Header>
+      <Card.Footer>
+        <Stat.Group label='Session counts' labelHidden size='small'>
+          <Stat.Root size='small'>
+            <Stat.Label>Turns</Stat.Label>
+            <Stat.Value>532</Stat.Value>
+          </Stat.Root>
+        </Stat.Group>
+      </Card.Footer>
+    </Card.Root>
+    <Card.Root>
+      <Card.Title>
+        <Card.Action href='/sessions/2'>Folio</Card.Action>
+      </Card.Title>
+    </Card.Root>
+  </Grid>
+)
+void collection
+// @ts-expect-error A column minimum belongs to an auto grid.
+const fixedWithMin = <Grid columns={3} min='tile' />
+void fixedWithMin
+// @ts-expect-error The categories are the palette's twelve.
+const thirteenth = <Avatar.Root category={13} />
+void thirteenth
+// @ts-expect-error A link action can't be disabled, as a button can.
+const disabledLink = <Card.Action href='/a' disabled />
+void disabledLink

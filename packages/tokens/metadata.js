@@ -168,6 +168,12 @@ export const descriptions = {
   '--surf-layout-wide': 'Maximum width for dense tables and comparison screens',
   '--surf-layout-gutter': 'Grid gutter that responds to screen size',
   '--surf-layout-columns': 'Base grid: 12 → 6 → 4 columns',
+  '--surf-layout-column-tile':
+    'Narrowest auto Grid column for a figure and its label',
+  '--surf-layout-column-card':
+    'Narrowest auto Grid column for a card, and a Dashboard panel',
+  '--surf-layout-column-wide':
+    'Narrowest auto Grid column for a chart or a table of a few columns',
   '--surf-page-header-gap': 'Spacing between the heading and description',
   '--surf-page-header-breadcrumb-gap':
     'Spacing between the breadcrumb and the heading group',

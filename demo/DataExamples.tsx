@@ -420,6 +420,25 @@ function StatPreview() {
           </Stat.Group>
         </Card.Body>
       </Card.Root>
+      {/* One item's figures, small beside other content. */}
+      <Card.Root>
+        <Card.Body>
+          <Stat.Group label={t.sessionCounts} size='small'>
+            {(
+              [
+                [t.statTurns, '48'],
+                [t.statTools, '131'],
+                [t.statTokens, '1.2M'],
+              ] as const
+            ).map(([label, value]) => (
+              <Stat.Root key={label}>
+                <Stat.Label>{label}</Stat.Label>
+                <Stat.Value>{value}</Stat.Value>
+              </Stat.Root>
+            ))}
+          </Stat.Group>
+        </Card.Body>
+      </Card.Root>
     </Grid>
   )
 }

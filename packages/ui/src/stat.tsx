@@ -3,6 +3,8 @@ import { Icon } from './icon.js'
 import { cx } from './class-names.js'
 import { elementPart } from './element-part.js'
 import { formatPercent } from './format.js'
+import { normalizeSize, type ComponentSize } from './size.js'
+import { SizeScope } from './sizing.js'
 import { StatusIcon, type StatusTone } from './status.js'
 
 export type StatDirection = 'up' | 'down' | 'flat'
@@ -78,31 +80,38 @@ const StatusPart = function StatStatus({
   )
 }
 export type StatGroupProps = React.ComponentPropsWithoutRef<'div'> & {
-  /** What every value in the group measures, such as "GPU temperature". It shows
-   * above them and names the group. */
+  /** What the values describe: one measure across items, such as "GPU temperature"
+   * by node, or one item's figures, such as a session's counts. It shows above them
+   * and names the group. */
   label: string
   /** Names the group without showing the label, where a heading above already says
    * it, such as the title of the Dashboard.Panel that holds the group. Give it a
    * name of its own, such as "Free disk by node", so the two groups read apart. */
   labelHidden?: boolean
+  /** small sets every value in the group as a small figure, as Stat.Root's size
+   * does, and sizes the controls inside as a SizeProvider would. */
+  size?: ComponentSize
 }
 /** Several values of one measure side by side, such as one per node: a shared label
  * over Stat.Roots whose own labels name each. */
 const GroupPart = function StatGroup({
   label,
   labelHidden = false,
+  size,
   className,
   children,
   ref,
   ...props
 }: StatGroupProps & { ref?: React.Ref<HTMLDivElement> }) {
-  return (
+  const scheme = normalizeSize(size)
+  const group = (
     <div
       role='group'
       aria-label={label}
       {...props}
       ref={ref}
       className={cx('surf-stat-group', className)}
+      data-ui-size={scheme}
     >
       {!labelHidden && (
         <span className='surf-stat-group-label' aria-hidden='true'>
@@ -112,10 +121,15 @@ const GroupPart = function StatGroup({
       <div className='surf-stat-group-items'>{children}</div>
     </div>
   )
+  // Only an explicit size opens a client boundary, as on every part.
+  return scheme ? <SizeScope size={scheme}>{group}</SizeScope> : group
 }
 /** A key figure: what it measures, its value, how it moved and what it covers. Renders
  * a description list, so the label names the value for assistive technology. */
 export const Stat = {
+  /** size='small' sets a figure beside other content, such as a card's counts: the
+   * value takes the subsection role and the words around it the caption role. Like
+   * every part's size, it also sizes the controls inside. */
   Root: /* @__PURE__ */ elementPart<
     HTMLDListElement,
     React.ComponentPropsWithoutRef<'dl'>

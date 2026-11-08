@@ -39,6 +39,53 @@
     object-fit: cover;
     border-radius: inherit;
   }
+  /* A category tints the plane under the initials and draws the edge in its color;
+     the initials keep the ink, so they read on every tint. */
+  .surf-avatar[data-category] {
+    border-color: var(--surf-avatar-category);
+    background: color-mix(
+      in oklab,
+      var(--surf-avatar-category) 24%,
+      var(--surf-plane)
+    );
+    color: var(--surf-ink);
+  }
+  .surf-avatar[data-category='1'] {
+    --surf-avatar-category: var(--surf-chart-category-1);
+  }
+  .surf-avatar[data-category='2'] {
+    --surf-avatar-category: var(--surf-chart-category-2);
+  }
+  .surf-avatar[data-category='3'] {
+    --surf-avatar-category: var(--surf-chart-category-3);
+  }
+  .surf-avatar[data-category='4'] {
+    --surf-avatar-category: var(--surf-chart-category-4);
+  }
+  .surf-avatar[data-category='5'] {
+    --surf-avatar-category: var(--surf-chart-category-5);
+  }
+  .surf-avatar[data-category='6'] {
+    --surf-avatar-category: var(--surf-chart-category-6);
+  }
+  .surf-avatar[data-category='7'] {
+    --surf-avatar-category: var(--surf-chart-category-7);
+  }
+  .surf-avatar[data-category='8'] {
+    --surf-avatar-category: var(--surf-chart-category-8);
+  }
+  .surf-avatar[data-category='9'] {
+    --surf-avatar-category: var(--surf-chart-category-9);
+  }
+  .surf-avatar[data-category='10'] {
+    --surf-avatar-category: var(--surf-chart-category-10);
+  }
+  .surf-avatar[data-category='11'] {
+    --surf-avatar-category: var(--surf-chart-category-11);
+  }
+  .surf-avatar[data-category='12'] {
+    --surf-avatar-category: var(--surf-chart-category-12);
+  }
   .surf-avatar-status {
     position: absolute;
     inset-inline-end: 0;
@@ -46,9 +93,38 @@
     width: max(8px, 25%);
     height: max(8px, 25%);
     box-sizing: border-box;
-    border: 2px solid var(--surf-menu-background);
+    border: 2px solid var(--surf-plane);
     border-radius: var(--surf-radius-full);
     background: var(--surf-status-success-fg);
+  }
+  .surf-avatar-status[data-tone='neutral'] {
+    background: var(--surf-status-neutral-fg);
+  }
+  .surf-avatar-status[data-tone='info'] {
+    background: var(--surf-status-info-fg);
+  }
+  .surf-avatar-status[data-tone='danger'] {
+    background: var(--surf-status-danger-fg);
+  }
+  .surf-avatar-status[data-tone='caution'] {
+    background: var(--surf-status-caution-fg);
+  }
+  .surf-avatar-status[data-tone='progress'] {
+    background: var(--surf-status-progress-fg);
+  }
+  .surf-avatar-status[data-live] {
+    animation: surf-progress-pulse var(--surf-motion-pulse) ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .surf-avatar-status[data-live] {
+      animation: none;
+    }
+  }
+  /* Forced colors drop the fill, so the marker keeps a system color. */
+  @media (forced-colors: active) {
+    .surf-avatar-status {
+      background: CanvasText;
+    }
   }
   .surf-avatar-fallback {
     display: flex;

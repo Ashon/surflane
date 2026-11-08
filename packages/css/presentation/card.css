@@ -5,10 +5,10 @@
 @layer surflane.components {
   /* Cards use one surface; children provide hierarchy without extra frames. */
   .surf-card {
-    display: grid;
     /* Stretched to a taller neighbor in a row, a card keeps its parts at the top
-       and leaves the extra height below them. */
-    align-content: start;
+       and its footer at the bottom, so the footers of a row line up. */
+    display: flex;
+    flex-direction: column;
     gap: var(--surf-space-4);
     min-width: 0;
     padding: var(--surf-surface-padding, var(--surf-space-6));
@@ -46,6 +46,58 @@
     letter-spacing: var(--surf-type-section-tracking);
     overflow-wrap: anywhere;
   }
+  /* A card that opens something: its title's action stretches over it. The card is
+     the target, so the state layers and the focus ring draw on the card, and the
+     other controls on it sit above the stretch. */
+  .surf-card:has(.surf-card-action) {
+    position: relative;
+  }
+  .surf-card-action {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+    text-align: inherit;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .surf-card-action::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .surf-card-action:focus-visible {
+    outline: none;
+  }
+  .surf-card:has(.surf-card-action:hover) {
+    background-image: linear-gradient(
+      var(--surf-interaction-hover-bg),
+      var(--surf-interaction-hover-bg)
+    );
+  }
+  .surf-card:has(.surf-card-action:active) {
+    background-image: linear-gradient(
+      var(--surf-interaction-active-bg),
+      var(--surf-interaction-active-bg)
+    );
+  }
+  .surf-card:has(.surf-card-action:focus-visible) {
+    outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+    outline-offset: var(--surf-focus-ring-offset);
+  }
+  /* No specificity, so a control's own position still wins. */
+  :where(
+    .surf-card:has(.surf-card-action)
+      :is(a[href], button, input, select, textarea, summary, [tabindex]):not(
+        .surf-card-action
+      )
+  ) {
+    position: relative;
+    z-index: 1;
+  }
   .surf-card-description {
     margin: 0;
     color: var(--surf-ink-body);
@@ -55,11 +107,16 @@
     overflow-wrap: break-word;
   }
   .surf-card-footer {
+    margin-block-start: auto;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: var(--surf-space-3);
+  }
+  /* A bar, such as a Meter, takes a line of its own in the footer. */
+  .surf-card-footer > .surf-gauge {
+    flex: 1 1 100%;
   }
   .surf-card-body > :first-child {
     margin-top: 0;

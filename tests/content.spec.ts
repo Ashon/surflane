@@ -7,7 +7,7 @@ test('Card uses one surface with an explicit action and preserves Base UI state 
 }) => {
   await page.goto('/components/card')
   await waitForCatalogReady(page)
-  const card = page.locator('.surf-card')
+  const card = page.locator('.surf-card').first()
   await expect(card).not.toHaveAttribute('tabindex')
   await expect(card).not.toHaveAttribute('role', 'button')
   await expect(card.locator('.surf-card')).toHaveCount(0)

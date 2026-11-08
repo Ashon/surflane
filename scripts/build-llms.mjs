@@ -38,6 +38,21 @@ const {
   stageLabels,
 } = await vite.ssrLoadModule('/catalog.ts')
 const { componentDocs } = await vite.ssrLoadModule('/componentDocs.ts')
+// Each foundation page's English text, for its principles and rule tables.
+const foundationText = {}
+for (const item of foundations) {
+  if (item.id === 'tokens') continue
+  const name =
+    item.id === 'themes' ? 'Theme' : item.id[0].toUpperCase() + item.id.slice(1)
+  foundationText[item.id] = (
+    await vite.ssrLoadModule(`/i18n/pages/${name}Foundation.ts`)
+  ).text.en
+}
+const layoutText = {
+  grid: (await vite.ssrLoadModule('/i18n/pages/LayoutGridGuide.ts')).text.en,
+  collections: (await vite.ssrLoadModule('/i18n/pages/CollectionGuide.ts')).text
+    .en,
+}
 await vite.close()
 const tokens = JSON.parse(
   readFileSync(join(root, 'packages/tokens/catalog.json'), 'utf8'),
@@ -99,6 +114,62 @@ const foundationTokens = {
   iconography: ['Shape'],
 }
 
+const ruleTable = (headers, rows) =>
+  [
+    `| ${headers.map(cell).join(' | ')} |`,
+    `| ${headers.map(() => '---').join(' | ')} |`,
+    ...rows.map((row) => `| ${row.map(cell).join(' | ')} |`),
+  ].join('\n')
+// The rules a foundation page states beyond its principles, as text an agent can read.
+const foundationRules = {
+  layout: () => {
+    const t = foundationText.layout
+    const { grid, collections } = layoutText
+    return [
+      `## ${t.sections.containers}`,
+      '',
+      t.containersIntro,
+      '',
+      ruleTable(
+        [t.containerHeader, t.maxWidthHeader, t.tokenHeader, t.useHeader],
+        t.containers,
+      ),
+      '',
+      `## ${t.sections['grid-system']}`,
+      '',
+      grid.intro,
+      '',
+      ruleTable(
+        [grid.viewport, grid.layoutTracks, grid.defaultGutter, grid.equalCards],
+        grid.rows,
+      ),
+      '',
+      grid.autoColumns,
+      '',
+      grid.bleed,
+      '',
+      `## ${t.sections.density}`,
+      '',
+      t.densityIntro,
+      '',
+      ruleTable([t.densityPartHeader, t.densityCompactHeader], t.densityRows),
+      '',
+      t.densityUse,
+      '',
+      t.densityFloor,
+      '',
+      `## ${t.sections.collections}`,
+      '',
+      collections.intro,
+      '',
+      ruleTable(
+        [collections.partHeader, collections.ruleHeader],
+        collections.rules,
+      ),
+    ]
+  },
+}
+
 function itemMarkdown(item) {
   const head = [
     `# ${item.name}`,
@@ -110,8 +181,19 @@ function itemMarkdown(item) {
   const doc = componentDocs[item.id]
   if (item.kind === 'foundation') {
     const table = tokenTable(foundationTokens[item.id] ?? [])
+    const principles = foundationText[item.id]?.principles ?? []
+    const rules = foundationRules[item.id]?.() ?? []
     return [
       ...head,
+      ...(principles.length
+        ? [
+            '',
+            '## Principles',
+            '',
+            ...principles.map(([title, body]) => `- **${title}** ${body}`),
+          ]
+        : []),
+      ...(rules.length ? ['', ...rules] : []),
       '',
       'The page shows these rules with live examples.',
       ...(table ? ['', '## Tokens', '', table] : []),

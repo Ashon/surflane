@@ -17,6 +17,12 @@
     --surf-layout-section-gap: var(--surf-space-12);
     --surf-layout-gutter: var(--surf-space-6);
     --surf-layout-columns: 12;
+    /* The narrowest column of an auto Grid or a Dashboard, by what the column holds:
+     * a figure and its label, a card or a panel, or a chart or a table of a few
+     * columns. The columns share what is left. */
+    --surf-layout-column-tile: 10rem;
+    --surf-layout-column-card: 20rem;
+    --surf-layout-column-wide: 30rem;
     --surf-layout-description-measure: 68ch;
     /* About 70 Latin or 50 Hangul characters per line of reading text. */
     --surf-layout-reading-measure: 54ch;

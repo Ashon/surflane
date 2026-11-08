@@ -94,6 +94,15 @@
   .surf-text strong {
     font-weight: var(--surf-weight-medium);
   }
+  /* At most --surf-text-lines lines; the last one ends with an ellipsis. */
+  .surf-text[data-lines] {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: var(--surf-text-lines);
+    line-clamp: var(--surf-text-lines);
+    overflow: hidden;
+    overflow-wrap: anywhere;
+  }
   .surf-prose {
     max-width: var(--surf-layout-reading);
     font-weight: var(--surf-weight-regular);

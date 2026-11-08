@@ -109,8 +109,16 @@ export function LayoutGridGuide() {
       ...
     </Card.Root>
   ))}
+</Grid>
+
+// As many columns as the grid's own width holds, each at least 20rem.
+<Grid columns='auto' min='card'>
+  {items.map((item) => (
+    <Card.Root key={item.id}>...</Card.Root>
+  ))}
 </Grid>`}
       />
+      <p>{t.autoColumns}</p>
       <p>{t.bleed}</p>
       <p>
         {t.spansStart}

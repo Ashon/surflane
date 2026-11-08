@@ -68,27 +68,44 @@ export const Inline = function Inline({
     />
   )
 }
-export const Grid = function Grid({
-  gap,
-  bleed = 0,
-  columns = 3,
-  className,
-  style,
-  ref,
-  ...props
-}: React.ComponentProps<'div'> & {
+export type GridColumns =
+  | {
+      /** A fixed count that steps down at the viewport breakpoints, or the 12 / 6 / 4
+       * track layout grid. */
+      columns?: 1 | 2 | 3 | 4 | 'layout'
+      min?: never
+    }
+  | {
+      /** As many columns as the grid's own width fits, each at least min wide, so
+       * the grid reflows by the room it has, not by the window. */
+      columns: 'auto'
+      /** The narrowest column, by what it holds: a figure (tile, 10rem), a card or
+       * a panel (card, 20rem), or a chart or a table of a few columns (wide, 30rem). */
+      min?: 'tile' | 'card' | 'wide'
+    }
+export type GridProps = React.ComponentProps<'div'> & {
   gap?: Space
   /** Extend inline edges by the matching child content inset (card padding or table cell inset). The parent
    * must reserve this space for the card surface and focus outline. */
   bleed?: Space
-  columns?: 1 | 2 | 3 | 4 | 'layout'
-} & { ref?: React.Ref<HTMLDivElement> }) {
+} & GridColumns
+export const Grid = function Grid({
+  gap,
+  bleed = 0,
+  columns = 3,
+  min,
+  className,
+  style,
+  ref,
+  ...props
+}: GridProps & { ref?: React.Ref<HTMLDivElement> }) {
   return (
     <div
       {...props}
       ref={ref}
       className={cx('surf-grid', className)}
       data-columns={columns}
+      data-min={columns === 'auto' ? (min ?? 'card') : undefined}
       style={gapStyle(gap, {
         '--surf-grid-inline-bleed': `var(--surf-space-${bleed})`,
         ...style,

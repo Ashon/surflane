@@ -1378,7 +1378,8 @@ body,
 .catalog-sidebar {
   top: 0;
 }
-.foundation-span-grid {
+.foundation-span-grid,
+.foundation-collection {
   margin-block: var(--surf-space-6);
 }
 .foundation-grid-region {

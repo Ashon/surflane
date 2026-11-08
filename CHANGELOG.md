@@ -9,6 +9,13 @@
 - `LineChart`, `AreaChart` and `BarChart` from `@surflane/ui/chart`, each taking only the props its marks read, on one engine with Chart's keyboard, readout and data table. A line takes `includeZero`, `yScale`, `curve`, `breakAfter`, `dashes` and `difference`. An area takes `stacked`, `curve`, `breakAfter` and `dashes`, and rises from zero on a linear axis, since its fill is an amount. A bar takes `stacked` and starts at zero on a linear axis, since its length is one. A prop the marks would have ignored, such as `stacked` on a line or `curve` on bars, is a type error instead of doing nothing. `ChartBaseProps` is what the three share.
 - The catalog gives each its own page, `/charts/line-chart`, `/charts/area-chart` and `/charts/bar-chart`, with the samples and controls that chart reads, in place of `/charts/chart`. Nothing redirects the old address.
 - `ChartSeriesMark` takes `comparison`, the quiet swatch of a series the others are read against, so a key of your own takes the same flags as the series it keys.
+- `Grid columns='auto'` fits as many columns as the grid's own width holds, each at least `min`: `'tile'` 10rem for a figure and its label, `'card'` 20rem, the default, or `'wide'` 30rem for a chart or a small table. A fixed count steps down with the window, so beside a sidebar or inside a panel its cards were squeezed. `min` on a fixed count is a type error. The minimums are `--surf-layout-column-tile`, `--surf-layout-column-card` and `--surf-layout-column-wide`.
+- `Card.Action`, for a card that opens something: in the title, its button, or its link with `href`, stretches over the card, and hover, press and the focus ring show on the whole card. The other controls on the card stay on top and keep their own actions. As a trigger's render, such as `Sheet.Trigger render={<Card.Action />}`, it opens that.
+- `Stat.Root size='small'` sets a figure beside other content, such as a card's counts: the value takes the subsection role and the words around it the caption role. It sized only the controls inside before, and still does. `Stat.Group` takes `size` too, for every value in the group.
+- `Avatar.Root` takes `category`, 1 to 12, for things without a picture, such as projects or sessions: a tint of that category hue behind initials in ink, which pass 4.5:1 on every tint in both themes. `categoryFor(name)` picks the same category for the same name.
+- `Avatar.Status` takes `tone`, with StatusBadge's tones, and `live`, which pulses the marker while work runs and stays still under reduced motion. It hides itself from assistive technology.
+- `Text lines={n}` shows at most n lines and ends the last with an ellipsis, so text of any length takes the same height, such as the last message on each card of a collection.
+- The Layout foundation has a Collections section: where each part of a card goes in a set of like items, with a live example of agent session cards that open a Sheet. llms.txt and each foundation's Markdown now carry the foundation's principles, and Layout's carries its container, grid, density and collection rules, which only the page showed before.
 
 ### Changed
 
@@ -16,6 +23,11 @@
 - A plan is a level to reach, not an amount: on a bar chart it is an unfilled dashed bar beside its series, and on an area chart its dashed line alone. It took a fill pattern of its own before, which its legend swatch didn't show. Bars keep the legend's order; lines and areas still draw comparisons and plans under the rest.
 - In a stacked chart, a comparison or a plan draws on its own and stays out of the total, which it used to add to.
 - The zero line draws where values cross zero. At the plot's edge the x axis is the baseline already, and a minimal chart drew it as a stray rule under its trend.
+- A card is a column of its parts: stretched to a taller neighbor in a row, it keeps its parts at the top and its footer at the bottom, so the footers of a row line up. A bar, such as a Meter, takes a line of its own in a card's footer.
+- Under compact density, a Grid's columns sit `--surf-ui-density-gap` apart, as Dashboard panels do; an explicit `gap` still wins.
+- A Dashboard's panel minimum is `--surf-layout-column-card`, the same 20rem as before.
+- Avatar's status ring is drawn in the plane it sits on, so it reads on a card as it does on the canvas.
+- The Dialog docs send an item's details from a list or card grid to a Sheet, and a long history with tabs to a page, and drop the Close button from the footer of a dialog without a task.
 
 ### Deprecated
 
@@ -23,6 +35,7 @@
 
 ### Fixed
 
+- Anything else a Timeline event holds, such as a reply it quotes or the tools a step ran, takes a line of its own across the event, in source order. It fell into the narrow status column and wrapped a character a line.
 - A chart's arrow keys move its readout while the pointer rests on the plot, as after clicking it to focus it. The pointer's hover held the readout on the clicked row; a key now takes over from it.
 - A Chart's legend and floating values draw each swatch at the weight of what it keys: a line at `--surf-chart-line-width`, a comparison or a plan at its quiet share, and a threshold or an event at the plot's 1.5px. Every swatch was 2px.
 

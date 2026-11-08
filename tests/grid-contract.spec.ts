@@ -141,7 +141,7 @@ test('opt-in grid bleed aligns padded card content while nested and default grid
     )
   }
 })
-test('a card stretched to a taller neighbor keeps its parts at the top', async ({
+test('a card stretched to a taller neighbor keeps its parts at the top and its footer at the bottom', async ({
   page,
 }) => {
   await page.goto('/foundations/layout')
@@ -163,6 +163,7 @@ test('a card stretched to a taller neighbor keeps its parts at the top', async (
           React.createElement('p', { key: index }, `Line ${index + 1}`),
         ),
       ),
+      React.createElement(Card.Footer, null, 'Footer'),
     )
   const markup = renderToStaticMarkup(
     React.createElement(
@@ -190,4 +191,11 @@ test('a card stretched to a taller neighbor keeps its parts at the top', async (
   const tallHeader = await box('#tall-card .surf-card-header')
   expect(shortHeader.height).toBeCloseTo(tallHeader.height, 0)
   expect(shortBody.y - (shortHeader.y + shortHeader.height)).toBeCloseTo(16, 0)
+  // The footers line up across the row, each on its card's bottom padding.
+  const shortFooter = await box('#short-card .surf-card-footer')
+  const tallFooter = await box('#tall-card .surf-card-footer')
+  expect(shortFooter.y).toBeCloseTo(tallFooter.y, 0)
+  expect(
+    short.y + short.height - (shortFooter.y + shortFooter.height),
+  ).toBeCloseTo(24, 0)
 })

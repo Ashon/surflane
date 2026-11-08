@@ -387,7 +387,10 @@ export {
   AvatarImage,
   AvatarRoot,
   AvatarStatus,
+  type AvatarStatusProps,
 } from './avatar.js'
+// A plain function a Server Component can call, outside the client avatar module.
+export { categoryFor, type AvatarCategory } from './category.js'
 export {
   Badge,
   StatusBadge,
@@ -458,9 +461,11 @@ export {
   CardRoot,
   CardHeader,
   CardTitle,
+  CardAction,
   CardDescription,
   CardBody,
   CardFooter,
+  type CardActionProps,
 } from './card.js'
 export {
   Table,
@@ -644,6 +649,8 @@ export {
   Surface,
   type SurfaceKind,
   type Space,
+  type GridColumns,
+  type GridProps,
 } from './layout.js'
 export { Heading, Text, Prose, VisuallyHidden } from './typography.js'
 export {

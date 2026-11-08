@@ -43,6 +43,34 @@ const CardTitle = function CardTitle({
     className: cx('surf-card-title', className),
   })
 }
+export type CardActionProps =
+  | (React.ComponentPropsWithoutRef<'button'> & { href?: undefined })
+  | (React.ComponentPropsWithoutRef<'a'> & { href: string })
+/** What the whole card opens, such as an item's details: the title's button, or its
+ * link with href, stretched over the card. Hover, press and focus show on the card;
+ * the other controls on it stay on top and keep their own actions. As the render of
+ * a trigger, such as a Sheet's, it opens that. */
+const CardAction = function CardAction(
+  props: CardActionProps & {
+    ref?: React.Ref<HTMLButtonElement & HTMLAnchorElement>
+  },
+) {
+  if (props.href !== undefined) {
+    const { className, ref, ...anchor } = props
+    return (
+      <a {...anchor} ref={ref} className={cx('surf-card-action', className)} />
+    )
+  }
+  const { className, ref, type = 'button', ...button } = props
+  return (
+    <button
+      {...button}
+      ref={ref}
+      type={type}
+      className={cx('surf-card-action', className)}
+    />
+  )
+}
 export const Card = {
   Root: CardRoot,
   Header: /* @__PURE__ */ elementPart<
@@ -50,6 +78,7 @@ export const Card = {
     React.ComponentPropsWithoutRef<'div'>
   >('div', 'surf-card-header'),
   Title: CardTitle,
+  Action: CardAction,
   Description: /* @__PURE__ */ elementPart<
     HTMLParagraphElement,
     React.ComponentPropsWithoutRef<'p'>
@@ -64,7 +93,7 @@ export const Card = {
   >('div', 'surf-card-footer'),
 }
 // Flat names for React Server Components, which cannot dot into client exports.
-export { CardRoot, CardTitle }
+export { CardRoot, CardTitle, CardAction }
 export const {
   Header: CardHeader,
   Description: CardDescription,

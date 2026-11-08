@@ -30,6 +30,7 @@ const en = {
     spacing: 'Spacing',
     'component-sizes': 'Component sizes',
     density: 'Density',
+    collections: 'Collections',
     direction: 'Reading direction',
   },
   containersIntro:
@@ -93,7 +94,7 @@ const en = {
   densityCompactHeader: 'Compact',
   densityRows: [
     [
-      'Gaps between Dashboard panels, card padding, the AppShell page inset',
+      'Gaps between Dashboard panels and Grid columns, card padding, the AppShell page inset',
       '12px, --surf-ui-density-gap',
     ],
     [
@@ -179,6 +180,7 @@ export const text: Record<Locale, typeof en> = {
       spacing: '간격',
       'component-sizes': '컴포넌트 크기',
       density: '밀도',
+      collections: '컬렉션',
       direction: '읽기 방향',
     },
     containersIntro:
@@ -235,7 +237,7 @@ export const text: Record<Locale, typeof en> = {
     densityCompactHeader: 'compact',
     densityRows: [
       [
-        'Dashboard 패널 사이 간격, 카드 패딩, AppShell 페이지 여백',
+        'Dashboard 패널과 Grid 열 사이 간격, 카드 패딩, AppShell 페이지 여백',
         '12px, --surf-ui-density-gap',
       ],
       [

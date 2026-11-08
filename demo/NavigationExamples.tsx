@@ -22,6 +22,7 @@ import {
   Button,
   ChoiceLabel,
   DirectionProvider,
+  categoryFor,
 } from '@surflane/ui'
 import { withBase } from './router'
 import { useLocale } from './i18n'
@@ -233,6 +234,27 @@ function AvatarExample() {
         <Avatar.Root role='img' aria-label={t.unknownPreviewUser} size='small'>
           <Avatar.Fallback aria-hidden='true' />
         </Avatar.Root>
+      </Inline>
+      {/* Marks for things without a picture: a hue from the name, a tone for the state. */}
+      <Inline gap={3} role='group' aria-label={t.projectAvatars}>
+        {(
+          [
+            ['platform-api', 'PA', 'progress'],
+            ['billing-worker', 'BW', 'caution'],
+            ['docs-site', 'DS', 'success'],
+            ['search-indexer', 'SI', 'danger'],
+          ] as const
+        ).map(([name, initials, tone]) => (
+          <Avatar.Root
+            key={name}
+            role='img'
+            aria-label={t.projectState(name, t.projectStates[tone])}
+            category={categoryFor(name)}
+          >
+            <Avatar.Fallback aria-hidden='true'>{initials}</Avatar.Fallback>
+            <Avatar.Status tone={tone} live={tone === 'progress'} />
+          </Avatar.Root>
+        ))}
       </Inline>
       <Inline gap={3}>
         <Button variant='outline' onClick={() => setBroken(!broken)}>

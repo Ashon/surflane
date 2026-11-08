@@ -63,6 +63,24 @@
   .surf-grid[data-columns='4'] {
     --surf-layout-grid-columns: 4;
   }
+  /* As many columns as the grid's own width fits, each at least its minimum, so a
+     grid in a panel or beside a sidebar reflows by the room it has, not by the
+     window. */
+  .surf-grid[data-columns='auto'] {
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(min(100%, var(--surf-grid-column-min)), 1fr)
+    );
+  }
+  .surf-grid[data-min='tile'] {
+    --surf-grid-column-min: var(--surf-layout-column-tile);
+  }
+  .surf-grid[data-min='card'] {
+    --surf-grid-column-min: var(--surf-layout-column-card);
+  }
+  .surf-grid[data-min='wide'] {
+    --surf-grid-column-min: var(--surf-layout-column-wide);
+  }
   .surf-surface {
     box-sizing: border-box;
     min-width: 0;

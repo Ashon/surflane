@@ -15,7 +15,7 @@
 @layer surflane.components {
   /* As many columns as fit a panel's minimum width; one on a phone. */
   .surf-dashboard {
-    --surf-dashboard-panel-min-width: 20rem;
+    --surf-dashboard-panel-min-width: var(--surf-layout-column-card);
     --surf-dashboard-gap: var(--surf-space-4);
     display: grid;
     grid-template-columns: repeat(
@@ -47,6 +47,7 @@
   }
   /* The header keeps its height; the content takes the rest of a stretched row. */
   .surf-dashboard-panel {
+    display: grid;
     grid-template-rows: auto minmax(0, 1fr);
     align-content: start;
     min-inline-size: 0;

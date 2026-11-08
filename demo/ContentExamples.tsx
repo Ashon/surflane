@@ -135,6 +135,23 @@ export function ContentExample({ id }: { id: string }) {
             </Button>
           </Card.Footer>
         </Card.Root>
+        {/* The whole card opens the item; the button on it keeps its own action. */}
+        <Card.Root>
+          <Card.Header>
+            <Card.Title>
+              <Card.Action onClick={() => setNotice(t.stagingOpened)}>
+                DEMO staging
+              </Card.Action>
+            </Card.Title>
+            <Card.Description>{t.stagingDescription}</Card.Description>
+          </Card.Header>
+          <Card.Footer>
+            <StatusBadge tone='caution'>{t.outOfSync}</StatusBadge>
+            <Button variant='outline' onClick={() => setNotice(t.syncStarted)}>
+              {t.syncEnvironment}
+            </Button>
+          </Card.Footer>
+        </Card.Root>
         <VisuallyHidden as='p' role='status'>
           {notice}
         </VisuallyHidden>
