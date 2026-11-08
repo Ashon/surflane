@@ -25,6 +25,7 @@ import {
   Marker,
   seriesColor,
   useFontReady,
+  useFrameWidth,
 } from './chart-shared.js'
 import type { ChartTone } from './chart.js'
 
@@ -229,6 +230,8 @@ export const ScatterChart = function ScatterChart({
   )
   const [host, setHost] = React.useState<HTMLDivElement | null>(null)
   const [floatHost, setFloatHost] = React.useState<HTMLDivElement | null>(null)
+  // Holds the plot while its room keeps changing; the scatter reads no width itself.
+  const [setFrame] = useFrameWidth()
   const fontsReady = useFontReady(
     host,
     data.map((point) => point.label).join(''),
@@ -395,7 +398,7 @@ export const ScatterChart = function ScatterChart({
         <strong id={`${id}-title`}>{title}</strong>
         <p id={`${id}-summary`}>{description}</p>
       </figcaption>
-      <div className='surf-chart-frame'>
+      <div className='surf-chart-frame' ref={setFrame}>
         <div className='surf-chart-key'>
           <p className='surf-chart-axis-label'>
             {yUnit ? `${yLabel} (${yUnit})` : yLabel}

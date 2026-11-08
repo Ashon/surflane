@@ -4,6 +4,10 @@
 
 ## Unreleased
 
+### Changed
+
+- `LineChart`, `AreaChart`, `BarChart` and `ScatterChart` redraw once their room settles. While it keeps changing, as while AppShell's sidebar slides or a window edge is dragged, the plot holds the width it was drawn at, clipped to the chart, and the chart draws twice for a slide where it drew on every frame of it. A single change of room still draws at once.
+
 ### Fixed
 
 - `AppShell` with a remembered collapsed sidebar is a rail from the first frame. After a reload it drew the sidebar open and then slid it closed.

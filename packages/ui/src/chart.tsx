@@ -38,6 +38,7 @@ import {
   roundStep,
   seriesColor,
   useFontReady,
+  useFrameWidth,
 } from './chart-shared.js'
 
 export type ChartDatum = {
@@ -330,22 +331,6 @@ function logTicks(low: number, high: number) {
       if (power < top || factor === 1)
         ticks.push(Number((factor * 10 ** power).toPrecision(12)))
   return ticks
-}
-/** An element's content width, kept current as it resizes; 0 before it is measured. */
-function useWidth<Element extends HTMLElement>() {
-  const [element, setElement] = React.useState<Element | null>(null)
-  const [width, setWidth] = React.useState(0)
-  React.useLayoutEffect(() => {
-    if (!element) return
-    setWidth(element.clientWidth)
-    if (typeof ResizeObserver === 'undefined') return
-    const observer = new ResizeObserver(([entry]) =>
-      setWidth(entry.contentRect.width),
-    )
-    observer.observe(element)
-    return () => observer.disconnect()
-  }, [element])
-  return [setElement, width, element] as const
 }
 let measureCanvas: HTMLCanvasElement | undefined
 /** How wide a tick label draws, in the font it draws in. */
@@ -843,7 +828,7 @@ function ChartCore({
   const [host, setHost] = React.useState<HTMLDivElement | null>(null)
   const fontsReady = useFontReady(host, data.map((d) => d.label).join(''))
   const [floatHost, setFloatHost] = React.useState<HTMLDivElement | null>(null)
-  const [setFrame, frameWidth, frame] = useWidth<HTMLDivElement>()
+  const [setFrame, frameWidth, frame] = useFrameWidth()
   // legendLimit='auto': lay every entry out, series, references and the difference's
   // sides alike, count those on the first line, then fold the rest, keeping room for
   // the "+N" button. A new width lays them out again.

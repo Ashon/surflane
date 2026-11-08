@@ -39,6 +39,7 @@ export const chartKeyboard = (marks: Marks): string[] => [
         'Above 40 points, the plot omits markers to reduce overlap. Legend markers, line patterns, details, and the table remain.',
       ]),
   'Animation is off by default.',
+  "While the chart's room keeps changing, as while a sidebar slides or a window edge is dragged, the plot holds the width it was drawn at, clipped to the chart, and redraws once the room settles. A single change of room draws at once.",
   'Test real assistive technology usability separately after product integration.',
 ]
 const planRow: Record<Marks, string> = {

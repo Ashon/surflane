@@ -13,6 +13,7 @@ export const doc: ComponentDoc = {
     'Pointer, touch and the arrow keys ring the point and show its name and values in a box beside it. The same values fill the details region below the plot, a polite live region; the box stays out of the accessibility tree.',
     "The readout and the table name each point's group and quadrant. Points without both values stay out of the plot and in the table.",
     'Circle, square and triangle markers tell groups apart beyond color, and remain in high contrast mode.',
+    "While the chart's room keeps changing, as while a sidebar slides, the plot holds the width it was drawn at, clipped to the chart, and redraws once the room settles.",
   ],
   anatomy:
     'figure → figcaption(title + summary) + legend (groups, references) + named axes + focusable plot (Recharts ScatterChart) + persistent inline value readout + details → Table.Container → table of every point',

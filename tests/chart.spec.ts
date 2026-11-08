@@ -627,6 +627,51 @@ test("legendLimit='auto' keeps the legend on one line at any width", async ({
   await expect.poll(lines).toBe(1)
   expect(await shown()).toBeLessThan(wide)
 })
+test('a chart drawn once its room settles: a slide redraws it twice, not on every frame', async ({
+  page,
+}) => {
+  await open(page)
+  const figure = page.getByRole('figure', { name: 'Pipeline activity' })
+  const result = await figure.evaluate(async (chart) => {
+    const frame = chart.querySelector<HTMLElement>('.surf-chart-frame')!
+    const surface = () =>
+      chart.querySelector('.surf-chart-plot .recharts-surface')!
+    const box = chart.parentElement!
+    const start = box.getBoundingClientRect().width
+    box.style.inlineSize = `${start}px`
+    const nextFrame = () => new Promise((done) => requestAnimationFrame(done))
+    await nextFrame()
+    let draws = 0
+    const watch = new MutationObserver(() => draws++)
+    watch.observe(surface(), { attributeFilter: ['width'] })
+    // A sidebar's slide: the room narrows by 160px over 16 frames.
+    let held = false
+    for (let step = 1; step <= 16; step++) {
+      box.style.inlineSize = `${start - step * 10}px`
+      await nextFrame()
+      held ||= frame.hasAttribute('data-resizing')
+    }
+    const overflow = chart.scrollWidth - chart.clientWidth
+    await new Promise((done) => setTimeout(done, 400))
+    watch.disconnect()
+    return {
+      draws,
+      held,
+      overflow,
+      settled: frame.hasAttribute('data-resizing'),
+      surface: Number(surface().getAttribute('width')),
+      plot: chart.querySelector('.surf-chart-plot')!.getBoundingClientRect()
+        .width,
+    }
+  })
+  expect(result.held).toBe(true)
+  // The held plot is clipped to the narrower frame, never wider than it.
+  expect(result.overflow).toBe(0)
+  expect(result.settled).toBe(false)
+  expect(result.draws).toBeGreaterThan(0)
+  expect(result.draws).toBeLessThanOrEqual(2)
+  expect(Math.abs(result.surface - result.plot)).toBeLessThanOrEqual(1)
+})
 test('time ticks keep even steps at any width', async ({ page }) => {
   await page.goto('/patterns/dashboard')
   await waitForCatalogReady(page)

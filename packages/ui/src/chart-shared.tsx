@@ -67,6 +67,61 @@ export function useFontReady(element: Element | null, text: string) {
   }, [element, text])
   return ready
 }
+/** How long a frame's width must stand before a chart redraws at it. */
+const RESIZE_SETTLE = 150
+/** A chart frame's content width; 0 before it is measured.
+ *
+ * A single change of room is drawn at once. A run of changes, as while a sidebar
+ * slides or a window edge is dragged, holds the plot at the width last drawn,
+ * clipped to the frame, and redraws once a width has stood for RESIZE_SETTLE ms:
+ * the chart draws twice for a slide instead of on every frame of it. */
+export function useFrameWidth() {
+  const [element, setElement] = React.useState<HTMLDivElement | null>(null)
+  const [width, setWidth] = React.useState(0)
+  React.useLayoutEffect(() => {
+    if (!element) return
+    let drawn = element.clientWidth
+    setWidth(drawn)
+    if (typeof ResizeObserver === 'undefined') return
+    let timer: ReturnType<typeof setTimeout> | undefined
+    let changed = -Infinity
+    const release = () => {
+      timer = undefined
+      delete element.dataset.resizing
+      element.style.removeProperty('--surf-chart-held-width')
+    }
+    const draw = (next: number) => {
+      drawn = next
+      setWidth(next)
+    }
+    const observer = new ResizeObserver(([entry]) => {
+      const next = entry.contentRect.width
+      if (timer === undefined && Math.abs(next - drawn) < 0.5) return
+      const now = performance.now()
+      const quiet = now - changed > RESIZE_SETTLE
+      changed = now
+      if (timer === undefined && (quiet || drawn === 0)) return draw(next)
+      if (timer === undefined) {
+        // The plot keeps the width it was drawn at, so the plot's own observer
+        // sees no change until the hold ends.
+        element.style.setProperty('--surf-chart-held-width', `${drawn}px`)
+        element.dataset.resizing = ''
+      }
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        release()
+        draw(next)
+      }, RESIZE_SETTLE)
+    })
+    observer.observe(element)
+    return () => {
+      observer.disconnect()
+      clearTimeout(timer)
+      release()
+    }
+  }, [element])
+  return [setElement, width, element] as const
+}
 export function Marker({
   cx,
   cy,

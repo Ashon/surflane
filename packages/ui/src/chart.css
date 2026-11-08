@@ -54,6 +54,14 @@
     flex-direction: column;
     min-width: 0;
   }
+  /* While its room keeps changing the plot stays at the width it was drawn at, and
+     the frame clips what the narrower room does not show, until the chart redraws. */
+  .surf-chart-frame[data-resizing] {
+    overflow-x: clip;
+  }
+  .surf-chart-frame[data-resizing] .surf-chart-plot {
+    inline-size: var(--surf-chart-held-width);
+  }
   /* Fill: the chart takes its container's height, as in a stretched dashboard row,
      and the plot the room its caption, legend and readout leave, never less than
      its default height. */
