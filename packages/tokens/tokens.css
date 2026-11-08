@@ -707,6 +707,7 @@
   [data-theme='dark'],
   [data-theme='light'] {
     --surf-status-badge-gap: var(--surf-space-1);
+    --surf-status-dot-size: 8px;
   }
 
   /* Opaque paired text-selection colors remain readable on code, controls and status surfaces. */

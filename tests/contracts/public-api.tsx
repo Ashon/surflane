@@ -27,6 +27,9 @@ import {
   Grid,
   categoryFor,
   type AvatarCategory,
+  StatusDot,
+  Dashboard,
+  Inline,
 } from '@surflane/ui'
 import type { TreeLabels } from '@surflane/ui/tree'
 import type { MarkdownLabels } from '@surflane/ui/markdown'
@@ -225,3 +228,29 @@ void thirteenth
 // @ts-expect-error A link action can't be disabled, as a button can.
 const disabledLink = <Card.Action href='/a' disabled />
 void disabledLink
+const dots = (
+  <>
+    <StatusDot tone='progress' live />
+    <StatusDot tone='caution' attention label='Waiting for you' />
+    <StatusDot />
+  </>
+)
+void dots
+// @ts-expect-error A dot pulses or blinks, not both.
+const pulsingBlink = <StatusDot live attention />
+void pulsingBlink
+// @ts-expect-error A dot is a mark; its words go beside it or in label.
+const wordyDot = <StatusDot>Working</StatusDot>
+void wordyDot
+const toolbar = (
+  <Dashboard.Panel title='Sessions' refreshing={false} toolbar={<button />}>
+    rows
+  </Dashboard.Panel>
+)
+void toolbar
+const titleRow = (
+  <Inline justify='between' wrap={false}>
+    <Card.Title lines={1}>A long name</Card.Title>
+  </Inline>
+)
+void titleRow

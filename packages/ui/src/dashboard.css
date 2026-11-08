@@ -69,6 +69,17 @@
     min-inline-size: 0;
     min-block-size: var(--surf-control-height);
   }
+  .surf-dashboard-panel-lead {
+    display: flex;
+    flex: 0 1 auto;
+    align-items: center;
+    gap: var(--surf-space-2);
+    min-inline-size: 0;
+  }
+  /* A folded panel's summary takes the rest of the row. */
+  .surf-dashboard-panel-lead[data-summary] {
+    flex-grow: 1;
+  }
   .surf-dashboard-panel-header .surf-card-title {
     min-inline-size: 0;
     overflow: hidden;
@@ -164,6 +175,28 @@
   }
   .surf-dashboard-panel-header .surf-card-title:focus:not(:focus-visible) {
     outline: none;
+  }
+  /* The spinner's room in a panel that refreshes, held between refreshes. */
+  .surf-dashboard-panel-refresh {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--surf-size-spinner-small);
+    block-size: var(--surf-size-spinner-small);
+  }
+  /* Controls on the content follow the title; where the row is too narrow for both,
+     the toolbar and the actions take the next line, at its start, and the title and
+     what belongs to it keep the first. */
+  .surf-dashboard-panel-header[data-toolbar] {
+    flex-wrap: wrap;
+  }
+  .surf-dashboard-panel-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--surf-space-2);
+    min-inline-size: 0;
   }
   .surf-dashboard-panel-actions {
     display: flex;

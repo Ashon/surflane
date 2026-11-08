@@ -54,4 +54,52 @@ export const StatusBadge = function StatusBadge({
     />
   )
 }
+export type StatusDotProps = Omit<
+  React.ComponentPropsWithoutRef<'span'>,
+  'children'
+> & {
+  /** The state the dot colors, as StatusBadge's tones do. */
+  tone?: StatusTone
+  /** The state's name, when no text nearby says it: the dot is then an image of
+   * that name. Without it the dot is decorative, hidden from assistive technology. */
+  label?: string
+} & (
+    | {
+        /** Pulses while the state is under way, such as working; still when motion
+         * is reduced. */
+        live?: boolean
+        attention?: never
+      }
+    | {
+        /** Blinks three times as the state arrives, such as waiting for an answer,
+         * then holds still; still when motion is reduced. */
+        attention?: boolean
+        live?: never
+      }
+  )
+/** A status without words: a dot in the tone's color beside text that names the
+ * state, such as a group's count, or with `label` where nothing does. */
+export const StatusDot = function StatusDot({
+  tone = 'neutral',
+  label,
+  live = false,
+  attention = false,
+  className,
+  ref,
+  ...props
+}: StatusDotProps & { ref?: React.Ref<HTMLSpanElement> }) {
+  return (
+    <span
+      {...props}
+      ref={ref}
+      role={label ? 'img' : undefined}
+      aria-label={label || undefined}
+      aria-hidden={label ? undefined : true}
+      className={cx('surf-status-dot', className)}
+      data-tone={tone}
+      data-live={live || undefined}
+      data-attention={attention || undefined}
+    />
+  )
+}
 export type { StatusTone } from './status.js'

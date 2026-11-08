@@ -50,6 +50,7 @@ export const Stack = function Stack({
 export const Inline = function Inline({
   gap,
   justify = 'start',
+  wrap = true,
   className,
   style,
   ref,
@@ -57,6 +58,10 @@ export const Inline = function Inline({
 }: React.ComponentProps<'div'> & {
   gap?: Space
   justify?: 'start' | 'between' | 'end'
+  /** false keeps one line, such as a card's title row: an Inline or a Stack inside
+   * gives way, cutting its text short, and the other parts, such as an avatar or a
+   * badge, keep their size. By default a row too narrow for its parts wraps them. */
+  wrap?: boolean
 } & { ref?: React.Ref<HTMLDivElement> }) {
   return (
     <div
@@ -64,6 +69,7 @@ export const Inline = function Inline({
       ref={ref}
       className={cx('surf-inline', className)}
       data-justify={justify}
+      data-wrap={wrap ? undefined : 'false'}
       style={gapStyle(gap, style)}
     />
   )
@@ -79,9 +85,10 @@ export type GridColumns =
       /** As many columns as the grid's own width fits, each at least min wide, so
        * the grid reflows by the room it has, not by the window. */
       columns: 'auto'
-      /** The narrowest column, by what it holds: a figure (tile, 10rem), a card or
-       * a panel (card, 20rem), or a chart or a table of a few columns (wide, 30rem). */
-      min?: 'tile' | 'card' | 'wide'
+      /** The narrowest column, by what it holds: a figure (tile, 10rem), a brief
+       * card of a name and a line or two (brief, 14rem), a card or a panel (card,
+       * 20rem), or a chart or a table of a few columns (wide, 30rem). */
+      min?: 'tile' | 'brief' | 'card' | 'wide'
     }
 export type GridProps = React.ComponentProps<'div'> & {
   gap?: Space

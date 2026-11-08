@@ -31,16 +31,28 @@ const CardRoot = function CardRoot({
 }
 const CardTitle = function CardTitle({
   level = 3,
+  lines,
   className,
+  style,
   ref,
   ...props
-}: React.ComponentPropsWithoutRef<'h3'> & { level?: 2 | 3 | 4 | 5 | 6 } & {
+}: React.ComponentPropsWithoutRef<'h3'> & {
+  level?: 2 | 3 | 4 | 5 | 6
+  /** Shows at most this many lines and ends the last with an ellipsis, its action's
+   * included, so every card in a collection keeps one title height. */
+  lines?: number
+} & {
   ref?: React.Ref<HTMLHeadingElement>
 }) {
   return React.createElement(`h${level}`, {
     ...props,
     ref,
     className: cx('surf-card-title', className),
+    'data-lines': lines,
+    style:
+      lines === undefined
+        ? style
+        : ({ '--surf-text-lines': lines, ...style } as React.CSSProperties),
   })
 }
 export type CardActionProps =

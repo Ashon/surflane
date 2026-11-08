@@ -4,7 +4,7 @@ const en = {
   intro:
     'Use Grid columns for equal cards, and the 12 / 6 / 4 layout grid for regions of different widths, such as main content beside a panel.',
   autoColumns:
-    "A fixed count steps down with the window. Where a grid's room does not follow the window, such as beside a sidebar or inside a panel, columns='auto' fits as many columns as the grid's own width holds, each at least min: 'tile' 10rem for a figure and its label, 'card' 20rem for a card, 'wide' 30rem for a chart or a small table.",
+    "A fixed count steps down with the window. Where a grid's room does not follow the window, such as beside a sidebar or inside a panel, columns='auto' fits as many columns as the grid's own width holds, each at least min: 'tile' 10rem for a figure and its label, 'brief' 14rem for a card of a name and a line or two, such as one of many sessions, 'card' 20rem for a card, 'wide' 30rem for a chart or a small table.",
   breakpointsLabel: 'Grid breakpoints',
   caption: 'Grid by viewport',
   viewport: 'Viewport',
@@ -36,7 +36,7 @@ export const text: Record<Locale, typeof en> = {
     intro:
       '같은 크기의 카드에는 Grid 열을, 본문 옆 패널처럼 너비가 다른 영역에는 12 / 6 / 4 레이아웃 그리드를 쓰세요.',
     autoColumns:
-      "고정 열 개수는 창이 좁아지면 단계로 줄어듭니다. 사이드바 옆이나 패널 안처럼 그리드의 공간이 창을 따르지 않는 곳에서는 columns='auto'가 그리드 자체 너비가 담는 만큼 열을 두고, 각 열은 최소 min을 지킵니다. 'tile'은 수치와 그 레이블에 맞는 10rem, 'card'는 카드에 맞는 20rem, 'wide'는 차트나 작은 표에 맞는 30rem입니다.",
+      "고정 열 개수는 창이 좁아지면 단계로 줄어듭니다. 사이드바 옆이나 패널 안처럼 그리드의 공간이 창을 따르지 않는 곳에서는 columns='auto'가 그리드 자체 너비가 담는 만큼 열을 두고, 각 열은 최소 min을 지킵니다. 'tile'은 수치와 그 레이블에 맞는 10rem, 'brief'는 여러 세션 가운데 하나처럼 이름과 한두 줄을 담는 카드에 맞는 14rem, 'card'는 카드에 맞는 20rem, 'wide'는 차트나 작은 표에 맞는 30rem입니다.",
     breakpointsLabel: '그리드 브레이크포인트',
     caption: '뷰포트별 그리드',
     viewport: '뷰포트',

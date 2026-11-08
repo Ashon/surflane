@@ -17,6 +17,8 @@ export const doc: DocKo = {
     'Root.padding': '공유 Space 토큰 단계',
     'Root.size':
       'small | default | large: SizeProvider처럼 패딩, 제목, 안의 컨트롤 크기를 정합니다',
+    'Title.lines':
+      '최대 줄 수. 마지막 줄은 말줄임으로 끝나고 Action의 글자도 같이 잘려, 컬렉션의 모든 카드가 제목 높이를 지킵니다',
     Action:
       '카드 위로 퍼지는 버튼, 또는 href가 있는 링크. Sheet.Trigger render={<Card.Action />}처럼 trigger의 render로 쓰면 카드를 눌러 그것을 엽니다',
     'Header / Body / Footer / Description': '네이티브 div 또는 p 속성과 size',

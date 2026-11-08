@@ -6,6 +6,7 @@ import {
   Stat,
   ToggleGroup,
   Toggle,
+  SegmentedControl,
 } from '@surflane/ui'
 import { Dashboard } from '@surflane/ui/dashboard'
 import { LineChart, type ChartDatum } from '@surflane/ui/chart'
@@ -40,6 +41,7 @@ export function DashboardExample() {
   const t = text[locale]
   const [demo, setDemo] = useState<Demo>('ready')
   const [range, setRange] = useState(24 * 3_600_000)
+  const [order, setOrder] = useState<'most' | 'name'>('most')
   const time = timeText[locale]
   const ranges = timeRangeOptions.map((option, index) => ({
     ...option,
@@ -125,14 +127,32 @@ export function DashboardExample() {
               </Stat.Root>
             </Stat.Group>
           </Dashboard.Panel>
+          {/* A control that acts on the panel's content sits right after its title. */}
           <Dashboard.Panel
             title={t.tokens}
             description={t.tokensDescription}
+            toolbar={
+              <SegmentedControl.Root
+                aria-label={t.order}
+                value={order}
+                onValueChange={setOrder}
+              >
+                {t.orders.map(([value, label]) => (
+                  <SegmentedControl.Item key={value} value={value}>
+                    {label}
+                  </SegmentedControl.Item>
+                ))}
+              </SegmentedControl.Root>
+            }
             {...panel}
           >
             <BarList
               label={t.tokens}
-              items={projects.map(([label, value]) => ({
+              sorted={order === 'most'}
+              items={(order === 'name'
+                ? [...projects].sort(([a], [b]) => a.localeCompare(b))
+                : projects
+              ).map(([label, value]) => ({
                 id: label,
                 label,
                 value,

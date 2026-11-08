@@ -51,6 +51,65 @@
     color: var(--surf-status-info-fg);
     background: var(--surf-badge-info-bg);
   }
+  /* A status without words, for a state that text nearby names, such as a group's
+     count: a dot in the tone's color, flat like an avatar's status marker. */
+  .surf-status-dot {
+    display: inline-block;
+    flex: none;
+    vertical-align: middle;
+    inline-size: var(--surf-status-dot-size);
+    block-size: var(--surf-status-dot-size);
+    border-radius: var(--surf-radius-full);
+    background: var(--surf-status-neutral-fg);
+  }
+  .surf-status-dot[data-tone='info'] {
+    background: var(--surf-status-info-fg);
+  }
+  .surf-status-dot[data-tone='success'] {
+    background: var(--surf-status-success-fg);
+  }
+  .surf-status-dot[data-tone='danger'] {
+    background: var(--surf-status-danger-fg);
+  }
+  .surf-status-dot[data-tone='caution'] {
+    background: var(--surf-status-caution-fg);
+  }
+  .surf-status-dot[data-tone='progress'] {
+    background: var(--surf-status-progress-fg);
+  }
+  /* Live pulses while the state is under way, as an avatar's marker does. */
+  .surf-status-dot[data-live] {
+    animation: surf-status-dot-pulse var(--surf-motion-pulse) ease-in-out
+      infinite;
+  }
+  /* Attention blinks three times as the state arrives, such as waiting for an
+     answer, then holds still: blinking past five seconds would need a way to stop
+     it. */
+  .surf-status-dot[data-attention] {
+    animation: surf-status-dot-blink var(--surf-motion-pulse) steps(1, end) 3;
+  }
+  @keyframes surf-status-dot-pulse {
+    50% {
+      opacity: 0.45;
+    }
+  }
+  @keyframes surf-status-dot-blink {
+    50% {
+      opacity: 0.2;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .surf-status-dot:is([data-live], [data-attention]) {
+      animation: none;
+    }
+  }
+  /* Forced colors drop the fill, so the dot keeps a system color; the words
+     nearby, or its label, tell the states apart. */
+  @media (forced-colors: active) {
+    .surf-status-dot {
+      background: CanvasText;
+    }
+  }
   @media (forced-colors: active) {
     .surf-badge {
       border: 1px solid CanvasText;

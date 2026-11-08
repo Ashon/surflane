@@ -1,4 +1,7 @@
+import React from 'react'
+import { renderToStaticMarkup } from 'react-dom/server'
 import { waitForCatalogReady } from './catalog-ready'
+import { StatusDot } from '../packages/ui/dist/badge.js'
 import { test, expect } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 import { navigationExampleIds } from '../demo/NavigationExamples'
@@ -260,6 +263,79 @@ test('Badges use quiet surfaces and text/icons; live updates are opt-in at sente
     'danger',
   )
   await expect(sentence.locator('svg')).toHaveAttribute('aria-hidden', 'true')
+})
+test('a status dot takes its tone beside the words that name it; live pulses, attention blinks three times, and reduced motion stills both', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await page.goto('/components/badge')
+  await waitForCatalogReady(page)
+  const dots = page.locator('.component-example .surf-status-dot')
+  await expect(dots).toHaveCount(3)
+  const read = () =>
+    dots.evaluateAll((els) =>
+      els.map((el) => {
+        const probe = document.createElement('span')
+        const tone = el.getAttribute('data-tone')!
+        probe.style.color = `var(--surf-status-${tone}-fg)`
+        el.parentElement!.append(probe)
+        const expected = getComputedStyle(probe).color
+        probe.remove()
+        const style = getComputedStyle(el)
+        const box = el.getBoundingClientRect()
+        return {
+          tone,
+          hidden: el.getAttribute('aria-hidden'),
+          role: el.getAttribute('role'),
+          background: style.backgroundColor,
+          expected,
+          size: [box.width, box.height],
+          animation: style.animationName,
+          count: style.animationIterationCount,
+          seconds: Number.parseFloat(style.animationDuration),
+          words: el.nextElementSibling?.textContent ?? '',
+        }
+      }),
+    )
+  const [working, waiting, idle] = await read()
+  for (const dot of [working, waiting, idle]) {
+    expect(dot.hidden, dot.tone).toBe('true')
+    expect(dot.role, dot.tone).toBeNull()
+    expect(dot.background, dot.tone).toBe(dot.expected)
+    expect(dot.size, dot.tone).toEqual([8, 8])
+    expect(dot.words.length, dot.tone).toBeGreaterThan(0)
+  }
+  expect([working.tone, waiting.tone, idle.tone]).toEqual([
+    'progress',
+    'caution',
+    'neutral',
+  ])
+  expect([working.animation, working.count]).toEqual([
+    'surf-status-dot-pulse',
+    'infinite',
+  ])
+  // Blinking past five seconds would need a control to stop it.
+  expect([waiting.animation, waiting.count]).toEqual([
+    'surf-status-dot-blink',
+    '3',
+  ])
+  expect(waiting.seconds * 3).toBeLessThan(5)
+  expect(idle.animation).toBe('none')
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  for (const dot of await read()) expect(dot.animation, dot.tone).toBe('none')
+  // With a label, where no words beside it say the state, it is an image of it.
+  await page.locator('#main-content').evaluate(
+    (main, html) => main.insertAdjacentHTML('beforeend', html),
+    renderToStaticMarkup(
+      React.createElement(StatusDot, {
+        tone: 'caution',
+        label: 'Waiting for you',
+      }),
+    ),
+  )
+  const named = page.getByRole('img', { name: 'Waiting for you' })
+  await expect(named).toHaveAttribute('data-tone', 'caution')
+  await expect(named).not.toHaveAttribute('aria-hidden')
 })
 test('Separator exposes orientation and its inset changes only the line extent', async ({
   page,

@@ -90,8 +90,8 @@
     position: absolute;
     inset-inline-end: 0;
     bottom: 0;
-    width: max(8px, 25%);
-    height: max(8px, 25%);
+    width: max(var(--surf-status-dot-size), 25%);
+    height: max(var(--surf-status-dot-size), 25%);
     box-sizing: border-box;
     border: 2px solid var(--surf-plane);
     border-radius: var(--surf-radius-full);

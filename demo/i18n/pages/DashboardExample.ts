@@ -11,6 +11,11 @@ const en = {
   diskByNode: 'Free disk by node',
   tokens: 'Tokens by project',
   tokensDescription: 'Prompt and completion tokens this week.',
+  order: 'Order',
+  orders: [
+    ['most', 'Most'],
+    ['name', 'A–Z'],
+  ] as ['most' | 'name', string][],
   jobs: 'Failed jobs',
   latency: 'Request latency',
   belowLimit: 'Below 30 GiB',
@@ -40,6 +45,11 @@ export const text: Record<Locale, typeof en> = {
     diskByNode: '노드별 남은 디스크',
     tokens: '프로젝트별 토큰',
     tokensDescription: '이번 주 프롬프트와 응답 토큰입니다.',
+    order: '순서',
+    orders: [
+      ['most', '많은 순'],
+      ['name', '이름순'],
+    ],
     jobs: '실패한 작업',
     latency: '요청 지연 시간',
     belowLimit: '30 GiB 미만',

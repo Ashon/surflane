@@ -82,12 +82,18 @@ export type DashboardPanelProps = Omit<
    * panels below don't move when the data arrives. 96px without it. */
   placeholderHeight?: number | string
   /** New data is on its way: the content stays, a spinner shows by the title and the
-   * panel is busy for assistive technology. */
+   * panel is busy for assistive technology. A panel that refreshes passes false
+   * between refreshes rather than leaving it out: it then keeps the spinner's room,
+   * so its toolbar and the rest of the header stay put when the spinner shows. */
   refreshing?: boolean
   /** Shows a retry button in the error message. */
   onRetry?: () => void
   /** Why it failed or why it is empty, in place of the default text. */
   message?: React.ReactNode
+  /** Controls that act on the panel's content, such as how its items are grouped,
+   * right after the title. On a narrow panel they take the next line; a folded panel
+   * hides them with its content. */
+  toolbar?: React.ReactNode
   /** Controls at the end of the header, such as a menu. */
   actions?: React.ReactNode
   /** Columns the panel spans where they fit; a phone shows one. */
@@ -113,9 +119,10 @@ const Panel = function DashboardPanel({
   description,
   level = 3,
   state = 'ready',
-  refreshing = false,
+  refreshing,
   onRetry,
   message,
+  toolbar,
   actions,
   span,
   placeholderHeight,
@@ -134,7 +141,7 @@ const Panel = function DashboardPanel({
   const provided = useLabels<DashboardPanelLabels>('dashboardPanel')
   const text = { ...panelLabels, ...provided, ...labels }
   const id = React.useId()
-  const busy = state === 'loading' || refreshing
+  const busy = state === 'loading' || refreshing === true
   const titleRef = React.useRef<HTMLHeadingElement>(null)
   const [own, setOwn] = React.useState(defaultOpen)
   // A remembered state is read before paint, so the first frame is already right on
@@ -168,56 +175,73 @@ const Panel = function DashboardPanel({
       data-open={collapsible ? String(isOpen) : undefined}
       className={cx('surf-dashboard-panel', className)}
     >
-      <div className='surf-dashboard-panel-header'>
-        {/* A narrow panel cuts its title short; the full one shows on hover. */}
-        <Card.Title
-          level={level}
-          id={`${id}-title`}
-          title={title}
-          ref={titleRef}
-          tabIndex={-1}
+      <div
+        className='surf-dashboard-panel-header'
+        data-toolbar={isOpen && toolbar != null ? '' : undefined}
+      >
+        {/* The title and what belongs to it stay on one line: a narrow panel cuts the
+            title short, the full one showing on hover, and a toolbar wraps first. */}
+        <div
+          className='surf-dashboard-panel-lead'
+          data-summary={!isOpen && summary != null ? '' : undefined}
         >
-          {collapsible ? (
-            <button
-              type='button'
-              className='surf-dashboard-panel-toggle'
-              aria-expanded={isOpen}
-              aria-controls={isOpen ? `${id}-body` : undefined}
-              onClick={toggle}
-            >
-              <Icon
-                name='chevron-forward'
-                className='surf-dashboard-panel-chevron'
-              />
-              <span className='surf-dashboard-panel-title-text'>{title}</span>
-            </button>
-          ) : (
-            title
-          )}
-        </Card.Title>
-        {!isOpen && summary != null && (
-          <span className='surf-dashboard-panel-summary'>{summary}</span>
-        )}
-        {description && (
-          <Popover.Root>
-            <Popover.Trigger
-              render={
-                <Button
-                  variant='ghost'
-                  size='icon-small'
-                  aria-label={text.about(title)}
+          <Card.Title
+            level={level}
+            id={`${id}-title`}
+            title={title}
+            ref={titleRef}
+            tabIndex={-1}
+          >
+            {collapsible ? (
+              <button
+                type='button'
+                className='surf-dashboard-panel-toggle'
+                aria-expanded={isOpen}
+                aria-controls={isOpen ? `${id}-body` : undefined}
+                onClick={toggle}
+              >
+                <Icon
+                  name='chevron-forward'
+                  className='surf-dashboard-panel-chevron'
                 />
-              }
-            >
-              <Icon name='info' />
-            </Popover.Trigger>
-            <Popover.Content size='small'>
-              <Popover.Description>{description}</Popover.Description>
-            </Popover.Content>
-          </Popover.Root>
-        )}
-        {refreshing && state !== 'loading' && (
-          <Spinner size='small' label={text.refreshing} />
+                <span className='surf-dashboard-panel-title-text'>{title}</span>
+              </button>
+            ) : (
+              title
+            )}
+          </Card.Title>
+          {!isOpen && summary != null && (
+            <span className='surf-dashboard-panel-summary'>{summary}</span>
+          )}
+          {description && (
+            <Popover.Root>
+              <Popover.Trigger
+                render={
+                  <Button
+                    variant='ghost'
+                    size='icon-small'
+                    aria-label={text.about(title)}
+                  />
+                }
+              >
+                <Icon name='info' />
+              </Popover.Trigger>
+              <Popover.Content size='small'>
+                <Popover.Description>{description}</Popover.Description>
+              </Popover.Content>
+            </Popover.Root>
+          )}
+          {refreshing !== undefined ? (
+            // The spinner's room, kept between refreshes so nothing after it moves.
+            <span className='surf-dashboard-panel-refresh'>
+              {refreshing && state !== 'loading' && (
+                <Spinner size='small' label={text.refreshing} />
+              )}
+            </span>
+          ) : null}
+        </div>
+        {isOpen && toolbar != null && (
+          <div className='surf-dashboard-panel-toolbar'>{toolbar}</div>
         )}
         {actions && (
           <div className='surf-dashboard-panel-actions'>{actions}</div>

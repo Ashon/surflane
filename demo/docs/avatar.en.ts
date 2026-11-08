@@ -3,7 +3,7 @@ export const doc: ComponentDoc = {
   usage: [
     "Show a user image, with initials or an SVG as the fallback when the image is missing or fails. Set the alt text or Root name so a nearby name isn't announced twice. Status is a decorative badge, separate from the image. Expose the actual status through Root's aria-description or adjacent text.",
     'For things without a picture, such as projects, sessions or hosts, set category={categoryFor(name)}: the same name always gets the same of twelve category hues, as a tint behind initials in ink.',
-    "Status.tone colors the marker as StatusBadge's tones do, and live pulses it while work runs, such as a session working now. Reduced motion keeps it still. Say the state in text too, such as a StatusBadge beside the name.",
+    "Status.tone colors the marker as StatusBadge's tones do, and live pulses it while work runs, such as a session working now. Reduced motion keeps it still. Say the state in text too, such as a StatusBadge beside the name. Where there is no avatar, such as beside a group's count, StatusDot is the same dot on its own.",
   ],
   avoid: [
     "Don't make the Avatar span itself an account menu. Wrap it in a named button or Popover.Trigger instead.",

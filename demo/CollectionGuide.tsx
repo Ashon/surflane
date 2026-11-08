@@ -138,8 +138,9 @@ function SessionCard({ session, t }: { session: Session; t: Copy }) {
     <Sheet.Root>
       <Card.Root data-testid='collection-card'>
         <Card.Header>
-          <Inline justify='between'>
-            <Inline gap={3}>
+          {/* One line: the name cuts short, and the badge keeps its place. */}
+          <Inline justify='between' wrap={false}>
+            <Inline gap={3} wrap={false}>
               <Avatar.Root
                 category={categoryFor(session.name)}
                 aria-hidden='true'
@@ -147,16 +148,16 @@ function SessionCard({ session, t }: { session: Session; t: Copy }) {
                 <Avatar.Fallback>{initials(session.name)}</Avatar.Fallback>
                 {session.live && <Avatar.Status tone={session.tone} live />}
               </Avatar.Root>
-              <div>
-                <Card.Title>
+              <Stack gap={0}>
+                <Card.Title lines={1}>
                   <Sheet.Trigger render={<Card.Action />}>
                     {session.name}
                   </Sheet.Trigger>
                 </Card.Title>
-                <Text variant='caption' color='secondary'>
+                <Text variant='caption' color='secondary' lines={1}>
                   {session.agent}
                 </Text>
-              </div>
+              </Stack>
             </Inline>
             <StatusBadge tone={session.tone}>{session.state}</StatusBadge>
           </Inline>
@@ -218,6 +219,7 @@ export function CollectionGuide() {
   Meter,
   Sheet,
   SizeProvider,
+  Stack,
   Stat,
   StatusBadge,
   Text,
@@ -230,8 +232,8 @@ export function CollectionGuide() {
       <Sheet.Root key={session.id}>
         <Card.Root>
           <Card.Header>
-            <Inline justify='between'>
-              <Inline gap={3}>
+            <Inline justify='between' wrap={false}>
+              <Inline gap={3} wrap={false}>
                 <Avatar.Root
                   category={categoryFor(session.name)}
                   aria-hidden='true'
@@ -239,16 +241,16 @@ export function CollectionGuide() {
                   <Avatar.Fallback>{session.initials}</Avatar.Fallback>
                   {session.working && <Avatar.Status tone='progress' live />}
                 </Avatar.Root>
-                <div>
-                  <Card.Title>
+                <Stack gap={0}>
+                  <Card.Title lines={1}>
                     <Sheet.Trigger render={<Card.Action />}>
                       {session.name}
                     </Sheet.Trigger>
                   </Card.Title>
-                  <Text variant='caption' color='secondary'>
+                  <Text variant='caption' color='secondary' lines={1}>
                     {session.agent}
                   </Text>
-                </div>
+                </Stack>
               </Inline>
               <StatusBadge tone={session.tone}>{session.state}</StatusBadge>
             </Inline>

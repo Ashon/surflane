@@ -30,22 +30,23 @@ test('an auto Grid fits as many columns as its own width holds, each at least it
   await page.setViewportSize({ width: 1440, height: 1000 })
   await page.goto('/foundations/layout')
   await waitForCatalogReady(page)
-  const grids = (['tile', 'card', 'wide', undefined] as const).flatMap((min) =>
-    [300, 700, 1000].map((width) =>
-      React.createElement(
-        'div',
-        { key: `${min}-${width}`, style: { width } },
+  const grids = (['tile', 'brief', 'card', 'wide', undefined] as const).flatMap(
+    (min) =>
+      [300, 700, 1000].map((width) =>
         React.createElement(
-          Grid,
-          {
-            columns: 'auto',
-            min,
-            'data-auto-grid': `${min ?? 'default'}-${width}`,
-          },
-          ...cells(8),
+          'div',
+          { key: `${min}-${width}`, style: { width } },
+          React.createElement(
+            Grid,
+            {
+              columns: 'auto',
+              min,
+              'data-auto-grid': `${min ?? 'default'}-${width}`,
+            },
+            ...cells(8),
+          ),
         ),
       ),
-    ),
   )
   await mount(
     page,
@@ -70,7 +71,7 @@ test('an auto Grid fits as many columns as its own width holds, each at least it
     }),
   )
   const rem = 16
-  const minimum = { tile: 10, card: 20, wide: 30, default: 20 }
+  const minimum = { tile: 10, brief: 14, card: 20, wide: 30, default: 20 }
   for (const grid of measured) {
     const kind = grid.name!.split('-')[0] as keyof typeof minimum
     expect(grid.min, grid.name!).toBe(minimum[kind] * rem)
@@ -130,6 +131,37 @@ test.describe('the collection example', () => {
     await page.setViewportSize({ width: 1440, height: 1000 })
     await page.goto('/foundations/layout#collections')
     await waitForCatalogReady(page)
+  })
+
+  test('a long name cuts short on the title row, and the badge keeps its place and the header its height', async ({
+    page,
+  }) => {
+    const card = page.getByTestId('collection-card').first()
+    const measure = () =>
+      card.evaluate((element) => {
+        const box = (selector: string) =>
+          element.querySelector(selector)!.getBoundingClientRect()
+        const action = element.querySelector<HTMLElement>('.surf-card-action')!
+        return {
+          header: box('.surf-card-header').height,
+          badge: [box('.surf-badge').top, box('.surf-badge').width],
+          avatar: box('.surf-avatar').width,
+          cut: action.scrollHeight > action.clientHeight + 1,
+          end: box('.surf-badge').right <= box('.surf-card-header').right + 0.5,
+        }
+      })
+    const short = await measure()
+    expect(short.cut).toBe(false)
+    await card.locator('.surf-card-action').evaluate((action) => {
+      action.textContent =
+        'Fix iOS Simulator audio crackle on launch and again after resume'
+    })
+    const long = await measure()
+    expect(long.cut).toBe(true)
+    expect(long.header).toBe(short.header)
+    expect(long.badge).toEqual(short.badge)
+    expect(long.avatar).toBe(short.avatar)
+    expect(long.end).toBe(true)
   })
 
   test('cards in a row line up their parts, and the varying text takes two lines', async ({

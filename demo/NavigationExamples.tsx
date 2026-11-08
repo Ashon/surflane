@@ -11,6 +11,7 @@ import {
   Inline,
   Badge,
   StatusBadge,
+  StatusDot,
   Kbd,
   Table,
   Separator,
@@ -281,6 +282,21 @@ function BadgeExample() {
           </StatusBadge>
         ))}
         <Badge>{t.threeEnvironments}</Badge>
+      </Inline>
+      {/* A dot where the words beside it name the state, such as a group's count. */}
+      <Inline gap={5}>
+        <Inline gap={2}>
+          <StatusDot tone='progress' live />
+          <Text as='span'>{t.dotWorking}</Text>
+        </Inline>
+        <Inline gap={2}>
+          <StatusDot tone='caution' attention />
+          <Text as='span'>{t.dotWaiting}</Text>
+        </Inline>
+        <Inline gap={2}>
+          <StatusDot />
+          <Text as='span'>{t.dotIdle}</Text>
+        </Inline>
       </Inline>
       <Field.Root>
         <Field.Label>{t.statusPreview}</Field.Label>

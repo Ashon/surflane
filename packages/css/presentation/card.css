@@ -64,6 +64,17 @@
     text-decoration: none;
     cursor: pointer;
   }
+  /* At most --surf-text-lines lines, the last ending with an ellipsis. A button
+     is a box of its own, so its text is clamped inside it. */
+  .surf-card-title[data-lines],
+  .surf-card-title[data-lines] > button.surf-card-action {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: var(--surf-text-lines);
+    line-clamp: var(--surf-text-lines);
+    overflow: hidden;
+    overflow-wrap: anywhere;
+  }
   .surf-card-action::after {
     content: '';
     position: absolute;

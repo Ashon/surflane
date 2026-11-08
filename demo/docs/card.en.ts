@@ -58,6 +58,11 @@ export const doc: ComponentDoc = {
     ],
     ['Title.level', '2 | 3 | 4 | 5 | 6', '3'],
     [
+      'Title.lines',
+      "at most this many lines, the last ending with an ellipsis, its action's included, so every card in a collection keeps one title height",
+      '—',
+    ],
+    [
       'Action',
       "a button, or a link with href, stretched over the card; as a trigger's render, such as Sheet.Trigger render={<Card.Action />}, it opens that",
       '—',

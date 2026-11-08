@@ -1,7 +1,7 @@
 import type { ComponentDoc } from '../componentDocs'
 export const doc: ComponentDoc = {
   usage:
-    "Put a monitoring screen's data panels on one grid. Dashboard.Root fits as many columns as panels of 20rem; a phone shows one. Each Dashboard.Panel is a card with its title, an optional description behind an info button, actions at the end of its header, and the state of its data: a placeholder until the first data arrives, a message with retry when it fails, a sentence when the range is empty. While it refreshes, the content stays and a spinner shows by the title. A secondary panel can be collapsible: folded to its title and a summary line, remembered across visits. It keeps its own height, so beside a taller panel the rest of its row stays empty. Wrap a dense dashboard in SizeProvider size='small' density='compact': panels sit and pad 12px, titles take the label role, and the charts and tables inside turn compact.",
+    "Put a monitoring screen's data panels on one grid. Dashboard.Root fits as many columns as panels of 20rem; a phone shows one. Each Dashboard.Panel is a card with its title, an optional description behind an info button, controls on its content, such as how its items are grouped, right after the title, actions at the end of its header, and the state of its data: a placeholder until the first data arrives, a message with retry when it fails, a sentence when the range is empty. While it refreshes, the content stays and a spinner shows by the title; a panel that refreshes passes refreshing={false} between refreshes, so the spinner's room stays and the toolbar after it never moves. A secondary panel can be collapsible: folded to its title and a summary line, remembered across visits. It keeps its own height, so beside a taller panel the rest of its row stays empty. Wrap a dense dashboard in SizeProvider size='small' density='compact': panels sit and pad 12px, titles take the label role, and the charts and tables inside turn compact.",
   avoid: [
     "Don't clear a panel while it refreshes. Keep the last values and set refreshing.",
     "Don't put a page's other sections in panels. A dashboard is the one place where every block is a card.",
@@ -10,7 +10,7 @@ export const doc: ComponentDoc = {
   keyboard:
     "Each panel is a group named by its title, busy while it loads or refreshes. The info button opens the description in a popover; Escape closes it. Retry and the header actions are ordinary buttons. When Retry clears the error and takes its button away, focus moves to the panel title. A collapsible panel's title is a button that says whether it is expanded: Enter or Space folds or unfolds it.",
   anatomy:
-    'Root(grid) → Panel: Card(role=group, aria-labelledby, aria-busy) → header(Title(toggle button?), summary?, info Popover?, Spinner?, actions?) + body(DataState: Skeleton | InlineMessage + Retry | empty text | children), not rendered while folded',
+    'Root(grid) → Panel: Card(role=group, aria-labelledby, aria-busy) → header(Title(toggle button?), summary?, info Popover?, Spinner room?, toolbar?, actions?) + body(DataState: Skeleton | InlineMessage + Retry | empty text | children), not rendered while folded',
   tokens: [
     '--surf-space-4',
     '--surf-space-3',
@@ -74,13 +74,18 @@ import { SizeProvider, Stat } from '@surflane/ui'
     ],
     [
       'Panel.refreshing',
-      'keeps the content, shows a spinner by the title and marks the panel busy',
-      'false',
+      "keeps the content, shows a spinner by the title and marks the panel busy; false, rather than left out, keeps the spinner's room between refreshes",
+      '—',
     ],
     [
       'Panel.onRetry / message',
       'a retry button in the error or stale message / the error, stale or empty text',
       '— / labels',
+    ],
+    [
+      'Panel.toolbar',
+      "controls on the panel's content, such as how its items are grouped, right after the title; on a narrow panel they take the next line, and a folded panel hides them",
+      '—',
     ],
     ['Panel.actions', 'controls at the end of the header', '—'],
     [

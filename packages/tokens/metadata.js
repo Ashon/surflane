@@ -95,6 +95,8 @@ export const descriptions = {
   '--surf-control-choice-selected-border':
     'State border that matches the selected surface',
   '--surf-icon-stroke-width': 'Shared stroke width within a 24×24 viewBox',
+  '--surf-status-dot-size':
+    "A status dot's diameter, and the smallest an avatar's status marker gets",
   '--surf-chart-line-width':
     "A chart series line's weight, which the legend's swatches follow",
   '--surf-chart-line-quiet-ratio':
@@ -170,6 +172,8 @@ export const descriptions = {
   '--surf-layout-columns': 'Base grid: 12 → 6 → 4 columns',
   '--surf-layout-column-tile':
     'Narrowest auto Grid column for a figure and its label',
+  '--surf-layout-column-brief':
+    'Narrowest auto Grid column for a brief card: a name and a line or two',
   '--surf-layout-column-card':
     'Narrowest auto Grid column for a card, and a Dashboard panel',
   '--surf-layout-column-wide':

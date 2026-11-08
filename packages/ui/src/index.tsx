@@ -394,7 +394,9 @@ export { categoryFor, type AvatarCategory } from './category.js'
 export {
   Badge,
   StatusBadge,
+  StatusDot,
   type BadgeProps,
+  type StatusDotProps,
   type StatusTone,
 } from './badge.js'
 export {

@@ -4,8 +4,18 @@
 
 ## Unreleased
 
+### Added
+
+- `Grid columns='auto' min='brief'` keeps a column at least 14rem, `--surf-layout-column-brief`, for a card of a name and a line or two with nothing beside the name: between `'tile'` at 10rem and `'card'` at 20rem. A card whose title row also holds an avatar and a badge still wants `'card'`.
+- `Dashboard.Panel` takes `toolbar`, controls that act on the panel's content, such as how its items are grouped, right after the title and before the actions. On a narrow panel they take the next line, and a folded panel hides them with its content.
+- `StatusDot` from `@surflane/ui/badge`, a status without words for a state that text beside it names, such as a group's count: a flat dot in StatusBadge's tones, `--surf-status-dot-size` across, as an avatar's status marker is. `live` pulses it while the state is under way; `attention` blinks it three times as the state arrives, such as waiting for an answer, then holds it still, inside the five seconds after which blinking would need a control to stop it. Both are still under reduced motion, and taking both is a type error. With `label` it is an image of that name where no text says the state; without, it is hidden from assistive technology. Avatar.Status's smallest size is the same token.
+- `Inline wrap={false}` keeps one line, such as a card's title row: an Inline or a Stack inside gives way and cuts its text short, and the other parts, such as an avatar or a badge, keep their size. An Inline wraps its parts by default, which moved a badge to a line of its own beside a long name.
+- `Card.Title lines={n}` shows at most n lines and ends the last with an ellipsis, its `Card.Action`'s text included.
+
 ### Changed
 
+- The Collections guide's title row keeps one line: `Inline wrap={false}` around the avatar, the title and the badge, `Card.Title lines={1}` and a one-line metadata line. A long name used to move the badge to the next line and make every card in its row taller.
+- `Dashboard.Panel refreshing={false}` keeps the spinner's room between refreshes, so the toolbar and actions after it no longer move when a refresh starts and ends. Leave `refreshing` out for a panel that never refreshes.
 - `LineChart`, `AreaChart`, `BarChart` and `ScatterChart` redraw once their room settles. While it keeps changing, as while AppShell's sidebar slides or a window edge is dragged, the plot holds the width it was drawn at, clipped to the chart, and the chart draws twice for a slide where it drew on every frame of it. A single change of room still draws at once.
 
 ### Fixed

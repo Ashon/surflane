@@ -35,7 +35,7 @@ const en = {
   rules: [
     [
       'Columns',
-      "Grid columns='auto' min='card': as many columns as fit the grid's own width, each at least 20rem. min='tile' fits a figure and its label, min='wide' a chart. A fixed count follows the window, so beside a sidebar or in a panel its cards get squeezed.",
+      "Grid columns='auto' min='card': as many columns as fit the grid's own width, each at least 20rem. min='tile' fits a figure and its label, min='brief' a card of a name and a line or two, min='wide' a chart. A fixed count follows the window, so beside a sidebar or in a panel its cards get squeezed.",
     ],
     [
       'Padding and gaps',
@@ -43,7 +43,7 @@ const en = {
     ],
     [
       'Header',
-      'Who it is: an Avatar colored by categoryFor(name), the title with Card.Action, a muted line of metadata, and one StatusBadge.',
+      "Who it is: an Avatar colored by categoryFor(name), the title with Card.Action, a muted line of metadata, and one StatusBadge. The row keeps one line, Inline wrap={false}: a long name cuts short with Card.Title lines={1}, and the badge keeps its place, so every card keeps the header's height.",
     ],
     [
       'State',
@@ -215,7 +215,7 @@ export const text: Record<Locale, typeof en> = {
     rules: [
       [
         '열',
-        "Grid columns='auto' min='card'는 그리드 자체 너비에 들어오는 만큼 열을 두고, 각 열은 최소 20rem입니다. min='tile'은 수치와 그 레이블, min='wide'는 차트에 맞는 크기입니다. 고정 열 개수는 창 너비를 따르므로, 사이드바 옆이나 패널 안에서는 카드가 좁게 눌립니다.",
+        "Grid columns='auto' min='card'는 그리드 자체 너비에 들어오는 만큼 열을 두고, 각 열은 최소 20rem입니다. min='tile'은 수치와 그 레이블, min='brief'는 이름과 한두 줄을 담는 카드, min='wide'는 차트에 맞는 크기입니다. 고정 열 개수는 창 너비를 따르므로, 사이드바 옆이나 패널 안에서는 카드가 좁게 눌립니다.",
       ],
       [
         '패딩과 간격',
@@ -223,7 +223,7 @@ export const text: Record<Locale, typeof en> = {
       ],
       [
         '헤더',
-        '누구인지를 보여 주는 자리입니다. categoryFor(name)이 고른 색의 Avatar, Card.Action이 들어 있는 제목, 흐린 색의 메타데이터 한 줄, StatusBadge 하나를 둡니다.',
+        '누구인지를 보여 주는 자리입니다. categoryFor(name)이 고른 색의 Avatar, Card.Action이 들어 있는 제목, 흐린 색의 메타데이터 한 줄, StatusBadge 하나를 둡니다. 이 줄은 Inline wrap={false}로 한 줄을 지킵니다. 긴 이름은 Card.Title lines={1}로 말줄임이 되고 배지는 제자리에 남아, 모든 카드가 머리줄 높이를 지킵니다.',
       ],
       [
         '상태',

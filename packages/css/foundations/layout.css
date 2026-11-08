@@ -39,6 +39,16 @@
   .surf-inline[data-justify='end'] {
     justify-content: flex-end;
   }
+  /* One line: the parts keep their size, and a layout inside gives way. */
+  .surf-inline[data-wrap='false'] {
+    flex-wrap: nowrap;
+  }
+  .surf-inline[data-wrap='false'] > * {
+    flex-shrink: 0;
+  }
+  .surf-inline[data-wrap='false'] > :is(.surf-inline, .surf-stack) {
+    flex-shrink: 1;
+  }
   .surf-grid {
     --surf-layout-grid-columns: 3;
     --surf-grid-inline-bleed: 0px;
@@ -74,6 +84,9 @@
   }
   .surf-grid[data-min='tile'] {
     --surf-grid-column-min: var(--surf-layout-column-tile);
+  }
+  .surf-grid[data-min='brief'] {
+    --surf-grid-column-min: var(--surf-layout-column-brief);
   }
   .surf-grid[data-min='card'] {
     --surf-grid-column-min: var(--surf-layout-column-card);

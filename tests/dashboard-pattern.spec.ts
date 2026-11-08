@@ -261,3 +261,52 @@ test("a chart with height='fill' takes a stretched panel's room", async ({
     Math.abs(body!.y + body!.height - (chart!.y + chart!.height)),
   ).toBeLessThan(2)
 })
+test("a panel's toolbar follows its title, takes the next line when the panel is narrow, and a refresh moves nothing", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1100 })
+  await page.goto('/patterns/dashboard')
+  await waitForCatalogReady(page)
+  const tokens = page.getByRole('group', { name: 'Tokens by project' })
+  const order = tokens.getByRole('group', { name: 'Order' })
+  const title = tokens.locator('.surf-card-title')
+  const room = tokens.locator('.surf-dashboard-panel-refresh')
+  const at = async () => {
+    const [toolbar, heading] = await Promise.all([
+      order.boundingBox(),
+      title.boundingBox(),
+    ])
+    return { toolbar: toolbar!, title: heading! }
+  }
+  // Right after the title, on its line; the spinner's room is kept between them.
+  const ready = await at()
+  expect(ready.toolbar.x).toBeGreaterThan(ready.title.x + ready.title.width)
+  expect(
+    Math.abs(
+      ready.toolbar.y +
+        ready.toolbar.height / 2 -
+        (ready.title.y + ready.title.height / 2),
+    ),
+  ).toBeLessThanOrEqual(1)
+  await expect(room).toHaveCSS('inline-size', '14px')
+  await expect(room.getByRole('status')).toHaveCount(0)
+  // It acts on the content.
+  const labels = () => tokens.locator('.surf-bar-list-name').allTextContents()
+  expect(await labels()).toEqual(['Harbor', 'Beacon', 'Tideline', 'Anchor'])
+  await order.getByRole('button', { name: 'A–Z' }).click()
+  await expect.poll(labels).toEqual(['Anchor', 'Beacon', 'Harbor', 'Tideline'])
+  // A refresh fills the kept room: the toolbar stays where it was.
+  const before = await at()
+  await page.getByRole('button', { name: 'Refreshing', exact: true }).click()
+  await expect(room.getByRole('status')).toHaveText('Refreshing')
+  expect((await at()).toolbar).toEqual(before.toolbar)
+  // A panel too narrow for both takes the toolbar to the next line, at the start.
+  await tokens.evaluate((panel) => {
+    panel.style.inlineSize = '200px'
+  })
+  const narrow = await at()
+  expect(narrow.toolbar.y).toBeGreaterThanOrEqual(
+    narrow.title.y + narrow.title.height,
+  )
+  expect(Math.abs(narrow.toolbar.x - narrow.title.x)).toBeLessThanOrEqual(1)
+})

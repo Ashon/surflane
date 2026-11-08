@@ -18,9 +18,11 @@
     --surf-layout-gutter: var(--surf-space-6);
     --surf-layout-columns: 12;
     /* The narrowest column of an auto Grid or a Dashboard, by what the column holds:
-     * a figure and its label, a card or a panel, or a chart or a table of a few
-     * columns. The columns share what is left. */
+     * a figure and its label, a brief card of a name and a line or two, a card or a
+     * panel, or a chart or a table of a few columns; each step about 1.4 times the
+     * last. The columns share what is left. */
     --surf-layout-column-tile: 10rem;
+    --surf-layout-column-brief: 14rem;
     --surf-layout-column-card: 20rem;
     --surf-layout-column-wide: 30rem;
     --surf-layout-description-measure: 68ch;
