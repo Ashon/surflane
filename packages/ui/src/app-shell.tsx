@@ -102,6 +102,17 @@ const Root = function AppShellRoot({
       if (stored) setOwn(stored === 'collapsed')
     } catch {}
   }, [persist, collapsed])
+  // The shell holds still until it has painted the state it starts in: a child
+  // that measures itself before the remembered state, or the window's width,
+  // is read would otherwise see the wide sidebar first, and the shell would
+  // animate to the rail on every load.
+  const [settled, setSettled] = React.useState(false)
+  React.useEffect(() => {
+    let frame = requestAnimationFrame(() => {
+      frame = requestAnimationFrame(() => setSettled(true))
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [])
   React.useEffect(() => {
     if (!shortcut) return
     const toggle = (event: KeyboardEvent) => {
@@ -131,6 +142,7 @@ const Root = function AppShellRoot({
         ref={ref}
         data-layout={layout}
         data-sidebar={value ? 'collapsed' : 'expanded'}
+        data-settling={settled ? undefined : ''}
         className={cx('surf-app-shell', className)}
       >
         {children}

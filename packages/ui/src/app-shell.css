@@ -517,6 +517,12 @@
       transition: none;
     }
   }
+  /* Until the shell has painted the state it starts in, nothing in it moves: a
+     remembered rail is a rail from the first frame. */
+  .surf-app-shell[data-layout][data-settling],
+  .surf-app-shell[data-layout][data-settling] .surf-app-shell-label {
+    transition: none;
+  }
 }
 @layer surflane.sizes {
   /* Compact density: the icon column is 32px, so the sidebar's rows, its toggle and a

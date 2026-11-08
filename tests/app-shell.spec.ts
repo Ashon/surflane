@@ -405,6 +405,44 @@ test('the shell keeps and remembers its sidebar state, with a shortcut and rail 
   await expect(page.locator('.surf-tooltip')).toHaveCount(0)
 })
 
+test('a remembered rail is a rail from the first frame, and the toggle still animates', async ({
+  page,
+}) => {
+  // This spec reduces motion; here the shell's transitions must be on to show none ran.
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.addInitScript(() => {
+    localStorage.setItem('surflane-preview-sidebar', 'collapsed')
+    const runs: string[] = []
+    ;(window as unknown as { runs: string[] }).runs = runs
+    document.addEventListener(
+      'transitionrun',
+      (event) => {
+        const target = event.target as Element
+        if (target.closest('.app-shell-preview'))
+          runs.push(`${target.className} ${event.propertyName}`)
+      },
+      true,
+    )
+  })
+  await page.goto('/patterns/app-shell')
+  await waitForCatalogReady(page)
+  const shell = page.locator('.app-shell-preview')
+  await expect(shell).toHaveAttribute('data-sidebar', 'collapsed')
+  await expect(shell).not.toHaveAttribute('data-settling')
+  const runs = () =>
+    page.evaluate(() => (window as unknown as { runs: string[] }).runs)
+  // Restoring the rail moved nothing: no column, label or other transition ran.
+  expect(await runs()).toEqual([])
+  // Once settled, the toggle animates the columns as before.
+  await page
+    .getByRole('button', { name: 'Expand workspace sidebar', exact: true })
+    .click()
+  await expect
+    .poll(runs)
+    .toContainEqual(expect.stringContaining('grid-template-columns'))
+})
+
 test('a shell that fills the window keeps a square edge, rounds only its page and goes flush on a phone', async ({
   page,
 }) => {

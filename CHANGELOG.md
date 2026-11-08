@@ -2,6 +2,12 @@
 
 `@surflane/design-tokens`, `@surflane/css` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## Unreleased
+
+### Fixed
+
+- `AppShell` with a remembered collapsed sidebar is a rail from the first frame. After a reload it drew the sidebar open and then slid it closed.
+
 ## 0.22.0
 
 ### Added
