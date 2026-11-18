@@ -1,7 +1,11 @@
 'use client'
 import * as React from 'react'
 import { Icon } from './icon.js'
-import { useComponentSize, type ComponentSize } from './sizing.js'
+import {
+  useComponentDensity,
+  useComponentSize,
+  type ComponentSize,
+} from './sizing.js'
 import {
   buildProxiedInstance,
   syncDataLoaderFeature,
@@ -43,6 +47,8 @@ export type TreeProps = {
   onSelectedIdsChange?: (ids: string[]) => void
   selectionMode?: 'single' | 'multiple'
   height?: number
+  /** A row's height in px: the size's tree row, 44px on touch, or the 32px row of
+   * compact density, on touch too. */
   rowHeight?: number
   size?: ComponentSize
   virtualized?: boolean
@@ -71,6 +77,7 @@ export function Tree({
   className,
 }: TreeProps) {
   const scheme = useComponentSize(size)
+  const density = useComponentDensity()
   const provided = useLabels<TreeLabels>('tree')
   const labels: Partial<TreeLabels> = { ...provided, ...ownLabels }
   const touchFloor = React.useSyncExternalStore(
@@ -82,12 +89,16 @@ export function Tree({
     () => matchMedia('(max-width: 760px), (pointer: coarse)').matches,
     () => false,
   )
+  // The rows are measured here, so these follow the size tokens and
+  // --surf-density-row-compact: a compact row is 32px whatever the size.
   const rowHeight =
     explicitRowHeight ??
-    Math.max(
-      touchFloor && scheme ? 44 : 0,
-      scheme === 'small' ? 36 : scheme === 'large' ? 52 : 44,
-    )
+    (density === 'compact'
+      ? 32
+      : Math.max(
+          touchFloor && scheme ? 44 : 0,
+          scheme === 'small' ? 36 : scheme === 'large' ? 52 : 44,
+        ))
   const rootId = React.useId()
   const model = React.useMemo(() => {
     const data = new Map<string, TreeNode>()

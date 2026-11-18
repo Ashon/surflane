@@ -6,19 +6,36 @@ import { FoundationPage, FoundationSection } from './FoundationPage'
 import { useLocale } from './i18n'
 import { useLocation } from './router'
 import { text } from './i18n/pages/TokenBrowser'
+/** A token only the compact scope sets, like a density role, reads as nothing on
+ * the root: it is read on a compact probe instead and shown as the compact value. */
 function useResolvedTokens() {
-  const [values, setValues] = useState<Record<string, string>>({})
+  const [values, setValues] = useState<
+    Record<string, { value: string; compact?: boolean }>
+  >({})
   useEffect(() => {
     const update = () => {
       const css = getComputedStyle(document.documentElement)
+      const probe = document.createElement('div')
+      probe.setAttribute('data-ui-density', 'compact')
+      probe.hidden = true
+      document.body.append(probe)
+      const compact = getComputedStyle(probe)
       setValues(
         Object.fromEntries(
-          catalog.tokens.map((token) => [
-            token.name,
-            css.getPropertyValue(token.name).trim(),
-          ]),
+          catalog.tokens.map((token) => {
+            const value = css.getPropertyValue(token.name).trim()
+            if (value) return [token.name, { value }]
+            return [
+              token.name,
+              {
+                value: compact.getPropertyValue(token.name).trim(),
+                compact: true,
+              },
+            ]
+          }),
         ),
       )
+      probe.remove()
     }
     update()
     const observer = new MutationObserver(update)
@@ -166,7 +183,11 @@ function Browser({ initialQuery }: { initialQuery: string }) {
             </div>
             <div className='token-value'>
               <Text as='div' variant='mono' data-testid='resolved-value'>
-                {values[token.name] || '…'}
+                {values[token.name]?.value
+                  ? values[token.name].compact
+                    ? t.compactValue(values[token.name].value)
+                    : values[token.name].value
+                  : '…'}
               </Text>
               <details>
                 <summary>{t.sourceAndReferences}</summary>

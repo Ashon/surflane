@@ -205,7 +205,11 @@ function assertOrigin(origin, theme, where) {
 }
 test('a relative color takes an oklch origin, or a mix that keeps its hue', () => {
   const catalog = JSON.parse(read('catalog.json'))
-  for (const { name } of catalog.tokens)
+  // A token only a scope sets, like the density roles, has no theme value to read.
+  const themed = catalog.tokens.filter(({ variants }) =>
+    variants.some((variant) => variant.context === ':root'),
+  )
+  for (const { name } of themed)
     for (const theme of ['dark', 'light']) {
       const value = rawValue(name, theme)
       for (const origin of relativeOrigins(value))

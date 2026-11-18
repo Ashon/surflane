@@ -36,6 +36,7 @@ const en = {
   copy: 'Copy',
   copied: 'Copied',
   unavailable: 'Unavailable',
+  compactValue: (value: string) => `${value} when compact`,
   noMatching: 'No matching tokens. Try a different search term or category.',
   showMore: 'Show more tokens',
 }
@@ -78,6 +79,7 @@ export const text: Record<Locale, typeof en> = {
     copy: '복사',
     copied: '복사됨',
     unavailable: '사용 불가',
+    compactValue: (value: string) => `컴팩트에서 ${value}`,
     noMatching:
       '일치하는 토큰이 없습니다. 다른 검색어나 카테고리를 사용해 보세요.',
     showMore: '토큰 더 보기',

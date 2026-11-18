@@ -1,6 +1,6 @@
 'use client'
 import * as React from 'react'
-import { part, skin, usePortalDirection } from './parts.js'
+import { part, skin, usePortalDensity, usePortalDirection } from './parts.js'
 import { useDialogFocusBoundary } from './dialog-focus.js'
 import { useLabels } from './label-context.js'
 import { SizeScope, useComponentSize, type ComponentSize } from './sizing.js'
@@ -24,6 +24,7 @@ const AlertDialogContent = function AlertDialogContent({
     focusBoundaryLabel ?? text.focusBoundary ?? 'Continue dialog navigation',
   )
   const dir = usePortalDirection()
+  const density = usePortalDensity()
   return (
     // A portal keeps React context, so the overlay gives its own size to what it
     // holds: a large one opened from a small card draws large controls.
@@ -32,6 +33,7 @@ const AlertDialogContent = function AlertDialogContent({
         <BaseAlertDialog.Backdrop className='surf-dialog-backdrop' />
         <BaseAlertDialog.Popup
           dir={dir}
+          data-ui-density={density}
           data-ui-size={scheme}
           data-size={size}
           {...props}

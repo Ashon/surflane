@@ -18,6 +18,8 @@
   .surf-container[data-width='wide'] {
     max-width: var(--surf-layout-wide);
   }
+  /* Without a gap of their own, blocks sit a gutter apart: 24px, 16px on a phone and
+     12px in compact density. */
   .surf-stack,
   .surf-inline,
   .surf-grid {
@@ -97,7 +99,10 @@
   .surf-surface {
     box-sizing: border-box;
     min-width: 0;
-    padding: var(--surf-surface-padding, var(--surf-space-6));
+    padding: var(
+      --surf-surface-padding,
+      var(--surf-ui-density-padding, var(--surf-space-6))
+    );
     border-radius: var(--surf-radius-lg);
     background: var(--surf-surface);
     color: var(--surf-ink);

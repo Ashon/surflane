@@ -3,9 +3,11 @@
   surflane.sizes;
 
 @layer surflane.base {
+  /* Compact density keeps 8px between the breadcrumb, the copy and the actions,
+     and 4px between actions; the heading and its description keep theirs. */
   .surf-page-header {
     display: grid;
-    gap: var(--surf-page-header-breadcrumb-gap);
+    gap: var(--surf-ui-density-inset, var(--surf-page-header-breadcrumb-gap));
     min-width: 0;
     margin: 0;
   }
@@ -14,7 +16,7 @@
     flex-wrap: wrap;
     align-items: flex-start;
     justify-content: space-between;
-    gap: var(--surf-space-4);
+    gap: var(--surf-ui-density-inset, var(--surf-space-4));
     min-width: 0;
   }
   .surf-page-header-copy {
@@ -34,6 +36,6 @@
     max-inline-size: 100%;
     display: flex;
     flex-wrap: wrap;
-    gap: var(--surf-space-2);
+    gap: var(--surf-ui-density-item, var(--surf-space-2));
   }
 }

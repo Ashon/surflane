@@ -5,6 +5,7 @@ import {
   part,
   scopedPortal,
   skin,
+  usePortalDensity,
   usePortalDirection,
 } from './parts.js'
 import { SizeScope, useComponentSize, type ComponentSize } from './sizing.js'
@@ -28,6 +29,7 @@ function PopoverContent({
   }) {
   const scheme = useComponentSize(size)
   const dir = usePortalDirection()
+  const density = usePortalDensity()
   return (
     // A portal keeps React context, so the overlay gives its own size to what it
     // holds: a large one opened from a small card draws large controls.
@@ -35,6 +37,7 @@ function PopoverContent({
       <OwnPortal portal={BasePopover.Portal}>
         <BasePopover.Positioner
           dir={dir}
+          data-ui-density={density}
           side={side}
           align={align}
           sideOffset={sideOffset}

@@ -7,18 +7,11 @@
 @import '@surflane/css/presentation/description-list.css';
 
 @layer surflane.sizes {
-  /* A row as tall as the size's menu row, which touch screens raise to 44px. */
+  /* A row as tall as the size's menu row, which touch screens raise to 44px;
+     compact density's 32px row, read first, wins over any size. */
   :where([data-ui-size], [data-ui-size] *).surf-description-list {
-    --surf-description-list-row: var(--surf-ui-row);
+    --surf-description-list-row: var(--surf-ui-density-row, var(--surf-ui-row));
     --surf-description-list-leading: var(--surf-ui-leading);
     font-size: var(--surf-ui-font);
-  }
-  /* Compact density, after any size: the small row. */
-  .surf-description-list:is(
-    [data-density='compact'],
-    :where([data-ui-density='compact'] :not([data-density]))
-  ) {
-    --surf-description-list-row: var(--surf-size-row-small);
-    --surf-description-list-stack-padding: var(--surf-space-1);
   }
 }

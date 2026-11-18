@@ -36,11 +36,11 @@
     > .surf-data-state-content {
     flex: 1 1 auto;
   }
-  /* Stale values stay under the caution. */
+  /* Stale values stay under the caution: 12px, or 8px in compact density. */
   .surf-data-state[data-state='stale'] {
     display: grid;
     align-content: start;
-    gap: var(--surf-space-3);
+    gap: var(--surf-ui-density-inset, var(--surf-space-3));
   }
   .surf-data-state-empty {
     margin: 0;
@@ -90,14 +90,5 @@
     .surf-data-state-content[data-refreshing] {
       transition: none;
     }
-  }
-}
-@layer surflane.sizes {
-  /* Compact density: stale values sit 8px under the caution. */
-  :where(
-      [data-ui-density='compact'],
-      [data-ui-density='compact'] *
-    ).surf-data-state[data-state='stale'] {
-    gap: var(--surf-ui-density-inset);
   }
 }

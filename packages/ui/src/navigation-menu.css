@@ -157,7 +157,9 @@
     box-sizing: border-box;
     width: 380px;
     max-width: calc(100vw - 26px);
-    padding: var(--surf-space-4);
+    /* 16px, or 12px in compact density; the links in the bar are controls and
+       keep their size. */
+    padding: var(--surf-ui-density-padding, var(--surf-space-4));
     overflow-wrap: break-word;
   }
   @media (max-width: 760px), (pointer: coarse) {
@@ -205,5 +207,18 @@
   /* The trigger is a button: it keeps the label leading. */
   :where([data-ui-size], [data-ui-size] *).surf-navigation-trigger {
     line-height: var(--surf-ui-label-leading);
+  }
+  /* A vertical list is a collection, as a sidebar's links are: in compact density
+     its links take the compact row. A horizontal bar's links stand with its
+     triggers, which are controls, and keep the control's height. */
+  .surf-navigation-menu[data-orientation='vertical']
+    .surf-navigation-item
+    > .surf-navigation-link {
+    --surf-navigation-row: var(
+      --surf-ui-density-row,
+      var(--surf-ui-row, var(--surf-control-height))
+    );
+    min-block-size: var(--surf-navigation-row);
+    padding-block: max(0px, calc((var(--surf-navigation-row) - 1lh) / 2 - 1px));
   }
 }

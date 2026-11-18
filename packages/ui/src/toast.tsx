@@ -9,7 +9,7 @@ import {
   type ToastManagerAddOptions,
   type ToastManagerUpdateOptions,
 } from '@base-ui/react/toast'
-import { part, skin, cx } from './parts.js'
+import { part, skin, cx, usePortalDensity } from './parts.js'
 import { StatusIcon, type StatusTone } from './status.js'
 const ToneContext = /* @__PURE__ */ React.createContext<StatusTone>('neutral')
 export type ToastRootProps = React.ComponentPropsWithoutRef<
@@ -171,6 +171,7 @@ const Viewport = function Viewport({
     }
   }, [layout])
   const scheme = useComponentSize()
+  const density = usePortalDensity()
   return (
     <BaseToast.Viewport
       {...props}
@@ -181,6 +182,7 @@ const Viewport = function Viewport({
       }}
       data-layout={layout}
       data-ui-size={scheme}
+      data-ui-density={density}
       className={skin('surf-toast-viewport', className)}
     />
   )

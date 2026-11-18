@@ -8,7 +8,7 @@
 
 @layer surflane.sizes {
   :where([data-ui-size], [data-ui-size] *).surf-message {
-    padding: var(--surf-ui-surface-padding);
+    padding: var(--surf-ui-density-padding, var(--surf-ui-surface-padding));
     gap: var(--surf-ui-content-gap);
   }
 }

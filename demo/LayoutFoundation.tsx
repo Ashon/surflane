@@ -164,8 +164,8 @@ function PartTable({
 }: {
   label: string
   caption: string
-  headers: [string, string]
-  rows: [string, string][]
+  headers: string[]
+  rows: string[][]
 }) {
   return (
     <Table.Container bleed label={label} orientation='horizontal'>
@@ -181,10 +181,12 @@ function PartTable({
           </Table.Row>
         </Table.Head>
         <Table.Body>
-          {rows.map(([part, value]) => (
+          {rows.map(([part, ...values]) => (
             <Table.Row key={part}>
               <Table.HeaderCell scope='row'>{part}</Table.HeaderCell>
-              <Table.Cell>{value}</Table.Cell>
+              {values.map((value, index) => (
+                <Table.Cell key={index}>{value}</Table.Cell>
+              ))}
             </Table.Row>
           ))}
         </Table.Body>
@@ -311,8 +313,21 @@ export function LayoutFoundation() {
       <FoundationSection id='density'>
         <p>{t.densityIntro}</p>
         <PartTable
+          label={t.densityRulesLabel}
+          caption={t.densityRulesCaption}
+          headers={t.densityRulesHeaders}
+          rows={t.densityRules}
+        />
+        <p>{t.densityRolesIntro}</p>
+        <PartTable
           label={t.densityTableLabel}
           caption={t.densityCaption}
+          headers={t.densityRolesHeaders}
+          rows={t.densityRoles}
+        />
+        <PartTable
+          label={t.densityFormsLabel}
+          caption={t.densityFormsCaption}
           headers={[t.densityPartHeader, t.densityCompactHeader]}
           rows={t.densityRows}
         />

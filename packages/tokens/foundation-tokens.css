@@ -13,9 +13,6 @@
     --surf-layout-workspace: 75rem;
     --surf-layout-wide: 96rem;
     --surf-layout-reading: var(--surf-layout-content);
-    --surf-layout-page-inset: var(--surf-space-8);
-    --surf-layout-section-gap: var(--surf-space-12);
-    --surf-layout-gutter: var(--surf-space-6);
     --surf-layout-columns: 12;
     /* The narrowest column of an auto Grid or a Dashboard, by what the column holds:
      * a figure and its label, a brief card of a name and a line or two, a card or a
@@ -98,9 +95,6 @@
     [data-theme='dark'],
     [data-theme='light'] {
       --surf-layout-columns: 4;
-      --surf-layout-page-inset: var(--surf-space-4);
-      --surf-layout-section-gap: var(--surf-space-8);
-      --surf-layout-gutter: var(--surf-space-4);
       --surf-type-display-size: 2rem;
       --surf-type-title-size: 1.75rem;
     }
@@ -234,5 +228,96 @@
     --surf-size-content-gap-small: 8px;
     --surf-size-content-gap-default: 12px;
     --surf-size-content-gap-large: 16px;
+  }
+
+  /* Density: how close things sit, a second axis beside size. Compact moves the
+   * space between and around content; a control keeps the height its size sets,
+   * text keeps its role and every part stays. Space grows from the inside out, in
+   * both densities: between the items of a run, between a block's parts, inside a
+   * surface's edge, between blocks, between sections.
+   *
+   * The compact value of each role. Set one on :root to retune compact for a
+   * product; keep each at least the role inside it, on the 4px grid. */
+  :root {
+    --surf-density-item-compact: var(--surf-space-1);
+    --surf-density-inset-compact: var(--surf-space-2);
+    --surf-density-padding-compact: var(--surf-space-3);
+    --surf-density-gap-compact: var(--surf-space-3);
+    --surf-density-section-compact: var(--surf-space-6);
+    --surf-density-row-padding-compact: var(--surf-space-1);
+    --surf-density-row-compact: var(--surf-size-row-small);
+  }
+
+  /* The page's spacing and the touch target, at the default density. They are set on
+   * :root alone and on a default density scope, never on a scoped theme, so a theme
+   * inside a region keeps the region's density, and density='default' inside a
+   * compact region restores them exactly. */
+  :root,
+  [data-ui-density='default'],
+  [data-density='default'] {
+    --surf-layout-page-inset: var(--surf-space-8);
+    --surf-layout-section-gap: var(--surf-space-12);
+    --surf-layout-gutter: var(--surf-space-6);
+    --surf-control-target-size: var(--surf-control-target-size-enhanced);
+  }
+  @media (max-width: 760px) {
+    :root,
+    [data-ui-density='default'],
+    [data-density='default'] {
+      --surf-layout-page-inset: var(--surf-space-4);
+      --surf-layout-section-gap: var(--surf-space-8);
+      --surf-layout-gutter: var(--surf-space-4);
+    }
+  }
+  /* A default scope leaves the roles unset, so each part keeps its own spacing. */
+  [data-ui-density='default'],
+  [data-density='default'] {
+    --surf-ui-density-item: initial;
+    --surf-ui-density-inset: initial;
+    --surf-ui-density-padding: initial;
+    --surf-ui-density-gap: initial;
+    --surf-ui-density-section: initial;
+    --surf-ui-density-row-padding: initial;
+    --surf-ui-density-row: initial;
+    --surf-ui-density-title-size: initial;
+    --surf-ui-density-title-leading: initial;
+    --surf-ui-density-title-tracking: initial;
+  }
+  /* Compact, for a region people scan more than they edit. A part reads a role with
+   * its own default after it, var(--surf-ui-density-gap, …), so only a compact scope
+   * changes it; a value the author sets still wins. The page's spacing takes the
+   * compact roles on a phone too, and a target keeps the 24px WCAG 2.2 AA floor
+   * instead of growing to 44px. */
+  [data-ui-density='compact'],
+  [data-density='compact'] {
+    --surf-ui-density-item: var(--surf-density-item-compact);
+    --surf-ui-density-inset: var(--surf-density-inset-compact);
+    --surf-ui-density-padding: var(--surf-density-padding-compact);
+    --surf-ui-density-gap: var(--surf-density-gap-compact);
+    --surf-ui-density-section: var(--surf-density-section-compact);
+    --surf-ui-density-row-padding: var(--surf-density-row-padding-compact);
+    --surf-ui-density-row: max(
+      var(--surf-control-target-size-min),
+      var(--surf-density-row-compact)
+    );
+    /* A title repeated side by side, a card's or a panel's, is a label. */
+    --surf-ui-density-title-size: var(--surf-type-label-size);
+    --surf-ui-density-title-leading: var(--surf-type-label-leading);
+    --surf-ui-density-title-tracking: var(--surf-type-label-tracking);
+    --surf-layout-page-inset: var(--surf-density-padding-compact);
+    --surf-layout-section-gap: var(--surf-density-section-compact);
+    --surf-layout-gutter: var(--surf-density-gap-compact);
+    --surf-control-target-size: var(--surf-control-target-size-min);
+  }
+  /* A density scope sets its own target, so a control inside takes it. A size
+   * scheme refines this for its own height. */
+  @media (max-width: 760px), (pointer: coarse) {
+    [data-ui-density],
+    [data-density] {
+      --surf-control-height: max(
+        var(--surf-control-target-size),
+        var(--surf-size-control-height-default)
+      );
+    }
   }
 }

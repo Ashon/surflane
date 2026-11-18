@@ -6,7 +6,8 @@
   /* A notice for the whole product: a full-width plane in its tone, square, with the
      icon, the title and description in one line where they fit, then the actions
      and the dismiss button at the end. Parts keep their own spacing, so a missing
-     part leaves no gap. */
+     part leaves no gap. Compact density pads it 4px above and below, sets the
+     actions 8px after the text and 4px apart. */
   .surf-banner {
     box-sizing: border-box;
     display: grid;
@@ -14,7 +15,7 @@
     grid-template-areas: 'icon content actions dismiss';
     align-items: center;
     min-inline-size: 0;
-    padding-block: var(--surf-space-2);
+    padding-block: var(--surf-ui-density-row-padding, var(--surf-space-2));
     padding-inline: var(--surf-banner-inset, var(--surf-space-4));
     background: var(--surf-status-info-bg);
     color: var(--surf-status-info-fg);
@@ -50,8 +51,8 @@
     grid-area: actions;
     display: flex;
     flex-wrap: wrap;
-    gap: var(--surf-space-2);
-    margin-inline-start: var(--surf-space-4);
+    gap: var(--surf-ui-density-item, var(--surf-space-2));
+    margin-inline-start: var(--surf-ui-density-inset, var(--surf-space-4));
   }
   .surf-banner > .surf-banner-dismiss {
     grid-area: dismiss;

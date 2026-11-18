@@ -18,15 +18,8 @@
   }
 }
 @layer surflane.sizes {
+  /* No close button: the head keeps the padding at its end too. */
   .surf-confirm-content .surf-dialog-header {
-    padding-inline-end: var(--surf-space-6);
-  }
-  :where([data-ui-size], [data-ui-size] *).surf-confirm-content
-    .surf-dialog-header {
-    padding-inline-end: var(--surf-ui-card-padding);
-  }
-  :where([data-ui-size], [data-ui-size] *).surf-confirm-content
-    .surf-dialog-footer {
-    padding-top: var(--surf-space-2);
+    padding-inline-end: var(--surf-dialog-padding);
   }
 }

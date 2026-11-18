@@ -1,5 +1,6 @@
 'use client'
 import {
+  ComponentDensityContext,
   ComponentSizeContext,
   useComponentSize,
   type ComponentSize,
@@ -23,9 +24,16 @@ export function skin<State>(
 export function usePortalDirection() {
   return useDirection() === 'rtl' ? ('rtl' as const) : undefined
 }
+/** A portal renders outside the region that set data-ui-density too, so a popup
+ * carries the surrounding density: a menu opened in a compact region is compact.
+ * Undefined outside any density scope. */
+export function usePortalDensity() {
+  return React.useContext(ComponentDensityContext)
+}
 /** A styled Base UI part or element. A portal part renders outside the tree that sets
- * data-ui-size and dir, so it always carries the size scheme and the provider's
- * direction; other parts carry the size only when size is set. */
+ * data-ui-size, data-ui-density and dir, so it always carries the size scheme, the
+ * surrounding density and the provider's direction; other parts carry the size only
+ * when size is set. */
 export function part<
   Element extends HTMLElement,
   Props extends { className?: unknown },
@@ -44,6 +52,7 @@ export function part<
       size?: ComponentSize
     }
     const scheme = useComponentSize(size)
+    const density = usePortalDensity()
     const direction = usePortalDirection()
     const classes =
       typeof className === 'function'
@@ -56,6 +65,7 @@ export function part<
         ref={ref}
         className={classes}
         data-ui-size={size ? scheme : portal ? scheme : undefined}
+        data-ui-density={portal ? density : undefined}
       />
     )
     // Keep the React subtree stable when size changes from omitted to explicit.

@@ -15,7 +15,8 @@
       var(--surf-popover-width),
       calc(100vw - var(--surf-space-6))
     );
-    padding: var(--surf-space-4);
+    /* 16px, a size's surface padding, or 12px in compact density. */
+    padding: var(--surf-ui-density-padding, var(--surf-space-4));
     max-height: var(--available-height);
     overflow: auto;
   }
@@ -35,7 +36,7 @@
     letter-spacing: var(--surf-type-subsection-tracking);
   }
   .surf-popover-description {
-    margin: 0 0 var(--surf-space-4);
+    margin: 0 0 var(--surf-ui-density-inset, var(--surf-space-4));
     color: var(--surf-ink-body);
   }
   .surf-popover-description:last-child {
@@ -44,6 +45,6 @@
 }
 @layer surflane.sizes {
   :where([data-ui-size], [data-ui-size] *).surf-popover {
-    padding: var(--surf-ui-surface-padding);
+    padding: var(--surf-ui-density-padding, var(--surf-ui-surface-padding));
   }
 }

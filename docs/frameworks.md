@@ -99,13 +99,13 @@ With React Router, render `<NavLink to='/docs' />`. `LinkButton` takes Button's 
 
 Every Surflane stylesheet puts its rules in five [cascade layers](https://developer.mozilla.org/docs/Web/CSS/@layer), lowest first:
 
-| Layer                 | Contents                                                                               |
-| --------------------- | -------------------------------------------------------------------------------------- |
-| `surflane.tokens`     | Custom properties and inherited rendering hints                                        |
-| `surflane.themes`     | Theme presets and theme builder output                                                 |
-| `surflane.base`       | Composition, document typography and theme motion                                      |
-| `surflane.components` | Controls, presentation classes and components                                          |
-| `surflane.sizes`      | The size scheme and size variants: `SizeProvider`, a component's `size`, table density |
+| Layer                 | Contents                                                                   |
+| --------------------- | -------------------------------------------------------------------------- |
+| `surflane.tokens`     | Custom properties and inherited rendering hints, density scopes among them |
+| `surflane.themes`     | Theme presets and theme builder output                                     |
+| `surflane.base`       | Composition, document typography and theme motion                          |
+| `surflane.components` | Controls, presentation classes and components                              |
+| `surflane.sizes`      | The size scheme and size variants: `SizeProvider`, a component's `size`    |
 
 Each file starts with the same `@layer` order statement, so the order holds whichever file loads first. The browser compares layers before specificity:
 

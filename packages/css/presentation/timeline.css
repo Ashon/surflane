@@ -19,12 +19,14 @@
     font-family: var(--surf-font-body);
     letter-spacing: var(--surf-type-body-tracking);
   }
+  /* Compact density pads an event 4px above and below. */
   .surf-timeline-item {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
     column-gap: var(--surf-space-3);
     min-inline-size: 0;
-    padding: var(--surf-space-2) var(--surf-space-3);
+    padding: var(--surf-ui-density-row-padding, var(--surf-space-2))
+      var(--surf-space-3);
     border-radius: var(--surf-radius-md);
   }
   /* The current step is recessed one step from its plane, and what it holds sits on

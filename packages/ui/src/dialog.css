@@ -59,8 +59,8 @@
   }
   .surf-dialog-close {
     position: absolute;
-    inset-block-start: var(--surf-space-4);
-    inset-inline-end: var(--surf-space-4);
+    inset-block-start: var(--surf-dialog-close-inset);
+    inset-inline-end: var(--surf-dialog-close-inset);
     z-index: 1;
   }
   /* Structural chrome never reserves scrollbar space; scrolling belongs to Body. */
@@ -99,17 +99,28 @@
     align-self: stretch;
   }
   /* Planes, as in Sheet and Drawer: no line under the head; the body scrolls and
-     clips, so a focus ring's room moves from the head's bottom to the body's top. */
+     clips, so a focus ring's room moves from the head's bottom to the body's top.
+     One padding sets the head, the body and the footer: 24px, a size's card padding,
+     or 12px in compact density, which also moves the close button 8px from the
+     corner, on the title's line. */
   .surf-dialog-popup {
     --surf-dialog-ring-room: calc(
       var(--surf-focus-ring-width) + var(--surf-focus-ring-offset)
     );
+    --surf-dialog-padding: var(--surf-ui-density-padding, var(--surf-space-6));
+    --surf-dialog-close-inset: var(
+      --surf-ui-density-inset,
+      var(--surf-space-4)
+    );
   }
   .surf-dialog-header {
-    padding-block: var(--surf-space-6)
-      calc(var(--surf-space-5) - var(--surf-dialog-ring-room));
-    padding-inline: var(--surf-space-6)
-      calc(var(--surf-control-height) + var(--surf-space-4) * 2);
+    padding-block: var(--surf-dialog-padding)
+      calc(
+        var(--surf-dialog-padding) - var(--surf-space-1) -
+          var(--surf-dialog-ring-room)
+      );
+    padding-inline: var(--surf-dialog-padding)
+      calc(var(--surf-control-height) + var(--surf-dialog-close-inset) * 2);
   }
   .surf-dialog-title {
     margin: 0;
@@ -127,7 +138,7 @@
     flex: 1 1 auto;
     min-height: 0;
     overflow: auto;
-    padding: var(--surf-space-6);
+    padding: var(--surf-dialog-padding);
     overscroll-behavior: contain;
     scrollbar-width: thin;
     scrollbar-color: var(--surf-scrollbar-thumb) var(--surf-scrollbar-track);
@@ -150,8 +161,9 @@
     display: flex;
     justify-content: flex-end;
     flex-wrap: wrap;
-    gap: var(--surf-space-2);
-    padding: var(--surf-space-5) var(--surf-space-6);
+    gap: var(--surf-ui-density-item, var(--surf-space-2));
+    padding: calc(var(--surf-dialog-padding) - var(--surf-space-1))
+      var(--surf-dialog-padding);
     background: var(--surf-surface);
     --surf-plane: var(--surf-surface);
     --surf-recessed: var(--surf-canvas);
@@ -177,32 +189,12 @@
   }
 }
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *).surf-dialog-body {
-    padding: var(--surf-ui-card-padding);
-  }
-  :where([data-ui-size], [data-ui-size] *).surf-dialog-header
-    + .surf-dialog-body {
-    padding-top: var(--surf-dialog-ring-room);
-  }
-  :where([data-ui-size], [data-ui-size] *):is(
-    .surf-dialog-header,
-    .surf-dialog-footer
-  ) {
-    padding-inline: var(--surf-ui-card-padding);
-  }
   /* Head and footer follow the size's card padding: 24/20px and 20px by default. */
-  :where([data-ui-size], [data-ui-size] *).surf-dialog-header {
-    padding-block: var(--surf-ui-card-padding)
-      calc(
-        var(--surf-ui-card-padding) - var(--surf-space-1) -
-          var(--surf-dialog-ring-room)
-      );
-    padding-inline-end: calc(
-      var(--surf-control-height) + var(--surf-space-4) * 2
+  :where([data-ui-size], [data-ui-size] *).surf-dialog-popup {
+    --surf-dialog-padding: var(
+      --surf-ui-density-padding,
+      var(--surf-ui-card-padding)
     );
-  }
-  :where([data-ui-size], [data-ui-size] *).surf-dialog-footer {
-    padding-block: calc(var(--surf-ui-card-padding) - var(--surf-space-1));
   }
   :where([data-ui-size], [data-ui-size] *).surf-dialog-title {
     font-size: var(--surf-ui-title-size);

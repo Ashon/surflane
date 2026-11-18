@@ -12,7 +12,8 @@
     border: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--surf-space-4);
+    /* 16px between the legend and its fields, or 8px in compact density. */
+    gap: var(--surf-ui-density-inset, var(--surf-space-4));
   }
   /* Base UI renders the legend as a div, a flex item, so the fieldset's gap alone
      spaces it from the first field. A margin added to that gap and left the legend

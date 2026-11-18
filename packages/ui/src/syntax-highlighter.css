@@ -47,7 +47,10 @@
     box-sizing: border-box;
     min-inline-size: 0;
     margin: 0;
-    padding: var(--surf-ui-surface-padding, var(--surf-space-4));
+    padding: var(
+      --surf-ui-density-padding,
+      var(--surf-ui-surface-padding, var(--surf-space-4))
+    );
     background: var(--surf-code-bg);
     border-radius: var(--surf-radius-md);
     font-weight: var(--surf-weight-regular);

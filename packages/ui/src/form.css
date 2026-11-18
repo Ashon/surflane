@@ -11,7 +11,9 @@
     flex-direction: column;
     min-width: 0;
   }
+  /* Fields and groups sit 24px apart, or 12px in compact density; a field's label
+     keeps its 8px from the control. */
   .surf-form {
-    gap: var(--surf-space-6);
+    gap: var(--surf-ui-density-gap, var(--surf-space-6));
   }
 }

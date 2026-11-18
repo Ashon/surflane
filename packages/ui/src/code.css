@@ -12,6 +12,6 @@
 
 @layer surflane.sizes {
   :where([data-ui-size], [data-ui-size] *).surf-code-text {
-    padding: var(--surf-ui-surface-padding);
+    padding: var(--surf-ui-density-padding, var(--surf-ui-surface-padding));
   }
 }

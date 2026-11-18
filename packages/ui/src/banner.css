@@ -44,12 +44,3 @@
     }
   }
 }
-@layer surflane.sizes {
-  /* Compact density, after any size: 4px above and below. */
-  :where(
-    [data-ui-density='compact'],
-    [data-ui-density='compact'] *
-  ).surf-banner {
-    padding-block: var(--surf-space-1);
-  }
-}

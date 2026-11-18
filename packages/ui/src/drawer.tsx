@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Icon } from './icon.js'
 import { useDialogFocusBoundary } from './dialog-focus.js'
 import { useLabels } from './label-context.js'
-import { skin, usePortalDirection } from './parts.js'
+import { skin, usePortalDensity, usePortalDirection } from './parts.js'
 import { SizeScope, useComponentSize, normalizeSize } from './sizing.js'
 import { Drawer as BaseDrawer } from '@base-ui/react/drawer'
 import {
@@ -58,6 +58,7 @@ const DrawerContent = function DrawerContent({
   } & { ref?: React.Ref<HTMLDivElement> }) {
   const scheme = useComponentSize(size)
   const dir = usePortalDirection()
+  const density = usePortalDensity()
   const text = useLabels<{ close: string; focusBoundary: string }>('panel')
   const portalRef = useDialogFocusBoundary(
     focusBoundaryLabel ?? text.focusBoundary ?? 'Continue panel navigation',
@@ -71,7 +72,11 @@ const DrawerContent = function DrawerContent({
     <SizeScope size={scheme}>
       <KeyboardProvider>
         <BaseDrawer.Portal ref={portalRef}>
-          <div className='surf-panel-layer' data-ui-size={scheme}>
+          <div
+            className='surf-panel-layer'
+            data-ui-size={scheme}
+            data-ui-density={density}
+          >
             {modal === true && (
               <BaseDrawer.Backdrop className='surf-panel-backdrop' />
             )}

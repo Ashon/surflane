@@ -7,6 +7,6 @@
 
 @layer surflane.sizes {
   :where([data-ui-size], [data-ui-size] *).surf-empty {
-    padding: var(--surf-ui-card-padding);
+    padding: var(--surf-ui-density-padding, var(--surf-ui-card-padding));
   }
 }

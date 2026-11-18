@@ -7,9 +7,10 @@
 @import './disclosure.css';
 
 @layer surflane.components {
+  /* Items sit 8px apart, or 4px in compact density. */
   .surf-accordion {
     display: grid;
-    gap: var(--surf-space-2);
+    gap: var(--surf-ui-density-item, var(--surf-space-2));
     min-width: 0;
   }
   .surf-accordion-header {

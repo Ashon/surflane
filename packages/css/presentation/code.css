@@ -14,8 +14,8 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: var(--surf-space-3);
-    margin-bottom: var(--surf-space-3);
+    gap: var(--surf-ui-density-inset, var(--surf-space-3));
+    margin-bottom: var(--surf-ui-density-inset, var(--surf-space-3));
   }
   .surf-code-label {
     display: inline-flex;
@@ -37,9 +37,10 @@
     background: var(--surf-code-bg);
     border-radius: var(--surf-radius-md);
   }
+  /* Compact density pads the code 12px. */
   .surf-code-text {
     margin: 0;
-    padding: var(--surf-space-4);
+    padding: var(--surf-ui-density-padding, var(--surf-space-4));
     font-weight: var(--surf-weight-regular);
     font-size: var(--surf-type-code-size);
     line-height: var(--surf-type-code-leading);

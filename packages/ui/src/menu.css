@@ -18,16 +18,17 @@
     background-color: var(--surf-selected);
     border-color: var(--surf-control-border);
   }
+  /* An option is a row: 32px in compact density, on touch too. */
   .surf-menu-item {
     position: relative;
     box-sizing: border-box;
     display: flex;
     align-items: center;
     gap: var(--surf-space-2);
-    min-height: var(--surf-control-height);
+    min-height: var(--surf-ui-density-row, var(--surf-control-height));
     padding: max(
         var(--surf-space-1),
-        calc((var(--surf-control-height) - 1lh) / 2)
+        calc((var(--surf-ui-density-row, var(--surf-control-height)) - 1lh) / 2)
       )
       var(--surf-space-3);
     border-radius: var(--surf-control-radius);
@@ -74,7 +75,7 @@
   }
   @media (max-width: 760px), (pointer: coarse) {
     .surf-menu-item {
-      min-height: var(--surf-control-target-size);
+      min-height: var(--surf-ui-density-row, var(--surf-control-target-size));
     }
   }
   @media (forced-colors: active) {
@@ -96,7 +97,7 @@
 }
 @layer surflane.sizes {
   :where([data-ui-size], [data-ui-size] *):is(.surf-menu-item) {
-    min-block-size: var(--surf-ui-row);
+    min-block-size: var(--surf-ui-density-row, var(--surf-ui-row));
     font-size: var(--surf-ui-font);
     line-height: var(--surf-ui-leading);
   }
@@ -104,7 +105,13 @@
     box-sizing: border-box;
     padding-block: max(
       var(--surf-space-1),
-      calc((var(--surf-ui-row) - var(--surf-ui-leading)) / 2)
+      calc(
+        (
+            var(--surf-ui-density-row, var(--surf-ui-row)) -
+              var(--surf-ui-leading)
+          ) /
+          2
+      )
     );
   }
 }

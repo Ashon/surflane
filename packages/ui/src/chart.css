@@ -14,7 +14,7 @@
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--surf-space-3);
+    gap: var(--surf-ui-density-inset, var(--surf-space-3));
   }
   /* A series line weighs --surf-chart-line-width, and a comparison or a plan its
      quiet share, on the plot and in every swatch that keys it. The weight is CSS's,
@@ -325,14 +325,13 @@
     width: fit-content;
     cursor: pointer;
     color: var(--surf-ink);
-    padding-block: var(--surf-space-2);
+    padding-block: var(--surf-ui-density-row-padding, var(--surf-space-2));
     text-decoration: underline;
     text-underline-offset: 3px;
   }
-  /* A compact chart's disclosure takes the caption role and 4px above and below:
-     26px, as compact as its table and still over the 24px target floor. */
+  /* A compact chart's disclosure takes the caption role, and the row padding above
+     and below: 26px, as compact as its table and still over the 24px target floor. */
   .surf-chart[data-density='compact'] .surf-chart-table summary {
-    padding-block: var(--surf-space-1);
     font-size: var(--surf-type-caption-size);
     line-height: var(--surf-type-caption-leading);
     letter-spacing: var(--surf-type-caption-tracking);
@@ -346,10 +345,8 @@
   }
   /* Compact, for charts in dashboard cards: the plot, its legend and the floating
      values show; the caption, keyboard help, readout and x-axis name stay for
-     assistive technology. */
-  .surf-chart[data-density='compact'] {
-    gap: var(--surf-space-2);
-  }
+     assistive technology. Its gap is the compact inset, from the density scope its
+     data-density attribute opens. */
   .surf-chart[data-density='compact']
     :is(
       .surf-chart-caption,
@@ -405,16 +402,18 @@
     font-size: var(--surf-type-compact-size);
     line-height: var(--surf-type-compact-leading);
   }
+  /* A chart's own targets, its legend keys and its table's disclosure, are a line of
+     small text: on touch screens they take the full 44px target at either density,
+     where a compact control keeps its size. */
   @media (max-width: 760px), (pointer: coarse) {
     .surf-chart-legend-button,
     .surf-chart[data-density='compact'] .surf-chart-legend-button {
-      min-height: var(--surf-control-target-size);
+      min-height: var(--surf-control-target-size-enhanced);
     }
-    /* The table's disclosure is a target too, compact or not. */
     .surf-chart-table summary {
       display: flex;
       align-items: center;
-      min-block-size: var(--surf-control-target-size);
+      min-block-size: var(--surf-control-target-size-enhanced);
       padding-block: 0;
     }
   }

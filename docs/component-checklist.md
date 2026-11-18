@@ -43,6 +43,9 @@ The foundation pages explain why each rule exists: [Visual hierarchy](https://su
 | Literal lengths only fall, never rise                                             | `check:package` (ceiling)                   |
 | `size`: small, default, large, following `SizeProvider`                           | `component-sizes.spec.ts`                   |
 | Compact density makes nothing larger                                              | `density.spec.ts`                           |
+| Density moves space through the `--surf-ui-density-*` roles, read with a default  | `density.test.mjs`                          |
+| Roles grow from the inside out: item < inset < padding ≤ gap < section            | `density.test.mjs`                          |
+| A default scope inside compact restores every default; popups carry the density   | `density.spec.ts`                           |
 | Compact keeps targets at 24px or more                                             | `touch-targets.spec.ts`                     |
 | Touch targets reach 44px on coarse pointers                                       | `touch-targets.spec.ts`                     |
 

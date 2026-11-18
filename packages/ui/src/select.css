@@ -60,15 +60,16 @@
     overscroll-behavior: contain;
     scrollbar-width: thin;
   }
+  /* An option is a row: 32px in compact density, on touch too. */
   .surf-select-item {
     position: relative;
     display: flex;
     align-items: center;
     gap: var(--surf-space-2);
-    min-height: var(--surf-control-height);
+    min-height: var(--surf-ui-density-row, var(--surf-control-height));
     padding: max(
         var(--surf-space-1),
-        calc((var(--surf-control-height) - 1lh) / 2)
+        calc((var(--surf-ui-density-row, var(--surf-control-height)) - 1lh) / 2)
       )
       var(--surf-space-3);
     padding-inline-start: calc(
@@ -116,7 +117,7 @@
     line-height: var(--surf-ui-leading);
   }
   :where([data-ui-size], [data-ui-size] *):is(.surf-select-item) {
-    min-block-size: var(--surf-ui-row);
+    min-block-size: var(--surf-ui-density-row, var(--surf-ui-row));
     font-size: var(--surf-ui-font);
     line-height: var(--surf-ui-leading);
   }
@@ -124,7 +125,13 @@
     box-sizing: border-box;
     padding-block: max(
       var(--surf-space-1),
-      calc((var(--surf-ui-row) - var(--surf-ui-leading)) / 2)
+      calc(
+        (
+            var(--surf-ui-density-row, var(--surf-ui-row)) -
+              var(--surf-ui-leading)
+          ) /
+          2
+      )
     );
   }
 }

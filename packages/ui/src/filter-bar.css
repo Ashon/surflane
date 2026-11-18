@@ -5,16 +5,21 @@
 @import './sizing.css';
 
 @layer surflane.components {
+  /* Compact density sets the fields 8px apart and the actions 4px; a field's label
+     keeps its 8px. */
   .surf-filter-bar {
+    /* A phone fits two filters to a row in compact density: half the row less half
+       the gap. Without compact it is unset, and each filter takes a row. */
+    --surf-filter-bar-phone-basis: calc(50% - var(--surf-ui-density-inset) / 2);
     display: grid;
-    gap: var(--surf-space-4);
+    gap: var(--surf-ui-density-inset, var(--surf-space-4));
     min-inline-size: 0;
   }
   .surf-filter-bar-controls {
     display: flex;
     flex-wrap: wrap;
     align-items: end;
-    gap: var(--surf-space-4);
+    gap: var(--surf-ui-density-inset, var(--surf-space-4));
     min-inline-size: 0;
   }
   /* A filter keeps its width; only the search field takes the room left in the row. */
@@ -28,10 +33,16 @@
   .surf-filter-bar-field[data-width='search'] {
     flex: 2 1 20rem;
   }
-  /* On a phone each field fills its row. */
+  /* On a phone each field fills its row; the search field keeps a row of its own. */
   @media (max-width: 760px) {
     .surf-filter-bar-field {
       flex-grow: 1;
+    }
+    .surf-filter-bar-field:not([data-width='search']) {
+      flex-basis: var(--surf-filter-bar-phone-basis, 12rem);
+    }
+    .surf-filter-bar-field[data-width='search'] {
+      flex-basis: 100%;
     }
   }
   /* Select renders its trigger inside a .surf-select wrapper. */
@@ -43,7 +54,7 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: var(--surf-space-2);
+    gap: var(--surf-ui-density-item, var(--surf-space-2));
     min-inline-size: 0;
   }
   .surf-filter-bar-summary {
@@ -55,28 +66,6 @@
   }
 }
 @layer surflane.sizes {
-  /* Compact density: fields sit 8px apart, and a phone puts two filters in a row;
-     the search field keeps a row of its own. */
-  :where([data-ui-density='compact'], [data-ui-density='compact'] *):is(
-    .surf-filter-bar,
-    .surf-filter-bar-controls
-  ) {
-    gap: var(--surf-ui-density-inset);
-  }
-  @media (max-width: 760px) {
-    :where(
-        [data-ui-density='compact'],
-        [data-ui-density='compact'] *
-      ).surf-filter-bar-field:not([data-width='search']) {
-      flex: 1 1 calc(50% - var(--surf-ui-density-inset) / 2);
-    }
-    :where(
-        [data-ui-density='compact'],
-        [data-ui-density='compact'] *
-      ).surf-filter-bar-field[data-width='search'] {
-      flex-basis: 100%;
-    }
-  }
   .surf-filter-bar-actions > .surf-button {
     max-inline-size: 100%;
     min-height: var(--surf-control-height);

@@ -13,10 +13,11 @@
 @import './data-state.css';
 
 @layer surflane.components {
-  /* As many columns as fit a panel's minimum width; one on a phone. */
+  /* As many columns as fit a panel's minimum width; one on a phone. Compact density
+     sets the panels 12px apart; the card inside tightens itself. */
   .surf-dashboard {
     --surf-dashboard-panel-min-width: var(--surf-layout-column-card);
-    --surf-dashboard-gap: var(--surf-space-4);
+    --surf-dashboard-gap: var(--surf-ui-density-gap, var(--surf-space-4));
     display: grid;
     grid-template-columns: repeat(
       auto-fill,
@@ -61,14 +62,17 @@
   .surf-dashboard-panel[data-span='full'] {
     grid-column: 1 / -1;
   }
-  /* As tall as an icon button, with or without one, so titles line up across a row. */
+  /* As tall as an icon button, with or without one, so titles line up across a row.
+     The lead, the toolbar and the actions are the header's parts: an inset apart. */
   .surf-dashboard-panel-header {
     display: flex;
     align-items: center;
-    gap: var(--surf-space-2);
+    gap: var(--surf-ui-density-inset, var(--surf-space-2));
     min-inline-size: 0;
     min-block-size: var(--surf-control-height);
   }
+  /* The title and what belongs to it, its info, refresh and folded summary, are one
+     unit: their gap holds at either density. */
   .surf-dashboard-panel-lead {
     display: flex;
     flex: 0 1 auto;
@@ -195,7 +199,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--surf-space-2);
+    gap: var(--surf-ui-density-item, var(--surf-space-2));
     min-inline-size: 0;
   }
   .surf-dashboard-panel-actions {
@@ -214,14 +218,5 @@
     .surf-dashboard-panel[data-span] {
       grid-column: auto;
     }
-  }
-}
-@layer surflane.sizes {
-  /* Compact density: panels sit 12px apart. The card inside tightens itself. */
-  :where(
-    [data-ui-density='compact'],
-    [data-ui-density='compact'] *
-  ).surf-dashboard {
-    --surf-dashboard-gap: var(--surf-ui-density-gap);
   }
 }

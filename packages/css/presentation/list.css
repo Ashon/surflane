@@ -3,9 +3,11 @@
   surflane.sizes;
 
 @layer surflane.components {
+  /* Compact density sets items 4px apart and pads each 4px above and below and
+     12px at its sides, like a compact table's rows. */
   .surf-list {
     display: grid;
-    gap: var(--surf-space-2);
+    gap: var(--surf-ui-density-item, var(--surf-space-2));
     padding: 0;
     margin: 0;
     list-style: none;
@@ -14,8 +16,9 @@
   .surf-list-item {
     display: flex;
     align-items: center;
-    gap: var(--surf-space-4);
-    padding: var(--surf-space-3) var(--surf-space-4);
+    gap: var(--surf-ui-density-inset, var(--surf-space-4));
+    padding: var(--surf-ui-density-row-padding, var(--surf-space-3))
+      var(--surf-ui-density-padding, var(--surf-space-4));
     border-radius: var(--surf-radius-md);
     min-width: 0;
   }
@@ -52,7 +55,7 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: var(--surf-space-2);
+    gap: var(--surf-ui-density-item, var(--surf-space-2));
     flex: none;
   }
   @media (max-width: 560px) {

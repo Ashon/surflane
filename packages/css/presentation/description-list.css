@@ -7,15 +7,26 @@
      line centered, so a badge or a copy action fits without growing it: the term in
      muted ink in a column of its own width, the value beside it in ink. Where a row
      is too narrow for both, the value moves under its term. No lines between rows:
-     the term column and the rhythm carry the structure. */
+     the term column and the rhythm carry the structure. Compact density takes the
+     32px row, 4px above and below a stacked pair, 8px between a term and its value
+     and 12px between columns. */
   .surf-description-list {
     --surf-description-list-term-width: 10rem;
     --surf-description-list-value-min-width: 10rem;
     --surf-description-list-column-min-width: 22rem;
-    --surf-description-list-row: var(--surf-size-row-default);
+    --surf-description-list-row: var(
+      --surf-ui-density-row,
+      var(--surf-size-row-default)
+    );
     --surf-description-list-leading: var(--surf-size-leading-default);
-    --surf-description-list-gap: var(--surf-space-8);
-    --surf-description-list-stack-padding: var(--surf-space-2);
+    --surf-description-list-gap: var(
+      --surf-ui-density-gap,
+      var(--surf-space-8)
+    );
+    --surf-description-list-stack-padding: var(
+      --surf-ui-density-row-padding,
+      var(--surf-space-2)
+    );
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     align-items: start;
@@ -46,7 +57,7 @@
     flex-wrap: wrap;
     align-content: center;
     align-items: baseline;
-    column-gap: var(--surf-space-4);
+    column-gap: var(--surf-ui-density-inset, var(--surf-space-4));
     min-inline-size: 0;
     min-block-size: var(--surf-description-list-row);
   }
@@ -108,15 +119,5 @@
   }
   .surf-description-list-value > .surf-copy-button {
     flex: none;
-  }
-  /* Compact: a small row, for dense panels. A list in a compact density scope is
-     compact unless it says density='default'. */
-  .surf-description-list:is(
-    [data-density='compact'],
-    :where([data-ui-density='compact'] :not([data-density]))
-  ) {
-    --surf-description-list-row: var(--surf-size-row-small);
-    --surf-description-list-gap: var(--surf-space-6);
-    --surf-description-list-stack-padding: var(--surf-space-1);
   }
 }

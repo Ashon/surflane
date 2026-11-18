@@ -25,10 +25,15 @@
   }
 }
 @layer surflane.sizes {
+  /* A size sets a cell's padding; compact density, read first, wins over any size. */
   :where([data-ui-size], [data-ui-size] *).surf-table-cell {
-    padding: var(--surf-ui-table-padding-y) var(--surf-ui-table-padding-x);
+    padding: var(--surf-ui-density-row-padding, var(--surf-ui-table-padding-y))
+      var(--surf-ui-density-padding, var(--surf-ui-table-padding-x));
   }
   :where([data-ui-size], [data-ui-size] *).surf-table-caption {
-    padding-inline: var(--surf-ui-table-padding-x);
+    padding-inline: var(
+      --surf-ui-density-padding,
+      var(--surf-ui-table-padding-x)
+    );
   }
 }

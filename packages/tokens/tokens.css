@@ -265,9 +265,10 @@
     --surf-focus-ring-offset: 2px;
     --surf-focus-ring-inset: calc(-1 * var(--surf-focus-ring-width));
     --surf-control-focus-ring-size: 3px;
-    /* The smallest pointer target on narrow screens and touch (WCAG 2.5.5). */
-    --surf-control-target-size: 44px;
-    /* The smallest target a compact density keeps on touch: WCAG 2.2 AA (2.5.8). */
+    /* The target a control grows to on narrow screens and touch, WCAG 2.5.5, and
+     * the smallest a compact density keeps, WCAG 2.2 AA (2.5.8). Density sets
+     * --surf-control-target-size from them. */
+    --surf-control-target-size-enhanced: 44px;
     --surf-control-target-size-min: 24px;
     /* The smallest text in a text field. Narrow screens and touch raise it to 16px,
      * below which iOS zooms the page into a focused field. */
@@ -505,7 +506,10 @@
     :root,
     [data-theme='dark'],
     [data-theme='light'] {
-      --surf-control-height: var(--surf-control-target-size);
+      --surf-control-height: max(
+        var(--surf-control-target-size),
+        var(--surf-size-control-height-default)
+      );
       --surf-control-text-min-size: 16px;
     }
   }

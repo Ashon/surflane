@@ -25,7 +25,7 @@ export function category(prefixed) {
   if (/^--(size-|control|menu|interaction|scrollbar|focus-ring)/.test(name))
     return 'Controls'
   if (
-    /^--(layout|sheet-inset|collection|page-header|grid-cell|grid-major-cell|grid-base|grid-halo|veil)/.test(
+    /^--(layout|density|ui-density|sheet-inset|collection|page-header|grid-cell|grid-major-cell|grid-base|grid-halo|veil)/.test(
       name,
     )
   )
@@ -180,7 +180,51 @@ export const descriptions = {
   '--surf-layout-reading-measure':
     'Line length for reading text: about 70 Latin or 50 Hangul characters',
   '--surf-layout-wide': 'Maximum width for dense tables and comparison screens',
-  '--surf-layout-gutter': 'Grid gutter that responds to screen size',
+  '--surf-layout-gutter':
+    'Gutter between blocks: 24px, 16px on a phone, 12px in compact density',
+  '--surf-layout-page-inset':
+    "A page's inset: 32px, 16px on a phone, 12px in compact density",
+  '--surf-layout-section-gap':
+    'Gap between sections: 48px, 32px on a phone, 24px in compact density',
+  '--surf-density-item-compact':
+    'Compact space between the items of a run, such as actions or chips',
+  '--surf-density-inset-compact':
+    "Compact space between a block's parts, such as a card's header and body",
+  '--surf-density-padding-compact':
+    "Compact space inside a surface's edge: a card, a panel, a dialog",
+  '--surf-density-gap-compact':
+    'Compact space between blocks: cards in a grid, Dashboard panels',
+  '--surf-density-section-compact': 'Compact space between sections',
+  '--surf-density-row-padding-compact':
+    "Compact space above and below a row's content: table cells, list items",
+  '--surf-density-row-compact':
+    'Compact height of a row that holds a control: menu items, sidebar links',
+  '--surf-ui-density-item':
+    'Set by a compact scope; a part reads it before its own item gap',
+  '--surf-ui-density-inset':
+    'Set by a compact scope; a part reads it before its own gap between parts',
+  '--surf-ui-density-padding':
+    'Set by a compact scope; a surface reads it before its own padding',
+  '--surf-ui-density-gap':
+    'Set by a compact scope; a layout reads it before its own gap between blocks',
+  '--surf-ui-density-section':
+    'Set by a compact scope; the gap between sections',
+  '--surf-ui-density-row-padding':
+    'Set by a compact scope; a row reads it before its own block padding',
+  '--surf-ui-density-row':
+    'Set by a compact scope; a row that holds a control reads it before its height',
+  '--surf-ui-density-title-size':
+    "Set by a compact scope: a card's or a panel's title takes the label role",
+  '--surf-ui-density-title-leading':
+    "Set by a compact scope: a card's or a panel's title takes the label role",
+  '--surf-ui-density-title-tracking':
+    "Set by a compact scope: a card's or a panel's title takes the label role",
+  '--surf-control-target-size':
+    'The target a control keeps on touch: 44px, or 24px in compact density',
+  '--surf-control-target-size-enhanced':
+    'The 44px target of WCAG 2.5.5, which a default control grows to on touch',
+  '--surf-control-target-size-min':
+    'The 24px target of WCAG 2.2 AA (2.5.8), the least a compact control keeps',
   '--surf-layout-columns': 'Base grid: 12 → 6 → 4 columns',
   '--surf-layout-column-tile':
     'Narrowest auto Grid column for a figure and its label',

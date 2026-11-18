@@ -2569,9 +2569,6 @@ body,
   --preview-guide-columns: var(--surf-layout-columns);
   --preview-guide-gap: var(--surf-layout-gutter);
 }
-.layout-preview-shell[data-density='compact'] .layout-guide-container {
-  --preview-guide-gap: var(--surf-space-3);
-}
 .layout-guide-container.foundation-span-grid {
   --preview-guide-columns: var(--surf-layout-grid-columns);
 }

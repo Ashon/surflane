@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Icon } from './icon.js'
 import { useDialogFocusBoundary } from './dialog-focus.js'
 import { useLabels } from './label-context.js'
-import { skin, usePortalDirection } from './parts.js'
+import { skin, usePortalDensity, usePortalDirection } from './parts.js'
 import { SizeScope, useComponentSize, normalizeSize } from './sizing.js'
 import { Dialog as BaseDialog } from '@base-ui/react/dialog'
 import {
@@ -46,6 +46,7 @@ const SheetContent = function SheetContent({
   } & { ref?: React.Ref<HTMLDivElement> }) {
   const scheme = useComponentSize(size)
   const dir = usePortalDirection()
+  const density = usePortalDensity()
   const text = useLabels<{ close: string; focusBoundary: string }>('panel')
   const portalRef = useDialogFocusBoundary(
     focusBoundaryLabel ?? text.focusBoundary ?? 'Continue panel navigation',
@@ -56,7 +57,11 @@ const SheetContent = function SheetContent({
     // holds: a large one opened from a small card draws large controls.
     <SizeScope size={scheme}>
       <BaseDialog.Portal ref={portalRef}>
-        <div className='surf-panel-layer' data-ui-size={scheme}>
+        <div
+          className='surf-panel-layer'
+          data-ui-size={scheme}
+          data-ui-density={density}
+        >
           {modal === true && (
             <BaseDialog.Backdrop className='surf-panel-backdrop' />
           )}

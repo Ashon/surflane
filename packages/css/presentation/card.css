@@ -3,15 +3,19 @@
   surflane.sizes;
 
 @layer surflane.components {
-  /* Cards use one surface; children provide hierarchy without extra frames. */
+  /* Cards use one surface; children provide hierarchy without extra frames. Compact
+     density pads a card 12px and keeps 8px between its parts. */
   .surf-card {
     /* Stretched to a taller neighbor in a row, a card keeps its parts at the top
        and its footer at the bottom, so the footers of a row line up. */
     display: flex;
     flex-direction: column;
-    gap: var(--surf-space-4);
+    gap: var(--surf-ui-density-inset, var(--surf-space-4));
     min-width: 0;
-    padding: var(--surf-surface-padding, var(--surf-space-6));
+    padding: var(
+      --surf-surface-padding,
+      var(--surf-ui-density-padding, var(--surf-space-6))
+    );
     border-radius: var(--surf-radius-lg);
     background: var(--surf-surface);
     color: var(--surf-ink-body);
@@ -36,14 +40,22 @@
     gap: var(--surf-space-2);
     min-width: 0;
   }
+  /* Compact density titles a card with the label role: in a grid of them, a title
+     names what the card holds. */
   .surf-card-title {
     margin: 0;
     color: var(--surf-ink);
     font-weight: var(--surf-weight-medium);
-    font-size: var(--surf-type-section-size);
-    line-height: var(--surf-type-section-leading);
+    font-size: var(--surf-ui-density-title-size, var(--surf-type-section-size));
+    line-height: var(
+      --surf-ui-density-title-leading,
+      var(--surf-type-section-leading)
+    );
     font-family: var(--surf-font-body);
-    letter-spacing: var(--surf-type-section-tracking);
+    letter-spacing: var(
+      --surf-ui-density-title-tracking,
+      var(--surf-type-section-tracking)
+    );
     overflow-wrap: anywhere;
   }
   /* A card that opens something: its title's action stretches over it. The card is
@@ -123,7 +135,7 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: var(--surf-space-3);
+    gap: var(--surf-ui-density-inset, var(--surf-space-3));
   }
   /* A bar, such as a Meter, takes a line of its own in the footer. */
   .surf-card-footer > .surf-gauge {

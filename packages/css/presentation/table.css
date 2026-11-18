@@ -3,11 +3,15 @@
   surflane.sizes;
 
 @layer surflane.components {
-  /* Native data structures preserve table/list semantics and generous hover insets. */
+  /* Native data structures preserve table/list semantics and generous hover insets.
+   * Rows sit half an item apart: 4px, or 2px in compact density, which also pads a
+   * cell 4px above and below and 12px at its sides, for scanning many records. */
   .surf-table {
     width: 100%;
     border-collapse: separate;
-    --surf-table-row-space: var(--surf-space-1);
+    --surf-table-row-space: calc(
+      var(--surf-ui-density-item, var(--surf-space-2)) / 2
+    );
     border-spacing: 0 var(--surf-table-row-space);
     font: inherit;
     color: var(--surf-ink-body);
@@ -44,10 +48,12 @@
     text-align: start;
     font-weight: var(--surf-weight-regular);
     color: var(--surf-ink);
-    padding: 0 var(--surf-space-4) var(--surf-space-3);
+    padding: 0 var(--surf-ui-density-padding, var(--surf-space-4))
+      var(--surf-ui-density-inset, var(--surf-space-3));
   }
   .surf-table-cell {
-    padding: var(--surf-space-3) var(--surf-space-4);
+    padding: var(--surf-ui-density-row-padding, var(--surf-space-3))
+      var(--surf-ui-density-padding, var(--surf-space-4));
     text-align: start;
     vertical-align: middle;
     border: 0;
@@ -149,16 +155,6 @@
   .surf-table-sort[data-sort] .surf-table-sort-icon {
     color: var(--surf-ink);
   }
-  /* Compact density: 4px row padding and 2px between rows, for scanning many
-   * records with a pointer. It overrides the component size's cell padding. */
-  /* A table in a compact density scope is compact unless it says density='default'. */
-  .surf-table:is(
-    [data-density='compact'],
-    :where([data-ui-density='compact'] :not([data-density]))
-  ) {
-    --surf-table-row-space: 2px;
-    border-spacing: 0 var(--surf-table-row-space);
-  }
   /* Lined, grid and striped rows meet edge to edge, square, so lines and stripes
    * run unbroken. Lines stay inside the table: none above the header, below the
    * last row or at its sides. */
@@ -214,20 +210,22 @@
   /* A bleeding container hangs by the cell inset, which density and size set; it
      outranks the scroll root's own width cap. */
   .surf-scroll-root.surf-table-bleed {
-    --surf-table-bleed: var(--surf-space-4);
+    --surf-table-bleed: var(--surf-ui-density-padding, var(--surf-space-4));
     max-inline-size: none;
     margin-inline: calc(-1 * var(--surf-table-bleed));
   }
   :where([data-ui-size], [data-ui-size] *).surf-scroll-root.surf-table-bleed {
-    --surf-table-bleed: var(--surf-ui-table-padding-x);
+    --surf-table-bleed: var(
+      --surf-ui-density-padding,
+      var(--surf-ui-table-padding-x)
+    );
   }
-  .surf-scroll-root.surf-table-bleed:has(
-      .surf-table:is(
-        [data-density='compact'],
-        :where([data-ui-density='compact'] :not([data-density]))
-      )
-    ) {
-    --surf-table-bleed: var(--surf-space-3);
+  /* A table that sets its own density sets its container's bleed. */
+  .surf-scroll-root.surf-table-bleed:has(.surf-table[data-density='compact']) {
+    --surf-table-bleed: var(--surf-density-padding-compact);
+  }
+  .surf-scroll-root.surf-table-bleed:has(.surf-table[data-density='default']) {
+    --surf-table-bleed: var(--surf-ui-table-padding-x, var(--surf-space-4));
   }
   /* A sticky header needs a Container with a bounded block size that scrolls
    * vertically. --surf-table-surface matches the surface behind the table; --table-surface
@@ -372,19 +370,22 @@
   .surf-table-header > .surf-button:where(:not([data-size^='icon'])) {
     padding-inline: var(--surf-space-3);
   }
-  .surf-table:is(
-      [data-density='compact'],
-      :where([data-ui-density='compact'] :not([data-density]))
-    )
-    .surf-table-cell {
-    padding: var(--surf-space-1) var(--surf-space-3);
-  }
-  .surf-table:is(
-      [data-density='compact'],
-      :where([data-ui-density='compact'] :not([data-density]))
-    )
-    .surf-table-sort {
-    height: auto;
-    min-height: 28px;
+  /* A sort control is part of its header row, so in compact density it takes the
+     row's space, not a control's size: its line and the row padding, no less than
+     the 24px target. Out of compact the compact height is invalid and the control
+     keeps the Button's height. */
+  .surf-table-header > .surf-table-sort {
+    --surf-table-sort-compact-height: max(
+      var(--surf-control-target-size-min),
+      calc(1lh + 2 * var(--surf-ui-density-row-padding))
+    );
+    block-size: var(
+      --surf-table-sort-compact-height,
+      var(--surf-control-height)
+    );
+    min-block-size: var(
+      --surf-table-sort-compact-height,
+      var(--surf-control-height)
+    );
   }
 }

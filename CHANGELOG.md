@@ -2,6 +2,29 @@
 
 `@surflane/design-tokens`, `@surflane/css` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## Unreleased
+
+### Added
+
+- Seven density roles that every component reads its compact space through: `--surf-ui-density-item` 4px, `-inset` 8px, `-padding` 12px, `-gap` 12px, `-section` 24px, `-row-padding` 4px and `-row` 32px. `[data-ui-density='compact']` and `[data-density='compact']` set them in the tokens layer from `--surf-density-*-compact`, and a default scope clears them, so each part falls back to its own default. They keep the proximity order at either density, item < inset < padding ≤ gap < section, on the 4px grid, and a compact row keeps the 24px target.
+- `--surf-control-target-size-enhanced`, 44px, the touch target a default region grows its controls to. `--surf-control-target-size` is now set by density, 44px or 24px in compact, and no longer by the theme.
+- The Layout foundation's Density section states the rules, lists each role with where it applies, and names the parts with a compact form of their own.
+
+### Changed
+
+- Compact density reaches every component that holds space. Dialog, AlertDialog, Sheet, Drawer, Popover, PreviewCard, Toast, NavigationMenu's content, EmptyState, InlineMessage, Code and SyntaxHighlighter take the 12px padding; Form, Fieldset, Tabs and a chart's parts take the gap and inset; List items take the 4px row padding; Menu, Select and Combobox options, Tree items, Accordion triggers and a vertical NavigationMenu's links take the 32px row. Before, only Card, Dashboard, PageHeader, FilterBar, Stat, DataState, Banner, Timeline, DescriptionList, Table and AppShell did.
+- `--surf-layout-gutter`, `--surf-layout-page-inset` and `--surf-layout-section-gap` take their compact values in a compact region, 12px, 12px and 24px, so Grid, Stack and Inline without a gap of their own follow density. A gap or padding set by a prop or a part's own token, such as Stack's `gap`, `--surf-surface-padding` or `--surf-panel-inset`, keeps its value.
+- A popup carries the density of the region it opens from: Dialog, AlertDialog, Popover, Select, Tooltip, Sheet, Drawer, Toast's viewport and every portal part set `data-ui-density` from the surrounding `SizeProvider`.
+- `Tree` rows are 32px in compact density, at every size and on touch screens.
+- A chart's legend keys and data table disclosure keep the 44px touch target in a compact region too, as they do with `density='compact'`: they are a line of small text, where a compact control keeps its size.
+- The token browser shows a role only a compact scope sets with its compact value.
+
+### Fixed
+
+- `density='default'` inside a compact region restores every default, whatever the order of the rules. Compact styles were descendant selectors, so a part whose compact rule came later stayed compact inside a default region, and a scoped theme inside a compact region reset its touch target to 44px.
+- A Menu, Select or Combobox opened in a compact region was default: its popup renders outside the region and did not carry the density.
+- A table's caption lines up with its compact cells, and its sort controls are no taller than a compact row.
+
 ## 0.23.1
 
 ### Fixed

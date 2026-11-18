@@ -87,33 +87,99 @@ const en = {
   readingPara3:
     'This preview keeps the reading measure apart from the workspace width.',
   densityIntro:
-    "Density is a second axis beside size. Size sets how big a control is; density sets how close blocks sit. SizeProvider density='compact' packs a region people scan more than they edit, such as a monitoring dashboard: blocks sit 12px apart and keep 8px inside, and the parts inside take their compact forms.",
-  densityTableLabel: 'Compact density by part',
+    "Density is a second axis beside size. Size sets how big a thing is; density sets how close things sit. SizeProvider density='compact' packs a region people scan more than they edit, such as a monitoring dashboard or an admin table: the space between and inside its blocks tightens, and its controls, text and parts stay as they are.",
+  densityRulesLabel: 'Density rules',
+  densityRulesCaption: 'What density keeps and what it moves',
+  densityRulesHeaders: ['Rule', 'What it means'],
+  densityRules: [
+    [
+      'Density moves space, never size',
+      "Gaps, paddings and collection rows tighten. A control keeps its size's height, text keeps its role and every part stays. Only the forms in the last table change more.",
+    ],
+    [
+      'Space grows from the inside out',
+      'At either density, the gap between items is smaller than an inset, an inset is smaller than a padding, a padding is no larger than the gap between blocks, and that gap is smaller than a section. What belongs together still sits closer than what does not.',
+    ],
+    [
+      'Compact never makes anything larger',
+      'Every part measures the same or smaller in compact, and every value is on the 4px grid. A test measures each part in both densities.',
+    ],
+    [
+      'One region, one density',
+      "Set density on a region, and everything in it follows, popups included: they carry it out of the region. density='default' inside a compact region restores every default.",
+    ],
+    [
+      'Bonds stay',
+      'The space inside one part reads as one unit and stays at either density: a label to its control, a title to its description or summary, an icon to its text, the buttons inside a Toolbar.',
+    ],
+    [
+      'Targets keep their floor',
+      'Compact rows and controls keep at least 24px, the WCAG 2.2 AA minimum. On touch screens, default controls grow to 44px; compact ones keep their size.',
+    ],
+    [
+      'A set value wins',
+      "A prop or a part's own token, such as Stack's gap, --surf-surface-padding or --surf-panel-inset, keeps its value in either density.",
+    ],
+  ],
+  densityRolesIntro:
+    'Components read compact space through seven roles. A compact scope sets them, and a default scope clears them, so each part falls back to its own default.',
+  densityTableLabel: 'Compact density by role',
   densityCaption: 'What compact changes',
+  densityRolesHeaders: ['Role', 'Compact', 'Where it applies'],
+  densityRoles: [
+    [
+      '--surf-ui-density-item',
+      '4px',
+      'Between items in a run: action buttons, list items, the controls of a panel toolbar',
+    ],
+    [
+      '--surf-ui-density-inset',
+      '8px',
+      'Between the parts of a block: card and panel contents, a panel header, FilterBar fields, PageHeader, Stat.Group, a chart and its legend',
+    ],
+    [
+      '--surf-ui-density-padding',
+      '12px',
+      'Inside a surface: Card, Dialog, Sheet, Drawer, Popover, Toast, EmptyState, code; the AppShell page and sidebar; the sides of a table cell',
+    ],
+    [
+      '--surf-ui-density-gap',
+      '12px',
+      'Between blocks: Dashboard panels, the gutter of Grid and Stack, the fields of a Form',
+    ],
+    [
+      '--surf-ui-density-section',
+      '24px',
+      'Between sections: the layout section gap',
+    ],
+    [
+      '--surf-ui-density-row-padding',
+      '4px',
+      'Above and below a data row: Table cells, List items, Timeline events, Banner',
+    ],
+    [
+      '--surf-ui-density-row',
+      '32px',
+      'A collection row: Menu, Select and Combobox options, sidebar and vertical navigation links, Tree items, DescriptionList rows, Accordion triggers',
+    ],
+  ],
+  densityFormsLabel: 'Compact forms by part',
+  densityFormsCaption: 'Parts with a compact form of their own',
   densityPartHeader: 'Part',
   densityCompactHeader: 'Compact',
   densityRows: [
     [
-      "Gaps between Dashboard panels and Grid columns, card padding, the AppShell page inset and the sidebar's padding",
-      '12px, --surf-ui-density-gap',
+      'Card and Dashboard.Panel titles',
+      'The label role, as a repeated surface takes',
     ],
     [
-      'AppShell sidebar rows, its toggle and links on the rail',
-      '32px, square on a 56px rail',
+      'LineChart, AreaChart, BarChart',
+      "Caption, keyboard help, readout and x-axis name left to assistive technology, unless density='default'. On touch screens its legend keys and table disclosure keep the 44px target.",
     ],
-    [
-      'Gaps inside a card or panel, FilterBar, PageHeader and Stat.Group gaps',
-      '8px, --surf-ui-density-inset',
-    ],
-    ['Card and Dashboard.Panel titles', 'The label role'],
-    [
-      'Table, LineChart, AreaChart, BarChart',
-      "Compact, unless density='default'",
-    ],
-    ['DescriptionList rows', 'The small row, 32px'],
-    ['Banner, Timeline events', '4px above and below'],
+    ['Table sort controls', "The row's line and padding, 28px"],
+    ['AppShell rail', '32px links, square on a 56px rail'],
     ['Controls on touch screens', 'Their own size, at least 24px'],
-  ] as [string, string][],
+  ],
   densityUse:
     "Keep forms, documents and phone-first screens at the default density. Set compact on a whole region, not on single parts, so neighboring blocks match; a table people read closely opts back with density='default'.",
   densityFloor:
@@ -234,31 +300,90 @@ export const text: Record<Locale, typeof en> = {
     readingPara2Tail: '같은 식별자는 고정폭 글꼴로 씁니다.',
     readingPara3: '이 미리보기는 읽기 폭을 작업 공간 너비와 따로 둡니다.',
     densityIntro:
-      "밀도는 크기 옆의 두 번째 축입니다. 크기는 컨트롤이 얼마나 큰지를, 밀도는 블록이 얼마나 가까이 놓이는지를 정합니다. SizeProvider density='compact'는 모니터링 대시보드처럼 편집보다 훑어보는 영역을 촘촘하게 만듭니다. 블록 사이는 12px, 안쪽은 8px이 되고, 안의 부품은 촘촘한 형태를 씁니다.",
-    densityTableLabel: '부품별 촘촘한 밀도',
+      "밀도는 크기 옆의 두 번째 축입니다. 크기는 무언가가 얼마나 큰지를, 밀도는 무언가가 얼마나 가까이 놓이는지를 정합니다. SizeProvider density='compact'는 모니터링 대시보드나 관리용 표처럼 편집보다 훑어보는 영역을 촘촘하게 만듭니다. 블록 사이와 블록 안쪽의 공간이 줄고, 컨트롤과 글자와 부품은 그대로 남습니다.",
+    densityRulesLabel: '밀도 규칙',
+    densityRulesCaption: '밀도가 지키는 것과 옮기는 것',
+    densityRulesHeaders: ['규칙', '뜻'],
+    densityRules: [
+      [
+        '밀도는 공간만 옮기고 크기는 바꾸지 않습니다',
+        '간격, 패딩, 컬렉션 줄이 좁아집니다. 컨트롤은 크기에 맞는 높이를, 글자는 제 역할을 지키고, 부품은 하나도 빠지지 않습니다. 마지막 표의 형태만 그보다 더 바뀝니다.',
+      ],
+      [
+        '공간은 안에서 밖으로 커집니다',
+        '어느 밀도에서든 항목 사이 간격은 인셋보다, 인셋은 패딩보다 작고, 패딩은 블록 사이 간격보다 크지 않으며, 블록 사이 간격은 섹션 간격보다 작습니다. 함께 묶인 것은 여전히 그렇지 않은 것보다 가까이 놓입니다.',
+      ],
+      [
+        'compact는 무엇도 키우지 않습니다',
+        '모든 부품은 compact에서 같거나 작아지고, 모든 값은 4px 격자 위에 있습니다. 테스트가 두 밀도에서 부품을 하나하나 잽니다.',
+      ],
+      [
+        '한 영역에는 한 밀도',
+        "밀도는 영역에 정하고, 영역 안의 모든 것이 따릅니다. 팝업도 밀도를 영역 밖으로 가지고 나갑니다. compact 영역 안의 density='default'는 모든 기본값을 되돌립니다.",
+      ],
+      [
+        '결속은 그대로입니다',
+        '한 부품 안의 공간은 한 덩어리로 읽히므로 어느 밀도에서든 그대로입니다. 레이블과 컨트롤, 제목과 설명이나 요약, 아이콘과 글자, Toolbar 안의 단추들이 그렇습니다.',
+      ],
+      [
+        '대상은 하한을 지킵니다',
+        'compact의 줄과 컨트롤은 WCAG 2.2 AA 최소치인 24px 이상을 지킵니다. 터치 화면에서 기본 컨트롤은 44px로 커지고, compact 컨트롤은 제 크기를 지킵니다.',
+      ],
+      [
+        '정해 둔 값이 이깁니다',
+        'Stack의 gap, --surf-surface-padding, --surf-panel-inset처럼 prop이나 부품 자체 토큰으로 정한 값은 어느 밀도에서든 그대로입니다.',
+      ],
+    ],
+    densityRolesIntro:
+      '컴포넌트는 일곱 가지 역할로 compact의 공간을 읽습니다. compact 범위가 역할을 정하고 default 범위가 지우므로, 부품은 저마다 제 기본값으로 돌아갑니다.',
+    densityTableLabel: '역할별 촘촘한 밀도',
     densityCaption: 'compact가 바꾸는 것',
+    densityRolesHeaders: ['역할', 'compact', '쓰이는 곳'],
+    densityRoles: [
+      [
+        '--surf-ui-density-item',
+        '4px',
+        '나란한 항목 사이: 작업 단추, 목록 항목, 패널 툴바의 컨트롤',
+      ],
+      [
+        '--surf-ui-density-inset',
+        '8px',
+        '블록 안의 부분 사이: 카드와 패널 내용, 패널 머리글, FilterBar 필드, PageHeader, Stat.Group, 차트와 범례',
+      ],
+      [
+        '--surf-ui-density-padding',
+        '12px',
+        '표면 안쪽: Card, Dialog, Sheet, Drawer, Popover, Toast, EmptyState, 코드, AppShell 페이지와 사이드바, 표 칸의 좌우',
+      ],
+      [
+        '--surf-ui-density-gap',
+        '12px',
+        '블록 사이: Dashboard 패널, Grid와 Stack의 거터, Form의 필드',
+      ],
+      ['--surf-ui-density-section', '24px', '섹션 사이: 레이아웃 섹션 간격'],
+      [
+        '--surf-ui-density-row-padding',
+        '4px',
+        '데이터 줄의 위아래: Table 칸, List 항목, Timeline 사건, Banner',
+      ],
+      [
+        '--surf-ui-density-row',
+        '32px',
+        '컬렉션 줄: Menu, Select, Combobox 선택지, 사이드바와 세로 내비게이션 링크, Tree 항목, DescriptionList 줄, Accordion 트리거',
+      ],
+    ],
+    densityFormsLabel: '부품별 촘촘한 형태',
+    densityFormsCaption: '자기만의 촘촘한 형태가 있는 부품',
     densityPartHeader: '부품',
     densityCompactHeader: 'compact',
     densityRows: [
+      ['Card와 Dashboard.Panel 제목', '반복되는 표면이 쓰는 레이블 역할'],
       [
-        'Dashboard 패널과 Grid 열 사이 간격, 카드 패딩, AppShell 페이지 여백과 사이드바 여백',
-        '12px, --surf-ui-density-gap',
+        'LineChart, AreaChart, BarChart',
+        "캡션, 키보드 도움말, 값 읽기, x축 이름은 보조 기술에 맡김. density='default'면 그대로. 터치 화면에서 범례 키와 표 펼침 단추는 44px 대상을 지킴",
       ],
-      [
-        'AppShell 사이드바 줄, 접기 단추, 레일의 링크',
-        '32px, 56px 레일 위의 정사각형',
-      ],
-      [
-        '카드나 패널 안쪽 간격, FilterBar, PageHeader, Stat.Group 간격',
-        '8px, --surf-ui-density-inset',
-      ],
-      ['Card와 Dashboard.Panel 제목', '레이블 역할'],
-      [
-        'Table, LineChart, AreaChart, BarChart',
-        "density='default'가 아니면 촘촘하게",
-      ],
-      ['DescriptionList 줄', '작은 줄, 32px'],
-      ['Banner, Timeline 사건', '위아래 4px'],
+      ['Table 정렬 컨트롤', '줄의 한 줄 높이와 패딩, 28px'],
+      ['AppShell 레일', '32px 링크, 56px 레일 위의 정사각형'],
       ['터치 화면의 컨트롤', '제 크기, 최소 24px'],
     ],
     densityUse:

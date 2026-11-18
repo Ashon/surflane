@@ -100,11 +100,13 @@
     line-height: var(--surf-type-label-leading);
     letter-spacing: var(--surf-type-label-tracking);
   }
-  /* Each value takes its own width and wraps to a new line when the row is full. */
+  /* Each value takes its own width and wraps to a new line when the row is full.
+     Compact density sets values 8px apart in a row and 12px across. */
   .surf-stat-group-items {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--surf-space-3) var(--surf-space-6);
+    gap: var(--surf-ui-density-inset, var(--surf-space-3))
+      var(--surf-ui-density-gap, var(--surf-space-6));
     min-width: 0;
   }
   /* In a group each value stacks its lines, so it is only as wide as the widest. */
@@ -144,15 +146,7 @@
     letter-spacing: var(--surf-type-caption-tracking);
   }
   .surf-stat-group[data-ui-size='small'] > .surf-stat-group-items {
-    gap: var(--surf-space-2) var(--surf-space-4);
-  }
-}
-@layer surflane.sizes {
-  /* Compact density: values of a group sit 8px apart in a row and 12px across. */
-  :where(
-    [data-ui-density='compact'],
-    [data-ui-density='compact'] *
-  ).surf-stat-group-items {
-    gap: var(--surf-ui-density-inset) var(--surf-ui-density-gap);
+    gap: var(--surf-ui-density-inset, var(--surf-space-2))
+      var(--surf-ui-density-gap, var(--surf-space-4));
   }
 }

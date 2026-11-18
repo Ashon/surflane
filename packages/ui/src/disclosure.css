@@ -22,14 +22,18 @@
     --surf-plane: var(--surf-disclosure-plane);
     --surf-recessed: var(--surf-disclosure-recessed);
   }
+  /* A trigger is a row: compact density takes the 32px row, pads it 4px above and
+     below and 12px at its sides, and the body below keeps the same sides, so the
+     heading and what it opens stay 8px apart. */
   .surf-disclosure-trigger {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: var(--surf-space-3);
     width: 100%;
-    min-height: var(--surf-control-height);
-    padding: var(--surf-space-3) var(--surf-space-4);
+    min-height: var(--surf-ui-density-row, var(--surf-control-height));
+    padding: var(--surf-ui-density-row-padding, var(--surf-space-3))
+      var(--surf-ui-density-padding, var(--surf-space-4));
     border: 0;
     border-radius: var(--surf-radius-md);
     background: transparent;
@@ -98,7 +102,9 @@
     opacity: 0;
   }
   .surf-disclosure-body {
-    padding: var(--surf-space-2) var(--surf-space-4) var(--surf-space-4);
+    padding: var(--surf-ui-density-row-padding, var(--surf-space-2))
+      var(--surf-ui-density-padding, var(--surf-space-4))
+      var(--surf-ui-density-padding, var(--surf-space-4));
     overflow-wrap: break-word;
     min-width: 0;
   }
@@ -119,8 +125,11 @@
 @layer surflane.sizes {
   /* At the default size these equal the base rules: a default SizeProvider changes nothing. */
   :where([data-ui-size], [data-ui-size] *).surf-disclosure-trigger {
-    min-block-size: var(--surf-control-height);
+    min-block-size: var(--surf-ui-density-row, var(--surf-control-height));
     font-size: var(--surf-ui-font);
-    padding-block: calc(var(--surf-ui-gap) * 1.5);
+    padding-block: var(
+      --surf-ui-density-row-padding,
+      calc(var(--surf-ui-gap) * 1.5)
+    );
   }
 }

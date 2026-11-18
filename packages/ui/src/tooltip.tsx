@@ -1,7 +1,7 @@
 'use client'
 import * as React from 'react'
 import { useComponentSize, type ComponentSize } from './sizing.js'
-import { usePortalDirection } from './parts.js'
+import { usePortalDensity, usePortalDirection } from './parts.js'
 import { Kbd, type KbdKey } from './kbd.js'
 import { Tooltip as BaseTooltip } from '@base-ui/react/tooltip'
 export function TooltipProvider({
@@ -49,6 +49,7 @@ export function Tooltip({
 }: TooltipProps) {
   const scheme = useComponentSize()
   const dir = usePortalDirection()
+  const density = usePortalDensity()
   // Disabling keeps the trigger mounted, so turning the tooltip on or off never
   // moves focus.
   return (
@@ -57,6 +58,7 @@ export function Tooltip({
       <BaseTooltip.Portal>
         <BaseTooltip.Positioner
           dir={dir}
+          data-ui-density={density}
           side={side}
           align={align}
           sideOffset={sideOffset}

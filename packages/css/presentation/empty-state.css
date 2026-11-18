@@ -3,14 +3,16 @@
   surflane.sizes;
 
 @layer surflane.components {
+  /* Compact density pads an empty state 12px, sets its actions 8px under the text
+     and 4px apart. */
   .surf-empty-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--surf-space-2);
-    margin-top: var(--surf-space-4);
+    gap: var(--surf-ui-density-item, var(--surf-space-2));
+    margin-top: var(--surf-ui-density-inset, var(--surf-space-4));
   }
   .surf-empty {
-    padding: var(--surf-space-6);
+    padding: var(--surf-ui-density-padding, var(--surf-space-6));
     text-align: center;
     color: var(--surf-ink-body);
     overflow-wrap: anywhere;
@@ -45,7 +47,7 @@
   }
   @media (max-width: 560px) {
     .surf-empty {
-      padding: var(--surf-space-4);
+      padding: var(--surf-ui-density-padding, var(--surf-space-4));
     }
   }
 }

@@ -12,16 +12,26 @@
    * mobile Sheet, so the root holds them; set them on AppShell.Root to change one
    * shell. The links' icon column is what the brand's mark and the rail line up on.
    * A row is as tall as the column is wide, unless --surf-app-shell-row-height says
-   * otherwise, so a link on the rail is a square: 32px in compact density, and on
-   * touch as large as the target. */
+   * otherwise, so a link on the rail is a square: the 32px row in compact density,
+   * and on touch as large as the target. Every density scope sets the column for
+   * what it holds, so density='default' inside a compact region restores 40px. */
   :root {
-    --surf-app-shell-icon-column: 40px;
     --surf-app-shell-brand-height: 80px;
     --surf-app-shell-mark-size: 24px;
   }
+  :root,
+  [data-ui-density],
+  [data-density] {
+    --surf-app-shell-icon-column: var(--surf-ui-density-row, 40px);
+  }
   @media (pointer: coarse) {
-    :root {
-      --surf-app-shell-icon-column: max(40px, var(--surf-control-target-size));
+    :root,
+    [data-ui-density],
+    [data-density] {
+      --surf-app-shell-icon-column: max(
+        var(--surf-ui-density-row, 40px),
+        var(--surf-control-target-size)
+      );
     }
   }
   /* Application frame slots: navigation state and product routing remain caller-owned.
@@ -35,11 +45,18 @@
     );
     /* The page's room on every side; Bar bleeds from it. Set it on the shell, as
        the radius and the inset are. */
-    --surf-app-shell-page-padding: var(--surf-space-6);
+    /* Compact density sets the page's padding and the room beside the sidebar's
+       rows to 12px, on a phone too, so the rail is 12 + 32 + 12 = 56px. */
+    --surf-app-shell-page-padding: var(
+      --surf-ui-density-padding,
+      var(--surf-space-6)
+    );
     --surf-app-shell-sidebar-width: 216px;
-    /* The room on either side of the sidebar's rows; compact density sets the 12px
-       the page keeps. */
-    --surf-app-shell-sidebar-padding: var(--surf-space-3);
+    /* The room on either side of the sidebar's rows. */
+    --surf-app-shell-sidebar-padding: var(
+      --surf-ui-density-padding,
+      var(--surf-space-3)
+    );
     /* The collapsed sidebar's width: the icon column with the sidebar's padding on
        either side. Set it on the shell for a narrower rail. */
     --surf-app-shell-rail-width: calc(
@@ -78,7 +95,7 @@
   .surf-app-shell-content {
     min-inline-size: 0;
     min-block-size: 0;
-    padding: var(--surf-space-6);
+    padding: var(--surf-ui-density-padding, var(--surf-space-6));
     background: var(--surf-canvas);
     border-radius: var(--surf-app-shell-page-radius);
     overflow-wrap: break-word;
@@ -294,7 +311,10 @@
   /* Workspace variant: product sidebar owns the brand; the content scrollport is caller-provided. */
   .surf-app-shell[data-layout='workspace'] {
     --surf-app-shell-sidebar-width: 224px;
-    --surf-app-shell-sidebar-padding: var(--surf-space-4);
+    --surf-app-shell-sidebar-padding: var(
+      --surf-ui-density-padding,
+      var(--surf-space-4)
+    );
     /* The shell takes its container's height, the window's when the document fills
      * it, so the sidebar stays while the content scrolls. */
     block-size: 100%;
@@ -434,7 +454,10 @@
   /* On a phone the page meets the screen's edges, below the mobile header. */
   @media (max-width: 760px) {
     .surf-app-shell {
-      --surf-app-shell-page-padding: var(--surf-space-4);
+      --surf-app-shell-page-padding: var(
+        --surf-ui-density-padding,
+        var(--surf-space-4)
+      );
     }
     .surf-app-shell-page {
       margin: 0;
@@ -458,8 +481,16 @@
    * from the page: the space under it does, and the current tab's plane marks where
    * the reader is. */
   .surf-app-shell-page > .surf-app-shell-bar:first-child {
+    /* 0 in compact density: the page's 12px leaves no room to bleed, so the tabs
+       start at the text. Unset otherwise. */
+    --surf-app-shell-bar-compact-bleed: calc(
+      0 * var(--surf-ui-density-padding)
+    );
     /* X: a tab's inline padding and its 1px edge. */
-    --surf-app-shell-bar-bleed: calc(var(--surf-space-3) + 1px);
+    --surf-app-shell-bar-bleed: var(
+      --surf-app-shell-bar-compact-bleed,
+      calc(var(--surf-space-3) + 1px)
+    );
     box-sizing: border-box;
     block-size: calc(
       var(--surf-app-shell-brand-height) - var(--surf-app-shell-inset) * 2
@@ -525,35 +556,9 @@
   }
 }
 @layer surflane.sizes {
-  /* Compact density: the icon column is 32px, so the sidebar's rows, its toggle and a
-     link on the rail are 32px squares; the brand row keeps its 80px, so its line
-     stays where a compact page's first line is. */
-  [data-ui-density='compact'] {
-    --surf-app-shell-icon-column: var(--surf-space-8);
-  }
-  /* Compact density: a page's 12px padding is the shell's inset, so a bar has no room
-     to bleed: its tabs start at the page's text. */
-  :where([data-ui-density='compact'], [data-ui-density='compact'] *)
-    > .surf-app-shell-bar:first-child {
-    --surf-app-shell-bar-bleed: 0px;
-  }
-  /* Compact density: the page and the content keep the 12px the blocks inside keep,
-     on a phone too, and the sidebar keeps the same beside its rows, so the rail is
-     12 + 32 + 12 = 56px. */
-  :where(
-    [data-ui-density='compact'],
-    [data-ui-density='compact'] *
-  ).surf-app-shell {
-    --surf-app-shell-page-padding: var(--surf-ui-density-gap);
-    --surf-app-shell-sidebar-padding: var(--surf-ui-density-gap);
-  }
-  :where([data-ui-density='compact'], [data-ui-density='compact'] *):is(
-    .surf-app-shell-page,
-    .surf-app-shell-content
-  ) {
-    padding: var(--surf-ui-density-gap);
-  }
-  /* A workspace's content holds the page, which keeps the inset itself: padding
+  /* In compact density the brand row keeps its 80px, so its line stays where a
+     compact page's first line is. A workspace's content holds the page, which keeps
+     the inset itself: padding
      it too would double the inset, and on a phone pull the page off the edges. */
   .surf-app-shell[data-layout='workspace'] > .surf-app-shell-content {
     padding: 0;

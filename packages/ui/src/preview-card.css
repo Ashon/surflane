@@ -15,7 +15,8 @@
     overflow: auto;
     overscroll-behavior: contain;
     scrollbar-width: thin;
-    padding: var(--surf-space-5);
+    /* 20px, or 12px in compact density. */
+    padding: var(--surf-ui-density-padding, var(--surf-space-5));
     border: 1px solid var(--surf-menu-border);
     border-radius: var(--surf-radius-md);
     background: var(--surf-menu-background);
