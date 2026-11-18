@@ -245,9 +245,10 @@
     --surf-control-icon-size: 16px;
     --surf-control-icon-gap: var(--surf-space-2);
     --surf-control-border: var(--surf-control-choice-border);
-    --surf-control-background: oklch(
-      from color-mix(in srgb, var(--surf-line) 30%, var(--surf-canvas)) l c h /
-        alpha
+    --surf-control-background: color-mix(
+      in srgb,
+      var(--surf-line) 30%,
+      var(--surf-canvas)
     );
     /* Deprecated: a hovered field takes the --surf-interaction-hover-bg layer. */
     --surf-control-hover-background: var(--surf-surface);
@@ -274,35 +275,45 @@
   }
 
   /* Semantic status colors derive from the base status palette. Success has its own
-   * base, so an accent theme never recolors it. */
+   * base, so an accent theme never recolors it.
+   *
+   * A mix stays a plain color-mix(). A relative color, oklch(from …), takes an
+   * oklch origin, or a mix that keeps a clear hue: converting a mix to oklch, Chrome
+   * 157 drops the hue of a color under about 0.02 chroma and paints it as red. The
+   * borders below fix a mix's lightness, and their mixes keep at least 0.04 chroma in
+   * both themes; the token tests hold every such origin to 0.03. */
   :root,
   [data-theme='dark'],
   [data-theme='light'] {
     --surf-status-success-fg: var(--surf-success);
-    --surf-status-success-bg: oklch(
-      from color-mix(in srgb, var(--surf-success) 9%, var(--surf-canvas)) l c
-        h / alpha
+    --surf-status-success-bg: color-mix(
+      in srgb,
+      var(--surf-success) 9%,
+      var(--surf-canvas)
     );
     --surf-status-success-border: oklch(
       from color-mix(in srgb, var(--surf-success) 32%, var(--surf-canvas)) 0.61
         c h / alpha
     );
-    --surf-status-danger-fg: oklch(
-      from color-mix(in srgb, var(--surf-danger) 48%, var(--surf-ink)) l c h /
-        alpha
+    --surf-status-danger-fg: color-mix(
+      in srgb,
+      var(--surf-danger) 48%,
+      var(--surf-ink)
     );
-    --surf-status-danger-bg: oklch(
-      from color-mix(in srgb, var(--surf-danger) 10%, var(--surf-canvas)) l c
-        h / alpha
+    --surf-status-danger-bg: color-mix(
+      in srgb,
+      var(--surf-danger) 10%,
+      var(--surf-canvas)
     );
     --surf-status-danger-border: oklch(
       from color-mix(in srgb, var(--surf-danger) 38%, var(--surf-canvas)) 0.61 c
         h / alpha
     );
     --surf-status-caution-fg: var(--surf-caution);
-    --surf-status-caution-bg: oklch(
-      from color-mix(in srgb, var(--surf-caution) 9%, var(--surf-canvas)) l c
-        h / alpha
+    --surf-status-caution-bg: color-mix(
+      in srgb,
+      var(--surf-caution) 9%,
+      var(--surf-canvas)
     );
     --surf-status-caution-border: oklch(
       from color-mix(in srgb, var(--surf-caution) 32%, var(--surf-canvas)) 0.61
@@ -314,13 +325,15 @@
     --surf-status-neutral-fg: var(--surf-ink-muted);
     --surf-status-neutral-bg: var(--surf-surface);
     --surf-status-neutral-border: var(--surf-control-border);
-    --surf-status-info-fg: oklch(
-      from color-mix(in srgb, var(--surf-info) 70%, var(--surf-ink)) l c h /
-        alpha
+    --surf-status-info-fg: color-mix(
+      in srgb,
+      var(--surf-info) 70%,
+      var(--surf-ink)
     );
-    --surf-status-info-bg: oklch(
-      from color-mix(in srgb, var(--surf-info) 10%, var(--surf-canvas)) l c h /
-        alpha
+    --surf-status-info-bg: color-mix(
+      in srgb,
+      var(--surf-info) 10%,
+      var(--surf-canvas)
     );
     --surf-status-info-border: oklch(
       from color-mix(in srgb, var(--surf-info) 35%, var(--surf-canvas)) 0.61 c
@@ -342,17 +355,20 @@
     --surf-status-progress-mark: var(--surf-brand-mark);
     --surf-status-neutral-mark: oklch(from var(--surf-ink-muted) 0.72 c h);
     --surf-trend-up-fg: var(--surf-trend-up);
-    --surf-trend-up-bg: oklch(
-      from color-mix(in srgb, var(--surf-trend-up) 10%, var(--surf-canvas)) l c
-        h / alpha
+    --surf-trend-up-bg: color-mix(
+      in srgb,
+      var(--surf-trend-up) 10%,
+      var(--surf-canvas)
     );
-    --surf-trend-down-fg: oklch(
-      from color-mix(in srgb, var(--surf-trend-down) 48%, var(--surf-ink)) l c
-        h / alpha
+    --surf-trend-down-fg: color-mix(
+      in srgb,
+      var(--surf-trend-down) 48%,
+      var(--surf-ink)
     );
-    --surf-trend-down-bg: oklch(
-      from color-mix(in srgb, var(--surf-trend-down) 10%, var(--surf-canvas)) l
-        c h / alpha
+    --surf-trend-down-bg: color-mix(
+      in srgb,
+      var(--surf-trend-down) 10%,
+      var(--surf-canvas)
     );
     --surf-trend-flat-fg: var(--surf-ink-muted);
     /* A state layer: ink at 8% over whatever the item rests on. It lifts a hovered
@@ -382,49 +398,57 @@
   [data-theme='light'] {
     --surf-brand-mark: oklch(from var(--surf-brand) min(l, 0.6) min(c, 0.12) h);
     --surf-slider-track: var(--surf-surface);
-    --surf-status-success-fg: oklch(
-      from color-mix(in srgb, var(--surf-success) 25%, var(--surf-ink)) l c h /
-        alpha
+    --surf-status-success-fg: color-mix(
+      in srgb,
+      var(--surf-success) 25%,
+      var(--surf-ink)
     );
-    --surf-status-success-bg: oklch(
-      from color-mix(in srgb, var(--surf-success) 9%, var(--surf-canvas)) l c
-        h / alpha
+    --surf-status-success-bg: color-mix(
+      in srgb,
+      var(--surf-success) 9%,
+      var(--surf-canvas)
     );
     --surf-status-success-border: oklch(
       from color-mix(in srgb, var(--surf-success) 25%, var(--surf-line)) 0.64 c
         h / alpha
     );
-    --surf-status-danger-fg: oklch(
-      from color-mix(in srgb, var(--surf-danger) 65%, var(--surf-ink)) l c h /
-        alpha
+    --surf-status-danger-fg: color-mix(
+      in srgb,
+      var(--surf-danger) 65%,
+      var(--surf-ink)
     );
-    --surf-status-danger-bg: oklch(
-      from color-mix(in srgb, var(--surf-danger) 5%, var(--surf-canvas)) l c h /
-        alpha
+    --surf-status-danger-bg: color-mix(
+      in srgb,
+      var(--surf-danger) 5%,
+      var(--surf-canvas)
     );
     --surf-status-danger-border: oklch(
       from color-mix(in srgb, var(--surf-danger) 30%, var(--surf-line)) 0.64 c
         h / alpha
     );
-    --surf-status-caution-fg: oklch(
-      from color-mix(in srgb, var(--surf-caution) 25%, var(--surf-ink)) l c h /
-        alpha
+    --surf-status-caution-fg: color-mix(
+      in srgb,
+      var(--surf-caution) 25%,
+      var(--surf-ink)
     );
-    --surf-status-caution-bg: oklch(
-      from color-mix(in srgb, var(--surf-caution) 12%, var(--surf-canvas)) l c
-        h / alpha
+    --surf-status-caution-bg: color-mix(
+      in srgb,
+      var(--surf-caution) 12%,
+      var(--surf-canvas)
     );
     --surf-status-caution-border: oklch(
       from color-mix(in srgb, var(--surf-caution) 45%, var(--surf-line)) 0.64 c
         h / alpha
     );
-    --surf-status-info-fg: oklch(
-      from color-mix(in srgb, var(--surf-info) 45%, var(--surf-ink)) l c h /
-        alpha
+    --surf-status-info-fg: color-mix(
+      in srgb,
+      var(--surf-info) 45%,
+      var(--surf-ink)
     );
-    --surf-status-info-bg: oklch(
-      from color-mix(in srgb, var(--surf-info) 8%, var(--surf-canvas)) l c h /
-        alpha
+    --surf-status-info-bg: color-mix(
+      in srgb,
+      var(--surf-info) 8%,
+      var(--surf-canvas)
     );
     --surf-status-info-border: oklch(
       from color-mix(in srgb, var(--surf-info) 30%, var(--surf-line)) 0.64 c h /
@@ -435,21 +459,25 @@
     --surf-status-caution-mark: oklch(from var(--surf-caution) min(l, 0.6) c h);
     --surf-status-info-mark: oklch(from var(--surf-info) min(l, 0.6) c h);
     --surf-status-neutral-mark: oklch(from var(--surf-ink-muted) 0.6 c h);
-    --surf-trend-up-fg: oklch(
-      from color-mix(in srgb, var(--surf-trend-up) 55%, var(--surf-ink)) l c h /
-        alpha
+    --surf-trend-up-fg: color-mix(
+      in srgb,
+      var(--surf-trend-up) 55%,
+      var(--surf-ink)
     );
-    --surf-trend-up-bg: oklch(
-      from color-mix(in srgb, var(--surf-trend-up) 8%, var(--surf-canvas)) l c
-        h / alpha
+    --surf-trend-up-bg: color-mix(
+      in srgb,
+      var(--surf-trend-up) 8%,
+      var(--surf-canvas)
     );
-    --surf-trend-down-fg: oklch(
-      from color-mix(in srgb, var(--surf-trend-down) 65%, var(--surf-ink)) l c
-        h / alpha
+    --surf-trend-down-fg: color-mix(
+      in srgb,
+      var(--surf-trend-down) 65%,
+      var(--surf-ink)
     );
-    --surf-trend-down-bg: oklch(
-      from color-mix(in srgb, var(--surf-trend-down) 5%, var(--surf-canvas)) l c
-        h / alpha
+    --surf-trend-down-bg: color-mix(
+      in srgb,
+      var(--surf-trend-down) 5%,
+      var(--surf-canvas)
     );
   }
 
@@ -462,9 +490,10 @@
     --surf-menu-hover-background: var(--surf-surface);
     /* Deprecated: a selected item takes --surf-selected. */
     --surf-menu-selected-background: var(--surf-selected);
-    --surf-control-focus-ring: oklch(
-      from color-mix(in srgb, var(--surf-control-focus) 20%, var(--surf-canvas))
-        l c h / alpha
+    --surf-control-focus-ring: color-mix(
+      in srgb,
+      var(--surf-control-focus) 20%,
+      var(--surf-canvas)
     );
   }
 
@@ -497,13 +526,15 @@
     /* Progress indicators loop while work runs: one spinner turn, one pulse. */
     --surf-motion-spin: 1s;
     --surf-motion-pulse: 1.4s;
-    --surf-skeleton-base: oklch(
-      from color-mix(in srgb, var(--surf-ink-muted) 14%, var(--surf-canvas)) l c
-        h / alpha
+    --surf-skeleton-base: color-mix(
+      in srgb,
+      var(--surf-ink-muted) 14%,
+      var(--surf-canvas)
     );
-    --surf-skeleton-highlight: oklch(
-      from color-mix(in srgb, var(--surf-ink-muted) 24%, var(--surf-canvas)) l c
-        h / alpha
+    --surf-skeleton-highlight: color-mix(
+      in srgb,
+      var(--surf-ink-muted) 24%,
+      var(--surf-canvas)
     );
   }
 
@@ -516,9 +547,10 @@
     --surf-scrollbar-indicator-size: 6px;
     --surf-scrollbar-radius: var(--surf-radius-full);
     --surf-scrollbar-track: oklch(0 0 0 / 0);
-    --surf-scrollbar-thumb: oklch(
-      from color-mix(in srgb, var(--surf-ink-muted) 60%, var(--surf-canvas)) l c
-        h / alpha
+    --surf-scrollbar-thumb: color-mix(
+      in srgb,
+      var(--surf-ink-muted) 60%,
+      var(--surf-canvas)
     );
     --surf-scrollbar-thumb-hover: var(--surf-ink-muted);
   }
@@ -590,49 +622,57 @@
       --surf-shadow-float: 0 12px 32px -8px
         oklch(0.2368845 0.00973297 248.23792711 / 0.18);
 
-      --surf-status-success-fg: oklch(
-        from color-mix(in srgb, var(--surf-success) 25%, var(--surf-ink)) l c
-          h / alpha
+      --surf-status-success-fg: color-mix(
+        in srgb,
+        var(--surf-success) 25%,
+        var(--surf-ink)
       );
-      --surf-status-success-bg: oklch(
-        from color-mix(in srgb, var(--surf-success) 9%, var(--surf-canvas)) l c
-          h / alpha
+      --surf-status-success-bg: color-mix(
+        in srgb,
+        var(--surf-success) 9%,
+        var(--surf-canvas)
       );
       --surf-status-success-border: oklch(
         from color-mix(in srgb, var(--surf-success) 25%, var(--surf-line)) 0.64
           c h / alpha
       );
-      --surf-status-danger-fg: oklch(
-        from color-mix(in srgb, var(--surf-danger) 65%, var(--surf-ink)) l c h /
-          alpha
+      --surf-status-danger-fg: color-mix(
+        in srgb,
+        var(--surf-danger) 65%,
+        var(--surf-ink)
       );
-      --surf-status-danger-bg: oklch(
-        from color-mix(in srgb, var(--surf-danger) 5%, var(--surf-canvas)) l c
-          h / alpha
+      --surf-status-danger-bg: color-mix(
+        in srgb,
+        var(--surf-danger) 5%,
+        var(--surf-canvas)
       );
       --surf-status-danger-border: oklch(
         from color-mix(in srgb, var(--surf-danger) 30%, var(--surf-line)) 0.64 c
           h / alpha
       );
-      --surf-status-caution-fg: oklch(
-        from color-mix(in srgb, var(--surf-caution) 25%, var(--surf-ink)) l c
-          h / alpha
+      --surf-status-caution-fg: color-mix(
+        in srgb,
+        var(--surf-caution) 25%,
+        var(--surf-ink)
       );
-      --surf-status-caution-bg: oklch(
-        from color-mix(in srgb, var(--surf-caution) 12%, var(--surf-canvas)) l c
-          h / alpha
+      --surf-status-caution-bg: color-mix(
+        in srgb,
+        var(--surf-caution) 12%,
+        var(--surf-canvas)
       );
       --surf-status-caution-border: oklch(
         from color-mix(in srgb, var(--surf-caution) 45%, var(--surf-line)) 0.64
           c h / alpha
       );
-      --surf-status-info-fg: oklch(
-        from color-mix(in srgb, var(--surf-info) 45%, var(--surf-ink)) l c h /
-          alpha
+      --surf-status-info-fg: color-mix(
+        in srgb,
+        var(--surf-info) 45%,
+        var(--surf-ink)
       );
-      --surf-status-info-bg: oklch(
-        from color-mix(in srgb, var(--surf-info) 8%, var(--surf-canvas)) l c h /
-          alpha
+      --surf-status-info-bg: color-mix(
+        in srgb,
+        var(--surf-info) 8%,
+        var(--surf-canvas)
       );
       --surf-status-info-border: oklch(
         from color-mix(in srgb, var(--surf-info) 30%, var(--surf-line)) 0.64 c
@@ -647,21 +687,25 @@
       );
       --surf-status-info-mark: oklch(from var(--surf-info) min(l, 0.6) c h);
       --surf-status-neutral-mark: oklch(from var(--surf-ink-muted) 0.6 c h);
-      --surf-trend-up-fg: oklch(
-        from color-mix(in srgb, var(--surf-trend-up) 55%, var(--surf-ink)) l c
-          h / alpha
+      --surf-trend-up-fg: color-mix(
+        in srgb,
+        var(--surf-trend-up) 55%,
+        var(--surf-ink)
       );
-      --surf-trend-up-bg: oklch(
-        from color-mix(in srgb, var(--surf-trend-up) 8%, var(--surf-canvas)) l c
-          h / alpha
+      --surf-trend-up-bg: color-mix(
+        in srgb,
+        var(--surf-trend-up) 8%,
+        var(--surf-canvas)
       );
-      --surf-trend-down-fg: oklch(
-        from color-mix(in srgb, var(--surf-trend-down) 65%, var(--surf-ink)) l c
-          h / alpha
+      --surf-trend-down-fg: color-mix(
+        in srgb,
+        var(--surf-trend-down) 65%,
+        var(--surf-ink)
       );
-      --surf-trend-down-bg: oklch(
-        from color-mix(in srgb, var(--surf-trend-down) 5%, var(--surf-canvas)) l
-          c h / alpha
+      --surf-trend-down-bg: color-mix(
+        in srgb,
+        var(--surf-trend-down) 5%,
+        var(--surf-canvas)
       );
 
       --surf-control-background: var(--surf-canvas);
@@ -703,13 +747,15 @@
     --surf-control-choice-size: 20px;
     /* Follows the radius scale, so a square theme squares checkboxes too. */
     --surf-control-choice-radius: var(--surf-radius-sm);
-    --surf-control-choice-border: oklch(
-      from color-mix(in srgb, var(--surf-ink-muted) 60%, var(--surf-line)) l c
-        h / alpha
+    --surf-control-choice-border: color-mix(
+      in srgb,
+      var(--surf-ink-muted) 60%,
+      var(--surf-line)
     );
-    --surf-control-choice-hover-border: oklch(
-      from color-mix(in srgb, var(--surf-ink-muted) 75%, var(--surf-line)) l c
-        h / alpha
+    --surf-control-choice-hover-border: color-mix(
+      in srgb,
+      var(--surf-ink-muted) 75%,
+      var(--surf-line)
     );
     --surf-control-choice-selected-bg: var(--surf-brand);
     --surf-control-choice-selected-hover-bg: color-mix(
@@ -717,14 +763,10 @@
       var(--surf-brand) 90%,
       var(--surf-on-brand)
     );
-    --surf-control-choice-selected-border: oklch(
-      from
-        color-mix(
-          in srgb,
-          var(--surf-control-choice-selected-bg) 54%,
-          var(--surf-control-choice-selected-fg)
-        )
-        l c h / alpha
+    --surf-control-choice-selected-border: color-mix(
+      in srgb,
+      var(--surf-control-choice-selected-bg) 54%,
+      var(--surf-control-choice-selected-fg)
     );
     --surf-control-choice-selected-fg: var(--surf-on-brand);
     --surf-control-switch-width: 36px;
@@ -774,42 +816,26 @@
   [data-theme='dark'],
   [data-theme='light'] {
     --surf-badge-neutral-bg: var(--surf-status-neutral-bg);
-    --surf-badge-success-bg: oklch(
-      from
-        color-mix(
-          in srgb,
-          var(--surf-status-success-fg) 3%,
-          var(--surf-status-success-bg)
-        )
-        l c h / alpha
+    --surf-badge-success-bg: color-mix(
+      in srgb,
+      var(--surf-status-success-fg) 3%,
+      var(--surf-status-success-bg)
     );
-    --surf-badge-danger-bg: oklch(
-      from
-        color-mix(
-          in srgb,
-          var(--surf-status-danger-fg) 3%,
-          var(--surf-status-danger-bg)
-        )
-        l c h / alpha
+    --surf-badge-danger-bg: color-mix(
+      in srgb,
+      var(--surf-status-danger-fg) 3%,
+      var(--surf-status-danger-bg)
     );
-    --surf-badge-caution-bg: oklch(
-      from
-        color-mix(
-          in srgb,
-          var(--surf-status-caution-fg) 3%,
-          var(--surf-status-caution-bg)
-        )
-        l c h / alpha
+    --surf-badge-caution-bg: color-mix(
+      in srgb,
+      var(--surf-status-caution-fg) 3%,
+      var(--surf-status-caution-bg)
     );
     --surf-badge-progress-bg: var(--surf-status-progress-bg);
-    --surf-badge-info-bg: oklch(
-      from
-        color-mix(
-          in srgb,
-          var(--surf-status-info-fg) 3%,
-          var(--surf-status-info-bg)
-        )
-        l c h / alpha
+    --surf-badge-info-bg: color-mix(
+      in srgb,
+      var(--surf-status-info-fg) 3%,
+      var(--surf-status-info-bg)
     );
   }
 

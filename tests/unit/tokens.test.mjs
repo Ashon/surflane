@@ -3,7 +3,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readdirSync, readFileSync } from 'node:fs'
 import { differenceEuclidean } from 'culori'
-import { contrast, resolve } from './token-colors.mjs'
+import { contrast, rawValue, resolve } from './token-colors.mjs'
 
 // How far two colors sit apart, and every pair of a list's places.
 const separate = differenceEuclidean('oklab')
@@ -164,4 +164,63 @@ test('success is green, apart from the brand cyan', () => {
     brand = resolve('--surf-brand', 'dark')
   assert.ok(success.h > 120 && success.h < 170, `hue ${success.h}`)
   assert.ok(Math.abs(success.h - brand.h) > 40)
+})
+
+// A relative color converts its origin to oklch, and converting a mix Chrome 157 drops
+// the hue of a color under about 0.02 chroma and paints it as red: a mix stays a plain
+// color-mix(), and an origin is an oklch color or a mix that keeps a clear hue.
+function* relativeOrigins(value) {
+  for (const match of value.matchAll(/oklch\(\s*from\s+/g)) {
+    const start = match.index + match[0].length
+    const open = value.indexOf('(', start)
+    const word = /^[\w-]+/.exec(value.slice(start))[0]
+    if (open !== start + word.length) {
+      yield word
+      continue
+    }
+    let depth = 0
+    for (let i = open; i < value.length; i++) {
+      if (value[i] === '(') depth++
+      else if (value[i] === ')' && --depth === 0) {
+        yield value.slice(start, i + 1)
+        break
+      }
+    }
+  }
+}
+function originKind(expression, theme) {
+  const value = expression.trim()
+  const alias = /^var\((--surf-[\w-]+)\)$/.exec(value)
+  if (alias) return originKind(rawValue(alias[1], theme), theme)
+  if (value.startsWith('oklch(')) return 'oklch'
+  if (value.startsWith('color-mix(')) return 'mix'
+  return value
+}
+function assertOrigin(origin, theme, where) {
+  const kind = originKind(origin, theme)
+  if (kind === 'oklch') return
+  assert.equal(kind, 'mix', `${where}: origin ${origin} is ${kind}`)
+  const { c } = resolve(origin, theme)
+  assert.ok(c >= 0.03, `${where}: origin ${origin} has ${c.toFixed(4)} chroma`)
+}
+test('a relative color takes an oklch origin, or a mix that keeps its hue', () => {
+  const catalog = JSON.parse(read('catalog.json'))
+  for (const { name } of catalog.tokens)
+    for (const theme of ['dark', 'light']) {
+      const value = rawValue(name, theme)
+      for (const origin of relativeOrigins(value))
+        assertOrigin(origin, theme, `${name} (${theme})`)
+    }
+  const sheets = [
+    ...['css/foundations/', 'css/presentation/', 'ui/src/'].flatMap((folder) =>
+      readdirSync(new URL(`../${folder}`, tokensDir))
+        .filter((file) => file.endsWith('.css'))
+        .map((file) => new URL(`../${folder}${file}`, tokensDir)),
+    ),
+    new URL('shadcn.css', tokensDir),
+  ]
+  for (const sheet of sheets)
+    for (const origin of relativeOrigins(readFileSync(sheet, 'utf8')))
+      for (const theme of ['dark', 'light'])
+        assertOrigin(origin, theme, sheet.pathname.split('/packages/')[1])
 })

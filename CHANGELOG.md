@@ -2,6 +2,12 @@
 
 `@surflane/design-tokens`, `@surflane/css` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## Unreleased
+
+### Fixed
+
+- In Chrome 157, a quiet mixed color no longer turns pink or purple: the dark theme's fields, choice borders, skeletons and scrollbar, and the light theme's status, trend and badge backgrounds and focus ring. Those tokens wrapped an sRGB `color-mix()` in `oklch(from … l c h / alpha)`, which changed nothing, but Chrome 157 drops the hue of a converted color under about 0.02 chroma and paints it at 0°, red. They are plain `color-mix()` now and draw the same colors as before. The status borders, which set a mix's lightness, keep at least 0.04 chroma, and a token test holds every relative color to an oklch origin or a mix of at least 0.03.
+
 ## 0.23.0
 
 ### Added
