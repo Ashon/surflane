@@ -55,10 +55,7 @@ export function PanelsDemo({
                             {t.sheetDescription}
                           </Sheet.Description>
                         </Sheet.Header>
-                        <Sheet.Body
-                          aria-label={t.environmentDetails}
-                          tabIndex={0}
-                        >
+                        <Sheet.Body label={t.environmentDetails}>
                           <Stack gap={6}>
                             <Card.Root padding={5}>
                               <Card.Header>
@@ -114,10 +111,13 @@ export function PanelsDemo({
                             </Stack>
                           </Stack>
                         </Sheet.Body>
-                        <Sheet.Footer>
-                          <Button variant='ghost' onClick={toggleTheme}>
-                            {t.cyclePanelTheme}
-                          </Button>
+                        <Sheet.Footer
+                          start={
+                            <Button variant='ghost' onClick={toggleTheme}>
+                              {t.cyclePanelTheme}
+                            </Button>
+                          }
+                        >
                           <Sheet.Close render={<Button variant='outline' />}>
                             {t.done}
                           </Sheet.Close>

@@ -24,8 +24,9 @@
   .surf-table[data-layout='fixed'] {
     table-layout: fixed;
   }
-  /* One line per cell; Table.Truncate ends what does not fit. */
-  .surf-table[data-nowrap] .surf-table-cell {
+  /* One line per cell, or for one cell; Table.Truncate ends what does not fit. */
+  .surf-table[data-nowrap] .surf-table-cell,
+  .surf-table-cell[data-nowrap] {
     white-space: nowrap;
     overflow-wrap: normal;
   }

@@ -290,6 +290,8 @@ export {
   SheetBody,
   SheetFooter,
   type PanelSide,
+  type PanelBodyProps,
+  type PanelFooterProps,
 } from './sheet.js'
 export {
   Drawer,
@@ -651,6 +653,7 @@ export {
   Surface,
   type SurfaceKind,
   type Space,
+  type LayoutGap,
   type GridColumns,
   type GridProps,
 } from './layout.js'
@@ -684,6 +687,11 @@ export {
   type AppShellSidebarToggleProps,
   type AppShellSidebarToggleLabels,
   type AppShellMenuTriggerProps,
+  AppShellSkipLink,
+  type AppShellSkipLinkProps,
+  AppShellMenuSheet,
+  type AppShellMenuSheetProps,
+  appShellNarrowWidth,
   AppShellBrand,
   type AppShellBrandProps,
   AppShellNav,

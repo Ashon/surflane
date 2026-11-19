@@ -24,7 +24,7 @@ export const doc: ComponentDoc = {
       <Sheet.Description>Preview details.</Sheet.Description>
     </Sheet.Header>
     <Sheet.Body>Resource details</Sheet.Body>
-    <Sheet.Footer>
+    <Sheet.Footer start={<Button variant='destructive'>Delete</Button>}>
       <Sheet.Close render={<Button />}>Done</Sheet.Close>
     </Sheet.Footer>
   </Sheet.Content>
@@ -57,6 +57,16 @@ export const doc: ComponentDoc = {
       '--surf-space-6',
     ],
     ['Footer.stacked', 'stacks the actions, each the full width', 'false'],
+    [
+      'Footer.start',
+      'an action apart from the rest, such as Delete: at the inline start while the others keep the end, or last when stacked',
+      '—',
+    ],
+    [
+      'Body.label',
+      'names the body as a region the keyboard can focus, so a long body scrolls with the arrow keys',
+      '—',
+    ],
     ['Content.closeLabel', 'accessible X label', 'Close panel'],
     [
       'Content.focusBoundaryLabel',

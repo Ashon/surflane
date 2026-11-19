@@ -20,6 +20,7 @@ import {
   OverlayScopes,
   Shell,
 } from '../ssr/fixture'
+import { Behavior } from './behavior'
 
 const sections = {
   foundations: Foundations,
@@ -34,6 +35,7 @@ const sections = {
   shell: Shell,
   monitoring: Monitoring,
   scopes: OverlayScopes,
+  behavior: Behavior,
 }
 const params = new URLSearchParams(location.search)
 const theme = params.get('theme')

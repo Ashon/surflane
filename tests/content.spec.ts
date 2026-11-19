@@ -318,6 +318,8 @@ for (const works of [true, false])
           },
         },
       })
+      // A refused clipboard refuses the selection fallback too.
+      if (!works) document.execCommand = () => false
     }, works)
     await page.goto('/components/code')
     await waitForCatalogReady(page)

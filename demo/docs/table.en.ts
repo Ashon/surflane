@@ -111,6 +111,11 @@ const selection = useTableSelection({
       'false',
     ],
     [
+      'HeaderCell.nowrap / Cell.nowrap',
+      'keeps one cell on one line, such as a short date in a column beside sentences',
+      'false',
+    ],
+    [
       'Columns / Column.width',
       "a native colgroup and its cols, first in Root; width sets a column's width, such as '8rem'",
       '—',

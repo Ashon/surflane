@@ -172,14 +172,6 @@
       transition: none;
     }
   }
-  /* The title takes focus after Retry; a keyboard reader sees where they are. */
-  .surf-dashboard-panel-header .surf-card-title:focus-visible {
-    outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
-    outline-offset: var(--surf-focus-ring-offset);
-  }
-  .surf-dashboard-panel-header .surf-card-title:focus:not(:focus-visible) {
-    outline: none;
-  }
   /* The spinner's room in a panel that refreshes, held between refreshes. */
   .surf-dashboard-panel-refresh {
     display: inline-flex;

@@ -199,6 +199,12 @@
   .surf-panel-header + .surf-panel-body {
     padding-top: var(--surf-panel-ring-room);
   }
+  /* A labeled body takes keyboard focus to scroll; it clips, so its ring is drawn
+     inside its edge. */
+  .surf-panel-body[tabindex]:focus-visible {
+    outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+    outline-offset: var(--surf-focus-ring-inset);
+  }
   .surf-panel-body::-webkit-scrollbar {
     width: var(--surf-scrollbar-size);
     height: var(--surf-scrollbar-size);
@@ -236,6 +242,23 @@
     grid-template-columns: minmax(0, 1fr);
   }
   .surf-panel-footer[data-stacked] > * {
+    inline-size: 100%;
+  }
+  /* An action apart from the rest, such as Delete, takes the inline start and the
+     others keep the end; on a row too narrow for both it keeps its own line's
+     start. Stacked, it comes last, apart from the action the sheet is for. */
+  .surf-panel-footer-start {
+    display: flex;
+    flex-wrap: wrap;
+    gap: inherit;
+    margin-inline-end: auto;
+  }
+  .surf-panel-footer[data-stacked] > .surf-panel-footer-start {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    margin-inline-end: 0;
+  }
+  .surf-panel-footer[data-stacked] > .surf-panel-footer-start > * {
     inline-size: 100%;
   }
   .surf-panel-close {

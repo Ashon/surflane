@@ -1014,6 +1014,7 @@ export function Shell() {
   return (
     <section data-ssr='shell'>
       <AppShell.Root layout='workspace'>
+        <AppShell.SkipLink target='harbor-main' />
         <AppShell.Header>
           <AppShell.Brand name='Harbor' />
         </AppShell.Header>
@@ -1043,7 +1044,7 @@ export function Shell() {
         </AppShell.Sidebar>
         <AppShell.Content>
           <ScrollArea orientation='vertical' label='Workspace content'>
-            <AppShell.Page>
+            <AppShell.Page id='harbor-main'>
               <AppShell.Bar>
                 <NavigationMenu.Root aria-label='Harbor pages'>
                   <NavigationMenu.List>

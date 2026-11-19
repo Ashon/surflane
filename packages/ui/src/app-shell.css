@@ -6,6 +6,7 @@
 @import './icon.css';
 @import './tooltip.css';
 @import './button.css';
+@import './sheet.css';
 
 @layer surflane.components {
   /* The parts' sizes. Links and brands also render outside the shell, such as in a
@@ -18,6 +19,8 @@
   :root {
     --surf-app-shell-brand-height: 80px;
     --surf-app-shell-mark-size: 24px;
+    /* MenuSheet's height, held while its list changes. */
+    --surf-app-shell-menu-sheet-height: min(80dvh, 760px);
   }
   :root,
   [data-ui-density],
@@ -191,6 +194,10 @@
     inline-size: var(--surf-app-shell-mark-size);
     block-size: var(--surf-app-shell-mark-size);
   }
+  /* A mark without an image of its own is a square Avatar with the initial. */
+  .surf-app-shell-brand-mark > .surf-avatar {
+    --surf-avatar-size: var(--surf-app-shell-mark-size);
+  }
   .surf-app-shell-brand-text {
     display: grid;
   }
@@ -276,6 +283,29 @@
       padding: var(--surf-space-4);
       border-radius: 0;
     }
+  }
+  /* The skip link stays out of sight, still read, until the keyboard reaches it;
+     then it floats at the shell's top start, over everything. */
+  .surf-app-shell-skip.surf-button {
+    position: fixed;
+    inset-block-start: var(--surf-space-3);
+    inset-inline-start: var(--surf-space-3);
+    z-index: var(--surf-layer-tooltip);
+  }
+  .surf-app-shell-skip.surf-button:not(:focus) {
+    clip-path: inset(50%);
+    pointer-events: none;
+  }
+  /* MenuSheet: a flush bottom sheet as wide as a large panel that keeps one height
+     while its list changes; the nav starts just under the head and keeps its own
+     room above, and its links take the sidebar's touch rows. */
+  .surf-app-shell-menu-sheet.surf-panel {
+    --surf-panel-width: var(--surf-size-panel-large);
+    --surf-panel-height: var(--surf-app-shell-menu-sheet-height);
+    --surf-panel-inset: var(--surf-space-3);
+  }
+  .surf-app-shell-menu-sheet .surf-app-shell-nav {
+    padding: var(--surf-space-3) var(--surf-space-1) 0;
   }
   /* The menu trigger shows only where the sidebar hides, at the header's end. */
   .surf-app-shell-menu-trigger.surf-button {

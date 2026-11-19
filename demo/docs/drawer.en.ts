@@ -57,6 +57,16 @@ export const doc: ComponentDoc = {
     ],
     ['Footer.stacked', 'stacks the actions, each the full width', 'false'],
     [
+      'Footer.start',
+      'an action apart from the rest, such as Delete: at the inline start while the others keep the end, or last when stacked',
+      '—',
+    ],
+    [
+      'Body.label',
+      'names the body as a region the keyboard can focus, so a long body scrolls with the arrow keys',
+      '—',
+    ],
+    [
       'Content.size',
       'small | default | large: 320 / 440 / 640px wide, and density',
       'large',

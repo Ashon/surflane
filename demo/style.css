@@ -390,7 +390,8 @@ html {
   overflow-wrap: anywhere;
 }
 
-#page-title:focus,
+/* The content is a whole region, not a control. The page title follows the
+   package: a ring only when a keyboard action brought focus there. */
 #main-content:focus {
   outline: none;
 }

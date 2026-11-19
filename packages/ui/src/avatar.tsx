@@ -9,12 +9,16 @@ import type { AvatarCategory } from './category.js'
 
 const AvatarRoot = function AvatarRoot({
   size,
+  shape,
   category,
   className,
   ref,
   ...props
 }: React.ComponentPropsWithoutRef<typeof BaseAvatar.Root> & {
   size?: ComponentSize
+  /** square marks a thing rather than a person: a product, a project or a team,
+   * as its own image or its initial. People stay round. */
+  shape?: 'round' | 'square'
   /** Tints the fallback with a categorical color, so the initials of different
    * projects or people tell apart at a glance. The initials keep the ink. */
   category?: AvatarCategory
@@ -27,6 +31,7 @@ const AvatarRoot = function AvatarRoot({
       data-size={size}
       data-ui-size={scheme}
       data-category={category}
+      data-shape={shape === 'square' ? 'square' : undefined}
       className={skin('surf-avatar', className)}
     />
   )

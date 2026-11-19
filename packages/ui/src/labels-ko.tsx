@@ -14,6 +14,8 @@ export const koLabels: SurflaneLabels = {
     collapse: '사이드바 접기',
     expand: '사이드바 펼치기',
     menu: '내비게이션 열기',
+    skip: '본문으로 건너뛰기',
+    closeMenu: '메뉴 닫기',
   },
   banner: { dismiss: '닫기' },
   chart: {

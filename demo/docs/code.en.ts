@@ -42,7 +42,7 @@ export const doc: ComponentDoc = {
     [
       'onCopy',
       'optional clipboard writer (text) => void | Promise<void>',
-      'navigator.clipboard.writeText',
+      'navigator.clipboard.writeText, or a selected hidden field where the page has no Clipboard API, such as plain http',
     ],
     [
       'labels',

@@ -139,4 +139,4 @@ export const {
   Body: SheetBody,
   Footer: SheetFooter,
 } = Sheet
-export type { PanelSide } from './panel.js'
+export type { PanelSide, PanelBodyProps, PanelFooterProps } from './panel.js'

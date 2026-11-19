@@ -9,5 +9,5 @@
     "skipLibCheck": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"]
   },
-  "include": ["main.tsx"]
+  "include": ["main.tsx", "behavior.tsx"]
 }

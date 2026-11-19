@@ -3,6 +3,7 @@ export const doc: ComponentDoc = {
   usage: [
     "Show a user image, with initials or an SVG as the fallback when the image is missing or fails. Set the alt text or Root name so a nearby name isn't announced twice. Status is a decorative badge, separate from the image. Expose the actual status through Root's aria-description or adjacent text.",
     'For things without a picture, such as projects, sessions or hosts, set category={categoryFor(name)}: the same name always gets the same of twelve category hues, as a tint behind initials in ink.',
+    "Round is someone: a person, or an agent at work. Square is somewhere: shape='square' marks a product, a workspace or a project you go into, as its own image or its initial, such as AppShell.Brand's mark or a project's Link icon in the sidebar.",
     "Status.tone colors the marker as StatusBadge's tones do, and live pulses it while work runs, such as a session working now. Reduced motion keeps it still. Say the state in text too, such as a StatusBadge beside the name. Where there is no avatar, such as beside a group's count, StatusDot is the same dot on its own.",
   ],
   avoid: [
@@ -18,6 +19,7 @@ export const doc: ComponentDoc = {
     '--surf-size-avatar-default',
     '--surf-size-avatar-large',
     '--surf-radius-full',
+    '--surf-radius-sm',
     '--surf-line',
     '--surf-recessed',
     '--surf-chart-category-1',
@@ -39,6 +41,11 @@ export const doc: ComponentDoc = {
 </Avatar.Root>`,
   props: [
     ['Root.size', 'small (24px) | default (36px) | large (48px)', 'default'],
+    [
+      'Root.shape',
+      'round | square: square marks a product, a workspace or a project, with --surf-radius-sm corners',
+      'round',
+    ],
     [
       'Root.category',
       '1–12: a category hue behind the fallback; categoryFor(name) picks one from a name',

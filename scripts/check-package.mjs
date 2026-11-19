@@ -390,6 +390,8 @@ const internalModules = [
   'table-sticky',
   'chart-shared',
   'app-shell-context',
+  'app-shell-menu-trigger',
+  'app-shell-menu-sheet',
   'category',
 ]
 const utilityEntries = [

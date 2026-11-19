@@ -2,6 +2,28 @@
 
 `@surflane/design-tokens`, `@surflane/css` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## Unreleased
+
+### Added
+
+- `AppShell.SkipLink`: "Skip to content", first in the shell. Hidden until the keyboard reaches it, it floats at the top start as a primary button and moves focus to its `target` without changing the address, so a router that reads the hash keeps its page. A target that cannot take focus is given `tabindex='-1'` first. Its text is the new `appShell.skip` label, 본문으로 건너뛰기 in `koLabels`.
+- `AppShellMenuSheet`: the phone's navigation where the sidebar hides. It is a flat export, not a part of the `AppShell` namespace, so a shell that never renders it does not bring in Sheet. Its MenuTrigger opens a flush bottom sheet, as wide as a large panel and held at `--surf-app-shell-menu-sheet-height` (`min(80dvh, 760px)`), on the current link; a choice closes it and moves focus to the new page's title, which `returnFocus` names; it closes when the window widens past 760px, handing focus to the sidebar's current link, and a window that narrows while focus is in the sidebar moves focus to the menu button. `footer` rows stack over a Close button, whose text is the new `appShell.closeMenu` label, 메뉴 닫기 in `koLabels`. The catalog's App shell example now uses it.
+- `appShellNarrowWidth`, 760: the widest window at which the shell hides its sidebar, for an app's own `matchMedia`.
+- `Avatar.Root shape='square'` marks somewhere rather than someone: a product, a workspace or a project, as its own image or its initial, with `--surf-radius-sm` corners. As `AppShell.Brand`'s mark it takes the shell's mark size. People, and agents at work, stay round.
+- `Stack` and `Grid` take `gap='section'`, the layout's section gap (`--surf-layout-section-gap`): 48px, 32px on a phone and 24px in compact density. It names a role, not a value, so it follows the density, where a number keeps its value.
+- `Table.Cell` and `Table.HeaderCell` take `nowrap`, which keeps one cell on one line, such as a short date beside a column of sentences. `Table.Root nowrap` still does so for every cell.
+- `Sheet.Footer`, `Drawer.Footer` and `Dialog.Footer` take `start`: an action apart from the rest, such as Delete, at the inline start while the others keep the end. In a stacked footer it comes last.
+- `Sheet.Body`, `Drawer.Body` and `Dialog.Body` take `label`, which makes the body a named region the keyboard can focus, so a long body scrolls with the arrow keys, as `ScrollArea`'s `label` does. Its ring is drawn inside its edge.
+
+### Changed
+
+- A heading or `Card.Title` with `tabIndex={-1}`, focused by script after a page change or a Retry, shows Surflane's focus ring only when a keyboard action brought focus there, and none after a pointer action. The rule was the Dashboard panel title's; it is now every title's. The main landmark or AppShell content a skip link moves to draws no ring: it is a whole region, not a control.
+
+### Fixed
+
+- `CopyButton` and `CodeBlock` copy on pages without the Clipboard API, such as plain http on a local network: they fall back to a selected hidden field next to the button, and say Copy unavailable only when both ways fail. Focus returns to the button.
+- The PageHeader docs say `variant`, not the deprecated `size='workspace'`.
+
 ## 0.24.0
 
 ### Added

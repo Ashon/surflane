@@ -21,6 +21,10 @@ export const doc: DocKo = {
     'Content.focusBoundaryLabel':
       '가장자리 포커스 가드의 이름입니다. 스크린 리더가 마지막 컨트롤을 지나면 만납니다.',
     'Content.initialFocus': 'ref / 포커스 콜백 (Base UI)',
+    'Footer.start':
+      'Delete처럼 나머지와 떨어진 동작. 나머지가 끝에 있는 동안 시작 쪽에 둡니다',
+    'Body.label':
+      '본문을 키보드로 포커스할 수 있는 이름 있는 영역으로 만들어, 긴 본문을 화살표 키로 스크롤하게 합니다',
     'Root.open / onOpenChange': '제어 dialog 상태',
   },
 }

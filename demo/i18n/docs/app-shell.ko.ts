@@ -7,6 +7,8 @@ export const doc: DocKo = {
     'Brand는 제품 이름을 subsection 역할(Manrope 500, 16/24, --surf-ink, 기본 tracking)로 둡니다. 링크 라벨 줄에서 시작합니다. 사이드바에서 description이 없는 이름은 브랜드 줄 안에서 두 줄까지 쓰고, 그보다 길거나 헤더 안의 이름은 줄임표로 잘리며 전체 텍스트를 title에 유지합니다. description은 워크스페이스처럼 caption 역할(12/18, --surf-ink-muted)로 쓰는 선택적 두 번째 줄입니다.',
     'Bar는 프로젝트의 페이지를 NavigationMenu 링크로 두는 것처럼 페이지 자신의 탭을 페이지 맨 위에 둡니다. Page의 첫 자식으로 두세요. 높이는 브랜드 줄에서 위아래 셸 간격을 뺀 값(B − 2I, 56px)이고, 안의 컨트롤은 small 크기(32px)를 씁니다. 링크의 패딩과 테두리만큼(X, 13px) 페이지 텍스트 밖으로 블리드합니다. 그래서 탭 글자는 본문과 같은 x에, 탭 가운데는 브랜드 줄의 선에 서고, 탭은 페이지가 셸에서 떨어진 만큼 페이지의 위와 시작에서 떨어집니다(G = P − X, 약 12px). 다른 컨트롤은 자기 패딩에 따라 몇 px 안에서 맞습니다. 페이지와는 선이 아니라 그 아래 여백으로 나뉘고, 현재 탭의 면이 지금 페이지를 표시합니다. compact 밀도와 폰에서는 페이지 패딩에 블리드할 자리가 없어 탭이 본문 텍스트에서 시작하고, 폰에서는 모바일 헤더 아래에 탭 높이만큼 놓입니다.',
     'compact 밀도(셸을 SizeProvider density="compact"로 감쌀 때)에서는 아이콘 열이 32px이라 사이드바의 줄, 접기 단추, 레일의 각 링크가 32px입니다. 사이드바는 줄 양옆에 페이지와 같은 12px 여백을 두므로 레일은 56px입니다. 브랜드 줄은 80px을 유지해, 그 선이 compact 페이지의 첫 줄과 같은 높이에 남습니다. 터치에서는 줄이 대상 크기만큼 커지되 자기 크기보다 작아지지 않고, 아이콘 열도 함께 커져 레일의 링크가 정사각형을 유지합니다.',
+    'AppShellMenuSheet은 사이드바가 숨는 appShellNarrowWidth(760px) 이하의 내비게이션입니다. Header의 Brand 뒤에 사이드바의 Nav와 함께 두세요. MenuTrigger가 큰 패널만큼 넓고 한 높이(--surf-app-shell-menu-sheet-height, min(80dvh, 760px))를 지키는 flush 하단 시트를 엽니다. 링크는 사이드바의 터치 줄을 그대로 쓰고, 계정 같은 footer 줄은 Close 단추 위에 쌓입니다.',
+    "제 이미지가 없는 제품은 머리글자를 든 정사각 Avatar를 Brand의 마크로 씁니다. 크기는 마크 크기를 따릅니다: mark={<Avatar.Root shape='square'><Avatar.Fallback>A</Avatar.Fallback></Avatar.Root>}. size는 주지 마세요.",
     'Nav는 Link를 고른 간격으로 쌓고, 워크스페이스 사이드바에서는 아이콘이 레일에 놓이도록 안쪽 여백을 둡니다. label은 링크 위에 보이고, 레일에서도 줄을 유지하며, 내비게이션의 이름이 됩니다. label이 없으면 Nav에 aria-label을 주세요.',
     "Link는 render를 받습니다. 라우터의 링크를 넘기면 클라이언트 내비게이션이 유지됩니다(예: render={<NextLink href='/resources' />}). 계정 줄은 메뉴의 트리거로 그린 Link입니다(render={<Menu.Trigger />}). 24px Avatar를 아이콘으로 두면 링크와 같은 줄에 맞습니다.",
     '브랜드와 계정은 고정되어 있고, 메뉴와 메인 콘텐츠는 별도 ScrollArea에서 스크롤됩니다. 콘텐츠 표면이 전체 스크롤 콘텐츠를 덮으므로 하단 모서리 반경은 끝에서만 나타납니다. 콘텐츠의 ScrollArea는 페이지 자체의 스크롤 영역이므로 fade="none"을 주어 페이지의 위아래를 선명하게 두고, 메뉴는 가장자리가 흐려져 링크가 더 있음을 보여 줍니다.',
@@ -29,7 +31,8 @@ export const doc: DocKo = {
   ],
   keyboard: [
     'Tab과 Shift+Tab은 네이티브 링크와 버튼에 도달합니다. Enter는 링크를 따릅니다.',
-    '모바일 하단 Sheet는 현재 목적지에서 열립니다. 목적지를 선택하면 Sheet가 닫히고 포커스가 새 콘텐츠 heading으로 이동합니다.',
+    'SkipLink가 첫 정류장입니다. 포커스가 있는 동안 보이고, 주소를 바꾸지 않고 포커스를 대상인 페이지의 main 랜드마크로 옮기므로 해시를 읽는 라우터도 페이지를 유지합니다. 랜드마크는 링을 그리지 않습니다. 페이지가 바뀐 뒤 포커스를 받은 제목은 키보드 동작으로 포커스가 왔을 때만 링을 보입니다.',
+    'AppShellMenuSheet은 현재 목적지에서 열립니다. 목적지를 고르면 닫히고, returnFocus가 가리키는 새 페이지 제목으로 포커스가 갑니다. Escape와 Close는 메뉴 단추로 포커스를 돌려줍니다. 창이 760px보다 넓어지면 시트가 닫히고 사이드바의 현재 링크가 포커스를 받습니다. 사이드바에 포커스가 있을 때 창이 좁아지면 포커스는 메뉴 단추로 옮겨 갑니다.',
     'Base UI가 Sheet의 열기 버튼, Escape, 포커스 트래핑, 닫힘 시 포커스 복원을 처리합니다. 실제 제품에서는 라우터가 내비게이션, 뒤로 가기, 스크롤 복원을 소유합니다.',
     'SidebarToggle은 aria-expanded와 aria-controls를 설정하고, 툴팁에 단축키를 보여 줍니다. 텍스트 입력 밖에서는 ⌘B나 Ctrl+B로 사이드바를 접고 폅니다. 접힌 링크는 접근성 이름을 유지하고, 호버와 포커스 때 이름을 툴팁으로 보여 줍니다.',
   ],
@@ -58,6 +61,12 @@ export const doc: DocKo = {
       '링크의 아이콘 열(브랜드 마크와 계정이 여기에 맞춰지고, 레일에서는 링크의 크기), 브랜드 줄의 높이, 마크의 크기',
     'Root style --surf-app-shell-sidebar-width':
       '펼친 너비; header: 216px / 64px; workspace: 224px / 72px',
+    SkipLink:
+      'target(main 랜드마크나 페이지 제목의 id), label. Root의 첫 자식으로 두세요. 키보드가 닿기 전까지 숨어 있다가, 닿으면 왼쪽 위에 primary 단추로 떠오릅니다',
+    AppShellMenuSheet:
+      '네임스페이스 밖의 플랫 export라서, 쓰지 않는 셸은 Sheet를 들이지 않습니다: title(시트 이름), description, children(Nav), footer(Close 위의 줄), triggerLabel, closeLabel, returnFocus(새 페이지 제목의 id나 그것을 찾는 함수), open / defaultOpen / onOpenChange',
+    appShellNarrowWidth:
+      '내보낸 상수: 사이드바가 숨고 AppShellMenuSheet이 이어받는 가장 넓은 창, 760px',
     MenuTrigger:
       'label(버튼 이름. 무엇을 여는지 쓰세요). 사이드바가 숨는 ≤760px에서만 머리글 끝에 보이는 아이콘 버튼입니다. Sheet.Trigger의 render로 넘기세요',
     'Header / Sidebar / Content / Footer':

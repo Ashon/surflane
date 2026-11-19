@@ -71,11 +71,15 @@ type CellLayout = {
    * (40rem), so the columns that matter keep their room. Give it to every cell of
    * the column, header included. */
   hideBelow?: 'sm' | 'md'
+  /** Keeps this cell on one line, such as a short date in a column beside
+   * sentences. Table.Root's nowrap does so for every cell. */
+  nowrap?: boolean
 }
-const layout = ({ align, numeric, hideBelow }: CellLayout) => ({
+const layout = ({ align, numeric, hideBelow, nowrap }: CellLayout) => ({
   'data-align': numeric ? 'end' : align,
   'data-numeric': numeric || undefined,
   'data-hide-below': hideBelow,
+  'data-nowrap': nowrap || undefined,
 })
 const HeaderCellPart = /* @__PURE__ */ elementPart<
   HTMLTableCellElement,
@@ -90,6 +94,7 @@ const TableHeaderCell = function TableHeaderCell({
   align,
   numeric,
   hideBelow,
+  nowrap,
   ref,
   ...props
 }: Omit<React.ComponentPropsWithoutRef<typeof HeaderCellPart>, 'align'> &
@@ -97,7 +102,7 @@ const TableHeaderCell = function TableHeaderCell({
   return (
     <HeaderCellPart
       {...props}
-      {...layout({ align, numeric, hideBelow })}
+      {...layout({ align, numeric, hideBelow, nowrap })}
       ref={ref}
     />
   )
@@ -106,12 +111,17 @@ const TableCell = function TableCell({
   align,
   numeric,
   hideBelow,
+  nowrap,
   ref,
   ...props
 }: Omit<React.ComponentPropsWithoutRef<typeof CellPart>, 'align'> &
   CellLayout & { ref?: React.Ref<HTMLTableCellElement> }) {
   return (
-    <CellPart {...props} {...layout({ align, numeric, hideBelow })} ref={ref} />
+    <CellPart
+      {...props}
+      {...layout({ align, numeric, hideBelow, nowrap })}
+      ref={ref}
+    />
   )
 }
 /** One column's width, such as '8rem' for a status, in a Table.Columns group. */

@@ -65,7 +65,7 @@ const en = {
     ],
   ],
   keyboardOrder:
-    "Tab order follows DOM order, so write the DOM in reading order. Don't add positive tabIndex values or clickable divs. Use a button or a link instead.",
+    "Tab order follows DOM order, so write the DOM in reading order. Don't add positive tabIndex values or clickable divs. Use a button or a link instead. In an AppShell, AppShell.SkipLink is the first stop. After a route change, move focus to the page title: it shows the ring only when a keyboard action brought focus there.",
   keyboardTargetStart: 'On touch and narrow screens, controls are ',
   keyboardTargetEnd:
     " (44px) tall. A control that keeps a smaller look, such as a table row's checkbox or a tree's disclosure button, reaches that size around it. A compact density, for dense monitoring screens, keeps them at their size instead, never under WCAG 2.2 AA's 24px. Never remove or cover the focus ring.",
@@ -179,7 +179,7 @@ export const text: Record<Locale, typeof en> = {
       ],
     ],
     keyboardOrder:
-      'Tab 순서는 DOM 순서를 따르므로 DOM을 읽는 순서대로 쓰세요. 양수 tabIndex나 클릭 가능한 div를 더하지 마세요. 대신 버튼이나 링크를 쓰세요.',
+      'Tab 순서는 DOM 순서를 따르므로 DOM을 읽는 순서대로 쓰세요. 양수 tabIndex나 클릭 가능한 div를 더하지 마세요. 대신 버튼이나 링크를 쓰세요. AppShell에서는 AppShell.SkipLink가 첫 정류장입니다. 라우트가 바뀌면 포커스를 페이지 제목으로 옮기세요. 제목은 키보드 동작으로 포커스가 왔을 때만 링을 보입니다.',
     keyboardTargetStart: '터치와 좁은 화면에서 컨트롤 높이는 ',
     keyboardTargetEnd:
       '(44px)입니다. 표 행의 체크박스나 트리의 펼침 버튼처럼 더 작게 보이는 컨트롤은 보이는 크기를 두고, 누르는 영역만 그 크기까지 넓힙니다. 촘촘한 모니터링 화면을 위한 compact 밀도에서는 크기를 그대로 두되, WCAG 2.2 AA의 24px 아래로는 줄이지 않습니다. 포커스 링은 없애거나 가리지 마세요.',

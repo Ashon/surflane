@@ -2,8 +2,8 @@ import type { ComponentDoc } from '../componentDocs'
 export const doc: ComponentDoc = {
   usage: [
     "Define the current area's destinations in one model. Render the same links in the desktop sidebar and the mobile Sheet.",
-    "The mobile Sheet matches the catalog's own bottom-sheet menu. It rises from the bottom edge, opens on the current destination, and ends with a full-width Close menu button within thumb reach.",
-    "An open Sheet closes and moves focus on the same matchMedia condition as AppShell's 760px breakpoint.",
+    "AppShellMenuSheet is the mobile Sheet, the same as the catalog's own bottom-sheet menu. It rises from the bottom edge, opens on the current destination, and ends with a full-width Close menu button within thumb reach.",
+    "An open AppShellMenuSheet closes and moves focus on the same matchMedia condition as AppShell's 760px breakpoint, exported as appShellNarrowWidth.",
     "The catalog itself uses a global top rail and a collapsible contextual sidebar. Choose the structure that fits your product's screens.",
     'When an app has three to five main destinations, BottomNavigation keeps them on the bottom edge at the same breakpoint, one tap away, and the Sheet can hold the rest.',
     'The example reuses the App shell module. Turn on Long navigation labels or Read-only navigation to try them.',
@@ -34,7 +34,7 @@ export const doc: ComponentDoc = {
     '--surf-chrome',
     '--surf-canvas',
   ],
-  code: `import { AppShell, Sheet, Button, ScrollArea } from '@surflane/ui'
+  code: `import { AppShell, ScrollArea } from '@surflane/ui'
 
 const navigation = destinations
   .filter(canAccess)
@@ -54,28 +54,20 @@ const navigation = destinations
   </ScrollArea>
 </AppShell.Sidebar>
 
-<Sheet.Root side='bottom' open={open} onOpenChange={setOpen}>
-  <Sheet.Trigger render={<Button aria-label='Open navigation' />}>
-    Menu
-  </Sheet.Trigger>
-  <Sheet.Content initialFocus={currentLink} finalFocus={resolveReturnFocus}>
-    <Sheet.Header>
-      <Sheet.Title>Workspace navigation</Sheet.Title>
-      <Sheet.Description>Choose a workspace page.</Sheet.Description>
-    </Sheet.Header>
-    <Sheet.Body>
-      <nav aria-label='Mobile workspace navigation'>{navigation}</nav>
-    </Sheet.Body>
-    <Sheet.Footer>
-      <Button variant='secondary' onClick={() => setOpen(false)}>
-        Close menu
-      </Button>
-    </Sheet.Footer>
-  </Sheet.Content>
-</Sheet.Root>
+<AppShell.Header>
+  <AppShell.Brand mark={logo} name='Acme Platform' />
+  <AppShellMenuSheet
+    title='Workspace navigation'
+    description='Choose a workspace page.'
+    returnFocus='page-title'
+  >
+    <nav aria-label='Mobile workspace navigation'>{navigation}</nav>
+  </AppShellMenuSheet>
+</AppShell.Header>
 
-// Match AppShell's <=760px CSS breakpoint. Close the Sheet on desktop resize.
-// Resolve return focus: cancel -> trigger; navigation -> heading; desktop resize -> current link.
+// AppShellMenuSheet matches AppShell's <=760px breakpoint (appShellNarrowWidth), opens on
+// the current link, closes on desktop resize and after a choice, and returns focus:
+// cancel -> menu button; navigation -> returnFocus; desktop resize -> current link.
 // Revalidate routes and permissions in the product, including browser back/forward.`,
   props: [
     [
@@ -85,28 +77,18 @@ const navigation = destinations
     ],
     [
       'Breakpoint',
-      'desktop Sidebar hidden and mobile trigger shown at ≤760px',
-      'AppShell CSS contract',
+      'desktop Sidebar hidden and mobile trigger shown at ≤760px; appShellNarrowWidth exports it',
+      '760',
     ],
     [
-      'Sheet.Root side',
-      "bottom: the mobile menu rises from the bottom edge, like the catalog's own menu",
-      'right',
+      'AppShellMenuSheet',
+      'the bottom sheet of the same links: opens on the current one, closes after a choice and when desktop becomes available',
+      'Close menu',
     ],
     [
-      'Sheet.open / onOpenChange',
-      'controlled mobile disclosure; close when desktop becomes available',
-      'false',
-    ],
-    [
-      'Sheet.Content.initialFocus',
-      'current destination link, so the menu opens where the visitor is',
-      'Base UI default',
-    ],
-    [
-      'Sheet.Content.finalFocus',
-      'resolve trigger, destination heading, or visible desktop link',
-      'caller-owned resolver',
+      'AppShellMenuSheet.returnFocus',
+      "the new page title's id, or a function that finds it: where focus goes after a choice",
+      'focus stays',
     ],
     [
       'Long navigation labels',

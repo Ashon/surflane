@@ -118,7 +118,7 @@ const en = {
     ],
     [
       'A set value wins',
-      "A prop or a part's own token, such as Stack's gap, --surf-surface-padding or --surf-panel-inset, keeps its value in either density.",
+      "A prop or a part's own token, such as Stack's gap, --surf-surface-padding or --surf-panel-inset, keeps its value in either density. gap='section' names a role, not a value, so it follows the density.",
     ],
   ],
   densityRolesIntro:
@@ -150,7 +150,7 @@ const en = {
     [
       '--surf-ui-density-section',
       '24px',
-      'Between sections: the layout section gap',
+      "Between sections: the layout section gap, which Stack and Grid's gap='section' read",
     ],
     [
       '--surf-ui-density-row-padding',
@@ -331,7 +331,7 @@ export const text: Record<Locale, typeof en> = {
       ],
       [
         '정해 둔 값이 이깁니다',
-        'Stack의 gap, --surf-surface-padding, --surf-panel-inset처럼 prop이나 부품 자체 토큰으로 정한 값은 어느 밀도에서든 그대로입니다.',
+        "Stack의 gap, --surf-surface-padding, --surf-panel-inset처럼 prop이나 부품 자체 토큰으로 정한 값은 어느 밀도에서든 그대로입니다. gap='section'은 값이 아니라 역할을 가리키므로 밀도를 따릅니다.",
       ],
     ],
     densityRolesIntro:
@@ -360,7 +360,11 @@ export const text: Record<Locale, typeof en> = {
         '12px',
         '블록 사이: Dashboard 패널, Grid와 Stack의 거터, Form의 필드',
       ],
-      ['--surf-ui-density-section', '24px', '섹션 사이: 레이아웃 섹션 간격'],
+      [
+        '--surf-ui-density-section',
+        '24px',
+        "섹션 사이: Stack과 Grid의 gap='section'이 읽는 레이아웃 섹션 간격",
+      ],
       [
         '--surf-ui-density-row-padding',
         '4px',

@@ -33,6 +33,10 @@
     --surf-avatar-size: var(--surf-size-avatar-large);
     font-size: var(--surf-size-font-large);
   }
+  /* A thing, not a person: a product, a project or a team. */
+  .surf-avatar[data-shape='square'] {
+    border-radius: var(--surf-radius-sm);
+  }
   .surf-avatar-image {
     width: 100%;
     height: 100%;

@@ -26,6 +26,8 @@ export const doc: DocKo = {
       "표가 좁아질 수 있는 최소 너비(예: '50rem'). 그보다 좁으면 Container가 스크롤합니다",
     'Root.nowrap':
       '콘솔의 행처럼 셀마다 한 줄로 둡니다. 긴 텍스트는 Truncate가 줄임표로 끝냅니다',
+    'HeaderCell.nowrap / Cell.nowrap':
+      '문장이 있는 열 옆의 짧은 날짜처럼 칸 하나를 한 줄로 둡니다',
     'Columns / Column.width':
       "Root 맨 앞의 네이티브 colgroup과 col. width는 열 너비를 정합니다(예: '8rem')",
     'HeaderCell.hideBelow / Cell.hideBelow':

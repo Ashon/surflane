@@ -2,8 +2,8 @@ import type { DocKo } from './types'
 export const doc: DocKo = {
   usage: [
     '현재 영역의 목적지를 한 모델로 정의하세요. 같은 링크를 데스크톱 사이드바와 모바일 시트에 렌더링합니다.',
-    '모바일 시트는 카탈로그 자체의 바텀 시트 메뉴와 일치합니다. 아래쪽 가장자리에서 올라오고, 현재 목적지에서 열리며, 엄지가 닿는 범위 안에 전체 너비 Close menu 버튼으로 끝납니다.',
-    '열린 시트는 AppShell의 760px 브레이크포인트와 같은 matchMedia 조건에서 닫히고 포커스가 이동합니다.',
+    'AppShellMenuSheet이 모바일 시트이며, 카탈로그 자체의 바텀 시트 메뉴와 같습니다. 아래쪽 가장자리에서 올라오고, 현재 목적지에서 열리며, 엄지가 닿는 범위 안에 전체 너비 Close menu 버튼으로 끝납니다.',
+    '열린 AppShellMenuSheet은 AppShell의 760px 브레이크포인트와 같은 matchMedia 조건에서 닫히고 포커스가 이동합니다. 이 값은 appShellNarrowWidth로 내보냅니다.',
     '카탈로그 자체는 전역 상단 레일과 접을 수 있는 문맥 사이드바를 사용합니다. 제품 화면에 맞는 구조를 고르세요.',
     '앱의 주요 목적지가 3~5개라면 BottomNavigation이 같은 브레이크포인트에서 이를 아래쪽 가장자리에 두어 한 번에 닿게 하고, 나머지는 Sheet에 둘 수 있습니다.',
     '예시는 App shell 모듈을 재사용합니다. Long navigation labels 또는 Read-only navigation 을 켜서 확인해 보세요.',
@@ -25,15 +25,12 @@ export const doc: DocKo = {
   props: {
     'Destination model':
       '안정적인 ID, href, label, icon, 허용/현재 상태를 두 프레젠테이션이 공유',
-    Breakpoint: '≤760px에서 데스크톱 Sidebar 숨김, 모바일 트리거 표시',
-    'Sheet.Root side':
-      'bottom: 모바일 메뉴가 아래쪽 가장자리에서 올라옴(카탈로그 자체 메뉴와 동일)',
-    'Sheet.open / onOpenChange':
-      '제어되는 모바일 공개; 데스크톱 사용 가능 시 닫기',
-    'Sheet.Content.initialFocus':
-      '현재 목적지 링크, 방문자가 있는 곳에서 메뉴가 열림',
-    'Sheet.Content.finalFocus':
-      '트리거, 목적지 제목, 또는 보이는 데스크톱 링크로 해석',
+    Breakpoint:
+      '≤760px에서 데스크톱 Sidebar 숨김, 모바일 트리거 표시. appShellNarrowWidth로 내보냄',
+    AppShellMenuSheet:
+      '같은 링크의 하단 시트: 현재 링크에서 열리고, 고른 뒤와 데스크톱이 되면 닫힘',
+    'AppShellMenuSheet.returnFocus':
+      '새 페이지 제목의 id나 그것을 찾는 함수: 고른 뒤 포커스가 가는 곳',
     'Long navigation labels': '전체 접근 가능 이름이 말줄임과 축소에서 유지됨',
     'Read-only navigation':
       'Settings 숨김; Settings가 현재였으면 Overview로 폴백',

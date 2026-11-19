@@ -19,7 +19,9 @@ export type CopyButtonProps = Omit<
   value: string | (() => string | Promise<string>)
   /** The button's text: the action, then the result. */
   labels?: Partial<CopyButtonLabels>
-  /** Copies instead of the clipboard write; throw to report a failure. */
+  /** Copies instead of the clipboard write, which falls back to a selected hidden
+   * field where the page has no Clipboard API, such as plain http; throw to report
+   * a failure. */
   onCopy?: (text: string) => void | Promise<void>
   /** Hears each outcome, such as to select the source after a failure. */
   onResult?: (result: 'copied' | 'failed') => void
@@ -35,6 +37,47 @@ const iconSizes = {
   default: 'icon',
   large: 'icon-large',
 } as const
+/** Copies with a selected, hidden text field, as pages without the Clipboard API,
+ * such as plain http on a local network, still can. The field sits next to the
+ * button, so a dialog that keeps focus inside it lets the field take focus, and
+ * focus returns to the button after. */
+function copyBySelection(text: string, anchor: HTMLElement | null) {
+  if (typeof document === 'undefined') return false
+  const field = document.createElement('textarea')
+  field.value = text
+  field.readOnly = true
+  field.tabIndex = -1
+  field.setAttribute('aria-hidden', 'true')
+  Object.assign(field.style, {
+    position: 'fixed',
+    insetBlockStart: '0',
+    insetInlineStart: '0',
+    inlineSize: '1px',
+    blockSize: '1px',
+    opacity: '0',
+    pointerEvents: 'none',
+  })
+  ;(anchor?.parentElement ?? document.body).append(field)
+  field.focus({ preventScroll: true })
+  field.select()
+  let copied = false
+  try {
+    copied = document.execCommand('copy')
+  } catch {}
+  field.remove()
+  anchor?.focus({ preventScroll: true })
+  return copied
+}
+/** The Clipboard API where the page has it, else a selected hidden field; throws
+ * only when neither copies. */
+async function writeClipboard(text: string, anchor: HTMLElement | null) {
+  if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText)
+    try {
+      await navigator.clipboard.writeText(text)
+      return
+    } catch {}
+  if (!copyBySelection(text, anchor)) throw new Error('Copy unavailable')
+}
 // Feedback stays inside the button and returns to the action after this long.
 const copyFeedbackDuration = 2000
 /** Copies text and says what happened in its own label: the result replaces the
@@ -80,7 +123,8 @@ export const CopyButton = function CopyButton({
     clearTimeout(timer.current)
     setState('idle')
   }, [source])
-  async function copy() {
+  async function copy(event: React.MouseEvent<HTMLButtonElement>) {
+    const button = event.currentTarget
     const request = ++revision.current
     clearTimeout(timer.current)
     setUsed(true)
@@ -89,7 +133,7 @@ export const CopyButton = function CopyButton({
     try {
       const text = typeof value === 'string' ? value : await value()
       if (onCopy) await onCopy(text)
-      else await navigator.clipboard.writeText(text)
+      else await writeClipboard(text, button)
       outcome = 'copied'
     } catch {
       outcome = 'failed'

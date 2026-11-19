@@ -114,6 +114,7 @@ const markers = {
     'surf-app-shell-brand',
     'surf-app-shell-nav',
     'surf-app-shell-link',
+    'surf-app-shell-skip',
     'surf-bottom-nav',
   ],
   monitoring: [

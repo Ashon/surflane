@@ -7,6 +7,8 @@ export const doc: ComponentDoc = {
     'Brand sets the product name in the subsection role (Manrope 500, 16/24, --surf-ink, default tracking), starting on the link label line. In the sidebar a name with no description takes up to two lines of the brand row before it is cut short; a longer one, or a name in the header, truncates with an ellipsis and keeps its full text in title. Its description is an optional second line in the caption role (12/18, --surf-ink-muted), such as the workspace.',
     "Bar holds a page's own tabs, such as a project's pages as NavigationMenu links, at the top of the page. Make it the Page's first child. It is as tall as the brand row less the shell's inset above and below (B − 2I, 56px), its controls take the small size (32px), and it bleeds a link's padding and edge (X, 13px) past the page's text: each tab's label lines up with the text, its middle stands on the brand row's line, and the tab stands as far from the page's top and start as the page stands from the shell (G = P − X, about 12px). Other controls line up within a few pixels, by their own padding. No line parts it from the page: the space under it does, and the current tab's plane marks the page. In compact density and on a phone the page's padding leaves no room to bleed, so the tabs start at the text; on a phone the bar sits under the mobile header, as tall as its tabs.",
     'In compact density (SizeProvider density="compact" around the shell) the icon column is 32px, so the sidebar\'s rows, its toggle and each link on the rail are 32px, and the sidebar keeps the 12px the page keeps beside its rows: the rail is 56px. The brand row keeps its 80px, so its line stays where a compact page\'s first line is. On touch a row grows to the target size and never shrinks below its own, and so does the icon column, so a link on the rail stays square.',
+    "AppShellMenuSheet is the navigation where the sidebar hides, at appShellNarrowWidth (760px) and narrower: put it in Header after Brand, with the sidebar's Nav. Its MenuTrigger opens a flush bottom sheet as wide as a large panel and held at one height (--surf-app-shell-menu-sheet-height, min(80dvh, 760px)); its links keep the sidebar's touch rows, and footer rows, such as the account, stack over a Close button.",
+    "A product without an image of its own takes a square Avatar with its initial as Brand's mark, at the mark size: mark={<Avatar.Root shape='square'><Avatar.Fallback>A</Avatar.Fallback></Avatar.Root>}. Leave its size unset.",
     'Nav stacks Links with even gaps and, in the workspace sidebar, insets them so their icons sit on the rail. Its label shows over the links, keeps its row on the rail, and names the navigation; without one, give Nav an aria-label.',
     "Link takes render. Pass a router's link to keep client navigation, such as render={<NextLink href='/resources' />}. The account row is a Link rendered as the menu's trigger, render={<Menu.Trigger />}, with a 24px Avatar as its icon, so it lines up with the links.",
     "The brand and account stay fixed while the menu and main content scroll in separate ScrollAreas. The content surface spans the full scrolling content, so its bottom rounded corners appear only at the end. The content's ScrollArea is the page's own scroller: set fade=\"none\" so the page's top and bottom stay sharp, while the menu's edges fade to show more links.",
@@ -28,10 +30,11 @@ export const doc: ComponentDoc = {
     "Don't give two shells on one page the shortcut. Set shortcut={false} on any shell that only illustrates, such as a mockup.",
   ],
   anatomy:
-    'AppShell.Root(layout=workspace) → mobile Header(Brand, MenuTrigger) + Sidebar(Brand, SidebarToggle ending the brand row, ScrollArea(Nav(Links)), Footer(Link as the account menu trigger)) + Content(ScrollArea → Page(Bar?, content)); mobile: bottom Sheet(Header(Title, Description), Body(Nav(Links)), Footer(account, Close menu))',
+    'AppShell.Root(layout=workspace) → SkipLink + mobile Header(Brand, MenuTrigger) + Sidebar(Brand, SidebarToggle ending the brand row, ScrollArea(Nav(Links)), Footer(Link as the account menu trigger)) + Content(ScrollArea → Page(Bar?, content)); mobile: bottom Sheet(Header(Title, Description), Body(Nav(Links)), Footer(account, Close menu))',
   keyboard: [
     'Tab and Shift+Tab reach native links and buttons. Enter follows a link.',
-    'The mobile bottom Sheet opens on the current destination. Choosing a destination closes the Sheet and moves focus to the new content heading.',
+    "SkipLink is the first stop: it shows while focused and moves focus to its target, the page's main landmark, without changing the address, so a router that reads the hash keeps its page. The landmark draws no ring; a title focused after a page change shows one only when a keyboard action brought focus there.",
+    "AppShellMenuSheet opens on the current destination. Choosing a destination closes it and moves focus to the new page's title, which returnFocus names; Escape and Close return focus to the menu button. When the window widens past 760px the sheet closes and the sidebar's current link takes focus; when it narrows while focus is in the sidebar, focus moves to the menu button.",
     "Base UI handles the Sheet's open button, Escape, focus trapping, and focus restoration on close. In a real product, the router owns navigation, back navigation, and scroll restoration.",
     'SidebarToggle sets aria-expanded and aria-controls, and its tooltip names the shortcut. ⌘B or Ctrl+B toggles the sidebar unless focus is in a text field. Collapsed links keep their accessible names and show them as tooltips on hover and focus.',
   ],
@@ -45,17 +48,19 @@ export const doc: ComponentDoc = {
     '--surf-radius-full',
     '--surf-interaction-focus',
   ],
-  code: `import { AppShell, Menu, ScrollArea, Sheet } from '@surflane/ui'
+  code: `import { AppShell, AppShellMenuSheet, Menu, ScrollArea } from '@surflane/ui'
 
 <AppShell.Root layout='workspace' persist='workspace-sidebar'>
+  <AppShell.SkipLink target='main' />
   <AppShell.Header>
     <AppShell.Brand mark={logo} name='Acme Platform' />
-    <Sheet.Root side='bottom'>
-      <Sheet.Trigger
-        render={<AppShell.MenuTrigger label='Open navigation' />}
-      />
-      {mobileNavigationSheet}
-    </Sheet.Root>
+    <AppShellMenuSheet
+      title='Workspace navigation'
+      returnFocus='page-title'
+      footer={accountLink}
+    >
+      <AppShell.Nav aria-label='Workspace'>{links}</AppShell.Nav>
+    </AppShellMenuSheet>
   </AppShell.Header>
   <AppShell.Sidebar aria-label='Workspace'>
     <AppShell.Brand
@@ -95,8 +100,8 @@ export const doc: ComponentDoc = {
   </AppShell.Content>
 </AppShell.Root>
 
-// MenuTrigger shows at <=760px, where the Sidebar is hidden. Its bottom Sheet
-// holds the same Nav (see Responsive navigation).
+// AppShellMenuSheet's button shows at <=760px, where the Sidebar is hidden. Its bottom
+// Sheet holds the same Nav (see Responsive navigation).
 // AppShell.Content is a div: render the application's single main landmark yourself.
 // Route, permission, session and cookie ownership stay with the application;
 // ThemeSwitch in the sidebar sets and remembers the theme, or drive it with value.`,
@@ -165,6 +170,21 @@ export const doc: ComponentDoc = {
       'Root style --surf-app-shell-sidebar-width',
       'expanded width; header: 216px / 64px; workspace: 224px / 72px',
       'layout-dependent',
+    ],
+    [
+      'SkipLink',
+      "target (the id of the main landmark or the page's title), label. Make it the Root's first child: hidden until the keyboard reaches it, it then floats at the top start as a primary button",
+      'Skip to content',
+    ],
+    [
+      'AppShellMenuSheet',
+      "a flat export, off the namespace, so a shell without it does not bring in Sheet: title (names the sheet), description, children (the Nav), footer (rows over Close), triggerLabel, closeLabel, returnFocus (the new page title's id, or a function that finds it), open / defaultOpen / onOpenChange",
+      'Close menu',
+    ],
+    [
+      'appShellNarrowWidth',
+      'exported constant: the widest window, 760px, at which the sidebar hides and AppShellMenuSheet takes over',
+      '760',
     ],
     [
       'MenuTrigger',

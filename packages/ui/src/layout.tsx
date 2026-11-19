@@ -2,14 +2,17 @@ import * as React from 'react'
 import { cx } from './class-names.js'
 
 export type Space = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 8 | 10 | 12 | 16 | 20
+export type LayoutGap = Space | 'section'
 const gapStyle = (
-  gap: Space | undefined,
+  gap: LayoutGap | undefined,
   style: React.CSSProperties | undefined,
 ) =>
   ({
     ...(gap === undefined
       ? {}
-      : { '--surf-layout-gap': `var(--surf-space-${gap})` }),
+      : gap === 'section'
+        ? { '--surf-layout-gap': 'var(--surf-layout-section-gap)' }
+        : { '--surf-layout-gap': `var(--surf-space-${gap})` }),
     ...style,
   }) as React.CSSProperties
 export const Container = function Container({
@@ -35,7 +38,12 @@ export const Stack = function Stack({
   style,
   ref,
   ...props
-}: React.ComponentProps<'div'> & { gap?: Space } & {
+}: React.ComponentProps<'div'> & {
+  /** A step of the space scale, or section for the layout's section gap
+   * (--surf-layout-section-gap), which follows the phone breakpoint and the
+   * density as a page's sections do. */
+  gap?: LayoutGap
+} & {
   ref?: React.Ref<HTMLDivElement>
 }) {
   return (
@@ -91,7 +99,10 @@ export type GridColumns =
       min?: 'tile' | 'brief' | 'card' | 'wide'
     }
 export type GridProps = React.ComponentProps<'div'> & {
-  gap?: Space
+  /** A step of the space scale, or section for the layout's section gap
+   * (--surf-layout-section-gap), which follows the phone breakpoint and the
+   * density as a page's sections do. */
+  gap?: LayoutGap
   /** Extend inline edges by the matching child content inset (card padding or table cell inset). The parent
    * must reserve this space for the card surface and focus outline. */
   bleed?: Space

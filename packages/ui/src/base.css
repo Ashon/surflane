@@ -15,6 +15,25 @@
     font-synthesis-weight: inherit;
     font-variant-ligatures: inherit;
   }
+  /* Script moves focus to a title after it changes the page, or after Retry, and a
+     skip link moves it to the content; none of them takes input. A title shows the
+     ring only when a keyboard action brought focus there, so a keyboard reader sees
+     where they are; the content, a whole region, draws none. */
+  :where(.surf-heading, .surf-card-title)[tabindex='-1']:focus-visible {
+    outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+    outline-offset: var(--surf-focus-ring-offset);
+  }
+  :where(.surf-heading, .surf-card-title)[tabindex='-1']:focus:not(
+      :focus-visible
+    ),
+  :where(
+      .surf-app-shell main,
+      .surf-app-shell [role='main'],
+      .surf-app-shell-content,
+      .surf-app-shell-page
+    )[tabindex='-1']:focus {
+    outline: none;
+  }
 }
 
 @layer surflane.components {

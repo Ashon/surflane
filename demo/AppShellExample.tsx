@@ -1,9 +1,9 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useLayoutEffect, useRef, useState } from 'react'
 import {
   Inline,
   Banner,
   AppShell,
-  Button,
+  AppShellMenuSheet,
   Checkbox,
   Icon,
   type IconName,
@@ -11,7 +11,6 @@ import {
   NavigationMenu,
   PageHeader,
   ScrollArea,
-  Sheet,
   ChoiceLabel,
   ThemeSwitch,
 } from '@surflane/ui'
@@ -41,38 +40,11 @@ export function AppShellExample({
   const [longLabels, setLongLabels] = useState(false),
     [readOnly, setReadOnly] = useState(false)
   const sidebar = useRef<HTMLElement>(null)
-  const [mobileOpen, setMobileOpen] = useState(false)
   const [view, setView] = useState(t.overview),
     [account, setAccount] = useState(false)
-  const heading = useRef<HTMLHeadingElement>(null),
-    trigger = useRef<HTMLButtonElement>(null),
-    mobilePanel = useRef<HTMLDivElement>(null),
-    selectedInPanel = useRef(false)
+  const heading = useRef<HTMLHeadingElement>(null)
   const profile = 'Surflane'
   const previewId = React.useId()
-  // The dialog must close when its desktop navigation becomes available.
-  useEffect(() => {
-    const media = matchMedia('(max-width: 760px)')
-    let lastFocused: Element | null = document.activeElement
-    const trackFocus = (event: FocusEvent) => {
-      if (event.target instanceof Element && event.target !== document.body)
-        lastFocused = event.target
-    }
-    document.addEventListener('focusin', trackFocus)
-    const update = () => {
-      if (!media.matches) setMobileOpen(false)
-      else if (
-        sidebar.current?.contains(document.activeElement) ||
-        sidebar.current?.contains(lastFocused)
-      )
-        trigger.current?.focus({ preventScroll: true })
-    }
-    media.addEventListener('change', update)
-    return () => {
-      media.removeEventListener('change', update)
-      document.removeEventListener('focusin', trackFocus)
-    }
-  }, [])
   // A new view starts at the top; reset after it renders so the old content's height doesn't matter.
   useLayoutEffect(() => {
     contentViewport.current?.scrollTo({ top: 0 })
@@ -109,10 +81,8 @@ export function AppShellExample({
               e.preventDefault()
               setView(label)
               setAccount(false)
-              if (panel) {
-                selectedInPanel.current = true
-                setMobileOpen(false)
-              } else heading.current?.focus({ preventScroll: true })
+              // AppShellMenuSheet closes after a choice and returns focus to the heading.
+              if (!panel) heading.current?.focus({ preventScroll: true })
             }}
           />
         ))}
@@ -252,61 +222,16 @@ export function AppShellExample({
                 name={profile}
               />
               {/* The same bottom sheet as the catalog's own mobile menu. */}
-              <Sheet.Root
-                side='bottom'
-                open={mobileOpen}
-                onOpenChange={(open) => setMobileOpen(open)}
+              <AppShellMenuSheet
+                title={t.workspaceNavigation}
+                description={t.sheetDescription}
+                triggerLabel={t.openNavAria}
+                closeLabel={t.closeNav}
+                returnFocus={() => heading.current}
+                footer={accountMenu}
               >
-                <Sheet.Trigger
-                  render={
-                    <AppShell.MenuTrigger
-                      ref={trigger}
-                      label={t.openNavAria}
-                      onClick={() => {
-                        selectedInPanel.current = false
-                      }}
-                    />
-                  }
-                />
-                <Sheet.Content
-                  ref={mobilePanel}
-                  className='app-shell-mobile-panel navigation-sheet'
-                  flush
-                  aria-modal='true'
-                  closeLabel={t.closeNav}
-                  initialFocus={() =>
-                    mobilePanel.current?.querySelector<HTMLElement>(
-                      'a[aria-current="page"]',
-                    ) ?? true
-                  }
-                  finalFocus={() => {
-                    if (matchMedia('(min-width: 761px)').matches)
-                      return (
-                        sidebar.current?.querySelector<HTMLElement>(
-                          'a[aria-current="page"]',
-                        ) ?? heading.current
-                      )
-                    return selectedInPanel.current
-                      ? heading.current
-                      : trigger.current
-                  }}
-                >
-                  <Sheet.Header>
-                    <Sheet.Title>{t.workspaceNavigation}</Sheet.Title>
-                    <Sheet.Description>{t.sheetDescription}</Sheet.Description>
-                  </Sheet.Header>
-                  <Sheet.Body>{links(true)}</Sheet.Body>
-                  <Sheet.Footer stacked>
-                    {accountMenu}
-                    <Button
-                      variant='secondary'
-                      onClick={() => setMobileOpen(false)}
-                    >
-                      {t.closeMenu}
-                    </Button>
-                  </Sheet.Footer>
-                </Sheet.Content>
-              </Sheet.Root>
+                {links(true)}
+              </AppShellMenuSheet>
             </AppShell.Header>
             <AppShell.Sidebar ref={sidebar} aria-label={t.sidebarAria}>
               <AppShell.Brand

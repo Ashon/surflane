@@ -66,6 +66,16 @@ export const doc: ComponentDoc = {
       'custom property: a width that keeps the surrounding density',
       'Content.size',
     ],
+    [
+      'Footer.start',
+      'an action apart from the rest, such as Delete, at the inline start while the others keep the end',
+      '—',
+    ],
+    [
+      'Body.label',
+      'names the body as a region the keyboard can focus, so a long body scrolls with the arrow keys',
+      '—',
+    ],
     ['Root.open / onOpenChange', 'controlled dialog state', '—'],
   ],
 }

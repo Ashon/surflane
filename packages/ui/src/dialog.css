@@ -146,6 +146,12 @@
   .surf-dialog-header + .surf-dialog-body {
     padding-top: var(--surf-dialog-ring-room);
   }
+  /* A labeled body takes keyboard focus to scroll; it clips, so its ring is drawn
+     inside its edge. */
+  .surf-dialog-body[tabindex]:focus-visible {
+    outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
+    outline-offset: var(--surf-focus-ring-inset);
+  }
   .surf-dialog-body::-webkit-scrollbar {
     width: var(--surf-scrollbar-size);
     height: var(--surf-scrollbar-size);
@@ -167,6 +173,15 @@
     background: var(--surf-surface);
     --surf-plane: var(--surf-surface);
     --surf-recessed: var(--surf-canvas);
+  }
+  /* An action apart from the rest, such as Delete, takes the inline start and the
+     others keep the end; on a row too narrow for both it keeps its own line's
+     start. */
+  .surf-dialog-footer-start {
+    display: flex;
+    flex-wrap: wrap;
+    gap: inherit;
+    margin-inline-end: auto;
   }
   .surf-dialog-close:disabled {
     opacity: var(--surf-control-disabled-opacity);

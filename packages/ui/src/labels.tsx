@@ -20,8 +20,15 @@ import type { TreeLabels } from './tree.js'
 /** Every text a client component writes, by group. Breadcrumbs and Spinner render on
  * the server, so they take their names as props. */
 export type SurflaneLabels = {
-  /** AppShell's SidebarToggle names and MenuTrigger name. */
-  appShell: { collapse: string; expand: string; menu: string }
+  /** AppShell's SidebarToggle names, MenuTrigger name, SkipLink text and
+   * MenuSheet's close action. */
+  appShell: {
+    collapse: string
+    expand: string
+    menu: string
+    skip: string
+    closeMenu: string
+  }
   banner: { dismiss: string }
   chart: ChartLabels
   /** CodeBlock's scroll region name and copy action. */

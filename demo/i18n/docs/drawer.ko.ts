@@ -14,6 +14,10 @@ export const doc: DocKo = {
       '사용자 지정 속성: 위나 아래 패널을 한 높이로 고정합니다',
     '--surf-panel-inset': '사용자 지정 속성: 머리, 본문, 푸터의 좌우 안쪽 여백',
     'Footer.stacked': '동작을 세로로 쌓고 각각 전체 너비로 둡니다',
+    'Footer.start':
+      'Delete처럼 나머지와 떨어진 동작. 나머지가 끝에 있는 동안 시작 쪽에 두고, stacked이면 맨 뒤에 둡니다',
+    'Body.label':
+      '본문을 키보드로 포커스할 수 있는 이름 있는 영역으로 만들어, 긴 본문을 화살표 키로 스크롤하게 합니다',
     'Root.side': 'left | right | top | bottom; 스와이프 방향을 결정합니다',
     'Content.size': 'small | default | large: 너비 320 / 440 / 640px와 밀도',
     'Content.closeLabel': '접근성 있는 X 레이블',

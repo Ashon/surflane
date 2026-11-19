@@ -86,16 +86,46 @@ function DialogHeader({ className, ...props }: React.ComponentProps<'div'>) {
   return <div {...props} className={cx('surf-dialog-header', className)} />
 }
 const DialogBody = function DialogBody({
+  label,
+  tabIndex = label ? 0 : undefined,
+  role = label ? 'region' : undefined,
   className,
   ref,
   ...props
-}: React.ComponentProps<'div'> & { ref?: React.Ref<HTMLDivElement> }) {
+}: React.ComponentProps<'div'> & {
+  /** Names the body as a region and lets the keyboard focus it, so a long body
+   * scrolls with the arrow keys, as ScrollArea's label does. */
+  label?: string
+} & { ref?: React.Ref<HTMLDivElement> }) {
   return (
-    <div {...props} ref={ref} className={cx('surf-dialog-body', className)} />
+    <div
+      {...props}
+      ref={ref}
+      role={role}
+      aria-label={label}
+      tabIndex={tabIndex}
+      className={cx('surf-dialog-body', className)}
+    />
   )
 }
-function DialogFooter({ className, ...props }: React.ComponentProps<'div'>) {
-  return <div {...props} className={cx('surf-dialog-footer', className)} />
+function DialogFooter({
+  start,
+  className,
+  children,
+  ...props
+}: React.ComponentProps<'div'> & {
+  /** An action apart from the rest, such as Delete, at the inline start while the
+   * others keep the end. */
+  start?: React.ReactNode
+}) {
+  return (
+    <div {...props} className={cx('surf-dialog-footer', className)}>
+      {start != null && start !== false && start !== '' && (
+        <div className='surf-dialog-footer-start'>{start}</div>
+      )}
+      {children}
+    </div>
+  )
 }
 const DialogTitle = /* @__PURE__ */ part<
   HTMLHeadingElement,

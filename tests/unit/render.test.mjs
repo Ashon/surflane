@@ -5,13 +5,19 @@ import { readFileSync } from 'node:fs'
 import { createElement as h } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import {
+  AppShell,
+  Avatar,
+  appShellNarrowWidth,
+  AppShellMenuSheet,
   Banner,
   BarList,
   Button,
   DataState,
   DescriptionList,
+  Dialog,
   DivergingBar,
   FileUpload,
+  Grid,
   Icon,
   Kbd,
   KoreanLabels,
@@ -22,8 +28,10 @@ import {
   ScrollArea,
   SegmentedControl,
   Separator,
+  Sheet,
   Skeleton,
   Sparkline,
+  Stack,
   Stat,
   Table,
   Textarea,
@@ -686,4 +694,108 @@ test('a filled Sparkline draws its fade, and a gap breaks it in two', () => {
     spark({ data: [3, 4] }),
     /surf-sparkline-fill|linearGradient/,
   )
+})
+
+test("Stack and Grid take the layout's section gap by name", () => {
+  for (const part of [Stack, Grid])
+    assert.match(
+      html(h(part, { gap: 'section' })),
+      /--surf-layout-gap:var\(--surf-layout-section-gap\)/,
+    )
+  assert.match(
+    html(h(Stack, { gap: 4 })),
+    /--surf-layout-gap:var\(--surf-space-4\)/,
+  )
+})
+
+test('one table cell keeps to a line', () => {
+  const markup = html(
+    h(Table.Root, null, [
+      h(
+        Table.Head,
+        { key: 'h' },
+        h(Table.Row, null, h(Table.HeaderCell, { nowrap: true }, 'Date')),
+      ),
+      h(
+        Table.Body,
+        { key: 'b' },
+        h(Table.Row, null, [
+          h(Table.Cell, { key: 'a', nowrap: true }, 'Oct 24'),
+          h(Table.Cell, { key: 'b' }, 'A sentence'),
+        ]),
+      ),
+    ]),
+  )
+  assert.equal(markup.match(/data-nowrap="true"/g)?.length, 2)
+  assert.doesNotMatch(markup, /<table[^>]*data-nowrap/)
+})
+
+test('a labeled Sheet or Dialog body is a named region the keyboard can focus', () => {
+  for (const Body of [Sheet.Body, Dialog.Body]) {
+    const named = html(h(Body, { label: 'Channel details' }, 'Body'))
+    assert.match(named, /role="region"/)
+    assert.match(named, /aria-label="Channel details"/)
+    assert.match(named, /tabindex="0"/)
+    assert.doesNotMatch(html(h(Body, null, 'Body')), /role=|tabindex=/)
+  }
+})
+
+test('a footer keeps its start action apart: first in a row, last when stacked', () => {
+  const start = h(Button, { variant: 'destructive' }, 'Delete')
+  const save = h(Button, null, 'Save')
+  const order = (markup) =>
+    [...markup.matchAll(/footer-start|>Save</g)].map(([found]) => found)
+  assert.deepEqual(order(html(h(Sheet.Footer, { start }, save))), [
+    'footer-start',
+    '>Save<',
+  ])
+  assert.deepEqual(
+    order(html(h(Sheet.Footer, { start, stacked: true }, save))),
+    ['>Save<', 'footer-start'],
+  )
+  assert.match(
+    html(h(Dialog.Footer, { start }, save)),
+    /surf-dialog-footer-start/,
+  )
+  assert.doesNotMatch(html(h(Sheet.Footer, null, save)), /footer-start/)
+})
+
+test('AppShell.SkipLink links to its target and says so in the shell language', () => {
+  const markup = html(h(AppShell.SkipLink, { target: 'main' }))
+  assert.match(markup, /href="#main"/)
+  assert.match(markup, /surf-app-shell-skip/)
+  assert.match(markup, />Skip to content</)
+  assert.match(
+    html(h(KoreanLabels, null, h(AppShell.SkipLink, { target: 'main' }))),
+    />본문으로 건너뛰기</,
+  )
+})
+
+test('a square Avatar marks a thing; a person stays round', () => {
+  assert.match(
+    html(h(Avatar.Root, { shape: 'square' }, h(Avatar.Fallback, null, 'G'))),
+    /data-shape="square"/,
+  )
+  assert.doesNotMatch(html(h(Avatar.Root, null)), /data-shape/)
+})
+
+test('AppShellMenuSheet renders its menu button, and the narrow width is exported', () => {
+  const markup = html(
+    h(
+      AppShell.Root,
+      null,
+      h(
+        AppShell.Header,
+        null,
+        h(
+          AppShellMenuSheet,
+          { title: 'Workspace navigation' },
+          h(AppShell.Nav, { 'aria-label': 'Workspace' }),
+        ),
+      ),
+    ),
+  )
+  assert.match(markup, /surf-app-shell-menu-trigger/)
+  assert.match(markup, /aria-label="Open navigation"/)
+  assert.equal(appShellNarrowWidth, 760)
 })

@@ -2,37 +2,23 @@
 import * as React from 'react'
 import { useRender } from '@base-ui/react/use-render'
 import { cx, skin } from './parts.js'
-import { Button, type ButtonProps } from './button.js'
+import { Button, LinkButton, type ButtonProps } from './button.js'
 import { Icon } from './icon.js'
 import { Tooltip } from './tooltip.js'
 import { commandKey } from './platform.js'
 import { useLabels } from './label-context.js'
 import { SizeScope } from './sizing.js'
+import {
+  MenuTrigger,
+  useNarrowerThan,
+  type AppShellMenuTriggerProps,
+} from './app-shell-menu-trigger.js'
 
 import {
   ShellContext,
   SidebarContext,
   type Shell,
 } from './app-shell-context.js'
-/** Whether the window is narrower than a width, as it changes. The server and the
- * hydrating pass say no, so the markup matches. */
-function useNarrowerThan(width: number | undefined) {
-  const query = width ? `(width < ${width}px)` : null
-  const subscribe = React.useCallback(
-    (notify: () => void) => {
-      if (!query || typeof matchMedia === 'undefined') return () => {}
-      const list = matchMedia(query)
-      list.addEventListener('change', notify)
-      return () => list.removeEventListener('change', notify)
-    },
-    [query],
-  )
-  return React.useSyncExternalStore(
-    subscribe,
-    () => !!query && matchMedia(query).matches,
-    () => false,
-  )
-}
 const editable = (target: EventTarget | null) =>
   target instanceof HTMLElement &&
   (target.isContentEditable ||
@@ -201,32 +187,48 @@ const SidebarToggle = function AppShellSidebarToggle({
     </Tooltip>
   )
 }
-export type AppShellMenuTriggerProps = Omit<ButtonProps, 'children'> & {
-  /** The button's name. Say what it opens. */
+export type AppShellSkipLinkProps = Omit<
+  React.ComponentPropsWithoutRef<'a'>,
+  'href'
+> & {
+  /** The id of the element to move to: the page's main landmark, or its title. */
+  target: string
+  /** The link's text. */
   label?: string
-  children?: React.ReactNode
 }
-/** Opens the caller's navigation, such as a Sheet, where the sidebar is hidden: at
- * 760px and narrower it shows at the header's end, and above that it is hidden. */
-const MenuTrigger = function AppShellMenuTrigger({
+/** "Skip to content", first in the shell: hidden until the keyboard reaches it,
+ * it moves focus to the target without changing the address, so a router that
+ * reads the hash keeps its page. A target that cannot take focus is given
+ * tabindex -1 first. */
+const SkipLink = function AppShellSkipLink({
+  target,
   label,
   className,
+  onClick,
   children,
   ref,
   ...props
-}: AppShellMenuTriggerProps & { ref?: React.Ref<HTMLButtonElement> }) {
-  const text = useLabels<{ menu: string }>('appShell')
+}: AppShellSkipLinkProps & { ref?: React.Ref<HTMLAnchorElement> }) {
+  const text = useLabels<{ skip: string }>('appShell')
   return (
-    <Button
-      variant='ghost'
-      size='icon'
+    <LinkButton
       {...props}
       ref={ref}
-      aria-label={label ?? text.menu ?? 'Open navigation'}
-      className={skin('surf-app-shell-menu-trigger', className)}
+      href={`#${target}`}
+      variant='primary'
+      className={cx('surf-app-shell-skip', className)}
+      onClick={(event: React.MouseEvent<HTMLAnchorElement>) => {
+        onClick?.(event)
+        const element = document.getElementById(target)
+        if (event.defaultPrevented || !element) return
+        event.preventDefault()
+        if (!element.hasAttribute('tabindex'))
+          element.setAttribute('tabindex', '-1')
+        element.focus()
+      }}
     >
-      {children ?? <Icon name='menu' decorative />}
-    </Button>
+      {children ?? label ?? text.skip ?? 'Skip to content'}
+    </LinkButton>
   )
 }
 const Header = function AppShellHeader({
@@ -484,6 +486,7 @@ export const AppShell = {
   Sidebar,
   SidebarToggle,
   MenuTrigger,
+  SkipLink,
   Brand,
   Nav,
   Content,
@@ -501,6 +504,7 @@ export const {
   Sidebar: AppShellSidebar,
   SidebarToggle: AppShellSidebarToggle,
   MenuTrigger: AppShellMenuTrigger,
+  SkipLink: AppShellSkipLink,
   Brand: AppShellBrand,
   Nav: AppShellNav,
   Content: AppShellContent,
@@ -510,3 +514,12 @@ export const {
   Label: AppShellLabel,
   Link: AppShellLink,
 } = AppShell
+
+export { type AppShellMenuTriggerProps }
+export { appShellNarrowWidth } from './app-shell-menu-trigger.js'
+// The phone's navigation is a flat export only, off the namespace above, so a shell
+// without it does not bring in Sheet.
+export {
+  AppShellMenuSheet,
+  type AppShellMenuSheetProps,
+} from './app-shell-menu-sheet.js'
