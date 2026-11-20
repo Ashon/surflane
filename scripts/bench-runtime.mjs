@@ -6,7 +6,12 @@
 // WARMUP discarded ones. The last line is the metric: main-thread task time in ms,
 // mount plus ticks, lower is better.
 //
+// With --against DIR it measures a second, earlier build too, alternating the two run
+// by run so that a machine's drift falls on both alike, and the last line is the
+// candidate's median over the earlier build's, below 1 when the candidate is faster.
+//
 //   node scripts/bench-runtime.mjs [--runs 7] [--ticks 20] [--no-build] [--json]
+//     [--out artifacts/bench-runtime] [--against artifacts/bench-runtime-best]
 import { execFileSync } from 'node:child_process'
 import { createReadStream, existsSync, statSync } from 'node:fs'
 import { createServer } from 'node:http'
@@ -14,14 +19,15 @@ import { extname, join, normalize } from 'node:path'
 import { chromium } from '@playwright/test'
 
 const args = process.argv.slice(2)
-const option = (name, fallback) => {
+const value = (name, fallback) => {
   const at = args.indexOf(`--${name}`)
-  return at === -1 ? fallback : Number(args[at + 1])
+  return at === -1 ? fallback : args[at + 1]
 }
-const runs = option('runs', 7)
-const ticks = option('ticks', 20)
-const warmup = option('warmup', 1)
-const out = 'artifacts/bench-runtime'
+const runs = Number(value('runs', 7))
+const ticks = Number(value('ticks', 20))
+const warmup = Number(value('warmup', 1))
+const out = value('out', 'artifacts/bench-runtime')
+const against = value('against', null)
 
 if (!args.includes('--no-build')) {
   if (!existsSync('packages/ui/dist/index.js'))
@@ -41,6 +47,8 @@ if (!args.includes('--no-build')) {
     { stdio: 'inherit' },
   )
 }
+if (against && !existsSync(join(against, 'index.html')))
+  throw new Error(`${against} has no built bench`)
 
 const types = {
   '.html': 'text/html',
@@ -49,24 +57,27 @@ const types = {
   '.woff2': 'font/woff2',
   '.svg': 'image/svg+xml',
 }
-const server = createServer((request, response) => {
-  const path = normalize(
-    decodeURIComponent(new URL(request.url, 'http://x').pathname),
-  )
-  let file = join(out, path)
-  if (
-    !file.startsWith(out) ||
-    !existsSync(file) ||
-    statSync(file).isDirectory()
-  )
-    file = join(out, 'index.html')
-  response.writeHead(200, {
-    'content-type': types[extname(file)] ?? 'application/octet-stream',
+async function serve(root) {
+  const server = createServer((request, response) => {
+    const path = normalize(
+      decodeURIComponent(new URL(request.url, 'http://x').pathname),
+    )
+    let file = join(root, path)
+    if (
+      !file.startsWith(root) ||
+      !existsSync(file) ||
+      statSync(file).isDirectory()
+    )
+      file = join(root, 'index.html')
+    response.writeHead(200, {
+      'content-type': types[extname(file)] ?? 'application/octet-stream',
+    })
+    createReadStream(file).pipe(response)
   })
-  createReadStream(file).pipe(response)
-})
-await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve))
-const url = `http://127.0.0.1:${server.address().port}/`
+  await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve))
+  return { server, url: `http://127.0.0.1:${server.address().port}/` }
+}
+const targets = [await serve(out), ...(against ? [await serve(against)] : [])]
 
 const browser = await chromium.launch({
   executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH,
@@ -92,7 +103,7 @@ const median = (values) => {
   return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2
 }
 
-async function once() {
+async function once(url) {
   const context = await browser.newContext({
     viewport: { width: 1440, height: 900 },
     deviceScaleFactor: 1,
@@ -130,33 +141,49 @@ async function once() {
   }
 }
 
-const results = []
+const results = targets.map(() => [])
 try {
-  for (let i = 0; i < warmup + runs; i++) {
-    const result = await once()
-    if (i >= warmup) results.push(result)
-  }
+  for (let i = 0; i < warmup + runs; i++)
+    for (const [t, target] of targets.entries()) {
+      const result = await once(target.url)
+      if (i >= warmup) results[t].push(result)
+    }
 } finally {
   await browser.close()
-  server.close()
+  for (const target of targets) target.server.close()
 }
 
-const pick = (f) => median(results.map(f))
-const summary = {
-  runs,
-  ticks,
-  totalTaskMs: pick((r) => r.total),
-  spreadMs:
-    Math.max(...results.map((r) => r.total)) -
-    Math.min(...results.map((r) => r.total)),
-  mount: Object.fromEntries(keys.map((k) => [k, pick((r) => r.mount[k])])),
-  ticks20: Object.fromEntries(keys.map((k) => [k, pick((r) => r.tick[k])])),
-  mountWallMs: pick((r) => r.mountWall),
-  tickWallMs: pick((r) => r.tickWall),
+const summarize = (list) => {
+  const pick = (f) => median(list.map(f))
+  return {
+    totalTaskMs: pick((r) => r.total),
+    spreadMs:
+      Math.max(...list.map((r) => r.total)) -
+      Math.min(...list.map((r) => r.total)),
+    mount: Object.fromEntries(keys.map((k) => [k, pick((r) => r.mount[k])])),
+    ticks: Object.fromEntries(keys.map((k) => [k, pick((r) => r.tick[k])])),
+    mountWallMs: pick((r) => r.mountWall),
+    tickWallMs: pick((r) => r.tickWall),
+  }
 }
-const round = (value) =>
-  typeof value === 'number' ? Math.round(value * 10) / 10 : value
-const rounded = JSON.parse(JSON.stringify(summary, (_, value) => round(value)))
-if (args.includes('--json')) console.log(JSON.stringify(rounded))
-else console.log(rounded)
-console.log(round(summary.totalTaskMs))
+const round = (number) =>
+  typeof number === 'number' ? Math.round(number * 1000) / 1000 : number
+const print = (label, summary) => {
+  const rounded = JSON.parse(
+    JSON.stringify(summary, (_, v) =>
+      typeof v === 'number' ? Math.round(v * 10) / 10 : v,
+    ),
+  )
+  console.log(
+    args.includes('--json')
+      ? JSON.stringify({ label, ...rounded })
+      : { label, ...rounded },
+  )
+}
+const candidate = summarize(results[0])
+print(out, candidate)
+if (against) {
+  const earlier = summarize(results[1])
+  print(against, earlier)
+  console.log(round(candidate.totalTaskMs / earlier.totalTaskMs))
+} else console.log(Math.round(candidate.totalTaskMs * 10) / 10)
