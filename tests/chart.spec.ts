@@ -165,6 +165,24 @@ test('bar and area modes preserve zero, negatives, non-color patterns and data c
   )
 })
 
+test('new data updates the readout in its live region rather than inserting a new one', async ({
+  page,
+}) => {
+  await open(page, 'line')
+  const readout = page.locator('[aria-live] .surf-chart-readout')
+  await expect(readout).toHaveCount(1)
+  await readout.evaluate((node) => {
+    ;(window as unknown as { readout: Element }).readout = node
+  })
+  await choose(page, 'Chart data', 'Negative and zero values')
+  await expect(page.locator('.recharts-line')).not.toHaveCount(0)
+  expect(
+    await readout.evaluate(
+      (node) => node === (window as unknown as { readout: Element }).readout,
+    ),
+  ).toBe(true)
+})
+
 test('all-missing and empty data never fabricate measurements and table scrolling contains dense data', async ({
   page,
 }) => {
