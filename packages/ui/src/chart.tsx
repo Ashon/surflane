@@ -345,6 +345,19 @@ function textWidth(text: string, font: string) {
 const TICK_GAP = 24
 /** The value axis and the plot's right margin: what the plot gives up of the frame. */
 const PLOT_INSET = 56 + 20
+// Recharts keys its caches on prop identity, so the props that never change are made
+// once here rather than as new objects on every render.
+const axisTick = { fill: 'var(--surf-ink-muted)', fontSize: 12 }
+const axisLine = { stroke: 'var(--surf-line)' }
+const tooltipCursor = {
+  stroke: 'var(--surf-control-border)',
+  fill: 'transparent',
+}
+const tooltipWrapper = {
+  position: 'static',
+  visibility: 'visible',
+  pointerEvents: 'auto',
+} as const
 function Pattern({
   id,
   index,
@@ -912,8 +925,23 @@ function ChartCore({
     return timeScale ? result.sort((a, b) => a.time! - b.time!) : result
   }, [data, series, timeScale])
   type Row = (typeof rows)[number]
-  const byId = new Map(rows.map((row) => [row.id, row]))
-  const byTime = new Map(rows.map((row) => [row.time, row]))
+  const byId = React.useMemo(
+    () => new Map(rows.map((row) => [row.id, row])),
+    [rows],
+  )
+  const byTime = React.useMemo(
+    () => new Map(rows.map((row) => [row.time, row])),
+    [rows],
+  )
+  const formatCategory = React.useCallback(
+    (value: unknown) => {
+      const label = byId.get(String(value))?.label ?? String(value)
+      // minTickGap already drops ticks that would overlap; the cap only keeps one
+      // very long label from crowding the axis.
+      return label.length > 24 ? label.slice(0, 23) + '…' : label
+    },
+    [byId],
+  )
   const rowFor = (label: unknown) =>
     timeScale ? byTime.get(Number(label)) : byId.get(String(label))
   // An x reference's place: its time, or the index of the datum it names; null when
@@ -1057,6 +1085,21 @@ function ChartCore({
       )
     }
   }
+  // The same domain and ticks keep the same arrays from render to render.
+  const yTicksKey = ticks?.join(',')
+  const yTicks = React.useMemo(
+    () => yTicksKey?.split(',').map(Number),
+    [yTicksKey],
+  )
+  const yMax = max === min ? max + 1 : max
+  const yDomain = React.useMemo(() => [min, yMax], [min, yMax])
+  const formatY = React.useCallback(
+    (value: unknown) =>
+      formatValue
+        ? formatValue(Number(value))
+        : compactNumber.format(Number(value)),
+    [formatValue, compactNumber],
+  )
   const time = React.useMemo(() => {
     if (!timeScale || !rows.length) return undefined
     const first = rows[0].time!,
@@ -1133,8 +1176,8 @@ function ChartCore({
       domain: [first - pad, last + pad] as [number, number],
       ticks: timeAxisTicks,
       // Within a day the ticks name hours; one at midnight names the day instead.
-      format: (value: number) => {
-        const date = new Date(value)
+      tickFormat: (value: unknown) => {
+        const date = new Date(Number(value))
         return subDay && date.getHours() === 0 && date.getMinutes() === 0
           ? dayFormat.format(date)
           : tickFormat.format(date)
@@ -1442,15 +1485,10 @@ function ChartCore({
                       scale='time'
                       domain={time.domain}
                       ticks={time.ticks}
-                      tickFormatter={(value) => time.format(Number(value))}
-                      tick={
-                        fontsReady && {
-                          fill: 'var(--surf-ink-muted)',
-                          fontSize: 12,
-                        }
-                      }
+                      tickFormatter={time.tickFormat}
+                      tick={fontsReady && axisTick}
                       tickLine={false}
-                      axisLine={{ stroke: 'var(--surf-line)' }}
+                      axisLine={axisLine}
                       minTickGap={24}
                       interval='preserveStartEnd'
                     />
@@ -1458,23 +1496,10 @@ function ChartCore({
                     <XAxis
                       hide={minimal}
                       dataKey='id'
-                      tickFormatter={(value) => {
-                        const label =
-                          byId.get(String(value))?.label ?? String(value)
-                        // minTickGap already drops ticks that would overlap; the cap
-                        // only keeps one very long label from crowding the axis.
-                        return label.length > 24
-                          ? label.slice(0, 23) + '…'
-                          : label
-                      }}
-                      tick={
-                        fontsReady && {
-                          fill: 'var(--surf-ink-muted)',
-                          fontSize: 12,
-                        }
-                      }
+                      tickFormatter={formatCategory}
+                      tick={fontsReady && axisTick}
                       tickLine={false}
-                      axisLine={{ stroke: 'var(--surf-line)' }}
+                      axisLine={axisLine}
                       minTickGap={24}
                       interval='preserveStartEnd'
                     />
@@ -1483,16 +1508,12 @@ function ChartCore({
                     hide={minimal}
                     width={56}
                     scale={logScale ? 'log' : 'auto'}
-                    tickFormatter={(value) =>
-                      formatValue
-                        ? formatValue(Number(value))
-                        : compactNumber.format(Number(value))
-                    }
-                    tick={{ fill: 'var(--surf-ink-muted)', fontSize: 12 }}
+                    tickFormatter={formatY}
+                    tick={axisTick}
                     tickLine={false}
                     axisLine={false}
-                    domain={[min, max === min ? max + 1 : max]}
-                    ticks={ticks}
+                    domain={yDomain}
+                    ticks={yTicks}
                     allowDataOverflow={logScale}
                   />
                   {/* Zero where values cross it. At the plot's edge the x axis is
@@ -1506,19 +1527,8 @@ function ChartCore({
                       isAnimationActive={false}
                       active={dismissed ? false : undefined}
                       filterNull={false}
-                      cursor={
-                        dismissed
-                          ? false
-                          : {
-                              stroke: 'var(--surf-control-border)',
-                              fill: 'transparent',
-                            }
-                      }
-                      wrapperStyle={{
-                        position: 'static',
-                        visibility: 'visible',
-                        pointerEvents: 'auto',
-                      }}
+                      cursor={dismissed ? false : tooltipCursor}
+                      wrapperStyle={tooltipWrapper}
                       content={(tooltip) => {
                         const row =
                           tooltip.active && !dismissed
