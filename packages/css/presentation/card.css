@@ -63,6 +63,8 @@
      other controls on it sit above the stretch. */
   .surf-card:has(.surf-card-action) {
     position: relative;
+    --surf-card-control-position: relative;
+    --surf-card-control-layer: 1;
   }
   .surf-card-action {
     margin: 0;
@@ -111,15 +113,19 @@
     outline: var(--surf-focus-ring-width) solid var(--surf-interaction-focus);
     outline-offset: var(--surf-focus-ring-offset);
   }
-  /* No specificity, so a control's own position still wins. */
+  /* No specificity, so a control's own position still wins. The card asks whether
+     it holds an action and passes the answer down: a :has() with selector parts
+     after it makes Chromium restyle a card's whole subtree on every insertion in
+     it, as a chart's redraw. In a card without an action both are unset, the same
+     as no rule. */
   :where(
-    .surf-card:has(.surf-card-action)
+    .surf-card
       :is(a[href], button, input, select, textarea, summary, [tabindex]):not(
         .surf-card-action
       )
   ) {
-    position: relative;
-    z-index: 1;
+    position: var(--surf-card-control-position);
+    z-index: var(--surf-card-control-layer);
   }
   .surf-card-description {
     margin: 0;
