@@ -344,6 +344,21 @@ function textWidth(text: string, font: string) {
 }
 /** The gap Recharts keeps between tick labels. */
 const TICK_GAP = 24
+// Building an Intl.DateTimeFormat costs far more than using one, and a time axis
+// tries several units on every data change; each locale and shape is built once.
+const dateFormats = new Map<string, Intl.DateTimeFormat>()
+function dateFormat(
+  locale: string | undefined,
+  options: Intl.DateTimeFormatOptions,
+) {
+  const key = `${locale ?? ''}|${JSON.stringify(options)}`
+  let format = dateFormats.get(key)
+  if (!format) {
+    format = new Intl.DateTimeFormat(locale, options)
+    dateFormats.set(key, format)
+  }
+  return format
+}
 /** The value axis and the plot's right margin: what the plot gives up of the frame. */
 const PLOT_INSET = 56 + 20
 // Recharts keys its caches on prop identity, so the props that never change are made
@@ -1118,7 +1133,7 @@ function ChartCore({
     const first = rows[0].time!,
       last = rows[rows.length - 1].time!
     const formatFor = (unit: TimeUnit) =>
-      new Intl.DateTimeFormat(
+      dateFormat(
         locale,
         unit === 'minute' || unit === 'hour'
           ? { hour: 'numeric', minute: '2-digit' }
@@ -1153,7 +1168,7 @@ function ChartCore({
     const pad = type === 'bar' ? (interval || DAY) / 2 : 0
     const subDay = timeUnit === 'minute' || timeUnit === 'hour'
     const tickFormat = formatFor(timeUnit)
-    const dayFormat = new Intl.DateTimeFormat(locale, {
+    const dayFormat = dateFormat(locale, {
       month: 'short',
       day: 'numeric',
     })
@@ -1166,7 +1181,7 @@ function ChartCore({
       lastDate = new Date(last)
     const oneDay = firstDate.toDateString() === lastDate.toDateString()
     const oneYear = firstDate.getFullYear() === lastDate.getFullYear()
-    const placeFormat = new Intl.DateTimeFormat(
+    const placeFormat = dateFormat(
       locale,
       step < DAY
         ? oneDay
