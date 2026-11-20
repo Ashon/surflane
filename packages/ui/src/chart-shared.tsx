@@ -49,14 +49,23 @@ export const isNumber = (value: unknown): value is number =>
  * label overflows by a few pixels once the real font arrives. */
 export function useFontReady(element: Element | null, text: string) {
   const [ready, setReady] = React.useState(false)
-  React.useEffect(() => {
+  // Which faces a text needs depends only on its characters, so new labels drawn with
+  // the same characters ask nothing again.
+  const glyphs = React.useMemo(
+    () => [...new Set(text || ' ')].sort().join(''),
+    [text],
+  )
+  // A layout effect: with the faces already loaded, the chart learns it in the same
+  // pass as its width and draws its labels in its first full render, not a second.
+  React.useLayoutEffect(() => {
     if (!element) return
     if (!document.fonts) return setReady(true)
+    const font = `12px ${getComputedStyle(element).fontFamily}`
+    if (document.fonts.check(font, glyphs)) return setReady(true)
     let live = true
-    const family = getComputedStyle(element).fontFamily
     // load() starts the download of the faces that draw this text and waits for them.
     void document.fonts
-      .load(`12px ${family}`, text || ' ')
+      .load(font, glyphs)
       .catch(() => [])
       .then(() => {
         if (live) setReady(true)
@@ -64,7 +73,7 @@ export function useFontReady(element: Element | null, text: string) {
     return () => {
       live = false
     }
-  }, [element, text])
+  }, [element, glyphs])
   return ready
 }
 /** How long a frame's width must stand before a chart redraws at it. */
