@@ -196,10 +196,8 @@
   }
 }
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *):is(
-    .surf-navigation-trigger,
-    .surf-navigation-link
-  ) {
+  :where([data-ui-size], [data-ui-size] *).surf-navigation-trigger,
+  :where([data-ui-size], [data-ui-size] *).surf-navigation-link {
     min-block-size: var(--surf-ui-row);
     font-size: var(--surf-ui-font);
     line-height: var(--surf-ui-leading);

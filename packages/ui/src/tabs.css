@@ -132,7 +132,7 @@
   }
 }
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *):is(.surf-tabs-tab) {
+  :where([data-ui-size], [data-ui-size] *).surf-tabs-tab {
     min-block-size: var(--surf-ui-row);
     font-size: var(--surf-ui-font);
     line-height: var(--surf-ui-leading);

@@ -112,16 +112,16 @@
   }
 }
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *):is(.surf-select-trigger) {
+  :where([data-ui-size], [data-ui-size] *).surf-select-trigger {
     font-size: var(--surf-ui-font);
     line-height: var(--surf-ui-leading);
   }
-  :where([data-ui-size], [data-ui-size] *):is(.surf-select-item) {
+  :where([data-ui-size], [data-ui-size] *).surf-select-item {
     min-block-size: var(--surf-ui-density-row, var(--surf-ui-row));
     font-size: var(--surf-ui-font);
     line-height: var(--surf-ui-leading);
   }
-  :where([data-ui-size], [data-ui-size] *):is(.surf-select-item) {
+  :where([data-ui-size], [data-ui-size] *).surf-select-item {
     box-sizing: border-box;
     padding-block: max(
       var(--surf-space-1),

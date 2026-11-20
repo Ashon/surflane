@@ -62,7 +62,7 @@
   }
 }
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *):is(.surf-number-input) {
+  :where([data-ui-size], [data-ui-size] *).surf-number-input {
     font-size: max(var(--surf-control-text-min-size), var(--surf-ui-font));
     line-height: var(--surf-ui-leading);
   }

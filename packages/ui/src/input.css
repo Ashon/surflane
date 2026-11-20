@@ -47,11 +47,11 @@
   }
 }
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *):is(.surf-input) {
+  :where([data-ui-size], [data-ui-size] *).surf-input {
     font-size: max(var(--surf-control-text-min-size), var(--surf-ui-font));
     line-height: var(--surf-ui-leading);
   }
-  :where([data-ui-size], [data-ui-size] *):is(.surf-textarea[data-mono]) {
+  :where([data-ui-size], [data-ui-size] *).surf-textarea[data-mono] {
     font-size: max(
       var(--surf-control-text-min-size),
       var(--surf-type-code-size)

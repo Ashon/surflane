@@ -120,7 +120,7 @@
     padding: 0;
     border-radius: var(--surf-radius-pill);
   }
-  :where([data-ui-size], [data-ui-size] *):is(.surf-button) > svg {
+  :where([data-ui-size], [data-ui-size] *).surf-button > svg {
     inline-size: var(--surf-ui-icon);
     block-size: var(--surf-ui-icon);
   }

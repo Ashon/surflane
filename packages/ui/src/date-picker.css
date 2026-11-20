@@ -314,14 +314,12 @@
   }
 }
 @layer surflane.sizes {
-  :where([data-ui-size], [data-ui-size] *):is(
-    .surf-date-input,
-    .surf-date-segment
-  ) {
+  :where([data-ui-size], [data-ui-size] *).surf-date-input,
+  :where([data-ui-size], [data-ui-size] *).surf-date-segment {
     font-size: max(var(--surf-control-text-min-size), var(--surf-ui-font));
     line-height: var(--surf-ui-leading);
   }
-  :where([data-ui-size], [data-ui-size] *):is(.surf-date-trigger) > svg {
+  :where([data-ui-size], [data-ui-size] *).surf-date-trigger > svg {
     inline-size: var(--surf-ui-icon);
     block-size: var(--surf-ui-icon);
   }
@@ -331,19 +329,15 @@
   :where([data-ui-size], [data-ui-size] *).surf-calendar-day {
     min-block-size: var(--surf-ui-row);
   }
-  :where([data-ui-size], [data-ui-size] *):is(
-    .surf-date-trigger,
-    .surf-calendar-nav
-  ) {
+  :where([data-ui-size], [data-ui-size] *).surf-date-trigger,
+  :where([data-ui-size], [data-ui-size] *).surf-calendar-nav {
     inline-size: calc(var(--surf-control-height) - 4px);
     block-size: calc(var(--surf-control-height) - 4px);
     min-inline-size: 0;
   }
   @media (max-width: 760px), (pointer: coarse) {
-    :where([data-ui-size], [data-ui-size] *):is(
-      .surf-date-trigger,
-      .surf-calendar-nav
-    ) {
+    :where([data-ui-size], [data-ui-size] *).surf-date-trigger,
+    :where([data-ui-size], [data-ui-size] *).surf-calendar-nav {
       inline-size: var(--surf-control-target-size);
       block-size: var(--surf-control-target-size);
     }
