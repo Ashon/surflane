@@ -2,6 +2,18 @@
 
 `@surflane/design-tokens`, `@surflane/css` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## Unreleased
+
+### Changed
+
+- Charts redraw new data with less work. Each series keeps one value accessor across renders, as do the axes' ticks, domains and formatters and the tooltip's styles, so Recharts' own caches hold; a time axis builds each date format once per locale and shape instead of on every redraw. On the repository's dashboard benchmark, 13 charts, a 100-row table and 18 cards updated 20 times, main-thread time fell 32% and each update's wall time from 84 to 56 ms.
+- Rules that ask with `:has()` now ask on the element they style and pass the answer down through custom properties: a table's selected runs and spanned sticky headers, and a card's controls raised above its action. Chromium restyled a whole table or card, and on a dashboard the whole page, whenever anything was added inside one, as on every chart redraw; the benchmark's restyle time per update fell 73%. Size-scope rules name their class directly rather than inside `:is()`, so they are tested only against their own elements, a further 9%. The computed styles are the same.
+
+### Fixed
+
+- A chart's readout is updated in place when its data changes, instead of being removed and inserted again. It sits in a polite live region, so each poll could make a screen reader read the inspect hint again.
+- A chart that mounts after its fonts have loaded draws its x axis labels in its first frame. They appeared a moment later, after the first paints, and a chart now renders three times on mount instead of four.
+
 ## 0.25.1
 
 ### Fixed
