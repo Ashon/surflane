@@ -94,7 +94,7 @@
     --surf-table-edge-start: 0px;
     --surf-table-edge-end: 0px;
     --surf-table-edge-top: 1px;
-    --surf-table-edge-bottom: 1px;
+    --surf-table-edge-bottom: var(--surf-table-run-edge-bottom, 1px);
     background-color: var(--surf-selected);
     box-shadow:
       inset 0 var(--surf-table-edge-top) var(--surf-selected-edge),
@@ -202,11 +202,16 @@
     > * {
     --surf-table-edge-top: 0px;
   }
+  /* The row, not its cells, asks what follows it, and its cells read the answer:
+     a :has() with cells after it would restyle every cell on the page whenever
+     anything inside a :has() ancestor changed, such as a chart redrawing. */
+  .surf-table-body > .surf-table-row[data-selected] {
+    --surf-table-run-edge-bottom: 1px;
+  }
   .surf-table[data-variant]
     > .surf-table-body
-    > .surf-table-row[data-selected]:has(+ .surf-table-row[data-selected])
-    > * {
-    --surf-table-edge-bottom: 0px;
+    > .surf-table-row[data-selected]:has(+ .surf-table-row[data-selected]) {
+    --surf-table-run-edge-bottom: 0px;
   }
   /* A bleeding container hangs by the cell inset, which density and size set; it
      outranks the scroll root's own width cap. */
@@ -296,29 +301,44 @@
     z-index: 3;
   }
   /* When the first header cell spans the header's rows, the first cell of a lower
-     header row is a data column's: it scrolls with the rest. */
-  .surf-table[data-sticky-column]:has(
-      > .surf-table-head
-        > .surf-table-row:first-child
-        > :first-child[rowspan]:not([rowspan='1'])
-    )
-    > .surf-table-head
-    > .surf-table-row
-    + .surf-table-row
-    > :first-child {
-    inset-inline-start: auto;
-    z-index: 2;
+     header row is a data column's: it scrolls with the rest. The table asks, and
+     those cells read the answer, as a selected row's cells do. Each table starts
+     unanswered, so a table inside a cell asks for itself. */
+  .surf-table {
+    --surf-table-spanned-inset: initial;
+    --surf-table-spanned-layer: initial;
+    --surf-table-spanned-edge: initial;
   }
   .surf-table[data-sticky-column]:has(
       > .surf-table-head
         > .surf-table-row:first-child
         > :first-child[rowspan]:not([rowspan='1'])
-    )
+    ) {
+    --surf-table-spanned-inset: auto;
+    --surf-table-spanned-layer: 2;
+    --surf-table-spanned-edge: none;
+  }
+  .surf-table[data-sticky-column]
+    > .surf-table-head
+    > .surf-table-row
+    + .surf-table-row
+    > :first-child {
+    inset-inline-start: var(--surf-table-spanned-inset, 0);
+    z-index: var(--surf-table-spanned-layer, 1);
+  }
+  .surf-table[data-sticky-column][data-sticky-header]
+    > .surf-table-head
+    > .surf-table-row
+    + .surf-table-row
+    > :first-child {
+    z-index: var(--surf-table-spanned-layer, 3);
+  }
+  .surf-table[data-sticky-column]
     > .surf-table-head
     > .surf-table-row
     + .surf-table-row
     > :first-child::after {
-    display: none;
+    display: var(--surf-table-spanned-edge, inline);
   }
   /* Once rows pass under the column, a line marks its edge. */
   .surf-table[data-sticky-column]
