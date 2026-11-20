@@ -2,6 +2,12 @@
 
 `@surflane/design-tokens`, `@surflane/css` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## Unreleased
+
+### Fixed
+
+- A square `Avatar` as an `AppShell.Link` icon takes the shell's mark size, 24px, as `AppShell.Brand`'s mark does, so a project's mark lines up under the brand's. It was the 36px default, nearly the whole 40px row.
+
 ## 0.25.0
 
 ### Added

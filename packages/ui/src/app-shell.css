@@ -194,8 +194,11 @@
     inline-size: var(--surf-app-shell-mark-size);
     block-size: var(--surf-app-shell-mark-size);
   }
-  /* A mark without an image of its own is a square Avatar with the initial. */
-  .surf-app-shell-brand-mark > .surf-avatar {
+  /* A mark without an image of its own is a square Avatar with the initial, at the
+     mark size wherever it stands: the brand's, and a project's in a link's icon
+     column, so the two line up. */
+  .surf-app-shell-brand-mark > .surf-avatar,
+  .surf-app-shell-icon > .surf-avatar {
     --surf-avatar-size: var(--surf-app-shell-mark-size);
   }
   .surf-app-shell-brand-text {

@@ -1057,6 +1057,62 @@ test('a link on the rail is a square with the sidebar padding beside it, the pag
     })
 })
 
+test("a square Avatar takes the mark size as a link's icon, as the brand's mark does", async ({
+  page,
+}) => {
+  const React = await import('react')
+  const { renderToStaticMarkup } = await import('react-dom/server')
+  const { AppShell, Avatar } = await import('@surflane/ui')
+  const h = React.createElement
+  const mark = (initial: string) =>
+    h(Avatar.Root, { shape: 'square' }, h(Avatar.Fallback, null, initial))
+  const markup = renderToStaticMarkup(
+    h(
+      AppShell.Root,
+      { layout: 'workspace', shortcut: false },
+      h(
+        AppShell.Sidebar,
+        { 'aria-label': 'Harbor' },
+        h(AppShell.Brand, { name: 'Harbor', mark: mark('H') }),
+        h(
+          AppShell.Nav,
+          { 'aria-label': 'Projects' },
+          h(AppShell.Link, { href: '#', label: 'Pier', icon: mark('P') }),
+        ),
+      ),
+      h(AppShell.Content, null, h(AppShell.Page, null, 'Arrivals')),
+    ),
+  )
+  await page.setViewportSize({ width: 1280, height: 800 })
+  await page.goto('/install')
+  await waitForCatalogReady(page)
+  await page.evaluate((html) => {
+    const host = document.createElement('div')
+    host.id = 'harbor'
+    host.style.cssText = 'position: fixed; inset: 0; z-index: 2000'
+    host.innerHTML = html
+    document.body.append(host)
+  }, markup)
+  const boxes = await page.evaluate(() =>
+    [
+      '.surf-app-shell-brand-mark > .surf-avatar',
+      '.surf-app-shell-icon > .surf-avatar',
+    ].map((selector) => {
+      const box = document
+        .querySelector(`#harbor ${selector}`)!
+        .getBoundingClientRect()
+      return [
+        Math.round(box.width),
+        Math.round(box.height),
+        Math.round(box.left + box.width / 2),
+      ]
+    }),
+  )
+  // Both at the 24px mark size, on one center line.
+  expect(boxes[0].slice(0, 2)).toEqual([24, 24])
+  expect(boxes[1]).toEqual(boxes[0])
+})
+
 test('the page padding is set on the shell, and the bar bleeds from what is set', async ({
   page,
 }) => {
