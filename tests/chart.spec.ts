@@ -183,6 +183,40 @@ test('new data updates the readout in its live region rather than inserting a ne
   ).toBe(true)
 })
 
+test('a chart mounted after its fonts have loaded draws its axis labels in its first frame', async ({
+  page,
+}) => {
+  // The area chart's labels load the faces they need; back on it from another page,
+  // they are loaded already.
+  await open(page, 'area')
+  await page.evaluate(() => document.fonts.ready)
+  await page.getByRole('link', { name: 'Line chart', exact: true }).click()
+  await expect(page.locator('.recharts-line').first()).toBeVisible()
+  await expect(page.locator('.recharts-area')).toHaveCount(0)
+  // Record the x axis labels of the first area plot the moment it is inserted, before
+  // the browser paints it.
+  await page.evaluate(() => {
+    const state = window as unknown as { firstLabels?: number }
+    new MutationObserver((_, observer) => {
+      const area = document.querySelector('.recharts-area')
+      if (!area) return
+      state.firstLabels = area
+        .closest('svg')!
+        .querySelectorAll(
+          '.recharts-xAxis-tick-labels .recharts-cartesian-axis-tick-value',
+        ).length
+      observer.disconnect()
+    }).observe(document.body, { childList: true, subtree: true })
+  })
+  await page.getByRole('link', { name: 'Area chart', exact: true }).click()
+  await expect(page.locator('.recharts-area').first()).toBeVisible()
+  expect(
+    await page.evaluate(
+      () => (window as unknown as { firstLabels?: number }).firstLabels,
+    ),
+  ).toBeGreaterThan(0)
+})
+
 test('all-missing and empty data never fabricate measurements and table scrolling contains dense data', async ({
   page,
 }) => {
