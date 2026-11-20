@@ -992,6 +992,19 @@ function ChartCore({
     const value = row.values[key]
     return value === null || (logScale && value <= 0) ? null : value
   }
+  // One accessor per series for as long as its key and the scale stand. Recharts
+  // registers a series by its props, so a new function on every render registered
+  // every series again and drew the chart a second time on each update.
+  const seriesKeys = series.map((s) => s.key).join('\n')
+  const accessors = React.useMemo(() => {
+    const map = new Map<string, (row: Row) => number | null>()
+    for (const key of seriesKeys.split('\n'))
+      map.set(key, (row) => {
+        const value = row.values[key]
+        return value === null || (logScale && value <= 0) ? null : value
+      })
+    return map
+  }, [seriesKeys, logScale])
   // A stack sums the series that are parts of a whole: a comparison or a plan is
   // read against them, not added to them, so it draws on its own.
   const inStack = (s: ChartSeries) => stacks && !looks[series.indexOf(s)]?.quiet
@@ -1585,7 +1598,7 @@ function ChartCore({
                       )
                       const common = {
                         name: s.label,
-                        dataKey: (row: Row) => valueOf(row, s.key),
+                        dataKey: accessors.get(s.key)!,
                         hide: hidden.has(s.key),
                         isAnimationActive: false,
                         className: seriesClass,
