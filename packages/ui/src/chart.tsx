@@ -22,6 +22,7 @@ import {
   ZIndexLayer,
   DefaultZIndexes,
   type DotProps,
+  type TooltipContentProps,
 } from 'recharts'
 import { createPortal } from 'react-dom'
 import { Table } from './table.js'
@@ -358,6 +359,18 @@ const tooltipWrapper = {
   visibility: 'visible',
   pointerEvents: 'auto',
 } as const
+/** Recharts makes a function content into an element of that function, so a new
+ * closure on every render is a new component type and remounts the readout on every
+ * data change. As an element of this one type, the readout stays and updates. */
+function TooltipReadout({
+  render,
+  ...tooltip
+}: Partial<TooltipContentProps> & {
+  render: (tooltip: TooltipContentProps) => React.ReactNode
+}) {
+  // Recharts clones the element with the whole of the tooltip's props.
+  return render(tooltip as TooltipContentProps)
+}
 function Pattern({
   id,
   index,
@@ -1529,51 +1542,55 @@ function ChartCore({
                       filterNull={false}
                       cursor={dismissed ? false : tooltipCursor}
                       wrapperStyle={tooltipWrapper}
-                      content={(tooltip) => {
-                        const row =
-                          tooltip.active && !dismissed
-                            ? rowFor(tooltip.label)
-                            : undefined
-                        return (
-                          <div
-                            className='surf-chart-readout'
-                            data-chart-readout={row?.id}
-                          >
-                            {row ? (
-                              <>
-                                <strong>{row.label}</strong>
-                                <ul>
-                                  {visible.map((s) => (
-                                    <li key={s.key}>
-                                      {s.label}: {format(row.values[s.key])}
-                                    </li>
-                                  ))}
-                                  {stacks && (
-                                    <li>
-                                      {text.total}: {format(total(row))}
-                                    </li>
-                                  )}
-                                  {gapAt(row) && (
-                                    <li>
-                                      {gapAt(row)!.label}:{' '}
-                                      {format(gapAt(row)!.size)}
-                                    </li>
-                                  )}
-                                  {referencesAt
-                                    .get(row.id)
-                                    ?.map((reference, index) => (
-                                      <li key={`reference-${index}`}>
-                                        {reference.label}
-                                      </li>
-                                    ))}
-                                </ul>
-                              </>
-                            ) : (
-                              <span>{text.inspectHint}</span>
-                            )}
-                          </div>
-                        )
-                      }}
+                      content={
+                        <TooltipReadout
+                          render={(tooltip) => {
+                            const row =
+                              tooltip.active && !dismissed
+                                ? rowFor(tooltip.label)
+                                : undefined
+                            return (
+                              <div
+                                className='surf-chart-readout'
+                                data-chart-readout={row?.id}
+                              >
+                                {row ? (
+                                  <>
+                                    <strong>{row.label}</strong>
+                                    <ul>
+                                      {visible.map((s) => (
+                                        <li key={s.key}>
+                                          {s.label}: {format(row.values[s.key])}
+                                        </li>
+                                      ))}
+                                      {stacks && (
+                                        <li>
+                                          {text.total}: {format(total(row))}
+                                        </li>
+                                      )}
+                                      {gapAt(row) && (
+                                        <li>
+                                          {gapAt(row)!.label}:{' '}
+                                          {format(gapAt(row)!.size)}
+                                        </li>
+                                      )}
+                                      {referencesAt
+                                        .get(row.id)
+                                        ?.map((reference, index) => (
+                                          <li key={`reference-${index}`}>
+                                            {reference.label}
+                                          </li>
+                                        ))}
+                                    </ul>
+                                  </>
+                                ) : (
+                                  <span>{text.inspectHint}</span>
+                                )}
+                              </div>
+                            )
+                          }}
+                        />
+                      }
                     />
                   )}
                   {shownGap && (
