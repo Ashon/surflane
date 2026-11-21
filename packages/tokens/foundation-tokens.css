@@ -160,9 +160,9 @@
     --surf-size-row-small: 32px;
     --surf-size-row-default: 36px;
     --surf-size-row-large: 44px;
-    --surf-size-table-padding-y-small: 8px;
-    --surf-size-table-padding-y-default: 12px;
-    --surf-size-table-padding-y-large: 16px;
+    --surf-size-table-padding-y-small: 6px;
+    --surf-size-table-padding-y-default: 8px;
+    --surf-size-table-padding-y-large: 12px;
     --surf-size-table-padding-x-small: 12px;
     --surf-size-table-padding-x-default: 16px;
     --surf-size-table-padding-x-large: 20px;
@@ -255,8 +255,8 @@
   :root,
   [data-ui-density='default'],
   [data-density='default'] {
-    --surf-layout-page-inset: var(--surf-space-8);
-    --surf-layout-section-gap: var(--surf-space-12);
+    --surf-layout-page-inset: var(--surf-space-6);
+    --surf-layout-section-gap: var(--surf-space-10);
     --surf-layout-gutter: var(--surf-space-6);
     --surf-control-target-size: var(--surf-control-target-size-enhanced);
   }

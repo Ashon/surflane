@@ -456,7 +456,7 @@ test('existing default gauge, upload and list insets keep their role-specific ba
     ['progress', '.surf-gauge-track', 'height', [6, 8, 10]],
     // The drop zone holds the picker and the file rows, which own the block inset.
     ['file-upload', '.surf-file-dropzone', 'paddingLeft', [12, 20, 28]],
-    ['list', '.surf-list-item', 'paddingTop', [8, 12, 16]],
+    ['list', '.surf-list-item', 'paddingTop', [6, 8, 12]],
   ] as const) {
     await open(page, id)
     for (const [index, size] of values.entries()) {

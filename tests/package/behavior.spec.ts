@@ -110,8 +110,8 @@ test("one cell keeps to a line, and a Stack's section gap is the layout's", asyn
       getComputedStyle(element).rowGap,
       getComputedStyle(element).getPropertyValue('--surf-layout-section-gap'),
     ])
-  expect(gap).toBe('48px')
-  expect(section.trim()).toBe('48px')
+  expect(gap).toBe('40px')
+  expect(section.trim()).toBe('40px')
 })
 
 test('a sheet footer keeps its start action apart, and a labeled body scrolls by keyboard', async ({

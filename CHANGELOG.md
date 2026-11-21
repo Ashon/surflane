@@ -2,6 +2,13 @@
 
 `@surflane/design-tokens`, `@surflane/css` and `@surflane/ui` are released together with the same version. During 0.x, a minor version may change public API or visual contracts; patch versions do not.
 
+## Unreleased
+
+### Changed
+
+- Default rows are tighter. A table cell's and a list row's vertical padding is 8px, from 12px, so a one-line row is 38px tall, from 46px, and rows repeat every 42px. Small rows take 6px, from 8px, and large rows 12px, from 16px (`--surf-size-table-padding-y-*`). A 14px line of data read sparse at the old pitch, and a page of twenty rows now shows about four more. Compact density keeps its 4px. To keep the old rows, set `size='large'` on the table or list, which is now the old default, or set `--surf-size-table-padding-y-default: 12px`.
+- `--surf-layout-section-gap` is 40px, from 48px, and `--surf-layout-page-inset` 24px, from 32px. They are what `Stack` and `Grid` take for `gap='section'` and what Tailwind's `py-section` and `p-page` read. The page inset now equals the AppShell's page padding and a card's padding, so a page's edge and its cards' content step by one value. Phones (32px and 16px) and compact density are unchanged.
+
 ## 0.25.2
 
 ### Changed

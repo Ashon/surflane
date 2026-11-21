@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceHash": "d49d565ea95c0c66e9b0c423ef16c989c928710b5672e43b50ed30640e73f742",
+  "sourceHash": "177643c690c6485994daf426933ab3b8948596c48abb531a6b78fb05480d58a3",
   "sources": [
     "tokens.css",
     "foundation-tokens.css",
@@ -2624,11 +2624,11 @@
       "name": "--surf-layout-page-inset",
       "category": "Layout",
       "type": "value",
-      "description": "A page's inset: 32px, 16px on a phone, 12px in compact density",
+      "description": "A page's inset: 24px, 16px on a phone, 12px in compact density",
       "variants": [
         {
           "context": ":root",
-          "value": "var(--surf-space-8)",
+          "value": "var(--surf-space-6)",
           "file": "foundation-tokens.css",
           "line": 258
         },
@@ -2646,7 +2646,7 @@
         }
       ],
       "aliases": [
-        "--surf-space-8",
+        "--surf-space-6",
         "--surf-space-4",
         "--surf-density-padding-compact"
       ]
@@ -2687,11 +2687,11 @@
       "name": "--surf-layout-section-gap",
       "category": "Layout",
       "type": "value",
-      "description": "Gap between sections: 48px, 32px on a phone, 24px in compact density",
+      "description": "Gap between sections: 40px, 32px on a phone, 24px in compact density",
       "variants": [
         {
           "context": ":root",
-          "value": "var(--surf-space-12)",
+          "value": "var(--surf-space-10)",
           "file": "foundation-tokens.css",
           "line": 259
         },
@@ -2709,7 +2709,7 @@
         }
       ],
       "aliases": [
-        "--surf-space-12",
+        "--surf-space-10",
         "--surf-space-8",
         "--surf-density-section-compact"
       ]
@@ -4846,7 +4846,7 @@
       "variants": [
         {
           "context": ":root",
-          "value": "12px",
+          "value": "8px",
           "file": "foundation-tokens.css",
           "line": 164
         }
@@ -4861,7 +4861,7 @@
       "variants": [
         {
           "context": ":root",
-          "value": "16px",
+          "value": "12px",
           "file": "foundation-tokens.css",
           "line": 165
         }
@@ -4876,7 +4876,7 @@
       "variants": [
         {
           "context": ":root",
-          "value": "8px",
+          "value": "6px",
           "file": "foundation-tokens.css",
           "line": 163
         }

@@ -53,7 +53,7 @@
       var(--surf-ui-density-inset, var(--surf-space-3));
   }
   .surf-table-cell {
-    padding: var(--surf-ui-density-row-padding, var(--surf-space-3))
+    padding: var(--surf-ui-density-row-padding, var(--surf-space-2))
       var(--surf-ui-density-padding, var(--surf-space-4));
     text-align: start;
     vertical-align: middle;

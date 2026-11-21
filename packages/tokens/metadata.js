@@ -183,9 +183,9 @@ export const descriptions = {
   '--surf-layout-gutter':
     'Gutter between blocks: 24px, 16px on a phone, 12px in compact density',
   '--surf-layout-page-inset':
-    "A page's inset: 32px, 16px on a phone, 12px in compact density",
+    "A page's inset: 24px, 16px on a phone, 12px in compact density",
   '--surf-layout-section-gap':
-    'Gap between sections: 48px, 32px on a phone, 24px in compact density',
+    'Gap between sections: 40px, 32px on a phone, 24px in compact density',
   '--surf-density-item-compact':
     'Compact space between the items of a run, such as actions or chips',
   '--surf-density-inset-compact':

@@ -42,7 +42,7 @@ test('compact density tightens rows and numeric columns align digits at the end'
   ).toHaveCSS('text-align', 'end')
   const compact = (await cell.boundingBox())!.height
   await density.getByRole('button', { name: 'Default', exact: true }).click()
-  await expect(cell).toHaveCSS('padding-top', '12px')
+  await expect(cell).toHaveCSS('padding-top', '8px')
   expect((await cell.boundingBox())!.height).toBeGreaterThan(compact)
 })
 
